@@ -1,12 +1,10 @@
-<div align="center">
-    <img src="./media/logo_small.webp"/>
-    <h1>🌱 Spec Kit</h1>
-    <h3><em>Build high-quality software faster.</em></h3>
-</div>
+# Spec Kit
 
-<p align="center">
-    <strong>An effort to allow organizations to focus on product scenarios rather than writing undifferentiated code with the help of Spec-Driven Development.</strong>
-</p>
+![Spec Kit logo](./media/logo_small.webp)
+
+Build high-quality software faster.
+
+**An effort to allow organizations to focus on product scenarios rather than writing undifferentiated code with the help of Spec-Driven Development.**
 
 [![Release](https://github.com/github/spec-kit/actions/workflows/release.yml/badge.svg)](https://github.com/github/spec-kit/actions/workflows/release.yml)
 
@@ -14,25 +12,25 @@
 
 ## Table of Contents
 
-- [🤔 What is Spec-Driven Development?](#-what-is-spec-driven-development)
-- [⚡ Get started](#-get-started)
-- [📚 Core philosophy](#-core-philosophy)
-- [🌟 Development phases](#-development-phases)
-- [🎯 Experimental goals](#-experimental-goals)
-- [🔧 Prerequisites](#-prerequisites)
-- [📖 Learn more](#-learn-more)
-- [📋 Detailed process](#-detailed-process)
-- [🔍 Troubleshooting](#-troubleshooting)
-- [👥 Maintainers](#-maintainers)
-- [💬 Support](#-support)
-- [🙏 Acknowledgements](#-acknowledgements)
-- [📄 License](#-license)
+- [What is Spec-Driven Development?](#what-is-spec-driven-development)
+- [Get started](#get-started)
+- [Core philosophy](#core-philosophy)
+- [Development phases](#development-phases)
+- [Experimental goals](#experimental-goals)
+- [Prerequisites](#prerequisites)
+- [Learn more](#learn-more)
+- [Detailed process](#detailed-process)
+- [Troubleshooting](#troubleshooting)
+- [Maintainers](#maintainers)
+- [Support](#support)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
 
-## 🤔 What is Spec-Driven Development?
+## What is Spec-Driven Development?
 
 Spec-Driven Development **flips the script** on traditional software development. For decades, code has been king — specifications were just scaffolding we built and discarded once the "real work" of coding began. Spec-Driven Development changes this: **specifications become executable**, directly generating working implementations rather than just guiding them.
 
-## ⚡ Get started
+## Get started
 
 ### 1. Install Specify
 
@@ -64,7 +62,7 @@ Use `/tasks` to create an actionable task list, then ask your agent to implement
 
 For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
 
-## 📚 Core philosophy
+## Core philosophy
 
 Spec-Driven Development is a structured process that emphasizes:
 
@@ -73,15 +71,34 @@ Spec-Driven Development is a structured process that emphasizes:
 - **Multi-step refinement** rather than one-shot code generation from prompts
 - **Heavy reliance** on advanced AI model capabilities for specification interpretation
 
-## 🌟 Development phases
+## Development phases
 
-| Phase | Focus | Key Activities |
-|-------|-------|----------------|
-| **0-to-1 Development** ("Greenfield") | Generate from scratch | <ul><li>Start with high-level requirements</li><li>Generate specifications</li><li>Plan implementation steps</li><li>Build production-ready applications</li></ul> |
-| **Creative Exploration** | Parallel implementations | <ul><li>Explore diverse solutions</li><li>Support multiple technology stacks & architectures</li><li>Experiment with UX patterns</li></ul> |
-| **Iterative Enhancement** ("Brownfield") | Brownfield modernization | <ul><li>Add features iteratively</li><li>Modernize legacy systems</li><li>Adapt processes</li></ul> |
+### 0-to-1 Development ("Greenfield")
 
-## 🎯 Experimental goals
+- Focus: Generate from scratch
+- Key activities:
+  - Start with high-level requirements
+  - Generate specifications
+  - Plan implementation steps
+  - Build production-ready applications
+
+### Creative Exploration
+
+- Focus: Parallel implementations
+- Key activities:
+  - Explore diverse solutions
+  - Support multiple technology stacks & architectures
+  - Experiment with UX patterns
+
+### Iterative Enhancement ("Brownfield")
+
+- Focus: Brownfield modernization
+- Key activities:
+  - Add features iteratively
+  - Modernize legacy systems
+  - Adapt processes
+
+## Experimental goals
 
 Our research and experimentation focus on:
 
@@ -107,7 +124,7 @@ Our research and experimentation focus on:
 - Provide robust iterative feature development workflows
 - Extend processes to handle upgrades and modernization tasks  
 
-## 🔧 Prerequisites
+## Prerequisites
 
 - **Linux/macOS** (or WSL2 on Windows)
 - AI coding agent: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), or [Gemini CLI](https://github.com/google-gemini/gemini-cli)
@@ -115,17 +132,16 @@ Our research and experimentation focus on:
 - [Python 3.11+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
 
-## 📖 Learn more
+## Learn more
 
 - **[Complete Spec-Driven Development Methodology](./spec-driven.md)** - Deep dive into the full process
 - **[Detailed Walkthrough](#detailed-process)** - Step-by-step implementation guide
 
 ---
 
-## 📋 Detailed process
+## Detailed process
 
-<details>
-<summary>Click to expand the detailed step-by-step walkthrough</summary>
+Click to expand the detailed step-by-step walkthrough.
 
 You can use the Specify CLI to bootstrap your project, which will bring in the required artifacts in your environment. Run:
 
@@ -201,18 +217,18 @@ At this stage, your project folder contents should resemble the following:
 
 ```text
 ├── memory
-│	 ├── constitution.md
-│	 └── constitution_update_checklist.md
+│  ├── constitution.md
+│  └── constitution_update_checklist.md
 ├── scripts
-│	 ├── check-task-prerequisites.sh
-│	 ├── common.sh
-│	 ├── create-new-feature.sh
-│	 ├── get-feature-paths.sh
-│	 ├── setup-plan.sh
-│	 └── update-claude-md.sh
+│  ├── check-task-prerequisites.sh
+│  ├── common.sh
+│  ├── create-new-feature.sh
+│  ├── get-feature-paths.sh
+│  ├── setup-plan.sh
+│  └── update-claude-md.sh
 ├── specs
-│	 └── 001-create-taskify
-│	     └── spec.md
+│  └── 001-create-taskify
+│      └── spec.md
 └── templates
     ├── CLAUDE-template.md
     ├── plan-template.md
@@ -254,25 +270,25 @@ The output of this step will include a number of implementation detail documents
 .
 ├── CLAUDE.md
 ├── memory
-│	 ├── constitution.md
-│	 └── constitution_update_checklist.md
+│  ├── constitution.md
+│  └── constitution_update_checklist.md
 ├── scripts
-│	 ├── check-task-prerequisites.sh
-│	 ├── common.sh
-│	 ├── create-new-feature.sh
-│	 ├── get-feature-paths.sh
-│	 ├── setup-plan.sh
-│	 └── update-claude-md.sh
+│  ├── check-task-prerequisites.sh
+│  ├── common.sh
+│  ├── create-new-feature.sh
+│  ├── get-feature-paths.sh
+│  ├── setup-plan.sh
+│  └── update-claude-md.sh
 ├── specs
-│	 └── 001-create-taskify
-│	     ├── contracts
-│	     │	 ├── api-spec.json
-│	     │	 └── signalr-spec.md
-│	     ├── data-model.md
-│	     ├── plan.md
-│	     ├── quickstart.md
-│	     ├── research.md
-│	     └── spec.md
+│  └── 001-create-taskify
+│      ├── contracts
+│      │  ├── api-spec.json
+│      │  └── signalr-spec.md
+│      ├── data-model.md
+│      ├── plan.md
+│      ├── quickstart.md
+│      ├── research.md
+│      └── spec.md
 └── templates
     ├── CLAUDE-template.md
     ├── plan-template.md
@@ -341,11 +357,9 @@ Claude Code will spring into action and will start creating the implementation.
 
 Once the implementation step is done, ask Claude Code to try to run the application and resolve any emerging build errors. If the application runs, but there are _runtime errors_ that are not directly available to Claude Code through CLI logs (e.g., errors rendered in browser logs), copy and paste the error in Claude Code and have it attempt to resolve it.
 
-</details>
-
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Git Credential Manager on Linux
 
@@ -364,19 +378,19 @@ echo "Cleaning up..."
 rm gcm-linux_amd64.2.6.1.deb
 ```
 
-## 👥 Maintainers
+## Maintainers
 
 - Den Delimarsky ([@localden](https://github.com/localden))
 - John Lam ([@jflam](https://github.com/jflam))
 
-## 💬 Support
+## Support
 
 For support, please open a [GitHub issue](https://github.com/github/spec-kit/issues/new). We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 This project is heavily influenced by and based on the work and research of [John Lam](https://github.com/jflam).
 
-## 📄 License
+## License
 
 This project is licensed under the terms of the MIT open source license. Please refer to the [LICENSE](./LICENSE) file for the full terms.

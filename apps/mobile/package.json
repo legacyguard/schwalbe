@@ -1,0 +1,26 @@
+{
+  "name": "@schwalbe/mobile",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "dev": "expo start --dev-client",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build": "tsc --build",
+    "test": "jest",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .expo"
+  },
+  "dependencies": {
+    "@schwalbe/shared": "*",
+    "@schwalbe/logic": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

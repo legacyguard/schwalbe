@@ -48,3 +48,18 @@
 
 **Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
 <!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+
+## Governance (Monorepo Rules)
+
+- Specs precede implementation. No feature code without `spec.md` + `plan.md` approved.
+- Directory layout is normative: `apps/*` (deployables), `packages/*` (libraries), `supabase/`.
+- Package naming: `@schwalbe/*`. Apps are `private: true` and not published.
+- Dependency direction: apps → packages only. Packages must not depend on apps. No app → app imports.
+- Build configs live with apps. No root-level cross-app Vite or Webpack configuration.
+- TypeScript: root `tsconfig.base.json`; `packages/*` use `composite: true` with Project References.
+- Env policy: root `.env.example` for shared vars; per-app `.env.example` for app-specific. Runtime env must be zod-validated and fail fast.
+- CI: keep Spec Guard fast; main CI runs lint, typecheck, unit. E2E can be nightly or label-gated.
+- React policy: 18.3.x baseline until “React 19 readiness” research task passes.
+- Enforcement: ESLint rules prevent boundary violations; CI fails on violations.
+
+**Version**: 1.0.0 | **Ratified**: 2025-09-10 | **Last Amended**: 2025-09-10
