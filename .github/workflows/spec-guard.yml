@@ -1,0 +1,17 @@
+name: Spec Guard
+on:
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  validate-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Spec Kit files exist
+        run: |
+          test -f CLAUDE.md
+          test -f memory/constitution.md
+          test -d specs
+      - name: Ensure at least one spec exists
+        run: |
+          [ -n "001-reboot-foundation" ] || (echo "No feature folders under specs/" && exit 1)
