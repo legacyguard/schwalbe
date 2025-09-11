@@ -1,7 +1,16 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:web",
+  "buildCommand": "cd apps/web && npm run build",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "npm install",
-  "framework": "vite"
+  "installCommand": "cd apps/web && npm install",
+  "framework": "vite",
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "nodejs22.x"
+    }
+  },
+  "cron": [
+    { "path": "/api/trigger/check-inactivity", "schedule": "0 */6 * * *" },
+    { "path": "/api/trigger/protocol-inactivity-checker", "schedule": "0 * * * *" }
+  ]
 }

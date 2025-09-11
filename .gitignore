@@ -73,3 +73,15 @@ temp/
 *.sln
 *.sw?
 .vercel
+
+# spec-kit generated artifacts (keep source, ignore build outputs)
+.spec-kit/**/dist/
+.spec-kit/**/.cache/
+.spec-kit/**/build/
+.spec-kit/**/generated/
+.spec-kit/**/out/
+spec-kit/**/dist/
+spec-kit/**/.cache/
+spec-kit/**/build/
+spec-kit/**/generated/
+spec-kit/**/out/

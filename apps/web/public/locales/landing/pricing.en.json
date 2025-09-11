@@ -1,0 +1,90 @@
+{
+  "tiers": {
+    "free": {
+      "name": "Forever Free",
+      "price": "€0",
+      "badge": "",
+      "description": "The perfect starting point, powered by our mobile app.",
+      "features": [
+        {
+          "title": "Intelligent Document Scanner",
+          "description": "Transform paper chaos into digital order with a single photo."
+        },
+        {
+          "title": "Basic Digital Vault",
+          "description": "Secure storage for up to 10 of your most important documents."
+        },
+        {
+          "title": "Sofia AI Assistant (Basic)",
+          "description": "Get help and answers to your basic questions."
+        },
+        {
+          "title": "Basic Family Shield",
+          "description": "Invite 1 Guardian to ensure your family has someone to turn to."
+        }
+      ],
+      "cta": "Start with the Free App",
+      "period": ""
+    },
+    "premium": {
+      "name": "Legacy Premium",
+      "price": "€9.99",
+      "badge": "Most Popular",
+      "description": "For individuals ready to create a complete, lasting legacy.",
+      "features": [
+        {
+          "title": "Unlimited Digital Vault",
+          "description": "Store everything that matters, without any limits."
+        },
+        {
+          "title": "Premium Will Creator",
+          "description": "Create a legally robust will with our intelligent guide."
+        },
+        {
+          "title": "Time Capsule (Personal Messages)",
+          "description": "Record video and audio messages to be delivered to your loved ones in the future."
+        },
+        {
+          "title": "Complete Family Shield",
+          "description": "Set up detailed emergency protocols and invite unlimited Guardians."
+        },
+        {
+          "title": "Advanced AI Assistance",
+          "description": "Sofia helps you draft your will and provides in-depth analysis."
+        }
+      ],
+      "cta": "Build Your Legacy",
+      "period": "month"
+    },
+    "family": {
+      "name": "Family Premium",
+      "price": "€14.99",
+      "badge": "",
+      "description": "The ultimate solution for protecting your entire family circle.",
+      "features": [
+        {
+          "title": "Shared Access for up to 5 Members",
+          "description": "Your entire family can collaborate in one connected ecosystem."
+        },
+        {
+          "title": "Shared Family Calendar",
+          "description": "Track all important dates and anniversaries in one place."
+        },
+        {
+          "title": "Collaborative Family Shield",
+          "description": "Together set up and test emergency protocols."
+        },
+        {
+          "title": "Visual Family Tree",
+          "description": "Clearly map your entire family and assign roles and inheritance."
+        },
+        {
+          "title": "Priority Support",
+          "description": "Get priority access to our team of experts."
+        }
+      ],
+      "cta": "Protect Your Entire Family",
+      "period": "month"
+    }
+  }
+}

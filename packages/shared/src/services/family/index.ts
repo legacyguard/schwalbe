@@ -1,0 +1,1 @@
+export { familyService, FamilyService } from './familyService';

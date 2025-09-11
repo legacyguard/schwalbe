@@ -15,7 +15,7 @@
 ## Non-Goals (out of scope)
 
 - Advanced estate planning features (will creation, family collaboration, professional network).
-- Emergency access systems and dead man's switch functionality.
+- Emergency access systems and dead man's switch functionality (covered in 004).
 - Mobile application features and cross-platform synchronization.
 - Payment processing and subscription management.
 - Advanced legal validation and jurisdiction-specific templates.
@@ -31,6 +31,10 @@
 - [ ] Security patterns validated: client-side encryption, zero-knowledge data flow, audit logging
 - [ ] Performance optimized: lazy loading, bundle splitting, caching strategies
 - [ ] Accessibility compliant: screen reader support, keyboard navigation, WCAG 2.1 AA standards
+
+## Cross-links
+
+- See `../004-dead-man-switch/` for emergency system scope.
 
 ## Risks & Mitigations
 

@@ -48,6 +48,13 @@
 - [ ] T121f Update all import paths to use `@schwalbe/ui`
 - [ ] T121g Validate component library builds and renders correctly
 
+#### T121h Storybook/UI Enablement
+
+- [ ] T121h1 Add Storybook with Vite builder configuration
+- [ ] T121h2 Add core component stories (Button, Card, Input, Dialog, Toast)
+- [ ] T121h3 Add MDX docs for tokens, theming, accessibility
+- [ ] T121h4 Configure visual regression baseline (Chromatic/Playwright snapshots)
+
 ### T122 Shared Package (`@schwalbe/shared`)
 
 - [ ] T122a Create `packages/shared/` structure; copy package.json
@@ -59,6 +66,20 @@
 - [ ] T122g Update service interfaces for schwalbe-specific needs
 - [ ] T122h Validate shared package builds and exports correctly
 
+#### T122i Notifications & Email Foundations
+
+- [ ] T122i1 Create `NotificationService` interface and adapter pattern
+- [ ] T122i2 Implement sandbox transport for local/dev and tests
+- [ ] T122i3 Add template registry (React Email/MJML) and i18n placeholders
+- [ ] T122i4 Map domain events to templates; add samples and tests
+
+#### T122j Stripe Foundations
+
+- [ ] T122j1 Add `StripeClientFactory` (env-driven, test-only in 002)
+- [ ] T122j2 Define domain types: Product, Price, SubscriptionPlan, InvoiceSummary
+- [ ] T122j3 Implement helpers: create payment link, draft invoice (mocked)
+- [ ] T122j4 Document environment separation and seeding strategy
+
 ### T123 Logic Package (`@schwalbe/logic`)
 
 - [ ] T123a Create `packages/logic/` structure; copy package.json
@@ -68,6 +89,13 @@
 - [ ] T123e Port error handling and API response patterns
 - [ ] T123f Update business logic for schwalbe domain requirements
 - [ ] T123g Validate logic package builds and type checking passes
+
+#### T123h OCR/AI Scaffolding
+
+- [ ] T123h1 Define `OcrService` and `AiService` interfaces
+- [ ] T123h2 Add job/queue contracts for async processing
+- [ ] T123h3 Provide parser pipeline interfaces and fixtures
+- [ ] T123h4 Add unit tests for parsers using deterministic data
 
 ## T130 Internationalization System Migration
 
@@ -93,6 +121,11 @@
 - [ ] T133c Copy currency formatting and date localization
 - [ ] T133d Port region-specific content handling patterns
 
+#### T133e Notifications & Storybook Localization
+
+- [ ] T133e1 Ensure templates support i18n with parameters
+- [ ] T133e2 Configure Storybook locale switching and previews
+
 ## T140 Security & Encryption Migration
 
 ### T141 Client-Side Encryption
@@ -116,6 +149,12 @@
 - [ ] T143c Copy key exchange mechanisms and protocols
 - [ ] T143d Port privacy-preserving storage and retrieval strategies
 
+#### T144 Security Improvements for New Foundations
+
+- [ ] T144a Harden CSP for Storybook preview
+- [ ] T144b Validate Trusted Types in Storybook
+- [ ] T144c Restrict Stripe script/endpoint permissions to app contexts
+
 ## T150 Testing & Quality Infrastructure
 
 ### T151 Testing Setup
@@ -131,6 +170,13 @@
 - [ ] T152b Port critical user journey test scenarios
 - [ ] T152c Copy test data generation and management patterns
 - [ ] T152d Port visual regression testing setup (if applicable)
+
+#### T154 Tests for New Foundations
+
+- [ ] T154a Unit tests for NotificationService adapters (sandbox)
+- [ ] T154b Tests for OCR/AI parsing pipelines (fixtures)
+- [ ] T154c Tests for Stripe helpers with mocked SDK
+- [ ] T154d Storybook locale switching snapshots
 
 ### T153 Quality Gates
 
@@ -162,6 +208,12 @@
 - [ ] T163c Copy analytics and usage tracking patterns
 - [ ] T163d Port health check and alerting configurations
 
+#### T164 Funnel & Events Instrumentation Scaffolding
+
+- [ ] T164a Define common event schema in `@schwalbe/shared`
+- [ ] T164b Implement analytics interface (no-op) with type-safe events
+- [ ] T164c Document event naming conventions and funnel taxonomy
+
 ## T170 Integration & Validation
 
 ### T171 Package Integration Testing
@@ -177,6 +229,12 @@
 - [ ] T172b Validate Storybook renders components correctly
 - [ ] T172c Test build process produces optimized bundles
 - [ ] T172d Verify debugging and source map functionality
+
+#### T173 Demo Scenarios (Scaffold Only)
+
+- [ ] T173a Storybook renders across locales and themes
+- [ ] T173b Demo triggers sandbox notification send
+- [ ] T173c Demo produces mock payment link and displays URL
 
 ### T173 Security Validation
 

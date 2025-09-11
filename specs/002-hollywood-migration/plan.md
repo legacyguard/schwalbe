@@ -41,6 +41,13 @@
 - Copy Storybook setup and component documentation
 - Update import paths and package references
 
+#### Storybook/UI Enablement
+
+- Configure Storybook for `@schwalbe/ui` with Vite builder
+- Add core stories: Button, Card, Input, Dialog, Toast, Motion primitives
+- Add MDX docs for design tokens, theming, and accessibility
+- Integrate visual regression baseline (Chromatic or Playwright snapshot)
+
 ### **2.2 Shared Package (`@schwalbe/shared`)**
 
 - Copy core service abstractions (auth, monitoring, utilities)
@@ -49,6 +56,20 @@
 - Copy logging and error handling patterns
 - Refactor hollywood-specific service references
 
+#### Notifications & Email foundations
+
+- Introduce `NotificationService` interface and provider adapters (Resend/SES abstractions)
+- Add templating strategy (React Email or MJML) and template registry
+- Define event-to-template mapping and localization strategy
+- Provide sandbox transport for local/dev and test fixtures
+
+#### Stripe foundations
+
+- Add `StripeClientFactory` with env-driven keys (test-only in 002)
+- Define domain types: Product, Price, SubscriptionPlan, InvoiceSummary
+- Provide helpers for creating payment links and invoices (no secrets checked in)
+- Document environment separation and seed strategy for 003
+
 ### **2.3 Logic Package (`@schwalbe/logic`)**
 
 - Copy API definitions and data contracts
@@ -56,6 +77,13 @@
 - Migrate service layer implementations
 - Copy utility functions and helpers
 - Update service interfaces for schwalbe
+
+#### OCR/AI scaffolding
+
+- Define `OcrService` and `AiService` interfaces with provider-agnostic implementations
+- Add job/queue pattern contracts for async processing
+- Provide parser pipeline interfaces for document categorization and summarization
+- Include deterministic fixtures for CI without external calls
 
 ## Phase 3: Internationalization System (Week 3)
 
@@ -81,6 +109,11 @@
 - Migrate legal compliance text variations
 - Copy currency and date formatting utilities
 
+#### Notifications & Storybook localization
+
+- Ensure notification templates support i18n placeholders
+- Configure Storybook to preview components across locales and right-to-left if needed
+
 ## Phase 4: Security & Encryption (Week 4)
 
 ### **4.1 Client-Side Encryption**
@@ -104,6 +137,12 @@
 - Migrate key exchange and management
 - Copy privacy-preserving storage strategies
 
+#### Security improvements for new foundations
+
+- Harden Content Security Policy for Storybook and app parity
+- Validate Trusted Types in Storybook preview environment
+- Ensure Stripe scripts and endpoints are whitelisted only in app contexts
+
 ## Phase 5: Testing & Quality (Week 5)
 
 ### **5.1 Testing Infrastructure**
@@ -113,12 +152,24 @@
 - Migrate component testing patterns
 - Copy coverage reporting setup
 
+#### New foundations test coverage
+
+- Add unit tests for NotificationService adapters (sandbox)
+- Add pure-function tests for OCR/AI parsing pipeline with fixtures
+- Add Stripe helper tests using mocked SDK
+
 ### **5.2 E2E Testing**
 
 - Copy Playwright configuration and test structure
 - Port critical user journey tests
 - Migrate test data and scenarios
 - Copy visual regression test setup
+
+#### Key journeys to cover (scaffold)
+
+- Language switching reflected in Storybook examples
+- Demo page sends test notification via sandbox transport
+- Demo flow creates mock payment link (no network) and displays URL
 
 ### **5.3 Quality Assurance**
 
@@ -149,6 +200,11 @@
 - Port error tracking configurations (Sentry)
 - Migrate analytics and usage tracking
 - Copy health check and alerting patterns
+
+#### Funnel & events instrumentation scaffolding
+
+- Define common event schema (view, click, conversion) in `@schwalbe/shared`
+- Add analytics interface with no-op implementation for 002; real provider added in 003
 
 ## Implementation Guidelines
 

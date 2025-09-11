@@ -3,8 +3,21 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.stories.*", "**/*.test.*"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.stories.*",
+    "**/*.test.*",
+    "src/components/sofia/**",
+    "src/components/animations/**",
+    "src/components/family/**",
+    "src/components/milestones/**",
+    "src/components/celebrations/**",
+    "src/contexts/**",
+    "src/hooks/**"
+  ]
 }

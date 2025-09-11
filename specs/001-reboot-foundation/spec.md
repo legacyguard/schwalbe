@@ -39,6 +39,10 @@
 
 - Spec Kit workflow and templates (`https://github.com/github/spec-kit`).
 
+## Cross-links
+
+- See 004-dead-man-switch/spec.md for emergency system scope depending on this foundation.
+
 ## Linked design docs
 
 - See `research.md` for concise scope and feature mapping.

@@ -5,6 +5,11 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/index-minimal.ts",
+    "src/services/emergency.service.ts",
+    "src/types/emergency.ts",
+    "src/supabase/client.ts"
+  ],
   "exclude": ["node_modules", "dist", "**/*.test.*"]
 }

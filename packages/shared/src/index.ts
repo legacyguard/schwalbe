@@ -11,32 +11,14 @@ export type {
   FreemiumPlan,
 } from './services/freemium.service';
 
-// Export Sofia AI services
-export * from './services/sofia';
+// Export Emergency services
+export { EmergencyService } from './services/emergency.service';
 
-export * from './services/stripe.service';
-export * from './services/subscription.service';
+// Export Emergency types
+export * from './types/emergency';
 
-// Export types
-export type {
-  BillingCycle,
-  SubscriptionLimits,
-  SubscriptionPlan,
-  SubscriptionStatus,
-  UsageType,
-  UserSubscription,
-  UserUsage,
-} from './services/subscription.service';
-
-export * from './services/sync.service';
-
-export type {
-  SyncConflictResolution,
-  SyncStatus,
-} from './services/sync.service';
-
-// Export Sofia AI types
-export * from './types/sofia';
+// Export Animation types - Firefly, physics, and personality-aware animation interfaces
+export * from './types/animations';
 
 // Export Supabase client
 export * from './supabase/client';

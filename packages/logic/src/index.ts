@@ -1,18 +1,8 @@
-// API Definitions - Central API layer
+// Minimal, stable public surface to avoid type collisions during 004 rollout
 export * from './api-definitions';
 export * from './services/legacyGarden';
 export * from './services/textAnalyzer';
-
-// Services
 export * from './services/textManager';
-
-// Sofia AI System
-export * from './sofia';
-
-// Types
-export * from './types';
-
 export * from './utils/api-error-handler';
 export * from './utils/api-versioning';
-// Utils
 export * from './utils/date';

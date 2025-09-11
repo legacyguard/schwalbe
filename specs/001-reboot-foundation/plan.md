@@ -94,3 +94,4 @@
 - `research.md`: product scope and flows adopted from manual
 - `data-model.md`: entities guiding contracts and schemas
 - `quickstart.md`: E2E scenarios for validation planning
+- Downstream dependency: `../004-dead-man-switch/` (requires 001 to be complete)

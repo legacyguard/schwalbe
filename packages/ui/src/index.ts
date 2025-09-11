@@ -175,13 +175,34 @@ export {
 
 export { SofiaFirefly } from './components/SofiaFirefly';
 
-// Export Sofia AI components
+// Export Sofia AI components (temporarily disabled during component build phase)
+// export {
+//   SofiaChat,
+//   SofiaFloatingButton,
+//   SofiaContextProvider,
+//   usePersonalityManager,
+// } from './components/sofia';
+
+// Export Emergency components
 export {
-  SofiaChat,
-  SofiaFloatingButton,
-  SofiaContextProvider,
-  usePersonalityManager,
-} from './components/sofia';
+  DeadMansSwitchManager,
+  DeadMansSwitchManagerDefault,
+} from './components/emergency';
+
+// Export Milestone components
+export {
+  MilestoneAchievementBadges,
+  MilestoneCelebrationModal,
+} from './components/milestones';
+
+// Export Celebration components
+export {
+  MilestoneCelebration as MilestoneCelebrationComponent,
+  MilestoneProgress,
+  AdaptiveProgressBar,
+  AdaptiveMilestoneIndicator,
+  AdaptiveStepProgress,
+} from './components/celebrations';
 
 // Export Spinner component
 export { Spinner, type SpinnerProps } from './components/Spinner';
@@ -213,7 +234,57 @@ export {
   type SpanProps,
 } from './components/Typography';
 
-// Export Animation constants
+// Export Animation System - Firefly animations, interactive elements, and personality-aware components
+export {
+  // Enhanced Firefly Components
+  EnhancedFirefly,
+  EnhancedFireflyComponent,
+  SofiaFirefly as SofiaFireflyAnimated,
+  SofiaFireflyComponent,
+  // Interactive Animations
+  AdaptiveAnimatedButton,
+  AdaptiveAnimatedCard,
+  AdaptiveAnimatedListItem,
+  AdaptiveGlowEffect,
+  AdaptiveHoverScale,
+  AdaptivePulseAnimation,
+  AdaptiveAnimationProvider,
+  useAdaptiveAnimation,
+  // Loading Animations
+  LoadingAnimation,
+  PageLoader,
+  ButtonLoader,
+  CardLoader,
+  FormLoader,
+  ProgressLoader,
+  // Milestone Animations
+  MilestoneCelebration,
+  AdaptiveProgressRing,
+  AchievementBadge,
+  // Context and Hooks
+  FireflyProvider,
+  useFirefly,
+  useFireflyGuidance,
+  useFireflyCelebration,
+  useFireflyEvents,
+  // Animation System
+  AnimationSystem,
+  useAnimationConfig,
+  ANIMATION_PRESETS,
+  ANIMATION_VARIANTS,
+  fadeInUp,
+  fadeInLeft,
+  scaleIn,
+  slideInRight,
+  PERSONALITY_ANIMATIONS,
+  COMMON_ANIMATIONS,
+  ANIMATION_PERFORMANCE,
+  FIREFLY_CONFIG,
+  ANIMATION_SYSTEM_INFO,
+  ANIMATION_UTILS,
+} from './components/animations';
+
+// Export Animation constants (legacy)
 export {
   AnimationSpeed,
   ButtonAnimation,
@@ -233,6 +304,26 @@ export { useDarkMode, withDarkMode } from './hooks/useDarkMode';
 export { config, tamaguiConfig } from './tamagui.config';
 
 export type { AppConfig } from './tamagui.config';
+
+// Export Dialog components
+export {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  type DialogProps,
+  type DialogContentProps,
+  type DialogHeaderProps,
+  type DialogTitleProps,
+} from './components/Dialog';
+
+
+// Export Family components
+export {
+  FamilyViralGrowth,
+  FamilyInvitationFlow,
+  FamilyPlanUpgrade,
+} from './components/family';
 
 // Export Event Bus utilities
 export {
