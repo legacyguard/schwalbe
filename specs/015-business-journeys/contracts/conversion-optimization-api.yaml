@@ -1,0 +1,463 @@
+openapi: 3.0.3
+info:
+  title: Conversion Optimization API
+  version: 1.0.0
+  description: API for conversion funnel management and A/B testing
+
+servers:
+  - url: https://api.schwalbe.com/v1
+    description: Production server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /funnels:
+    post:
+      summary: Create conversion funnel
+      operationId: createFunnel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - funnelName
+                - funnelType
+                - stages
+              properties:
+                funnelName:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                funnelType:
+                  type: string
+                  enum: [awareness, consideration, purchase, retention, advocacy]
+                stages:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - order
+                    properties:
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      order:
+                        type: integer
+                      successCriteria:
+                        type: object
+                isActive:
+                  type: boolean
+                  default: true
+                targetAudience:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Funnel created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionFunnel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+    get:
+      summary: List conversion funnels
+      operationId: listFunnels
+      parameters:
+        - name: funnelType
+          in: query
+          schema:
+            type: string
+            enum: [awareness, consideration, purchase, retention, advocacy]
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: List of funnels
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  funnels:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConversionFunnel'
+                  total:
+                    type: integer
+
+  /funnels/{funnelId}/progress:
+    post:
+      summary: Track funnel progression
+      operationId: trackFunnelProgress
+      parameters:
+        - name: funnelId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - stageName
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                stageName:
+                  type: string
+                success:
+                  type: boolean
+                  default: true
+                metadata:
+                  type: object
+                experimentId:
+                  type: string
+                  format: uuid
+                variantName:
+                  type: string
+      responses:
+        '200':
+          description: Progress tracked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  funnelId:
+                    type: string
+                    format: uuid
+                  stageName:
+                    type: string
+                  userId:
+                    type: string
+                    format: uuid
+                  success:
+                    type: boolean
+                  timestamp:
+                    type: string
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /funnels/{funnelId}/analytics:
+    get:
+      summary: Get funnel analytics
+      operationId: getFunnelAnalytics
+      parameters:
+        - name: funnelId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: experimentId
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Funnel analytics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  funnelId:
+                    type: string
+                    format: uuid
+                  funnelName:
+                    type: string
+                  totalVisitors:
+                    type: integer
+                  conversionRate:
+                    type: number
+                  averageTimeToConvert:
+                    type: number
+                  stages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        stageName:
+                          type: string
+                        visitors:
+                          type: integer
+                        conversions:
+                          type: integer
+                        conversionRate:
+                          type: number
+                        dropOffRate:
+                          type: number
+                        averageTimeSpent:
+                          type: number
+
+  /experiments:
+    post:
+      summary: Create A/B test experiment
+      operationId: createExperiment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - experimentName
+                - experimentType
+                - variants
+              properties:
+                experimentName:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                experimentType:
+                  type: string
+                  enum: [journey_flow, ui_variant, messaging, pricing, feature]
+                targetAudience:
+                  type: object
+                variants:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - config
+                    properties:
+                      name:
+                        type: string
+                      config:
+                        type: object
+                trafficAllocation:
+                  type: object
+                  additionalProperties:
+                    type: number
+                startDate:
+                  type: string
+                  format: date-time
+                endDate:
+                  type: string
+                  format: date-time
+                primaryMetric:
+                  type: string
+                secondaryMetrics:
+                  type: array
+                  items:
+                    type: string
+                minimumSampleSize:
+                  type: integer
+                  default: 1000
+                hypothesis:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Experiment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experiment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /experiments/{experimentId}/results:
+    get:
+      summary: Get experiment results
+      operationId: getExperimentResults
+      parameters:
+        - name: experimentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Experiment results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  experimentId:
+                    type: string
+                    format: uuid
+                  experimentName:
+                    type: string
+                  status:
+                    type: string
+                  winnerVariant:
+                    type: string
+                  confidenceLevel:
+                    type: number
+                  improvementPercentage:
+                    type: number
+                  variants:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        sampleSize:
+                          type: integer
+                        conversionRate:
+                          type: number
+                        improvement:
+                          type: number
+                        statisticalSignificance:
+                          type: boolean
+
+components:
+  schemas:
+    ConversionFunnel:
+      type: object
+      required:
+        - id
+        - funnelName
+        - funnelType
+        - stages
+      properties:
+        id:
+          type: string
+          format: uuid
+        funnelName:
+          type: string
+        funnelType:
+          type: string
+          enum: [awareness, consideration, purchase, retention, advocacy]
+        stages:
+          type: array
+          items:
+            type: object
+        isActive:
+          type: boolean
+        totalVisitors:
+          type: integer
+        conversionRate:
+          type: number
+        averageTimeToConvertDays:
+          type: number
+        experimentId:
+          type: string
+          format: uuid
+        variantName:
+          type: string
+        description:
+          type: string
+        targetAudience:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    Experiment:
+      type: object
+      required:
+        - id
+        - experimentName
+        - experimentType
+        - variants
+      properties:
+        id:
+          type: string
+          format: uuid
+        experimentName:
+          type: string
+        experimentType:
+          type: string
+        targetAudience:
+          type: object
+        variants:
+          type: array
+          items:
+            type: object
+        trafficAllocation:
+          type: object
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [draft, running, completed, cancelled]
+        primaryMetric:
+          type: string
+        secondaryMetrics:
+          type: array
+          items:
+            type: string
+        minimumSampleSize:
+          type: integer
+        winnerVariant:
+          type: string
+        confidenceLevel:
+          type: number
+        improvementPercentage:
+          type: number
+        hypothesis:
+          type: string
+        description:
+          type: string
+        owner:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              message:
+                type: string
+              details:
+                type: object
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

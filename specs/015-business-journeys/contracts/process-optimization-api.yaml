@@ -1,0 +1,435 @@
+openapi: 3.0.3
+info:
+  title: Process Optimization API
+  version: 1.0.0
+  description: API for business process automation and workflow management
+
+servers:
+  - url: https://api.schwalbe.com/v1
+    description: Production server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /processes:
+    post:
+      summary: Create a new business process
+      operationId: createProcess
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - processName
+                - processType
+              properties:
+                processName:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                processType:
+                  type: string
+                  enum: [onboarding, document_processing, professional_matching, billing, support, compliance]
+                isActive:
+                  type: boolean
+                  default: true
+                priority:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                  default: 1
+                maxExecutionTimeMinutes:
+                  type: integer
+                  default: 60
+                triggerEvents:
+                  type: array
+                  items:
+                    type: string
+                automationRules:
+                  type: object
+                fallbackProcedures:
+                  type: object
+                description:
+                  type: string
+                ownerTeam:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Process created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessProcess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+    get:
+      summary: List business processes
+      operationId: listProcesses
+      parameters:
+        - name: processType
+          in: query
+          schema:
+            type: string
+            enum: [onboarding, document_processing, professional_matching, billing, support, compliance]
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of processes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  processes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BusinessProcess'
+                  total:
+                    type: integer
+
+  /processes/{processId}:
+    get:
+      summary: Get process details
+      operationId: getProcess
+      parameters:
+        - name: processId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Process details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessProcess'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update process configuration
+      operationId: updateProcess
+      parameters:
+        - name: processId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isActive:
+                  type: boolean
+                priority:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                maxExecutionTimeMinutes:
+                  type: integer
+                triggerEvents:
+                  type: array
+                  items:
+                    type: string
+                automationRules:
+                  type: object
+                fallbackProcedures:
+                  type: object
+                description:
+                  type: string
+                ownerTeam:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Process updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessProcess'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /processes/{processId}/execute:
+    post:
+      summary: Execute a business process
+      operationId: executeProcess
+      parameters:
+        - name: processId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                inputData:
+                  type: object
+                async:
+                  type: boolean
+                  default: true
+      responses:
+        '202':
+          description: Process execution started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  executionId:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [pending, running]
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /processes/{processId}/status:
+    get:
+      summary: Get process execution status
+      operationId: getProcessStatus
+      parameters:
+        - name: processId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: executionId
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Process status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecution'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /processes/metrics:
+    get:
+      summary: Get process performance metrics
+      operationId: getProcessMetrics
+      parameters:
+        - name: processType
+          in: query
+          schema:
+            type: string
+            enum: [onboarding, document_processing, professional_matching, billing, support, compliance]
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Process metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalExecutions:
+                    type: integer
+                  successRate:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  averageExecutionTimeSeconds:
+                    type: number
+                  errorCount:
+                    type: integer
+                  metricsByProcess:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        processId:
+                          type: string
+                          format: uuid
+                        processName:
+                          type: string
+                        executions:
+                          type: integer
+                        successRate:
+                          type: number
+                        averageTime:
+                          type: number
+
+components:
+  schemas:
+    BusinessProcess:
+      type: object
+      required:
+        - id
+        - processName
+        - processType
+        - isActive
+        - priority
+      properties:
+        id:
+          type: string
+          format: uuid
+        processName:
+          type: string
+        processType:
+          type: string
+          enum: [onboarding, document_processing, professional_matching, billing, support, compliance]
+        isActive:
+          type: boolean
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+        maxExecutionTimeMinutes:
+          type: integer
+        triggerEvents:
+          type: array
+          items:
+            type: string
+        automationRules:
+          type: object
+        fallbackProcedures:
+          type: object
+        successRate:
+          type: number
+          minimum: 0
+          maximum: 1
+        averageExecutionTimeSeconds:
+          type: number
+        errorCount:
+          type: integer
+        description:
+          type: string
+        ownerTeam:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    ProcessExecution:
+      type: object
+      required:
+        - id
+        - processId
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        processId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        executionStatus:
+          type: string
+          enum: [pending, running, completed, failed, cancelled]
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+        durationSeconds:
+          type: integer
+        triggerEvent:
+          type: string
+        inputData:
+          type: object
+        outputData:
+          type: object
+        errorMessage:
+          type: string
+        retryCount:
+          type: integer
+        maxRetries:
+          type: integer
+        performanceMetrics:
+          type: object
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              message:
+                type: string
+              details:
+                type: object
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              message:
+                type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

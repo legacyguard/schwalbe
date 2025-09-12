@@ -22,7 +22,7 @@
 
 ## T030 App build configs
 
-- [ ] T031 Approve per-app Vite config rule; forbid root cross-app config
+- [ ] T031 Approve Next.js App Router for `apps/web-next`; freeze `apps/web` (Vite) and exclude from CI build/typecheck; forbid root cross-app config
 - [ ] T032 Decide on npm vs pnpm; add `.nvmrc` and `engines`
 
 ## T040 Env & secrets policy

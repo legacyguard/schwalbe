@@ -7,7 +7,8 @@ set -euo pipefail
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT_DIR"
 
-MAPFILE -t FILES < <(git ls-files | grep -Ev '^(node_modules/|.turbo/|.next/|dist/|build/|.git/|.spec-kit/|spec-kit/.*/(dist|build|generated|out)/)')
+FILES=$(git ls-files | grep -Ev '^(node_modules/|.turbo/|.next/|dist/|build/|.git/|.spec-kit/|spec-kit/.*/(dist|build|generated|out)/)')
+IFS=$'\n' read -rd '' -a FILES <<<"$FILES"
 
 if [ ${#FILES[@]} -eq 0 ]; then
   echo "No tracked files to scan."
@@ -44,4 +45,4 @@ if [ "$FOUND" -ne 0 ]; then
   exit 1
 fi
 
-decho "✅ Secret scan passed (no matches)."
+echo "✅ Secret scan passed (no matches)."

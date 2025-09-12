@@ -1,0 +1,578 @@
+openapi: 3.0.3
+info:
+  title: Performance Monitoring API
+  version: 1.0.0
+  description: Performance monitoring API for Web Vitals and custom performance metrics
+
+servers:
+  - url: https://api.schwalbe.dev
+    description: Production server
+  - url: https://api-staging.schwalbe.dev
+    description: Staging server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/performance/vitals:
+    post:
+      summary: Submit Web Vitals
+      description: Submit Core Web Vitals and other performance metrics
+      operationId: submitWebVitals
+      tags:
+        - Web Vitals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - value
+              properties:
+                name:
+                  type: string
+                  enum: [FCP, LCP, FID, CLS, TTFB, INP]
+                  example: LCP
+                value:
+                  type: number
+                  example: 1200.5
+                unit:
+                  type: string
+                  enum: [ms, s]
+                  default: ms
+                  example: ms
+                timestamp:
+                  type: string
+                  format: date-time
+                page:
+                  type: string
+                  example: /dashboard
+                sessionId:
+                  type: string
+                  example: session_12345
+                deviceInfo:
+                  $ref: '#/components/schemas/DeviceInfo'
+      responses:
+        '202':
+          description: Web Vitals accepted
+        '400':
+          description: Invalid Web Vitals data
+
+    get:
+      summary: Get Web Vitals data
+      description: Retrieve Web Vitals performance data
+      operationId: getWebVitals
+      tags:
+        - Web Vitals
+      parameters:
+        - name: metric
+          in: query
+          schema:
+            type: string
+            enum: [FCP, LCP, FID, CLS, TTFB, INP]
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: string
+        - name: percentile
+          in: query
+          schema:
+            type: number
+            enum: [50, 75, 90, 95, 99]
+            default: 75
+      responses:
+        '200':
+          description: Web Vitals data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metric:
+                    type: string
+                  timeRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date-time
+                      end:
+                        type: string
+                        format: date-time
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: string
+                          format: date-time
+                        value:
+                          type: number
+                        percentile:
+                          type: number
+                        sampleSize:
+                          type: integer
+        '400':
+          description: Invalid query parameters
+
+  /api/performance/custom:
+    post:
+      summary: Submit custom performance metrics
+      description: Submit application-specific performance metrics
+      operationId: submitCustomMetric
+      tags:
+        - Custom Metrics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - value
+                - unit
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+                  example: api_response_time
+                value:
+                  type: number
+                  example: 150.5
+                unit:
+                  type: string
+                  enum: [ms, bytes, count, percentage, s]
+                  example: ms
+                category:
+                  type: string
+                  example: api
+                tags:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  example:
+                    endpoint: /api/users
+                    method: GET
+                    status: 200
+                timestamp:
+                  type: string
+                  format: date-time
+                sessionId:
+                  type: string
+                  example: session_12345
+      responses:
+        '202':
+          description: Custom metric accepted
+        '400':
+          description: Invalid custom metric data
+
+  /api/performance/budget:
+    get:
+      summary: Check performance budget
+      description: Check if current performance metrics are within budget
+      operationId: checkPerformanceBudget
+      tags:
+        - Budget
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: string
+            example: /dashboard
+      responses:
+        '200':
+          description: Performance budget status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: string
+                  budget:
+                    type: object
+                    properties:
+                      FCP:
+                        type: number
+                        example: 1800
+                      LCP:
+                        type: number
+                        example: 2500
+                      FID:
+                        type: number
+                        example: 100
+                      CLS:
+                        type: number
+                        example: 0.1
+                  current:
+                    type: object
+                    properties:
+                      FCP:
+                        type: number
+                        example: 1200
+                      LCP:
+                        type: number
+                        example: 1800
+                      FID:
+                        type: number
+                        example: 50
+                      CLS:
+                        type: number
+                        example: 0.05
+                  status:
+                    type: string
+                    enum: [within_budget, over_budget, warning]
+                    example: within_budget
+                  violations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        metric:
+                          type: string
+                          example: LCP
+                        budget:
+                          type: number
+                          example: 2500
+                        actual:
+                          type: number
+                          example: 2800
+                        difference:
+                          type: number
+                          example: 300
+
+  /api/performance/alert:
+    post:
+      summary: Performance alert webhook
+      description: Webhook endpoint for performance alerts (internal use)
+      operationId: performanceAlertWebhook
+      tags:
+        - Alerts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - alertType
+                - message
+              properties:
+                alertType:
+                  type: string
+                  enum: [budget_violation, performance_degradation, anomaly]
+                  example: budget_violation
+                message:
+                  type: string
+                  example: LCP exceeded budget by 300ms
+                data:
+                  type: object
+                  properties:
+                    metric:
+                      type: string
+                      example: LCP
+                    budget:
+                      type: number
+                      example: 2500
+                    actual:
+                      type: number
+                      example: 2800
+                    page:
+                      type: string
+                      example: /dashboard
+                    timestamp:
+                      type: string
+                      format: date-time
+                severity:
+                  type: string
+                  enum: [low, medium, high, critical]
+                  default: medium
+      responses:
+        '200':
+          description: Alert processed
+        '400':
+          description: Invalid alert data
+
+  /api/performance/trends:
+    get:
+      summary: Get performance trends
+      description: Get performance trends and historical data
+      operationId: getPerformanceTrends
+      tags:
+        - Trends
+      parameters:
+        - name: metric
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [FCP, LCP, FID, CLS, TTFB, INP]
+            example: LCP
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [hour, day, week, month]
+            default: day
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 90
+            default: 7
+        - name: page
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Performance trends data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metric:
+                    type: string
+                  period:
+                    type: string
+                  timeRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date-time
+                      end:
+                        type: string
+                        format: date-time
+                  trends:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: string
+                          format: date-time
+                        p50:
+                          type: number
+                          description: 50th percentile
+                        p75:
+                          type: number
+                          description: 75th percentile
+                        p90:
+                          type: number
+                          description: 90th percentile
+                        p95:
+                          type: number
+                          description: 95th percentile
+                        sampleSize:
+                          type: integer
+                  summary:
+                    type: object
+                    properties:
+                      average:
+                        type: number
+                      improvement:
+                        type: number
+                        description: Percentage improvement over period
+                      trend:
+                        type: string
+                        enum: [improving, degrading, stable]
+        '400':
+          description: Invalid query parameters
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    WebVitalsMetric:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          enum: [FCP, LCP, FID, CLS, TTFB, INP]
+        value:
+          type: number
+        unit:
+          type: string
+          enum: [ms, s]
+          default: ms
+        timestamp:
+          type: string
+          format: date-time
+        page:
+          type: string
+        sessionId:
+          type: string
+        deviceInfo:
+          $ref: '#/components/schemas/DeviceInfo'
+
+    CustomPerformanceMetric:
+      type: object
+      required:
+        - name
+        - value
+        - unit
+      properties:
+        name:
+          type: string
+        value:
+          type: number
+        unit:
+          type: string
+          enum: [ms, bytes, count, percentage, s]
+        category:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        timestamp:
+          type: string
+          format: date-time
+        sessionId:
+          type: string
+
+    PerformanceBudget:
+      type: object
+      properties:
+        page:
+          type: string
+        budget:
+          type: object
+          additionalProperties:
+            type: number
+        current:
+          type: object
+          additionalProperties:
+            type: number
+        status:
+          type: string
+          enum: [within_budget, over_budget, warning]
+        violations:
+          type: array
+          items:
+            type: object
+            properties:
+              metric:
+                type: string
+              budget:
+                type: number
+              actual:
+                type: number
+              difference:
+                type: number
+
+    PerformanceAlert:
+      type: object
+      required:
+        - alertType
+        - message
+      properties:
+        alertType:
+          type: string
+          enum: [budget_violation, performance_degradation, anomaly]
+        message:
+          type: string
+        data:
+          type: object
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+
+    PerformanceTrend:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        p50:
+          type: number
+        p75:
+          type: number
+        p90:
+          type: number
+        p95:
+          type: number
+        sampleSize:
+          type: integer
+
+    DeviceInfo:
+      type: object
+      properties:
+        platform:
+          type: string
+        browser:
+          type: string
+        browserVersion:
+          type: string
+        isMobile:
+          type: boolean
+        screenWidth:
+          type: integer
+        screenHeight:
+          type: integer
+        viewportWidth:
+          type: integer
+        viewportHeight:
+          type: integer
+        language:
+          type: string
+        timezone:
+          type: string
+
+  responses:
+    MetricAccepted:
+      description: Performance metric accepted
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: accepted
+
+    ValidationError:
+      description: Invalid performance data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Invalid metric value
+              details:
+                type: array
+                items:
+                  type: string
+
+    BudgetStatus:
+      description: Performance budget status
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PerformanceBudget'

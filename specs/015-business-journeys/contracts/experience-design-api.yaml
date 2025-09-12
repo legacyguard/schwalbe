@@ -1,0 +1,301 @@
+openapi: 3.0.3
+info:
+  title: Experience Design API
+  version: 1.0.0
+  description: API for user experience tracking and feedback collection
+
+servers:
+  - url: https://api.schwalbe.com/v1
+    description: Production server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /experiences/feedback:
+    post:
+      summary: Submit user experience feedback
+      operationId: submitExperienceFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - experienceType
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                journeyId:
+                  type: string
+                  format: uuid
+                experienceType:
+                  type: string
+                  enum: [flow, feature, interaction, onboarding, support]
+                featureName:
+                  type: string
+                pageUrl:
+                  type: string
+                satisfactionRating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                easeOfUseRating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                completionSuccess:
+                  type: boolean
+                positiveFeedback:
+                  type: string
+                negativeFeedback:
+                  type: string
+                suggestions:
+                  type: string
+                deviceType:
+                  type: string
+                browserInfo:
+                  type: string
+                sessionDurationSeconds:
+                  type: integer
+                frustrationPoints:
+                  type: array
+                  items:
+                    type: string
+                successMoments:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Feedback submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserExperience'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /experiences/{journeyId}:
+    get:
+      summary: Get experience data for journey
+      operationId: getJourneyExperiences
+      parameters:
+        - name: journeyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: experienceType
+          in: query
+          schema:
+            type: string
+            enum: [flow, feature, interaction, onboarding, support]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        '200':
+          description: Journey experiences
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  experiences:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserExperience'
+                  total:
+                    type: integer
+
+  /experiences/friction-points:
+    post:
+      summary: Report friction points
+      operationId: reportFrictionPoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - frictionType
+                - description
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                journeyId:
+                  type: string
+                  format: uuid
+                frictionType:
+                  type: string
+                  enum: [navigation, content, functionality, performance, accessibility]
+                description:
+                  type: string
+                severity:
+                  type: string
+                  enum: [low, medium, high, critical]
+                pageUrl:
+                  type: string
+                userAgent:
+                  type: string
+      responses:
+        '201':
+          description: Friction point reported
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [reported, acknowledged, resolved]
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /experiences/analytics:
+    get:
+      summary: Get experience analytics
+      operationId: getExperienceAnalytics
+      parameters:
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: experienceType
+          in: query
+          schema:
+            type: string
+            enum: [flow, feature, interaction, onboarding, support]
+        - name: deviceType
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Experience analytics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalFeedback:
+                    type: integer
+                  averageSatisfaction:
+                    type: number
+                  averageEaseOfUse:
+                    type: number
+                  completionRate:
+                    type: number
+                  topFrictionPoints:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        count:
+                          type: integer
+                        severity:
+                          type: string
+                  deviceBreakdown:
+                    type: object
+                    additionalProperties:
+                      type: integer
+
+components:
+  schemas:
+    UserExperience:
+      type: object
+      required:
+        - id
+        - userId
+        - experienceType
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        journeyId:
+          type: string
+          format: uuid
+        experienceType:
+          type: string
+          enum: [flow, feature, interaction, onboarding, support]
+        featureName:
+          type: string
+        pageUrl:
+          type: string
+        satisfactionRating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        easeOfUseRating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        completionSuccess:
+          type: boolean
+        positiveFeedback:
+          type: string
+        negativeFeedback:
+          type: string
+        suggestions:
+          type: string
+        deviceType:
+          type: string
+        browserInfo:
+          type: string
+        sessionDurationSeconds:
+          type: integer
+        frustrationPoints:
+          type: array
+          items:
+            type: string
+        successMoments:
+          type: array
+          items:
+            type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              message:
+                type: string
+              details:
+                type: object
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

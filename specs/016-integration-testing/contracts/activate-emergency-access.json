@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Activate Emergency Access Contract",
+  "description": "API contract for emergency access activation",
+  "type": "object",
+  "properties": {
+    "request": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "User ID requesting emergency access"
+        },
+        "triggerType": {
+          "type": "string",
+          "enum": ["manual", "inactivity", "guardian"],
+          "description": "Type of emergency trigger"
+        },
+        "guardianId": {
+          "type": "string",
+          "description": "Guardian ID (required for guardian-triggered access)"
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Reason for emergency access request"
+        },
+        "requestedPermissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["read_documents", "download_documents", "view_profile", "contact_info"]
+          },
+          "description": "Specific permissions being requested"
+        }
+      },
+      "required": ["userId", "triggerType", "reason"],
+      "if": {
+        "properties": { "triggerType": { "const": "guardian" } }
+      },
+      "then": {
+        "required": ["guardianId"]
+      }
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "description": "Temporary access token for emergency access"
+        },
+        "grantedPermissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Permissions that were granted"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Token expiration timestamp"
+        },
+        "auditId": {
+          "type": "string",
+          "description": "Audit log entry ID for this activation"
+        },
+        "nextSteps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Instructions for next steps"
+        }
+      },
+      "required": ["accessToken", "grantedPermissions", "expiresAt", "auditId"]
+    },
+    "errorResponses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "INVALID_TRIGGER",
+              "GUARDIAN_NOT_AUTHORIZED",
+              "EMERGENCY_ALREADY_ACTIVE",
+              "USER_NOT_FOUND",
+              "RATE_LIMIT_EXCEEDED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "retryAfter": {
+            "type": "number",
+            "description": "Seconds to wait before retry (for rate limiting)"
+          }
+        }
+      }
+    },
+    "testScenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "setup": { "type": "object", "additionalProperties": true },
+          "request": { "$ref": "#/properties/request" },
+          "expectedResponse": { "$ref": "#/properties/response" },
+          "expectedError": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "retryAfter": { "type": "number" }
+            },
+            "required": ["code", "message"],
+            "additionalProperties": false
+          },
+          "databaseAssertions": { "type": "array", "items": { "type": "string" } },
+          "securityValidations": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      }
+    },
+    "securityRequirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "requirement": { "type": "string" },
+          "description": { "type": "string" },
+          "implementation": { "type": "string" },
+          "testValidation": { "type": "string" }
+        },
+        "required": ["requirement", "description"],
+        "additionalProperties": false
+      }
+    },
+    "performanceRequirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric": { "type": "string" },
+          "threshold": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["metric", "threshold"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

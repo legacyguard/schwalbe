@@ -15,7 +15,8 @@ Owner = who is responsible. Issue = Linear or GitHub Issue ID. PR = GitHub PR li
 
 
 ## 0) Immediate Security Deletes and Hygiene
-- [ ] Remove any hardcoded secrets from source/config (Owner: , Issue: , PR: )
+- [ ] Freeze Vite app (apps/web): no new code beyond security/hygiene; exclude from CI build/typecheck (Owner: , Issue: , PR: )
+- [ ] Remove any hardcoded secrets from source/config
 - [ ] Remove mock authentication bypasses (Owner: , Issue: , PR: )
 - [ ] Remove test credentials from any .env.* files or scripts (Owner: , Issue: , PR: )
 - [ ] Run secret scanning on repo (e.g., gitleaks) and fix findings (Owner: , Issue: , PR: )
@@ -27,7 +28,8 @@ Owner = who is responsible. Issue = Linear or GitHub Issue ID. PR = GitHub PR li
 
 
 ## Phase 0 — Bootstrap, Governance, and Hygiene
-- [ ] Create Next.js app in apps/web (App Router) without removing current Vite app yet (Owner: , Issue: , PR: )
+- [ ] Scaffold Next.js App Router app in apps/web-next (Owner: , Issue: , PR: )
+- [ ] Exclude apps/web (Vite) from CI typecheck/build (Owner: , Issue: , PR: )
 - [ ] TypeScript strict config at root and apps/packages; path aliases (Owner: , Issue: , PR: )
 - [ ] ESLint, Prettier, and commit hooks (lint-staged/husky) (Owner: , Issue: , PR: )
 - [ ] spec-kit: keep in repo, add generated artifacts to .gitignore (Owner: , Issue: , PR: )
@@ -46,6 +48,7 @@ Gates
 - [ ] Configure Clerk, Stripe, Resend; connect GitHub (Owner: , Issue: , PR: )
 - [ ] .env.example with all required vars; add runtime env validation (Owner: , Issue: , PR: )
 - [ ] Document secrets setup steps in docs/env/environment-variables.md (Owner: , Issue: , PR: )
+- [ ] apps/web-next: add Clerk provider/middleware and a minimal landing route to validate deploy (Owner: , Issue: , PR: )
 
 Gates
 - [ ] Preview deploy from PR with placeholder secrets configured
@@ -93,7 +96,7 @@ Gates
 
 
 ## Phase 6 — i18n + Country Rules
-- [ ] Install and configure a single i18n layer for Next.js (Owner: , Issue: , PR: )
+- [ ] Install and configure a single i18n layer for Next.js in apps/web-next (Owner: , Issue: , PR: )
 - [ ] Import curated JSON locales; define source-of-truth (Owner: , Issue: , PR: )
 - [ ] Add Google Translate API background generation (fallback only) (Owner: , Issue: , PR: )
 - [ ] Add i18n health-check script + GitHub Action (Owner: , Issue: , PR: )
@@ -105,9 +108,9 @@ Gates
 
 
 ## Phase 7 — Emotional Core MVP
-- [ ] Night sky landing page with accessible, performant motion (Owner: , Issue: , PR: )
-- [ ] Sofia presence (firefly) with guided dialog shell (Owner: , Issue: , PR: )
-- [ ] 3‑act onboarding (Chaos → Order → Legacy) (Owner: , Issue: , PR: )
+- [ ] Night sky landing page in apps/web-next with accessible, performant motion (Owner: , Issue: , PR: )
+- [ ] Sofia presence (firefly) with guided dialog shell in apps/web-next (Owner: , Issue: , PR: )
+- [ ] 3‑act onboarding in apps/web-next (Chaos → Order → Legacy) (Owner: , Issue: , PR: )
 - [ ] Success instrumentation (qual questions, staging session replays) (Owner: , Issue: , PR: )
 
 Gates (see plan)
@@ -240,7 +243,7 @@ Reconciliation tasks
 
 
 ## Housekeeping Backlog (Do As You Go)
-- [ ] Replace Vite web with Next.js; once stable, remove Vite app (Owner: , Issue: , PR: )
+- [ ] Remove Vite app (apps/web) once apps/web-next MVP gates are green (Owner: , Issue: , PR: )
 - [ ] Remove apps/demo unless actively used (Owner: , Issue: , PR: )
 - [ ] Move apps/mobile to separate repo until web MVP is stable (Owner: , Issue: , PR: )
 - [ ] Consolidate to a single Supabase client in packages/shared and reuse everywhere (Owner: , Issue: , PR: )

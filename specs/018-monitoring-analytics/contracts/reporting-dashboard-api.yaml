@@ -1,0 +1,710 @@
+openapi: 3.0.3
+info:
+  title: Reporting Dashboard API
+  version: 1.0.0
+  description: Reporting and dashboard API for monitoring data visualization
+
+servers:
+  - url: https://api.schwalbe.dev
+    description: Production server
+  - url: https://api-staging.schwalbe.dev
+    description: Staging server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/dashboard/health:
+    get:
+      summary: Get dashboard health data
+      description: Get system health data for dashboard display
+      operationId: getDashboardHealth
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Dashboard health data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                  systemStatus:
+                    type: string
+                    enum: [healthy, degraded, down]
+                  services:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        status:
+                          type: string
+                          enum: [healthy, degraded, down]
+                        responseTime:
+                          type: number
+                        lastChecked:
+                          type: string
+                          format: date-time
+                        uptime:
+                          type: number
+                          description: Uptime percentage (last 24h)
+                  alerts:
+                    type: object
+                    properties:
+                      active:
+                        type: integer
+                      critical:
+                        type: integer
+                      acknowledged:
+                        type: integer
+                      resolved:
+                        type: integer
+                  metrics:
+                    type: object
+                    properties:
+                      totalEvents:
+                        type: integer
+                      errorRate:
+                        type: number
+                      avgResponseTime:
+                        type: number
+
+  /api/dashboard/performance:
+    get:
+      summary: Get performance dashboard data
+      description: Get performance metrics data for dashboard visualization
+      operationId: getDashboardPerformance
+      tags:
+        - Dashboard
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [1h, 24h, 7d, 30d]
+            default: 24h
+        - name: metrics
+          in: query
+          schema:
+            type: string
+            description: Comma-separated list of metrics
+            example: FCP,LCP,FID,CLS
+      responses:
+        '200':
+          description: Performance dashboard data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  period:
+                    type: string
+                  timeRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date-time
+                      end:
+                        type: string
+                        format: date-time
+                  webVitals:
+                    type: object
+                    properties:
+                      FCP:
+                        $ref: '#/components/schemas/PerformanceMetricData'
+                      LCP:
+                        $ref: '#/components/schemas/PerformanceMetricData'
+                      FID:
+                        $ref: '#/components/schemas/PerformanceMetricData'
+                      CLS:
+                        $ref: '#/components/schemas/PerformanceMetricData'
+                      TTFB:
+                        $ref: '#/components/schemas/PerformanceMetricData'
+                      INP:
+                        $ref: '#/components/schemas/PerformanceMetricData'
+                  customMetrics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        data:
+                          $ref: '#/components/schemas/PerformanceMetricData'
+                  budget:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: [within_budget, over_budget, warning]
+                      violations:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            metric:
+                              type: string
+                            budget:
+                              type: number
+                            actual:
+                              type: number
+                            difference:
+                              type: number
+
+  /api/dashboard/analytics:
+    get:
+      summary: Get analytics dashboard data
+      description: Get user analytics data for dashboard display
+      operationId: getDashboardAnalytics
+      tags:
+        - Dashboard
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [1h, 24h, 7d, 30d]
+            default: 24h
+        - name: segment
+          in: query
+          schema:
+            type: string
+            enum: [all, authenticated, anonymous]
+            default: all
+      responses:
+        '200':
+          description: Analytics dashboard data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  period:
+                    type: string
+                  timeRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date-time
+                      end:
+                        type: string
+                        format: date-time
+                  summary:
+                    type: object
+                    properties:
+                      totalEvents:
+                        type: integer
+                      uniqueSessions:
+                        type: integer
+                      uniqueUsers:
+                        type: integer
+                      pageViews:
+                        type: integer
+                      avgSessionDuration:
+                        type: number
+                  events:
+                    type: object
+                    properties:
+                      byType:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                      byHour:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            hour:
+                              type: string
+                            count:
+                              type: integer
+                      topPages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            page:
+                              type: string
+                            views:
+                              type: integer
+                            uniqueViews:
+                              type: integer
+                  users:
+                    type: object
+                    properties:
+                      byDevice:
+                        type: object
+                        properties:
+                          mobile:
+                            type: integer
+                          desktop:
+                            type: integer
+                          tablet:
+                            type: integer
+                      byBrowser:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                      byCountry:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                  conversions:
+                    type: object
+                    properties:
+                      funnel:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            step:
+                              type: string
+                            count:
+                              type: integer
+                            conversionRate:
+                              type: number
+
+  /api/dashboard/errors:
+    get:
+      summary: Get error dashboard data
+      description: Get error tracking data for dashboard visualization
+      operationId: getDashboardErrors
+      tags:
+        - Dashboard
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [1h, 24h, 7d, 30d]
+            default: 24h
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum: [all, low, medium, high, critical]
+            default: all
+      responses:
+        '200':
+          description: Error dashboard data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  period:
+                    type: string
+                  timeRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date-time
+                      end:
+                        type: string
+                        format: date-time
+                  summary:
+                    type: object
+                    properties:
+                      totalErrors:
+                        type: integer
+                      uniqueUsers:
+                        type: integer
+                      resolvedErrors:
+                        type: integer
+                      criticalErrors:
+                        type: integer
+                      errorRate:
+                        type: number
+                        description: Errors per 1000 page views
+                  errors:
+                    type: object
+                    properties:
+                      byType:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                      bySeverity:
+                        type: object
+                        properties:
+                          low:
+                            type: integer
+                          medium:
+                            type: integer
+                          high:
+                            type: integer
+                          critical:
+                            type: integer
+                      byHour:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            hour:
+                              type: string
+                            count:
+                              type: integer
+                      topMessages:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            message:
+                              type: string
+                            count:
+                              type: integer
+                            severity:
+                              type: string
+                            lastOccurred:
+                              type: string
+                              format: date-time
+                  trends:
+                    type: object
+                    properties:
+                      errorRateChange:
+                        type: number
+                        description: Percentage change from previous period
+                      mostCommonError:
+                        type: string
+                      resolutionRate:
+                        type: number
+                        description: Percentage of errors resolved
+
+  /api/dashboard/config:
+    get:
+      summary: Get dashboard configuration
+      description: Get user's dashboard configuration and preferences
+      operationId: getDashboardConfig
+      tags:
+        - Dashboard Config
+      responses:
+        '200':
+          description: Dashboard configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  config:
+                    type: object
+                    properties:
+                      theme:
+                        type: string
+                        enum: [light, dark, auto]
+                        default: auto
+                      refreshInterval:
+                        type: integer
+                        description: Auto-refresh interval in seconds
+                        default: 300
+                      defaultPeriod:
+                        type: string
+                        enum: [1h, 24h, 7d, 30d]
+                        default: 24h
+                      widgets:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            type:
+                              type: string
+                              enum: [health, performance, analytics, errors, alerts]
+                            position:
+                              type: object
+                              properties:
+                                x:
+                                  type: integer
+                                y:
+                                  type: integer
+                                width:
+                                  type: integer
+                                height:
+                                  type: integer
+                            config:
+                              type: object
+                              additionalProperties: true
+                      alerts:
+                        type: object
+                        properties:
+                          enabled:
+                            type: boolean
+                            default: true
+                          email:
+                            type: boolean
+                            default: true
+                          slack:
+                            type: boolean
+                            default: false
+                          thresholds:
+                            type: object
+                            properties:
+                              errorRate:
+                                type: number
+                                default: 5
+                              responseTime:
+                                type: number
+                                default: 5000
+    post:
+      summary: Save dashboard configuration
+      description: Save user's dashboard configuration and preferences
+      operationId: saveDashboardConfig
+      tags:
+        - Dashboard Config
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config:
+                  type: object
+                  properties:
+                    theme:
+                      type: string
+                      enum: [light, dark, auto]
+                    refreshInterval:
+                      type: integer
+                      minimum: 30
+                      maximum: 3600
+                    defaultPeriod:
+                      type: string
+                      enum: [1h, 24h, 7d, 30d]
+                    widgets:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          type:
+                            type: string
+                            enum: [health, performance, analytics, errors, alerts]
+                          position:
+                            type: object
+                            properties:
+                              x:
+                                type: integer
+                                minimum: 0
+                              y:
+                                type: integer
+                                minimum: 0
+                              width:
+                                type: integer
+                                minimum: 1
+                              height:
+                                type: integer
+                                minimum: 1
+                          config:
+                            type: object
+                            additionalProperties: true
+                    alerts:
+                      type: object
+                      properties:
+                        enabled:
+                          type: boolean
+                        email:
+                          type: boolean
+                        slack:
+                          type: boolean
+                        thresholds:
+                          type: object
+                          properties:
+                            errorRate:
+                              type: number
+                              minimum: 0
+                              maximum: 100
+                            responseTime:
+                              type: number
+                              minimum: 0
+      responses:
+        '200':
+          description: Configuration saved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: saved
+                  updatedAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Invalid configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid widget configuration
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    PerformanceMetricData:
+      type: object
+      properties:
+        current:
+          type: number
+        previous:
+          type: number
+        change:
+          type: number
+          description: Percentage change from previous period
+        trend:
+          type: string
+          enum: [up, down, stable]
+        percentiles:
+          type: object
+          properties:
+            p50:
+              type: number
+            p75:
+              type: number
+            p90:
+              type: number
+            p95:
+              type: number
+        timeSeries:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+              value:
+                type: number
+
+    DashboardConfig:
+      type: object
+      properties:
+        userId:
+          type: string
+        config:
+          type: object
+          properties:
+            theme:
+              type: string
+              enum: [light, dark, auto]
+            refreshInterval:
+              type: integer
+            defaultPeriod:
+              type: string
+              enum: [1h, 24h, 7d, 30d]
+            widgets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                  position:
+                    type: object
+                    properties:
+                      x:
+                        type: integer
+                      y:
+                        type: integer
+                      width:
+                        type: integer
+                      height:
+                        type: integer
+                  config:
+                    type: object
+            alerts:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                email:
+                  type: boolean
+                slack:
+                  type: boolean
+                thresholds:
+                  type: object
+
+  responses:
+    DashboardData:
+      description: Dashboard data response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+              data:
+                type: object
+
+    ConfigSaved:
+      description: Configuration saved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: saved
+              updatedAt:
+                type: string
+                format: date-time
+
+    ValidationError:
+      description: Invalid request data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: array
+                items:
+                  type: string
+
+    UnauthorizedError:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Unauthorized
+
+    ForbiddenError:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Forbidden

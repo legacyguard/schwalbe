@@ -1,0 +1,4 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export function SnapshotDiffView({ left, right }) {
+    return (_jsxs("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }, children: [_jsxs("div", { style: { border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }, children: [_jsx("div", { style: { background: '#f3f4f6', padding: 6, fontWeight: 600 }, children: "Previous" }), _jsx("pre", { style: { margin: 0, padding: 10, whiteSpace: 'pre-wrap' }, children: JSON.stringify(left ?? null, null, 2) })] }), _jsxs("div", { style: { border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }, children: [_jsx("div", { style: { background: '#f3f4f6', padding: 6, fontWeight: 600 }, children: "Current" }), _jsx("pre", { style: { margin: 0, padding: 10, whiteSpace: 'pre-wrap' }, children: JSON.stringify(right ?? null, null, 2) })] })] }));
+}

@@ -1,0 +1,420 @@
+openapi: 3.0.3
+info:
+  title: Monitoring System API
+  version: 1.0.0
+  description: Core monitoring system API for health checks, metrics collection, and system monitoring
+
+servers:
+  - url: https://api.schwalbe.dev
+    description: Production server
+  - url: https://api-staging.schwalbe.dev
+    description: Staging server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/monitoring/health:
+    get:
+      summary: Get system health status
+      description: Returns the overall health status of the system and individual services
+      operationId: getSystemHealth
+      tags:
+        - Health
+      responses:
+        '200':
+          description: System health information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, down]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                  services:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        service:
+                          type: string
+                        status:
+                          type: string
+                          enum: [healthy, degraded, down]
+                        responseTime:
+                          type: integer
+                        errorRate:
+                          type: number
+                        lastError:
+                          type: string
+        '500':
+          description: Health check failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: down
+                  error:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/monitoring/metrics:
+    post:
+      summary: Submit performance metrics
+      description: Submit custom performance metrics to the monitoring system
+      operationId: submitMetrics
+      tags:
+        - Metrics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: api_response_time
+                value:
+                  type: number
+                  example: 150.5
+                unit:
+                  type: string
+                  enum: [ms, bytes, count, percentage]
+                  example: ms
+                timestamp:
+                  type: string
+                  format: date-time
+                tags:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  example:
+                    endpoint: /api/users
+                    method: GET
+      responses:
+        '202':
+          description: Metrics accepted for processing
+        '400':
+          description: Invalid metrics data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid metric unit
+
+  /api/monitoring/metrics/{type}:
+    get:
+      summary: Retrieve metrics by type
+      description: Get aggregated metrics data for a specific metric type
+      operationId: getMetricsByType
+      tags:
+        - Metrics
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+          example: api_response_time
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: aggregation
+          in: query
+          schema:
+            type: string
+            enum: [avg, min, max, sum, count]
+            default: avg
+      responses:
+        '200':
+          description: Metrics data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metricType:
+                    type: string
+                  timeRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date-time
+                      end:
+                        type: string
+                        format: date-time
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: string
+                          format: date-time
+                        value:
+                          type: number
+                        count:
+                          type: integer
+        '404':
+          description: Metric type not found
+
+  /api/monitoring/alerts:
+    get:
+      summary: List active alerts
+      description: Get a list of currently active monitoring alerts
+      operationId: getActiveAlerts
+      tags:
+        - Alerts
+      parameters:
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum: [low, medium, high, critical]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        '200':
+          description: List of active alerts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alerts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        message:
+                          type: string
+                        severity:
+                          type: string
+                        status:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        ruleId:
+                          type: string
+                  total:
+                    type: integer
+    post:
+      summary: Create monitoring alert
+      description: Manually create a monitoring alert (admin only)
+      operationId: createAlert
+      tags:
+        - Alerts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - message
+                - severity
+              properties:
+                title:
+                  type: string
+                  maxLength: 300
+                message:
+                  type: string
+                severity:
+                  type: string
+                  enum: [low, medium, high, critical]
+                ruleId:
+                  type: string
+      responses:
+        '201':
+          description: Alert created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  status:
+                    type: string
+                    example: active
+        '403':
+          description: Insufficient permissions
+
+  /api/monitoring/alerts/{id}:
+    put:
+      summary: Update alert status
+      description: Update the status of a monitoring alert
+      operationId: updateAlert
+      tags:
+        - Alerts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+            type: object
+            required:
+              - status
+            properties:
+              status:
+                type: string
+                enum: [active, acknowledged, resolved]
+              notes:
+                type: string
+      responses:
+        '200':
+          description: Alert updated
+        '404':
+          description: Alert not found
+        '403':
+          description: Insufficient permissions
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    SystemHealth:
+      type: object
+      properties:
+        service:
+          type: string
+        status:
+          type: string
+          enum: [healthy, degraded, down]
+        responseTime:
+          type: integer
+        errorRate:
+          type: number
+        lastError:
+          type: string
+        metadata:
+          type: object
+
+    MetricData:
+      type: object
+      required:
+        - name
+        - value
+        - unit
+      properties:
+        name:
+          type: string
+        value:
+          type: number
+        unit:
+          type: string
+          enum: [ms, bytes, count, percentage]
+        timestamp:
+          type: string
+          format: date-time
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+
+    Alert:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        message:
+          type: string
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        status:
+          type: string
+          enum: [active, acknowledged, resolved]
+        createdAt:
+          type: string
+          format: date-time
+        ruleId:
+          type: string
+        acknowledgedBy:
+          type: string
+        resolvedBy:
+          type: string
+
+  responses:
+    UnauthorizedError:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Unauthorized
+
+    ForbiddenError:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Forbidden
+
+    ValidationError:
+      description: Invalid request data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Validation failed
+              details:
+                type: array
+                items:
+                  type: string

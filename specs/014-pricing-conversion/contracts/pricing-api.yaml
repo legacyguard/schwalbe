@@ -1,0 +1,1404 @@
+openapi: 3.0.3
+info:
+  title: Schwalbe Pricing & Conversion API
+  description: |
+    Comprehensive API for pricing, subscription management, and conversion optimization.
+    
+    This API provides:
+    - Subscription lifecycle management
+    - Pricing plan management and feature gating
+    - Usage tracking and metered billing
+    - A/B testing and conversion optimization
+    - Analytics and reporting
+    - Payment processing integration
+    
+    ## Authentication
+    All endpoints require authentication via JWT tokens from Clerk.
+    
+    ## Rate Limiting
+    - 1000 requests per hour per user
+    - 10000 requests per hour per API key
+    - Burst allowance for legitimate usage
+    
+    ## Error Handling
+    All errors follow a consistent format with appropriate HTTP status codes.
+  version: 1.0.0
+  contact:
+    name: Schwalbe API Support
+    email: api-support@schwalbe.app
+    url: https://schwalbe.app/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.schwalbe.app/v1
+    description: Production server
+  - url: https://staging-api.schwalbe.app/v1
+    description: Staging server
+  - url: http://localhost:3000/api/v1
+    description: Development server
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
+
+paths:
+  # Subscription Management
+  /subscriptions:
+    get:
+      summary: List user subscriptions
+      description: Retrieve all subscriptions for the authenticated user
+      tags:
+        - Subscriptions
+      parameters:
+        - name: status
+          in: query
+          description: Filter by subscription status
+          schema:
+            type: string
+            enum: [active, trialing, past_due, canceled, unpaid, incomplete, incomplete_expired]
+        - name: plan
+          in: query
+          description: Filter by subscription plan
+          schema:
+            type: string
+            enum: [free, essential, family, premium, enterprise]
+        - name: limit
+          in: query
+          description: Number of results to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          description: Number of results to skip
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of subscriptions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscriptions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserSubscription'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    post:
+      summary: Create subscription
+      description: Create a new subscription for the authenticated user
+      tags:
+        - Subscriptions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriptionRequest'
+      responses:
+        '201':
+          description: Subscription created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSubscriptionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: User already has an active subscription
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /subscriptions/{subscriptionId}:
+    get:
+      summary: Get subscription
+      description: Retrieve a specific subscription by ID
+      tags:
+        - Subscriptions
+      parameters:
+        - name: subscriptionId
+          in: path
+          required: true
+          description: Subscription ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Subscription details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSubscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    put:
+      summary: Update subscription
+      description: Update subscription plan or billing cycle
+      tags:
+        - Subscriptions
+      parameters:
+        - name: subscriptionId
+          in: path
+          required: true
+          description: Subscription ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubscriptionRequest'
+      responses:
+        '200':
+          description: Subscription updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSubscription'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    delete:
+      summary: Cancel subscription
+      description: Cancel a subscription (immediately or at period end)
+      tags:
+        - Subscriptions
+      parameters:
+        - name: subscriptionId
+          in: path
+          required: true
+          description: Subscription ID
+          schema:
+            type: string
+            format: uuid
+        - name: cancelAtPeriodEnd
+          in: query
+          description: Cancel at period end instead of immediately
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Subscription canceled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSubscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Pricing Plans
+  /plans:
+    get:
+      summary: List pricing plans
+      description: Retrieve all available pricing plans
+      tags:
+        - Pricing
+      parameters:
+        - name: active
+          in: query
+          description: Filter by active status
+          schema:
+            type: boolean
+            default: true
+        - name: plan
+          in: query
+          description: Filter by specific plan
+          schema:
+            type: string
+            enum: [free, essential, family, premium, enterprise]
+      responses:
+        '200':
+          description: List of pricing plans
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plans:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SubscriptionPlan'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /plans/{planId}:
+    get:
+      summary: Get pricing plan
+      description: Retrieve a specific pricing plan by ID
+      tags:
+        - Pricing
+      parameters:
+        - name: planId
+          in: path
+          required: true
+          description: Plan ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Pricing plan details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionPlan'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Usage Tracking
+  /usage:
+    get:
+      summary: Get user usage
+      description: Retrieve current usage statistics for the authenticated user
+      tags:
+        - Usage
+      responses:
+        '200':
+          description: User usage statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUsage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /usage/limits:
+    get:
+      summary: Check usage limits
+      description: Check if user can perform an action based on usage limits
+      tags:
+        - Usage
+      parameters:
+        - name: usageType
+          in: query
+          required: true
+          description: Type of usage to check
+          schema:
+            type: string
+            enum: [documents, storage, time_capsules, ai_requests]
+        - name: increment
+          in: query
+          description: Amount to increment usage by
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        '200':
+          description: Usage limit check result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allowed:
+                    type: boolean
+                  currentUsage:
+                    type: integer
+                  limit:
+                    type: integer
+                  percentage:
+                    type: number
+                    minimum: 0
+                    maximum: 100
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Payment Processing
+  /checkout:
+    post:
+      summary: Create checkout session
+      description: Create a Stripe checkout session for subscription
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckoutRequest'
+      responses:
+        '200':
+          description: Checkout session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCheckoutResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /payment-methods:
+    get:
+      summary: List payment methods
+      description: Retrieve user's payment methods
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: List of payment methods
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentMethods:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PaymentMethod'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    post:
+      summary: Add payment method
+      description: Add a new payment method for the user
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPaymentMethodRequest'
+      responses:
+        '201':
+          description: Payment method added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentMethod'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /payment-methods/{paymentMethodId}:
+    delete:
+      summary: Remove payment method
+      description: Remove a payment method
+      tags:
+        - Payments
+      parameters:
+        - name: paymentMethodId
+          in: path
+          required: true
+          description: Payment method ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment method removed successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # A/B Testing
+  /experiments:
+    get:
+      summary: List experiments
+      description: Retrieve all pricing experiments
+      tags:
+        - Experiments
+      parameters:
+        - name: status
+          in: query
+          description: Filter by experiment status
+          schema:
+            type: string
+            enum: [draft, running, paused, completed, cancelled]
+        - name: limit
+          in: query
+          description: Number of results to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          description: Number of results to skip
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of experiments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  experiments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PricingExperiment'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    post:
+      summary: Create experiment
+      description: Create a new pricing experiment
+      tags:
+        - Experiments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExperimentRequest'
+      responses:
+        '201':
+          description: Experiment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricingExperiment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /experiments/{experimentId}:
+    get:
+      summary: Get experiment
+      description: Retrieve a specific experiment by ID
+      tags:
+        - Experiments
+      parameters:
+        - name: experimentId
+          in: path
+          required: true
+          description: Experiment ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Experiment details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricingExperiment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /experiments/{experimentId}/assign:
+    post:
+      summary: Assign user to experiment
+      description: Assign the authenticated user to an experiment variant
+      tags:
+        - Experiments
+      parameters:
+        - name: experimentId
+          in: path
+          required: true
+          description: Experiment ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User assigned to experiment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentAssignmentResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Analytics
+  /analytics/conversion-funnel:
+    get:
+      summary: Get conversion funnel analytics
+      description: Retrieve conversion funnel analytics for a date range
+      tags:
+        - Analytics
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          description: Start date for analytics
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          description: End date for analytics
+          schema:
+            type: string
+            format: date
+        - name: experimentId
+          in: query
+          description: Filter by experiment ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Conversion funnel analytics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionFunnelResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /analytics/revenue:
+    get:
+      summary: Get revenue analytics
+      description: Retrieve revenue and subscription analytics
+      tags:
+        - Analytics
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          description: Start date for analytics
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          description: End date for analytics
+          schema:
+            type: string
+            format: date
+        - name: plan
+          in: query
+          description: Filter by subscription plan
+          schema:
+            type: string
+            enum: [free, essential, family, premium, enterprise]
+        - name: groupBy
+          in: query
+          description: Group results by time period
+          schema:
+            type: string
+            enum: [day, week, month]
+            default: day
+      responses:
+        '200':
+          description: Revenue analytics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analytics:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SubscriptionAnalytics'
+                  summary:
+                    type: object
+                    properties:
+                      totalRevenue:
+                        type: integer
+                      totalMRR:
+                        type: integer
+                      newSubscriptions:
+                        type: integer
+                      cancellations:
+                        type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Health Check
+  /health:
+    get:
+      summary: Health check
+      description: Check API health and status
+      tags:
+        - System
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, unhealthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  services:
+                    type: object
+                    properties:
+                      database:
+                        type: string
+                        enum: [up, down]
+                      stripe:
+                        type: string
+                        enum: [up, down]
+                      redis:
+                        type: string
+                        enum: [up, down]
+        '503':
+          description: API is unhealthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [unhealthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  errors:
+                    type: array
+                    items:
+                      type: string
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    # Core Types
+    UserSubscription:
+      type: object
+      required:
+        - id
+        - userId
+        - planId
+        - status
+        - billingCycle
+        - currentPeriodStart
+        - currentPeriodEnd
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        planId:
+          type: string
+          format: uuid
+        plan:
+          $ref: '#/components/schemas/SubscriptionPlan'
+        status:
+          type: string
+          enum: [active, trialing, past_due, canceled, unpaid, incomplete, incomplete_expired]
+        billingCycle:
+          type: string
+          enum: [month, year]
+        stripeCustomerId:
+          type: string
+        stripeSubscriptionId:
+          type: string
+        stripePriceId:
+          type: string
+        currentPeriodStart:
+          type: string
+          format: date-time
+        currentPeriodEnd:
+          type: string
+          format: date-time
+        trialStart:
+          type: string
+          format: date-time
+        trialEnd:
+          type: string
+          format: date-time
+        canceledAt:
+          type: string
+          format: date-time
+        cancelAtPeriodEnd:
+          type: boolean
+          default: false
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    SubscriptionPlan:
+      type: object
+      required:
+        - id
+        - name
+        - displayName
+        - priceMonthly
+        - priceYearly
+        - features
+        - limits
+        - isActive
+        - sortOrder
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          enum: [free, essential, family, premium, enterprise]
+        displayName:
+          type: string
+        description:
+          type: string
+        priceMonthly:
+          type: integer
+          description: Price in cents
+        priceYearly:
+          type: integer
+          description: Price in cents
+        stripePriceIdMonthly:
+          type: string
+        stripePriceIdYearly:
+          type: string
+        features:
+          $ref: '#/components/schemas/PlanFeatures'
+        limits:
+          $ref: '#/components/schemas/PlanLimits'
+        isActive:
+          type: boolean
+        sortOrder:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PlanFeatures:
+      type: object
+      properties:
+        documents:
+          type: boolean
+        familyMembers:
+          type: boolean
+        basicAi:
+          type: boolean
+        advancedAi:
+          type: boolean
+        emailSupport:
+          type: boolean
+        prioritySupport:
+          type: boolean
+        dedicatedSupport:
+          type: boolean
+        advancedSearch:
+          type: boolean
+        timeCapsules:
+          type: boolean
+        willGeneration:
+          type: boolean
+        professionalNetwork:
+          type: boolean
+        whiteLabel:
+          type: boolean
+        customIntegrations:
+          type: boolean
+        advancedAnalytics:
+          type: boolean
+        mobileApp:
+          type: boolean
+
+    PlanLimits:
+      type: object
+      properties:
+        maxDocuments:
+          type: integer
+          description: -1 for unlimited
+        maxFamilyMembers:
+          type: integer
+          description: -1 for unlimited
+        maxStorageMb:
+          type: integer
+          description: -1 for unlimited
+        maxTimeCapsules:
+          type: integer
+          description: -1 for unlimited
+        maxAiRequestsPerMonth:
+          type: integer
+          description: -1 for unlimited
+
+    UserUsage:
+      type: object
+      required:
+        - id
+        - userId
+        - documentCount
+        - storageUsedMb
+        - timeCapsuleCount
+        - aiRequestsThisMonth
+        - lastResetDate
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        documentCount:
+          type: integer
+        storageUsedMb:
+          type: integer
+        timeCapsuleCount:
+          type: integer
+        aiRequestsThisMonth:
+          type: integer
+        lastResetDate:
+          type: string
+          format: date
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    # Request/Response Types
+    CreateSubscriptionRequest:
+      type: object
+      required:
+        - planId
+        - billingCycle
+      properties:
+        planId:
+          type: string
+          format: uuid
+        billingCycle:
+          type: string
+          enum: [month, year]
+        paymentMethodId:
+          type: string
+        trialDays:
+          type: integer
+          minimum: 0
+          maximum: 30
+
+    CreateSubscriptionResponse:
+      type: object
+      required:
+        - subscription
+      properties:
+        subscription:
+          $ref: '#/components/schemas/UserSubscription'
+        checkoutUrl:
+          type: string
+          format: uri
+        clientSecret:
+          type: string
+
+    UpdateSubscriptionRequest:
+      type: object
+      properties:
+        planId:
+          type: string
+          format: uuid
+        billingCycle:
+          type: string
+          enum: [month, year]
+        prorationBehavior:
+          type: string
+          enum: [create_prorations, none, always_invoice]
+
+    CreateCheckoutRequest:
+      type: object
+      required:
+        - planId
+        - billingCycle
+      properties:
+        planId:
+          type: string
+          format: uuid
+        billingCycle:
+          type: string
+          enum: [month, year]
+        successUrl:
+          type: string
+          format: uri
+        cancelUrl:
+          type: string
+          format: uri
+        trialDays:
+          type: integer
+          minimum: 0
+          maximum: 30
+
+    CreateCheckoutResponse:
+      type: object
+      required:
+        - checkoutUrl
+        - sessionId
+      properties:
+        checkoutUrl:
+          type: string
+          format: uri
+        sessionId:
+          type: string
+
+    PaymentMethod:
+      type: object
+      required:
+        - id
+        - userId
+        - stripePaymentMethodId
+        - type
+        - isDefault
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        stripePaymentMethodId:
+          type: string
+        type:
+          type: string
+          enum: [card, bank_account, sepa_debit]
+        brand:
+          type: string
+        last4:
+          type: string
+        expMonth:
+          type: integer
+        expYear:
+          type: integer
+        isDefault:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    AddPaymentMethodRequest:
+      type: object
+      required:
+        - stripePaymentMethodId
+      properties:
+        stripePaymentMethodId:
+          type: string
+        isDefault:
+          type: boolean
+          default: false
+
+    # A/B Testing Types
+    PricingExperiment:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - variants
+        - successMetrics
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [draft, running, paused, completed, cancelled]
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        trafficAllocation:
+          type: number
+          minimum: 0
+          maximum: 100
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentVariant'
+        successMetrics:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ExperimentVariant:
+      type: object
+      required:
+        - name
+        - trafficAllocation
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        trafficAllocation:
+          type: number
+          minimum: 0
+          maximum: 100
+        pricingChanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/PricingChange'
+        uiChanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/UIChange'
+
+    PricingChange:
+      type: object
+      required:
+        - planId
+      properties:
+        planId:
+          type: string
+          format: uuid
+        priceMonthly:
+          type: integer
+        priceYearly:
+          type: integer
+        discountPercentage:
+          type: number
+          minimum: 0
+          maximum: 100
+        discountAmount:
+          type: integer
+
+    UIChange:
+      type: object
+      required:
+        - element
+        - changeType
+        - value
+      properties:
+        element:
+          type: string
+        changeType:
+          type: string
+          enum: [text, color, layout, visibility]
+        value:
+          type: string
+
+    CreateExperimentRequest:
+      type: object
+      required:
+        - name
+        - variants
+        - successMetrics
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentVariant'
+        successMetrics:
+          type: array
+          items:
+            type: string
+        trafficAllocation:
+          type: number
+          minimum: 0
+          maximum: 100
+          default: 100
+
+    ExperimentAssignmentResponse:
+      type: object
+      required:
+        - experimentId
+        - variantName
+        - isAssigned
+      properties:
+        experimentId:
+          type: string
+          format: uuid
+        variantName:
+          type: string
+        isAssigned:
+          type: boolean
+
+    # Analytics Types
+    ConversionFunnelResponse:
+      type: object
+      required:
+        - steps
+        - totalVisitors
+        - totalConversions
+        - overallConversionRate
+      properties:
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/FunnelStep'
+        totalVisitors:
+          type: integer
+        totalConversions:
+          type: integer
+        overallConversionRate:
+          type: number
+          minimum: 0
+          maximum: 100
+
+    FunnelStep:
+      type: object
+      required:
+        - step
+        - visitors
+        - conversions
+        - conversionRate
+      properties:
+        step:
+          type: string
+          enum: [landing_page, pricing_page, plan_selection, checkout_start, payment_form, payment_complete, subscription_active]
+        visitors:
+          type: integer
+        conversions:
+          type: integer
+        conversionRate:
+          type: number
+          minimum: 0
+          maximum: 100
+
+    SubscriptionAnalytics:
+      type: object
+      required:
+        - id
+        - date
+        - planName
+        - newSubscriptions
+        - cancellations
+        - upgrades
+        - downgrades
+        - revenueCents
+        - mrrCents
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date
+        planName:
+          type: string
+        newSubscriptions:
+          type: integer
+        cancellations:
+          type: integer
+        upgrades:
+          type: integer
+        downgrades:
+          type: integer
+        revenueCents:
+          type: integer
+        mrrCents:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    # Common Types
+    Pagination:
+      type: object
+      required:
+        - limit
+        - offset
+        - total
+        - hasMore
+      properties:
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          type: integer
+        hasMore:
+          type: boolean
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: "VALIDATION_ERROR"
+            message: "Invalid request parameters"
+            details:
+              field: "planId"
+              reason: "Plan ID is required"
+            timestamp: "2024-01-01T00:00:00Z"
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: "UNAUTHORIZED"
+            message: "Authentication required"
+            timestamp: "2024-01-01T00:00:00Z"
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: "FORBIDDEN"
+            message: "Insufficient permissions"
+            timestamp: "2024-01-01T00:00:00Z"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: "NOT_FOUND"
+            message: "Resource not found"
+            timestamp: "2024-01-01T00:00:00Z"
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: "INTERNAL_ERROR"
+            message: "An unexpected error occurred"
+            timestamp: "2024-01-01T00:00:00Z"
+
+tags:
+  - name: Subscriptions
+    description: Subscription management operations
+  - name: Pricing
+    description: Pricing plans and features
+  - name: Usage
+    description: Usage tracking and limits
+  - name: Payments
+    description: Payment processing and billing
+  - name: Experiments
+    description: A/B testing and experiments
+  - name: Analytics
+    description: Analytics and reporting
+  - name: System
+    description: System health and status

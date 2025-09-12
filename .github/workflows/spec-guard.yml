@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Ensure required docs exist
+      - name: Ensure required docs exist and run secret scan
         run: |
           test -f docs/high-level-plan.md || (echo "Missing docs/high-level-plan.md" && exit 1)
           test -f docs/implementation-todo.md || (echo "Missing docs/implementation-todo.md" && exit 1)
@@ -17,6 +17,8 @@ jobs:
           test -d specs || (echo "Missing specs/ directory" && exit 1)
           count=$(ls -1 specs | wc -l)
           [ "$count" -gt 0 ] || (echo "No spec folders under specs/" && exit 1)
+          npm ci
+          npm run scan:secrets
 
       - name: Validate PR body includes phase, acceptance criteria, and Linear issue
         uses: actions/github-script@v7

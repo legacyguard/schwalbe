@@ -26,7 +26,8 @@
     "build:packages": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter='./packages/*'",
     "test:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test --cache-dir=.turbo",
     "lint:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run lint --cache-dir=.turbo",
-    "i18n:check": "node scripts/validate-i18n.mjs"
+    "i18n:check": "node scripts/validate-i18n.mjs",
+    "scan:secrets": "bash scripts/scan-secrets.sh"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.42.0",

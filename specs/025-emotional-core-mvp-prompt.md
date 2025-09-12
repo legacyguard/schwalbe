@@ -3,14 +3,14 @@
 Na základe high-level-plan.md a existujúcich špecifikácií (001-024) vytvor kompletnú sadu dokumentov pre špecifikáciu 025-emotional-core-mvp:
 
 **Krok 1: Analýza a research**
-- Analyzuj high-level-plan.md pre Phase 7 — Emotional Core MVP
+- Analyzuj high-level-plan.md pre Phase 7 — Emotional Core MVP (implementácia v `apps/web-next`)
 - Identifikuj kľúčové komponenty: night sky landing page, Sofia presence, 3-act onboarding, emotional design
 - Nájdi relevantné implementácie v Hollywood codebase (/Users/luborfedak/Documents/Github/hollywood) pre emotional system
 - Identifikuj závislosti na 001-reboot-foundation, 002-hollywood-migration, 005-sofia-ai-system, 006-document-vault, 007-will-creation-system, 008-family-collaboration, 009-professional-network, 010-emergency-access, 011-mobile-app, 012-animations-microinteractions, 013-time-capsule-legacy, 014-pricing-conversion, 015-business-journeys, 016-integration-testing, 017-production-deployment, 018-monitoring-analytics, 019-nextjs-migration, 020-auth-rls-baseline, 021-database-types, 022-billing-stripe, 023-email-resend, 024-i18n-country-rules
 - Zameraj sa na: emotional design, user psychology, engagement metrics, conversion optimization
 
 **Krok 2: Vytvorenie dokumentov**
-Vytvor tieto súbory v `/specs/025-emotional-core-mvp/`:
+Vytvor tieto súbory v `/specs/025-emotional-core-mvp/` (cieľová implementácia v `apps/web-next`):
 
 1. **spec.md** - Hlavná špecifikácia s:
    - Názvom: "Emotional Core MVP - User Experience and Engagement System"

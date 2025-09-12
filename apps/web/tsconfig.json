@@ -4,7 +4,13 @@
     "composite": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@schwalbe/ui": ["./src/stubs/ui/index"],
+      "@schwalbe/ui/*": ["./src/stubs/ui/*"],
+      "@schwalbe/lib/*": ["./src/stubs/lib/*"],
+      "@schwalbe/types/*": ["./src/stubs/types/*"],
+      "@schwalbe/shared/*": ["../../packages/shared/src/*"],
+      "@schwalbe/logic/*": ["../../packages/logic/src/*"]
     }
   },
   "references": [

@@ -7,7 +7,7 @@
 
 ## Directory layout
 
-- apps/web, apps/mobile, apps/demo
+- apps/web-next, apps/web (frozen Vite), apps/mobile, apps/demo
 - packages/ui, packages/logic, packages/shared
 - supabase/ (root; or infrastructure/supabase if we add IaC)
 
@@ -29,8 +29,8 @@
 
 ## App build config
 
-- Vite config per app (`apps/web/vite.config.ts`, etc.).
-- Start with default code-splitting; only add manual chunks after profiling.
+- Web uses Next.js App Router at `apps/web-next` (SSR/RSC, Edge runtime). Do not extend the Vite app (`apps/web`); it is frozen for reference-only and excluded from CI build/typecheck.
+- Start with default Next.js code-splitting; only add custom chunking after profiling.
 - App-local path aliases only.
 
 ## Env & secrets
@@ -48,6 +48,7 @@
 
 - Keep existing Spec Guard workflow.
 - Add `ci.yml`: install, lint, typecheck, unit tests; cache Turbo.
+- Limit CI build/typecheck to packages and `apps/web-next`; exclude `apps/web` (Vite).
 - Optional `e2e.yml` later.
 
 ## Versioning & releases

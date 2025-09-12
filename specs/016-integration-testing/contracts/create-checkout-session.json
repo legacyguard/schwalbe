@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create Checkout Session Contract",
+  "description": "API contract for Stripe checkout session creation",
+  "type": "object",
+  "properties": {
+    "request": {
+      "type": "object",
+      "properties": {
+        "priceId": {
+          "type": "string",
+          "description": "Stripe price ID for the subscription"
+        },
+        "successUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to redirect on successful payment"
+        },
+        "cancelUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to redirect on cancelled payment"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user ID"
+        }
+      },
+      "required": ["priceId", "successUrl", "cancelUrl", "userId"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "description": "Stripe checkout session ID"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Stripe checkout URL"
+        },
+        "expiresAt": {
+          "type": "number",
+          "description": "Session expiration timestamp"
+        }
+      },
+      "required": ["sessionId", "url", "expiresAt"]
+    },
+    "errorResponses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": ["INVALID_PRICE", "USER_NOT_FOUND", "STRIPE_ERROR"]
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "testScenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "request": { "$ref": "#/properties/request" },
+          "expectedResponse": { "$ref": "#/properties/response" },
+          "expectedError": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" }
+            },
+            "required": ["code", "message"],
+            "additionalProperties": false
+          },
+          "databaseAssertions": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

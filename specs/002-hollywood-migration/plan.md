@@ -19,7 +19,7 @@
 
 ### **1.2 Build Tooling**
 
-- Copy Vite configurations from `hollywood/web/vite.config.ts`
+- Do not migrate Vite configurations; target Next.js App Router in `apps/web-next` (see spec 019-nextjs-migration)
 - Port TypeScript Project References setup
 - Migrate ESLint configurations with boundary rules
 - Copy Prettier and other code quality tools
@@ -197,7 +197,7 @@
 ### **6.3 Monitoring & Analytics**
 
 - Copy performance monitoring setup
-- Port error tracking configurations (Sentry)
+- Port error logging to Supabase logs + DB error table; set up Resend alerts (no Sentry)
 - Migrate analytics and usage tracking
 - Copy health check and alerting patterns
 
