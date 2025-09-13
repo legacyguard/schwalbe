@@ -1,0 +1,325 @@
+openapi: 3.0.3
+info:
+  title: Notification Management API
+  description: API for managing user notifications and preferences
+  version: 1.0.0
+  contact:
+    name: LegacyGuard Development Team
+
+servers:
+  - url: /api/notifications
+    description: Notification management API
+
+paths:
+  /preferences:
+    get:
+      summary: Get user notification preferences
+      responses:
+        '200':
+          description: User notification preferences
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+
+    put:
+      summary: Update user notification preferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPreferencesInput'
+      responses:
+        '200':
+          description: Preferences updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+
+  /rules:
+    get:
+      summary: List notification rules
+      parameters:
+        - name: eventType
+          in: query
+          schema:
+            type: string
+        - name: active
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: List of notification rules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NotificationRule'
+
+    post:
+      summary: Create notification rule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRuleInput'
+      responses:
+        '201':
+          description: Rule created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationRule'
+
+  /rules/{id}:
+    get:
+      summary: Get notification rule
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notification rule details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationRule'
+
+    put:
+      summary: Update notification rule
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRuleInput'
+      responses:
+        '200':
+          description: Rule updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationRule'
+
+    delete:
+      summary: Delete notification rule
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Rule deleted
+
+  /send:
+    post:
+      summary: Send notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - eventType
+              properties:
+                userId:
+                  type: string
+                  description: User to notify
+                eventType:
+                  type: string
+                  description: Notification event type
+                data:
+                  type: object
+                  description: Event-specific data
+      responses:
+        '202':
+          description: Notification queued for sending
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deliveryId:
+                    type: string
+                    description: Email delivery ID
+        '400':
+          description: Invalid request
+        '404':
+          description: User not found
+
+  /test:
+    post:
+      summary: Send test notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - eventType
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Test email address
+                eventType:
+                  type: string
+                  description: Notification event type to test
+                data:
+                  type: object
+                  description: Test data for notification
+      responses:
+        '202':
+          description: Test notification sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deliveryId:
+                    type: string
+                    description: Test email delivery ID
+        '400':
+          description: Invalid request
+
+components:
+  schemas:
+    UserPreferences:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        emailNotifications:
+          type: boolean
+        marketingEmails:
+          type: boolean
+        transactionalEmails:
+          type: boolean
+        frequency:
+          type: string
+          enum: [immediate, daily, weekly]
+        categories:
+          type: array
+          items:
+            type: string
+        quietHours:
+          type: object
+          properties:
+            start:
+              type: string
+            end:
+              type: string
+            timezone:
+              type: string
+        timezone:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    UserPreferencesInput:
+      type: object
+      properties:
+        emailNotifications:
+          type: boolean
+        marketingEmails:
+          type: boolean
+        transactionalEmails:
+          type: boolean
+        frequency:
+          type: string
+          enum: [immediate, daily, weekly]
+        categories:
+          type: array
+          items:
+            type: string
+        quietHours:
+          type: object
+          properties:
+            start:
+              type: string
+            end:
+              type: string
+            timezone:
+              type: string
+        timezone:
+          type: string
+
+    NotificationRule:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        eventType:
+          type: string
+        templateId:
+          type: string
+        conditions:
+          type: object
+        schedule:
+          type: object
+        priority:
+          type: string
+          enum: [low, medium, high]
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    NotificationRuleInput:
+      type: object
+      required:
+        - name
+        - eventType
+        - templateId
+      properties:
+        name:
+          type: string
+        eventType:
+          type: string
+        templateId:
+          type: string
+        conditions:
+          type: object
+        schedule:
+          type: object
+        priority:
+          type: string
+          enum: [low, medium, high]
+        isActive:
+          type: boolean

@@ -8,7 +8,7 @@ This guide provides quick start instructions for implementing and testing the Em
 
 ### Development Environment
 
-- Node.js 18+ and pnpm
+- Node.js 18+ and npm
 - Supabase CLI and local development environment
 - Access to Hollywood codebase for reference
 - TypeScript and ESLint configured

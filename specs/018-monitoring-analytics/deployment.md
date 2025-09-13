@@ -517,22 +517,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm'
+cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+run: npm ci
 
       - name: Type check
-        run: pnpm typecheck
+run: npm run typecheck
 
       - name: Lint
-        run: pnpm lint
+run: npm run lint
 
       - name: Test
-        run: pnpm test
+run: npm test
 
       - name: Test monitoring
-        run: pnpm test:monitoring
+run: npm run test:monitoring
 
   deploy-staging:
     needs: test
@@ -784,13 +784,13 @@ supabase functions logs alert-processor
 rm -rf .next node_modules/.cache
 
 # Reinstall dependencies
-pnpm install
+npm ci
 
 # Check TypeScript errors
-pnpm typecheck
+npm run typecheck
 
 # Build with verbose output
-DEBUG=* pnpm build
+DEBUG=* npm run build
 ```
 
 ### Performance Issues

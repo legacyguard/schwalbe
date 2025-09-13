@@ -1,0 +1,62 @@
+name: Build & Auto-Doc
+
+on:
+  push:
+    branches:
+      - "feat/**"
+      - "fix/**"
+
+permissions:
+  contents: write
+
+jobs:
+  autodoc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install & Build
+        run: |
+          npm ci
+          npm run build
+          npm test -- --watch=false
+
+- name: Path filter (skip if only docs/config changed)
+        id: pathfilter
+        run: |
+          CHANGED=$(git diff --name-only HEAD^ HEAD || true)
+          # Match code paths
+          MATCH=$(echo "$CHANGED" | grep -E '^(src|apps|packages|supabase)/' || true)
+          if [ -z "$MATCH" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Agent (generate doc)
+        if: steps.pathfilter.outputs.skip == 'false'
+        env:
+          DOC_AGENT_CMD: ${{ secrets.DOC_AGENT_CMD }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          OUT=$(bash scripts/agent/run-agent.sh --ci || true)
+          echo "$OUT" > agent_out.txt
+          DOC_PATH=$(grep '^DOC_OK:' agent_out.txt | sed 's/DOC_OK://')
+          COMMIT_MSG=$(grep '^COMMIT_MSG:' agent_out.txt | sed 's/COMMIT_MSG://')
+          if [ -n "${DOC_PATH:-}" ] && [ -f "$DOC_PATH" ]; then
+            git add "$DOC_PATH"
+            git config user.name "autodoc-bot"
+            git config user.email "autodoc@bots.local"
+            git commit -m "$COMMIT_MSG" || true
+            git push || true
+          else
+            echo "No DOC_OK path produced; skipping commit."
+          fi

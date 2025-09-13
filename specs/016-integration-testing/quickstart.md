@@ -4,7 +4,7 @@
 
 Configure the complete testing environment for Schwalbe platform:
 
-- Set up Node.js 18+ with pnpm package manager
+- Set up Node.js 18+ with npm (use npm ci for installs)
 - Install Docker and Docker Compose for test databases
 - Configure GitHub repository access and permissions
 - Install Supabase CLI for database management
@@ -161,35 +161,35 @@ Execute the complete testing workflow from setup to validation:
 
 ```bash
 # Run complete test suite
-pnpm test:all
+npm run test:all
 
 # Run with coverage
-pnpm test:coverage
+npm run test:coverage
 
 # Run in CI mode (no watch)
-pnpm test:ci
+npm run test:ci
 ```
 
 #### Run Specific Test Types
 
 ```bash
 # Unit tests only
-pnpm test:unit
+npm run test:unit
 
 # Integration tests only
-pnpm test:integration
+npm run test:integration
 
 # End-to-end tests only
-pnpm test:e2e
+npm run test:e2e
 
 # Performance tests
-pnpm test:performance
+npm run test:performance
 
 # Security tests
-pnpm test:security
+npm run test:security
 
 # Accessibility tests
-pnpm test:accessibility
+npm run test:accessibility
 ```
 
 ### Development Workflow
@@ -198,26 +198,26 @@ pnpm test:accessibility
 
 ```bash
 # Run tests in watch mode during development
-pnpm test:watch
+npm run test:watch
 
 # Run tests for specific package
-pnpm test --filter=@schwalbe/logic
+npm run test -- --filter=@schwalbe/logic
 
 # Run tests with debugging
-pnpm test:debug
+npm run test:debug
 ```
 
 #### Pre-commit Testing
 
 ```bash
 # Run pre-commit checks
-pnpm pre-commit
+npm run pre-commit
 
 # Fix linting issues
-pnpm lint:fix
+npm run lint:fix
 
 # Type check
-pnpm type-check
+npm run type-check
 ```
 
 ## Test Configuration
@@ -488,19 +488,19 @@ export default function () {
 
 ```bash
 # Run test with debug mode
-pnpm test:e2e --debug
+npm run test:e2e -- --debug
 
 # Run specific test file
-pnpm test:e2e tests/e2e/vault.spec.ts
+npm run test:e2e -- tests/e2e/vault.spec.ts
 
 # Run test with headed browser
-HEADLESS=false pnpm test:e2e
+HEADLESS=false npm run test:e2e
 
 # Run test with slow motion
-SLOWMO=1000 pnpm test:e2e
+SLOWMO=1000 npm run test:e2e
 
 # Generate test report
-pnpm test:e2e --reporter=html
+npm run test:e2e -- --reporter=html
 ```
 
 ### Common Debugging Techniques
@@ -509,7 +509,7 @@ pnpm test:e2e --reporter=html
 
 ```bash
 # Run test with inspector
-PWDEBUG=1 pnpm test:e2e
+PWDEBUG=1 npm run test:e2e
 ```
 
 #### Visual Debugging
@@ -642,36 +642,36 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm'
+cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+run: npm ci
 
       - name: Type check
-        run: pnpm type-check
+run: npm run type-check
 
       - name: Lint
-        run: pnpm lint
+run: npm run lint
 
       - name: Unit tests
-        run: pnpm test:unit
+run: npm run test:unit
 
       - name: Integration tests
-        run: pnpm test:integration
+run: npm run test:integration
 
       - name: E2E tests
-        run: pnpm test:e2e
+run: npm run test:e2e
         env:
           TEST_BASE_URL: http://localhost:3000
 
       - name: Performance tests
-        run: pnpm test:performance
+run: npm run test:performance
 
       - name: Security tests
-        run: pnpm test:security
+run: npm run test:security
 
       - name: Accessibility tests
-        run: pnpm test:accessibility
+run: npm run test:accessibility
 
       - name: Upload test results
         uses: actions/upload-artifact@v3
@@ -718,13 +718,13 @@ await page.locator('[data-testid="upload-button"]').click();
 
 ```bash
 # Reset test database
-pnpm db:reset:test
+npm run db:reset:test
 
 # Check database logs
 docker logs test-db
 
 # Verify connection
-pnpm db:ping:test
+npm run db:ping:test
 ```
 
 #### Browser Issues
@@ -768,13 +768,13 @@ test.afterEach(async () => {
 
 ```bash
 # Run only failed tests
-pnpm test:e2e --last-failed
+npm run test:e2e -- --last-failed
 
 # Run tests related to changed files
-pnpm test:e2e --grep="vault"
+npm run test:e2e -- --grep="vault"
 
 # Skip slow tests in development
-pnpm test:e2e --grep-invert="slow"
+npm run test:e2e -- --grep-invert="slow"
 ```
 
 ## Best Practices

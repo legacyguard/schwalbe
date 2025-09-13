@@ -29,7 +29,7 @@ This guide provides comprehensive test scenarios to validate the Next.js migrati
 ```bash
 # Install dependencies
 cd apps/web-next
-npm install
+npm ci
 
 # Start development server
 npm run dev

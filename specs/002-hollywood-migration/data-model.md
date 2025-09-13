@@ -74,7 +74,7 @@ interface I18nService {
 }
 
 interface Locale {
-  language: string; // 'en', 'cs', 'sk'
+  language: string; // 'en', 'cs', 'sk', 'de', 'uk'
   country: string;  // 'US', 'CZ', 'SK'
   jurisdiction: LegalJurisdiction;
 }
@@ -86,7 +86,7 @@ interface Locale {
 
 ```mermaid
 graph TD
-  A[apps/web] --> B[@schwalbe/ui]
+  A[apps/web-next] --> B[@schwalbe/ui]
   A --> C[@schwalbe/shared]
   A --> D[@schwalbe/logic]
   
@@ -157,7 +157,7 @@ interface FeatureFlags {
 
 ```typescript
 interface BuildConfig {
-  // Vite configuration
+  // Vite configuration (for Storybook and packages; app uses Next.js)
   vite: {
     plugins: VitePlugin[];
     build: {

@@ -10,7 +10,7 @@
 - Copy battle-tested core packages: `@schwalbe/ui`, `@schwalbe/shared`, `@schwalbe/logic`.
 - Port working CI/CD, testing, and development tooling.
 - Establish security foundations (encryption, auth patterns) from hollywood.
-- Preserve existing i18n system (EN/CS/SK) with legal terminology.
+- Preserve and adapt i18n for MVP (EN/CS/SK/DE/UK) with legal terminology; prepare production target of 34 languages per i18n matrix doc.
 
 ### Core packages and integrations to include
 
@@ -35,7 +35,7 @@ Note: While deep product integrations are not fully implemented here, we must mi
 - [ ] Core packages structure validated: UI components, shared services, business logic
 - [ ] Build tooling verified: Turbo pipelines, TypeScript Project References, ESLint configs
 - [ ] Security patterns established: client-side encryption, zero-knowledge architecture  
-- [ ] i18n system migrated: translation files, localization utilities, jurisdiction-aware content
+- [ ] i18n system migrated: MVP languages (EN/CS/SK/DE/UK) translation files, localization utilities, jurisdiction-aware content; production target (34 languages) prepared with validation tooling
 - [ ] Notifications/email foundations migrated: template engine, provider adapter, send pipeline
 - [ ] OCR/AI foundations migrated: service interface, job queue pattern, parsers
 - [ ] Storybook configured for `@schwalbe/ui` with key stories and docs
@@ -63,6 +63,9 @@ Note: While deep product integrations are not fully implemented here, we must mi
 - Stripe test vs live data → Provide strict environment separation and seeded products/prices
 
 ## References
+
+- See `../ORDER.md` for canonical execution order of all specs.
+- See `../../docs/i18n/matrix.md` for the i18n language matrix (MVP 5, production 34).
 
 - Hollywood monorepo at `/Users/luborfedak/Documents/Github/hollywood`
 - 001-reboot-foundation spec for monorepo standards

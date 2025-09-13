@@ -43,6 +43,11 @@
 
 - See 004-dead-man-switch/spec.md for emergency system scope depending on this foundation.
 
+## References
+
+- See `../ORDER.md` for canonical execution order of all specs.
+- See `../../docs/i18n/matrix.md` for the i18n language matrix (MVP 5, production 34).
+
 ## Linked design docs
 
 - See `research.md` for concise scope and feature mapping.

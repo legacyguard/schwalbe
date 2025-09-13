@@ -1,4 +1,4 @@
-# Schwalbe: Auth + RLS Baseline (Clerk + Supabase)
+# Auth + RLS Baseline - Clerk Authentication and Supabase RLS
 
 - Implementation of Phase 2 — Auth + RLS Baseline from high-level-plan.md
 - Clerk authentication integration with Supabase Row Level Security
@@ -7,75 +7,37 @@
 
 ## Goals
 
-### Core Authentication Implementation
-
-- **Clerk Provider Integration**: Complete Clerk authentication setup in apps/web-next with provider, middleware, and session helpers
-- **Supabase RLS Policies**: Port and implement Clerk-friendly RLS policies for all database tables and storage buckets
-- **Session Management**: Implement secure session handling with JWT token management and automatic refresh
-- **Access Control**: Establish role-based access control with proper permission inheritance and security boundaries
-
-### Database Security Foundation
-
-- **RLS Policy Implementation**: Create comprehensive Row Level Security policies ensuring users can only access their own data
-- **Storage Security**: Implement secure file storage policies with user-based access control and encryption
-- **Claims Mapping**: Verify proper JWT claims mapping between Clerk and Supabase auth.uid()
-- **Audit Logging**: Establish comprehensive audit trails for authentication and access events
-
-### Vertical Slice Implementation
-
-- **Profile Table CRUD**: Implement complete Profile table with read/write operations behind RLS
-- **Authentication Flow**: Build sign-in/sign-up/sign-out flows with proper error handling
-- **Session Persistence**: Ensure sessions persist across browser refreshes and tabs
-- **Security Testing**: Implement automated security validation and penetration testing
-
-### Integration Requirements
-
-- **Middleware Integration**: Configure Clerk middleware for route protection and session validation
-- **Server Helpers**: Implement server-side session helpers for API routes and server components
-- **Error Handling**: Comprehensive error handling for authentication failures and network issues
-- **Performance Optimization**: Ensure authentication operations are performant and don't impact user experience
+- **Clerk Authentication Integration**: Comprehensive user management with email/password, OAuth providers, and JWT token handling
+- **Supabase RLS Policies & Enforcement**: Database-level security with claims mapping, policy validation, and data isolation
+- **Session Management & Token Handling**: Secure session persistence, automatic token refresh, and concurrent session control
+- **Access Control & Permission System**: Role-based access control with granular permissions and inheritance rules
+- **Role Management & User Roles**: Hierarchical role system with assignment, expiration, and audit trails
+- **Security Hardening & Vulnerability Scanning**: CSP, rate limiting, penetration testing, and automated security monitoring
+- **Auth Testing & Validation**: Comprehensive E2E testing, RLS policy validation, and security testing automation
+- **Auth Analytics & Monitoring**: Real-time auth metrics, performance tracking, and security event logging
+- **Auth Performance Optimization**: Sub-second response times, caching strategies, and database query optimization
+- **Auth Accessibility & Compliance**: WCAG 2.1 AA compliance, GDPR compliance, and international accessibility standards
+- Port Hollywood auth system patterns and middleware implementation
+- Vertical slice: "Profile" table read/write behind RLS policies
 
 ## Non-Goals (out of scope)
 
-- Advanced authentication features (MFA, social logins beyond Google)
-- Custom authentication UI (using Clerk's pre-built components)
-- Third-party identity providers beyond Google OAuth
-- Complex role hierarchies (basic user/admin roles only)
-- Real-time session synchronization across devices
-- Legacy authentication system migration (fresh Clerk implementation)
+- Custom authentication UI components (use Clerk's built-in components)
+- Complex role-based access control (RBAC) hierarchies beyond basic user/admin
+- Enterprise single sign-on (SSO) integrations
+- Multi-factor authentication (MFA) beyond Clerk's built-in options
+- Real-time session synchronization across multiple devices
 
 ## Review & Acceptance
 
-### Phase 2 Quality Gates (from high-level-plan.md)
-
-- [ ] **Web Integration**: Clerk provider + middleware; server helpers for session working
-- [ ] **Database Security**: Clerk-friendly RLS and storage policies implemented; claims mapping verified
-- [ ] **Vertical Slice**: Profile table read/write behind RLS functional
-- [ ] **Quality Assurance**: Local + preview auth works; RLS test suite green
-
-### Technical Implementation Acceptance
-
-- [ ] **Clerk Setup**: Complete Clerk application configuration with proper keys and settings
-- [ ] **Provider Integration**: ClerkProvider properly configured in Next.js App Router
-- [ ] **Middleware**: Route protection middleware implemented and tested
-- [ ] **Session Management**: Secure session handling with automatic token refresh
-- [ ] **RLS Policies**: All database tables have proper RLS policies implemented
-- [ ] **Storage Policies**: Supabase Storage buckets secured with user-based policies
-- [ ] **Profile CRUD**: Complete Profile table operations with proper security
-- [ ] **Error Handling**: Comprehensive error handling for auth failures
-- [ ] **Testing**: Automated test suite covering auth flows and RLS policies
-- [ ] **Security Audit**: Security review completed with no critical vulnerabilities
-- [ ] **Performance**: Authentication operations meet performance benchmarks
-- [ ] **Documentation**: Complete API documentation and integration guides
-
-### Integration Acceptance
-
-- [ ] **Next.js Compatibility**: Full compatibility with Next.js 14+ App Router
-- [ ] **Supabase Integration**: Seamless integration with existing Supabase setup
-- [ ] **Type Safety**: Complete TypeScript integration with proper type definitions
-- [ ] **Environment Config**: Proper environment variable validation and security
-- [ ] **CI/CD Integration**: Automated testing and deployment validation
-- [ ] **Monitoring**: Authentication events properly logged and monitored
+- [ ] Clerk authentication integration with Next.js App Router
+- [ ] Supabase RLS policies implemented and tested for all tables
+- [ ] Session management with secure token handling and refresh
+- [ ] Access control system with role-based permissions
+- [ ] Security hardening with vulnerability scanning completed
+- [ ] Performance optimization for authentication operations
+- [ ] Comprehensive testing including E2E authentication flows (17 tasks: T2000-T2016)
+- [ ] Audit logging and security monitoring operational
 
 ## Dependencies
 
@@ -156,55 +118,62 @@
 
 ## Risks & Mitigations
 
-### Authentication Reliability
+- Authentication service outages → Implement fallback mechanisms and error recovery
+- RLS policy bypass → Comprehensive policy testing and security audits
+- Session hijacking → Secure session management and token validation
+- Performance degradation → Optimize authentication operations and caching
+- Integration complexity → Thorough testing of Clerk and Supabase compatibility
+- Security vulnerabilities → Regular security audits and vulnerability scanning
 
-- **Clerk Service Outages**: Implement fallback authentication mechanisms and clear user communication
-- **Token Expiration Issues**: Automatic token refresh with proper error handling and user re-authentication
-- **Network Connectivity**: Offline authentication support and graceful degradation
+## Hollywood Auth System Integration
 
-### Security Vulnerabilities
+**Key Components to Port:**
 
-- **JWT Token Exposure**: Secure token storage, HTTPS enforcement, and proper CORS configuration
-- **RLS Policy Bypass**: Comprehensive policy testing, security audits, and access control validation
-- **Session Hijacking**: Secure session management, proper logout handling, and device tracking
+- Clerk provider configuration and middleware patterns
+- Authentication state management and session handling
+- User profile management with RLS policies
+- Security hardening measures and audit logging
+- Error handling and user feedback patterns
 
-### Performance Impact
+**Migration Assets:**
 
-- **Authentication Overhead**: Optimize token validation, caching strategies, and database query performance
-- **Session Management Load**: Efficient session storage and cleanup mechanisms
-- **Middleware Performance**: Lightweight middleware implementation with minimal latency
-
-### Integration Complexity
-
-- **Next.js Compatibility**: Thorough testing of App Router integration and server component compatibility
-- **Supabase Integration**: Proper JWT token injection and RLS policy synchronization
-- **Type Safety**: Complete TypeScript integration with proper type definitions and validation
+- Authentication middleware and route protection
+- Session management utilities and helpers
+- User profile CRUD operations with security
+- Audit logging and security event tracking
+- Error handling and recovery flows
 
 ## References
 
-- **High-level Plan**: `../../docs/high-level-plan.md` (Phase 2 — Auth + RLS Baseline)
-- **Hollywood Auth Implementation**: `/Users/luborfedak/Documents/Github/hollywood` (Clerk + RLS patterns)
-- **Clerk Documentation**: Official Clerk authentication and session management docs
-- **Supabase RLS**: Row Level Security documentation and best practices
-- **Next.js Auth**: Next.js authentication patterns and middleware implementation
-- **JWT Security**: JSON Web Token security best practices and implementation
-- **OAuth 2.0**: OAuth 2.0 specification and security considerations
+- Hollywood auth implementation (`/Users/luborfedak/Documents/Github/hollywood`)
+- Clerk documentation and authentication patterns
+- Supabase RLS documentation and security best practices
+- Next.js authentication integration guides
+- JWT security standards and token management
+- Phase 2 requirements from high-level-plan.md
 
 ## Cross-links
 
-- See `../001-reboot-foundation/spec.md` for monorepo architecture and build system
-- See `../002-hollywood-migration/spec.md` for core package migration and shared services
-- See `../019-nextjs-migration/spec.md` for Next.js App Router setup and SSR foundation
-- See `../006-document-vault/spec.md` for storage security patterns and integration
-- See `../008-family-collaboration/spec.md` for guardian access control integration
-- See `../010-emergency-access/spec.md` for emergency authentication flows
-- See `../016-integration-testing/spec.md` for testing infrastructure and validation
+- See 001-reboot-foundation/spec.md for monorepo foundation and governance
+- See 002-hollywood-migration/spec.md for core packages and shared services
+- See 005-sofia-ai-system/spec.md for AI-powered user guidance integration
+- See 006-document-vault/spec.md for encrypted storage and key management
+- See 007-will-creation-system/spec.md for legal document access control
+- See 008-family-collaboration/spec.md for guardian network and permissions
+- See 009-professional-network/spec.md for professional user authentication
+- See 010-emergency-access/spec.md for crisis response and access protocols
+- See 011-mobile-app/spec.md for cross-platform authentication
+- See 012-animations-microinteractions/spec.md for authentication UI feedback
+- See 013-time-capsule-legacy/spec.md for legacy content access security
+- See 014-pricing-conversion/spec.md for subscription-based access control
+- See 015-business-journeys/spec.md for user journey authentication flows
+- See 016-integration-testing/spec.md for comprehensive auth testing
+- See 017-production-deployment/spec.md for production security and monitoring
+- See 018-monitoring-analytics/spec.md for authentication analytics and insights
+- See 019-nextjs-migration/spec.md for Next.js App Router auth integration
 
 ## Linked design docs
 
-- See `research.md` for technical architecture analysis and Hollywood implementation review
-- See `data-model.md` for database schema, API contracts, and type definitions
-- See `plan.md` for detailed implementation phases and quality gates
-- See `tasks.md` for ordered development checklist and acceptance criteria
-- See `quickstart.md` for authentication setup and testing guide
-- See `contracts/` for interface definitions and type contracts
+- See `research.md` for technical analysis
+- See `data-model.md` for data structures
+- See `quickstart.md` for testing scenarios

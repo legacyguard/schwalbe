@@ -214,7 +214,6 @@ Migrate Hollywood monitoring configuration:
 // Hollywood configuration (packages/shared/src/config/monitoring.ts)
 export const HOLLYWOOD_MONITORING_CONFIG = {
   enabled: process.env.MONITORING_ENABLED === 'true',
-  sentryDSN: process.env.SENTRY_DSN,
   logLevel: process.env.LOG_LEVEL || 'info',
   sampleRate: parseFloat(process.env.SAMPLE_RATE || '1.0'),
 };
@@ -225,7 +224,7 @@ export const SCHWALBE_MONITORING_CONFIG = {
   environment: process.env.NODE_ENV || 'development',
   retentionDays: parseInt(process.env.RETENTION_DAYS || '90'),
   sampleRate: HOLLYWOOD_MONITORING_CONFIG.sampleRate,
-  // Remove Sentry, add Supabase and Resend
+// Remove legacy vendor, add Supabase and Resend
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
   supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   resendKey: process.env.RESEND_API_KEY,
@@ -316,8 +315,8 @@ Migrate Hollywood monitoring UI components:
 // Hollywood: packages/ui/src/components/ErrorBoundary.tsx
 export class HollywoodErrorBoundary extends React.Component {
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Hollywood error reporting (Sentry)
-    Sentry.captureException(error, { contexts: errorInfo });
+    // Hollywood error reporting (legacy vendor)
+    LegacyErrorReporter.captureException(error, { contexts: errorInfo });
   }
 }
 
@@ -1246,16 +1245,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm'
+cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+run: npm ci
 
       - name: Run tests
-        run: pnpm test
+run: npm run lighthouse
 
       - name: Run monitoring tests
-        run: pnpm test:monitoring
+run: npm run test:monitoring
 
       - name: Health check
         run: curl -f https://api-staging.schwalbe.dev/health

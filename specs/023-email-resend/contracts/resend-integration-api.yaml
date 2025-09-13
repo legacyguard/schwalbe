@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info:
+  title: Resend Integration API
+  description: API for integrating with Resend email service
+  version: 1.0.0
+  contact:
+    name: LegacyGuard Development Team
+
+servers:
+  - url: https://api.resend.com
+    description: Resend API server
+
+paths:
+  /emails:
+    post:
+      summary: Send email
+      description: Send an email through Resend API
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - from
+                - to
+                - subject
+              properties:
+                from:
+                  type: string
+                  format: email
+                  description: Sender email address
+                to:
+                  oneOf:
+                    - type: string
+                      format: email
+                    - type: array
+                      items:
+                        type: string
+                        format: email
+                  description: Recipient email address(es)
+                subject:
+                  type: string
+                  description: Email subject
+                html:
+                  type: string
+                  description: HTML email content
+                text:
+                  type: string
+                  description: Plain text email content
+                reply_to:
+                  type: string
+                  format: email
+                  description: Reply-to email address
+                cc:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+                  description: CC recipients
+                bcc:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+                  description: BCC recipients
+                attachments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      filename:
+                        type: string
+                      content:
+                        type: string
+                      contentType:
+                        type: string
+                  description: Email attachments
+      responses:
+        '200':
+          description: Email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Resend message ID
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Resend API key authentication

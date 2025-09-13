@@ -8,7 +8,7 @@ This guide provides step-by-step instructions for setting up and testing the Pri
 
 ### Required Dependencies
 
-- **Node.js 18+** and **pnpm** package manager
+- **Node.js 18+** and **npm** (use npm ci for installs)
 - **Supabase CLI** for database management
 - **Stripe CLI** for webhook testing
 - **Git** for version control
@@ -45,10 +45,10 @@ git clone https://github.com/your-org/schwalbe.git
 cd schwalbe
 
 # Install dependencies
-pnpm install
+npm ci
 
 # Build packages
-pnpm build
+npm run build
 ```
 
 ### 2. Environment Variables
@@ -270,7 +270,7 @@ FROM subscription_plans sp;
 
 ```bash
 # Start the development server
-pnpm dev
+npm run dev
 
 # The application will be available at http://localhost:3000
 ```
@@ -298,29 +298,29 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 
 ```bash
 # Run unit tests
-pnpm test
+npm test
 
 # Run tests with coverage
-pnpm test:coverage
+npm run test:coverage
 
 # Run specific test suites
-pnpm test -- --testPathPattern=pricing
-pnpm test -- --testPathPattern=subscription
-pnpm test -- --testPathPattern=usage
+npm test -- --testPathPattern=pricing
+npm test -- --testPathPattern=subscription
+npm test -- --testPathPattern=usage
 ```
 
 ### 2. Integration Testing
 
 ```bash
 # Run integration tests
-pnpm test:integration
+npm run test:integration
 
 # Run end-to-end tests
-pnpm test:e2e
+npm run test:e2e
 
 # Run specific integration tests
-pnpm test:integration -- --testNamePattern="pricing flow"
-pnpm test:integration -- --testNamePattern="subscription management"
+npm run test:integration -- --testNamePattern="pricing flow"
+npm run test:integration -- --testNamePattern="subscription management"
 ```
 
 ### 3. Manual Testing
@@ -440,7 +440,7 @@ curl https://staging.schwalbe.app/api/health
 vercel --target production
 
 # Run production smoke tests
-pnpm test:production
+npm run test:production
 
 # Verify production environment
 curl https://schwalbe.app/api/health
@@ -470,7 +470,7 @@ supabase db diff --project-ref your-production-ref
 
 ```bash
 # Install monitoring tools
-pnpm add @vercel/analytics @vercel/speed-insights
+npm install @vercel/analytics @vercel/speed-insights
 
 # Configure monitoring
 echo "NEXT_PUBLIC_VERCEL_ANALYTICS_ID=your_analytics_id" >> .env.production
@@ -537,23 +537,23 @@ stripe payment_intents create --amount 2000 --currency usd
 
 ```bash
 # Enable debug logging
-DEBUG=stripe,supabase,schwalbe:* pnpm dev
+DEBUG=stripe,supabase,schwalbe:* npm run dev
 
 # Enable Stripe debug mode
-STRIPE_DEBUG=true pnpm dev
+STRIPE_DEBUG=true npm run dev
 ```
 
 ### Performance Issues
 
 ```bash
 # Profile application performance
-pnpm build && pnpm start
+npm run build && npm start
 
 # Check bundle size
-pnpm analyze
+npm run analyze
 
 # Test performance
-pnpm test:performance
+npm run test:performance
 ```
 
 ## Security Checklist
@@ -605,10 +605,10 @@ stripe events list --limit 1000 > stripe_events.json
 
 ```bash
 # Update dependencies
-pnpm update
+npm update
 
 # Run tests after updates
-pnpm test
+npm test
 
 # Deploy updates
 vercel --target production

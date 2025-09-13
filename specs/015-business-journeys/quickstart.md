@@ -6,7 +6,7 @@ This guide provides step-by-step instructions for setting up, testing, and valid
 
 ### System Requirements
 
-- Node.js 18+ and pnpm
+- Node.js 18+ and npm (use npm ci for installs)
 - Supabase project with migrations applied
 - Clerk authentication configured
 - Stripe billing integration
@@ -387,19 +387,19 @@ expect(proEndToEnd.firstAssignmentProcessed).toBe(true);
 
 ```bash
 # Install dependencies
-pnpm install
+npm ci
 
 # Set up test database
-pnpm run db:setup:test
+npm run db:setup:test
 
 # Run migrations
-pnpm run db:migrate
+npm run db:migrate
 
 # Seed test data
-pnpm run db:seed:test
+npm run db:seed:test
 
 # Start development server
-pnpm run dev
+npm run dev
 ```
 
 ### Test Data Generation

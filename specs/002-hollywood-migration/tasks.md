@@ -27,7 +27,7 @@
 - [ ] T112a Copy ESLint config with boundary rules; adapt for `@schwalbe/*` packages
 - [ ] T112b Copy Prettier configuration and code formatting rules
 - [ ] T112c Port PostCSS and Tailwind configurations
-- [ ] T112d Copy Vite base configuration patterns
+- [ ] T112d Copy Vite base configuration patterns for Storybook and packages only; do not migrate app-level Vite configs
 
 ### T113 Development Tooling
 
@@ -108,11 +108,12 @@
 
 ### T132 Translation Content
 
-- [ ] T132a Copy core UI translations for EN/CS/SK languages
+- [ ] T132a Copy core UI translations for MVP languages (EN/CS/SK/DE/UK)
 - [ ] T132b Port legal terminology and jurisdiction-aware content
 - [ ] T132c Copy form labels, validation messages, and error text
 - [ ] T132d Port system notifications and user-facing messages
 - [ ] T132e Validate translation completeness and consistency
+- [ ] T132f Align with production target of 34 languages per i18n matrix doc (`docs/i18n/matrix.md`) and plan content gaps
 
 ### T133 Localization Features
 
@@ -125,6 +126,12 @@
 
 - [ ] T133e1 Ensure templates support i18n with parameters
 - [ ] T133e2 Configure Storybook locale switching and previews
+
+#### T133f Country-specific language policy validation
+
+- [ ] T133f1 Enforce removal of Russian from Germany and Ukrainian from Iceland/Liechtenstein
+- [ ] T133f2 Apply rule: replace Russian with Ukrainian for specified countries
+- [ ] T133f3 Validate language availability per domain against the matrix doc (`docs/i18n/matrix.md`)
 
 ## T140 Security & Encryption Migration
 
@@ -177,6 +184,7 @@
 - [ ] T154b Tests for OCR/AI parsing pipelines (fixtures)
 - [ ] T154c Tests for Stripe helpers with mocked SDK
 - [ ] T154d Storybook locale switching snapshots
+- [ ] T154e i18n policy tests enforcing country-language rules and MVP language completeness
 
 ### T153 Quality Gates
 
@@ -204,7 +212,7 @@
 ### T163 Monitoring & Analytics
 
 - [ ] T163a Copy performance monitoring setup and configurations
-- [ ] T163b Port error tracking configurations (Sentry or similar)
+- [ ] T163b Migrate error tracking: Supabase Edge Logs + DB error_events table + Resend alerts (no Sentry)
 - [ ] T163c Copy analytics and usage tracking patterns
 - [ ] T163d Port health check and alerting configurations
 

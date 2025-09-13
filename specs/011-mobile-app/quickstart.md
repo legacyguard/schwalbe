@@ -26,16 +26,16 @@ git clone https://github.com/your-org/schwalbe.git
 cd schwalbe
 
 # Install dependencies
-pnpm install
+npm ci
 
 # Navigate to mobile app
 cd apps/mobile
 
 # Install mobile dependencies
-pnpm install
+npm ci
 
 # Start Expo development server
-pnpm start
+npm start
 ```
 
 ### Hollywood Mobile Integration

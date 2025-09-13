@@ -19,7 +19,7 @@
 
 ### **1.2 Build Tooling**
 
-- Do not migrate Vite configurations; target Next.js App Router in `apps/web-next` (see spec 019-nextjs-migration)
+- Do not migrate Vite app configurations; target Next.js App Router in `apps/web-next` (see 001-reboot-foundation and 019-nextjs-migration for baselines)
 - Port TypeScript Project References setup
 - Migrate ESLint configurations with boundary rules
 - Copy Prettier and other code quality tools
@@ -96,7 +96,7 @@
 
 ### **3.2 Translation Content**
 
-- Copy core UI translations (EN/CS/SK)
+- Copy core UI translations for MVP (EN/CS/SK/DE/UK); prepare production set for 34 languages per i18n matrix doc
 - Port legal terminology and jurisdiction-aware content
 - Migrate form labels, validation messages
 - Copy error messages and system notifications

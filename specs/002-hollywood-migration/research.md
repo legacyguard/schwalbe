@@ -91,7 +91,7 @@ hollywood/
 
 - **React 18.3**: Stable version with Concurrent Features
 - **TypeScript**: Strict mode with Project References
-- **Vite**: Fast build tool with optimized configs
+- **Next.js App Router**: Web app framework (SSR/RSC). Vite is used for Storybook builder only.
 - **TailwindCSS**: Utility-first styling
 - **Turborepo**: Monorepo orchestration
 - **Supabase**: PostgreSQL with real-time features
@@ -105,7 +105,7 @@ hollywood/
 
 ### **Internationalization** ✅ *Comprehensive*
 
-- **26 languages supported**: Full European coverage
+- **Production target: 34 languages** per matrix; **MVP languages**: EN/CS/SK/DE/UK
 - **Legal compliance**: Country-specific legal terminology
 - **Dynamic loading**: Performance-optimized language switching
 - **Jurisdiction awareness**: Legal content varies by country
@@ -145,7 +145,7 @@ hollywood/
 
 **Quality**: ⭐⭐⭐⭐⭐ Battle-tested
 
-- Optimized Vite configs
+- Optimized configs: Next.js app (apps/web-next) and Vite for Storybook builder
 - Working Turborepo pipelines
 - Proper TypeScript Project References
 - ESLint boundary enforcement

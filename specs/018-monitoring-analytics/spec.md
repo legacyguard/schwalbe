@@ -18,7 +18,7 @@
 
 ## Non-Goals (out of scope)
 
-- Third-party monitoring services (Sentry replacement with Supabase)
+- No third-party monitoring services; standard is Supabase logs + DB error table + Resend
 - Complex real-time dashboards (lightweight health monitoring only)
 - Advanced analytics processing (basic event tracking and aggregation)
 - External data export capabilities (internal monitoring only)

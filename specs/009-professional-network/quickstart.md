@@ -8,7 +8,7 @@ This guide provides quick start instructions for implementing and testing the Pr
 
 ### System Requirements
 
-- Node.js 18+ and pnpm
+- Node.js 18+ and npm
 - Supabase project with database
 - Stripe account for payments
 - Clerk authentication setup
@@ -23,7 +23,7 @@ git clone https://github.com/your-org/hollywood.git
 
 # Install dependencies
 cd schwalbe
-pnpm install
+npm ci
 
 # Set up environment variables
 cp .env.example .env.local

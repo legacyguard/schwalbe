@@ -269,7 +269,7 @@
 
 ```bash
 # Install dependencies
-pnpm install
+npm ci
 
 # Set up local Supabase
 supabase start
@@ -286,11 +286,11 @@ pnpm test:monitoring
 
 ```bash
 # Deploy to staging
-pnpm run build
-pnpm run deploy:staging
+npm run build
+npm run deploy:staging
 
 # Run integration tests
-pnpm test:e2e:staging
+npm run test:e2e:staging
 
 # Validate monitoring setup
 curl https://staging-api.schwalbe.dev/health
@@ -300,8 +300,8 @@ curl https://staging-api.schwalbe.dev/health
 
 ```bash
 # Deploy to production
-pnpm run build
-pnpm run deploy:production
+npm run build
+npm run deploy:production
 
 # Monitor deployment
 # Check monitoring dashboard

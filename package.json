@@ -27,7 +27,10 @@
     "test:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test --cache-dir=.turbo",
     "lint:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run lint --cache-dir=.turbo",
     "i18n:check": "node scripts/validate-i18n.mjs",
-    "scan:secrets": "bash scripts/scan-secrets.sh"
+"scan:secrets": "bash scripts/scan-secrets.sh",
+    "doc:guard": "npm run typecheck && npm run lint && npm test -- --watch=false",
+    "doc:feature": "bash scripts/collect_feature_context.sh && (open docs/_autodoc_context.txt || xdg-open docs/_autodoc_context.txt || echo 'Open docs/_autodoc_context.txt')",
+    "doc:agent": "bash scripts/agent/run-agent.sh"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.42.0",

@@ -2,7 +2,7 @@
 
 ## Workspace manager
 
-- Keep npm workspaces (ok) or switch to pnpm for speed/dedupe. Default: npm.
+- Use npm workspaces. Install with `npm ci` (use `npm install` only when adding new deps). Enforce versions via `.nvmrc` and `engines`.
 - Enforce versions via `.nvmrc` and `engines` in root `package.json`.
 
 ## Directory layout
@@ -41,7 +41,7 @@
 ## Testing
 
 - Unit tests colocated (`src/**/__tests__`).
-- E2E: Playwright under `apps/web/e2e` (and mobile when applicable).
+- E2E: Playwright under `apps/web-next/e2e` (and mobile when applicable).
 - CI runs unit on PR; E2E optional on main/nightly or label-gated.
 
 ## CI/CD

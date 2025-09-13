@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# 1) Gather staged changes
+CHANGED=$(git diff --cached --name-only || true)
+
+# No staged changes -> nothing to do
+if [ -z "$CHANGED" ]; then
+  exit 0
+fi
+
+# 2) Invoke your agent CLI if available (replace with your real CLI)
+if ! command -v your_ide_cli >/dev/null 2>&1; then
+  # Agent CLI not available; skip doc generation
+  exit 0
+fi
+
+# 2.1) Optional local guard: run typecheck, lint, and tests before doc generation
+if ! npm run typecheck >/dev/null 2>&1; then
+  exit 0
+fi
+if ! npm run lint >/dev/null 2>&1; then
+  exit 0
+fi
+if ! npm test -- --watch=false >/dev/null 2>&1; then
+  exit 0
+fi
+
+# 2.2) Call the versioned agent shim
+OUT=$(bash scripts/agent/run-agent.sh --changed "$CHANGED" || true)
+
+DOC_PATH=$(echo "$OUT" | grep '^DOC_OK:' | sed 's/DOC_OK://')
+COMMIT_MSG=$(echo "$OUT" | grep '^COMMIT_MSG:' | sed 's/COMMIT_MSG://')
+
+# 3) Add generated doc to commit
+if [ -n "${DOC_PATH:-}" ] && [ -f "$DOC_PATH" ]; then
+  git add "$DOC_PATH"
+fi
+
+# 4) Provide commit message (Git will use .git/COMMIT_EDITMSG if present)
+if [ -n "${COMMIT_MSG:-}" ]; then
+  echo "$COMMIT_MSG" > .git/COMMIT_EDITMSG
+fi

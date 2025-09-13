@@ -23,7 +23,7 @@
 ## T030 App build configs
 
 - [ ] T031 Approve Next.js App Router for `apps/web-next`; freeze `apps/web` (Vite) and exclude from CI build/typecheck; forbid root cross-app config
-- [ ] T032 Decide on npm vs pnpm; add `.nvmrc` and `engines`
+- [ ] T032 Confirm npm as the package manager; add `.nvmrc` and `engines`
 
 ## T040 Env & secrets policy
 
@@ -32,7 +32,7 @@
 
 ## T050 Testing & CI
 
-- [ ] T051 Approve testing policy: colocated unit tests; Playwright E2E under `apps/web/e2e`
+- [ ] T051 Approve testing policy: colocated unit tests; Playwright E2E under `apps/web-next/e2e`
 - [ ] T052 Approve CI `ci.yml` (install, lint, typecheck, unit) and keep Spec Guard separate
 
 ## T060 Quality gates

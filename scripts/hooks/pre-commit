@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Versioned pre-commit hook (use via core.hooksPath=scripts/hooks)
+
+# 0) Path filter: only run when code changed (src, apps, packages, supabase)
+CHANGED=$(git diff --cached --name-only || true)
+if [ -z "$CHANGED" ]; then
+  exit 0
+fi
+if ! echo "$CHANGED" | grep -E '^(src|apps|packages|supabase)/' >/dev/null 2>&1; then
+  # Skip generating docs for non-code-only commits
+  exit 0
+fi
+
+# 1) Local guard: run typecheck, lint, and tests before doc generation
+if ! npm run typecheck >/dev/null 2>&1; then
+  exit 0
+fi
+if ! npm run lint >/dev/null 2>&1; then
+  exit 0
+fi
+if ! npm test -- --watch=false >/dev/null 2>&1; then
+  exit 0
+fi
+
+# 1.1) Load repo-scoped agent config if DOC_AGENT_CMD is not set
+if [ -z "${DOC_AGENT_CMD:-}" ] && [ -f scripts/agent/.env ]; then
+  # shellcheck disable=SC1091
+  . scripts/agent/.env
+fi
+
+# 2) Call the agent shim
+OUT=$(bash scripts/agent/run-agent.sh --changed "$CHANGED" || true)
+
+DOC_PATH=$(echo "$OUT" | grep '^DOC_OK:' | sed 's/DOC_OK://')
+COMMIT_MSG=$(echo "$OUT" | grep '^COMMIT_MSG:' | sed 's/COMMIT_MSG://')
+
+# 3) Add generated doc to commit
+if [ -n "${DOC_PATH:-}" ] && [ -f "$DOC_PATH" ]; then
+  git add "$DOC_PATH"
+fi
+
+# 4) Provide commit message (Git will use .git/COMMIT_EDITMSG if present)
+if [ -n "${COMMIT_MSG:-}" ]; then
+  echo "$COMMIT_MSG" > .git/COMMIT_EDITMSG
+fi

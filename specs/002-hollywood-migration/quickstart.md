@@ -13,7 +13,7 @@
    ```bash
    git clone <schwalbe-repo>
    cd schwalbe
-   npm install
+   npm ci
    ```
 
 2. **Development Server Start**
@@ -57,7 +57,7 @@
 1. **Create Test Application**
 
    ```bash
-   cd apps/web
+   cd apps/web-next
    npm run dev
    ```
 
@@ -126,7 +126,7 @@
    }
    ```
 
-   - ✅ Translations load for EN/CS/SK languages
+   - ✅ Translations load for EN/CS/SK/DE/UK languages
    - ✅ Language switching works dynamically
    - ✅ Legal terminology displays correctly
 
@@ -234,9 +234,9 @@
 
 1. **Boundary Violation Testing**
 
-   ```typescript
+```typescript
    // This should fail ESLint
-   import { SomethingInternal } from '../../../apps/web/src/internal';
+   import { SomethingInternal } from '../../../apps/web-next/src/internal';
    
    // This should be allowed
    import { Button } from '@schwalbe/ui';
