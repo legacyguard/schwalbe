@@ -155,7 +155,7 @@ export interface RLSPolicies {
     user_update_deployments: {
       table: 'deployments';
       command: 'UPDATE';
-      using: 'auth.uid()::text = triggered_by';
+using: 'app.current_external_id() = triggered_by';
     };
   };
 

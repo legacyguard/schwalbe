@@ -1,4 +1,4 @@
-# Billing (Stripe Integration) - Comprehensive Analysis for 022-billing-stripe
+# Billing (Stripe Integration) - Comprehensive Analysis for 008-billing-stripe
 
 ## Overview
 

@@ -45,6 +45,11 @@
 - Compliance violations → Regular audits and legal review
 - Performance degradation → Caching and optimization strategies
 
+## Security & Compliance
+
+- Secrets: Load Resend API keys via environment variables, validate at runtime (e.g., Zod), never log, and rotate regularly.
+- Webhooks: If using Resend webhooks, enforce signature verification for all webhook handlers.
+
 ## References
 
 - Resend API documentation and best practices
@@ -55,26 +60,27 @@
 
 ## Cross-links
 
+- See ORDER.md for canonical mapping
 - See 001-reboot-foundation/spec.md for infrastructure setup
-- See 002-hollywood-migration/spec.md for migration patterns
-- See 005-sofia-ai-system/spec.md for notification integration
+- See 003-hollywood-migration/spec.md for migration patterns
+- See 031-sofia-ai-system/spec.md for notification integration
 - See 006-document-vault/spec.md for document-related emails
-- See 007-will-creation-system/spec.md for will generation notifications
-- See 008-family-collaboration/spec.md for family invitation emails
-- See 009-professional-network/spec.md for professional notifications
-- See 010-emergency-access/spec.md for emergency access emails
-- See 011-mobile-app/spec.md for mobile notification integration
-- See 012-animations-microinteractions/spec.md for email animations
-- See 013-time-capsule-legacy/spec.md for time capsule notifications
-- See 014-pricing-conversion/spec.md for pricing-related emails
-- See 015-business-journeys/spec.md for business email templates
-- See 016-integration-testing/spec.md for email testing frameworks
-- See 017-production-deployment/spec.md for deployment configuration
-- See 018-monitoring-analytics/spec.md for email analytics
-- See 019-nextjs-migration/spec.md for frontend integration
-- See 020-auth-rls-baseline/spec.md for authentication integration
-- See 021-database-types/spec.md for database schema
-- See 022-billing-stripe/spec.md for billing notification integration
+- See 023-will-creation-system/spec.md and 024-will-generation-engine/spec.md for will-related notifications
+- See 025-family-collaboration/spec.md for family invitation emails
+- See 026-professional-network/spec.md for professional notifications
+- See 020-emergency-access/spec.md for emergency access emails
+- See 029-mobile-app/spec.md for mobile notification integration
+- See 013-animations-microinteractions/spec.md for email animations
+- See 022-time-capsule-legacy/spec.md and 021-time-capsules/spec.md for time capsule notifications
+- See 028-pricing-conversion/spec.md for pricing-related emails
+- See 027-business-journeys/spec.md for business email templates
+- See 004-integration-testing/spec.md for email testing frameworks
+- See 010-production-deployment/spec.md for deployment configuration
+- See 011-monitoring-analytics/spec.md for email analytics
+- See 002-nextjs-migration/spec.md for frontend integration
+- See 005-auth-rls-baseline/spec.md for authentication integration
+- See 015-database-types/spec.md for database schema
+- See 008-billing-stripe/spec.md for billing notification integration
 
 ## Linked design docs
 

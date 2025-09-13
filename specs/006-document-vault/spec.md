@@ -11,7 +11,7 @@
 - Create comprehensive key management system with rotation and recovery
 - Build document versioning and bundle organization system
 - Establish metadata extraction with OCR and AI-powered categorization
-- Implement full-text search across encrypted content
+- Implement privacy-preserving search across encrypted content (client-side tokenization + hashed/salted tokens; no plaintext search on server)
 - Create secure document sharing with granular permissions
 - Integrate with Sofia AI for document insights and user guidance
 - Establish audit logging and compliance features
@@ -79,8 +79,8 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo architecture and build system
-- See 002-hollywood-migration/spec.md for encryption patterns and UI components
-- See 005-sofia-ai-system/spec.md for AI-powered document analysis and user guidance
+- See 003-hollywood-migration/spec.md for encryption patterns and UI components
+- See 031-sofia-ai-system/spec.md for AI-powered document analysis and user guidance
 
 ## Linked design docs
 

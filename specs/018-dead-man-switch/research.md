@@ -20,6 +20,9 @@
 
 ## Decisions
 
-- Supabase as source of truth; RLS-first design.
+- Identity: Supabase Auth is the source of truth (see 020-auth-rls-baseline). If other modules use Clerk, bridge via server-side mapping; keep DMS Supabase-first.
+- RLS-first design across all tables; owner-only by default, with minimal guardian access proved by joins.
+- Tokens are hashed, single-use, and time-limited; no raw tokens stored.
 - Edge Functions for checks; Vercel Cron for schedule.
 - Email first; SMS optional (twilio later).
+- Observability: Supabase logs + email alerts via Resend; no Sentry.

@@ -107,21 +107,21 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for core infrastructure setup
-- See 002-hollywood-migration/spec.md for migration patterns and Hollywood codebase analysis
-- See 005-sofia-ai-system/spec.md for AI integration considerations
+- See 003-hollywood-migration/spec.md for migration patterns and Hollywood codebase analysis
+- See 031-sofia-ai-system/spec.md for AI integration considerations
 - See 006-document-vault/spec.md for secure document handling
-- See 007-will-creation-system/spec.md for legal document generation
-- See 008-family-collaboration/spec.md for family collaboration features
-- See 009-professional-network/spec.md for professional networking
-- See 010-emergency-access/spec.md for emergency access protocols
-- See 011-mobile-app/spec.md for mobile application integration
-- See 012-animations-microinteractions/spec.md for UI animations
-- See 013-time-capsule-legacy/spec.md for time capsule functionality
-- See 014-pricing-conversion/spec.md for pricing and billing
-- See 015-business-journeys/spec.md for business journey flows
-- See 016-integration-testing/spec.md for testing infrastructure
-- See 017-production-deployment/spec.md for deployment requirements
-- See 018-monitoring-analytics/spec.md for monitoring and analytics
+- See 023-will-creation-system/spec.md for legal document generation
+- See 025-family-collaboration/spec.md for family collaboration features
+- See 026-professional-network/spec.md for professional networking
+- See 020-emergency-access/spec.md for emergency access protocols
+- See 029-mobile-app/spec.md for mobile application integration
+- See 013-animations-microinteractions/spec.md for UI animations
+- See 022-time-capsule-legacy/spec.md for time capsule functionality
+- See 028-pricing-conversion/spec.md for pricing and billing
+- See 027-business-journeys/spec.md for business journey flows
+- See 004-integration-testing/spec.md for testing infrastructure
+- See 010-production-deployment/spec.md for deployment requirements
+- See 011-monitoring-analytics/spec.md for monitoring and analytics
 
 ## Linked design docs
 

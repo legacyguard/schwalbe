@@ -106,9 +106,9 @@ This specification defines the comprehensive monitoring and analytics system for
 ### Previous Specifications
 
 - **001-reboot-foundation**: Monorepo architecture and build system
-- **002-hollywood-migration**: Monitoring service migration from Hollywood
-- **005-sofia-ai-system**: AI system monitoring integration
-- **006-document-vault**: Document access analytics
+- **003-hollywood-migration**: Monitoring service migration from Hollywood
+- **031-sofia-ai-system**: AI system monitoring integration
+- **010-production-deployment**: Production monitoring setup
 - **007-will-creation-system**: Will generation tracking
 - **008-family-collaboration**: Family interaction monitoring
 - **009-professional-network**: Professional service analytics

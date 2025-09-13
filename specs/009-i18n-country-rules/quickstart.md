@@ -39,18 +39,18 @@
 
 ## 3) Country Rules Testing - Test country rules
 
-### Scenario: User from Russia accesses the app
+### Scenario: User from Germany accesses the app
 
-- System detects Russian IP address
-- Country rules engine replaces Russian with Ukrainian
-- User sees Ukrainian as available language option
+- System detects German IP address
+- Country rules engine removes Russian language from available options for Germany
+- User does not see Russian as an available language option
 - System ensures minimum 4 languages available
 - Compliance check validates rule application
 
 ### Country Rules Validation Points
 
 - [ ] Country detection works based on IP
-- [ ] Russian→Ukrainian replacement applied correctly
+- [ ] Russian removal rule for Germany applied correctly
 - [ ] Minimum language count maintained
 - [ ] Compliance validation passes
 - [ ] Language selector shows correct options

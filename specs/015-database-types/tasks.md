@@ -19,7 +19,7 @@
 - [ ] Migration tracking operational
 - [ ] Rollback framework functional
 
-**Dependencies**: 001-reboot-foundation, 002-hollywood-migration
+**Dependencies**: 001-reboot-foundation, 003-hollywood-migration
 
 ## T2101: Migration System Core
 

@@ -13,16 +13,14 @@ This directory contains the API contracts for the Stripe billing integration, de
 ### Edge Functions
 
 - [`create-checkout-session.contract.ts`](./create-checkout-session.contract.ts) - Checkout session creation API
-- [`stripe-webhook.contract.ts`](./stripe-webhook.contract.ts) - Webhook event processing API
 
 ### Frontend Integration
 
 - [`checkout-component.contract.ts`](./checkout-component.contract.ts) - Frontend checkout component interface
-- [`subscription-ui.contract.ts`](./subscription-ui.contract.ts) - Subscription management UI contracts
 
 ### Database
 
-- [`billing-database.contract.ts`](./billing-database.contract.ts) - Database schema and query contracts
+- See the data model in [`../data-model.md`](../data-model.md)
 
 ## Usage
 

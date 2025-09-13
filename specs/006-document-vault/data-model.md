@@ -44,7 +44,7 @@ CREATE TABLE documents (
   archived_reason TEXT,
   
   -- Indexes
-  CONSTRAINT documents_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+CONSTRAINT documents_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -60,10 +60,7 @@ CREATE INDEX idx_documents_is_archived ON documents(is_archived);
 CREATE INDEX idx_documents_is_latest_version ON documents(is_latest_version);
 CREATE INDEX idx_documents_encryption_nonce ON documents(encryption_nonce);
 
--- Full-text search index
-CREATE INDEX idx_documents_search ON documents USING GIN(
-  to_tsvector('english', COALESCE(title, '') || ' ' || COALESCE(description, '') || ' ' || COALESCE(ocr_text, ''))
-);
+-- Privacy-preserving search: no plaintext server-side index. See document_search_tokens below.
 ```
 
 #### document_bundles
@@ -87,7 +84,7 @@ CREATE TABLE document_bundles (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   modified_at TIMESTAMPTZ DEFAULT NOW(),
   
-  CONSTRAINT document_bundles_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+CONSTRAINT document_bundles_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -118,7 +115,7 @@ CREATE TABLE user_encryption_keys (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   modified_at TIMESTAMPTZ DEFAULT NOW(),
   
-  CONSTRAINT user_encryption_keys_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+CONSTRAINT user_encryption_keys_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -137,7 +134,7 @@ CREATE TABLE key_rotation_history (
   rotation_reason TEXT NOT NULL,
   rotated_at TIMESTAMPTZ DEFAULT NOW(),
   
-  CONSTRAINT key_rotation_history_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+CONSTRAINT key_rotation_history_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -158,7 +155,7 @@ CREATE TABLE user_key_recovery (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   modified_at TIMESTAMPTZ DEFAULT NOW(),
   
-  CONSTRAINT user_key_recovery_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+CONSTRAINT user_key_recovery_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -181,7 +178,7 @@ CREATE TABLE key_access_logs (
   error_message TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   
-  CONSTRAINT key_access_logs_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+CONSTRAINT key_access_logs_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -192,6 +189,29 @@ CREATE INDEX idx_key_access_logs_success ON key_access_logs(success);
 ```
 
 ### Views and Functions
+
+#### Privacy-Preserving Search Index (Hashed Tokens)
+```sql
+-- Tokens generated client-side by tokenizing plaintext and hashing with a per-user or per-session salt.
+-- Server stores only hashed tokens; no plaintext content or tokens are stored.
+CREATE TABLE document_search_tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  owner_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE,
+  token_hash TEXT NOT NULL,
+  positions INTEGER[],
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (document_id, token_hash)
+);
+
+CREATE INDEX idx_search_tokens_owner_token ON document_search_tokens(owner_id, token_hash);
+
+-- RLS: owner-scoped visibility
+ALTER TABLE document_search_tokens ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "owners_can_manage_token_rows" ON document_search_tokens
+  FOR ALL USING (app.current_external_id() = owner_id)
+  WITH CHECK (app.current_external_id() = owner_id);
+```
 
 #### documents_enhanced view
 ```sql
@@ -764,57 +784,96 @@ interface ProcessingError {
 
 ## Row Level Security (RLS) Policies
 
+### Storage Bucket Policies (user_documents)
+```sql
+-- Users may upload into their own folder prefix only
+CREATE POLICY "users_can_upload_own_storage"
+ON storage.objects FOR INSERT
+WITH CHECK (
+  bucket_id = 'user_documents'
+  AND app.current_external_id() = (storage.foldername(name))[1]
+);
+
+-- Users may read their own objects only
+CREATE POLICY "users_can_read_own_storage"
+ON storage.objects FOR SELECT
+USING (
+  bucket_id = 'user_documents'
+  AND app.current_external_id() = (storage.foldername(name))[1]
+);
+
+-- Users may update their own objects only
+CREATE POLICY "users_can_update_own_storage"
+ON storage.objects FOR UPDATE
+USING (
+  bucket_id = 'user_documents'
+  AND app.current_external_id() = (storage.foldername(name))[1]
+)
+WITH CHECK (
+  bucket_id = 'user_documents'
+  AND app.current_external_id() = (storage.foldername(name))[1]
+);
+
+-- Users may delete their own objects only
+CREATE POLICY "users_can_delete_own_storage"
+ON storage.objects FOR DELETE
+USING (
+  bucket_id = 'user_documents'
+  AND app.current_external_id() = (storage.foldername(name))[1]
+);
+```
+
 ### Documents Table Policies
 ```sql
 -- Users can view their own documents
 CREATE POLICY "Users can view their own documents" ON documents
-  FOR SELECT USING (auth.uid()::text = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 -- Users can insert their own documents
 CREATE POLICY "Users can insert their own documents" ON documents
-  FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+  FOR INSERT WITH CHECK (app.current_external_id() = user_id);
 
 -- Users can update their own documents
 CREATE POLICY "Users can update their own documents" ON documents
-  FOR UPDATE USING (auth.uid()::text = user_id);
+  FOR UPDATE USING (app.current_external_id() = user_id);
 
 -- Users can delete their own documents
 CREATE POLICY "Users can delete their own documents" ON documents
-  FOR DELETE USING (auth.uid()::text = user_id);
+  FOR DELETE USING (app.current_external_id() = user_id);
 ```
 
 ### Document Bundles Table Policies
 ```sql
 -- Users can view their own bundles
 CREATE POLICY "Users can view their own bundles" ON document_bundles
-  FOR SELECT USING (auth.uid()::text = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 -- Users can insert their own bundles
 CREATE POLICY "Users can insert their own bundles" ON document_bundles
-  FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+  FOR INSERT WITH CHECK (app.current_external_id() = user_id);
 
 -- Users can update their own bundles
 CREATE POLICY "Users can update their own bundles" ON document_bundles
-  FOR UPDATE USING (auth.uid()::text = user_id);
+  FOR UPDATE USING (app.current_external_id() = user_id);
 
 -- Users can delete their own bundles
 CREATE POLICY "Users can delete their own bundles" ON document_bundles
-  FOR DELETE USING (auth.uid()::text = user_id);
+  FOR DELETE USING (app.current_external_id() = user_id);
 ```
 
 ### User Encryption Keys Table Policies
 ```sql
 -- Users can view their own encryption keys
 CREATE POLICY "Users can view their own encryption keys" ON user_encryption_keys
-  FOR SELECT USING (auth.uid()::text = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 -- Users can insert their own encryption keys
 CREATE POLICY "Users can insert their own encryption keys" ON user_encryption_keys
-  FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+  FOR INSERT WITH CHECK (app.current_external_id() = user_id);
 
 -- Users can update their own encryption keys
 CREATE POLICY "Users can update their own encryption keys" ON user_encryption_keys
-  FOR UPDATE USING (auth.uid()::text = user_id);
+  FOR UPDATE USING (app.current_external_id() = user_id);
 
 -- Users cannot delete their own encryption keys (prevent accidental deletion)
 CREATE POLICY "Users cannot delete encryption keys" ON user_encryption_keys
@@ -825,7 +884,7 @@ CREATE POLICY "Users cannot delete encryption keys" ON user_encryption_keys
 ```sql
 -- Users can view their own access logs
 CREATE POLICY "Users can view their own access logs" ON key_access_logs
-  FOR SELECT USING (auth.uid()::text = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 -- System can insert access logs
 CREATE POLICY "System can insert access logs" ON key_access_logs

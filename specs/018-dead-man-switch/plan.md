@@ -15,14 +15,15 @@
 
 ## Week-by-Week
 
-- Week 1: Steps 1–2 (Supabase Auth integration, profiles, migrations & RLS)
+- Week 1: Steps 1–2 (Supabase Auth integration, profiles, migrations & RLS). Deliver RLS baseline and initial policy tests (see 020-auth-rls-baseline).
 - Week 2: Steps 3–4 (Guardian flows, email provider integration)
 - Week 3: Steps 5–6 (Activity tracking, inactivity checks with cron)
 - Week 4: Steps 7–8 (Emergency access + encryption, secure links)
-- Week 5: Steps 9–10 (Observability, tests, hardening, launch prep)
+- Week 5: Steps 9–10 (Observability, tests, hardening, launch prep). Ensure logs/dashboard in Supabase and email alerting via Resend (no Sentry).
 
 ## Rollout & Risk
 
 - Feature flags for activation; start with beta users.
 - Backward compatible migrations.
 - Clear incident runbook for false positives.
+- Secrets and tokens handled server-side only; no exposure of service role in client.

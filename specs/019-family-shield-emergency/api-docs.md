@@ -6,15 +6,24 @@ The Family Shield Emergency API provides comprehensive endpoints for managing em
 
 ## Authentication
 
-All API endpoints require authentication using JWT tokens. Emergency-specific endpoints may also accept emergency access tokens.
+All API endpoints require authentication using Supabase Auth JWT tokens. Emergency-specific endpoints may also accept emergency access tokens. Include a correlation ID header on every request.
 
 ```typescript
-// Standard authentication header
+// Standard authentication header (Supabase Auth JWT)
 Authorization: Bearer <jwt_token>
 
 // Emergency access token (alternative for emergency endpoints)
 X-Emergency-Token: <emergency_token>
+
+// Correlation ID for tracing
+X-Request-ID: <uuid>
 ```
+
+Security notes:
+- Emergency tokens must be opaque on the wire and stored as hashed values server-side; never store or log raw tokens.
+- Do not log Authorization or X-Emergency-Token headers.
+- Service role keys must not be present in client environments.
+- See 005-auth-rls-baseline for identity and RLS conventions.
 
 ## Emergency Protocol Endpoints
 

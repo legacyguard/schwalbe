@@ -8,16 +8,20 @@
 
 ## Steps
 
-1) Configure env
+1) Configure env (server-only where applicable)
 
 ```
 SUPABASE_URL=
 SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_SERVICE_ROLE_KEY=   # use ONLY in Edge Functions or server contexts
 EMAIL_PROVIDER=sendgrid|resend
 EMAIL_API_KEY=
 APP_URL=https://your-app
 ```
+
+Notes:
+- Do not expose the service role key to the browser.
+- Use your deployment platform's secret manager for production (see 017-production-deployment).
 
 2) Apply migrations
 
@@ -43,8 +47,14 @@ supabase functions deploy protocol-inactivity-checker
 npm run dev
 ```
 
-6) Verify
+6) Verify security & RLS
 
-- Create user, enable Family Shield
-- Invite guardian (test email)
-- Simulate inactivity and confirm notifications
+- Confirm all DMS tables have RLS enabled.
+- Run RLS tests for owner vs guardian paths.
+- Confirm hashed token storage (no raw tokens in DB).
+
+7) Verify observability
+
+- Trigger a controlled error in an Edge Function; confirm structured log in Supabase logs.
+- Confirm Resend email alert fires for critical failures.
+- Ensure there is no Sentry dependency in the app.

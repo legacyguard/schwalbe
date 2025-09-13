@@ -1,4 +1,4 @@
-# Tasks: 019-nextjs-migration
+# Tasks: 002-nextjs-migration (tasks follow 019 numbering)
 
 ## Ordering & rules
 

@@ -1,4 +1,4 @@
-# Tasks: 022-billing-stripe
+# Tasks: 008-billing-stripe
 
 ## Ordering & rules
 

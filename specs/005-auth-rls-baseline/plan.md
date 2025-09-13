@@ -313,7 +313,7 @@ This implementation plan outlines the phased rollout of Clerk authentication wit
 ### Hard Dependencies
 
 - **001-reboot-foundation:** Monorepo structure and build system
-- **019-nextjs-migration:** Next.js App Router setup
+- **002-nextjs-migration:** Next.js App Router setup
 - **Supabase Project:** Database and storage configured
 - **Clerk Application:** Authentication service ready
 

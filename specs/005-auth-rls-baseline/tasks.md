@@ -28,7 +28,7 @@
 
 - [ ] Install @clerk/nextjs package
 - [ ] Configure ClerkProvider in root layout
-- [ ] Set up environment variables (VITE_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY)
+- [ ] Set up environment variables (NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY)
 - [ ] Create basic authentication components
 - [ ] Configure TypeScript types for Clerk
 - [ ] Test provider initialization and error handling

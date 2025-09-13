@@ -45,7 +45,7 @@ Note: While deep product integrations are not fully implemented here, we must mi
 - [ ] Development workflow functional: dev server, hot reload, debugging tools
 - [ ] CI/CD pipelines active: lint, typecheck, test, build verification
 - [ ] Package boundaries enforced: dependency direction rules, import restrictions
-- [ ] 004 prerequisites satisfied (schemas and functions available for DMS)
+- [ ] 018 prerequisites satisfied (schemas and functions available for DMS)
 
 ## Risks & Mitigations
 
@@ -94,7 +94,7 @@ The following represent differentiated assets to be preserved as patterns and sc
   - Professional network B2B2C monetization
   - Time capsule innovation and legacy features
 
-In 002 we migrate the UI primitives, animation library foundations, event hooks, and service interfaces that these depend on. Concrete product flows are delivered in 003.
+In this phase (003) we migrate the UI primitives, animation library foundations, event hooks, and service interfaces that these depend on. Concrete product flows are delivered in downstream specs.
 
 ## Business philosophy, customer journeys, pricing
 
@@ -103,4 +103,4 @@ In 002 we migrate the UI primitives, animation library foundations, event hooks,
 
 ## Cross-links
 
-- Downstream: `../004-dead-man-switch/`
+- Downstream: `../018-dead-man-switch/`

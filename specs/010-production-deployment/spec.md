@@ -2,7 +2,7 @@
 
 - Implementation of comprehensive production deployment system for Schwalbe platform
 - Builds on Hollywood's proven deployment infrastructure with enhanced security, monitoring, and automation
-- Prerequisites: 001-reboot-foundation, 002-hollywood-migration, 005-sofia-ai-system, 006-document-vault, 007-will-creation-system, 008-family-collaboration, 009-professional-network, 010-emergency-access, 011-mobile-app, 012-animations-microinteractions, 013-time-capsule-legacy, 014-pricing-conversion, 015-business-journeys, 016-integration-testing completed
+- Prerequisites: 001-reboot-foundation, 003-hollywood-migration, 031-sofia-ai-system, 006-document-vault, 023-will-creation-system, 025-family-collaboration, 026-professional-network, 020-emergency-access, 029-mobile-app, 013-animations-microinteractions, 022-time-capsule-legacy, 028-pricing-conversion, 027-business-journeys, 004-integration-testing completed
 
 ## Goals
 
@@ -131,19 +131,19 @@
 ## Cross-links
 
 - See `../001-reboot-foundation/spec.md` for monorepo architecture and build system
-- See `../002-hollywood-migration/spec.md` for core package migration and shared services
-- See `../005-sofia-ai-system/spec.md` for AI-powered guidance integration
+- See `../003-hollywood-migration/spec.md` for core package migration and shared services
+- See `../031-sofia-ai-system/spec.md` for AI-powered guidance integration
 - See `../006-document-vault/spec.md` for encrypted storage patterns
-- See `../007-will-creation-system/spec.md` for legal document generation
-- See `../008-family-collaboration/spec.md` for guardian network integration
-- See `../009-professional-network/spec.md` for professional consultation features
-- See `../010-emergency-access/spec.md` for emergency access protocols
-- See `../011-mobile-app/spec.md` for mobile deployment requirements
-- See `../012-animations-microinteractions/spec.md` for performance optimization
-- See `../013-time-capsule-legacy/spec.md` for legacy content management
-- See `../014-pricing-conversion/spec.md` for billing integration
-- See `../015-business-journeys/spec.md` for user journey optimization
-- See `../016-integration-testing/spec.md` for testing infrastructure
+- See `../023-will-creation-system/spec.md` for legal document generation
+- See `../025-family-collaboration/spec.md` for guardian network integration
+- See `../026-professional-network/spec.md` for professional consultation features
+- See `../020-emergency-access/spec.md` for emergency access protocols
+- See `../029-mobile-app/spec.md` for mobile deployment requirements
+- See `../013-animations-microinteractions/spec.md` for performance optimization
+- See `../022-time-capsule-legacy/spec.md` for legacy content management
+- See `../028-pricing-conversion/spec.md` for billing integration
+- See `../027-business-journeys/spec.md` for user journey optimization
+- See `../004-integration-testing/spec.md` for testing infrastructure
 
 ## Linked docs
 

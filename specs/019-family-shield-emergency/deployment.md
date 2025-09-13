@@ -4,6 +4,16 @@
 
 This guide covers the deployment, monitoring, and maintenance procedures for the Family Shield Emergency system, ensuring high availability and reliability for critical emergency scenarios.
 
+### Observability Baseline (required)
+
+- Use structured logs from Supabase Edge Functions as the primary source of truth.
+- For critical failures, send email alerts via Resend.
+- Do not use Sentry in this project; external observability systems (Datadog/Prometheus/etc.) are optional and complementary.
+- Include a correlation ID on all requests and propagate it through logs.
+- Secrets are injected via environment configuration; never expose the Supabase service role key to the client.
+
+See 005-auth-rls-baseline (identity/RLS) and 010-production-deployment for broader production practices.
+
 ## Deployment Strategy
 
 ### Blue-Green Deployment

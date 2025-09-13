@@ -11,6 +11,7 @@
 - [ ] T400 Create feature branch `feature/dms-004`
 - [ ] T401 Configure Supabase env (.env, project ref, anon/service keys)
 - [ ] T402 Enable Vercel Cron and secrets for functions
+- [ ] T403 Provision email provider secrets (Resend/SendGrid) in Vercel/Edge Function env; never expose service role in client
 
 ## Step 1: Authentication & Profiles
 
@@ -23,6 +24,9 @@
 - [ ] T420 Apply DMS migrations; verify RLS policies
 - [ ] T421 Create SQL functions for defaults and cleanup
 - [ ] T422 Add DB indexes and EXPLAIN plans for heavy queries
+- [ ] T423 Implement RLS policies for all tables (owner-only + minimal guardian access)
+- [ ] T424 Write RLS tests (positive/negative) for owner and guardian access paths
+- [ ] T425 Implement hashed token storage (verification/access tokens) with single-use + expiry; add constraints
 
 ## Step 3: Guardian Management
 
@@ -62,9 +66,11 @@
 
 ## Step 9: Observability & Errors
 
-- [ ] T490 Structured logs, alerts, dashboards
+- [ ] T490 Structured logs in Edge Functions; dashboards in Supabase; correlation IDs
 - [ ] T491 User-facing error states and retries
 - [ ] T492 Incident runbook and SLOs
+- [ ] T493 Email alerts via Resend for critical failures; define thresholds; test alerting
+- [ ] T494 Remove/avoid Sentry; confirm no Sentry dependencies
 
 ## Step 10: Testing & QA
 

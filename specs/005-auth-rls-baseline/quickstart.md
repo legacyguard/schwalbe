@@ -50,6 +50,36 @@ Before implementing the Auth + RLS Baseline, ensure you have:
 
 ### 2. Supabase Project Setup
 
+### 3. Runtime Env Validation (apps/web-next/src/lib/env.ts)
+
+Create a small runtime validator to ensure critical auth environment variables are present and valid.
+
+```typescript
+// apps/web-next/src/lib/env.ts
+import { z } from 'zod'
+
+const clientSchema = z.object({
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+})
+
+const serverSchema = z.object({
+  CLERK_SECRET_KEY: z.string().min(1),
+})
+
+export const env = {
+  client: clientSchema.parse({
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  }),
+  server: serverSchema.parse({
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+  }),
+}
+```
+
 1. **Create Supabase Project**
 
    ```bash
@@ -81,11 +111,11 @@ Before implementing the Auth + RLS Baseline, ensure you have:
 ### Step 1: Install Dependencies
 
 ```bash
-# In apps/web-next
-npm install @clerk/nextjs @supabase/supabase-js @supabase/ssr zod
+# From repo root, add dependencies to the web-next workspace
+npm install -w apps/web-next @clerk/nextjs @supabase/supabase-js @supabase/ssr zod
 
 # For development (devDependency)
-npm install -D @types/node
+npm install -D -w apps/web-next @types/node
 ```
 
 ### Step 2: Configure Clerk Provider
@@ -452,8 +482,7 @@ test.describe('Authentication', () => {
 
 ```bash
 # Start Next.js development server
-cd apps/web-next
-npm run dev
+npm run dev -w apps/web-next
 
 # Start Supabase locally (optional)
 cd supabase

@@ -1,0 +1,21 @@
+{
+  "name": "mcp-servers",
+  "version": "1.0.0",
+  "main": "clerk_index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.13.23",
+    "@octokit/rest": "^22.0.0",
+    "@supabase/supabase-js": "^2.57.4",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0",
+    "stripe": "^18.5.0"
+  }
+}

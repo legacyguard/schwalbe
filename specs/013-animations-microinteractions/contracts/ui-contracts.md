@@ -398,6 +398,19 @@ interface AnimatedCardProps extends CardProps {
 **Flip State:**
 
 - 3D rotation on Y-axis
+
+### Storybook Stories Matrix (Guidance)
+
+Create stories covering:
+- Personality: empathetic, pragmatic, adaptive
+- Reduced Motion: on/off
+- Performance Mode: high, balanced, low
+- Components: SofiaFirefly, MilestoneCelebration, AdaptiveProgressRing, MicroAnimation (all types), AnimatedButton, AnimatedCard
+
+#### Test IDs and A11y Hooks
+- Use data-testid attributes for anim roots (e.g., data-testid="anim-button-press")
+- Provide ARIA live regions for success and error announcements
+- Ensure focus management in Modal and Celebration components
 - Content swap animation
 - Backface visibility hidden
 

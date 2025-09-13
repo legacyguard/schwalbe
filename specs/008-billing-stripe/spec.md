@@ -1,4 +1,4 @@
-# Specification 022: Billing (Stripe Integration)
+# Specification 008: Billing (Stripe Integration)
 
 ## Overview
 
@@ -46,13 +46,13 @@ This specification defines the complete Stripe billing integration for Schwalbe,
 ### Required Specs
 
 - **[001-reboot-foundation](../001-reboot-foundation/)**: Base infrastructure and environment setup
-- **[002-hollywood-migration](../002-hollywood-migration/)**: Migration framework and data porting
+- **[003-hollywood-migration](../003-hollywood-migration/)**: Migration framework and data porting
 - **[020-auth-rls-baseline](../020-auth-rls-baseline/)**: Clerk authentication and RLS policies
 - **[021-database-types](../021-database-types/)**: TypeScript types for database schema
 
 ### Related Specs
 
-- **[005-sofia-ai-system](../005-sofia-ai-system/)**: AI features may require premium subscriptions
+- **[031-sofia-ai-system](../031-sofia-ai-system/)**: AI features may require premium subscriptions
 - **[006-document-vault](../006-document-vault/)**: Storage limits based on subscription plans
 - **[007-will-creation-system](../007-will-creation-system/)**: Premium features for will generation
 - **[008-family-collaboration](../008-family-collaboration/)**: Family member limits
@@ -78,6 +78,12 @@ This specification defines the complete Stripe billing integration for Schwalbe,
 - **Encryption**: All billing data encrypted at rest
 - **Access Control**: RLS policies for all billing-related tables
 - **Audit Logging**: Complete audit trail for all billing operations
+
+### Identity and RLS
+
+- Use `app.current_external_id()` as the identity source (Clerk external ID)
+- Reference Clerk users via `public.user_auth(clerk_id)` rather than `auth.users(id)`
+- Avoid `auth.uid()` when using Clerk-based authentication
 
 ## API Contracts
 

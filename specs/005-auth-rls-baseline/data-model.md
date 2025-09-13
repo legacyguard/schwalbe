@@ -33,7 +33,7 @@ ALTER TABLE public.user_auth ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_auth"
 ON public.user_auth FOR SELECT
-USING (auth.uid()::text = clerk_id);
+USING (app.current_external_id() = clerk_id);
 
 CREATE POLICY "system_can_manage_auth"
 ON public.user_auth FOR ALL
@@ -69,15 +69,16 @@ ALTER TABLE public.rls_policies ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "admin_can_manage_rls_policies"
 ON public.rls_policies FOR ALL
-USING (auth.jwt() ->> 'role' = 'admin');
+USING (
+  auth.role() = 'service_role'
+  OR EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.user_id = app.current_external_id()
+      AND ur.role_name = 'admin'
+  )
+);
 ```
 
-#### SessionData
-
-User session tracking and management.
-
-```sql
-CREATE TABLE public.session_data (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id TEXT NOT NULL,
   session_token TEXT NOT NULL UNIQUE,
@@ -96,17 +97,6 @@ CREATE INDEX idx_session_data_token ON public.session_data(session_token);
 CREATE INDEX idx_session_data_expires ON public.session_data(expires_at);
 CREATE INDEX idx_session_data_active ON public.session_data(is_active);
 
--- RLS Policies
-ALTER TABLE public.session_data ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "users_can_read_own_sessions"
-ON public.session_data FOR SELECT
-USING (auth.uid()::text = user_id);
-
-CREATE POLICY "users_can_manage_own_sessions"
-ON public.session_data FOR ALL
-USING (auth.uid()::text = user_id);
-```
 
 #### AccessPermission
 
@@ -134,7 +124,14 @@ ALTER TABLE public.access_permissions ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "admin_can_manage_permissions"
 ON public.access_permissions FOR ALL
-USING (auth.jwt() ->> 'role' = 'admin');
+USING (
+  auth.role() = 'service_role'
+  OR EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.user_id = app.current_external_id()
+      AND ur.role_name = 'admin'
+  )
+);
 ```
 
 #### UserRole
@@ -165,11 +162,18 @@ ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_roles"
 ON public.user_roles FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id);
 
 CREATE POLICY "admin_can_manage_roles"
 ON public.user_roles FOR ALL
-USING (auth.jwt() ->> 'role' = 'admin');
+USING (
+  auth.role() = 'service_role'
+  OR EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.user_id = app.current_external_id()
+      AND ur.role_name = 'admin'
+  )
+);
 ```
 
 #### SecurityLog
@@ -204,11 +208,18 @@ ALTER TABLE public.security_logs ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_logs"
 ON public.security_logs FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id);
 
 CREATE POLICY "admin_can_read_all_logs"
 ON public.security_logs FOR SELECT
-USING (auth.jwt() ->> 'role' = 'admin');
+USING (
+  auth.role() = 'service_role'
+  OR EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.user_id = app.current_external_id()
+      AND ur.role_name = 'admin'
+  )
+);
 
 CREATE POLICY "system_can_insert_logs"
 ON public.security_logs FOR INSERT
@@ -259,7 +270,7 @@ ALTER TABLE public.user_sessions ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_sessions"
 ON public.user_sessions FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id);
 
 CREATE POLICY "system_can_manage_sessions"
 ON public.user_sessions FOR ALL
@@ -931,25 +942,25 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 -- Create RLS policies for profiles
 CREATE POLICY "users_can_read_own_profile"
 ON public.profiles FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id);
 
 CREATE POLICY "users_can_insert_own_profile"
 ON public.profiles FOR INSERT
-WITH CHECK (auth.uid()::text = user_id);
+WITH CHECK (app.current_external_id() = user_id);
 
 CREATE POLICY "users_can_update_own_profile"
 ON public.profiles FOR UPDATE
-USING (auth.uid()::text = user_id)
-WITH CHECK (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id)
+WITH CHECK (app.current_external_id() = user_id);
 
 CREATE POLICY "users_can_delete_own_profile"
 ON public.profiles FOR DELETE
-USING (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id);
 
 -- Create RLS policies for sessions
 CREATE POLICY "users_can_read_own_sessions"
 ON public.user_sessions FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id);
 
 CREATE POLICY "system_can_manage_sessions"
 ON public.user_sessions FOR ALL
@@ -958,7 +969,7 @@ USING (auth.role() = 'service_role');
 -- Create RLS policies for audit logs
 CREATE POLICY "users_can_read_own_audit_logs"
 ON public.audit_logs FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (app.current_external_id() = user_id);
 
 CREATE POLICY "system_can_insert_audit_logs"
 ON public.audit_logs FOR INSERT
@@ -979,32 +990,32 @@ CREATE POLICY "users_can_upload_own_files"
 ON storage.objects FOR INSERT
 WITH CHECK (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND app.current_external_id() = (storage.foldername(name))[1]
 );
 
 CREATE POLICY "users_can_read_own_files"
 ON storage.objects FOR SELECT
 USING (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND app.current_external_id() = (storage.foldername(name))[1]
 );
 
 CREATE POLICY "users_can_update_own_files"
 ON storage.objects FOR UPDATE
 USING (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND app.current_external_id() = (storage.foldername(name))[1]
 )
 WITH CHECK (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND app.current_external_id() = (storage.foldername(name))[1]
 );
 
 CREATE POLICY "users_can_delete_own_files"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND app.current_external_id() = (storage.foldername(name))[1]
 );
 ```
 

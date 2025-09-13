@@ -50,9 +50,9 @@
 - Day 4-5: Test result aggregation and reporting setup
 - Day 5: Phase 1 review and stabilization
 
-### Week 3: Unit Testing Focus
+### Week 3: Unit & Component Testing Coordination
 
-- Day 1-2: Unit test framework setup and coverage analysis
+- Day 1-2: Unit test framework setup and coverage analysis (note: unit/component tests live in component/package specs; this plan tracks their integration signals only)
 - Day 3-4: Business logic unit testing implementation
 - Day 5: Component testing and snapshot validation
 
@@ -156,20 +156,19 @@
 ### Internal Dependencies
 
 - **001-reboot-foundation**: Monorepo structure and CI/CD foundation
-- **002-hollywood-migration**: Testing infrastructure and tool migration
-- **003-core-features**: Feature implementation for comprehensive testing
-- **004-dead-man-switch**: Emergency system testing requirements
-- **005-sofia-ai-system**: AI interaction testing needs
+- **003-hollywood-migration**: Testing infrastructure and tool migration
+- **018-dead-man-switch**: Emergency system testing requirements
+- **031-sofia-ai-system**: AI interaction testing needs
 - **006-document-vault**: Encryption and storage testing
-- **007-will-creation-system**: Legal document testing
-- **008-family-collaboration**: Multi-user testing scenarios
-- **009-professional-network**: Professional feature testing
-- **010-emergency-access**: Emergency protocol validation
-- **011-mobile-app**: Cross-platform testing integration
-- **012-animations-microinteractions**: Animation performance testing
-- **013-time-capsule-legacy**: Time-based feature testing
-- **014-pricing-conversion**: Billing and subscription testing
-- **015-business-journeys**: Business logic validation
+- **023-will-creation-system** and **024-will-generation-engine**: Legal document testing
+- **025-family-collaboration**: Multi-user testing scenarios
+- **026-professional-network**: Professional feature testing
+- **020-emergency-access**: Emergency protocol validation
+- **029-mobile-app**: Cross-platform testing integration
+- **013-animations-microinteractions**: Animation performance testing
+- **022-time-capsule-legacy** and **021-time-capsules**: Time-based feature testing
+- **028-pricing-conversion**: Billing and subscription testing
+- **027-business-journeys**: Business logic validation
 
 ### External Dependencies
 

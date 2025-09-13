@@ -258,6 +258,23 @@ interface ConfigManager {
 
 ## Performance API
 
+### Telemetry API (Monitoring Integration)
+
+```typescript
+interface PerfEvent {
+  name: 'perf.animationStart' | 'perf.fps' | 'perf.memoryDelta';
+  animationId?: string;
+  value: number;
+  meta?: Record<string, any>;
+  timestamp: number;
+}
+
+interface TelemetryReporter {
+  emit(event: PerfEvent): void;
+  flush(): Promise<void>;
+}
+```
+
 ### Performance Monitoring
 
 ```typescript

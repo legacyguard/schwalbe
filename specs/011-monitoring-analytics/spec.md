@@ -58,19 +58,19 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo architecture and build system
-- See 002-hollywood-migration/spec.md for monitoring service migration
-- See 005-sofia-ai-system/spec.md for AI system monitoring integration
-- See 006-document-vault/spec.md for document access analytics
-- See 007-will-creation-system/spec.md for will generation tracking
-- See 008-family-collaboration/spec.md for family interaction monitoring
-- See 009-professional-network/spec.md for professional service analytics
-- See 010-emergency-access/spec.md for emergency system monitoring
-- See 011-mobile-app/spec.md for mobile app analytics
-- See 012-animations-microinteractions/spec.md for animation performance monitoring
-- See 013-time-capsule-legacy/spec.md for time capsule delivery tracking
-- See 014-pricing-conversion/spec.md for conversion funnel analytics
-- See 015-business-journeys/spec.md for user journey tracking
-- See 016-integration-testing/spec.md for testing analytics integration
+- See 003-hollywood-migration/spec.md for monitoring service migration
+- See 031-sofia-ai-system/spec.md for AI system monitoring integration
+- See 010-production-deployment/spec.md for production monitoring setup
+- See 023-will-creation-system/spec.md for will generation tracking
+- See 025-family-collaboration/spec.md for family interaction monitoring
+- See 026-professional-network/spec.md for professional service analytics
+- See 020-emergency-access/spec.md for emergency system monitoring
+- See 029-mobile-app/spec.md for mobile app analytics
+- See 013-animations-microinteractions/spec.md for animation performance monitoring
+- See 022-time-capsule-legacy/spec.md for time capsule delivery tracking
+- See 028-pricing-conversion/spec.md for conversion funnel analytics
+- See 027-business-journeys/spec.md for user journey tracking
+- See 004-integration-testing/spec.md for testing analytics integration
 - See 017-production-deployment/spec.md for production monitoring setup
 
 ## Linked design docs

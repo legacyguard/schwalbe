@@ -13,7 +13,7 @@ Primary table for storing user subscription information and Stripe integration d
 ```sql
 CREATE TABLE public.user_subscriptions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE,
   stripe_customer_id TEXT,
   stripe_subscription_id TEXT UNIQUE,
   plan TEXT DEFAULT 'free' CHECK (plan IN ('free', 'essential', 'family', 'premium')),
@@ -30,7 +30,7 @@ CREATE TABLE public.user_subscriptions (
 
 **Key Fields:**
 
-- `user_id`: References Clerk auth.users table
+- `user_id`: References Clerk external ID via `public.user_auth(clerk_id)`
 - `stripe_customer_id`: Stripe customer identifier
 - `stripe_subscription_id`: Stripe subscription identifier (unique)
 - `plan`: Subscription plan type
@@ -44,7 +44,7 @@ Tracks user resource usage against subscription limits.
 ```sql
 CREATE TABLE public.user_usage (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE,
   document_count INTEGER DEFAULT 0,
   storage_used_mb DECIMAL(10, 2) DEFAULT 0,
   time_capsule_count INTEGER DEFAULT 0,
@@ -116,7 +116,7 @@ Validates if a user can perform an action based on their current usage and plan 
 
 ```sql
 CREATE OR REPLACE FUNCTION public.check_usage_limit(
-  p_user_id UUID,
+  p_user_id TEXT,
   p_limit_type TEXT,
   p_increment INTEGER DEFAULT 1
 )
@@ -170,7 +170,7 @@ Increments usage counters and validates against limits.
 
 ```sql
 CREATE OR REPLACE FUNCTION public.increment_usage(
-  p_user_id UUID,
+  p_user_id TEXT,
   p_usage_type TEXT,
   p_amount INTEGER DEFAULT 1
 )
@@ -237,13 +237,13 @@ Automatically creates subscription and usage records for new users.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  -- Create default subscription record
+  -- Create default subscription record (use Clerk external ID)
   INSERT INTO public.user_subscriptions (user_id, plan, status)
-  VALUES (NEW.id, 'free', 'active');
+  VALUES (NEW.clerk_id, 'free', 'active');
 
   -- Create default usage record
   INSERT INTO public.user_usage (user_id)
-  VALUES (NEW.id);
+  VALUES (NEW.clerk_id);
 
   RETURN NEW;
 END;
@@ -252,14 +252,16 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 ## Row Level Security (RLS) Policies
 
+Note: RLS policies use `app.current_external_id()` as the identity source (Clerk external ID). Avoid `auth.uid()` when using Clerk.
+
 ### user_subscriptions Policies
 
 ```sql
 -- Users can view own subscription
 CREATE POLICY "Users can view own subscription" ON public.user_subscriptions
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
--- Service role can manage all subscriptions
+-- Service role can manage all subscriptions (service_role bypasses RLS in Supabase by default)
 CREATE POLICY "Service role can manage all subscriptions" ON public.user_subscriptions
   FOR ALL USING (auth.jwt()->>'role' = 'service_role');
 ```
@@ -269,9 +271,9 @@ CREATE POLICY "Service role can manage all subscriptions" ON public.user_subscri
 ```sql
 -- Users can view own usage
 CREATE POLICY "Users can view own usage" ON public.user_usage
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
--- Service role can manage all usage
+-- Service role can manage all usage (service_role bypasses RLS in Supabase by default)
 CREATE POLICY "Service role can manage all usage" ON public.user_usage
   FOR ALL USING (auth.jwt()->>'role' = 'service_role');
 ```
@@ -533,13 +535,13 @@ CREATE INDEX idx_user_usage_user_id ON public.user_usage(user_id);
 ## Data Relationships
 
 ```text
-auth.users (Clerk)
+public.user_auth (Clerk users)
     │
-    ├── user_subscriptions (1:1)
+    ├── user_subscriptions (1:1) via clerk_id
     │   ├── References subscription_limits (N:1)
     │   └── Referenced by stripe webhooks
     │
-    └── user_usage (1:1)
+    └── user_usage (1:1) via clerk_id
         └── Updated by application features
 ```
 
@@ -555,7 +557,7 @@ auth.users (Clerk)
 
 ### Data Validation
 
-- Ensure all user_id references exist in Clerk auth.users
+- Ensure all user_id references exist in public.user_auth(clerk_id)
 - Validate Stripe customer/subscription IDs format
 - Check usage counts against plan limits
 - Verify RLS policies are correctly applied

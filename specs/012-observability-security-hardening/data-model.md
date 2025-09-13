@@ -313,6 +313,8 @@ CREATE INDEX idx_audit_logs_created_at ON audit_logs(created_at DESC);
 
 ## Row Level Security Policies
 
+Note: RLS policies use `app.current_external_id()` as the identity source (Clerk external ID). Avoid `auth.uid()` when using Clerk. Where user_id is present, ensure it stores Clerk external IDs and references `public.user_auth(clerk_id)` in relational schemas.
+
 ```sql
 -- Enable RLS on all tables
 ALTER TABLE error_logs ENABLE ROW LEVEL SECURITY;
@@ -359,14 +361,14 @@ CREATE POLICY "Service role can manage security policies" ON security_policies
 
 -- Performance metrics policies (users can view own data)
 CREATE POLICY "Users can view own performance metrics" ON performance_metrics
-  FOR SELECT USING (auth.uid()::text = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 CREATE POLICY "Service role can manage performance metrics" ON performance_metrics
   FOR ALL USING (auth.jwt()->>'role' = 'service_role');
 
 -- Web vitals policies (users can view own data)
 CREATE POLICY "Users can view own web vitals" ON web_vitals
-  FOR SELECT USING (auth.uid()::text = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 CREATE POLICY "Service role can manage web vitals" ON web_vitals
   FOR ALL USING (auth.jwt()->>'role' = 'service_role');

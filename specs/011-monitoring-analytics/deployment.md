@@ -759,9 +759,14 @@ supabase db health
 # Reset database connection
 supabase db reset
 
-# Check environment variables
-echo $SUPABASE_URL
-echo $SUPABASE_ANON_KEY
+# Check required environment variables are set (without printing values)
+for var in SUPABASE_URL SUPABASE_ANON_KEY; do
+  if [ -n "${!var:-}" ]; then
+    echo "$var is set"
+  else
+    echo "$var is missing"
+  fi
+done
 ```
 
 #### Function Deployment Issues

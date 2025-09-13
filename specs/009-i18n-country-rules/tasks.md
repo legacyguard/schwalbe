@@ -1,4 +1,4 @@
-# Tasks: 024-i18n-country-rules
+# Tasks: 009-i18n-country-rules
 
 ## Ordering & rules
 
@@ -48,7 +48,7 @@
 ### T2405 Country Rule Engine (`packages/logic`)
 
 - [ ] T2405a Implement country-specific language rules logic
-- [ ] T2405b Create Russian→Ukrainian replacement system
+- [ ] T2405b Enforce removal of Russian language for Germany
 - [ ] T2405c Build Ukrainian removal for Iceland/Liechtenstein
 - [ ] T2405d Ensure minimum 4 languages per country compliance
 - [ ] T2405e Add country detection based on IP/geolocation

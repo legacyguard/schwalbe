@@ -81,8 +81,8 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ### 2.1 Install Stripe CLI
 
 ```bash
-# Install Stripe CLI
-npm install -g stripe
+# Install Stripe CLI (macOS)
+brew install stripe/stripe-cli/stripe
 
 # Login to your Stripe account
 stripe login

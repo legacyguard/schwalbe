@@ -2,7 +2,7 @@
 
 - Implementation of Phase 3 — Database and Types from high-level-plan.md
 - Comprehensive database schema management, migration system, and TypeScript type generation
-- Prerequisites: 001-reboot-foundation, 002-hollywood-migration, 020-auth-rls-baseline completed
+- Prerequisites: 001-reboot-foundation, 003-hollywood-migration, 020-auth-rls-baseline completed
 
 ## Goals
 
@@ -40,12 +40,12 @@
 ### Core Dependencies
 
 - **001-reboot-foundation**: Monorepo structure, TypeScript configuration, CI/CD foundation
-- **002-hollywood-migration**: Core packages migration, shared services, and database patterns
+- **003-hollywood-migration**: Core packages migration, shared services, and database patterns
 - **020-auth-rls-baseline**: Authentication and RLS foundation for secure database access
 
 ### Supporting Dependencies
 
-- **005-sofia-ai-system**: AI-powered schema analysis and validation
+- **031-sofia-ai-system**: AI-powered schema analysis and validation
 - **006-document-vault**: Encrypted storage schema and data integrity patterns
 - **007-will-creation-system**: Legal document schema and validation requirements
 - **008-family-collaboration**: Guardian and family relationship schemas
@@ -57,7 +57,7 @@
 - **014-pricing-conversion**: Subscription and billing schemas
 - **015-business-journeys**: User journey and milestone schemas
 - **016-integration-testing**: Comprehensive database testing infrastructure
-- **017-production-deployment**: Production database deployment and monitoring
+- **010-production-deployment**: Production database deployment and monitoring
 - **018-monitoring-analytics**: Database performance monitoring and analytics
 - **019-nextjs-migration**: Next.js App Router database integration
 
@@ -162,8 +162,8 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo foundation and governance
-- See 002-hollywood-migration/spec.md for core packages and shared services
-- See 005-sofia-ai-system/spec.md for AI-powered schema analysis
+- See 003-hollywood-migration/spec.md for core packages and shared services
+- See 031-sofia-ai-system/spec.md for AI-powered schema analysis
 - See 006-document-vault/spec.md for encrypted storage schema patterns
 - See 007-will-creation-system/spec.md for legal document schema requirements
 - See 008-family-collaboration/spec.md for guardian relationship schemas
@@ -175,7 +175,7 @@
 - See 014-pricing-conversion/spec.md for subscription schemas
 - See 015-business-journeys/spec.md for user journey schemas
 - See 016-integration-testing/spec.md for database testing infrastructure
-- See 017-production-deployment/spec.md for production database deployment
+- See 010-production-deployment/spec.md for production database deployment
 - See 018-monitoring-analytics/spec.md for database monitoring
 - See 019-nextjs-migration/spec.md for Next.js database integration
 - See 020-auth-rls-baseline/spec.md for authentication and RLS foundation

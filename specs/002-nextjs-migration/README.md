@@ -32,7 +32,7 @@ schwalbe/
 ├── supabase/
 │   ├── migrations/        # Database migrations
 │   └── functions/         # Edge functions
-└── specs/019-nextjs-migration/
+└── specs/002-nextjs-migration/
     ├── plan.md           # Implementation phases
     ├── spec.md           # Requirements and goals
     ├── research.md       # Technology evaluation
@@ -194,7 +194,7 @@ schwalbe/
 ### Prerequisites
 
 - Node.js 18+
-- npm or pnpm
+- npm (use npm ci for installs)
 - Vercel CLI
 - Supabase CLI
 

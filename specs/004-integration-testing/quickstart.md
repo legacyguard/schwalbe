@@ -202,6 +202,8 @@ npm run test:watch
 
 # Run tests for specific package
 npm run test -- --filter=@schwalbe/logic
+# Or via workspace-scoped command
+npm run test -w packages/logic
 
 # Run tests with debugging
 npm run test:debug
@@ -217,7 +219,7 @@ npm run pre-commit
 npm run lint:fix
 
 # Type check
-npm run type-check
+npm run typecheck
 ```
 
 ## Test Configuration

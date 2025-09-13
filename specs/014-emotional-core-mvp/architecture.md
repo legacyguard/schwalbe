@@ -212,7 +212,7 @@ const emotionalAnimations = {
 -- User emotional journey tracking
 CREATE TABLE user_emotional_journey (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id),
+  user_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id),
   session_id TEXT NOT NULL,
   phase onboarding_phase NOT NULL,
   anxiety_level INTEGER CHECK (anxiety_level >= 1 AND anxiety_level <= 5),
@@ -229,7 +229,7 @@ CREATE TABLE user_emotional_journey (
 -- Animation performance monitoring
 CREATE TABLE animation_performance_metrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id),
+  user_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id),
   component_id TEXT NOT NULL,
   fps DECIMAL(5,2),
   memory_usage INTEGER, -- bytes
@@ -241,7 +241,7 @@ CREATE TABLE animation_performance_metrics (
 -- Sofia interaction tracking
 CREATE TABLE sofia_interactions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id),
+  user_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id),
   phase onboarding_phase NOT NULL,
   guidance_type TEXT NOT NULL,
   user_response TEXT,
@@ -257,17 +257,17 @@ CREATE TABLE sofia_interactions (
 -- Emotional data is personal and sensitive
 ALTER TABLE user_emotional_journey ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can only access their own emotional data" ON user_emotional_journey
-  FOR ALL USING (auth.uid() = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 
 -- Performance metrics for system optimization
 ALTER TABLE animation_performance_metrics ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own performance data" ON animation_performance_metrics
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 -- Sofia interactions for improvement
 ALTER TABLE sofia_interactions ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can access their own Sofia interactions" ON sofia_interactions
-  FOR ALL USING (auth.uid() = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 ```
 
 ## API Architecture

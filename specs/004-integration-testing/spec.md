@@ -23,7 +23,7 @@
 ### Existing Hollywood Components to Leverage
 
 - **Playwright E2E Testing**: Multi-browser setup (Chromium, Firefox, WebKit) with mobile emulation, visual regression, and parallel execution
-- **Jest Unit Testing**: Comprehensive framework with React Testing Library, coverage reporting, and snapshot testing
+- **Jest/Vitest Unit Testing**: Comprehensive framework with React Testing Library, coverage reporting, and snapshot testing
 - **k6 Load Testing**: Performance testing infrastructure with custom scenarios and metrics collection
 - **Accessibility Testing**: axe-core integration with automated WCAG compliance validation
 - **Test Data Management**: Seeded databases, fixture factories, and cleanup utilities
@@ -120,23 +120,22 @@
 ### Testing Framework Dependencies
 
 - **001-reboot-foundation**: Monorepo structure, TypeScript configuration, ESLint rules, and CI/CD foundation
-- **002-hollywood-migration**: Playwright setup, Jest configuration, k6 load testing, accessibility testing tools
+- **003-hollywood-migration**: Playwright setup, Jest configuration, k6 load testing, accessibility testing tools
 
 ### Feature Testing Dependencies
 
-- **003-core-features**: Core application features requiring end-to-end testing coverage
-- **004-dead-man-switch**: Emergency system protocols and activation testing
-- **005-sofia-ai-system**: AI interaction flows, animation performance, and personality testing
+- **018-dead-man-switch**: Emergency system protocols and activation testing
+- **031-sofia-ai-system**: AI interaction flows, animation performance, and personality testing
 - **006-document-vault**: Encryption validation, file upload/download, and zero-knowledge architecture
-- **007-will-creation-system**: Legal document generation, clause assembly, and PDF creation
-- **008-family-collaboration**: Multi-user interactions, guardian permissions, and sharing workflows
-- **009-professional-network**: Professional consultation booking and document review processes
-- **010-emergency-access**: Emergency activation triggers, staged access, and audit logging
-- **011-mobile-app**: Cross-platform compatibility, mobile gestures, and responsive design
-- **012-animations-microinteractions**: Animation performance, 60fps validation, and motion accessibility
-- **013-time-capsule-legacy**: Time-based delivery, scheduling logic, and legacy preservation
-- **014-pricing-conversion**: Billing integration, subscription management, and payment processing
-- **015-business-journeys**: Business logic validation, user onboarding, and conversion flows
+- **024-will-generation-engine** and **023-will-creation-system**: Legal document generation, clause assembly, and PDF creation
+- **025-family-collaboration**: Multi-user interactions, guardian permissions, and sharing workflows
+- **026-professional-network**: Professional consultation booking and document review processes
+- **020-emergency-access**: Emergency activation triggers, staged access, and audit logging
+- **029-mobile-app**: Cross-platform compatibility, mobile gestures, and responsive design
+- **013-animations-microinteractions**: Animation performance, 60fps validation, and motion accessibility
+- **022-time-capsule-legacy** and **021-time-capsules**: Time-based delivery, scheduling logic, and legacy preservation
+- **028-pricing-conversion**: Billing integration, subscription management, and payment processing
+- **027-business-journeys**: Business logic validation, user onboarding, and conversion flows
 
 ### Automation Dependencies
 
@@ -202,19 +201,20 @@
 
 ## Cross-links
 
+- See ORDER.md for the canonical mapping of specs and phases
 - See 001-reboot-foundation/spec.md for monorepo architecture and CI foundation
-- See 002-hollywood-migration/spec.md for testing infrastructure migration
-- See 005-sofia-ai-system/spec.md for AI system testing integration
+- See 003-hollywood-migration/spec.md for testing infrastructure migration
+- See 031-sofia-ai-system/spec.md for AI system testing integration
 - See 006-document-vault/spec.md for document security testing
-- See 007-will-creation-system/spec.md for legal document testing
-- See 008-family-collaboration/spec.md for family feature testing
-- See 009-professional-network/spec.md for professional network testing
-- See 010-emergency-access/spec.md for emergency access testing
-- See 011-mobile-app/spec.md for mobile app testing
-- See 012-animations-microinteractions/spec.md for animation testing
-- See 013-time-capsule-legacy/spec.md for time capsule testing
-- See 014-pricing-conversion/spec.md for pricing testing
-- See 015-business-journeys/spec.md for business journey testing
+- See 023-will-creation-system/spec.md and 024-will-generation-engine/spec.md for legal document testing
+- See 025-family-collaboration/spec.md for family feature testing
+- See 026-professional-network/spec.md for professional network testing
+- See 020-emergency-access/spec.md for emergency access testing
+- See 029-mobile-app/spec.md for mobile app testing
+- See 013-animations-microinteractions/spec.md for animation testing
+- See 021-time-capsules/spec.md and 022-time-capsule-legacy/spec.md for time capsule testing
+- See 028-pricing-conversion/spec.md for pricing testing
+- See 027-business-journeys/spec.md for business journey testing
 
 ## Linked design docs
 

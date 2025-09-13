@@ -6,6 +6,26 @@ This guide outlines comprehensive testing strategies for the Family Shield Emerg
 
 ## Testing Strategy
 
+### RLS Policy Tests (required)
+
+- Owner-only access enforced on all user-owned tables (auth.uid() = user_id).
+- Guardian access only where explicitly allowed; verify join-based conditions and active status.
+- Negative tests: guardian cannot access other users; anonymous cannot access; expired/invalid tokens cannot elevate access.
+- Reference 005-auth-rls-baseline for standard test scenarios.
+
+### Token Security Tests (required)
+
+- Verify tokens are stored as hashes only; no raw token persists in DB logs or responses.
+- Verify single-use semantics: using a token marks it used and prevents reuse.
+- Verify expiry is enforced and clock skew is handled sensibly.
+- Verify URLs contain opaque tokens only; no user identifiers are leaked in links.
+
+### Alerting and Observability Tests (required)
+
+- Simulate a controlled failure in an Edge Function; assert structured log emitted with correlation ID.
+- Assert a Resend email alert is triggered for critical failures.
+- Confirm that no Sentry dependency is required or used.
+
 ### Testing Pyramid
 
 ```text

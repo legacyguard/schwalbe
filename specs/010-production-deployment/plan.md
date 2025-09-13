@@ -249,8 +249,8 @@
 ### Internal Dependencies
 
 - **001-reboot-foundation**: Monorepo structure and build system
-- **002-hollywood-migration**: Core packages and shared services
-- **016-integration-testing**: Testing infrastructure and procedures
+- **003-hollywood-migration**: Core packages and shared services
+- **004-integration-testing**: Testing infrastructure and procedures
 
 ### External Dependencies
 

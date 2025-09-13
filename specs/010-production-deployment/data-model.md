@@ -292,7 +292,7 @@ CREATE TABLE deployment_configs (
   deploy_time INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   completed_at TIMESTAMP WITH TIME ZONE,
-  triggered_by TEXT NOT NULL,
+  triggered_by TEXT NOT NULL REFERENCES public.user_auth(clerk_id),
   logs_url TEXT,
   artifacts_url TEXT,
   error_message TEXT,
@@ -398,6 +398,8 @@ CREATE INDEX idx_deployment_logs_level ON deployment_logs(level);
 
 ### Row Level Security
 
+Note: RLS policies use `app.current_external_id()` as the identity source (Clerk external ID) and reference Clerk users via `public.user_auth(clerk_id)`. Avoid `auth.uid()` when using Clerk.
+
 ```sql
 -- Enable RLS on all tables
 ALTER TABLE environments ENABLE ROW LEVEL SECURITY;
@@ -415,7 +417,7 @@ CREATE POLICY "Admin users can manage environments" ON environments FOR ALL USIN
 -- Deployment access policies
 CREATE POLICY "Users can view deployments" ON deployment_configs FOR SELECT USING (true);
 CREATE POLICY "Authorized users can create deployments" ON deployment_configs FOR INSERT WITH CHECK (true);
-CREATE POLICY "Users can update their deployments" ON deployment_configs FOR UPDATE USING (auth.uid()::text = triggered_by);
+CREATE POLICY "Users can update their deployments" ON deployment_configs FOR UPDATE USING (app.current_external_id() = triggered_by);
 
 -- Monitoring access policies
 CREATE POLICY "Users can view monitoring data" ON monitoring_metrics FOR SELECT USING (true);

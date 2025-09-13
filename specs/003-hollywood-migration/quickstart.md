@@ -28,21 +28,18 @@
 
 3. **Package Development Workflow**
 
-   ```bash
-   # Test UI package development
-   cd packages/ui
-   npm run storybook
-   
-   # Test shared package building
-   cd ../shared  
-   npm run build
-   npm run test
-   
-   # Test logic package validation
-   cd ../logic
-   npm run typecheck
-   npm run test
-   ```
+```bash
+# Test UI package development
+npm run storybook -w packages/ui
+
+# Test shared package building
+npm run build -w packages/shared
+npm run test -w packages/shared
+
+# Test logic package validation
+npm run typecheck -w packages/logic
+npm run test -w packages/logic
+```
 
    - ✅ Storybook loads and displays components
    - ✅ Package builds complete successfully
@@ -56,10 +53,9 @@
 
 1. **Create Test Application**
 
-   ```bash
-   cd apps/web-next
-   npm run dev
-   ```
+```bash
+npm run dev -w apps/web-next
+```
 
 2. **Component Import and Usage**
 
@@ -269,7 +265,7 @@
 
 ### **Development Performance**
 
-- Cold start (npm install + dev): < 60 seconds
+- Cold start (npm ci + dev): < 60 seconds
 - Hot reload response time: < 500ms
 - TypeScript compilation: < 10 seconds
 - Test suite execution: < 30 seconds

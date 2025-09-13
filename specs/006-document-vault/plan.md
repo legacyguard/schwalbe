@@ -104,12 +104,15 @@
 - Add AI-powered document summarization
 - Create document similarity detection for version management
 
-### **4.3 Search System (`@schwalbe/logic`)**
+### **4.3 Search System (`@schwalbe/logic`)
 
-- Implement full-text search across encrypted content
+- Implement privacy-preserving search across encrypted content
+  - Client-side tokenization and hashing (salted) of indexed terms
+  - Store hashed tokens in document_search_tokens (no plaintext stored server-side)
+  - Query by hashing search terms client-side with the same salt strategy
 - Add metadata search for quick filtering
 - Create faceted search with multiple criteria
-- Implement search result ranking and relevance
+- Implement search result ranking and relevance (without exposing plaintext)
 - Add search performance optimization
 
 ## Phase 5: Error Handling & Recovery (Week 5)

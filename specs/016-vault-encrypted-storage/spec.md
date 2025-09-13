@@ -79,14 +79,14 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for core infrastructure
-- See 002-hollywood-migration/spec.md for migration framework
-- See 005-sofia-ai-system/spec.md for AI integration
+- See 003-hollywood-migration/spec.md for migration framework
+- See 031-sofia-ai-system/spec.md for AI integration
 - See 006-document-vault/spec.md for basic storage foundation
-- See 019-nextjs-migration/spec.md for Next.js implementation
+- See 002-nextjs-migration/spec.md for Next.js implementation
 - See 020-auth-rls-baseline/spec.md for authentication setup
 - See 021-database-types/spec.md for database types
-- See 022-billing-stripe/spec.md for subscription management
-- See 024-i18n-country-rules/spec.md for internationalization
+- See 008-billing-stripe/spec.md for subscription management
+- See 009-i18n-country-rules/spec.md for internationalization
 
 ## Linked design docs
 

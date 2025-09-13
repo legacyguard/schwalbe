@@ -15,7 +15,7 @@ i18n & Country Rules implements a comprehensive internationalization and localiz
 
 ### Country-Specific Rules Engine
 
-- **Russian→Ukrainian Replacement**: Automatic language substitution based on geopolitical requirements
+- **Russian Language Removal (Germany)**: Remove Russian as an available language option for Germany
 - **Language Restrictions**: Removal of Ukrainian from Iceland and Liechtenstein per business rules
 - **Minimum Language Coverage**: Ensures at least 4 languages available per country through closest language selection
 - **Dynamic Rule Application**: Real-time rule enforcement based on user location and preferences
@@ -71,7 +71,7 @@ i18n & Country Rules implements a comprehensive internationalization and localiz
 
 - **Legal Requirements**: Different countries have varying language requirements for legal documents
 - **Cultural Sensitivity**: Language availability reflects cultural and historical contexts
-- **Business Rules**: Specific substitutions (Russian→Ukrainian) based on geopolitical considerations
+- **Business Rules**: Specific restrictions (remove Russian from Germany; remove Ukrainian from Iceland and Liechtenstein) based on geopolitical and business considerations
 - **User Expectations**: Clear communication about available languages and automatic selections
 
 ### Translation Quality Expectations

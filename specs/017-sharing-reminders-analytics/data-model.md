@@ -239,6 +239,8 @@ CREATE INDEX idx_sofia_personality_mode ON sofia_ai_personality(mode);
 
 ## Row Level Security Policies
 
+Note: RLS policies use `app.current_external_id()` as the identity source (Clerk external ID). Reference users via `public.user_auth(clerk_id)`. Avoid `auth.uid()` when using Clerk.
+
 ```sql
 -- Enable RLS on all tables
 ALTER TABLE sharing_config ENABLE ROW LEVEL SECURITY;
@@ -254,46 +256,46 @@ ALTER TABLE sofia_ai_personality ENABLE ROW LEVEL SECURITY;
 
 -- Sharing policies
 CREATE POLICY "Users can manage own sharing configs" ON sharing_config
-  FOR ALL USING (auth.uid()::text = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 
 CREATE POLICY "Users can view sharing logs for own shares" ON sharing_log
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM sharing_config
       WHERE sharing_config.id = sharing_log.sharing_config_id
-      AND sharing_config.user_id = auth.uid()::text
+AND sharing_config.user_id = app.current_external_id()
     )
   );
 
 -- Reminder policies
 CREATE POLICY "Users can manage own reminders" ON reminder_rule
-  FOR ALL USING (auth.uid()::text = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 
 CREATE POLICY "Users can view own notification logs" ON notification_log
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM reminder_rule
       WHERE reminder_rule.id = notification_log.reminder_rule_id
-      AND reminder_rule.user_id = auth.uid()::text
+AND reminder_rule.user_id = app.current_external_id()
     )
   );
 
 -- Analytics policies (privacy-first)
 CREATE POLICY "Users can view own analytics data" ON analytics_event
-  FOR SELECT USING (auth.uid()::text = user_id);
+  FOR SELECT USING (app.current_external_id() = user_id);
 
 CREATE POLICY "Users can manage own analytics preferences" ON user_analytics_preferences
-  FOR ALL USING (auth.uid()::text = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 
 -- Sofia AI policies
 CREATE POLICY "Users can manage own Sofia conversations" ON sofia_ai_conversation
-  FOR ALL USING (auth.uid()::text = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 
 CREATE POLICY "Users can manage own Sofia memory" ON sofia_ai_memory
-  FOR ALL USING (auth.uid()::text = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 
 CREATE POLICY "Users can manage own Sofia personality" ON sofia_ai_personality
-  FOR ALL USING (auth.uid()::text = user_id);
+  FOR ALL USING (app.current_external_id() = user_id);
 ```
 
 ## Data Relationships

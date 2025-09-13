@@ -467,57 +467,10 @@ describe('Emergency Access Flow', () => {
 
 ### Database Migration
 
-```sql
--- Migration script for emergency system
-BEGIN;
-
--- Create emergency tables
-CREATE TABLE emergency_protocols (...);
-CREATE TABLE emergency_access_tokens (...);
-CREATE TABLE inactivity_triggers (...);
-CREATE TABLE emergency_logs (...);
-
--- Create indexes
-CREATE INDEX ...;
-
--- Migrate existing data from Hollywood
-INSERT INTO emergency_protocols
-SELECT * FROM migrate_hollywood_emergency_data();
-
--- Update RLS policies
-ALTER TABLE emergency_protocols ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own emergency protocols" ON emergency_protocols
-  FOR SELECT USING (auth.uid() = user_id);
-
-COMMIT;
-```
+Note: This document is conceptual and avoids embedding migration code. For database migrations and RLS policy patterns, see 005-auth-rls-baseline and the centralized migration directory.
 
 ### Zero-Downtime Deployment
 
-```typescript
-// Blue-green deployment strategy
-class EmergencyDeployment {
-  async deployNewVersion(): Promise<void> {
-    // 1. Deploy to staging environment
-    await deployToStaging()
-
-    // 2. Run comprehensive tests
-    await runEmergencyTests()
-
-    // 3. Gradual traffic shift
-    await gradualTrafficShift()
-
-    // 4. Monitor for issues
-    await monitorDeployment()
-
-    // 5. Complete migration or rollback
-    if (await deploymentSuccessful()) {
-      await completeMigration()
-    } else {
-      await rollbackDeployment()
-    }
-  }
-}
-```
+Note: Deployment strategy examples are documented in 010-production-deployment. Avoid embedding code here; reference centralized deployment runbooks and CI/CD configurations.
 
 This implementation guide provides the technical foundation for building a robust, secure, and scalable Family Shield Emergency system that integrates seamlessly with the existing Schwalbe platform.

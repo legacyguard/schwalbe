@@ -34,7 +34,7 @@
 ### **2.1 Country Rule Engine (`packages/logic`)**
 
 - Implement country-specific language rules logic
-- Create Russian→Ukrainian replacement system
+- Enforce removal of Russian language for Germany
 - Build Ukrainian removal for Iceland and Liechtenstein
 - Ensure minimum 4 languages per country compliance
 - Add country detection based on IP/geolocation

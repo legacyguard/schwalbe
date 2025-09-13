@@ -137,6 +137,18 @@
 - Test Sofia firefly presence and guided dialog surface
 - Measure user engagement and emotional response metrics
 
+### **5.5 Storybook Coverage & Acceptance Authoring**
+
+- Create Storybook stories for: SofiaFirefly, MilestoneCelebration, AdaptiveProgressRing, MicroAnimation, AnimatedButton, AnimatedCard
+- Cover personalities (empathetic, pragmatic, adaptive), reducedMotion on/off, performanceMode (high/balanced/low)
+- Document acceptance criteria per Animation Map action (timings, FPS, memory, fallbacks)
+
+### **5.6 Event Bus & Telemetry Mapping**
+
+- Document event names and payloads (Trigger/Event Catalog) and emit points in apps/web-next
+- Define telemetry keys (perf.animationStart, perf.fps, memory deltas) and mapping to Supabase tables per 011-monitoring-analytics
+- Add throttling guidance for celebrations and sampling plan for telemetry
+
 ## Acceptance Signals
 
 - 60fps performance maintained across all animation types

@@ -1,4 +1,4 @@
-# Tasks: 012-animations-microinteractions
+# Tasks: 013-animations-microinteractions
 
 ## Ordering & rules
 
@@ -193,6 +193,32 @@
 - [ ] T1605f Create personality mode effectiveness measurement
 - [ ] T1605g Build accessibility feature usage tracking and adoption analytics
 - [ ] T1605h Develop predictive analytics for animation performance issues
+
+### T1606 Storybook Coverage (`@schwalbe/ui`)
+
+- [ ] T1606a Create stories for SofiaFirefly (3 personalities x reducedMotion x perfMode)
+- [ ] T1606b Create stories for MilestoneCelebration with categories and significance
+- [ ] T1606c Create stories for AdaptiveProgressRing (sizes, animated on/off, personalities)
+- [ ] T1606d Create stories for MicroAnimation types (12 types)
+- [ ] T1606e Create stories for AnimatedButton and AnimatedCard states
+
+### T1607 Acceptance Criteria Authoring (`docs/specs`)
+
+- [ ] T1607a Document acceptance criteria per Animation Map entry (timings, FPS, memory, fallbacks)
+- [ ] T1607b Add measurement method for FPS and start times
+- [ ] T1607c Define device classes (high/mid/low/constrained) and targets
+
+### T1608 Event Bus Integration Spec (`apps/web-next`)
+
+- [ ] T1608a Define emit points for AppEvent types (submit handlers, post-API success/failure)
+- [ ] T1608b Add throttling policy (≤1/min per celebration type/user)
+- [ ] T1608c Define test harness to simulate events
+
+### T1609 Telemetry Mapping (`@schwalbe/shared` + 011 Monitoring)
+
+- [ ] T1609a Define perf keys: perf.animationStart, perf.fps, memory deltas during celebrations
+- [ ] T1609b Document insertion into Supabase tables (per 011-monitoring-analytics)
+- [ ] T1609c Define sampling rates and PII-safe payloads
 
 ## Outputs (upon completion)
 

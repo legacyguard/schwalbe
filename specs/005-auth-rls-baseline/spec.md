@@ -3,7 +3,7 @@
 - Implementation of Phase 2 — Auth + RLS Baseline from high-level-plan.md
 - Clerk authentication integration with Supabase Row Level Security
 - Session management, access control, and secure database policies
-- Prerequisites: 001-reboot-foundation, 002-hollywood-migration completed
+- Prerequisites: 001-reboot-foundation, 003-hollywood-migration completed
 
 ## Goals
 
@@ -44,15 +44,15 @@
 ### Core Dependencies
 
 - **001-reboot-foundation**: Monorepo structure, TypeScript configuration, CI/CD foundation
-- **002-hollywood-migration**: Core packages migration, shared services, and UI components
-- **019-nextjs-migration**: Next.js App Router setup and SSR/RSC foundation
+- **003-hollywood-migration**: Core packages migration, shared services, and UI components
+- **002-nextjs-migration**: Next.js App Router setup and SSR/RSC foundation
 
 ### Supporting Dependencies
 
 - **006-document-vault**: Storage security patterns and encryption integration
-- **008-family-collaboration**: Guardian access control patterns
-- **010-emergency-access**: Emergency access authentication flows
-- **016-integration-testing**: Testing infrastructure for auth validation
+- **025-family-collaboration**: Guardian access control patterns
+- **020-emergency-access**: Emergency access authentication flows
+- **004-integration-testing**: Testing infrastructure for auth validation
 
 ## High-level Architecture
 
@@ -90,6 +90,7 @@
 
 - **JWT Token Flow**: Clerk JWT tokens automatically injected into Supabase requests
 - **Row Level Security**: PostgreSQL RLS policies ensure data isolation
+- All RLS policies MUST use app.current_external_id() as the identity source for Clerk users. Avoid auth.uid() in policies when using Clerk, as it may not map to Clerk external IDs reliably.
 - **Storage Security**: User-scoped file access with encryption
 - **Session Security**: Secure session management with automatic refresh
 - **Audit Logging**: Comprehensive logging of authentication and access events
@@ -154,23 +155,24 @@
 
 ## Cross-links
 
+- See ORDER.md for canonical mapping
 - See 001-reboot-foundation/spec.md for monorepo foundation and governance
-- See 002-hollywood-migration/spec.md for core packages and shared services
-- See 005-sofia-ai-system/spec.md for AI-powered user guidance integration
+- See 003-hollywood-migration/spec.md for core packages and shared services
+- See 031-sofia-ai-system/spec.md for AI-powered user guidance integration
 - See 006-document-vault/spec.md for encrypted storage and key management
-- See 007-will-creation-system/spec.md for legal document access control
-- See 008-family-collaboration/spec.md for guardian network and permissions
-- See 009-professional-network/spec.md for professional user authentication
-- See 010-emergency-access/spec.md for crisis response and access protocols
-- See 011-mobile-app/spec.md for cross-platform authentication
-- See 012-animations-microinteractions/spec.md for authentication UI feedback
-- See 013-time-capsule-legacy/spec.md for legacy content access security
-- See 014-pricing-conversion/spec.md for subscription-based access control
-- See 015-business-journeys/spec.md for user journey authentication flows
-- See 016-integration-testing/spec.md for comprehensive auth testing
-- See 017-production-deployment/spec.md for production security and monitoring
-- See 018-monitoring-analytics/spec.md for authentication analytics and insights
-- See 019-nextjs-migration/spec.md for Next.js App Router auth integration
+- See 023-will-creation-system/spec.md for legal document access control
+- See 025-family-collaboration/spec.md for guardian network and permissions
+- See 026-professional-network/spec.md for professional user authentication
+- See 020-emergency-access/spec.md for crisis response and access protocols
+- See 029-mobile-app/spec.md for cross-platform authentication
+- See 013-animations-microinteractions/spec.md for authentication UI feedback
+- See 022-time-capsule-legacy/spec.md for legacy content access security
+- See 028-pricing-conversion/spec.md for subscription-based access control
+- See 027-business-journeys/spec.md for user journey authentication flows
+- See 004-integration-testing/spec.md for comprehensive auth testing
+- See 010-production-deployment/spec.md for production security and monitoring
+- See 011-monitoring-analytics/spec.md for authentication analytics and insights
+- See 002-nextjs-migration/spec.md for Next.js App Router auth integration
 
 ## Linked design docs
 

@@ -58,27 +58,27 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for core infrastructure
-- See 002-hollywood-migration/spec.md for migration patterns
-- See 005-sofia-ai-system/spec.md for AI guidance integration
+- See 003-hollywood-migration/spec.md for migration patterns
+- See 031-sofia-ai-system/spec.md for AI guidance integration
 - See 006-document-vault/spec.md for secure content storage
-- See 007-will-creation-system/spec.md for legal content integration
-- See 008-family-collaboration/spec.md for family emotional experiences
-- See 009-professional-network/spec.md for professional relationship dynamics
-- See 010-emergency-access/spec.md for crisis emotional support
-- See 011-mobile-app/spec.md for mobile emotional considerations
-- See 012-animations-microinteractions/spec.md for animation system
-- See 013-time-capsule-legacy/spec.md for legacy emotional storytelling
-- See 014-pricing-conversion/spec.md for pricing emotional optimization
-- See 015-business-journeys/spec.md for business user experiences
-- See 016-integration-testing/spec.md for testing infrastructure
-- See 017-production-deployment/spec.md for deployment setup
-- See 018-monitoring-analytics/spec.md for analytics infrastructure
-- See 019-nextjs-migration/spec.md for Next.js foundation
+- See 023-will-creation-system/spec.md for legal content integration
+- See 025-family-collaboration/spec.md for family emotional experiences
+- See 026-professional-network/spec.md for professional relationship dynamics
+- See 020-emergency-access/spec.md for crisis emotional support
+- See 029-mobile-app/spec.md for mobile emotional considerations
+- See 013-animations-microinteractions/spec.md for animation system
+- See 022-time-capsule-legacy/spec.md for legacy emotional storytelling
+- See 028-pricing-conversion/spec.md for pricing emotional optimization
+- See 027-business-journeys/spec.md for business user experiences
+- See 004-integration-testing/spec.md for testing infrastructure
+- See 010-production-deployment/spec.md for deployment setup
+- See 011-monitoring-analytics/spec.md for analytics infrastructure
+- See 002-nextjs-migration/spec.md for Next.js foundation
 - See 020-auth-rls-baseline/spec.md for authentication
 - See 021-database-types/spec.md for database schema
-- See 022-billing-stripe/spec.md for billing integration
-- See 023-email-resend/spec.md for email communication
-- See 024-i18n-country-rules/spec.md for internationalization
+- See 008-billing-stripe/spec.md for billing integration
+- See 007-email-resend/spec.md for email communication
+- See 009-i18n-country-rules/spec.md for internationalization
 
 ## Linked design docs
 

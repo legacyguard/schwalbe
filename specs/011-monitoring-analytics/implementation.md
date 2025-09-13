@@ -464,7 +464,7 @@ CREATE TABLE system_health (
 -- Error logs table
 CREATE TABLE error_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  user_id TEXT REFERENCES public.user_auth(clerk_id) ON DELETE SET NULL,
   error_type VARCHAR(50) NOT NULL,
   error_message TEXT NOT NULL,
   error_stack TEXT,
@@ -480,7 +480,7 @@ CREATE TABLE error_logs (
 -- Performance metrics table
 CREATE TABLE performance_metrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id TEXT REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE,
   session_id VARCHAR(255),
   metric_type VARCHAR(100) NOT NULL,
   metric_value DECIMAL(10,2) NOT NULL,
@@ -502,7 +502,7 @@ CREATE TABLE alert_rules (
   notification_channels VARCHAR(20)[] DEFAULT '{}',
   cooldown_minutes INTEGER DEFAULT 60,
   last_triggered TIMESTAMP WITH TIME ZONE,
-  created_by UUID REFERENCES auth.users(id),
+  created_by TEXT REFERENCES public.user_auth(clerk_id),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -515,15 +515,17 @@ CREATE TABLE alert_instances (
   severity VARCHAR(20) NOT NULL,
   status VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'acknowledged', 'resolved')),
   triggered_data JSONB,
-  acknowledged_by UUID REFERENCES auth.users(id),
+  acknowledged_by TEXT REFERENCES public.user_auth(clerk_id),
   acknowledged_at TIMESTAMP WITH TIME ZONE,
-  resolved_by UUID REFERENCES auth.users(id),
+  resolved_by TEXT REFERENCES public.user_auth(clerk_id),
   resolved_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
 
 ### Row Level Security (RLS) Policies
+
+Note: RLS policies use `app.current_external_id()` as the identity source (Clerk external ID). Avoid `auth.uid()` when using Clerk. User references should point to `public.user_auth(clerk_id)`.
 
 ```sql
 -- Enable RLS on all tables
@@ -536,7 +538,7 @@ ALTER TABLE alert_instances ENABLE ROW LEVEL SECURITY;
 
 -- Analytics events policies
 CREATE POLICY "Users can view own analytics" ON analytics_events
-  FOR SELECT USING (user_id = auth.uid());
+  FOR SELECT USING (user_id = app.current_external_id());
 
 CREATE POLICY "Service can insert analytics" ON analytics_events
   FOR INSERT WITH CHECK (true);
@@ -550,14 +552,14 @@ CREATE POLICY "Service can manage system health" ON system_health
 
 -- Error logs policies
 CREATE POLICY "Users can view own errors" ON error_logs
-  FOR SELECT USING (user_id = auth.uid() OR user_id IS NULL);
+  FOR SELECT USING (user_id = app.current_external_id() OR user_id IS NULL);
 
 CREATE POLICY "Service can insert errors" ON error_logs
   FOR INSERT WITH CHECK (true);
 
 -- Performance metrics policies
 CREATE POLICY "Users can view own performance" ON performance_metrics
-  FOR SELECT USING (user_id = auth.uid());
+  FOR SELECT USING (user_id = app.current_external_id());
 
 CREATE POLICY "Service can insert performance" ON performance_metrics
   FOR INSERT WITH CHECK (true);
@@ -566,9 +568,9 @@ CREATE POLICY "Service can insert performance" ON performance_metrics
 CREATE POLICY "Admins can manage alert rules" ON alert_rules
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM auth.users
-      WHERE id = auth.uid()
-      AND raw_user_meta_data->>'role' = 'admin'
+      SELECT 1 FROM public.user_auth
+      WHERE clerk_id = app.current_external_id()
+      AND role = 'admin'
     )
   );
 
@@ -579,9 +581,9 @@ CREATE POLICY "Users can view alerts" ON alert_instances
 CREATE POLICY "Admins can manage alerts" ON alert_instances
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM auth.users
-      WHERE id = auth.uid()
-      AND raw_user_meta_data->>'role' = 'admin'
+      SELECT 1 FROM public.user_auth
+      WHERE clerk_id = app.current_external_id()
+      AND role = 'admin'
     )
   );
 ```

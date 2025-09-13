@@ -27,18 +27,17 @@ This guide provides comprehensive test scenarios to validate the Next.js migrati
 ### Development Environment
 
 ```bash
-# Install dependencies
-cd apps/web-next
+# Install dependencies at repo root
 npm ci
 
-# Start development server
-npm run dev
+# Start development server for web-next workspace
+npm run dev -w apps/web-next
 
-# Build for production
-npm run build
+# Build for production (workspace)
+npm run build -w apps/web-next
 
-# Start production server
-npm start
+# Start production server (workspace)
+npm run start -w apps/web-next
 ```
 
 ## 1) Next.js Setup - configure Next.js application

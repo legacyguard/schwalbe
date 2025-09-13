@@ -11,7 +11,7 @@
 - Import and curate modular JSON locales from Hollywood i18n system
 - Implement Google Translate API for background generation and fallback
 - Establish i18n health checks in CI pipeline
-- Implement country-specific rules: replace Russian with Ukrainian, remove Ukrainian from Iceland/Liechtenstein, ensure 4+ languages per country
+- Implement country-specific rules: remove Russian from Germany, remove Ukrainian from Iceland/Liechtenstein, ensure 4+ languages per country
 - Ensure all UI text outside i18n files is English
 - Create language detection and auto-switching system
 - Build translation management and compliance validation system
@@ -30,7 +30,7 @@
 - [ ] Modular JSON locales imported and curated from Hollywood
 - [ ] Google Translate API wired for background generation
 - [ ] i18n health checks passing in CI pipeline
-- [ ] Country rules compliance: Russian→Ukrainian replacement, Ukrainian removal from Iceland/Liechtenstein, 4+ languages per country
+- [ ] Country rules compliance: Russian removed in Germany, Ukrainian removal from Iceland/Liechtenstein, 4+ languages per country
 - [ ] All UI text outside i18n files is English
 - [ ] Language detection and auto-switching working
 - [ ] Translation management system functional
@@ -57,26 +57,26 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for foundation setup
-- See 002-hollywood-migration/spec.md for migration patterns
-- See 005-sofia-ai-system/spec.md for AI integration points
+- See 003-hollywood-migration/spec.md for migration patterns
+- See 031-sofia-ai-system/spec.md for AI integration points
 - See 006-document-vault/spec.md for document translation needs
-- See 007-will-creation-system/spec.md for legal document i18n
-- See 008-family-collaboration/spec.md for family communication i18n
-- See 009-professional-network/spec.md for professional content i18n
-- See 010-emergency-access/spec.md for emergency communication i18n
-- See 011-mobile-app/spec.md for mobile i18n requirements
-- See 012-animations-microinteractions/spec.md for animation text i18n
-- See 013-time-capsule-legacy/spec.md for legacy content i18n
-- See 014-pricing-conversion/spec.md for pricing display i18n
-- See 015-business-journeys/spec.md for business logic i18n
-- See 016-integration-testing/spec.md for i18n testing requirements
-- See 017-production-deployment/spec.md for deployment i18n
-- See 018-monitoring-analytics/spec.md for i18n analytics
-- See 019-nextjs-migration/spec.md for Next.js integration
+- See 023-will-creation-system/spec.md for legal document i18n
+- See 025-family-collaboration/spec.md for family communication i18n
+- See 026-professional-network/spec.md for professional content i18n
+- See 020-emergency-access/spec.md for emergency communication i18n
+- See 029-mobile-app/spec.md for mobile i18n requirements
+- See 013-animations-microinteractions/spec.md for animation text i18n
+- See 022-time-capsule-legacy/spec.md for legacy content i18n
+- See 028-pricing-conversion/spec.md for pricing display i18n
+- See 027-business-journeys/spec.md for business logic i18n
+- See 004-integration-testing/spec.md for i18n testing requirements
+- See 010-production-deployment/spec.md for deployment i18n
+- See 011-monitoring-analytics/spec.md for i18n analytics
+- See 002-nextjs-migration/spec.md for Next.js integration
 - See 020-auth-rls-baseline/spec.md for auth i18n
 - See 021-database-types/spec.md for database i18n support
-- See 022-billing-stripe/spec.md for billing i18n
-- See 023-email-resend/spec.md for email i18n
+- See 008-billing-stripe/spec.md for billing i18n
+- See 007-email-resend/spec.md for email i18n
 
 ## Linked design docs
 

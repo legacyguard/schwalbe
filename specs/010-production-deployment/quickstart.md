@@ -20,10 +20,14 @@ Verify that the production environment is properly configured and accessible.
 #### 1.1 Environment Configuration
 
 ```bash
-# Verify environment variables
-echo $VERCEL_TOKEN
-echo $SUPABASE_URL
-echo $CLERK_SECRET_KEY
+# Verify required environment variables are set (without printing values)
+for var in VERCEL_TOKEN SUPABASE_URL CLERK_SECRET_KEY; do
+  if [ -n "${!var:-}" ]; then
+    echo "$var is set"
+  else
+    echo "$var is missing"
+  fi
+done
 
 # Check Vercel project configuration
 vercel env ls
@@ -734,8 +738,14 @@ npm run test:archive
 #### Environment Setup Issues
 
 ```bash
-# Check environment variables
-env | grep -E "(VERCEL|SUPABASE|CLERK)"
+# Check required environment variables are set (without printing values)
+for var in VERCEL_TOKEN SUPABASE_URL SUPABASE_ANON_KEY CLERK_SECRET_KEY; do
+  if [ -n "${!var:-}" ]; then
+    echo "$var is set"
+  else
+    echo "$var is missing"
+  fi
+done
 
 # Verify network connectivity
 curl -I https://api.vercel.com

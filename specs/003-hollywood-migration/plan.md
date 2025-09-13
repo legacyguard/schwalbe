@@ -19,7 +19,7 @@
 
 ### **1.2 Build Tooling**
 
-- Do not migrate Vite app configurations; target Next.js App Router in `apps/web-next` (see 001-reboot-foundation and 019-nextjs-migration for baselines)
+- Do not migrate Vite app configurations; target Next.js App Router in `apps/web-next` (see 001-reboot-foundation and 002-nextjs-migration for baselines)
 - Port TypeScript Project References setup
 - Migrate ESLint configurations with boundary rules
 - Copy Prettier and other code quality tools
@@ -65,7 +65,7 @@
 
 #### Stripe foundations
 
-- Add `StripeClientFactory` with env-driven keys (test-only in 002)
+- Introduce `StripeClientFactory` scaffolding (test-only here); full integration in 008-billing-stripe
 - Define domain types: Product, Price, SubscriptionPlan, InvoiceSummary
 - Provide helpers for creating payment links and invoices (no secrets checked in)
 - Document environment separation and seed strategy for 003
@@ -89,7 +89,7 @@
 
 ### **3.1 i18n Infrastructure**
 
-- Copy i18next configuration and setup
+- Adopt next-intl in `apps/web-next`; copy translation content and map helpers accordingly (do not migrate i18next runtime)
 - Port language detection and switching logic
 - Migrate translation loading and caching
 - Copy localization utilities and helpers
@@ -253,8 +253,13 @@
 
 ## Next Phase Planning
 
-Upon completion of Phase 6, recommend creating:
+Refer to ORDER.md for the canonical next phases. The primary downstream specs are:
 
-- **003-core-features**: Sofia AI system, document vault, emergency access
-- **004-application-features**: Will creation, family collaboration, professional network
-- **005-mobile-integration**: React Native app migration and sync
+- 014-emotional-core-mvp
+- 006-document-vault and 016-vault-encrypted-storage
+- 019-family-shield-emergency and 020-emergency-access
+- 021-time-capsules and 022-time-capsule-legacy
+- 024-will-generation-engine and 023-will-creation-system
+- 025-family-collaboration and 026-professional-network
+- 027-business-journeys and 028-pricing-conversion
+- 029-mobile-app
