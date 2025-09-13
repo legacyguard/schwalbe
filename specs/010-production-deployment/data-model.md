@@ -182,7 +182,6 @@ interface EnvironmentConfig {
   stripe_publishable_key: string;
   resend_api_key: string;
   google_translate_api_key?: string;
-  sentry_dsn?: string;
   api_rate_limit: number;
   max_file_size_mb: number;
 }

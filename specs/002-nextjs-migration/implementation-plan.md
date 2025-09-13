@@ -579,7 +579,7 @@
 ### Timeline Contingencies
 
 - **Buffer Time**: 2 weeks for unexpected issues
-- **Parallel Development**: Maintain Vite app as fallback
+- **Parallel Development**: Keep Vite app frozen for reference only; remove once apps/web-next gates are green
 - **Feature Flags**: Allow gradual feature rollout
 - **Rollback Plan**: Complete rollback procedures documented
 

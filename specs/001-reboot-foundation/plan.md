@@ -3,7 +3,6 @@
 ## Workspace manager
 
 - Use npm workspaces. Install with `npm ci` (use `npm install` only when adding new deps). Enforce versions via `.nvmrc` and `engines`.
-- Enforce versions via `.nvmrc` and `engines` in root `package.json`.
 
 ## Directory layout
 

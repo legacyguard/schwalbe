@@ -22,7 +22,7 @@ git clone https://github.com/your-org/schwalbe.git
 cd schwalbe
 
 # Install dependencies
-npm install --legacy-peer-deps
+npm ci
 
 # Set up environment variables
 cp .env.example .env.local

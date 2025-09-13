@@ -52,7 +52,7 @@ Success Metrics for Schwalbe (qualitative + quantitative):
 
 ## 2) Target Architecture
 
-- Monorepo: pnpm + turbo (or npm + turbo initially), TypeScript strict everywhere
+- Monorepo: npm + turbo, TypeScript strict everywhere
 - apps/
   - web-next (Next.js App Router, SSR/RSC, Edge runtime for server routes)
   - web (Vite) — frozen for reference only; do not extend beyond security/hygiene; excluded from CI build/typecheck

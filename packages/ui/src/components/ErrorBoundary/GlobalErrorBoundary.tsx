@@ -125,12 +125,12 @@ const logError = (error: Error, errorInfo: React.ErrorInfo) => {
     console.error('Error Info:', errorInfo);
   }
 
-  // In production, you would send to your error reporting service
-  // Example: Sentry, Bugsnag, LogRocket, etc.
+  // In production, send to your observability pipeline
+  // Example: Supabase logs + DB error table; critical alerts via Resend
   try {
     if (process.env.NODE_ENV === 'production') {
-      // This would be replaced with your actual error reporting service
-      // Example: Sentry.captureException(error, { extra: errorInfo });
+      // Replace with your actual error reporting service integration
+      // Example: monitoringService.trackError(error, { extra: errorInfo });
       console.error('Error logged to monitoring service:', error);
     }
   } catch (reportingError) {

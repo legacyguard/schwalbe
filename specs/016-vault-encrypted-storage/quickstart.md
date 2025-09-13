@@ -378,7 +378,7 @@ git clone <repository-url>
 cd vault-encrypted-storage
 
 # Install dependencies
-npm install
+npm ci
 
 # Configure environment
 cp .env.example .env.local

@@ -279,7 +279,7 @@ cp .env.example .env.local
 # Edit .env.local with local values
 
 # Run monitoring tests
-pnpm test:monitoring
+npm run test:monitoring
 ```
 
 ### Staging Environment

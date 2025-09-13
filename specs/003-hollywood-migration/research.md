@@ -14,7 +14,7 @@
 
 - **Turborepo config**: Working pipelines for build, dev, test, lint, typecheck
 - **TypeScript setup**: Project references, strict configs, composite builds
-- **Vite configurations**: Optimized build configs for apps
+- **Vite configurations**: Used only for Storybook builder (do not use Vite for app builds)
 - **ESLint/Prettier**: Boundary rules, formatting standards
 
 #### 3. **Security Architecture**

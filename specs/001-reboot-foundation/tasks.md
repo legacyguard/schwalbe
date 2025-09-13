@@ -34,11 +34,13 @@
 
 - [ ] T051 Approve testing policy: colocated unit tests; Playwright E2E under `apps/web-next/e2e`
 - [ ] T052 Approve CI `ci.yml` (install, lint, typecheck, unit) and keep Spec Guard separate
+- [ ] T053 Add ESLint boundary failing example (a tiny test file demonstrating forbidden app→app or package→app import) and verify the lint rule fails in CI
 
 ## T060 Quality gates
 
 - [ ] T061 Approve ESLint rules for boundaries (no app→app, no package→app)
 - [ ] T062 Approve Storybook in `@schwalbe/ui` only
+- [ ] T063 i18n health check command exists (references `docs/i18n/matrix.md`) and runs in CI
 
 ## T070 i18n & contracts
 

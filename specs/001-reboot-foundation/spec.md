@@ -20,33 +20,32 @@
 ## Review & Acceptance
 
 - [ ] Spec, plan, and tasks authored under `specs/001-reboot-foundation/`
-- [ ] Directory conventions approved: `apps/web`, `apps/mobile`, `apps/demo`, `packages/ui`, `packages/logic`, `packages/shared`
+- [ ] Directory conventions approved: `apps/web-next` (canonical), `apps/web` (frozen, excluded from CI/typecheck), `apps/mobile`, `apps/demo`, `packages/ui`, `packages/logic`, `packages/shared`
 - [ ] Package naming rules approved: `@schwalbe/web`, `@schwalbe/ui`, etc.; apps are `private: true`
 - [ ] Dependency direction enforced (lint rules defined; no app → app)
-- [ ] Per-app build config rule approved (Vite config lives in each app)
+- [ ] Per-app build config rule approved (Next.js config lives in `apps/web-next`; Vite is used only for Storybook builder in `@schwalbe/ui`)
 - [ ] Env policy approved: root vs per-app `.env.example` and zod-validated at runtime
 - [ ] CI policy approved: Spec Guard workflow + simple CI for lint/typecheck/unit
 - [ ] TS Project References mandated for `packages/*`
 - [ ] React 18 policy approved; React 19 readiness tracked as research task
+- [ ] Boundary rules enforced with a failing example (ESLint must fail on forbidden imports)
+- [ ] i18n health check present (MVP 5 languages; references `docs/i18n/matrix.md`)
 
 ## Risks & Mitigations
 
 - Drift from standards over time → Mitigate with ESLint boundary rules and CI checks.
-- Over-optimizing build splitting early → Start with default Vite; add chunks only after profiling.
+- Over-optimizing build splitting early → Start with default Next.js code-splitting; add custom chunking only after profiling.
 - Cross-app coupling → Keep app-local aliases; forbid packages depending on apps.
 
 ## References
 
 - Spec Kit workflow and templates (`https://github.com/github/spec-kit`).
+- See `../ORDER.md` for canonical execution order of all specs.
+- See `../../docs/i18n/matrix.md` for the i18n language matrix (MVP 5, production 34).
 
 ## Cross-links
 
-- See 004-dead-man-switch/spec.md for emergency system scope depending on this foundation.
-
-## References
-
-- See `../ORDER.md` for canonical execution order of all specs.
-- See `../../docs/i18n/matrix.md` for the i18n language matrix (MVP 5, production 34).
+- See ORDER.md for downstream dependencies including the dead-man-switch scope that depend on this foundation.
 
 ## Linked design docs
 

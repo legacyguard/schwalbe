@@ -42,7 +42,6 @@ export interface EnvironmentConfig {
   stripe_publishable_key: string;
   resend_api_key: string;
   google_translate_api_key?: string;
-  sentry_dsn?: string;
 }
 
 // Environment Limits

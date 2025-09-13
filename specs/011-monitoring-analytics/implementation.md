@@ -386,7 +386,7 @@ Migrate Hollywood deployment configuration:
 
 ```yaml
 # Hollywood: .github/workflows/deploy.yml
-# (Original Hollywood deployment with Sentry)
+# (Original Hollywood deployment - legacy vendor observability)
 
 # Schwalbe migration: .github/workflows/deploy.yml
 name: Deploy
@@ -1260,7 +1260,7 @@ run: npm run test:monitoring
         run: curl -f https://api-staging.schwalbe.dev/health
 
       - name: Performance check
-        run: pnpm lighthouse https://staging.schwalbe.dev --output json --output-path ./lighthouse-results.json
+        run: lighthouse https://staging.schwalbe.dev --output json --output-path ./lighthouse-results.json
 ```
 
 ## Monitoring Dashboard

@@ -11,11 +11,11 @@ Evidence from Hollywood
 - Monorepo structure reference: /Users/luborfedak/Documents/Github/hollywood/docs/README.md:11-23
 
 Applications
-- Web: Vite + React; routes/pages, services, hooks, i18n, styles.
+- Web: Next.js (App Router) + React; routes/pages, services, hooks, i18n, styles. Vite is used only for Storybook builder in UI.
   Evidence: /Users/luborfedak/Documents/Github/hollywood/docs/DEVELOPER_GUIDE_EN.md:274-297
 - Mobile: React Native + Expo; app routing, components, native services.
   Evidence: /Users/luborfedak/Documents/Github/hollywood/docs/DEVELOPER_GUIDE_EN.md:299-310
-- Demo: Vite app that exercises packages.
+- Demo: Component showcase via Storybook (Vite builder) or a minimal demo app.
   Evidence: /Users/luborfedak/Documents/Github/hollywood/docs/DEVELOPER_GUIDE_EN.md:312-323
 
 Packages

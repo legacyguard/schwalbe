@@ -135,7 +135,7 @@ specs/029-will-generation-engine/
 
 ### Prerequisites
 
-- Node.js 18+ and pnpm
+- Node.js 18+ and npm
 - Access to Hollywood codebase
 - Supabase project setup
 - Clerk authentication configured

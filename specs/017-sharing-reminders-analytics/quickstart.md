@@ -184,7 +184,7 @@
 
 ### System Requirements
 
-- Node.js 18+ and pnpm
+- Node.js 18+ and npm (use npm ci for installs)
 - Supabase project with database access
 - Vercel account for deployment
 - Resend account for email notifications

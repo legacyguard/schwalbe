@@ -427,7 +427,7 @@ curl -X POST http://localhost:3000/api/experiments \
 vercel --target staging
 
 # Run staging tests
-pnpm test:staging
+npm run test:staging
 
 # Verify staging environment
 curl https://staging.schwalbe.app/api/health

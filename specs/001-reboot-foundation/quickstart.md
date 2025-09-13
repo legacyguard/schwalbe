@@ -1,5 +1,7 @@
 # Quickstart scenarios (from product manual)
 
+Note: These scenarios are product-level references and not part of 001 acceptance. They will inform later phases; 001 focuses on monorepo standards, boundaries, CI, and baseline configs.
+
 ## 1) Narrative onboarding → first document
 
 - Visit web app → language auto-detected → assistant welcomes.
