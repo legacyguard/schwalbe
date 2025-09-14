@@ -90,18 +90,18 @@ This implementation plan outlines the phased rollout of Supabase Auth with Postg
 
 ### Week 1: Foundation Setup
 
-#### Day 1: Clerk Configuration
+#### Day 1: Supabase Auth Configuration
 
-- [ ] Create Clerk application in dashboard
+- [ ] Configure Supabase Auth providers and settings (password, Google OAuth)
 - [ ] Configure authentication settings (password, Google OAuth)
 - [ ] Set up development and preview environments
 - [ ] Generate and configure API keys
-- [ ] Test Clerk dashboard functionality
+- [ ] Verify Supabase Auth configuration and test sign-in
 
 #### Day 2: Next.js Integration
 
-- [ ] Install Clerk React SDK
-- [ ] Configure ClerkProvider in root layout
+- [ ] Install @supabase/auth-helpers-nextjs
+- [ ] Configure Supabase SSR helpers and client
 - [ ] Set up environment variables
 - [ ] Create basic authentication components
 - [ ] Test provider initialization
@@ -131,7 +131,7 @@ This implementation plan outlines the phased rollout of Supabase Auth with Postg
 
 #### Day 6-7: Authentication Flows
 
-- [ ] Implement sign-in page with Clerk components
+- [ ] Implement sign-in flow using Supabase Auth
 - [ ] Create sign-up flow with validation
 - [ ] Add sign-out functionality
 - [ ] Implement password reset flow
@@ -204,7 +204,7 @@ This implementation plan outlines the phased rollout of Supabase Auth with Postg
 
 ### Technical Risks
 
-**Clerk Integration Issues:**
+**Auth Integration Issues:**
 
 - **Detection:** Monitor integration during development
 - **Mitigation:** Have fallback authentication ready, maintain documentation
@@ -278,7 +278,7 @@ This implementation plan outlines the phased rollout of Supabase Auth with Postg
 
 ### Phase 2A Gates
 
-- [ ] Clerk authentication functional in development
+- [ ] Supabase Auth functional in development
 - [ ] Basic middleware protecting routes
 - [ ] Database schema with RLS policies applied
 - [ ] Development environment stable
@@ -315,7 +315,7 @@ This implementation plan outlines the phased rollout of Supabase Auth with Postg
 - **001-reboot-foundation:** Monorepo structure and build system
 - **002-nextjs-migration:** Next.js App Router setup
 - **Supabase Project:** Database and storage configured
-- **Clerk Application:** Authentication service ready
+- **Supabase Auth:** Authentication configured and tested
 
 ### Soft Dependencies
 
@@ -335,7 +335,7 @@ This implementation plan outlines the phased rollout of Supabase Auth with Postg
 
 ### Infrastructure Requirements
 
-- **Clerk Application:** Development and production instances
+- **Supabase Project:** Auth providers configured per environment
 - **Supabase Project:** Database with sufficient capacity
 - **CI/CD Pipeline:** Automated testing and deployment
 - **Monitoring Tools:** Logging and alerting infrastructure
@@ -379,4 +379,4 @@ This implementation plan outlines the phased rollout of Supabase Auth with Postg
 
 ## Conclusion
 
-This implementation plan provides a structured approach to establishing Clerk authentication with Supabase RLS for Schwalbe's Phase 2 baseline. By following Hollywood's proven patterns and implementing comprehensive security measures, we will create a solid foundation for future feature development while maintaining high standards of security and user experience.
+This implementation plan provides a structured approach to establishing Supabase Auth with Postgres RLS for Schwalbe's Phase 2 baseline. By following Hollywood's proven patterns and implementing comprehensive security measures, we will create a solid foundation for future feature development while maintaining high standards of security and user experience.
