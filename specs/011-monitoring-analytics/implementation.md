@@ -525,7 +525,7 @@ CREATE TABLE alert_instances (
 
 ### Row Level Security (RLS) Policies
 
-Note: RLS policies use `app.current_external_id()` as the identity source (Clerk external ID). Avoid `auth.uid()` when using Clerk. User references should point to `public.user_auth(clerk_id)`.
+Note: RLS policies should use `auth.uid()` when standardizing on Supabase Auth. For transitional schemas where user_id is TEXT, compare with `auth.uid()::text`. See docs/security/rls-cookbook.md.
 
 ```sql
 -- Enable RLS on all tables

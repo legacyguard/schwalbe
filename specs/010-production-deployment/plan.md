@@ -57,6 +57,8 @@
 ### **3.1 Supabase Observability Implementation**
 
 - Implement Supabase logs + DB error table + Resend alerts (no Sentry)
+- Align with docs/observability/baseline.md (logging shape, redaction, correlation IDs)
+- Add synthetic alert test in staging before go-live
 - Configure structured logging with environment and severity levels
 - Set up DB error table with timestamp, environment, severity, code, message, stack, context
 - Implement Resend alert integration for critical error escalation

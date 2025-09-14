@@ -4,9 +4,9 @@ This directory contains the API contract specifications for the authentication a
 
 ## API Contract Files
 
-### clerk-auth-api.yaml
+### supabase-auth-api.yaml
 
-Clerk authentication API integration contract.
+Supabase Auth integration contract and Postgres RLS policy interfaces.
 
 ```yaml
 openapi: 3.0.3

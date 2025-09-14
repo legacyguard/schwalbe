@@ -111,7 +111,7 @@
 
 ### Week 3: Authentication System
 
-**Objective**: Implement Clerk authentication
+**Objective**: Implement Supabase Auth authentication
 
 **Tasks**:
 
@@ -124,14 +124,14 @@
 
 **Deliverables**:
 
-- ✅ Clerk authentication working
+- ✅ Supabase authentication working
 - ✅ Route protection functional
 - ✅ Session management complete
 - ✅ Role-based access implemented
 
 **Success Criteria**:
 
-- Users can sign in/out
+- Users can sign in/out (Supabase Auth)
 - Protected routes secured
 - Sessions persist correctly
 - Roles control access

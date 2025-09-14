@@ -1,5 +1,10 @@
 # Next.js Migration - Security Considerations
 
+Note: This spec standardizes on Supabase Auth for identity and Postgres RLS for authorization. Replace legacy examples using Clerk with the patterns below and see:
+- docs/security/auth-migration-playbook.md
+- docs/security/rls-cookbook.md
+- docs/observability/baseline.md
+
 ## Authentication & Authorization
 
 ### Clerk Integration Security

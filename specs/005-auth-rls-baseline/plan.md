@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This implementation plan outlines the phased rollout of Clerk authentication with Supabase Row Level Security for Schwalbe's Phase 2 baseline. The plan follows Hollywood's proven patterns while establishing a clean, secure foundation for future features.
+This implementation plan outlines the phased rollout of Supabase Auth with Postgres Row Level Security for Schwalbe's Phase 2 baseline.
 
 ## Phase Breakdown
 
@@ -10,14 +10,14 @@ This implementation plan outlines the phased rollout of Clerk authentication wit
 
 **Goals:**
 
-- Configure Clerk authentication system
+- Configure Supabase Auth authentication system
 - Set up authentication providers and settings
 - Implement basic auth integration
 - Create auth configuration and environment setup
 
 **Acceptance signals:**
 
-- Clerk application properly configured
+- Supabase Auth properly configured
 - Authentication providers working
 - Basic auth integration functional
 - Environment variables set up correctly

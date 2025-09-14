@@ -60,7 +60,12 @@ schwalbe/
 
 - **Vercel**: Deployment and hosting platform
 - **Supabase**: Database, authentication, and edge functions
-- **Clerk**: User authentication and session management
+
+Auth & RLS baseline
+- Identity provider: Supabase Auth (auth.uid()) aligned with Postgres RLS
+- No service-role on client; owner-first default-deny policies
+- Observability: structured logs in Edge Functions; critical alerts via Resend; no Sentry
+- See docs/security/auth-migration-playbook.md and docs/security/rls-cookbook.md
 
 ### Development Tools
 

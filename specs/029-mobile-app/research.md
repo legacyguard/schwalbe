@@ -11,7 +11,7 @@
 
 ### Hollywood Mobile System Integration
 
-- **Existing Foundation**: Leverages Hollywood's Expo/React Native setup with Clerk auth and Tamagui UI
+- **Existing Foundation**: Leverages Hollywood's Expo/React Native setup with Supabase Auth and Tamagui UI
 - **Migration Strategy**: Build upon existing mobile components while adding offline sync and push notifications
 - **Component Reuse**: Utilize Hollywood's AsyncStorage patterns, SecureStore implementation, and navigation structure
 - **Enhancement Focus**: Add biometric security, offline functionality, and push notification system
@@ -36,7 +36,7 @@
 
 ### Mobile Services Integration
 
-- **Authentication**: Clerk Expo for seamless auth with biometric support
+- **Authentication**: Supabase Auth for seamless auth; use secure storage for session; biometric device unlock for app access
 - **Backend**: Supabase client with real-time subscriptions and offline sync
 - **Storage**: AsyncStorage + SQLite for offline data, SecureStore for encryption keys
 - **Notifications**: Expo Notifications with rich content and action support
