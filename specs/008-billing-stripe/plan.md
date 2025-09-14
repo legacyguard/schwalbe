@@ -57,7 +57,7 @@ This plan outlines the phased implementation of Stripe billing integration for S
 **Tasks:**
 
 - Port 20240101000000_create_subscription_tables.sql migration
-- Update RLS policies for Clerk compatibility
+- Update RLS policies for Supabase Auth
 - Create database types in packages/shared/types
 - Implement migration validation scripts
 - Set up subscription limits for all plans
@@ -66,7 +66,7 @@ This plan outlines the phased implementation of Stripe billing integration for S
 
 - Migration scripts ready for deployment
 - Database schema documented
-- RLS policies tested with Clerk
+- RLS policies tested with Supabase Auth
 
 #### Day 5: Edge Functions - create-checkout-session
 
@@ -212,14 +212,14 @@ This plan outlines the phased implementation of Stripe billing integration for S
 
 ### Required Before Implementation
 
-- ✅ Phase 1: Vercel + Supabase + Clerk infrastructure
+- ✅ Phase 1: Vercel + Supabase infrastructure
 - ✅ Phase 2: Auth + RLS baseline
 - ✅ Phase 3: Database schema and types
 - ✅ Hollywood billing functions identified and analyzed
 
 ### Integration Points
 
-- **Auth System**: Clerk user management integration
+- **Auth System**: Supabase Auth user management integration
 - **Database**: Supabase RLS and migration system
 - **Monitoring**: Error logging and alerting setup
 - **Email**: Resend integration for billing notifications

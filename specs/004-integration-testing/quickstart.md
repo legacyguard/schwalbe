@@ -38,7 +38,7 @@ Test all service-to-service integrations and API contracts:
 - Test Stripe webhook processing and payment handling
 - Verify Resend email delivery and template rendering
 - Test Google Translate API integration for i18n
-- Validate Clerk authentication middleware
+- Validate Supabase Auth middleware
 - Test Supabase RLS policy enforcement
 - Verify external OCR and AI service integrations
 - Test file upload and storage service interactions

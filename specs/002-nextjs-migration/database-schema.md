@@ -9,7 +9,6 @@
 ```sql
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  clerk_id TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
   first_name TEXT,
   last_name TEXT,
@@ -25,7 +24,6 @@ CREATE TABLE users (
 );
 
 -- Indexes
-CREATE INDEX idx_users_clerk_id ON users(clerk_id);
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_created_at ON users(created_at DESC);
 
@@ -33,10 +31,10 @@ CREATE INDEX idx_users_created_at ON users(created_at DESC);
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view own profile" ON users
-  FOR SELECT USING (auth.uid()::text = clerk_id);
+  FOR SELECT USING (auth.uid() = id);
 
 CREATE POLICY "Users can update own profile" ON users
-  FOR UPDATE USING (auth.uid()::text = clerk_id);
+  FOR UPDATE USING (auth.uid() = id);
 ```
 
 ### user_preferences
@@ -71,10 +69,10 @@ CREATE INDEX idx_user_preferences_user_id ON user_preferences(user_id);
 ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view own preferences" ON user_preferences
-  FOR SELECT USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR SELECT USING (auth.uid() = user_id);
 
 CREATE POLICY "Users can update own preferences" ON user_preferences
-  FOR ALL USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR ALL USING (auth.uid() = user_id);
 ```
 
 ## Application Data Tables
@@ -106,7 +104,7 @@ CREATE INDEX idx_sessions_token ON sessions(session_token);
 ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view own sessions" ON sessions
-  FOR SELECT USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR SELECT USING (auth.uid() = user_id);
 ```
 
 ### audit_logs
@@ -143,7 +141,7 @@ CREATE INDEX idx_audit_logs_timestamp ON audit_logs(timestamp DESC);
 ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view own audit logs" ON audit_logs
-  FOR SELECT USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR SELECT USING (auth.uid() = user_id);
 
 CREATE POLICY "System can insert audit logs" ON audit_logs
   FOR INSERT WITH CHECK (true);
@@ -179,10 +177,10 @@ CREATE INDEX idx_notifications_created_at ON notifications(created_at DESC);
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view own notifications" ON notifications
-  FOR SELECT USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR SELECT USING (auth.uid() = user_id);
 
 CREATE POLICY "Users can update own notifications" ON notifications
-  FOR UPDATE USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR UPDATE USING (auth.uid() = user_id);
 ```
 
 ### file_uploads
@@ -213,10 +211,10 @@ CREATE INDEX idx_file_uploads_uploaded_at ON file_uploads(uploaded_at DESC);
 ALTER TABLE file_uploads ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view own files" ON file_uploads
-  FOR SELECT USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR SELECT USING (auth.uid() = user_id);
 
 CREATE POLICY "Users can upload files" ON file_uploads
-  FOR INSERT WITH CHECK (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+FOR INSERT WITH CHECK (auth.uid() = user_id);
 ```
 
 ## Analytics and Monitoring Tables
@@ -321,7 +319,6 @@ CREATE POLICY "Migration service can manage status" ON migration_status
 CREATE VIEW user_profiles AS
 SELECT
   u.id,
-  u.clerk_id,
   u.email,
   u.first_name,
   u.last_name,

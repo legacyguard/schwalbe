@@ -70,7 +70,7 @@ LegacyGuard users need a secure, collaborative system to manage family access to
 
 **Authentication Approach**:
 
-- **Clerk**: Selected for seamless integration, multi-factor support, and user management
+- **Supabase Auth**: Selected for seamless integration, multi-factor support, and user management
 - **Alternatives considered**: Auth0 (enterprise features), Firebase Auth (Google integration)
 - **Decision factors**: Developer experience, security features, pricing
 

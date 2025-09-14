@@ -42,7 +42,7 @@
 ### 1. End-to-End Testing (Playwright)
 
 - **User Journey Tests**: Complete flows from landing page through document vault, will creation, and emergency access
-- **Authentication Scenarios**: Clerk integration, biometric auth, session management, and password recovery
+- **Authentication Scenarios**: Supabase Auth integration, biometric auth, session management, and password recovery
 - **Document Management**: Upload, encryption, search, sharing, versioning, and emergency document access
 - **Will Creation Process**: Template selection, clause assembly, legal requirement validation, and PDF generation
 - **Family Collaboration**: Guardian invitation, permission management, shared access, and notification systems
@@ -59,7 +59,7 @@
 - **Database Integration**: RLS policy enforcement, migration validation, and data consistency
 - **Webhook Processing**: Stripe payment webhooks, Resend email notifications, and custom event handling
 - **External Service Integration**: Google Translate API, AI services, OCR processing, and third-party APIs
-- **Authentication Integration**: Clerk middleware, JWT validation, and session management
+- **Authentication Integration**: Supabase Auth middleware, JWT validation, and session management
 - **File Storage Integration**: Supabase Storage, encryption validation, and access control
 - **Email System Integration**: Template rendering, delivery tracking, and bounce handling
 - **Real-time Features**: Supabase subscriptions, live updates, and collaborative editing

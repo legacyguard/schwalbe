@@ -107,10 +107,10 @@ CREATE TABLE sharing_log (
 ```sql
 -- Sharing config policies
 CREATE POLICY "Users can view own sharing config" ON sharing_config
-  FOR SELECT USING (app.current_external_id() = user_id);
+  FOR SELECT USING (auth.uid() = user_id);
 
 CREATE POLICY "Users can create own sharing config" ON sharing_config
-  FOR INSERT WITH CHECK (app.current_external_id() = user_id);
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Sharing log policies (read-only for owners)
 CREATE POLICY "Users can view sharing logs for own shares" ON sharing_log
@@ -118,7 +118,7 @@ CREATE POLICY "Users can view sharing logs for own shares" ON sharing_log
     EXISTS (
       SELECT 1 FROM sharing_config
       WHERE sharing_config.id = sharing_log.sharing_config_id
-AND sharing_config.user_id = app.current_external_id()
+AND sharing_config.user_id = auth.uid()
     )
   );
 ```

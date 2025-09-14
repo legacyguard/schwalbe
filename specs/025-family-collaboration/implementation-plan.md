@@ -598,7 +598,7 @@ class PerformanceMonitor {
 ### Third-Party Services
 
 - **Email Service**: Resend for transactional emails
-- **Authentication**: Clerk for user authentication
+- **Authentication**: Supabase Auth for user authentication
 - **Storage**: Supabase Storage for file uploads
 - **Monitoring**: Application performance monitoring
 

@@ -9,7 +9,7 @@ This guide provides 10 comprehensive test scenarios to validate the Family Colla
 ### Environment Setup
 
 1. **Database**: Supabase project with family collaboration tables
-2. **Authentication**: Clerk authentication configured
+2. **Authentication**: Supabase Auth configured
 3. **Test Users**: Create test user accounts for family owner and members
 4. **Email Service**: Resend email service configured for notifications
 5. **Test Data**: Sample family data and documents

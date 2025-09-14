@@ -519,7 +519,7 @@ function ClientComponent({ user }: { user: User }) {
 **SSR/RSC Integration Points:**
 
 - **Supabase Edge Functions**: Serverless functions for data fetching
-- **Clerk Authentication**: Server-side session management
+- **Supabase Auth**: Server-side session management
 - **Stripe Integration**: Server-side payment processing
 - **Resend Email**: Server-side email delivery
 - **Database Queries**: Server-side data fetching with RLS
@@ -557,12 +557,12 @@ serve(async (req) => {
 - **Business Logic**: Validation logic, data transformation utilities
 - **Styling System**: Design tokens, component variants from Hollywood
 - **API Patterns**: Request/response handling, error management
-- **Authentication Flow**: Clerk integration patterns and middleware
+- **Authentication Flow**: Supabase Auth integration patterns and middleware
 
 **Hollywood System Dependencies:**
 
 - **Supabase Integration**: Database queries, real-time subscriptions, storage
-- **Clerk Authentication**: User management, session handling, middleware
+- **Supabase Auth**: User management, session handling, middleware
 - **Stripe Billing**: Payment processing, webhook handling, subscription management
 - **Resend Email**: Email templates, delivery tracking, bounce handling
 - **Edge Functions**: Serverless operations, background processing, scheduled tasks

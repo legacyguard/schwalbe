@@ -386,7 +386,7 @@ interface SofiaFamilyIntegration {
 
 ### Authentication & Authorization
 
-- **Clerk Integration**: User authentication with JWT tokens
+- **Supabase Auth**: User authentication with JWT tokens
 - **Supabase RLS**: Row-level security on all database tables
 - **Role-Based Access**: Hierarchical permission system
 - **Token Management**: Secure invitation and access tokens

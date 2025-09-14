@@ -157,7 +157,7 @@ CREATE TABLE email_deliveries (
   bounced_at TIMESTAMPTZ,
   error_message TEXT,
   retry_count INTEGER DEFAULT 0,
-  user_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id),
+  user_id UUID NOT NULL REFERENCES auth.users(id),
   metadata JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -186,7 +186,7 @@ CREATE TABLE notification_rules (
 ```sql
 CREATE TABLE user_email_preferences (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL UNIQUE REFERENCES public.user_auth(clerk_id),
+  user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id),
   email_notifications BOOLEAN DEFAULT true,
   marketing_emails BOOLEAN DEFAULT false,
   transactional_emails BOOLEAN DEFAULT true,

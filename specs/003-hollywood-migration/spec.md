@@ -25,7 +25,7 @@
 - Migrating specific application features (Sofia AI, will creation, document vault).
 - Copying full web/mobile app implementations.
 - Database schema migration or Supabase setup.
-- Third-party service integrations (Stripe, Clerk, Google Vision).
+- Third-party service integrations (Stripe, Google Vision).
 
 Note: While deep product integrations are not fully implemented here, we must migrate the reusable package-level scaffolding and abstractions for notifications/email, OCR/AI, Storybook/UI, security, and Stripe so Phase 003 can plug them in rapidly.
 

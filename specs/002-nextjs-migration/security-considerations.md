@@ -13,11 +13,11 @@ Note: This spec standardizes on Supabase Auth for identity and Postgres RLS for 
 
 ```typescript
 // middleware.ts - Secure route protection
-import { authMiddleware } from '@clerk/nextjs'
+import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 export default authMiddleware({
   publicRoutes: ['/', '/about', '/contact', '/api/webhooks/stripe'],
-  ignoredRoutes: ['/api/webhooks/clerk'],
+  ignoredRoutes: ['/api/webhooks/auth'],
   beforeAuth: (req) => {
     // Log authentication attempts
     console.log(`Auth attempt: ${req.url}`)
@@ -59,13 +59,11 @@ export async function getServerSideProps(context) {
 
 ```typescript
 // Secure token validation
-import { verifyToken } from '@clerk/backend'
+import jwt from 'jsonwebtoken'
 
 export async function validateToken(token: string) {
   try {
-    const payload = await verifyToken(token, {
-      secretKey: process.env.CLERK_SECRET_KEY!
-    })
+const payload = jwt.verify(token, process.env.JWT_SECRET!) as any
 
     // Additional validation
     if (payload.exp < Date.now() / 1000) {

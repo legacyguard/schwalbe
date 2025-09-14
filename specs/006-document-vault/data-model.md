@@ -13,7 +13,7 @@ This document defines the complete data model for the Document Vault system, inc
 ```sql
 CREATE TABLE documents (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL,
+  user_id UUID NOT NULL,
   file_name TEXT NOT NULL,
   file_path TEXT NOT NULL,
   file_size BIGINT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE documents (
   archived_reason TEXT,
   
   -- Indexes
-CONSTRAINT documents_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
+CONSTRAINT documents_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -73,7 +73,7 @@ CREATE TYPE bundle_category AS ENUM (
 
 CREATE TABLE document_bundles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL,
+  user_id UUID NOT NULL,
   bundle_name TEXT NOT NULL,
   bundle_category bundle_category NOT NULL,
   description TEXT,
@@ -86,7 +86,7 @@ CREATE TABLE document_bundles (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   modified_at TIMESTAMPTZ DEFAULT NOW(),
   
-CONSTRAINT document_bundles_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
+CONSTRAINT document_bundles_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -100,7 +100,7 @@ CREATE INDEX idx_document_bundles_keywords ON document_bundles USING GIN(keyword
 ```sql
 CREATE TABLE user_encryption_keys (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL UNIQUE,
+  user_id UUID NOT NULL UNIQUE,
   encrypted_private_key TEXT NOT NULL,
   public_key TEXT NOT NULL,
   salt TEXT NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE user_encryption_keys (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   modified_at TIMESTAMPTZ DEFAULT NOW(),
   
-CONSTRAINT user_encryption_keys_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
+CONSTRAINT user_encryption_keys_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -132,13 +132,13 @@ CREATE INDEX idx_user_encryption_keys_key_version ON user_encryption_keys(key_ve
 ```sql
 CREATE TABLE key_rotation_history (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL,
+  user_id UUID NOT NULL,
   old_key_version INTEGER NOT NULL,
   new_key_version INTEGER NOT NULL,
   rotation_reason TEXT NOT NULL,
   rotated_at TIMESTAMPTZ DEFAULT NOW(),
   
-CONSTRAINT key_rotation_history_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
+CONSTRAINT key_rotation_history_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -151,7 +151,7 @@ CREATE INDEX idx_key_rotation_history_rotated_at ON key_rotation_history(rotated
 ```sql
 CREATE TABLE user_key_recovery (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL UNIQUE,
+  user_id UUID NOT NULL UNIQUE,
   backup_phrase_hash TEXT,
   security_questions JSONB,
   guardian_shares JSONB,
@@ -160,7 +160,7 @@ CREATE TABLE user_key_recovery (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   modified_at TIMESTAMPTZ DEFAULT NOW(),
   
-CONSTRAINT user_key_recovery_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
+CONSTRAINT user_key_recovery_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -176,7 +176,7 @@ CREATE TYPE access_action AS ENUM (
 
 CREATE TABLE key_access_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL,
+  user_id UUID NOT NULL,
   action access_action NOT NULL,
   success BOOLEAN NOT NULL,
   ip_address INET,
@@ -184,7 +184,7 @@ CREATE TABLE key_access_logs (
   error_message TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   
-CONSTRAINT key_access_logs_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE
+CONSTRAINT key_access_logs_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 -- Indexes
@@ -204,7 +204,7 @@ CREATE INDEX idx_key_access_logs_success ON key_access_logs(success);
 CREATE TABLE document_search_tokens (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
-  owner_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE,
+  owner_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   token_hash TEXT NOT NULL,
   positions INTEGER[],
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -814,7 +814,7 @@ CREATE POLICY "users_can_upload_own_storage"
 ON storage.objects FOR INSERT
 WITH CHECK (
   bucket_id = 'user_documents'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+  AND auth.uid()::text = (storage.foldername(name))[1]
 );
 
 -- Users may read their own objects only
@@ -822,7 +822,7 @@ CREATE POLICY "users_can_read_own_storage"
 ON storage.objects FOR SELECT
 USING (
   bucket_id = 'user_documents'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+  AND auth.uid()::text = (storage.foldername(name))[1]
 );
 
 -- Users may update their own objects only
@@ -830,11 +830,11 @@ CREATE POLICY "users_can_update_own_storage"
 ON storage.objects FOR UPDATE
 USING (
   bucket_id = 'user_documents'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+  AND auth.uid()::text = (storage.foldername(name))[1]
 )
 WITH CHECK (
   bucket_id = 'user_documents'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+  AND auth.uid()::text = (storage.foldername(name))[1]
 );
 
 -- Users may delete their own objects only
@@ -842,7 +842,7 @@ CREATE POLICY "users_can_delete_own_storage"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'user_documents'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+  AND auth.uid()::text = (storage.foldername(name))[1]
 );
 ```
 
@@ -851,19 +851,19 @@ USING (
 ```sql
 -- Users can view their own documents
 CREATE POLICY "Users can view their own documents" ON documents
-  FOR SELECT USING (app.current_external_id() = user_id);
+  FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own documents
 CREATE POLICY "Users can insert their own documents" ON documents
-  FOR INSERT WITH CHECK (app.current_external_id() = user_id);
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can update their own documents
 CREATE POLICY "Users can update their own documents" ON documents
-  FOR UPDATE USING (app.current_external_id() = user_id);
+  FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can delete their own documents
 CREATE POLICY "Users can delete their own documents" ON documents
-  FOR DELETE USING (app.current_external_id() = user_id);
+  FOR DELETE USING (auth.uid() = user_id);
 ```
 
 ### Document Bundles Table Policies
@@ -871,19 +871,19 @@ CREATE POLICY "Users can delete their own documents" ON documents
 ```sql
 -- Users can view their own bundles
 CREATE POLICY "Users can view their own bundles" ON document_bundles
-  FOR SELECT USING (app.current_external_id() = user_id);
+  FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own bundles
 CREATE POLICY "Users can insert their own bundles" ON document_bundles
-  FOR INSERT WITH CHECK (app.current_external_id() = user_id);
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can update their own bundles
 CREATE POLICY "Users can update their own bundles" ON document_bundles
-  FOR UPDATE USING (app.current_external_id() = user_id);
+  FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can delete their own bundles
 CREATE POLICY "Users can delete their own bundles" ON document_bundles
-  FOR DELETE USING (app.current_external_id() = user_id);
+  FOR DELETE USING (auth.uid() = user_id);
 ```
 
 ### User Encryption Keys Table Policies
@@ -891,15 +891,15 @@ CREATE POLICY "Users can delete their own bundles" ON document_bundles
 ```sql
 -- Users can view their own encryption keys
 CREATE POLICY "Users can view their own encryption keys" ON user_encryption_keys
-  FOR SELECT USING (app.current_external_id() = user_id);
+  FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own encryption keys
 CREATE POLICY "Users can insert their own encryption keys" ON user_encryption_keys
-  FOR INSERT WITH CHECK (app.current_external_id() = user_id);
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can update their own encryption keys
 CREATE POLICY "Users can update their own encryption keys" ON user_encryption_keys
-  FOR UPDATE USING (app.current_external_id() = user_id);
+  FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users cannot delete their own encryption keys (prevent accidental deletion)
 CREATE POLICY "Users cannot delete encryption keys" ON user_encryption_keys

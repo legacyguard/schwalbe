@@ -142,7 +142,7 @@ CREATE TABLE will_templates (
 ```sql
 -- Users can only access their own wills
 CREATE POLICY "Users can view own wills" ON wills
-  FOR SELECT USING (app.current_external_id() = user_id);
+  FOR SELECT USING (auth.uid() = user_id);
 
 -- Templates are read-only for all authenticated users
 CREATE POLICY "Authenticated users can view templates" ON will_templates

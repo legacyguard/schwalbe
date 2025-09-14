@@ -104,7 +104,7 @@ Stripe billing integration je kritická súčasť LegacyGuard systému - zabezpe
 **Migrácia do Schwalbe:**
 
 - Zachovať existujúce migration files
-- Aktualizovať RLS policies pre Clerk
+- Update RLS policies for Supabase Auth
 - Rozšíriť o nové fields ak potrebné
 
 ### 5. Checkout Flow Components
@@ -164,7 +164,7 @@ Stripe billing integration je kritická súčasť LegacyGuard systému - zabezpe
 
 ### Phase 2: Database & Security
 
-1. Migrácia subscription tables s Clerk RLS policies
+1. Migrácia subscription tables s Supabase Auth RLS policies
 2. Implementácia usage tracking systémov
 3. Nastavenie webhook security (signatures, validation)
 
@@ -271,7 +271,7 @@ Stripe billing integration je kritická súčasť LegacyGuard systému - zabezpe
 
 - **[001-reboot-foundation](../001-reboot-foundation/)**: Base infrastructure a environment setup
 - **[002-hollywood-migration](../002-hollywood-migration/)**: Migration framework a data porting
-- **[020-auth-rls-baseline](../020-auth-rls-baseline/)**: Clerk authentication a RLS policies
+- **[020-auth-rls-baseline](../020-auth-rls-baseline/)**: Supabase Auth a RLS policies
 - **[021-database-types](../021-database-types/)**: TypeScript types pre database schema
 
 ### Related Specifications

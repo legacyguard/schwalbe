@@ -47,7 +47,7 @@ This specification defines the complete Stripe billing integration for Schwalbe,
 
 - **[001-reboot-foundation](../001-reboot-foundation/)**: Base infrastructure and environment setup
 - **[003-hollywood-migration](../003-hollywood-migration/)**: Migration framework and data porting
-- **[020-auth-rls-baseline](../020-auth-rls-baseline/)**: Clerk authentication and RLS policies
+- **[020-auth-rls-baseline](../020-auth-rls-baseline/)**: Supabase Auth and RLS policies
 - **[021-database-types](../021-database-types/)**: TypeScript types for database schema
 
 ### Related Specs
@@ -81,9 +81,9 @@ This specification defines the complete Stripe billing integration for Schwalbe,
 
 ### Identity and RLS
 
-- Use `app.current_external_id()` as the identity source (Clerk external ID)
-- Reference Clerk users via `public.user_auth(clerk_id)` rather than `auth.users(id)`
-- Avoid `auth.uid()` when using Clerk-based authentication
+- Use `auth.uid()` as the identity source (Supabase Auth user ID)
+- Reference users via `auth.users(id)`
+- Avoid `app.current_external_id()`; standardize all RLS on `auth.uid()`
 
 ## API Contracts
 

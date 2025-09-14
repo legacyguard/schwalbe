@@ -88,7 +88,7 @@ Auth & RLS baseline
 ### Phase 1: Core Infrastructure (Week 2-3)
 
 - [ ] Integrate Supabase with SSR-safe patterns
-- [ ] Implement Clerk authentication middleware
+- [ ] Implement Supabase Auth integration (middleware/session)
 - [ ] Configure Edge Runtime for Supabase functions
 - [ ] Set up database connections and type safety
 
@@ -131,7 +131,7 @@ Auth & RLS baseline
 
 ### Authentication & Security
 
-- Clerk integration with middleware protection
+- Supabase Auth integration with middleware protection
 - Row Level Security (RLS) on all database tables
 - Comprehensive audit logging and monitoring
 - Content Security Policy (CSP) implementation
@@ -166,7 +166,7 @@ Auth & RLS baseline
 
 - **Vercel Pro Plan**: Advanced deployment features
 - **Supabase Pro Plan**: Edge functions and analytics
-- **Clerk Pro Plan**: Advanced authentication features
+- **Supabase Auth**: Advanced authentication features
 - **Monitoring Tools**: Application and infrastructure monitoring
 
 ## Success Metrics

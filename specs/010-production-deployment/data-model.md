@@ -292,7 +292,7 @@ CREATE TABLE deployment_configs (
   deploy_time INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   completed_at TIMESTAMP WITH TIME ZONE,
-  triggered_by TEXT NOT NULL REFERENCES public.user_auth(clerk_id),
+  triggered_by UUID NOT NULL REFERENCES auth.users(id),
   logs_url TEXT,
   artifacts_url TEXT,
   error_message TEXT,
@@ -417,7 +417,7 @@ CREATE POLICY "Admin users can manage environments" ON environments FOR ALL USIN
 -- Deployment access policies
 CREATE POLICY "Users can view deployments" ON deployment_configs FOR SELECT USING (true);
 CREATE POLICY "Authorized users can create deployments" ON deployment_configs FOR INSERT WITH CHECK (true);
-CREATE POLICY "Users can update their deployments" ON deployment_configs FOR UPDATE USING (app.current_external_id() = triggered_by);
+CREATE POLICY "Users can update their deployments" ON deployment_configs FOR UPDATE USING (auth.uid() = triggered_by);
 
 -- Monitoring access policies
 CREATE POLICY "Users can view monitoring data" ON monitoring_metrics FOR SELECT USING (true);

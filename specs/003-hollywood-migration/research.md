@@ -169,7 +169,7 @@ hollywood/
 
 ### **High Complexity** (Significant refactoring needed)
 
-- Service integrations (Supabase, Clerk, third-party APIs)
+- Service integrations (Supabase, third-party APIs)
 - Application-specific business logic
 - Database schema and migrations
 - Environment-specific configurations
