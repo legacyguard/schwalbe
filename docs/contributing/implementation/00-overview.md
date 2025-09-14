@@ -39,6 +39,11 @@ Index of phases
 - [29 – Production Env/DNS/Robots/Secrets + Runbook](29-prod-env-runbook.md)
 - [30 – E2E Money‑Path Smoke Tests](30-e2e-money-path.md)
 - [31 – Dunning + Email Flows + Billing Portal UX](31-dunning-and-portal.md)
+- [32 – Stripe Tax, Invoicing & Billing Localization (CZ/SK)](32-stripe-tax-invoicing.md)
+- [33 – Webhook Reliability, Idempotency & Alerting](33-webhook-hardening.md)
+- [34 – Refund/Cancel/Trial Policy + UI Messaging](34-billing-policy.md)
+- [35 – GDPR Minimum (Delete/Export Data) + Privacy Hygiene](35-gdpr-minimum.md)
+- [36 – Support, Contact & Email Posture (SPF/DKIM/DMARC)](36-support-contact-email.md)
 
 Requirements honored in all phases
 - UI strings outside i18n are in English; the app supports 34 languages.
