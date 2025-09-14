@@ -1,4 +1,4 @@
-# LANGUAGE MATRIX PER DOMAIN (39 COUNTRIES, 33+ LANGUAGES)
+# LANGUAGE MATRIX PER DOMAIN (39 COUNTRIES, 34 LANGUAGES)
 
 ## TIER 1 LAUNCH MARKETS (€19/month)
 
@@ -320,7 +320,7 @@
 
 # LANGUAGE IMPLEMENTATION MATRIX
 
-## TOTAL LANGUAGES: 33+
+## TOTAL LANGUAGES: 34
 
 1. **Albanian (SQ)** - Albania, North Macedonia, Kosovo diaspora
 2. **Bosnian (BS)** - Bosnia and Herzegovina
