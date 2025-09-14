@@ -24,7 +24,6 @@
 - English (EN) - expats and international residents
 - Polish (PL) - largest immigrant group
 - Ukrainian (UK) - diaspora
-- Russian (RU) - business community
 
 🇵🇱 **POLAND** (legacyguard.pl):
 
@@ -104,7 +103,6 @@
 - English (EN) - international business and wealth management
 - French (FR) - cultural ties and neighboring
 - Italian (IT) - neighboring and cultural connections
-- Ukrainian (UK) - diaspora
 
 🇪🇸 **SPAIN** (legacyguard.es):
 
@@ -240,7 +238,6 @@
 - English (EN) - international
 - Danish (DA) - cultural connections
 - Norwegian (NO) - cultural connections
-- Ukrainian (UK) - diaspora
 
 ## TIER 2 EXPANSION MARKETS (€14/month)
 
