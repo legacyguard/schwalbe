@@ -155,6 +155,7 @@
 
 ## Cross-links
 
+- See ../034-prep-operational-foundations/spec.md for MVP operational foundations (env, RLS, observability, ADRs, CI, i18n, release)
 - See ORDER.md for canonical mapping
 - See 001-reboot-foundation/spec.md for monorepo foundation and governance
 - See 003-hollywood-migration/spec.md for core packages and shared services

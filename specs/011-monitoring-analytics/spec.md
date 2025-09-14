@@ -57,6 +57,7 @@
 
 ## Cross-links
 
+- See ../034-prep-operational-foundations/spec.md for MVP operational foundations (env, RLS, observability, ADRs, CI, i18n, release)
 - See 001-reboot-foundation/spec.md for monorepo architecture and build system
 - See 003-hollywood-migration/spec.md for monitoring service migration
 - See 031-sofia-ai-system/spec.md for AI system monitoring integration

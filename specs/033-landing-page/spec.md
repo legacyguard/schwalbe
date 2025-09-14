@@ -5,6 +5,8 @@
 - Supabase-first authentication; production-ready country switcher; search overlay; support and pricing entry points
 - Prepared for multi-domain rollout per country; MVP supports CZ and SK
 
+See also: ../034-prep-operational-foundations/spec.md for MVP operational foundations (env, RLS, observability, ADRs, CI, i18n, release)
+
 ## Goals
 
 - Implement a responsive global header on landing pages with these right-aligned icons (desktop) and equivalents in a mobile overflow menu:
