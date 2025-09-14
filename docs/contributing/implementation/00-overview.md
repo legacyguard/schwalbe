@@ -34,6 +34,11 @@ Index of phases
 - [24 – Telemetry & Alerting (Operational Runbook)](24-telemetry-alerting.md)
 - [25 – Release, QA & Ops Playbook](25-release-qa-ops.md)
 - [26 – MCP Prompting Guide (Warp)](26-mcp-prompting-guide.md)
+- [27 – Stripe Billing + Webhooks + Gating](27-stripe-billing.md)
+- [28 – Legal/Compliance Pages + Consent Tracking + Cookie Banner](28-legal-compliance.md)
+- [29 – Production Env/DNS/Robots/Secrets + Runbook](29-prod-env-runbook.md)
+- [30 – E2E Money‑Path Smoke Tests](30-e2e-money-path.md)
+- [31 – Dunning + Email Flows + Billing Portal UX](31-dunning-and-portal.md)
 
 Requirements honored in all phases
 - UI strings outside i18n are in English; the app supports 34 languages.
