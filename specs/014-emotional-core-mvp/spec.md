@@ -57,6 +57,7 @@
 
 ## Cross-links
 
+- See ../033-landing-page/spec.md for landing header patterns and MVP landing integration
 - See 001-reboot-foundation/spec.md for core infrastructure
 - See 003-hollywood-migration/spec.md for migration patterns
 - See 031-sofia-ai-system/spec.md for AI guidance integration

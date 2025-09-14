@@ -89,6 +89,7 @@ Note: Focus on Stripe-native features and proven conversion optimization pattern
 
 ## Cross-links
 
+- See ../033-landing-page/spec.md for Buy entry points and pricing navigation from the global header
 - See 001-reboot-foundation/spec.md for monorepo structure and build configuration
 - See 003-hollywood-migration/spec.md for Stripe patterns and pricing psychology migration
 - See 031-sofia-ai-system/spec.md for AI integration and personalized recommendations

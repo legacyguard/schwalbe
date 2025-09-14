@@ -45,6 +45,7 @@
 
 ## Cross-links
 
+- See ../033-landing-page/spec.md for global header and navigation patterns used across public pages
 - See ORDER.md for downstream dependencies including the dead-man-switch scope that depend on this foundation.
 
 ## Linked design docs

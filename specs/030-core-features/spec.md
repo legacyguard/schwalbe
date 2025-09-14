@@ -34,6 +34,7 @@
 
 ## Cross-links
 
+- See ../033-landing-page/spec.md for public navigation patterns (header, search, support, Buy)
 - See `../018-dead-man-switch/` for emergency system scope.
 
 ## Risks & Mitigations

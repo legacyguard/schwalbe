@@ -106,6 +106,7 @@
 
 ## Cross-links
 
+- See ../033-landing-page/spec.md for landing header components and environment-aware country redirects
 - See 001-reboot-foundation/spec.md for core infrastructure setup
 - See 003-hollywood-migration/spec.md for migration patterns and Hollywood codebase analysis
 - See 031-sofia-ai-system/spec.md for AI integration considerations

@@ -130,6 +130,7 @@
 
 ## Cross-links
 
+- See ../033-landing-page/spec.md for landing/global header acceptance that must be covered in smoke and load tests
 - See `../001-reboot-foundation/spec.md` for monorepo architecture and build system
 - See `../003-hollywood-migration/spec.md` for core package migration and shared services
 - See `../031-sofia-ai-system/spec.md` for AI-powered guidance integration

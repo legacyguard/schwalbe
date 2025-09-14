@@ -56,6 +56,7 @@
 
 ## Cross-links
 
+- See ../033-landing-page/spec.md for global header, multi-domain country selector, and MVP domain/language UX
 - See 001-reboot-foundation/spec.md for foundation setup
 - See 003-hollywood-migration/spec.md for migration patterns
 - See 031-sofia-ai-system/spec.md for AI integration points
