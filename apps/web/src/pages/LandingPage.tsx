@@ -7,7 +7,7 @@ import { Card, CardContent } from '@schwalbe/ui';
 import { Icon } from '@/components/ui/icon-library';
 import { LegacyGuardLogo } from '@/components/LegacyGuardLogo';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@clerk/clerk-react';
+import { supabase } from '@/lib/supabase';
 import { SecurityPromiseSection } from '@/components/landing/SecurityPromiseSection';
 import { PricingSection } from '@/components/landing/PricingSection';
 import { RedirectGuard } from '@/lib/utils/redirect-guard';
@@ -15,7 +15,20 @@ import { RedirectGuard } from '@/lib/utils/redirect-guard';
 export function LandingPage() {
   const { t } = useTranslation('ui/landing-page');
   const navigate = useNavigate();
-  const { isSignedIn, isLoaded } = useAuth();
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  React.useEffect(() => {
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      setIsSignedIn(!!data.session);
+      setIsLoaded(true);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
   const [isFireflyOnButton, setIsFireflyOnButton] = useState(false);
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);

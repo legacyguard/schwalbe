@@ -1,4 +1,4 @@
-const { ClerkExpressRequireAuth } = require('@clerk/clerk-sdk-node');
+// Deprecated: Clerk server entry; kept for reference. Use supabase_index.js instead.
 
 // Initialize Clerk middleware
 const clerk = ClerkExpressRequireAuth({
