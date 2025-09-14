@@ -11,6 +11,7 @@ Legend:
 - 032-governance-spec-kit (cross-phase governance/spec-guard)
 - 001-reboot-foundation (monorepo standards, boundaries, CI baseline)
 - 002-nextjs-migration (apps/web-next baseline, exclude apps/web)
+- 034-prep-operational-foundations (MVP operational foundations: env, RLS, observability, ADRs, CI guards, i18n, release runbooks)
 
 1) Migration of Infra and Core Packages
 - 003-hollywood-migration (selective copy; infra + core packages; Vite only for Storybook builder)
