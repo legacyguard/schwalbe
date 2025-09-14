@@ -623,16 +623,15 @@ npx supabase db push
 npx supabase functions deploy
 ```
 
-## Security Checklist
+## Security Verification Checklist (Supabase Auth)
 
-- [ ] Environment variables properly configured
-- [ ] RLS policies tested and working
-- [ ] Authentication middleware active
-- [ ] HTTPS enabled in production
-- [ ] Security headers configured
-- [ ] Rate limiting implemented
-- [ ] Audit logging active
-- [ ] Regular security updates scheduled
+- [ ] Identity: Supabase Auth (auth.uid()); no service-role on client
+- [ ] RLS tests: follow docs/testing/rls-test-template.md (two-user tests per table)
+- [ ] Token handling: hashed single-use tokens with expiry; never log raw tokens
+- [ ] Observability: structured logs + Resend alerts (no Sentry); see docs/observability/baseline.md
+- [ ] HTTPS enabled in production; security headers and CSP configured
+- [ ] Rate limiting implemented for sensitive endpoints
+- [ ] Audit logging active for auth and security events
 
 ## Performance Monitoring
 

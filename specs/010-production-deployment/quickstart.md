@@ -21,7 +21,7 @@ Verify that the production environment is properly configured and accessible.
 
 ```bash
 # Verify required environment variables are set (without printing values)
-for var in VERCEL_TOKEN SUPABASE_URL CLERK_SECRET_KEY; do
+for var in VERCEL_TOKEN SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY RESEND_API_KEY; do
   if [ -n "${!var:-}" ]; then
     echo "$var is set"
   else
@@ -134,6 +134,11 @@ curl https://staging.legacyguard.cz/api/health
 - Health endpoints return success
 
 ## 3) Monitoring Testing - Test monitoring system
+
+Observability Baseline Checklist
+- [ ] Structured logs emitted with correlationId; PII redacted (see docs/observability/baseline.md)
+- [ ] Critical alert routes via Resend validated in staging
+- [ ] No Sentry references; dashboards available for error rates, latency, throughput
 
 ### Objective (Scenario 3)
 

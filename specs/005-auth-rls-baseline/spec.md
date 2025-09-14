@@ -1,4 +1,4 @@
-# Auth + RLS Baseline - Clerk Authentication and Supabase RLS
+# Auth + RLS Baseline - Supabase Auth and Postgres RLS
 
 - Implementation of Phase 2 — Auth + RLS Baseline from high-level-plan.md
 - Clerk authentication integration with Supabase Row Level Security
@@ -7,7 +7,7 @@
 
 ## Goals
 
-- **Clerk Authentication Integration**: Comprehensive user management with email/password, OAuth providers, and JWT token handling
+- **Supabase Authentication Integration**: Comprehensive user management with email/password, OAuth providers, and JWT token handling
 - **Supabase RLS Policies & Enforcement**: Database-level security with claims mapping, policy validation, and data isolation
 - **Session Management & Token Handling**: Secure session persistence, automatic token refresh, and concurrent session control
 - **Access Control & Permission System**: Role-based access control with granular permissions and inheritance rules
@@ -89,8 +89,8 @@
 ### Security Architecture
 
 - **JWT Token Flow**: Clerk JWT tokens automatically injected into Supabase requests
-- **Row Level Security**: PostgreSQL RLS policies ensure data isolation
-- All RLS policies MUST use app.current_external_id() as the identity source for Clerk users. Avoid auth.uid() in policies when using Clerk, as it may not map to Clerk external IDs reliably.
+- **Row Level Security**: PostgreSQL RLS policies ensure data isolation using auth.uid() as the identity source (Supabase Auth)
+- For transitional schemas where user_id is TEXT, compare with auth.uid()::text. See docs/security/rls-cookbook.md.
 - **Storage Security**: User-scoped file access with encryption
 - **Session Security**: Secure session management with automatic refresh
 - **Audit Logging**: Comprehensive logging of authentication and access events

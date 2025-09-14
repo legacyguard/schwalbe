@@ -20,9 +20,16 @@ This guide provides comprehensive test scenarios to validate the Next.js migrati
 1. **Next.js Application**: `apps/web-next` scaffolded with App Router
 2. **TypeScript**: Strict mode configuration enabled
 3. **Supabase**: Database and edge functions configured
-4. **Clerk**: Authentication service integrated
+4. **Supabase Auth**: Authentication configured and working in staging
 5. **Vercel**: Deployment environment ready
 6. **Test Data**: Sample content and user accounts
+
+### Security Verification Checklist
+
+- Identity: Supabase Auth only (no Clerk)
+- RLS baseline: owner-first; test with two users (see docs/testing/rls-test-template.md)
+- Token handling: hashed single-use tokens with expiry; never log raw tokens
+- Observability: structured logs in Edge Functions; critical alerts via Resend; no Sentry (see docs/observability/baseline.md)
 
 ### Development Environment
 

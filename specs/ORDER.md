@@ -17,7 +17,7 @@ Legend:
 - 030-core-features (cross-phase aggregator: minimal vertical slices to validate foundations)
 
 2) Auth + RLS Baseline
-- 005-auth-rls-baseline (Clerk + Supabase RLS vertical slice)
+- 005-auth-rls-baseline (Supabase Auth + Postgres RLS vertical slice)
 
 3) Database and Types
 - 015-database-types (migrations curation, type-gen, strict typing)

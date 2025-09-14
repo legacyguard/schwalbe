@@ -42,7 +42,7 @@ npm start
 
 The mobile app leverages the existing Hollywood mobile foundation:
 
-- **Existing Components**: Clerk auth, Tamagui UI, AsyncStorage, SecureStore
+- **Existing Components**: Supabase Auth, Tamagui UI, AsyncStorage, SecureStore
 - **Enhancement Areas**: Push notifications, offline sync, biometric security
 - **Migration Path**: Build upon existing Hollywood mobile structure
 - **Dependencies**: 002-hollywood-migration provides core mobile packages
@@ -58,8 +58,6 @@ Create `.env.local` in `apps/mobile/`:
 EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
 EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# Clerk
-EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 
 # Stripe (for payments)
 EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
