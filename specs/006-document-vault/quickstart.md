@@ -9,6 +9,7 @@ This document provides end-to-end user flows, implementation examples, and testi
 ### 1. First Document Upload - Encryption Flow
 
 #### User Journey
+
 1. **User Registration**: User creates account and sets up master password
 2. **Key Generation**: System generates encryption key pair
 3. **Document Selection**: User selects document to upload
@@ -17,7 +18,8 @@ This document provides end-to-end user flows, implementation examples, and testi
 6. **Metadata Storage**: Document metadata stored in PostgreSQL
 7. **Confirmation**: User receives upload confirmation
 
-#### Technical Implementation
+#### Technical Implementation 1
+
 ```typescript
 // 1. Initialize encryption service
 const encryptionService = new EncryptionService();
@@ -47,7 +49,8 @@ await supabase.from('documents').insert({
 });
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 1
+
 - **Happy Path**: Upload 1MB PDF document successfully
 - **Large File**: Upload 50MB image file with progress tracking
 - **Multiple Files**: Upload 5 documents simultaneously
@@ -56,7 +59,8 @@ await supabase.from('documents').insert({
 
 ### 2. Document Download - Decryption Flow
 
-#### User Journey
+#### User Journey 2
+
 1. **Document Selection**: User selects document from list
 2. **Authentication**: System verifies user access permissions
 3. **Key Retrieval**: User's encryption keys retrieved from secure storage
@@ -64,7 +68,8 @@ await supabase.from('documents').insert({
 5. **Decryption Process**: Document decrypted client-side
 6. **File Delivery**: Decrypted document provided to user
 
-#### Technical Implementation
+#### Technical Implementation 2
+
 ```typescript
 // 1. Retrieve document metadata
 const { data: document } = await supabase
@@ -96,7 +101,8 @@ link.download = document.file_name;
 link.click();
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 2
+
 - **Happy Path**: Download and decrypt 1MB PDF successfully
 - **Large File**: Download 100MB video file with progress tracking
 - **Corrupted File**: Test download of corrupted encrypted file
@@ -105,7 +111,8 @@ link.click();
 
 ### 3. Document Versioning - Version Management
 
-#### User Journey
+#### User Journey 3
+
 1. **Document Update**: User uploads new version of existing document
 2. **Version Detection**: System detects potential version relationship
 3. **Version Linking**: New document linked to previous version
@@ -113,7 +120,8 @@ link.click();
 5. **Version Comparison**: User can compare different versions
 6. **Version Restoration**: User can restore previous version
 
-#### Technical Implementation
+#### Technical Implementation 3
+
 ```typescript
 // 1. Check for potential versions
 const potentialVersions = await supabase.rpc('find_potential_document_versions', {
@@ -145,7 +153,8 @@ const diff = await documentService.compareDocumentVersions(
 );
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 3
+
 - **Happy Path**: Upload new version of existing document
 - **Version Detection**: Test automatic version detection
 - **Version History**: Test version history display
@@ -154,7 +163,8 @@ const diff = await documentService.compareDocumentVersions(
 
 ### 4. Metadata Extraction - OCR Processing
 
-#### User Journey
+#### User Journey 4
+
 1. **Document Upload**: User uploads document (PDF, image)
 2. **OCR Trigger**: System automatically triggers OCR processing
 3. **Text Extraction**: OCR extracts text from document
@@ -162,7 +172,8 @@ const diff = await documentService.compareDocumentVersions(
 5. **Metadata Generation**: System generates document metadata
 6. **Search Indexing**: Document indexed for search
 
-#### Technical Implementation
+#### Technical Implementation 4
+
 ```typescript
 // 1. Trigger OCR processing
 const ocrResult = await metadataExtractionService.extractTextFromDocument(document);
@@ -191,7 +202,8 @@ await searchService.indexDocument(documentId, {
 });
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 4
+
 - **Happy Path**: OCR processing of clear PDF document
 - **Low Quality**: OCR processing of scanned document
 - **Multiple Languages**: OCR processing of multilingual document
@@ -200,7 +212,8 @@ await searchService.indexDocument(documentId, {
 
 ### 5. Document Search - Search Functionality
 
-#### User Journey
+#### User Journey 5
+
 1. **Search Query**: User enters search terms
 2. **Query Processing**: System processes search query
 3. **Index Search**: Search performed across document indexes
@@ -208,7 +221,8 @@ await searchService.indexDocument(documentId, {
 5. **Result Display**: Search results displayed to user
 6. **Result Interaction**: User can filter, sort, and access results
 
-#### Technical Implementation
+#### Technical Implementation 5
+
 ```typescript
 // 1. Process search query
 const searchQuery = {
@@ -241,7 +255,8 @@ return {
 };
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 5
+
 - **Happy Path**: Search for "contract" returns relevant documents
 - **No Results**: Search for non-existent terms
 - **Filtered Search**: Search with category and date filters
@@ -250,7 +265,8 @@ return {
 
 ### 6. Document Sharing - Secure Sharing
 
-#### User Journey
+#### User Journey 6
+
 1. **Share Request**: User initiates document sharing
 2. **Permission Setup**: User sets sharing permissions
 3. **Recipient Selection**: User selects recipient
@@ -258,7 +274,8 @@ return {
 5. **Share Link Generation**: Secure share link generated
 6. **Recipient Access**: Recipient accesses shared document
 
-#### Technical Implementation
+#### Technical Implementation 6
+
 ```typescript
 // 1. Generate share permissions
 const sharePermissions = {
@@ -289,7 +306,8 @@ await supabase.from('document_access').insert({
 const shareLink = await generateSecureShareLink(documentId, recipientId);
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 6
+
 - **Happy Path**: Share document with read-only access
 - **Permission Levels**: Test different permission combinations
 - **Expiration**: Test share link expiration
@@ -298,7 +316,8 @@ const shareLink = await generateSecureShareLink(documentId, recipientId);
 
 ### 7. Error Recovery - Backup/Restore
 
-#### User Journey
+#### User Journey 7
+
 1. **Error Detection**: System detects encryption or storage error
 2. **Error Classification**: Error classified by type and severity
 3. **Recovery Attempt**: System attempts automatic recovery
@@ -306,7 +325,8 @@ const shareLink = await generateSecureShareLink(documentId, recipientId);
 5. **Manual Recovery**: User guided through manual recovery if needed
 6. **Recovery Validation**: Recovery success validated
 
-#### Technical Implementation
+#### Technical Implementation 7
+
 ```typescript
 // 1. Error detection and classification
 const errorHandler = new DocumentVaultErrorHandler();
@@ -334,7 +354,8 @@ if (errorClassification.requiresManualRecovery) {
 }
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 7
+
 - **Network Error**: Test recovery from network failures
 - **Encryption Error**: Test recovery from encryption failures
 - **Storage Error**: Test recovery from storage failures
@@ -343,7 +364,8 @@ if (errorClassification.requiresManualRecovery) {
 
 ### 8. Performance Test - Large Files
 
-#### User Journey
+#### User Journey 8
+
 1. **Large File Selection**: User selects large file (>100MB)
 2. **Progress Tracking**: System shows encryption progress
 3. **Chunked Upload**: File uploaded in chunks with retry logic
@@ -351,7 +373,8 @@ if (errorClassification.requiresManualRecovery) {
 5. **Download Test**: User downloads file to verify integrity
 6. **Performance Metrics**: System records performance metrics
 
-#### Technical Implementation
+#### Technical Implementation 8
+
 ```typescript
 // 1. Large file handling
 const chunkSize = 10 * 1024 * 1024; // 10MB chunks
@@ -378,7 +401,8 @@ const uploadPromises = encryptedChunks.map(async ({ index, encryptedChunk }) => 
 await Promise.all(uploadPromises);
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 8
+
 - **100MB File**: Upload and download 100MB video file
 - **1GB File**: Upload and download 1GB archive file
 - **Multiple Large Files**: Upload 5 large files simultaneously
@@ -387,7 +411,8 @@ await Promise.all(uploadPromises);
 
 ### 9. Security Test - RLS Validation
 
-#### User Journey
+#### User Journey 9
+
 1. **Access Attempt**: User attempts to access another user's document
 2. **Permission Check**: System checks user permissions
 3. **Access Denial**: System denies unauthorized access
@@ -395,7 +420,8 @@ await Promise.all(uploadPromises);
 5. **Security Alert**: Security team notified of suspicious activity
 6. **User Notification**: User notified of access denial
 
-#### Technical Implementation
+#### Technical Implementation 9
+
 ```typescript
 // 1. RLS policy enforcement
 const { data: document, error } = await supabase
@@ -427,7 +453,8 @@ if (error || document.user_id !== currentUserId) {
 }
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 9
+
 - **Cross-User Access**: Test accessing another user's document
 - **Admin Access**: Test admin access to user documents
 - **API Bypass**: Test direct API access without authentication
@@ -436,7 +463,8 @@ if (error || document.user_id !== currentUserId) {
 
 ### 10. End-to-End Test - Complete Workflow
 
-#### User Journey
+#### User Journey 10
+
 1. **Account Setup**: User creates account and sets master password
 2. **Document Upload**: User uploads various document types
 3. **Document Organization**: User organizes documents into bundles
@@ -448,7 +476,8 @@ if (error || document.user_id !== currentUserId) {
 
 ### 11. OCR Processing Test - Document Analysis
 
-#### User Journey
+#### User Journey 11
+
 1. **Image Upload**: User uploads scanned document images
 2. **OCR Processing**: System processes images with Google Vision API
 3. **Text Extraction**: OCR extracts text with confidence scoring
@@ -460,7 +489,8 @@ if (error || document.user_id !== currentUserId) {
 
 ### 12. AI Analysis Test - Sofia Integration
 
-#### User Journey
+#### User Journey 12
+
 1. **Document Upload**: User uploads various document types
 2. **AI Processing**: Sofia AI analyzes document content
 3. **Entity Extraction**: Names, dates, and amounts extracted
@@ -472,7 +502,8 @@ if (error || document.user_id !== currentUserId) {
 
 ### 13. Document Bundle Test - Organization
 
-#### User Journey
+#### User Journey 13
+
 1. **Bundle Creation**: User creates document bundles
 2. **Automatic Categorization**: System suggests bundle categories
 3. **Document Grouping**: Related documents grouped automatically
@@ -484,7 +515,8 @@ if (error || document.user_id !== currentUserId) {
 
 ### 14. Document Versioning Test - Version Management
 
-#### User Journey
+#### User Journey 14
+
 1. **Initial Upload**: User uploads first version of document
 2. **Version Detection**: System detects new version upload
 3. **Version Linking**: New version linked to previous version
@@ -496,7 +528,8 @@ if (error || document.user_id !== currentUserId) {
 
 ### 15. Document Sharing Test - Secure Sharing
 
-#### User Journey
+#### User Journey 15
+
 1. **Share Request**: User initiates document sharing
 2. **Permission Setup**: User sets sharing permissions
 3. **Recipient Selection**: User selects recipients
@@ -506,7 +539,8 @@ if (error || document.user_id !== currentUserId) {
 7. **Permission Management**: User manages sharing permissions
 8. **Share Analytics**: System tracks sharing activity
 
-#### Technical Implementation
+#### Technical Implementation 15
+
 ```typescript
 // Complete end-to-end test
 describe('Document Vault End-to-End', () => {
@@ -551,7 +585,8 @@ describe('Document Vault End-to-End', () => {
 });
 ```
 
-#### Testing Scenarios
+#### Testing Scenarios 15
+
 - **Complete Workflow**: Test entire user journey from setup to recovery
 - **Multi-User**: Test multiple users with shared documents
 - **Load Testing**: Test system under high load
@@ -561,6 +596,7 @@ describe('Document Vault End-to-End', () => {
 ## Implementation Examples
 
 ### React Hook for Document Management
+
 ```typescript
 export const useDocumentVault = () => {
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -625,6 +661,7 @@ export const useDocumentVault = () => {
 ```
 
 ### Sofia AI Integration
+
 ```typescript
 export const useSofiaAI = () => {
   const analyzeDocument = async (document: Document) => {
@@ -671,6 +708,7 @@ export const useSofiaAI = () => {
 ```
 
 ### Error Handling and Recovery
+
 ```typescript
 export class DocumentVaultErrorHandler {
   async handleError(error: Error, context: ErrorContext): Promise<ErrorHandlingResult> {
@@ -738,18 +776,21 @@ export class DocumentVaultErrorHandler {
 ## Performance Benchmarks
 
 ### Encryption Performance
+
 - **Small files (<1MB)**: <500ms encryption time
 - **Medium files (1-10MB)**: <2s encryption time
 - **Large files (10-100MB)**: <10s encryption time
 - **Very large files (>100MB)**: <30s encryption time
 
 ### Storage Performance
+
 - **Upload speed**: >10MB/s for files <100MB
 - **Download speed**: >20MB/s for files <100MB
 - **Metadata queries**: <100ms response time
 - **Search queries**: <500ms response time
 
 ### User Experience Metrics
+
 - **Page load time**: <2s for document list
 - **Upload progress**: Real-time updates every 100ms
 - **Search results**: Displayed within 500ms
@@ -758,18 +799,21 @@ export class DocumentVaultErrorHandler {
 ## Security Testing
 
 ### Encryption Validation
+
 - **Key generation**: Cryptographically secure random keys
 - **Encryption strength**: XSalsa20-Poly1305 with 256-bit keys
 - **Key derivation**: PBKDF2 with 100,000 iterations
 - **Nonce uniqueness**: Unique nonces for each encryption operation
 
 ### Access Control Testing
+
 - **RLS policies**: All policies tested and validated
 - **Authentication**: JWT token validation
 - **Authorization**: Role-based access control
 - **Session management**: Secure session handling
 
 ### Data Protection
+
 - **Data encryption**: All sensitive data encrypted
 - **Key storage**: Keys stored securely with proper access controls
 - **Audit logging**: All operations logged and monitored
@@ -778,16 +822,19 @@ export class DocumentVaultErrorHandler {
 ## Load Testing
 
 ### Concurrent Users
+
 - **100 concurrent users**: System handles without degradation
 - **500 concurrent users**: System maintains performance
 - **1000 concurrent users**: System degrades gracefully
 
 ### File Operations
+
 - **100 simultaneous uploads**: All complete successfully
 - **500 simultaneous downloads**: All complete within 30s
 - **1000 simultaneous searches**: All complete within 1s
 
 ### Storage Operations
+
 - **10GB total storage**: System handles efficiently
 - **100GB total storage**: System maintains performance
 - **1TB total storage**: System scales appropriately
@@ -795,18 +842,21 @@ export class DocumentVaultErrorHandler {
 ## Monitoring and Alerting
 
 ### Key Metrics
+
 - **System health**: CPU, memory, disk usage
 - **Performance**: Response times, throughput
 - **Errors**: Error rates, failure patterns
 - **Security**: Failed access attempts, suspicious activity
 
 ### Alerting Thresholds
+
 - **Performance**: Response time > 5s
 - **Errors**: Error rate > 1%
 - **Storage**: Quota utilization > 80%
 - **Security**: Failed access attempts > 5
 
 ### Dashboard Metrics
+
 - **User engagement**: Active users, document counts
 - **System performance**: Response times, throughput
 - **Storage usage**: Total storage, growth rate

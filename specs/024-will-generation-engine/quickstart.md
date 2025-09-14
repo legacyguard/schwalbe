@@ -2,12 +2,23 @@
 
 This guide provides a quick start for implementing and testing the Will Generation Engine in Schwalbe.
 
+## Security notes
+
+- The Supabase service role key must be used only in server-side contexts (e.g., Edge Functions); never expose it to the browser.
+- Use your deployment platform's secret manager for production.
+- Do not log Authorization headers.
+
+## Security & RLS verification
+
+- Confirm all will-related tables have RLS enabled and policies in place; write tests per 005-auth-rls-baseline.
+- Ensure structured logs in Edge Functions include a correlation ID; simulate a critical error and confirm a Resend email alert; no Sentry.
+
 ## Prerequisites
 
 - Node.js 18+ and npm (use npm ci for installs)
 - Access to Hollywood codebase for migration reference
 - Supabase project with database access
-- Clerk authentication setup
+- Supabase Auth baseline (see 005-auth-rls-baseline)
 - Basic understanding of React and TypeScript
 
 ## Installation
@@ -38,7 +49,7 @@ npm install handlebars json-schema
 # Add to your .env.local
 SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_anon_key
-CLERK_SECRET_KEY=your_clerk_secret
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key  # server-side only (Edge Functions)
 OPENAI_API_KEY=your_openai_key  # For Sofia AI integration
 ```
 

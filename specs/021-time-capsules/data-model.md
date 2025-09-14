@@ -4,6 +4,14 @@ This document defines the database schema, API contracts, and data structures fo
 
 ## Database Schema
 
+### Conventions (required)
+
+- Identity: Supabase Auth (auth.uid()).
+- FKs: user_id uuid not null references auth.users(id) on delete cascade; apply consistently to all user-owned tables.
+- Tokens: store only hashed values (e.g., token_hash); include expires_at and used_at; tokens are single-use; never log raw tokens.
+- RLS: enable on all tables; owner-only default; minimal guardian access via joins; write positive/negative tests.
+- Naming: snake_case; timestamps created_at and updated_at; use timestamptz.
+
 ### Core Entities
 
 #### TimeCapsule Entity
@@ -30,7 +38,8 @@ Main entity storing time capsule metadata and delivery information.
 - `is_delivered`: Boolean indicating delivery status
 - `delivered_at`: Timestamp of delivery
 - `delivery_attempts`: Number of delivery attempts
-- `access_token`: Secure token for viewing
+- `access_token_hash`: Hash of opaque token for viewing (never store raw token)
+- `access_used_at`: Timestamp when token was used
 - `access_expires_at`: Token expiration date
 - `created_at`: Creation timestamp
 - `updated_at`: Last update timestamp

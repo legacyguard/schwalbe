@@ -62,6 +62,13 @@ The system implements a comprehensive video processing pipeline:
 
 ### Scheduling System
 
+### Identity & RLS Baseline Note
+
+- Standardize on Supabase Auth for this module. If older materials mention Clerk, apply bridging per 005-auth-rls-baseline; keep Time Capsule Legacy Supabase-first.
+- RLS-first design across all tables; owner-only by default, with minimal guardian access proven by joins; write positive/negative policy tests.
+- Tokens must be hashed, single-use, with expires_at and used_at; never log raw tokens; URLs contain opaque tokens only.
+- Observability baseline: structured logs in Supabase Edge Functions and critical email alerts via Resend; no Sentry.
+
 Robust scheduling architecture handles complex delivery scenarios:
 
 ```text

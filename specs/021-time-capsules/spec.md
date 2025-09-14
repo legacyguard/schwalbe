@@ -3,7 +3,7 @@
 - Implementation of comprehensive time capsule system for emotional legacy preservation
 - Builds on Hollywood's proven time capsule architecture with enhanced security, emotional design, and production readiness
 - Integrates with Family Shield, Document Vault, Sofia AI, and mobile applications for complete legacy experience
-- Prerequisites: 001-reboot-foundation, 002-hollywood-migration, 005-sofia-ai-system, 006-document-vault, 007-will-creation-system, 008-family-collaboration, 009-professional-network, 010-emergency-access, 011-mobile-app, 012-animations-microinteractions, 013-time-capsule-legacy, 014-pricing-conversion, 015-business-journeys, 016-integration-testing, 017-production-deployment, 018-monitoring-analytics, 019-nextjs-migration, 020-auth-rls-baseline, 021-database-types, 022-billing-stripe, 023-email-resend, 024-i18n-country-rules, 025-emotional-core-mvp, 026-vault-encrypted-storage, 027-family-shield-emergency completed
+- Prerequisites: 001-reboot-foundation, 003-hollywood-migration, 031-sofia-ai-system, 006-document-vault, 023-will-creation-system, 025-family-collaboration, 026-professional-network, 020-emergency-access, 029-mobile-app, 013-animations-microinteractions, 022-time-capsule-legacy, 028-pricing-conversion, 027-business-journeys, 004-integration-testing, 010-production-deployment, 011-monitoring-analytics, 002-nextjs-migration, 005-auth-rls-baseline, 015-database-types, 008-billing-stripe, 007-email-resend, 009-i18n-country-rules, 014-emotional-core-mvp, 016-vault-encrypted-storage, 019-family-shield-emergency completed
 
 ## Goals
 
@@ -104,6 +104,9 @@
 - [ ] **Notification System**: Email delivery with premium templates and tracking via Resend API
 - [ ] **Legacy Preservation**: Versioned snapshots with emotional tagging and content management
 - [ ] **Security & Privacy**: Zero-knowledge encryption with access token security and audit logging
+- [ ] All time capsule tables have RLS enabled; policies tested (owner vs guardian) per 005-auth-rls-baseline
+- [ ] Hashed, single-use tokens with expiry; no raw tokens stored or logged
+- [ ] Observability baseline: structured logs in Supabase Edge Functions; critical alerts via Resend; no Sentry
 - [ ] **Analytics & Monitoring**: Usage tracking, performance monitoring, and business intelligence
 - [ ] **Performance Optimization**: Efficient video processing, caching, and mobile optimization
 - [ ] **Accessibility & Compliance**: WCAG 2.1 AA compliance with internationalization support
@@ -133,33 +136,40 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo architecture and build system
-- See 002-hollywood-migration/spec.md for core package migration and shared services
-- See 005-sofia-ai-system/spec.md for AI-powered guidance and emotional support
+- See 003-hollywood-migration/spec.md for core package migration and shared services
+- See 031-sofia-ai-system/spec.md for AI-powered guidance and emotional support
 - See 006-document-vault/spec.md for encrypted storage patterns and key management
-- See 007-will-creation-system/spec.md for legal document integration
-- See 008-family-collaboration/spec.md for guardian network integration
-- See 009-professional-network/spec.md for professional consultation features
-- See 010-emergency-access/spec.md for Family Shield emergency delivery
-- See 011-mobile-app/spec.md for mobile recording capabilities
-- See 012-animations-microinteractions/spec.md for emotional design animations
-- See 013-time-capsule-legacy/spec.md for existing implementation foundation
-- See 014-pricing-conversion/spec.md for pricing and conversion features
-- See 015-business-journeys/spec.md for business journey integration
-- See 016-integration-testing/spec.md for testing frameworks
-- See 017-production-deployment/spec.md for deployment patterns
-- See 018-monitoring-analytics/spec.md for analytics and monitoring
-- See 019-nextjs-migration/spec.md for Next.js migration
-- See 020-auth-rls-baseline/spec.md for authentication baseline
-- See 021-database-types/spec.md for database type definitions
-- See 022-billing-stripe/spec.md for billing integration
-- See 023-email-resend/spec.md for email delivery system
-- See 024-i18n-country-rules/spec.md for internationalization
-- See 025-emotional-core-mvp/spec.md for emotional core features
-- See 026-vault-encrypted-storage/spec.md for encrypted storage
-- See 027-family-shield-emergency/spec.md for emergency access features
+- See 023-will-creation-system/spec.md for legal document integration
+- See 025-family-collaboration/spec.md for guardian network integration
+- See 026-professional-network/spec.md for professional consultation features
+- See 020-emergency-access/spec.md for Family Shield emergency delivery
+- See 029-mobile-app/spec.md for mobile recording capabilities
+- See 013-animations-microinteractions/spec.md for emotional design animations
+- See 022-time-capsule-legacy/spec.md for existing implementation foundation
+- See 028-pricing-conversion/spec.md for pricing and conversion features
+- See 027-business-journeys/spec.md for business journey integration
+- See 004-integration-testing/spec.md for testing frameworks
+- See 010-production-deployment/spec.md for deployment patterns
+- See 011-monitoring-analytics/spec.md for analytics and monitoring
+- See 002-nextjs-migration/spec.md for Next.js migration
+- See 005-auth-rls-baseline/spec.md for authentication baseline
+- See 015-database-types/spec.md for database type definitions
+- See 008-billing-stripe/spec.md for billing integration
+- See 007-email-resend/spec.md for email delivery system
+- See 009-i18n-country-rules/spec.md for internationalization
+- See 014-emotional-core-mvp/spec.md for emotional core features
+- See 016-vault-encrypted-storage/spec.md for encrypted storage
+- See 019-family-shield-emergency/spec.md for emergency access features
 
 ## Linked design docs
 
 - See `research.md` for technical architecture analysis and Hollywood implementation review
 - See `data-model.md` for database schema, API contracts, and data structures
 - See `quickstart.md` for user flows, implementation examples, and testing scenarios
+
+## Baseline Notes: Identity, RLS, Tokens, Observability
+
+- Identity: Supabase Auth is the identity provider; see 005-auth-rls-baseline for conventions and any bridging guidance from Clerk references.
+- RLS: Enable RLS on all time capsule tables; default owner-only access; minimal guardian access proved via joins; write positive/negative policy tests.
+- Tokens: Store only hashed tokens with `expires_at` and `used_at`; tokens are single-use; URLs contain opaque tokens only; never log tokens.
+- Observability: Use structured logs in Supabase Edge Functions and critical email alerts via Resend. Do not use Sentry in this project.

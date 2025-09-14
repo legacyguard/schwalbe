@@ -1,6 +1,6 @@
 # Will Generation Engine - API Contracts
 
-This directory contains the API contracts for the Will Generation Engine specification 029.
+This directory contains the API contracts for the Will Generation Engine specification 024.
 
 ## API Contract Specifications
 
@@ -45,6 +45,11 @@ APIs for PDF generation services:
 ## Usage
 
 These API contracts define the interface between the Will Generation Engine and other Schwalbe components. They ensure consistent integration and maintainable code across the system.
+
+## Authentication & Observability
+
+- Authentication: Supabase Auth JWT Bearer tokens; include a correlation header (e.g., X-Request-ID) on all requests; do not log Authorization headers.
+- Observability: Use structured logs from Supabase Edge Functions; send critical failure alerts via Resend; do not use Sentry.
 
 ## Contract Updates
 

@@ -2,6 +2,16 @@
 
 ## Overview
 
+### Identity & RLS Baseline
+
+- Standardize on Supabase Auth for identity; see 005-auth-rls-baseline.
+- RLS-first design across all tables; owner-only by default, with minimal related access via joins; write positive/negative policy tests.
+
+### Observability Baseline
+
+- Use structured logs in Supabase Edge Functions; send critical failure alerts via Resend.
+- Do not use Sentry in this project.
+
 The Family Collaboration System handles sensitive personal and family data, requiring comprehensive security measures to protect user privacy, prevent unauthorized access, and ensure compliance with data protection regulations.
 
 ## Core Security Principles

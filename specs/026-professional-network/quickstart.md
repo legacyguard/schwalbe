@@ -11,7 +11,7 @@ This guide provides quick start instructions for implementing and testing the Pr
 - Node.js 18+ and npm
 - Supabase project with database
 - Stripe account for payments
-- Clerk authentication setup
+- Supabase Auth configured
 - Hollywood codebase access for migration
 
 ### Environment Setup
@@ -27,7 +27,80 @@ npm ci
 
 # Set up environment variables
 cp .env.example .env.local
-# Configure Supabase, Stripe, Clerk credentials
+# Configure Supabase, Stripe, Resend credentials
+```
+
+### Security Verification Checklist
+
+- Identity: Supabase Auth only (no Clerk)
+- Row Level Security (RLS): enable and test on these tables at minimum
+  - professional_reviewers
+  - document_reviews
+  - consultations
+  - professional_commissions
+  - professional_specializations (junction)
+- Owner-first default policies examples:
+
+```sql
+-- Professional reviewers
+ALTER TABLE professional_reviewers ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Select own profile"
+ON professional_reviewers
+FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Update own profile"
+ON professional_reviewers
+FOR UPDATE
+USING (auth.uid() = user_id);
+
+-- Reviews
+ALTER TABLE document_reviews ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Client reads own reviews"
+ON document_reviews
+FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Reviewer reads assigned reviews"
+ON document_reviews
+FOR SELECT
+USING (EXISTS (
+  SELECT 1 FROM professional_reviewers pr
+  WHERE pr.id = reviewer_id AND pr.user_id = auth.uid()
+));
+
+-- Consultations
+ALTER TABLE consultations ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Participants read consultations"
+ON consultations
+FOR SELECT
+USING (
+  auth.uid() = user_id OR
+  auth.uid() = (SELECT user_id FROM professional_reviewers WHERE id = professional_id)
+);
+```
+
+- Token handling:
+  - Only hashed single-use tokens with expires_at; store token_hash only; never log raw tokens
+  - For server-to-server, use Supabase service role in Edge Functions; never expose to clients
+
+- Observability baseline:
+  - Structured logging in Supabase Edge Functions: include requestId, userId, path, status, latency; redact PII
+  - Critical alerts via Resend; no Sentry
+
+- Verification tests:
+  - Positive/negative RLS tests using two distinct users; unauthorized access should return 0 rows
+
+```ts
+// Negative test for cross-tenant access
+const { data: otherUserReviews } = await supabaseClientAsA
+  .from('document_reviews')
+  .select('*')
+  .eq('user_id', userBId);
+expect(otherUserReviews).toHaveLength(0);
 ```
 
 ## Core Workflows

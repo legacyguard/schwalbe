@@ -2,6 +2,14 @@
 
 ## Database Schema
 
+### Conventions (required)
+
+- Identity: Supabase Auth (auth.uid()).
+- FKs: user_id uuid not null references auth.users(id) on delete cascade; prefer UUID over TEXT for user IDs; apply consistently to user-owned tables.
+- RLS: enable on all tables; owner-only default; write positive/negative tests per 005-auth-rls-baseline.
+- Naming: snake_case; timestamps created_at and updated_at as timestamptz.
+- Secrets: Service role keys used only in server contexts (Edge Functions); never in client.
+
 ### Core Tables
 
 #### wills

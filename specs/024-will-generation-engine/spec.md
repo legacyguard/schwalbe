@@ -33,6 +33,8 @@
 - [ ] Integration with existing Schwalbe systems complete
 - [ ] Performance and security requirements met
 - [ ] Legal compliance verified across jurisdictions
+- [ ] All will-related tables have RLS enabled; policies tested per 005-auth-rls-baseline
+- [ ] Observability baseline: structured logs in Supabase Edge Functions; critical alerts via Resend; no Sentry
 
 ## Risks & Mitigations
 
@@ -55,31 +57,31 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for foundation setup
-- See 002-hollywood-migration/spec.md for migration patterns
-- See 005-sofia-ai-system/spec.md for AI integration
+- See 003-hollywood-migration/spec.md for migration patterns
+- See 031-sofia-ai-system/spec.md for AI integration
 - See 006-document-vault/spec.md for document storage
-- See 007-will-creation-system/spec.md for legacy will system
-- See 008-family-collaboration/spec.md for family collaboration
-- See 009-professional-network/spec.md for professional network
-- See 010-emergency-access/spec.md for emergency access
-- See 011-mobile-app/spec.md for mobile app integration
-- See 012-animations-microinteractions/spec.md for animations
-- See 013-time-capsule-legacy/spec.md for time capsules
-- See 014-pricing-conversion/spec.md for pricing
-- See 015-business-journeys/spec.md for business journeys
-- See 016-integration-testing/spec.md for integration testing
-- See 017-production-deployment/spec.md for deployment
-- See 018-monitoring-analytics/spec.md for monitoring
-- See 019-nextjs-migration/spec.md for Next.js migration
-- See 020-auth-rls-baseline/spec.md for auth baseline
-- See 021-database-types/spec.md for database types
-- See 022-billing-stripe/spec.md for billing
-- See 023-email-resend/spec.md for email
-- See 024-i18n-country-rules/spec.md for i18n
-- See 025-emotional-core-mvp/spec.md for emotional core
-- See 026-vault-encrypted-storage/spec.md for vault storage
-- See 027-family-shield-emergency/spec.md for family shield
-- See 028-time-capsules/spec.md for time capsules
+- See 023-will-creation-system/spec.md for legacy will system
+- See 025-family-collaboration/spec.md for family collaboration
+- See 026-professional-network/spec.md for professional network
+- See 020-emergency-access/spec.md for emergency access
+- See 029-mobile-app/spec.md for mobile app integration
+- See 013-animations-microinteractions/spec.md for animations
+- See 022-time-capsule-legacy/spec.md for time capsule legacy
+- See 028-pricing-conversion/spec.md for pricing
+- See 027-business-journeys/spec.md for business journeys
+- See 004-integration-testing/spec.md for integration testing
+- See 010-production-deployment/spec.md for deployment
+- See 011-monitoring-analytics/spec.md for monitoring
+- See 002-nextjs-migration/spec.md for Next.js migration
+- See 005-auth-rls-baseline/spec.md for auth baseline
+- See 015-database-types/spec.md for database types
+- See 008-billing-stripe/spec.md for billing
+- See 007-email-resend/spec.md for email
+- See 009-i18n-country-rules/spec.md for i18n
+- See 014-emotional-core-mvp/spec.md for emotional core
+- See 016-vault-encrypted-storage/spec.md for vault storage
+- See 019-family-shield-emergency/spec.md for family shield
+- See 021-time-capsules/spec.md for time capsules
 
 ## Linked design docs
 
@@ -88,6 +90,12 @@
 - See `quickstart.md` for user flows and testing scenarios
 - See `plan.md` for implementation phases and timeline
 - See `tasks.md` for detailed development checklist
+
+## Baseline Notes: Identity, RLS, Observability
+
+- Identity: Supabase Auth is the identity provider; see 005-auth-rls-baseline for conventions and any bridging guidance.
+- RLS: Enable RLS on all will-related tables; default owner-only access; write positive/negative policy tests aligned with baseline patterns.
+- Observability: Use structured logs in Supabase Edge Functions and critical email alerts via Resend. Do not use Sentry in this project.
 
 ## Success Metrics
 

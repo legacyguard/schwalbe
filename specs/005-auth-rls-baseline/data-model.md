@@ -97,7 +97,6 @@ CREATE INDEX idx_session_data_token ON public.session_data(session_token);
 CREATE INDEX idx_session_data_expires ON public.session_data(expires_at);
 CREATE INDEX idx_session_data_active ON public.session_data(is_active);
 
-
 #### AccessPermission
 
 Permission definitions for access control.

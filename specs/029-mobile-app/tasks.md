@@ -1,4 +1,4 @@
-# Tasks: 011-mobile-app
+# Tasks: 029-mobile-app
 
 ## Ordering & rules
 
@@ -114,6 +114,13 @@
 - [ ] Implement secure document sharing
 - [ ] Create encryption key backup and recovery
 - [ ] Add security audit logging
+
+## Baseline: Identity, Security, and Observability
+
+- [ ] Use Supabase Auth for all authentication (no Clerk)
+- [ ] Do not log raw tokens on device; store only short-lived tokens in memory or OS-provided secure storage
+- [ ] Document RLS policy expectations for server APIs; include positive/negative test checklist in backend specs
+- [ ] Structured logging in Supabase Edge Functions; critical alerts via Resend; no Sentry
 
 ## Outputs (upon completion)
 

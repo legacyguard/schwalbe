@@ -3,13 +3,15 @@
 ## 1) Sofia AI Onboarding & First Interaction
 
 ### Scenario: New user meets Sofia
+
 - User opens LegacyGuard app → Sofia firefly appears with welcoming animation
 - Sofia introduces herself with empathetic personality mode
 - User asks "What can you help me with?" → Sofia provides contextual guidance
 - Sofia adapts communication style based on user responses
 - User completes first interaction → Sofia celebrates with milestone animation
 
-### Validation Points:
+### Initial Interaction Validation Points
+
 - [ ] Sofia appears with welcoming animation
 - [ ] Personality system detects user communication style
 - [ ] Context-aware responses are relevant and helpful
@@ -19,13 +21,15 @@
 ## 2) Context-Aware Guidance Flow
 
 ### Scenario: User navigating through will creation
+
 - User starts will creation wizard → Sofia detects context change
 - Sofia provides step-by-step guidance for will creation
 - User gets stuck on executor selection → Sofia offers proactive help
 - Sofia adapts guidance based on user's progress and confusion
 - User completes will creation → Sofia celebrates with success animation
 
-### Validation Points:
+### Context-Aware Guidance Validation Points
+
 - [ ] Context detection works across different app sections
 - [ ] Guidance is relevant to current user action
 - [ ] Proactive suggestions appear at appropriate times
@@ -35,13 +39,15 @@
 ## 3) Personality Adaptation & Learning
 
 ### Scenario: Sofia learns user preferences
+
 - User interacts with Sofia over multiple sessions
 - Sofia detects user prefers brief, direct responses
 - Sofia adapts from empathetic to pragmatic personality mode
 - User asks complex question → Sofia provides detailed response when needed
 - Sofia remembers user's preferences for future interactions
 
-### Validation Points:
+### Personality Learning Validation Points
+
 - [ ] Personality system learns from user interactions
 - [ ] Adaptation happens gradually and naturally
 - [ ] Sofia remembers preferences across sessions
@@ -51,13 +57,15 @@
 ## 4) Emotional Response & Animation System
 
 ### Scenario: User achieves milestone
+
 - User completes family setup milestone → Sofia detects achievement
 - Sofia switches to excited personality mode
 - Firefly animation becomes more dynamic and celebratory
 - Confetti and sparkle animations play
 - Sofia provides encouraging message with appropriate emotional tone
 
-### Validation Points:
+### Emotional Response Validation Points
+
 - [ ] Emotional state detection works accurately
 - [ ] Animations respond to emotional context
 - [ ] Celebration animations are visually appealing
@@ -67,13 +75,15 @@
 ## 5) Proactive Suggestion System
 
 ### Scenario: Sofia provides timely suggestions
+
 - User has been inactive for 30 minutes → Sofia detects inactivity
 - Sofia suggests next steps based on user's progress
 - User dismisses suggestion → Sofia learns not to repeat similar suggestions
 - User accepts suggestion → Sofia provides detailed guidance
 - Sofia tracks suggestion effectiveness and improves future suggestions
 
-### Validation Points:
+### Proactive Suggestions Validation Points
+
 - [ ] Suggestions appear at appropriate times
 - [ ] Suggestions are relevant to user's current state
 - [ ] Dismissal tracking works correctly
@@ -83,13 +93,15 @@
 ## 6) Memory System & Context Persistence
 
 ### Scenario: Sofia remembers previous conversations
+
 - User asks about will creation → Sofia references previous discussion
 - Sofia remembers user's specific concerns and preferences
 - User returns after a week → Sofia recalls previous context
 - Sofia provides personalized guidance based on history
 - Sofia maintains conversation continuity across sessions
 
-### Validation Points:
+### Memory System Validation Points
+
 - [ ] Memory system persists across sessions
 - [ ] Context recall is accurate and relevant
 - [ ] Conversation continuity feels natural
@@ -99,13 +111,15 @@
 ## 7) Performance & Accessibility
 
 ### Scenario: Sofia works smoothly across devices
+
 - User interacts with Sofia on mobile device → animations are smooth
 - User uses screen reader → Sofia responses are accessible
 - User has slow internet → Sofia provides offline responses
 - User switches between devices → Sofia maintains context
 - Sofia responds within 2 seconds consistently
 
-### Validation Points:
+### Performance & Accessibility Validation Points
+
 - [ ] Animations run smoothly on all devices
 - [ ] Accessibility features work correctly
 - [ ] Offline functionality provides good experience
@@ -115,13 +129,15 @@
 ## 8) Error Handling & Recovery
 
 ### Scenario: Sofia handles errors gracefully
+
 - AI API fails → Sofia provides helpful fallback response
 - Animation system encounters error → Sofia continues with basic functionality
 - Memory system fails → Sofia continues with current session data
 - User provides invalid input → Sofia asks for clarification
 - Sofia recovers from errors without losing context
 
-### Validation Points:
+### Error Handling Validation Points
+
 - [ ] Error handling is graceful and user-friendly
 - [ ] Fallback responses are helpful and relevant
 - [ ] System continues functioning despite errors
@@ -131,29 +147,46 @@
 ## 9) Integration Testing
 
 ### Scenario: Sofia integrates with other systems
+
 - User completes document upload → Sofia celebrates and suggests next steps
 - User sets up emergency contacts → Sofia provides guidance and validation
 - User creates time capsule → Sofia offers emotional support and suggestions
 - Sofia integrates with notification system for proactive suggestions
 - Sofia works with analytics system for performance tracking
 
-### Validation Points:
+### Integration Testing Validation Points
+
 - [ ] Integration with document system works correctly
 - [ ] Integration with emergency system functions properly
 - [ ] Integration with notification system is seamless
 - [ ] Integration with analytics system provides useful data
 - [ ] Cross-system interactions feel natural and helpful
 
+### Security Verification Checklist
+
+- Identity: Supabase Auth only (no Clerk)
+- Server-side RLS expectations for APIs used by Sofia (e.g., conversation logs if persisted):
+  - Enforce owner-first RLS on any user-scoped tables
+  - Provide positive/negative test checklist in backend specs
+- Token handling:
+  - Only hashed single-use tokens with expires_at stored server-side; never log raw tokens
+  - Service role tokens only in Edge Functions; never exposed to clients
+- Observability baseline:
+  - Structured logging in Supabase Edge Functions (requestId, userId, path, status, latency; redact PII)
+  - Critical alerts via Resend; no Sentry
+
 ## 10) User Acceptance Testing
 
 ### Scenario: End-to-end user experience
+
 - New user completes full onboarding with Sofia guidance
 - User creates will with Sofia's step-by-step help
 - User sets up family with Sofia's emotional support
 - User achieves milestones with Sofia's celebration
 - User feels supported and guided throughout entire journey
 
-### Validation Points:
+### End-to-End Experience Validation Points
+
 - [ ] Overall user experience is positive and engaging
 - [ ] Sofia feels like a helpful, intelligent assistant
 - [ ] User completes tasks more easily with Sofia's help

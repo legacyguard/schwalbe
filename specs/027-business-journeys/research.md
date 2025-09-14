@@ -223,7 +223,7 @@ This document presents comprehensive research and analysis for the Business Jour
 
 **Authentication Integration:**
 
-- Clerk integration for user authentication
+- Supabase Auth integration for user authentication
 - MFA for sensitive journey operations
 - Session management and timeout handling
 

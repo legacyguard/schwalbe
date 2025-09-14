@@ -9,6 +9,7 @@ This document defines the complete data model for the Document Vault system, inc
 ### Core Tables
 
 #### documents
+
 ```sql
 CREATE TABLE documents (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -64,6 +65,7 @@ CREATE INDEX idx_documents_encryption_nonce ON documents(encryption_nonce);
 ```
 
 #### document_bundles
+
 ```sql
 CREATE TYPE bundle_category AS ENUM (
   'legal', 'financial', 'medical', 'personal', 'business', 'educational', 'other'
@@ -94,6 +96,7 @@ CREATE INDEX idx_document_bundles_keywords ON document_bundles USING GIN(keyword
 ```
 
 #### user_encryption_keys
+
 ```sql
 CREATE TABLE user_encryption_keys (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -125,6 +128,7 @@ CREATE INDEX idx_user_encryption_keys_key_version ON user_encryption_keys(key_ve
 ```
 
 #### key_rotation_history
+
 ```sql
 CREATE TABLE key_rotation_history (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -143,6 +147,7 @@ CREATE INDEX idx_key_rotation_history_rotated_at ON key_rotation_history(rotated
 ```
 
 #### user_key_recovery
+
 ```sql
 CREATE TABLE user_key_recovery (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -163,6 +168,7 @@ CREATE INDEX idx_user_key_recovery_user_id ON user_key_recovery(user_id);
 ```
 
 #### key_access_logs
+
 ```sql
 CREATE TYPE access_action AS ENUM (
   'key_retrieval', 'key_rotation', 'recovery_attempt', 'failed_access', 'backup_created'
@@ -191,6 +197,7 @@ CREATE INDEX idx_key_access_logs_success ON key_access_logs(success);
 ### Views and Functions
 
 #### Privacy-Preserving Search Index (Hashed Tokens)
+
 ```sql
 -- Tokens generated client-side by tokenizing plaintext and hashing with a per-user or per-session salt.
 -- Server stores only hashed tokens; no plaintext content or tokens are stored.
@@ -214,6 +221,7 @@ CREATE POLICY "owners_can_manage_token_rows" ON document_search_tokens
 ```
 
 #### documents_enhanced view
+
 ```sql
 CREATE VIEW documents_enhanced AS
 SELECT 
@@ -236,6 +244,7 @@ WHERE d.is_archived = FALSE;
 ```
 
 #### bundles_with_active_documents view
+
 ```sql
 CREATE VIEW bundles_with_active_documents AS
 SELECT 
@@ -250,6 +259,7 @@ GROUP BY b.id;
 ### Utility Functions
 
 #### calculate_document_importance_score
+
 ```sql
 CREATE OR REPLACE FUNCTION calculate_document_importance_score(
   p_is_important BOOLEAN,
@@ -270,6 +280,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 #### find_potential_document_versions
+
 ```sql
 CREATE OR REPLACE FUNCTION find_potential_document_versions(
   p_user_id TEXT,
@@ -312,6 +323,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 #### archive_document_and_create_version
+
 ```sql
 CREATE OR REPLACE FUNCTION archive_document_and_create_version(
   p_old_document_id UUID,
@@ -350,6 +362,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 #### update_bundle_stats
+
 ```sql
 CREATE OR REPLACE FUNCTION update_bundle_stats()
 RETURNS TRIGGER AS $$
@@ -405,6 +418,7 @@ CREATE TRIGGER trigger_update_bundle_stats
 ## API Service Interfaces
 
 ### DocumentService Interface
+
 ```typescript
 interface DocumentService {
   // Core CRUD operations
@@ -440,6 +454,7 @@ interface DocumentService {
 ```
 
 ### EncryptionService Interface
+
 ```typescript
 interface EncryptionService {
   // Key management
@@ -470,6 +485,7 @@ interface EncryptionService {
 ```
 
 ### MetadataExtractionService Interface
+
 ```typescript
 interface MetadataExtractionService {
   // OCR processing
@@ -495,6 +511,7 @@ interface MetadataExtractionService {
 ## Data Transfer Objects (DTOs)
 
 ### Document DTOs
+
 ```typescript
 interface Document {
   id: string;
@@ -586,6 +603,7 @@ interface DocumentDiff {
 ```
 
 ### Encryption DTOs
+
 ```typescript
 interface EncryptedData {
   algorithm: string;
@@ -640,6 +658,7 @@ interface AccessPermissions {
 ```
 
 ### Bundle DTOs
+
 ```typescript
 interface DocumentBundle {
   id: string;
@@ -670,6 +689,7 @@ type BundleCategory = 'legal' | 'financial' | 'medical' | 'personal' | 'business
 ```
 
 ### Metadata DTOs
+
 ```typescript
 interface DocumentMetadata {
   title?: string;
@@ -723,6 +743,7 @@ type ProcessingStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'ski
 ```
 
 ### Search DTOs
+
 ```typescript
 interface SearchQuery {
   query: string;
@@ -758,6 +779,7 @@ interface SearchSuggestion {
 ```
 
 ### Error DTOs
+
 ```typescript
 interface DocumentVaultError {
   code: string;
@@ -785,6 +807,7 @@ interface ProcessingError {
 ## Row Level Security (RLS) Policies
 
 ### Storage Bucket Policies (user_documents)
+
 ```sql
 -- Users may upload into their own folder prefix only
 CREATE POLICY "users_can_upload_own_storage"
@@ -824,6 +847,7 @@ USING (
 ```
 
 ### Documents Table Policies
+
 ```sql
 -- Users can view their own documents
 CREATE POLICY "Users can view their own documents" ON documents
@@ -843,6 +867,7 @@ CREATE POLICY "Users can delete their own documents" ON documents
 ```
 
 ### Document Bundles Table Policies
+
 ```sql
 -- Users can view their own bundles
 CREATE POLICY "Users can view their own bundles" ON document_bundles
@@ -862,6 +887,7 @@ CREATE POLICY "Users can delete their own bundles" ON document_bundles
 ```
 
 ### User Encryption Keys Table Policies
+
 ```sql
 -- Users can view their own encryption keys
 CREATE POLICY "Users can view their own encryption keys" ON user_encryption_keys
@@ -881,6 +907,7 @@ CREATE POLICY "Users cannot delete encryption keys" ON user_encryption_keys
 ```
 
 ### Key Access Logs Table Policies
+
 ```sql
 -- Users can view their own access logs
 CREATE POLICY "Users can view their own access logs" ON key_access_logs
@@ -901,6 +928,7 @@ CREATE POLICY "Users cannot delete access logs" ON key_access_logs
 ## Performance Optimizations
 
 ### Indexes
+
 - **Primary indexes**: All foreign keys and frequently queried columns
 - **Composite indexes**: Multi-column queries for filtering and sorting
 - **GIN indexes**: Array columns (tags, keywords) and JSONB columns
@@ -908,12 +936,14 @@ CREATE POLICY "Users cannot delete access logs" ON key_access_logs
 - **Partial indexes**: Archived documents, active documents
 
 ### Query Optimization
+
 - **Materialized views**: For complex aggregations and reporting
 - **Query hints**: For expensive operations
 - **Connection pooling**: For high-concurrency scenarios
 - **Read replicas**: For read-heavy workloads
 
 ### Caching Strategy
+
 - **Application-level caching**: Frequently accessed documents and metadata
 - **Redis caching**: Session data and temporary results
 - **CDN caching**: Static assets and processed documents
@@ -922,6 +952,7 @@ CREATE POLICY "Users cannot delete access logs" ON key_access_logs
 ## Data Migration Strategy
 
 ### Initial Migration
+
 ```sql
 -- Create tables in dependency order
 -- 1. Core tables (documents, document_bundles)
@@ -933,6 +964,7 @@ CREATE POLICY "Users cannot delete access logs" ON key_access_logs
 ```
 
 ### Data Migration from Hollywood
+
 ```sql
 -- Migrate existing documents with encryption metadata
 INSERT INTO documents (user_id, file_name, file_path, file_size, mime_type, encryption_nonce, ...)
@@ -958,6 +990,7 @@ FROM hollywood.document_bundles;
 ```
 
 ### Rollback Strategy
+
 ```sql
 -- Backup current state before migration
 CREATE TABLE documents_backup AS SELECT * FROM documents;
@@ -974,6 +1007,7 @@ COMMIT;
 ## Monitoring and Analytics
 
 ### Key Metrics
+
 - **Document operations**: Upload, download, delete rates
 - **Encryption performance**: Encryption/decryption times
 - **Storage usage**: Total storage, growth rate, quota utilization
@@ -982,12 +1016,14 @@ COMMIT;
 - **User engagement**: Active users, document count per user
 
 ### Alerting Thresholds
+
 - **Performance**: Encryption time > 5s, search time > 1s
 - **Storage**: Quota utilization > 80%, growth rate > 20%/week
 - **Errors**: Error rate > 1%, failed uploads > 5%
 - **Security**: Failed key access > 3 attempts, suspicious activity
 
 ### Logging Strategy
+
 - **Structured logging**: JSON format for all operations
 - **Log levels**: DEBUG, INFO, WARN, ERROR, FATAL
 - **Log retention**: 90 days for audit logs, 30 days for debug logs

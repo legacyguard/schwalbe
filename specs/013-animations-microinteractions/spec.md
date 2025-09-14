@@ -81,6 +81,7 @@ The table below maps core routes, components, and actions to animation behaviors
 | Lists | ListItem | Hover | Any | Micro-interaction | hover-lift | Border + shadow only | Low: translateY ↓, shadow light | perf.animationStart |
 
 Notes:
+
 - Throttle celebrations to at most once per minute per event type to avoid fatigue.
 - Use device capability to scale particles, duration, and glow effects.
 
@@ -132,6 +133,7 @@ export const Variants = {
 ```
 
 Personality adaptations (example):
+
 - Empathetic: prefer smooth easing, slightly longer durations, warm glow.
 - Pragmatic: linear/shorter durations, minimal effects.
 - Adaptive: choose based on context phase (orientation → empathetic, first_action → pragmatic).
@@ -170,6 +172,7 @@ export function onAppEvent(evt: AppEvent) {
 ```
 
 Guidance:
+
 - Emit events in submit handlers, after API success/failure, and after domain writes.
 - Throttle celebration triggers to at most 1/min per event type and per user.
 - Attach telemetry: perf.animationStart, perf.fps, memory deltas during celebrations.
@@ -177,6 +180,7 @@ Guidance:
 ## Reduced Motion Policy
 
 Per-interaction fallbacks when `prefers-reduced-motion` is on or user disables animations:
+
 - success-checkmark: replace with static success icon + ARIA live region message.
 - error-shake: replace with error icon/color and inline helper text; no shake.
 - hover-lift: replace with border highlight and shadow change; no translate/scale.
@@ -186,6 +190,7 @@ Per-interaction fallbacks when `prefers-reduced-motion` is on or user disables a
 - firefly presence: hide firefly and retain text guidance/microcopy.
 
 Performance modes (high/balanced/low) additionally scale:
+
 - particleCount, glow effects, durations, and trail length (lower on low).
 
 ## Acceptance Criteria by Mapped Action

@@ -42,6 +42,19 @@ ENCRYPTION_KEY=your_256_bit_key
 JWT_SECRET=your_jwt_secret
 ```
 
+Notes:
+
+- The Supabase service role key must be used only in server-side contexts (e.g., Edge Functions); never expose it to the browser.
+- Use your deployment platform's secret manager for production (see 010-production-deployment).
+- Do not log Authorization or token headers.
+
+## Security & RLS verification
+
+- Confirm all emergency tables have RLS enabled and policies in place.
+- Verify hashed token storage (no raw tokens in DB).
+- Validate single-use token and expiry behavior.
+- Ensure structured logs in Edge Functions include a correlation ID; simulate a critical error and confirm a Resend email alert; no Sentry.
+
 ## Testing Scenarios
 
 ### 1) Emergency Setup - configure emergency protocols

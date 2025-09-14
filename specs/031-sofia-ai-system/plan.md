@@ -130,6 +130,12 @@
 - Create user acceptance testing
 - Implement production readiness checks
 
+#### Observability Baseline
+
+- Structured logging in Supabase Edge Functions (requestId, userId, path, status, latency; redact PII)
+- Critical error alerts via Resend; no Sentry
+- Never log raw tokens or secrets
+
 ## Acceptance Signals
 
 - Sofia AI responds contextually to user actions

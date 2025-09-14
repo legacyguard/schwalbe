@@ -1,4 +1,4 @@
-# Tasks: 029-will-generation-engine
+# Tasks: 024-will-generation-engine
 
 ## Ordering & rules
 
@@ -7,6 +7,12 @@
 - Test each component before integration
 - Keep changes incremental and PR-sized
 - Ensure legal compliance at each step
+
+## T2400 Identity, Security & Observability Baseline
+
+- [ ] T2401 Provision email provider secrets (Resend) and Supabase env in server-only contexts; never expose service role key to client
+- [ ] T2402 Enable and implement RLS policies for all will-related tables; write positive/negative policy tests per 005-auth-rls-baseline
+- [ ] T2403 Observability baseline: structured logs in Edge Functions; critical alerts via Resend; confirm no Sentry dependencies
 
 ## T2900 Legal Foundation
 

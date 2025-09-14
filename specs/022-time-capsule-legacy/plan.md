@@ -400,15 +400,15 @@ packages/logic/src/time-capsule/
 ### Required Dependencies
 
 - **001-reboot-foundation**: Monorepo structure and build system
-- **002-hollywood-migration**: Core packages and shared services
-- **005-sofia-ai-system**: AI-powered guidance integration
+- **003-hollywood-migration**: Core packages and shared services
+- **031-sofia-ai-system**: AI-powered guidance integration
 - **006-document-vault**: Encrypted storage patterns
-- **008-family-collaboration**: Guardian network integration
+- **025-family-collaboration**: Guardian network integration
 
 ### Optional Dependencies
 
-- **011-mobile-app**: Mobile implementation (can be parallel)
-- **012-animations-microinteractions**: Enhanced animations
+- **029-mobile-app**: Mobile implementation (can be parallel)
+- **013-animations-microinteractions**: Enhanced animations
 
 ## Risk Mitigation
 

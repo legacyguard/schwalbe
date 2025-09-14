@@ -2,6 +2,18 @@
 
 This guide provides step-by-step instructions for implementing and testing the time capsule system in Schwalbe.
 
+## Security notes
+
+- The Supabase service role key must be used only in server-side contexts (e.g., Edge Functions); never expose it to the browser.
+- Use your deployment platform's secret manager for production.
+- Do not log Authorization or token headers.
+
+## Security & RLS verification
+
+- Confirm all time capsule tables have RLS enabled and policies in place; write owner vs guardian tests per 005-auth-rls-baseline.
+- Verify tokens are stored as hashes (no raw tokens) and are single-use with enforced expiry.
+- Ensure structured logs in Edge Functions include a correlation ID; simulate a critical error and confirm a Resend email alert; no Sentry.
+
 ## 1) Time Capsule Creation
 
 ### Basic Setup

@@ -41,9 +41,9 @@ npm run typecheck -w packages/logic
 npm run test -w packages/logic
 ```
 
-   - ✅ Storybook loads and displays components
-   - ✅ Package builds complete successfully
-   - ✅ Tests pass with good coverage
+- ✅ Storybook loads and displays components
+- ✅ Package builds complete successfully
+- ✅ Tests pass with good coverage
 
 ### **Flow 2: Component Library Integration**
 
@@ -57,7 +57,7 @@ npm run test -w packages/logic
 npm run dev -w apps/web-next
 ```
 
-2. **Component Import and Usage**
+1. **Component Import and Usage**
 
    ```tsx
    // Test in app component
@@ -77,7 +77,7 @@ npm run dev -w apps/web-next
    - ✅ Components render with correct styling
    - ✅ Interactive components respond to user input
 
-3. **Theme and Styling Validation**
+2. **Theme and Styling Validation**
 
    ```tsx
    import { useTheme, ThemeProvider } from '@schwalbe/ui';
@@ -239,11 +239,11 @@ npm run dev -w apps/web-next
    import { AuthService } from '@schwalbe/shared';
    ```
 
-   - ✅ ESLint prevents app→app dependencies
-   - ✅ ESLint prevents package→app dependencies
-   - ✅ Allowed dependencies work correctly
+- ✅ ESLint prevents app→app dependencies
+- ✅ ESLint prevents package→app dependencies
+- ✅ Allowed dependencies work correctly
 
-2. **TypeScript Project References**
+1. **TypeScript Project References**
 
    ```bash
    # Build should respect reference order

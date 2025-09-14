@@ -2,9 +2,18 @@
 
 ## Database Schema
 
+### Conventions (required)
+
+- Identity: Supabase Auth (auth.uid()).
+- FKs: user_id uuid not null references auth.users(id) on delete cascade; prefer UUID over TEXT; apply consistently to user-owned tables.
+- RLS: enable on all tables; owner-only default; write positive/negative tests per 005-auth-rls-baseline.
+- Naming: snake_case; timestamps created_at and updated_at as timestamptz.
+- Secrets: Service role keys used only in server contexts (Edge Functions); never in client.
+
 ### Core Tables
 
 #### wills
+
 ```sql
 CREATE TABLE wills (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -54,6 +63,7 @@ CREATE INDEX idx_wills_parent_will ON wills(parent_will_id) WHERE parent_will_id
 ```
 
 #### will_templates
+
 ```sql
 CREATE TABLE will_templates (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -80,6 +90,7 @@ CREATE INDEX idx_will_templates_active ON will_templates(is_active) WHERE is_act
 ```
 
 #### will_drafts
+
 ```sql
 CREATE TABLE will_drafts (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -109,6 +120,7 @@ CREATE INDEX idx_will_drafts_expires_at ON will_drafts(expires_at);
 ### Enums and Types
 
 #### will_status
+
 ```sql
 CREATE TYPE will_status AS ENUM (
   'draft',
@@ -119,6 +131,7 @@ CREATE TYPE will_status AS ENUM (
 ```
 
 #### relationship_type
+
 ```sql
 CREATE TYPE relationship_type AS ENUM (
   'spouse',
@@ -165,6 +178,7 @@ CREATE POLICY "Users can manage own drafts" ON will_drafts
 ## Data Model
 
 ### Will Entity
+
 ```typescript
 interface Will {
   id: string;
@@ -193,6 +207,7 @@ interface Will {
 ```
 
 ### LegalTemplate Entity
+
 ```typescript
 interface LegalTemplate {
   id: string;
@@ -208,6 +223,7 @@ interface LegalTemplate {
 ```
 
 ### Clause Entity
+
 ```typescript
 interface Clause {
   id: string;
@@ -222,6 +238,7 @@ interface Clause {
 ```
 
 ### Bequest Entity
+
 ```typescript
 interface Bequest {
   id: string;
@@ -236,6 +253,7 @@ interface Bequest {
 ```
 
 ### Executor Entity
+
 ```typescript
 interface Executor {
   id: string;
@@ -248,6 +266,7 @@ interface Executor {
 ```
 
 ### LegalValidation Entity
+
 ```typescript
 interface LegalValidation {
   id: string;
@@ -265,26 +284,31 @@ interface LegalValidation {
 ## Relations Between Entities
 
 ### Will → Beneficiaries (1:N)
+
 - One will can have multiple beneficiaries
 - Beneficiaries can have different inheritance percentages
 - Supports conditional bequests and specific gifts
 
 ### Will → Assets (1:N)
+
 - Assets are categorized by type (real estate, vehicles, accounts, etc.)
 - Each asset can be assigned to specific beneficiaries
 - Supports percentage-based and specific amount distributions
 
 ### Will → Executors (1:N)
+
 - Primary executor with backup options
 - Different power levels and responsibilities
 - Professional executor support
 
 ### Template → Clauses (1:N)
+
 - Templates contain multiple clauses
 - Clauses have specific ordering and conditions
 - Variable substitution within clauses
 
 ### Will → LegalValidations (1:N)
+
 - Multiple validation checks per will
 - Jurisdiction-specific validations
 - Historical validation records
@@ -292,6 +316,7 @@ interface LegalValidation {
 ## Data Structures
 
 ### Testator Data
+
 ```typescript
 interface TestatorData {
   fullName: string;
@@ -305,6 +330,7 @@ interface TestatorData {
 ```
 
 ### Beneficiary Data
+
 ```typescript
 interface Beneficiary {
   id: string;
@@ -323,6 +349,7 @@ interface Beneficiary {
 ```
 
 ### Asset Data
+
 ```typescript
 interface AssetData {
   realEstate?: RealEstateAsset[];
@@ -354,6 +381,7 @@ interface VehicleAsset {
 ```
 
 ### Executor Data
+
 ```typescript
 interface ExecutorData {
   primaryExecutor: Executor;
@@ -372,6 +400,7 @@ interface Executor {
 ```
 
 ### Guardianship Data
+
 ```typescript
 interface GuardianshipData {
   minorChildren: MinorChild[];
@@ -396,6 +425,7 @@ interface Guardian {
 ```
 
 ### Special Instructions
+
 ```typescript
 interface SpecialInstructions {
   funeralWishes?: string;
@@ -427,6 +457,7 @@ interface CharitableBequest {
 ```
 
 ### Legal Data
+
 ```typescript
 interface LegalData {
   jurisdiction: string; // e.g., "US-California"
@@ -439,6 +470,7 @@ interface LegalData {
 ```
 
 ### Document Data
+
 ```typescript
 interface DocumentData {
   generatedPdfPath: string;
@@ -455,6 +487,7 @@ interface DocumentData {
 ### REST API Endpoints
 
 #### Will Management
+
 ```typescript
 // GET /api/wills
 interface GetWillsRequest {
@@ -506,6 +539,7 @@ interface GeneratePdfResponse {
 ```
 
 #### Template Management
+
 ```typescript
 // GET /api/templates
 interface GetTemplatesRequest {
@@ -526,6 +560,7 @@ interface GetTemplateResponse {
 ```
 
 #### Draft Management
+
 ```typescript
 // GET /api/drafts/:sessionId
 interface GetDraftResponse {
@@ -661,6 +696,7 @@ interface WebSocketEvents {
 ## Validation Schemas
 
 ### JSON Schema for Will Data
+
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -708,6 +744,7 @@ interface WebSocketEvents {
 ## Migration Scripts
 
 ### Initial Schema Creation
+
 ```sql
 -- Create types
 CREATE TYPE will_status AS ENUM ('draft', 'in_progress', 'completed', 'archived');
@@ -732,6 +769,7 @@ CREATE POLICY "Users can view own wills" ON wills FOR SELECT USING (auth.uid()::
 ```
 
 ### Data Migration from Hollywood
+
 ```sql
 -- Migrate existing wills
 INSERT INTO wills (

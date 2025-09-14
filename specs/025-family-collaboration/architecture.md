@@ -7,18 +7,21 @@ The Family Collaboration System is built on a modular, secure architecture that 
 ## Core Architecture Principles
 
 ### 🔒 Security-First Design
+
 - **Zero-Knowledge Architecture**: Sensitive family data is encrypted client-side
 - **Role-Based Access Control**: Hierarchical permission system with inheritance
 - **Audit Everything**: Complete activity logging for compliance and security
 - **Emergency Access Protocols**: Time-limited, verified access for crisis situations
 
 ### 🏗️ Modular Component Design
+
 - **Service Layer**: Business logic abstraction with clean interfaces
 - **UI Components**: Reusable, accessible components with emotional design
 - **Data Layer**: Type-safe database operations with RLS enforcement
 - **Integration Layer**: Clean APIs for cross-system communication
 
 ### 📊 Scalable Data Architecture
+
 - **Normalized Schema**: Efficient data relationships with referential integrity
 - **Indexing Strategy**: Optimized queries for family tree traversals and activity logs
 - **Migration Safety**: Backward-compatible schema evolution with data preservation
@@ -28,6 +31,7 @@ The Family Collaboration System is built on a modular, secure architecture that 
 ### Frontend Layer (packages/ui)
 
 #### FamilyInvitationFlow Component
+
 ```typescript
 // Multi-step invitation wizard with emotional messaging
 interface FamilyInvitationFlowProps {
@@ -44,6 +48,7 @@ interface FamilyInvitationFlowProps {
 ```
 
 #### FamilyViralGrowth Component
+
 ```typescript
 // Family network visualization and growth incentives
 interface FamilyViralGrowthProps {
@@ -61,6 +66,7 @@ interface FamilyViralGrowthProps {
 ### Service Layer (packages/shared)
 
 #### FamilyService Class
+
 ```typescript
 class FamilyService {
   // Core family management operations
@@ -79,6 +85,7 @@ class FamilyService {
 ```
 
 #### Access Control Engine
+
 ```typescript
 class AccessControlEngine {
   // Permission evaluation
@@ -94,6 +101,7 @@ class AccessControlEngine {
 ### Business Logic Layer (packages/logic)
 
 #### Family Protection Calculator
+
 ```typescript
 // Protection level calculations and recommendations
 export function calculateProtectionMetrics(
@@ -111,6 +119,7 @@ export function getProtectionImprovements(
 ```
 
 #### Family Types and Validation
+
 ```typescript
 // Core type definitions with validation
 export interface FamilyMember {
@@ -137,6 +146,7 @@ export const FAMILY_PLANS: Record<FamilyPlanType, FamilyPlan>
 ### Core Tables
 
 #### family_members
+
 ```sql
 CREATE TABLE family_members (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -167,6 +177,7 @@ CREATE POLICY "Users can view their own family members" ON family_members
 ```
 
 #### family_invitations
+
 ```sql
 CREATE TABLE family_invitations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -186,6 +197,7 @@ CREATE TABLE family_invitations (
 ```
 
 #### emergency_access_requests
+
 ```sql
 CREATE TABLE emergency_access_requests (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -204,6 +216,7 @@ CREATE TABLE emergency_access_requests (
 ```
 
 #### family_activity_log
+
 ```sql
 CREATE TABLE family_activity_log (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -224,6 +237,7 @@ CREATE TABLE family_activity_log (
 ### Supporting Tables
 
 #### family_permissions
+
 ```sql
 CREATE TABLE family_permissions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -241,6 +255,7 @@ CREATE TABLE family_permissions (
 ```
 
 #### family_relationships
+
 ```sql
 CREATE TABLE family_relationships (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -259,7 +274,8 @@ CREATE TABLE family_relationships (
 ### RESTful Endpoints
 
 #### Family Management
-```
+
+```http
 GET    /api/family/members           - List family members
 POST   /api/family/members           - Add family member
 PUT    /api/family/members/:id       - Update family member
@@ -271,7 +287,8 @@ PUT    /api/family/invitations/:id   - Update invitation status
 ```
 
 #### Emergency Access
-```
+
+```http
 POST   /api/emergency/request        - Request emergency access
 GET    /api/emergency/requests       - List access requests
 PUT    /api/emergency/requests/:id   - Approve/deny request
@@ -279,7 +296,8 @@ POST   /api/emergency/verify         - Verify emergency access
 ```
 
 #### Analytics & Reporting
-```
+
+```http
 GET    /api/family/stats             - Family statistics
 GET    /api/family/activity          - Activity log
 GET    /api/family/protection        - Protection status
@@ -308,6 +326,7 @@ type Mutation {
 ## Integration Architecture
 
 ### Document Vault Integration
+
 ```typescript
 // Family member access to shared documents
 interface DocumentSharingService {
@@ -325,6 +344,7 @@ interface DocumentSharingService {
 ```
 
 ### Will Creation Integration
+
 ```typescript
 // Automatic beneficiary invitations
 interface WillIntegrationService {
@@ -341,6 +361,7 @@ interface WillIntegrationService {
 ```
 
 ### Sofia AI Integration
+
 ```typescript
 // AI-guided family invitation flows
 interface SofiaFamilyIntegration {
@@ -364,18 +385,21 @@ interface SofiaFamilyIntegration {
 ## Security Architecture
 
 ### Authentication & Authorization
+
 - **Clerk Integration**: User authentication with JWT tokens
 - **Supabase RLS**: Row-level security on all database tables
 - **Role-Based Access**: Hierarchical permission system
 - **Token Management**: Secure invitation and access tokens
 
 ### Encryption Strategy
+
 - **Client-Side Encryption**: Sensitive data encrypted before storage
 - **Key Management**: Secure key generation and rotation
 - **Zero-Knowledge**: Server never sees unencrypted family data
 - **Storage Policies**: Supabase storage access controls
 
 ### Audit & Compliance
+
 - **Activity Logging**: All family activities tracked
 - **Access Monitoring**: Real-time security event detection
 - **Compliance Reporting**: GDPR and privacy regulation compliance
@@ -384,18 +408,21 @@ interface SofiaFamilyIntegration {
 ## Performance Architecture
 
 ### Database Optimization
+
 - **Indexing Strategy**: Optimized indexes for common queries
 - **Query Optimization**: Efficient family tree traversals
 - **Partitioning**: Time-based partitioning for activity logs
 - **Connection Pooling**: Efficient database connection management
 
 ### Caching Strategy
+
 - **Redis Integration**: Session and permission caching
 - **CDN Integration**: Static asset optimization
 - **API Response Caching**: Frequently accessed family data
 - **Edge Computing**: Vercel edge functions for global performance
 
 ### Monitoring & Observability
+
 - **Application Metrics**: Response times and error rates
 - **Database Metrics**: Query performance and connection health
 - **User Analytics**: Family engagement and feature usage
@@ -404,17 +431,20 @@ interface SofiaFamilyIntegration {
 ## Deployment Architecture
 
 ### Environment Strategy
+
 - **Development**: Local development with hot reload
 - **Staging**: Preview deployments for testing
 - **Production**: Optimized production deployment on Vercel
 
 ### CI/CD Pipeline
+
 - **Automated Testing**: Unit, integration, and E2E tests
 - **Security Scanning**: Automated security vulnerability detection
 - **Performance Testing**: Load testing and performance benchmarks
 - **Deployment Automation**: Automated deployment with rollback capabilities
 
 ### Scaling Strategy
+
 - **Horizontal Scaling**: Stateless service design
 - **Database Scaling**: Read replicas and connection optimization
 - **CDN Integration**: Global content delivery
@@ -423,12 +453,14 @@ interface SofiaFamilyIntegration {
 ## Migration & Compatibility
 
 ### Hollywood Migration
+
 - **Component Migration**: Existing family components ported to new architecture
 - **Data Migration**: Family data migrated with validation
 - **API Compatibility**: Backward compatibility during transition
 - **Feature Parity**: All existing features maintained or enhanced
 
 ### Version Compatibility
+
 - **Semantic Versioning**: Clear versioning for API changes
 - **Deprecation Strategy**: Gradual feature deprecation with alternatives
 - **Migration Tools**: Automated migration scripts and tools

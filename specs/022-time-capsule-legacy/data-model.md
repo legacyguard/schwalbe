@@ -2,6 +2,14 @@
 
 ## Overview
 
+### Conventions (required)
+
+- Identity: Supabase Auth (auth.uid()).
+- FKs: user_id uuid not null references auth.users(id) on delete cascade; apply consistently to all user-owned tables.
+- Tokens: store only hashed values (e.g., token_hash); include expires_at and used_at; tokens are single-use; never log raw tokens.
+- RLS: enable on all tables; owner-only default; minimal guardian access via joins; write positive/negative tests.
+- Naming: snake_case; timestamps created_at and updated_at; use timestamptz.
+
 This document defines the complete data model, database schema, and API contracts for the Time Capsule Legacy System. It includes entity relationships, validation rules, and integration points with existing Schwalbe systems.
 
 ## Hollywood Migration Components
@@ -143,7 +151,8 @@ CREATE TABLE time_capsules (
 - `file_size_bytes`: Size of the media file in bytes
 - `duration_seconds`: Length of the recording in seconds
 - `thumbnail_path`: Path to video thumbnail (videos only)
-- `access_token`: Secure token for recipient access
+- `access_token_hash`: Hash of opaque token for recipient access (never store raw token)
+- `access_used_at`: Timestamp when the access token was used
 - `status`: Current delivery status
 - `is_delivered`: Whether the capsule has been delivered
 - `delivered_at`: Timestamp of successful delivery

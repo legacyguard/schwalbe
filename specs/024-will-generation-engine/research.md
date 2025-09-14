@@ -13,7 +13,7 @@ The will generation engine provides comprehensive legal document creation with j
 - **Clause Assembly**: Automated clause composition with conditional logic
 - **PDF Generation**: Professional document creation with accessibility features
 - **Legal Validation**: Real-time compliance checking and error reporting
-- **Security**: End-to-end encryption with audit trails
+- **Security**: End-to-end encryption with audit trails; Supabase Auth for identity; RLS-first design across tables (see 005-auth-rls-baseline)
 - **Performance**: Optimized generation with caching and background processing
 - **Analytics**: Usage tracking and performance monitoring
 
@@ -451,20 +451,21 @@ const WillDocument = ({ willData }) => (
 
 1. **Database Schema Migration**
    - Port existing tables with modifications
-   - Update RLS policies for Clerk authentication
-   - Migrate template data with validation
 
-2. **Code Migration**
+- Update RLS policies to align with Supabase Auth identity and baseline patterns
+  - Migrate template data with validation
+
+1. **Code Migration**
    - Extract will generation logic to packages/logic
    - Port UI components to packages/ui
    - Update API contracts and types
 
-3. **Security Enhancements**
+2. **Security Enhancements**
    - Implement client-side encryption
    - Add comprehensive audit logging
    - Update authentication patterns
 
-4. **Performance Optimization**
+3. **Performance Optimization**
    - Implement caching strategies
    - Optimize database queries
    - Add monitoring and alerting

@@ -8,13 +8,13 @@ This document defines the API contracts for the Family Collaboration System, pro
 
 All API endpoints require authentication via Clerk JWT tokens. Include the Authorization header:
 
-```
+```http
 Authorization: Bearer <clerk-jwt-token>
 ```
 
 ## Base URL
 
-```
+```http
 https://api.schwalbe.com/v1
 ```
 
@@ -25,12 +25,14 @@ https://api.schwalbe.com/v1
 Retrieve all family members for the authenticated user.
 
 **Request:**
+
 ```http
 GET /api/family/members
 Authorization: Bearer <token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -64,6 +66,7 @@ Authorization: Bearer <token>
 ```
 
 **Error Responses:**
+
 - `401 Unauthorized`: Invalid or missing authentication
 - `500 Internal Server Error`: Database or server error
 
@@ -72,6 +75,7 @@ Authorization: Bearer <token>
 Add a new family member and send invitation.
 
 **Request:**
+
 ```http
 POST /api/family/members
 Authorization: Bearer <token>
@@ -91,6 +95,7 @@ Content-Type: application/json
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -119,6 +124,7 @@ Content-Type: application/json
 ```
 
 **Validation Errors (400):**
+
 ```json
 {
   "success": false,
@@ -138,6 +144,7 @@ Content-Type: application/json
 Update family member information and permissions.
 
 **Request:**
+
 ```http
 PUT /api/family/members/uuid
 Authorization: Bearer <token>
@@ -156,6 +163,7 @@ Content-Type: application/json
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -179,12 +187,14 @@ Content-Type: application/json
 Remove a family member from the family network.
 
 **Request:**
+
 ```http
 DELETE /api/family/members/uuid
 Authorization: Bearer <token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -199,17 +209,20 @@ Authorization: Bearer <token>
 Retrieve all family invitations sent by the authenticated user.
 
 **Request:**
+
 ```http
 GET /api/family/invitations?status=pending
 Authorization: Bearer <token>
 ```
 
 **Query Parameters:**
+
 - `status`: Filter by invitation status (`pending`, `accepted`, `declined`, `expired`)
 - `limit`: Maximum number of results (default: 50)
 - `offset`: Pagination offset (default: 0)
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -242,6 +255,7 @@ Authorization: Bearer <token>
 Resend a pending invitation email.
 
 **Request:**
+
 ```http
 POST /api/family/invitations/uuid/resend
 Authorization: Bearer <token>
@@ -253,6 +267,7 @@ Content-Type: application/json
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -265,12 +280,14 @@ Content-Type: application/json
 Cancel a pending invitation.
 
 **Request:**
+
 ```http
 DELETE /api/family/invitations/uuid
 Authorization: Bearer <token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -285,6 +302,7 @@ Authorization: Bearer <token>
 Request emergency access to another user's family data.
 
 **Request:**
+
 ```http
 POST /api/emergency/request
 Authorization: Bearer <token>
@@ -300,6 +318,7 @@ Content-Type: application/json
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -323,12 +342,14 @@ Content-Type: application/json
 Retrieve emergency access requests (for owners) or sent requests (for requesters).
 
 **Request:**
+
 ```http
 GET /api/emergency/requests?status=pending
 Authorization: Bearer <token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -355,6 +376,7 @@ Authorization: Bearer <token>
 Approve or deny an emergency access request.
 
 **Request:**
+
 ```http
 PUT /api/emergency/requests/uuid
 Authorization: Bearer <token>
@@ -370,6 +392,7 @@ Content-Type: application/json
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -389,6 +412,7 @@ Content-Type: application/json
 Verify emergency access token and grant temporary access.
 
 **Request:**
+
 ```http
 POST /api/emergency/verify
 Content-Type: application/json
@@ -400,6 +424,7 @@ Content-Type: application/json
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -420,12 +445,14 @@ Content-Type: application/json
 Retrieve comprehensive family statistics and protection metrics.
 
 **Request:**
+
 ```http
 GET /api/family/stats
 Authorization: Bearer <token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -471,12 +498,14 @@ Authorization: Bearer <token>
 Get detailed family protection status and recommendations.
 
 **Request:**
+
 ```http
 GET /api/family/protection
 Authorization: Bearer <token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -506,12 +535,14 @@ Authorization: Bearer <token>
 Retrieve family activity log with filtering and pagination.
 
 **Request:**
+
 ```http
 GET /api/family/activity?limit=20&offset=0&actionType=member_added
 Authorization: Bearer <token>
 ```
 
 **Query Parameters:**
+
 - `limit`: Maximum number of results (default: 50, max: 100)
 - `offset`: Pagination offset (default: 0)
 - `actionType`: Filter by action type
@@ -520,6 +551,7 @@ Authorization: Bearer <token>
 - `dateTo`: Filter to date (ISO 8601)
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -556,12 +588,14 @@ Authorization: Bearer <token>
 **Endpoint:** `POST /api/webhooks/family-invitation`
 
 **Headers:**
-```
+
+```http
 Content-Type: application/json
 X-Webhook-Signature: <signature>
 ```
 
 **Payload:**
+
 ```json
 {
   "event": "invitation.accepted",
@@ -584,6 +618,7 @@ X-Webhook-Signature: <signature>
 **Endpoint:** `POST /api/webhooks/emergency-access`
 
 **Payload:**
+
 ```json
 {
   "event": "emergency.requested",
@@ -637,7 +672,7 @@ API endpoints are rate limited to prevent abuse:
 
 Rate limit headers are included in responses:
 
-```
+```http
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1642680000

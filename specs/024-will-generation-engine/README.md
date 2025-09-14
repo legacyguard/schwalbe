@@ -1,4 +1,4 @@
-# Will Generation Engine - Specification 029
+# Will Generation Engine - Specification 024
 
 ## Overview
 
@@ -79,7 +79,7 @@ The Will Generation Engine represents a critical component of Schwalbe's estate 
 ## File Structure
 
 ```text
-specs/029-will-generation-engine/
+specs/024-will-generation-engine/
 ├── README.md              # This overview document
 ├── plan.md                # Implementation plan and timeline
 ├── spec.md                # Technical specification and requirements
@@ -98,9 +98,9 @@ specs/029-will-generation-engine/
 - **002-hollywood-migration**: Migration patterns and Hollywood codebase access
 - **005-sofia-ai-system**: AI assistance integration
 - **006-document-vault**: Secure document storage
-- **020-auth-rls-baseline**: Authentication and authorization
-- **021-database-types**: Database schema and types
-- **024-i18n-country-rules**: Multi-language and jurisdiction support
+- **005-auth-rls-baseline**: Authentication and authorization
+- **015-database-types**: Database schema and types
+- **009-i18n-country-rules**: Multi-language and jurisdiction support
 
 ### Recommended Specifications
 
@@ -138,7 +138,7 @@ specs/029-will-generation-engine/
 - Node.js 18+ and npm
 - Access to Hollywood codebase
 - Supabase project setup
-- Clerk authentication configured
+- Supabase Auth configured (server-only service role in Edge Functions)
 
 ### Quick Start
 

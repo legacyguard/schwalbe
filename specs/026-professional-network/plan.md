@@ -125,7 +125,7 @@
 ### **5.3 System Monitoring (`@schwalbe/logic`)**
 
 - Implement system performance monitoring
-- Create error tracking and alerting
+- Create error tracking and alerting (structured logs in Supabase Edge Functions; critical alerts via Resend; no Sentry)
 - Add user behavior analytics
 - Implement system health monitoring
 - Create monitoring dashboards and reports
@@ -325,17 +325,17 @@
 ### Internal Dependencies
 
 - 001-reboot-foundation: Monorepo structure and build system
-- 002-hollywood-migration: Core service scaffolding
-- 005-sofia-ai-system: AI-powered recommendations
+- 003-hollywood-migration: Core service scaffolding
+- 031-sofia-ai-system: AI-powered recommendations
 - 006-document-vault: Secure document sharing
-- 007-will-creation-system: Legal document workflows
-- 008-family-collaboration: Family service coordination
+- 023-will-creation-system: Legal document workflows
+- 025-family-collaboration: Family service coordination
 
 ### External Dependencies
 
 - Stripe: Payment processing and payouts
 - Supabase: Database and real-time features
-- Clerk: Authentication and user management
+- Supabase Auth: Authentication and user management
 - Resend: Email notifications and communication
 - Google Calendar API: Calendar integration
 - Bar association APIs: Professional verification

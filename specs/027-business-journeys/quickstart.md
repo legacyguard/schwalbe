@@ -8,9 +8,62 @@ This guide provides step-by-step instructions for setting up, testing, and valid
 
 - Node.js 18+ and npm (use npm ci for installs)
 - Supabase project with migrations applied
-- Clerk authentication configured
+- Supabase Auth configured
 - Stripe billing integration
 - Sofia AI system operational
+
+### Security Verification Checklist
+
+- Identity: Supabase Auth only (no Clerk)
+- Row Level Security (RLS): enable and test on these tables at minimum
+  - customer_journeys
+  - touchpoints
+  - user_experiences
+  - process_executions (if user-scoped)
+- Owner-first policy examples:
+
+```sql
+-- Customer journeys
+ALTER TABLE customer_journeys ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read their own journeys"
+ON customer_journeys
+FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own journeys"
+ON customer_journeys
+FOR UPDATE
+USING (auth.uid() = user_id);
+
+-- Touchpoints
+ALTER TABLE touchpoints ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users read their own touchpoints"
+ON touchpoints
+FOR SELECT
+USING (auth.uid() = user_id);
+```
+
+- Token handling:
+  - Only hashed single-use tokens with expires_at; store token_hash only; never log raw tokens
+  - For server-to-server, use Supabase service role in Edge Functions; never expose to clients
+
+- Observability baseline:
+  - Structured logging in Supabase Edge Functions: include requestId, userId, path, status, latency; redact PII
+  - Critical alerts via Resend; no Sentry
+
+- Verification tests:
+  - Positive/negative RLS tests using two distinct users; unauthorized access should return 0 rows
+
+```ts
+// Negative test for cross-tenant access
+const { data: others } = await supabaseClientAsUserA
+  .from('customer_journeys')
+  .select('*')
+  .eq('user_id', userBId);
+expect(others).toHaveLength(0);
+```
 
 ### Data Setup
 

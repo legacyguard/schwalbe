@@ -3,14 +3,16 @@
 ## Product Scope
 
 ### Legal Will Generation
+
 The will creation system provides comprehensive legal document generation with jurisdiction-specific templates and automated clause assembly. The system supports multiple legal jurisdictions with localized templates and validation rules.
 
 ### Technical Architecture
+
 - **Will Engine**: Core generation logic with template processing and clause assembly
 - **Legal Templates**: Jurisdiction-aware document templates with version control
 - **User Experience**: Guided will creation with step-by-step wizard interface
 - **Performance**: Optimized generation speed with caching and background processing
-- **Security**: End-to-end encryption with zero-knowledge architecture
+- **Security**: End-to-end encryption with zero-knowledge architecture; Supabase Auth for identity; RLS-first design across tables; see 005-auth-rls-baseline
 - **Accessibility**: WCAG 2.1 AA compliant with screen reader support
 - **Analytics**: Usage tracking and completion rate analytics
 - **Future Enhancements**: AI-powered legal assistance and automated review
@@ -22,6 +24,7 @@ The will creation system provides comprehensive legal document generation with j
 #### Core Tables
 
 **wills** table structure (from Hollywood migration):
+
 ```sql
 CREATE TABLE wills (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -63,6 +66,7 @@ CREATE TABLE wills (
 ```
 
 **Key Design Decisions:**
+
 - JSONB for flexible data storage allowing complex nested structures
 - Version control with parent-child relationships
 - Status tracking for workflow management
@@ -71,6 +75,7 @@ CREATE TABLE wills (
 #### Template System
 
 **will_templates** table:
+
 ```sql
 CREATE TABLE will_templates (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -86,6 +91,7 @@ CREATE TABLE will_templates (
 ```
 
 **Template Structure Example:**
+
 ```json
 {
   "sections": [
@@ -108,6 +114,7 @@ CREATE TABLE will_templates (
 ### Legal Requirements System
 
 **Jurisdiction-Specific Requirements:**
+
 ```json
 {
   "witnessCount": 2,
@@ -119,6 +126,7 @@ CREATE TABLE will_templates (
 ```
 
 **Supported Jurisdictions:**
+
 - US-General (base template)
 - US-California
 - US-Texas
@@ -130,6 +138,7 @@ CREATE TABLE will_templates (
 ### Security Implementation
 
 #### Row Level Security (RLS)
+
 ```sql
 -- Users can only access their own wills
 CREATE POLICY "Users can view own wills" ON wills
@@ -141,6 +150,7 @@ CREATE POLICY "Authenticated users can view templates" ON will_templates
 ```
 
 #### Data Encryption
+
 - Client-side encryption using TweetNaCl
 - PBKDF2 key derivation with 100,000 iterations
 - Unique nonces for each document
@@ -149,6 +159,7 @@ CREATE POLICY "Authenticated users can view templates" ON will_templates
 ### PDF Generation System
 
 **Hollywood's PDF Generation Approach:**
+
 - Server-side PDF generation using Puppeteer
 - HTML templates with CSS styling
 - Legal document formatting standards
@@ -156,6 +167,7 @@ CREATE POLICY "Authenticated users can view templates" ON will_templates
 - Timestamp and versioning metadata
 
 **Key Components:**
+
 - Template rendering engine
 - CSS-based layout system
 - Font and typography management
@@ -165,6 +177,7 @@ CREATE POLICY "Authenticated users can view templates" ON will_templates
 ### AI Integration Patterns
 
 **Sofia AI Integration:**
+
 - Context-aware guidance during will creation
 - Content suggestions for special instructions
 - Legal requirement explanations
@@ -172,6 +185,7 @@ CREATE POLICY "Authenticated users can view templates" ON will_templates
 - Asset categorization assistance
 
 **AI Boundaries:**
+
 - No generation of legal advice
 - Human confirmation required for all AI suggestions
 - Fallback to template-only generation
@@ -182,6 +196,7 @@ CREATE POLICY "Authenticated users can view templates" ON will_templates
 ### PDF Generation Libraries
 
 #### Option 1: Puppeteer + HTML Templates
+
 ```typescript
 import puppeteer from 'puppeteer';
 
@@ -204,17 +219,20 @@ async function generateWillPDF(willData: WillData): Promise<Buffer> {
 ```
 
 **Pros:**
+
 - Full CSS support
 - Complex layouts possible
 - Familiar web development workflow
 - Good accessibility support
 
 **Cons:**
+
 - Resource intensive
 - Browser dependency
 - Performance considerations
 
 #### Option 2: PDF-lib
+
 ```typescript
 import { PDFDocument, rgb } from 'pdf-lib';
 
@@ -235,17 +253,20 @@ async function generateWillPDF(willData: WillData): Promise<Uint8Array> {
 ```
 
 **Pros:**
+
 - Lightweight
 - No browser dependency
 - Better performance
 - Smaller bundle size
 
 **Cons:**
+
 - Complex layouts harder to implement
 - Limited styling options
 - Steeper learning curve
 
 #### Option 3: React-PDF
+
 ```typescript
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
@@ -266,24 +287,28 @@ const WillDocument = ({ willData }) => (
 ```
 
 **Pros:**
+
 - React-like development experience
 - Good performance
 - Flexible layouts
 - TypeScript support
 
 **Cons:**
+
 - Learning curve for React developers not familiar with PDF concepts
 - Limited compared to full web styling
 
 ### Legal Template Management
 
 #### Template Versioning Strategy
+
 - Semantic versioning (MAJOR.MINOR.PATCH)
 - Jurisdiction-specific version tracking
 - Template deprecation and migration
 - Audit trail of template changes
 
 #### Template Validation
+
 - JSON Schema validation for template structure
 - Legal requirement compliance checking
 - Template completeness verification
@@ -292,12 +317,14 @@ const WillDocument = ({ willData }) => (
 ### Performance Optimization
 
 #### Database Optimization
+
 - JSONB path indexes for common queries
 - Partial indexes for status-based filtering
 - Connection pooling for high concurrency
 - Query result caching
 
 #### Frontend Optimization
+
 - Progressive loading of template sections
 - Lazy loading of complex components
 - Service worker caching for templates
@@ -306,12 +333,14 @@ const WillDocument = ({ willData }) => (
 ### Security Considerations
 
 #### Data Protection
+
 - End-to-end encryption
 - Secure key management
 - Audit logging of all operations
 - Data retention policies
 
 #### Compliance Requirements
+
 - GDPR compliance for EU users
 - CCPA compliance for California users
 - Legal hold capabilities
@@ -320,18 +349,21 @@ const WillDocument = ({ willData }) => (
 ## Integration Patterns
 
 ### With Document Vault
+
 - Automatic encryption of generated PDFs
 - Version control synchronization
 - Metadata extraction and indexing
 - Secure sharing capabilities
 
 ### With Sofia AI
+
 - Context-aware content suggestions
 - Legal requirement explanations
 - User intent analysis
 - Progressive disclosure guidance
 
 ### With Authentication System
+
 - User identity verification
 - Multi-factor authentication for sensitive operations
 - Session management and timeouts
@@ -340,22 +372,24 @@ const WillDocument = ({ willData }) => (
 ## Migration Strategy
 
 ### From Hollywood to Schwalbe
+
 1. **Database Schema Migration**
    - Port existing tables with modifications
-   - Update RLS policies for Clerk authentication
-   - Migrate template data with validation
 
-2. **Code Migration**
+- Update RLS policies to align with Supabase Auth identity and baseline patterns
+  - Migrate template data with validation
+
+1. **Code Migration**
    - Extract will generation logic to packages/logic
    - Port UI components to packages/ui
    - Update API contracts and types
 
-3. **Security Enhancements**
+2. **Security Enhancements**
    - Implement client-side encryption
    - Add comprehensive audit logging
    - Update authentication patterns
 
-4. **Performance Optimization**
+3. **Performance Optimization**
    - Implement caching strategies
    - Optimize database queries
    - Add monitoring and alerting
@@ -363,17 +397,20 @@ const WillDocument = ({ willData }) => (
 ## Recommendations
 
 ### Technology Stack
+
 - **PDF Generation**: Puppeteer for initial implementation, React-PDF for future enhancement
 - **Template Engine**: Handlebars.js for server-side rendering
 - **Validation**: JSON Schema with custom legal validators
 - **Caching**: Redis for template and session caching
 
 ### Architecture Decisions
+
 - **Microservices**: Keep will generation as separate service for scalability
 - **Event-Driven**: Use events for will status changes and notifications
 - **CQRS Pattern**: Separate read/write models for complex queries
 
 ### Development Priorities
+
 1. Core will generation engine
 2. Basic US template implementation
 3. PDF generation and formatting

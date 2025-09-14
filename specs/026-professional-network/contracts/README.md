@@ -18,7 +18,7 @@ Manages professional profiles, verification, and onboarding processes.
 - `GET /api/professional/search` - Search professionals by criteria
 - `PUT /api/professional/availability/{id}` - Update professional availability
 
-**Authentication**: Bearer token (Clerk JWT)
+**Authentication**: Bearer token (Supabase Auth JWT)
 
 ### 2. Review System API
 
@@ -34,7 +34,7 @@ Handles document review requests, assignments, and completion workflows.
 - `POST /api/reviews/{id}/submit` - Submit completed review
 - `GET /api/reviews/{id}/result` - Get review results and feedback
 
-**Authentication**: Bearer token (Clerk JWT)
+**Authentication**: Bearer token (Supabase Auth JWT)
 
 ### 3. Booking System API
 
@@ -50,7 +50,7 @@ Manages consultation booking, scheduling, and calendar integration.
 - `DELETE /api/consultations/{id}` - Cancel consultation
 - `GET /api/professional/availability/{id}` - Get professional availability
 
-**Authentication**: Bearer token (Clerk JWT)
+**Authentication**: Bearer token (Supabase Auth JWT)
 
 ### 4. Payment Integration API
 
@@ -66,7 +66,7 @@ Handles commission calculations, payment processing, and financial reporting.
 - `POST /api/commissions/dispute` - Create commission dispute
 - `GET /api/payments/history` - Get payment transaction history
 
-**Authentication**: Bearer token (Clerk JWT)
+**Authentication**: Bearer token (Supabase Auth JWT)
 
 ### 5. Analytics Monitoring API
 
@@ -82,17 +82,20 @@ Provides analytics, monitoring, and reporting capabilities.
 - `GET /api/analytics/financial/summary` - Get financial analytics
 - `POST /api/monitoring/events` - Log monitoring events
 
-**Authentication**: Bearer token (Clerk JWT) or API key
+**Authentication**: Bearer token (Supabase Auth JWT). For server-to-server ingestion, use Supabase service role or hashed single-use tokens (see Token Handling Best Practices).
 
 ## Common API Patterns
 
 ### Authentication
 
-All APIs use Bearer token authentication with Clerk JWT tokens:
+All APIs use Bearer token authentication with Supabase Auth JWT tokens:
 
 ```http
-Authorization: Bearer <clerk-jwt-token>
+Authorization: Bearer {{SUPABASE_JWT}}
 ```
+
+- For client applications, obtain the JWT via Supabase Auth and include it with each request.
+- For server-to-server operations, use the Supabase service role in secure server contexts only; never expose service role tokens to clients.
 
 ### Response Format
 
@@ -220,6 +223,12 @@ Version is specified in the URL path:
 - Database query performance
 - External API call success rates
 
+### Observability Baseline
+
+- Structured logging in Supabase Edge Functions (include requestId, userId, path, status, latency; redact PII)
+- Critical error alerts via Resend email; no Sentry
+- Never log raw tokens or secrets
+
 ## Security
 
 ### Transport Security
@@ -238,7 +247,15 @@ Version is specified in the URL path:
 
 - Role-based access control (RBAC)
 - Attribute-based access control (ABAC)
-- API key management for service accounts
+- Row Level Security (RLS) enforced at the database layer with owner-first defaults
+- API token usage restricted to server-only contexts (never in clients)
+
+### Token Handling Best Practices
+
+- Use hashed single-use tokens for any external or ingestion endpoints.
+- Store only token_hash with created_at and expires_at; never store or log raw tokens.
+- Enforce max age and invalidate tokens on first use.
+- Keep Supabase service role tokens only in server/Edge Functions; never expose to clients.
 
 ## Support
 

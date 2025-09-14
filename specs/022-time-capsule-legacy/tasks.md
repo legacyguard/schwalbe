@@ -4,7 +4,7 @@
 
 This document provides a comprehensive checklist for implementing the Time Capsule Legacy System. Tasks are organized by component and include acceptance criteria, dependencies, and estimated effort.
 
-## Tasks: 013-time-capsule-legacy
+## Tasks: 022-time-capsule-legacy
 
 ## Ordering & rules
 
@@ -13,6 +13,13 @@ This document provides a comprehensive checklist for implementing the Time Capsu
 - Add encryption before storage integration
 - Test each component before system integration
 - Keep changes incremental and PR-sized
+
+## T2200 Identity, Security & Observability Baseline
+
+- [ ] T2201 Provision email provider secrets (Resend) and Supabase env in server-only contexts; never expose service role key to client
+- [ ] T2202 Implement hashed token storage with single-use and expiry; add constraints and cleanup jobs
+- [ ] T2203 Enable and implement RLS policies for all time capsule tables; write positive/negative policy tests (owner vs guardian) per 005-auth-rls-baseline
+- [ ] T2204 Observability baseline: structured logs in Edge Functions; critical alerts via Resend; confirm no Sentry dependencies
 
 ## Hollywood Migration Tasks
 

@@ -5,9 +5,11 @@
 ### Will Management
 
 #### POST /api/wills
+
 Create a new will with initial jurisdiction setup.
 
 **Request:**
+
 ```typescript
 POST /api/wills
 Authorization: Bearer {token}
@@ -21,6 +23,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```typescript
 201 Created
 {
@@ -42,6 +45,7 @@ Content-Type: application/json
 ```
 
 **Error Responses:**
+
 ```typescript
 400 Bad Request
 {
@@ -57,15 +61,18 @@ Content-Type: application/json
 ```
 
 #### GET /api/wills
+
 Retrieve user's wills with optional filtering.
 
 **Request:**
+
 ```typescript
 GET /api/wills?status=draft&limit=10&offset=0
 Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -85,15 +92,18 @@ Authorization: Bearer {token}
 ```
 
 #### GET /api/wills/{id}
+
 Retrieve specific will details.
 
 **Request:**
+
 ```typescript
 GET /api/wills/uuid
 Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -115,9 +125,11 @@ Authorization: Bearer {token}
 ```
 
 #### PUT /api/wills/{id}
+
 Update will data with partial updates.
 
 **Request:**
+
 ```typescript
 PUT /api/wills/uuid
 Authorization: Bearer {token}
@@ -138,6 +150,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -159,9 +172,11 @@ Content-Type: application/json
 ```
 
 #### POST /api/wills/{id}/generate-pdf
+
 Generate PDF document from will data.
 
 **Request:**
+
 ```typescript
 POST /api/wills/uuid/generate-pdf
 Authorization: Bearer {token}
@@ -174,6 +189,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -187,15 +203,18 @@ Content-Type: application/json
 ### Template Management
 
 #### GET /api/templates
+
 Retrieve available templates with filtering.
 
 **Request:**
+
 ```typescript
 GET /api/templates?jurisdiction=US-General&limit=10
 Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -220,15 +239,18 @@ Authorization: Bearer {token}
 ### Draft Management
 
 #### GET /api/drafts/{sessionId}
+
 Retrieve draft session data.
 
 **Request:**
+
 ```typescript
 GET /api/drafts/session-uuid
 Authorization: Bearer {token}
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -247,9 +269,11 @@ Authorization: Bearer {token}
 ```
 
 #### PUT /api/drafts/{sessionId}
+
 Update draft session with new data.
 
 **Request:**
+
 ```typescript
 PUT /api/drafts/session-uuid
 Authorization: Bearer {token}
@@ -272,6 +296,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -284,9 +309,11 @@ Content-Type: application/json
 ```
 
 #### POST /api/drafts/{sessionId}/complete
+
 Complete draft and create final will.
 
 **Request:**
+
 ```typescript
 POST /api/drafts/session-uuid/complete
 Authorization: Bearer {token}
@@ -298,6 +325,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```typescript
 200 OK
 {
@@ -551,6 +579,7 @@ type Error {
 ### Real-time Updates
 
 #### Will Updates
+
 ```typescript
 interface WillUpdatedEvent {
   type: 'will:updated';
@@ -562,6 +591,7 @@ interface WillUpdatedEvent {
 ```
 
 #### Draft Session Events
+
 ```typescript
 interface DraftSavedEvent {
   type: 'draft:saved';
@@ -578,6 +608,7 @@ interface DraftExpiredEvent {
 ```
 
 #### PDF Generation Events
+
 ```typescript
 interface PdfGeneratedEvent {
   type: 'pdf:generated';
@@ -631,7 +662,8 @@ API endpoints implement rate limiting to prevent abuse:
 - **Draft Operations**: 200 requests per minute per user
 
 Rate limit headers are included in all responses:
-```
+
+```http
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1640995200
@@ -641,8 +673,8 @@ X-RateLimit-Reset: 1640995200
 
 All endpoints require Bearer token authentication:
 
-```
+```http
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-Tokens are issued by Clerk authentication service and validated on each request.
+Authentication uses Supabase Auth JWTs validated on each request. Do not log Authorization headers, and include a correlation ID (e.g., X-Request-ID) on all requests.

@@ -77,10 +77,17 @@ Defines endpoints for journey analytics and reporting.
 
 ### Authentication & Authorization
 
-- Bearer token authentication via Clerk
+- Bearer token authentication (Supabase Auth JWT)
 - Role-based access control (User, Professional, Admin)
 - Resource-level permissions
 - Audit logging for sensitive operations
+- Service-role tokens restricted to secure server contexts (Edge Functions/servers only; never exposed to clients)
+
+### Token Handling Best Practices
+
+- Use hashed single-use tokens for any external ingestion endpoints.
+- Store only token_hash with created_at and expires_at; never store or log raw tokens.
+- Enforce max age and invalidate tokens on first use.
 
 ### Data Formats
 
@@ -174,6 +181,8 @@ interface ProcessExecution {
 - Security event logging
 - Business event tracking
 - Debug logging for troubleshooting
+- Critical error alerts via Resend (email); no Sentry
+- Never log raw tokens or secrets
 
 ## Versioning Strategy
 

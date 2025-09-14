@@ -102,17 +102,17 @@ Note: Focus on user-centric journey optimization and process efficiency within t
 - Conversion funnel analysis and optimization techniques
 - Journey analytics and user behavior tracking standards
 - 001-reboot-foundation for monorepo standards
-- 002-hollywood-migration for existing user flow patterns
-- 005-sofia-ai-system for AI-driven journey guidance
+- 003-hollywood-migration for existing user flow patterns
+- 031-sofia-ai-system for AI-driven journey guidance
 - 006-document-vault for document-related journey touchpoints
-- 007-will-creation-system for complex process flows
-- 008-family-collaboration for multi-user journey optimization
-- 009-professional-network for B2B journey components
-- 010-emergency-access for critical journey paths
-- 011-mobile-app for mobile journey optimization
-- 012-animations-microinteractions for journey flow enhancements
-- 013-time-capsule-legacy for legacy process integration
-- 014-pricing-conversion for conversion funnel integration
+- 023-will-creation-system for complex process flows
+- 025-family-collaboration for multi-user journey optimization
+- 026-professional-network for B2B journey components
+- 020-emergency-access for critical journey paths
+- 029-mobile-app for mobile journey optimization
+- 013-animations-microinteractions for journey flow enhancements
+- 022-time-capsule-legacy for legacy process integration
+- 028-pricing-conversion for conversion funnel integration
 
 ## Linked design docs
 
@@ -125,17 +125,17 @@ Note: Focus on user-centric journey optimization and process efficiency within t
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for foundation architecture
-- See 002-hollywood-migration/spec.md for migration patterns
-- See 005-sofia-ai-system/spec.md for AI integration requirements
+- See 003-hollywood-migration/spec.md for migration patterns
+- See 031-sofia-ai-system/spec.md for AI integration requirements
 - See 006-document-vault/spec.md for document handling integration
-- See 007-will-creation-system/spec.md for complex workflow examples
-- See 008-family-collaboration/spec.md for multi-user journey patterns
-- See 009-professional-network/spec.md for professional user flows
-- See 010-emergency-access/spec.md for critical journey paths
-- See 011-mobile-app/spec.md for mobile journey requirements
-- See 012-animations-microinteractions/spec.md for journey animations
-- See 013-time-capsule-legacy/spec.md for legacy process integration
-- See 014-pricing-conversion/spec.md for conversion funnel integration
+- See 023-will-creation-system/spec.md for complex workflow examples
+- See 025-family-collaboration/spec.md for multi-user journey patterns
+- See 026-professional-network/spec.md for professional user flows
+- See 020-emergency-access/spec.md for critical journey paths
+- See 029-mobile-app/spec.md for mobile journey requirements
+- See 013-animations-microinteractions/spec.md for journey animations
+- See 022-time-capsule-legacy/spec.md for legacy process integration
+- See 028-pricing-conversion/spec.md for conversion funnel integration
 
 ## Customer Journey Framework
 

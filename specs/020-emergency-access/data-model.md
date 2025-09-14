@@ -2,6 +2,14 @@
 
 ## Data Model
 
+### Conventions (required)
+
+- Identity: Supabase Auth (auth.uid()).
+- FKs: user_id uuid not null references auth.users(id) on delete cascade; apply consistently to all user-owned tables.
+- Tokens: store only hashed values (e.g., token_hash); include expires_at and used_at; tokens are single-use; never log raw tokens.
+- RLS: enable on all tables; owner-only default; minimal guardian access via joins; write positive/negative tests.
+- Naming: snake_case; timestamps created_at and updated_at; use timestamptz.
+
 ### EmergencyProtocol Entity
 
 **Fields:**
@@ -95,10 +103,11 @@
 - guardian_id: UUID (Foreign Key to guardians)
 - verification_method: VARCHAR(30) ('email', 'sms', 'document', 'in_person')
 - verification_status: VARCHAR(20) ('pending', 'verified', 'failed', 'expired')
-- verification_code: VARCHAR(10) (one-time code)
+- verification_token_hash: TEXT (hash of opaque token; never store raw token)
 - verification_attempts: INTEGER (default: 0)
 - max_attempts: INTEGER (default: 3)
 - expires_at: TIMESTAMP
+- used_at: TIMESTAMP
 - verified_at: TIMESTAMP
 - created_at: TIMESTAMP
 

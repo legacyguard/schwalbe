@@ -2,6 +2,20 @@
 
 This directory contains the interface definitions, type contracts, and API specifications for the time capsule system.
 
+## Authentication
+
+- Use Supabase Auth JWT Bearer tokens for user/guardian-facing flows.
+- Include a correlation header on every request (e.g., X-Request-ID).
+- Tokens are opaque on the wire and stored as hashes server-side; never log tokens or Authorization headers.
+- Service role keys must never be exposed in client environments.
+- See 005-auth-rls-baseline for identity and RLS conventions.
+
+## Observability
+
+- Use structured logs from Supabase Edge Functions as the source of truth.
+- For critical failures, send email alerts via Resend.
+- Do not use Sentry in this project; external tools are optional and complementary.
+
 ## API Contracts
 
 ### time-capsule-api.yaml

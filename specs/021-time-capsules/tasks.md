@@ -2,6 +2,13 @@
 
 This document outlines the detailed development checklist and acceptance criteria for implementing the time capsule system in Schwalbe.
 
+## T2790 Identity, Security & Observability Baseline
+
+- [ ] T2791 Provision email provider secrets (Resend) and Supabase env in server-only contexts; never expose service role key to client
+- [ ] T2792 Implement hashed token storage with single-use and expiry; add constraints and cleanup jobs
+- [ ] T2793 Enable and implement RLS policies for all time capsule tables; write positive/negative policy tests (owner vs guardian) per 005-auth-rls-baseline
+- [ ] T2794 Observability baseline: structured logs in Edge Functions; critical alerts via Resend; confirm no Sentry dependencies
+
 ## T2800 Time Capsule Foundation
 
 ### Database Schema Implementation

@@ -83,11 +83,11 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo architecture and build system
-- See 002-hollywood-migration/spec.md for professional system scaffolding migration
-- See 005-sofia-ai-system/spec.md for AI-guided professional interactions
+- See 003-hollywood-migration/spec.md for professional system scaffolding migration
+- See 031-sofia-ai-system/spec.md for AI-guided professional interactions
 - See 006-document-vault/spec.md for secure document sharing integration
-- See 007-will-creation-system/spec.md for legal document review workflows
-- See 008-family-collaboration/spec.md for family legal service coordination
+- See 023-will-creation-system/spec.md for legal document review workflows
+- See 025-family-collaboration/spec.md for family legal service coordination
 
 ## Linked design docs
 

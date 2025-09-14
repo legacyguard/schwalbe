@@ -4,6 +4,18 @@
 
 This guide provides quick start instructions for testing and validating the Time Capsule Legacy System implementation. It includes user flows, testing scenarios, and validation checklists.
 
+### Security notes
+
+- The Supabase service role key must be used only in server-side contexts (e.g., Edge Functions); never expose it to the browser.
+- Use your deployment platform's secret manager for production.
+- Do not log Authorization or token headers.
+
+### Security & RLS verification
+
+- Confirm all time capsule tables have RLS enabled and policies in place; write owner vs guardian tests per 005-auth-rls-baseline.
+- Verify tokens are stored as hashes (no raw tokens) and are single-use with enforced expiry.
+- Ensure structured logs in Edge Functions include a correlation ID; simulate a critical error and confirm a Resend email alert; no Sentry.
+
 ## Prerequisites
 
 ### Environment Setup

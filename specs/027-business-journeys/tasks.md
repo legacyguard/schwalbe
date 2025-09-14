@@ -387,12 +387,19 @@ This document provides a detailed, ordered checklist for implementing the Busine
 
 **Total**: 56 days (approximately 3 months with a small team)
 
+## Baseline: Identity, Security, and Observability
+
+- [ ] Replace Clerk with Supabase Auth across documentation and examples
+- [ ] Document RLS policies for user-scoped tables and add positive/negative test checklist
+- [ ] Document token handling best practices (hashed single-use tokens with expiry; no raw token logging)
+- [ ] Document observability baseline (structured logs in Supabase Edge Functions; critical alerts via Resend; no Sentry)
+
 ## Dependencies and Prerequisites
 
 ### External Dependencies
 
 - Supabase database access
-- Clerk authentication system
+- Supabase Auth authentication system
 - Stripe billing integration
 - Sofia AI system operational
 - Analytics infrastructure

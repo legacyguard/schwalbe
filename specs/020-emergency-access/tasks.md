@@ -1,4 +1,4 @@
-# Tasks: 010-emergency-access
+# Tasks: 020-emergency-access
 
 ## Ordering & rules
 
@@ -7,6 +7,13 @@
 - Establish access staging before document release
 - Complete guardian verification before full system testing
 - Keep changes incremental and PR-sized
+
+## T050 Identity, Security & Observability Baseline
+
+- [ ] T051 Provision email provider secrets (Resend) and Supabase env in server-only contexts; never expose service role key to client
+- [ ] T052 Implement hashed token storage with single-use and expiry; add constraints and cleanup jobs
+- [ ] T053 Enable and implement RLS policies for all emergency tables; write positive/negative policy tests (owner vs guardian) per 005-auth-rls-baseline
+- [ ] T054 Observability baseline: structured logs in Edge Functions; critical alerts via Resend; confirm no Sentry dependencies
 
 ## T100 Emergency Foundation
 

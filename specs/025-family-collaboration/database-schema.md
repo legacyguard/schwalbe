@@ -417,11 +417,13 @@ CREATE POLICY "Users can manage events for their family" ON family_calendar_even
 ## Enums and Types
 
 ### family_role
+
 ```sql
 CREATE TYPE family_role AS ENUM ('collaborator', 'viewer', 'emergency_contact', 'admin');
 ```
 
 ### relationship_type
+
 ```sql
 CREATE TYPE relationship_type AS ENUM (
   'spouse', 'partner', 'child', 'parent', 'sibling', 'grandparent',
@@ -430,16 +432,19 @@ CREATE TYPE relationship_type AS ENUM (
 ```
 
 ### invitation_status
+
 ```sql
 CREATE TYPE invitation_status AS ENUM ('pending', 'accepted', 'declined', 'expired');
 ```
 
 ### emergency_request_status
+
 ```sql
 CREATE TYPE emergency_request_status AS ENUM ('pending', 'approved', 'denied', 'expired');
 ```
 
 ### activity_action_type
+
 ```sql
 CREATE TYPE activity_action_type AS ENUM (
   'member_added', 'member_updated', 'member_removed', 'member_activated',
@@ -451,6 +456,7 @@ CREATE TYPE activity_action_type AS ENUM (
 ```
 
 ### activity_target_type
+
 ```sql
 CREATE TYPE activity_target_type AS ENUM (
   'family_member', 'invitation', 'emergency_request', 'permission', 'document'
@@ -458,6 +464,7 @@ CREATE TYPE activity_target_type AS ENUM (
 ```
 
 ### event_type
+
 ```sql
 CREATE TYPE event_type AS ENUM (
   'meeting', 'reminder', 'deadline', 'celebration', 'review', 'other'
@@ -465,6 +472,7 @@ CREATE TYPE event_type AS ENUM (
 ```
 
 ### event_status
+
 ```sql
 CREATE TYPE event_status AS ENUM ('scheduled', 'completed', 'cancelled', 'postponed');
 ```
@@ -472,6 +480,7 @@ CREATE TYPE event_status AS ENUM ('scheduled', 'completed', 'cancelled', 'postpo
 ## Functions and Triggers
 
 ### Update Trigger Function
+
 ```sql
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -483,6 +492,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ### Invitation Expiry Function
+
 ```sql
 CREATE OR REPLACE FUNCTION expire_family_invitations()
 RETURNS void AS $$
@@ -496,6 +506,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ### Emergency Request Expiry Function
+
 ```sql
 CREATE OR REPLACE FUNCTION expire_emergency_requests()
 RETURNS void AS $$
@@ -509,6 +520,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ### Activity Logging Function
+
 ```sql
 CREATE OR REPLACE FUNCTION log_family_activity(
   p_family_owner_id UUID,
@@ -543,6 +555,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 ## Indexes and Performance
 
 ### Composite Indexes
+
 ```sql
 -- Family members queries
 CREATE INDEX CONCURRENTLY idx_family_members_owner_role_active
@@ -571,6 +584,7 @@ CREATE INDEX CONCURRENTLY idx_family_activity_target_action
 ## Data Migration Scripts
 
 ### Migration: Add Emergency Priority
+
 ```sql
 -- Add emergency_priority column if not exists
 DO $$
@@ -587,6 +601,7 @@ END $$;
 ```
 
 ### Migration: Add Activity Logging
+
 ```sql
 -- Create activity log table if not exists
 CREATE TABLE IF NOT EXISTS family_activity_log (
@@ -608,6 +623,7 @@ CREATE TABLE IF NOT EXISTS family_activity_log (
 ## Backup and Recovery
 
 ### Backup Strategy
+
 ```sql
 -- Daily backup of family data
 CREATE OR REPLACE FUNCTION backup_family_data()
@@ -654,6 +670,7 @@ $$ LANGUAGE plpgsql;
 ## Monitoring and Maintenance
 
 ### Health Check Queries
+
 ```sql
 -- Family system health check
 SELECT

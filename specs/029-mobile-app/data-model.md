@@ -372,7 +372,7 @@ CREATE TABLE emergency_log (
 ### Authentication APIs
 
 ```typescript
-// Clerk integration endpoints
+// Supabase Auth integration endpoints
 interface AuthAPI {
   signIn(email: string, password: string): Promise<AuthResult>;
   signOut(): Promise<void>;

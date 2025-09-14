@@ -1,5 +1,16 @@
 # Will Creation System - User Flows & Testing Scenarios
 
+## Security notes
+
+- The Supabase service role key must be used only in server-side contexts (e.g., Edge Functions); never expose it to the browser.
+- Use your deployment platform's secret manager for production.
+- Do not log Authorization headers.
+
+## Security & RLS verification
+
+- Confirm all will-related tables have RLS enabled and policies in place; write tests per 005-auth-rls-baseline.
+- Ensure structured logs in Edge Functions include a correlation ID; simulate a critical error and confirm a Resend email alert; no Sentry.
+
 ## User Journey Overview
 
 The will creation system provides a guided, step-by-step experience for users to create legally valid wills. The process is divided into 8 main steps with Sofia AI assistance throughout.
@@ -9,26 +20,32 @@ The will creation system provides a guided, step-by-step experience for users to
 ### Flow 1: First-Time Will Creation
 
 #### Step 1: Getting Started
+
 **User Action:** User clicks "Create My Will" from dashboard
 **System Response:**
+
 - Display jurisdiction selection modal
 - Show estimated completion time (15-20 minutes)
 - Explain the process with progress indicator
 
 **UI Elements:**
+
 - Jurisdiction dropdown with popular options
 - "Start Creating" button
 - Progress bar showing 8 steps
 - Sofia welcome message
 
 #### Step 2: Personal Information
+
 **User Action:** Fill out personal details
 **System Response:**
+
 - Validate required fields
 - Auto-save draft every 30 seconds
 - Sofia provides guidance on required information
 
 **Form Fields:**
+
 - Full legal name
 - Date of birth
 - Complete address
@@ -37,31 +54,38 @@ The will creation system provides a guided, step-by-step experience for users to
 - Occupation (optional)
 
 **Validation Rules:**
+
 - Name: 2-100 characters, no special characters
 - DOB: Must be 18+ years old
 - Address: Complete with country
 
 #### Step 3: Beneficiaries
+
 **User Action:** Add and configure beneficiaries
 **System Response:**
+
 - Dynamic beneficiary addition
 - Percentage validation (must total 100%)
 - Relationship suggestions via Sofia AI
 
 **Features:**
+
 - Add/remove beneficiaries
 - Set inheritance percentages
 - Specify conditions
 - Add contact information
 
 #### Step 4: Assets & Property
+
 **User Action:** Inventory assets
 **System Response:**
+
 - Categorized asset input
 - Value estimation assistance
 - Automatic categorization
 
 **Asset Categories:**
+
 - Real estate
 - Vehicles
 - Bank accounts
@@ -70,32 +94,40 @@ The will creation system provides a guided, step-by-step experience for users to
 - Digital assets
 
 #### Step 5: Executor Appointment
+
 **User Action:** Designate executor and powers
 **System Response:**
+
 - Primary and backup executor options
 - Predefined power templates
 - Professional executor option
 
 **Configuration:**
+
 - Executor personal details
 - Specific powers granted
 - Compensation terms
 
 #### Step 6: Guardianship (Conditional)
+
 **User Action:** Set up guardianship for minor children
 **System Response:**
+
 - Only shown if user has minor children
 - Guardian qualification guidance
 - Trust setup options
 
 #### Step 7: Special Instructions
+
 **User Action:** Add personal wishes and instructions
 **System Response:**
+
 - Rich text editor for instructions
 - Template suggestions
 - Sofia content assistance
 
 **Sections:**
+
 - Funeral wishes
 - Organ donation
 - Pet care
@@ -104,8 +136,10 @@ The will creation system provides a guided, step-by-step experience for users to
 - Charitable bequests
 
 #### Step 8: Review & Finalize
+
 **User Action:** Review complete will and generate PDF
 **System Response:**
+
 - Complete will preview
 - Legal disclaimer display
 - PDF generation with progress
@@ -114,22 +148,28 @@ The will creation system provides a guided, step-by-step experience for users to
 ### Flow 2: Will Revision
 
 #### Step 1: Select Existing Will
+
 **User Action:** Choose will to revise from dashboard
 **System Response:**
+
 - List all user's wills with status
 - Show last modified date
 - Create revision option
 
 #### Step 2: Revision Workflow
+
 **User Action:** Modify existing will data
 **System Response:**
+
 - Pre-populated forms with existing data
 - Change tracking and highlighting
 - Version comparison option
 
 #### Step 3: Generate New Version
+
 **User Action:** Complete revision and generate PDF
 **System Response:**
+
 - Automatic version numbering
 - Parent-child relationship tracking
 - Archive previous version
@@ -137,15 +177,19 @@ The will creation system provides a guided, step-by-step experience for users to
 ### Flow 3: Template-Based Creation
 
 #### Step 1: Template Selection
+
 **User Action:** Browse available templates
 **System Response:**
+
 - Jurisdiction-filtered templates
 - Template previews and features
 - Sofia recommendations
 
 #### Step 2: Guided Template Completion
+
 **User Action:** Fill template-specific sections
 **System Response:**
+
 - Template-driven form flow
 - Required vs optional sections
 - Legal requirement validation
@@ -153,6 +197,7 @@ The will creation system provides a guided, step-by-step experience for users to
 ## Sofia AI Integration Flows
 
 ### Contextual Guidance
+
 ```typescript
 // Sofia provides step-by-step assistance
 interface SofiaGuidance {
@@ -166,6 +211,7 @@ interface SofiaGuidance {
 ```
 
 ### Content Assistance
+
 ```typescript
 // AI-powered content suggestions
 interface ContentSuggestion {
@@ -178,6 +224,7 @@ interface ContentSuggestion {
 ```
 
 ### Legal Explanation
+
 ```typescript
 // Explain legal concepts in simple terms
 interface LegalExplanation {
@@ -191,6 +238,7 @@ interface LegalExplanation {
 ## Error Handling Flows
 
 ### Validation Errors
+
 ```typescript
 interface ValidationError {
   field: string;
@@ -202,6 +250,7 @@ interface ValidationError {
 ```
 
 ### Recovery Scenarios
+
 - **Draft Auto-save Failure:** Local storage fallback
 - **Network Interruption:** Offline mode with sync on reconnect
 - **Invalid Data:** Clear error messages with correction guidance
@@ -210,7 +259,9 @@ interface ValidationError {
 ## Testing Scenarios
 
 ### 1) Basic Will Creation
+
 **Objective:** Test simple will generation with minimal data
+
 ```typescript
 describe('Basic Will Creation', () => {
   test('should create valid will with required fields', async () => {
@@ -242,7 +293,9 @@ describe('Basic Will Creation', () => {
 ```
 
 ### 2) Complex Will Creation
+
 **Objective:** Test will with multiple beneficiaries and complex assets
+
 ```typescript
 describe('Complex Will Creation', () => {
   test('should handle multiple beneficiaries and assets', async () => {
@@ -270,7 +323,9 @@ describe('Complex Will Creation', () => {
 ```
 
 ### 3) Legal Validation
+
 **Objective:** Test jurisdiction compliance and legal requirement validation
+
 ```typescript
 describe('Legal Validation', () => {
   test('should validate against jurisdiction requirements', async () => {
@@ -293,7 +348,9 @@ describe('Legal Validation', () => {
 ```
 
 ### 4) i18n Testing
+
 **Objective:** Test multi-language support and localization
+
 ```typescript
 describe('i18n Testing', () => {
   test('should generate will in different languages', async () => {
@@ -320,7 +377,9 @@ describe('i18n Testing', () => {
 ```
 
 ### 5) PDF Export
+
 **Objective:** Test document generation and formatting
+
 ```typescript
 describe('PDF Export', () => {
   test('should generate properly formatted PDF', async () => {
@@ -347,7 +406,9 @@ describe('PDF Export', () => {
 ```
 
 ### 6) Template Updates
+
 **Objective:** Test legal template changes and updates
+
 ```typescript
 describe('Template Updates', () => {
   test('should handle template version changes', async () => {
@@ -372,7 +433,9 @@ describe('Template Updates', () => {
 ```
 
 ### 7) Error Handling
+
 **Objective:** Test validation errors and recovery
+
 ```typescript
 describe('Error Handling', () => {
   test('should handle validation errors gracefully', async () => {
@@ -395,7 +458,9 @@ describe('Error Handling', () => {
 ```
 
 ### 8) Performance Test
+
 **Objective:** Test system performance with large wills
+
 ```typescript
 describe('Performance Test', () => {
   test('should handle large wills efficiently', async () => {
@@ -423,7 +488,9 @@ describe('Performance Test', () => {
 ```
 
 ### 9) Security Test
+
 **Objective:** Test data protection and access controls
+
 ```typescript
 describe('Security Test', () => {
   test('should encrypt sensitive will data', async () => {
@@ -446,7 +513,9 @@ describe('Security Test', () => {
 ```
 
 ### 10) End-to-End Test
+
 **Objective:** Test complete user journey
+
 ```typescript
 describe('End-to-End Test', () => {
   test('should complete full will creation workflow', async () => {
@@ -488,6 +557,7 @@ describe('End-to-End Test', () => {
 ```
 
 #### Template Processing
+
 ```typescript
 describe('Template Processing', () => {
   test('should assemble clauses correctly', () => {
@@ -505,6 +575,7 @@ describe('Template Processing', () => {
 ### Integration Testing
 
 #### End-to-End Will Creation
+
 ```typescript
 describe('End-to-End Will Creation', () => {
   test('should create complete will with PDF', async () => {
@@ -532,6 +603,7 @@ describe('End-to-End Will Creation', () => {
 ```
 
 #### Sofia AI Integration
+
 ```typescript
 describe('Sofia AI Integration', () => {
   test('should provide contextual guidance', async () => {
@@ -552,6 +624,7 @@ describe('Sofia AI Integration', () => {
 ### Performance Testing
 
 #### PDF Generation Performance
+
 ```typescript
 describe('PDF Generation Performance', () => {
   test('should generate PDF within 3 seconds', async () => {
@@ -567,6 +640,7 @@ describe('PDF Generation Performance', () => {
 ```
 
 #### Concurrent User Load
+
 ```typescript
 describe('Concurrent User Load', () => {
   test('should handle 100 concurrent users', async () => {
@@ -586,18 +660,21 @@ describe('Concurrent User Load', () => {
 ## Accessibility Testing
 
 ### Screen Reader Compatibility
+
 - All form fields have proper labels
 - Progress indicators are announced
 - Error messages are associated with fields
 - PDF output includes accessibility metadata
 
 ### Keyboard Navigation
+
 - Tab order follows logical flow
 - Enter/Space activate buttons
 - Arrow keys navigate dropdowns
 - Escape cancels modals
 
 ### Color Contrast
+
 - All text meets WCAG AA standards
 - Error states clearly distinguishable
 - Focus indicators visible
@@ -606,6 +683,7 @@ describe('Concurrent User Load', () => {
 ## Security Testing
 
 ### Data Encryption
+
 ```typescript
 describe('Data Encryption', () => {
   test('should encrypt will data at rest', async () => {
@@ -619,6 +697,7 @@ describe('Data Encryption', () => {
 ```
 
 ### Authentication & Authorization
+
 ```typescript
 describe('Authentication & Authorization', () => {
   test('should prevent unauthorized access', async () => {
@@ -635,12 +714,14 @@ describe('Authentication & Authorization', () => {
 ## Cross-Browser Testing
 
 ### Supported Browsers
+
 - Chrome 90+
 - Firefox 88+
 - Safari 14+
 - Edge 90+
 
 ### Responsive Design
+
 - Desktop (1200px+)
 - Tablet (768px - 1199px)
 - Mobile (320px - 767px)
@@ -648,6 +729,7 @@ describe('Authentication & Authorization', () => {
 ## Internationalization Testing
 
 ### Language Support
+
 ```typescript
 describe('Language Support', () => {
   test('should display in user locale', async () => {
@@ -661,6 +743,7 @@ describe('Language Support', () => {
 ```
 
 ### Jurisdiction-Specific Templates
+
 ```typescript
 describe('Jurisdiction Templates', () => {
   test('should load correct template for jurisdiction', async () => {
@@ -676,18 +759,21 @@ describe('Jurisdiction Templates', () => {
 ## Monitoring & Analytics
 
 ### User Behavior Tracking
+
 - Step completion rates
 - Time spent per section
 - Common drop-off points
 - Sofia interaction patterns
 
 ### Performance Metrics
+
 - PDF generation time
 - Page load times
 - Error rates by step
 - Template usage statistics
 
 ### Business Metrics
+
 - Conversion rates
 - Will completion rates
 - User satisfaction scores

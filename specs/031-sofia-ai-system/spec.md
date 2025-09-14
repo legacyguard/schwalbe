@@ -52,9 +52,9 @@
 
 ## Cross-links
 
-- See 002-hollywood-migration/spec.md for core package migration
-- See 012-animations-microinteractions/spec.md for animation system details
-- See 025-emotional-core-mvp/spec.md for emotional intelligence MVP
+- See 003-hollywood-migration/spec.md for core package migration
+- See 013-animations-microinteractions/spec.md for animation system details
+- See 014-emotional-core-mvp/spec.md for emotional intelligence MVP
 
 ## Linked design docs
 

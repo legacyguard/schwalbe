@@ -209,12 +209,14 @@ Note: See the spec’s Animation Map, Variant Catalog, Trigger/Event Catalog, an
 Objective: Validate stories across personality x reducedMotion x performanceMode for key components.
 
 Steps:
+
 1. Open Storybook and view SofiaFirefly stories for 3 personalities with reducedMotion on/off and performanceMode high/low.
 2. Inspect MilestoneCelebration stories across categories and significance.
 3. Verify AdaptiveProgressRing sizes and animated states.
 4. Validate MicroAnimation stories for all 12 types.
 
 Expected Results:
+
 - Stories render with correct variants and fallbacks
 - Reduced-motion toggles apply policy from spec
 - Performance modes scale effects as defined
@@ -224,11 +226,13 @@ Expected Results:
 Objective: Verify Trigger/Event Catalog mapping.
 
 Steps:
+
 1. Simulate AppEvent: document.uploaded, guardian.added, will.created.
 2. Verify celebrations trigger; throttle policy respected.
 3. Simulate form.submit.success/error with form IDs; verify micro-interactions.
 
 Expected Results:
+
 - Celebrations/micro-interactions fire correctly
 - Throttling prevents spam
 - Telemetry keys recorded in logs (mock/sandbox)
@@ -238,10 +242,12 @@ Expected Results:
 Objective: Confirm fallbacks per interaction.
 
 Steps:
+
 1. Enable prefers-reduced-motion and app reducedMotion setting.
 2. Trigger hover-lift, error-shake, fade-in-up, loading-pulse, celebrations.
 
 Expected Results:
+
 - Motion replaced with static/state-based alternatives per policy
 - ARIA announcements present where specified
 
@@ -250,10 +256,12 @@ Expected Results:
 Objective: Validate high/balanced/low behavior.
 
 Steps:
+
 1. Emulate device classes and toggle performanceMode.
 2. Verify particle counts, durations, glow/trail changes.
 
 Expected Results:
+
 - Effects scale per perf mode matrix
 - FPS meets targets on mid-range devices
 

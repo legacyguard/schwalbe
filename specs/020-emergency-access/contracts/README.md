@@ -70,11 +70,17 @@ This directory contains the API contract specifications for the Emergency Access
 
 ### Authentication
 
-All API endpoints require authentication using:
+All API endpoints require authentication using Supabase Auth JWT Bearer tokens for user/guardian-facing flows. API keys are reserved for trusted system-to-system integrations. Include a correlation header on all requests.
 
-- Bearer token authentication
-- API key validation
+- Bearer token (Supabase Auth JWT)
+- X-Request-ID correlation header
 - Multi-factor verification for sensitive operations
+
+Security notes:
+
+- Emergency tokens must be opaque and stored as hashes; never log tokens or Authorization headers.
+- No client exposure of Supabase service role keys.
+- See 005-auth-rls-baseline for identity and RLS conventions.
 
 ### Response Format
 
@@ -197,6 +203,13 @@ Contract update process:
 - Incident response procedures
 
 ## Monitoring & Observability
+
+### Observability Baseline (required)
+
+- Use structured logs from Supabase Edge Functions as the primary source of truth.
+- For critical failures, send email alerts via Resend.
+- Do not use Sentry in this project; external observability systems are optional and complementary.
+- Include a correlation ID on all requests and propagate it through logs.
 
 ### API Metrics
 

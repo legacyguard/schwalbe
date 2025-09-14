@@ -7,7 +7,7 @@
 ```typescript
 interface User {
   id: string;
-  clerkId: string;
+  authUserId: string; // Supabase Auth user ID
   email: string;
   emailVerified: boolean;
   firstName?: string;
@@ -366,7 +366,7 @@ type BiometricStatus =
 -- Users table
 CREATE TABLE users (
   id TEXT PRIMARY KEY,
-  clerk_id TEXT UNIQUE,
+  auth_user_id TEXT UNIQUE,
   email TEXT NOT NULL,
   email_verified INTEGER DEFAULT 0,
   first_name TEXT,
@@ -422,7 +422,7 @@ CREATE TABLE sync_operations (
   conflict_resolution TEXT -- JSON
 );
 
--- Emergency access table
+-- Emergency access table (store only hashed tokens)
 CREATE TABLE emergency_access (
   id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
@@ -435,7 +435,7 @@ CREATE TABLE emergency_access (
   access_level TEXT NOT NULL,
   documents TEXT, -- JSON
   audit_log TEXT, -- JSON
-  verification_tokens TEXT, -- JSON
+  verification_token_hashes TEXT, -- JSON of hashed tokens with expires_at (never store raw tokens)
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 ```

@@ -195,12 +195,12 @@ The Will Generation Engine represents a critical component of the estate plannin
 ### Required Specs
 
 - 001-reboot-foundation: Monorepo setup and build system
-- 002-hollywood-migration: Migration patterns and Hollywood codebase access
-- 005-sofia-ai-system: AI guidance integration
+- 003-hollywood-migration: Migration patterns and Hollywood codebase access
+- 031-sofia-ai-system: AI guidance integration
 - 006-document-vault: Secure document storage
-- 020-auth-rls-baseline: Authentication and authorization
-- 021-database-types: Database schema and types
-- 024-i18n-country-rules: Multi-language and jurisdiction support
+- 005-auth-rls-baseline: Authentication and authorization
+- 015-database-types: Database schema and types
+- 009-i18n-country-rules: Multi-language and jurisdiction support
 
 ### Recommended Specs
 

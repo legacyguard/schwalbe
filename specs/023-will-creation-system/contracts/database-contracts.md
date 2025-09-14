@@ -11,6 +11,7 @@ The will creation system uses a comprehensive database schema designed for flexi
 **Purpose:** Stores complete will data with flexible JSONB structure for complex legal documents.
 
 **Schema:**
+
 ```sql
 CREATE TABLE wills (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -44,6 +45,7 @@ CREATE TABLE wills (
 ```
 
 **Indexes:**
+
 ```sql
 CREATE INDEX idx_wills_user_id ON wills(user_id);
 CREATE INDEX idx_wills_status ON wills(status);
@@ -55,6 +57,7 @@ CREATE INDEX idx_wills_beneficiaries ON wills USING GIN (beneficiaries);
 ```
 
 **RLS Policies:**
+
 ```sql
 -- Users can only access their own wills
 CREATE POLICY "Users can view own wills" ON wills
@@ -75,6 +78,7 @@ CREATE POLICY "Users can delete own wills" ON wills
 **Purpose:** Stores jurisdiction-specific legal templates with validation rules.
 
 **Schema:**
+
 ```sql
 CREATE TABLE will_templates (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -92,6 +96,7 @@ CREATE TABLE will_templates (
 ```
 
 **Indexes:**
+
 ```sql
 CREATE INDEX idx_will_templates_jurisdiction ON will_templates(jurisdiction);
 CREATE INDEX idx_will_templates_active ON will_templates(is_active) WHERE is_active = true;
@@ -99,6 +104,7 @@ CREATE INDEX idx_will_templates_structure ON will_templates USING GIN (template_
 ```
 
 **RLS Policies:**
+
 ```sql
 -- Templates are read-only for all authenticated users
 CREATE POLICY "Authenticated users can view templates" ON will_templates
@@ -110,6 +116,7 @@ CREATE POLICY "Authenticated users can view templates" ON will_templates
 **Purpose:** Manages temporary draft sessions for will creation workflow.
 
 **Schema:**
+
 ```sql
 CREATE TABLE will_drafts (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -130,6 +137,7 @@ CREATE TABLE will_drafts (
 ```
 
 **Indexes:**
+
 ```sql
 CREATE INDEX idx_will_drafts_user_id ON will_drafts(user_id);
 CREATE INDEX idx_will_drafts_session_id ON will_drafts(session_id);
@@ -138,6 +146,7 @@ CREATE INDEX idx_will_drafts_will_id ON will_drafts(will_id);
 ```
 
 **RLS Policies:**
+
 ```sql
 CREATE POLICY "Users can manage own drafts" ON will_drafts
   FOR ALL USING (auth.uid()::text = user_id);
@@ -150,6 +159,7 @@ CREATE POLICY "Users can manage own drafts" ON will_drafts
 **Purpose:** Tracks detailed changes between will versions.
 
 **Schema:**
+
 ```sql
 CREATE TABLE will_revisions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -171,6 +181,7 @@ CREATE TABLE will_revisions (
 **Purpose:** Comprehensive audit trail for all will operations.
 
 **Schema:**
+
 ```sql
 CREATE TABLE will_audit_log (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -193,6 +204,7 @@ CREATE TABLE will_audit_log (
 ## Data Types and Enums
 
 ### will_status
+
 ```sql
 CREATE TYPE will_status AS ENUM (
   'draft',
@@ -203,6 +215,7 @@ CREATE TYPE will_status AS ENUM (
 ```
 
 ### relationship_type
+
 ```sql
 CREATE TYPE relationship_type AS ENUM (
   'spouse',
@@ -217,6 +230,7 @@ CREATE TYPE relationship_type AS ENUM (
 ```
 
 ### jurisdiction_type
+
 ```sql
 CREATE TYPE jurisdiction_type AS ENUM (
   'US-Federal',
@@ -229,6 +243,7 @@ CREATE TYPE jurisdiction_type AS ENUM (
 ## Functions and Triggers
 
 ### Automatic Timestamps
+
 ```sql
 CREATE OR REPLACE FUNCTION update_will_timestamp()
 RETURNS TRIGGER AS $$
@@ -255,6 +270,7 @@ CREATE TRIGGER update_wills_timestamp
 ```
 
 ### Will Versioning
+
 ```sql
 CREATE OR REPLACE FUNCTION create_will_revision(
   original_will_id UUID,
@@ -313,6 +329,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ### Audit Logging
+
 ```sql
 CREATE OR REPLACE FUNCTION audit_will_changes()
 RETURNS TRIGGER AS $$
@@ -353,6 +370,7 @@ CREATE TRIGGER audit_wills_changes
 ## Views
 
 ### Active Wills View
+
 ```sql
 CREATE VIEW active_wills AS
 SELECT
@@ -366,6 +384,7 @@ GROUP BY w.id;
 ```
 
 ### Will Statistics View
+
 ```sql
 CREATE VIEW will_statistics AS
 SELECT
@@ -382,6 +401,7 @@ GROUP BY user_id;
 ## Data Validation
 
 ### JSON Schema Validation
+
 ```sql
 -- Function to validate will data against JSON schema
 CREATE OR REPLACE FUNCTION validate_will_data(
@@ -427,6 +447,7 @@ $$ LANGUAGE plpgsql;
 ## Performance Optimization
 
 ### Partitioning Strategy
+
 ```sql
 -- Partition wills table by creation year for better performance
 CREATE TABLE wills_y2025 PARTITION OF wills
@@ -437,6 +458,7 @@ CREATE TABLE wills_y2026 PARTITION OF wills
 ```
 
 ### Query Optimization
+
 ```sql
 -- Optimized query for user's active wills
 CREATE OR REPLACE FUNCTION get_user_active_wills(user_id_param TEXT)
@@ -461,6 +483,7 @@ $$ LANGUAGE plpgsql;
 ## Backup and Recovery
 
 ### Automated Backups
+
 ```sql
 -- Function to create will backup
 CREATE OR REPLACE FUNCTION backup_will(
@@ -485,6 +508,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ### Point-in-Time Recovery
+
 ```sql
 -- Function to restore will from backup
 CREATE OR REPLACE FUNCTION restore_will_from_backup(

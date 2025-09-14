@@ -3,6 +3,7 @@
 ## Core Sofia AI Entities
 
 ### SofiaAI
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `personalityMode: 'empathetic' | 'pragmatic' | 'adaptive'` - Current personality mode
@@ -14,6 +15,7 @@
 - `updatedAt: timestamp` - Last update time
 
 ### SofiaPreferences
+
 - `communicationStyle: 'formal' | 'casual' | 'friendly'` - Preferred communication style
 - `responseLength: 'brief' | 'detailed' | 'adaptive'` - Preferred response length
 - `animationIntensity: 'subtle' | 'moderate' | 'dynamic'` - Animation preference
@@ -23,6 +25,7 @@
 - `hapticFeedback: boolean` - Enable haptic feedback
 
 ### SofiaMemory
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `conversationHistory: ConversationEntry[]` - Chat history
@@ -32,6 +35,7 @@
 - `lastUpdatedAt: timestamp` - Last memory update
 
 ### ConversationEntry
+
 - `id: string` - Unique identifier
 - `timestamp: timestamp` - Message time
 - `type: 'user' | 'sofia'` - Message sender
@@ -42,6 +46,7 @@
 - `satisfactionScore: number` - User satisfaction (0-1)
 
 ### UserPattern
+
 - `id: string` - Unique identifier
 - `patternType: 'interaction' | 'preference' | 'behavior'` - Pattern category
 - `patternData: object` - Pattern-specific data
@@ -50,6 +55,7 @@
 - `frequency: number` - Observed frequency
 
 ### ContextData
+
 - `currentPage: string` - Current app page/route
 - `userAction: string` - Last user action
 - `emotionalState: string` - Current emotional state
@@ -59,6 +65,7 @@
 - `userEngagement: number` - Engagement level (0-1)
 
 ### EmotionalState
+
 - `currentMood: 'happy' | 'neutral' | 'frustrated' | 'excited' | 'worried'` - Current mood
 - `energyLevel: number` - Energy level (0-1)
 - `stressLevel: number` - Stress level (0-1)
@@ -68,6 +75,7 @@
 ## Animation System Entities
 
 ### FireflyAnimation
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `animationType: 'idle' | 'happy' | 'sad' | 'excited' | 'thinking'` - Animation type
@@ -77,6 +85,7 @@
 - `customization: FireflyCustomization` - User customizations
 
 ### FireflyCustomization
+
 - `color: string` - Firefly color
 - `size: number` - Firefly size multiplier
 - `speed: number` - Movement speed multiplier
@@ -85,6 +94,7 @@
 - `hapticEnabled: boolean` - Haptic feedback enabled
 
 ### CelebrationAnimation
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `celebrationType: 'milestone' | 'achievement' | 'completion' | 'success'` - Celebration type
@@ -94,6 +104,7 @@
 - `customization: CelebrationCustomization` - User customizations
 
 ### CelebrationCustomization
+
 - `confettiEnabled: boolean` - Confetti effects enabled
 - `sparkleEnabled: boolean` - Sparkle effects enabled
 - `soundEnabled: boolean` - Sound effects enabled
@@ -103,6 +114,7 @@
 ## Proactive System Entities
 
 ### ProactiveSuggestion
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `suggestionType: 'guidance' | 'reminder' | 'encouragement' | 'tip'` - Suggestion type
@@ -116,6 +128,7 @@
 - `dismissedAt: timestamp` - When dismissed
 
 ### SuggestionTiming
+
 - `trigger: string` - Trigger condition
 - `delay: number` - Delay in seconds
 - `frequency: 'once' | 'daily' | 'weekly' | 'monthly'` - Frequency
@@ -123,6 +136,7 @@
 - `conditions: string[]` - Additional conditions
 
 ### GuidanceFlow
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `flowType: 'onboarding' | 'feature' | 'troubleshooting'` - Flow type
@@ -133,6 +147,7 @@
 - `completedAt: timestamp` - Flow completion time
 
 ### GuidanceStep
+
 - `id: string` - Unique identifier
 - `stepNumber: number` - Step order
 - `title: string` - Step title
@@ -146,6 +161,7 @@
 ## Analytics & Monitoring Entities
 
 ### SofiaAnalytics
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `metricType: 'response_time' | 'satisfaction' | 'engagement' | 'accuracy'` - Metric type
@@ -155,6 +171,7 @@
 - `metadata: object` - Additional metric data
 
 ### SofiaPerformance
+
 - `id: string` - Unique identifier
 - `userId: string` - Associated user
 - `responseTime: number` - AI response time in ms

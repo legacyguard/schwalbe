@@ -49,8 +49,8 @@
 
 ### 1. Mobile UI Framework
 
-- **React Native + Expo**: Cross-platform development with native performance (depends on 002-hollywood-migration)
-- **Tamagui Integration**: Consistent design system with Hollywood web app (depends on 002-hollywood-migration)
+- **React Native + Expo**: Cross-platform development with native performance (depends on 003-hollywood-migration)
+- **Tamagui Integration**: Consistent design system with Hollywood web app (depends on 003-hollywood-migration)
 - **Platform-Specific UX**: iOS and Android native patterns and components with adaptive layouts
 - **Responsive Design**: Support for phones, tablets, and various screen sizes with breakpoint system
 - **Dark Mode**: System-aware theme switching with smooth transitions and accessibility support
@@ -60,7 +60,7 @@
 
 ### 2. Offline Functionality
 
-- **AsyncStorage + SQLite**: Local data persistence for offline access (depends on 002-hollywood-migration)
+- **AsyncStorage + SQLite**: Local data persistence for offline access (depends on 003-hollywood-migration)
 - **Conflict Resolution**: Intelligent sync with server when connectivity returns (depends on 006-document-vault)
 - **Offline Indicators**: Clear UI feedback for offline/online states with real-time connectivity detection
 - **Background Sync**: Automatic data synchronization in background using Expo Background Fetch
@@ -80,7 +80,7 @@
 
 ### 4. Biometric Authentication
 
-- **Expo Local Authentication**: Face ID, Touch ID, and fingerprint support (depends on 002-hollywood-migration)
+- **Expo Local Authentication**: Face ID, Touch ID, and fingerprint support (depends on 003-hollywood-migration)
 - **Fallback Options**: PIN/password fallback for unsupported devices with secure storage
 - **Secure Enclave**: Hardware-backed key storage and biometric validation (depends on 006-document-vault)
 - **Session Management**: Biometric session extension and timeout handling with auto-lock
@@ -114,7 +114,7 @@
 - **Performance Testing**: Load testing, memory leak detection, and battery usage optimization
 - **Security Testing**: Penetration testing, encryption validation, and biometric security assessment
 - **Accessibility Testing**: WCAG 2.1 AA compliance verification and assistive technology compatibility
-- **Integration Testing**: End-to-end testing with Supabase, Clerk, and external service dependencies
+- **Integration Testing**: End-to-end testing with Supabase (Auth) and external service dependencies
 
 ## Review & Acceptance
 
@@ -223,13 +223,13 @@ apps/mobile/
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo architecture and build system
-- See 002-hollywood-migration/spec.md for core package migration and shared services
-- See 005-sofia-ai-system/spec.md for AI-powered document analysis and guidance
+- See 003-hollywood-migration/spec.md for core package migration and shared services
+- See 031-sofia-ai-system/spec.md for AI-powered document analysis and guidance
 - See 006-document-vault/spec.md for encrypted storage and key management
-- See 007-will-creation-system/spec.md for legal document generation and templates
-- See 008-family-collaboration/spec.md for guardian network and emergency access
-- See 009-professional-network/spec.md for professional consultation features
-- See 010-emergency-access/spec.md for emergency protocols and document release
+- See 023-will-creation-system/spec.md for legal document generation and templates
+- See 025-family-collaboration/spec.md for guardian network and emergency access
+- See 026-professional-network/spec.md for professional consultation features
+- See 020-emergency-access/spec.md for emergency protocols and document release
 
 ## Linked design docs
 

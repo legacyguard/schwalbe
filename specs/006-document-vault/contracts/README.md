@@ -7,7 +7,9 @@ This directory contains the API contracts and service interfaces for the Documen
 ## Contract Files
 
 ### document-storage-api.yaml
+
 OpenAPI specification for the document storage API, including:
+
 - Document CRUD operations
 - File upload/download endpoints
 - Metadata management
@@ -16,7 +18,9 @@ OpenAPI specification for the document storage API, including:
 - Bundle operations
 
 ### encryption-service-api.yaml
+
 OpenAPI specification for the encryption service API, including:
+
 - Key management operations
 - Encryption/decryption endpoints
 - Session management
@@ -24,7 +28,9 @@ OpenAPI specification for the encryption service API, including:
 - Security monitoring
 
 ### metadata-extraction-api.yaml
+
 OpenAPI specification for the metadata extraction API, including:
+
 - OCR processing endpoints
 - AI analysis operations
 - Document categorization
@@ -32,7 +38,9 @@ OpenAPI specification for the metadata extraction API, including:
 - Quality assessment
 
 ### search-api.yaml
+
 OpenAPI specification for the search API, including:
+
 - Full-text search endpoints
 - Faceted search operations
 - Search suggestions
@@ -40,7 +48,9 @@ OpenAPI specification for the search API, including:
 - Performance metrics
 
 ### error-handling-api.yaml
+
 OpenAPI specification for the error handling API, including:
+
 - Error classification
 - Recovery operations
 - User notification
@@ -50,14 +60,18 @@ OpenAPI specification for the error handling API, including:
 ## Contract Validation
 
 ### TypeScript Contracts
+
 Each API contract includes TypeScript interface definitions for:
+
 - Request/response types
 - Error types
 - Data transfer objects
 - Service interfaces
 
 ### Testing Contracts
+
 Contract testing includes:
+
 - Request/response validation
 - Error handling validation
 - Performance benchmarks
@@ -67,7 +81,9 @@ Contract testing includes:
 ## Usage
 
 ### Development
+
 Use these contracts to:
+
 - Generate client SDKs
 - Validate API implementations
 - Ensure consistency across services
@@ -75,7 +91,9 @@ Use these contracts to:
 - Test API endpoints
 
 ### Integration
+
 Contracts are used for:
+
 - Service-to-service communication
 - Client application integration
 - Third-party integrations
@@ -85,11 +103,13 @@ Contracts are used for:
 ## Versioning
 
 ### Contract Versioning
+
 - **Major versions**: Breaking changes to API structure
 - **Minor versions**: New features and enhancements
 - **Patch versions**: Bug fixes and improvements
 
 ### Backward Compatibility
+
 - **Major versions**: May include breaking changes
 - **Minor versions**: Maintain backward compatibility
 - **Patch versions**: Always backward compatible
@@ -97,14 +117,18 @@ Contracts are used for:
 ## Security
 
 ### Authentication
+
 All API contracts include:
+
 - JWT token authentication
 - Role-based access control
 - Permission validation
 - Session management
 
 ### Data Protection
+
 Contracts ensure:
+
 - Encrypted data transmission
 - Secure data storage
 - Privacy protection
@@ -113,14 +137,18 @@ Contracts ensure:
 ## Monitoring
 
 ### Performance Metrics
+
 Contracts define:
+
 - Response time requirements
 - Throughput benchmarks
 - Error rate thresholds
 - Resource utilization limits
 
 ### Health Checks
+
 All services include:
+
 - Health check endpoints
 - Status monitoring
 - Dependency checking

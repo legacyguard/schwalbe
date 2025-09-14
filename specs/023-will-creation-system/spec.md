@@ -32,6 +32,8 @@
 - [ ] Multi-language support for international legal documents available
 - [ ] Professional PDF generation with accessibility features implemented
 - [ ] Comprehensive testing framework with legal validation completed
+- [ ] All will tables have RLS enabled; policies tested (owner vs owner’s collaborators/guardians) per 005-auth-rls-baseline
+- [ ] Observability baseline: structured logs in Supabase Edge Functions; critical alerts via Resend; no Sentry
 - [ ] Database schema with proper indexing and RLS policies established
 - [ ] Type-safe API contracts with comprehensive validation in place
 
@@ -57,9 +59,13 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo architecture and build system
-- See 002-hollywood-migration/spec.md for will generation logic migration
-- See 005-sofia-ai-system/spec.md for AI assistance integration
+- See 003-hollywood-migration/spec.md for will generation logic migration
+- See 031-sofia-ai-system/spec.md for AI assistance integration
 - See 006-document-vault/spec.md for secure document storage
+- See 005-auth-rls-baseline/spec.md for identity and RLS conventions
+- See 015-database-types/spec.md for database schema conventions
+- See 007-email-resend/spec.md for email delivery
+- See 010-production-deployment/spec.md for production practices
 
 ## Linked design docs
 
@@ -69,21 +75,30 @@
 - See `plan.md` for implementation phases and timeline
 - See `tasks.md` for detailed development checklist
 
+## Baseline Notes: Identity, RLS, Observability
+
+- Identity: Supabase Auth is the identity provider; see 005-auth-rls-baseline for conventions and any bridging guidance.
+- RLS: Enable RLS on all will-related tables; default owner-only access; write positive/negative policy tests aligned with baseline patterns.
+- Observability: Use structured logs in Supabase Edge Functions and critical email alerts via Resend. Do not use Sentry in this project.
+
 ## Success Metrics
 
 ### User Experience Metrics
+
 - **Completion Rate**: >70% of users complete will creation
 - **Time to Complete**: <15 minutes for basic will
 - **User Satisfaction**: >4.2/5 rating for creation experience
 - **Error Rate**: <5% user-reported issues
 
 ### Technical Metrics
+
 - **Generation Speed**: <3 seconds for PDF creation
 - **Template Accuracy**: >99% legal requirement compliance
 - **Security Incidents**: Zero data breaches
 - **API Reliability**: >99.9% uptime
 
 ### Business Metrics
+
 - **Conversion Rate**: >60% of free users create paid will
 - **Retention**: >80% monthly active users with wills
 - **Legal Compliance**: 100% audit compliance
@@ -99,24 +114,28 @@
 ## Quality Gates
 
 ### Phase 1: Foundation
+
 - [ ] Database schema implemented and tested
 - [ ] Basic will generation working
 - [ ] Template system functional
 - [ ] Security policies in place
 
 ### Phase 2: User Experience
+
 - [ ] Complete wizard flow implemented
 - [ ] Sofia AI integration working
 - [ ] Error handling comprehensive
 - [ ] Performance benchmarks met
 
 ### Phase 3: Advanced Features
+
 - [ ] All jurisdiction templates complete
 - [ ] Legal validation functional
 - [ ] Version control implemented
 - [ ] Integration testing passed
 
 ### Phase 4: Production Ready
+
 - [ ] Security audit completed
 - [ ] Performance optimization done
 - [ ] Documentation complete

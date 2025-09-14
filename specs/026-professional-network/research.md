@@ -275,7 +275,7 @@ CREATE TABLE professional_commissions (
 
 #### Authentication & Authorization
 
-- Clerk-based authentication with professional role verification
+- Supabase Auth-based authentication with professional role verification
 - Row Level Security (RLS) policies for professional data isolation
 - API key management for third-party integrations
 - Multi-factor authentication for sensitive operations

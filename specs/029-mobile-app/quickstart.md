@@ -69,6 +69,19 @@ EXPO_PUBLIC_APP_ENV=development
 EXPO_PUBLIC_API_URL=http://localhost:3000
 ```
 
+### Security Verification Checklist
+
+- Identity: Supabase Auth only (no Clerk)
+- Token handling on mobile:
+  - Do not log raw tokens; avoid long-term storage of tokens
+  - Use OS-provided secure storage (SecureStore/Keychain) for any necessary secrets
+- Server-side RLS expectations for APIs consumed by the app:
+  - Enforce RLS with owner-first policies on user-scoped tables
+  - Provide positive/negative test checklists in backend specs
+- Observability baseline (server-side):
+  - Structured logging in Supabase Edge Functions (requestId, userId, path, status, latency; redact PII)
+  - Critical alerts via Resend; no Sentry
+
 ## Test Scenarios
 
 ### 1) Mobile Setup - install and configure app

@@ -77,6 +77,13 @@ The time capsule system enables users to create personal video or audio messages
 - **Media**: MediaRecorder API, WebRTC, Canvas API
 - **State**: Zustand for client state management
 
+### Identity & RLS Baseline Note
+
+- Standardize on Supabase Auth for this module. If older materials mention Clerk, apply bridging per 005-auth-rls-baseline; keep Time Capsules Supabase-first.
+- RLS-first design across all tables; owner-only by default, with minimal guardian access proven by joins; write positive/negative policy tests.
+- Tokens must be hashed, single-use, with expires_at and used_at; never log raw tokens; URLs contain opaque tokens only.
+- Observability baseline: structured logs in Supabase Edge Functions and critical email alerts via Resend; no Sentry.
+
 ## User Experience
 
 ### Creation Flow

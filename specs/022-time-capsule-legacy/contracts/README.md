@@ -89,7 +89,7 @@ components:
 
 ## Authentication
 
-All APIs use JWT-based authentication with Clerk:
+All APIs use Supabase Auth JWT authentication for user/guardian flows. Include a correlation header (e.g., X-Request-ID) on every request. Tokens are opaque on the wire and stored as hashes server-side; never log tokens or Authorization headers. Do not expose Supabase service role keys in client environments. See 005-auth-rls-baseline for identity and RLS conventions.
 
 ```yaml
 components:
@@ -98,11 +98,17 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT token from Clerk authentication
+description: Supabase Auth JWT token
 
 security:
   - bearerAuth: []
 ```
+
+## Observability
+
+- Use structured logs from Supabase Edge Functions as the primary source of truth.
+- For critical failures, send email alerts via Resend.
+- Do not use Sentry in this project; external observability systems are optional and complementary.
 
 ## Error Handling
 

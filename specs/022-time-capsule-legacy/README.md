@@ -17,15 +17,15 @@ The Time Capsule Legacy System implements a comprehensive solution for creating,
 ## Dependencies
 
 - **001-reboot-foundation**: Monorepo structure and build system
-- **002-hollywood-migration**: Core packages and shared services
-- **005-sofia-ai-system**: AI-powered guidance and emotional intelligence
+- **003-hollywood-migration**: Core packages and shared services
+- **031-sofia-ai-system**: AI-powered guidance and emotional intelligence
 - **006-document-vault**: Encrypted storage and key management
 - **007-will-creation-system**: Legal document integration
-- **008-family-collaboration**: Guardian network management
-- **009-professional-network**: Professional consultation features
-- **010-emergency-access**: Emergency protocols and document release
-- **011-mobile-app**: Cross-platform mobile implementation
-- **012-animations-microinteractions**: Emotional design and animations
+- **025-family-collaboration**: Guardian network management
+- **026-professional-network**: Professional consultation features
+- **020-emergency-access**: Emergency protocols and document release
+- **029-mobile-app**: Cross-platform mobile implementation
+- **013-animations-microinteractions**: Emotional design and animations
 
 ## Architecture
 
@@ -77,7 +77,7 @@ The Time Capsule Legacy System implements a comprehensive solution for creating,
 
 - **Client-side Encryption**: All media files encrypted before upload
 - **Zero-knowledge Architecture**: Server cannot access decrypted content
-- **Row Level Security**: PostgreSQL RLS policies ensure data isolation
+- **Row Level Security**: PostgreSQL RLS policies ensure data isolation (owner-first; minimal guardian access via joins; see 005-auth-rls-baseline)
 - **Secure File Storage**: Private Supabase storage bucket with user-based access
 - **Access Tokens**: UUID-based tokens for secure capsule viewing
 - **Audit Logging**: Complete delivery and access tracking
@@ -121,6 +121,6 @@ The Time Capsule Legacy System implements a comprehensive solution for creating,
 
 - [High-level Plan Phase 10 — Time Capsules](../../docs/high-level-plan.md)
 - [Hollywood Time Capsule Implementation](../../hollywood/docs/TIME_CAPSULE_DOCUMENTATION.md)
-- [Family Shield Emergency Access](../010-emergency-access/)
+- [Family Shield Emergency Access](../020-emergency-access/)
 - [Document Vault Encryption](../006-document-vault/)
-- [Sofia AI Emotional Intelligence](../005-sofia-ai-system/)
+- [Sofia AI Emotional Intelligence](../031-sofia-ai-system/)

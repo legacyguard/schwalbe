@@ -3,7 +3,7 @@
 - Implementation of comprehensive time capsule system for emotional legacy preservation
 - Builds on Hollywood's proven time capsule architecture with enhanced security and emotional design
 - Integrates with Family Shield, Document Vault, and Sofia AI for complete legacy experience
-- Prerequisites: 001-reboot-foundation, 002-hollywood-migration, 005-sofia-ai-system, 006-document-vault, 008-family-collaboration, 010-emergency-access completed
+- Prerequisites: 001-reboot-foundation, 003-hollywood-migration, 031-sofia-ai-system, 006-document-vault, 025-family-collaboration, 020-emergency-access completed
 
 ## Goals
 
@@ -97,7 +97,9 @@
 - [ ] **Time Capsule Creation**: Multi-step wizard with recipient selection, delivery settings, and recording
 - [ ] **Video Processing**: High-quality video encoding, compression, and secure storage
 - [ ] **Scheduled Delivery**: Robust scheduling system for future delivery of time capsules
-- [ ] **Security Implementation**: RLS policies, access tokens, and comprehensive audit logging
+- [ ] All time capsule tables have RLS enabled; policies tested (owner vs guardian) per 005-auth-rls-baseline
+- [ ] Hashed, single-use tokens with expiry; no raw tokens stored or logged
+- [ ] Observability baseline: structured logs in Supabase Edge Functions; critical alerts via Resend; no Sentry
 - [ ] **Integration Testing**: Seamless integration with Family Shield, Document Vault, and Sofia AI
 - [ ] **Performance**: 60fps animations, efficient media handling, and responsive interactions
 - [ ] **Error Handling**: Comprehensive error states and recovery flows for delivery failures
@@ -180,9 +182,16 @@
 
 ## Security Features
 
+## Baseline Notes: Identity, RLS, Tokens, Observability
+
+- Identity: Supabase Auth is the identity provider; see 005-auth-rls-baseline for conventions and any bridging guidance.
+- RLS: Enable RLS on all time capsule tables; default owner-only access; minimal guardian access proved via joins; write positive/negative policy tests.
+- Tokens: Store only hashed tokens with `expires_at` and `used_at`; tokens are single-use; URLs contain opaque tokens only; never log tokens.
+- Observability: Use structured logs in Supabase Edge Functions and critical email alerts via Resend. Do not use Sentry in this project.
+
 ### Authentication & Authorization
 
-- **Clerk Authentication**: JWT-based user authentication with session management
+- **Supabase Auth**: JWT-based user authentication with session management
 - **Row Level Security**: PostgreSQL RLS policies ensure users only access their own capsules
 - **Access Tokens**: UUID-based secure tokens for public capsule viewing
 - **Guardian Verification**: Multi-step verification for emergency access
@@ -365,13 +374,13 @@
 ## Cross-links
 
 - See `../001-reboot-foundation/spec.md` for monorepo architecture and build system
-- See `../002-hollywood-migration/spec.md` for core package migration and shared services
-- See `../005-sofia-ai-system/spec.md` for AI-powered guidance integration
+- See `../003-hollywood-migration/spec.md` for core package migration and shared services
+- See `../031-sofia-ai-system/spec.md` for AI-powered guidance integration
 - See `../006-document-vault/spec.md` for encrypted storage patterns
-- See `../008-family-collaboration/spec.md` for guardian network integration
-- See `../010-emergency-access/spec.md` for emergency delivery triggers
-- See `../011-mobile-app/spec.md` for mobile implementation details
-- See `../012-animations-microinteractions/spec.md` for emotional design animations
+- See `../025-family-collaboration/spec.md` for guardian network integration
+- See `../020-emergency-access/spec.md` for emergency delivery triggers
+- See `../029-mobile-app/spec.md` for mobile implementation details
+- See `../013-animations-microinteractions/spec.md` for emotional design animations
 
 ## Linked design docs
 
