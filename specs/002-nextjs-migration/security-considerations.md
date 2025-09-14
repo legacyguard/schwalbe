@@ -7,7 +7,7 @@ Note: This spec standardizes on Supabase Auth for identity and Postgres RLS for 
 
 ## Authentication & Authorization
 
-### Clerk Integration Security
+### Supabase Auth Security
 
 **Secure Configuration**:
 

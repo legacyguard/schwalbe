@@ -2,6 +2,12 @@
 
 ## 1) Monitoring Setup - Configure monitoring system
 
+Security & Observability Verification Checklist
+- [ ] Structured logs include correlationId; PII redacted (see docs/observability/baseline.md)
+- [ ] Critical errors route to Resend email alerts; paging rules defined
+- [ ] No Sentry references; dashboards in Supabase logs/DB error table
+- [ ] Staging synthetic alert test validates routing and redaction
+
 **Objective:** Verify monitoring system initialization and basic functionality
 
 **Prerequisites:**
