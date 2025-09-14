@@ -364,6 +364,41 @@
 - **Memory Leaks**: No memory growth over extended sessions
 - **Battery Impact**: Minimal drain on mobile devices
 
+### Security Verification Checklist
+
+- Identity: Supabase Auth only (no Clerk)
+- Row Level Security (RLS): enable and test on these tables at minimum
+  - user_profiles
+  - documents
+  - document_shares (if applicable)
+- Owner-first default policies examples:
+
+```sql
+-- Profiles
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Read own profile"
+ON user_profiles
+FOR SELECT
+USING (auth.uid() = user_id);
+
+-- Documents
+ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Read own documents"
+ON documents
+FOR SELECT
+USING (auth.uid() = user_id);
+```
+
+- Token handling:
+  - Only hashed single-use tokens with expires_at; store token_hash only; never log raw tokens
+  - For server-to-server, use Supabase service role in Edge Functions; never expose to clients
+
+- Observability baseline:
+  - Structured logging in Supabase Edge Functions: include requestId, userId, path, status, latency; redact PII
+  - Critical alerts via Resend; no Sentry
+
 ## Accessibility Compliance Checklist
 
 ### **WCAG 2.1 AA Standards**

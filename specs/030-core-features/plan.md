@@ -13,7 +13,7 @@
 
 ### **1.1 Authentication System Setup**
 
-- Implement Clerk integration with sign-up/sign-in flows
+- Implement Supabase Auth integration with sign-up/sign-in flows
 - Create user profile management with encrypted storage
 - Set up session handling and route protection
 - Build basic user preferences and settings UI
@@ -177,6 +177,12 @@
 - Build progress analytics and user engagement metrics
 - Add customizable dashboard layout with drag-drop
 
+#### Observability Baseline
+
+- Structured logging in Supabase Edge Functions (requestId, userId, path, status, latency; redact PII)
+- Critical error alerts via Resend; no Sentry
+- Never log raw tokens or secrets
+
 ## Implementation Guidelines
 
 ### **Development Principles**
@@ -246,7 +252,7 @@
 
 ## Integration with Existing Specs
 
-### **Builds on 002-hollywood-migration**
+### **Builds on 003-hollywood-migration**
 
 - Requires UI components from `@schwalbe/ui` package
 - Uses encryption services from `@schwalbe/shared` package
@@ -255,10 +261,10 @@
 
 ### **Sets Foundation for Future Specs**
 
-- **004-estate-planning**: Will creation, family collaboration, legal templates
-- **005-emergency-systems**: Dead man's switch, guardian access, crisis management
-- **006-professional-network**: Attorney integration, legal reviews, compliance
-- **007-mobile-integration**: React Native app, cross-platform sync
+- **023-will-creation-system**: Will creation, family collaboration, legal templates
+- **020-emergency-access**: Dead man's switch, guardian access, crisis management
+- **026-professional-network**: Attorney integration, legal reviews, compliance
+- **029-mobile-app**: React Native app, cross-platform sync
 
 ## Acceptance Criteria Summary
 

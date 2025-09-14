@@ -13,7 +13,7 @@ info:
     - Payment processing integration
     
     ## Authentication
-    All endpoints require authentication via JWT tokens from Clerk.
+    All endpoints require authentication via Supabase Auth JWT tokens.
     
     ## Rate Limiting
     - 1000 requests per hour per user

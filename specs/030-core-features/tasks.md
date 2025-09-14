@@ -1,8 +1,8 @@
-# Tasks: 003-core-features
+# Tasks: 030-core-features
 
 ## Ordering & rules
 
-- Complete 002-hollywood-migration tasks first (prerequisite).
+- Complete 003-hollywood-migration tasks first (prerequisite).
 - Each phase must complete and validate before proceeding to next phase.
 - Sofia AI features must be tested thoroughly due to cost implications.
 - All sensitive data encryption validated before any server communication.
@@ -17,7 +17,7 @@
 
 ### T211 Authentication System Setup
 
-- [ ] T211a Implement Clerk authentication provider integration
+- [ ] T211a Implement Supabase Auth provider integration
 - [ ] T211b Create sign-up flow with email verification and social logins
 - [ ] T211c Build sign-in flow with session management
 - [ ] T211d Implement user profile creation and management interface
@@ -106,6 +106,36 @@
 - [ ] T234d Add conversation UI state management (typing, loading, error states)
 - [ ] T234e Implement conversation cleanup and memory management
 - [ ] T234f Create state synchronization across multiple Sofia interface instances
+
+## T600 Security & Observability Baseline
+
+### T601 Identity & Authorization (`@schwalbe/logic`)
+
+- [ ] T601a Use Supabase Auth for in-app authentication
+- [ ] T601b Enforce owner-first access patterns via RLS on all core entities (profiles, documents, shares)
+- [ ] T601c Define least-privilege roles and permissions for core operations
+- [ ] T601d Add identity propagation and user context to all sensitive actions
+
+### T602 Logging & Monitoring (`@schwalbe/shared`)
+
+- [ ] T602a Implement structured logging with correlation IDs across services
+- [ ] T602b Scrub secrets/tokens from logs; prohibit raw token logging
+- [ ] T602c Centralize logs via Supabase Edge Functions logs/dashboards
+- [ ] T602d Add log-based metrics for error rates, latency, throughput
+
+### T603 Alerts & Incident Response (`@schwalbe/shared`)
+
+- [ ] T603a Configure critical alerting via Resend for core feature failures
+- [ ] T603b Define alert thresholds and escalation policies
+- [ ] T603c Add weekly digest of security/compliance anomalies
+- [ ] T603d Document runbooks for common incident types
+
+### T604 Security Testing (`@schwalbe/logic`)
+
+- [ ] T604a Create RLS positive/negative test cases for each entity
+- [ ] T604b Add access control unit/integration tests
+- [ ] T604c Include token/secret handling tests (no raw logging, rotation where applicable)
+- [ ] T604d Validate OAuth flows for external integrations
 
 ## T240 AI Integration & Enhancement (Phase 4)
 

@@ -218,6 +218,36 @@ npm run metrics:governance
 npm run validate:workflow-status
 ```
 
+## 6) Security Verification Checklist
+
+Use this checklist after initial setup and before enabling enforcement in CI.
+
+### Identity & Access
+
+- [ ] Supabase Auth configured; user identity available to governance services
+- [ ] Least-privilege roles defined for governance operations
+- [ ] External integrations (GitHub/Linear) use OAuth with securely stored tokens
+
+### RLS Policies
+
+- [ ] Owner-first policies enabled on all governance tables
+- [ ] Positive tests: owner can read/update own records
+- [ ] Negative tests: non-owner cannot read/update/delete others' records
+- [ ] Admin role paths tested via dedicated role with audit logging
+
+### Token & Secret Handling
+
+- [ ] No raw tokens, API keys, or secrets logged anywhere
+- [ ] Tokens stored hashed or in secure provider storage; rotation documented
+- [ ] Expiry and single-use validation for ephemeral tokens (where applicable)
+
+### Observability Baseline
+
+- [ ] Structured logs emitted with correlation IDs
+- [ ] Critical governance failures trigger Resend email alerts
+- [ ] Supabase Edge Functions logs used for monitoring; no Sentry
+- [ ] Dashboards show error rates, latency, and throughput for governance flows
+
 **Success Criteria:**
 
 - [ ] End-to-end workflow completes

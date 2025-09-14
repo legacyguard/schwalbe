@@ -473,8 +473,6 @@ import type {
   ExperimentVariant,
   PricingChange,
   UIChange,
-  ConversionEvent,
-  StripeWebhookEvent,
   PaymentMethod,
   SubscriptionAnalytics,
   ConversionFunnelAnalytics,

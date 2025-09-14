@@ -2,7 +2,7 @@
 
 - Comprehensive pricing strategy and conversion optimization system for Schwalbe.
 - Implements Stripe billing, subscription management, and conversion funnels.
-- Prerequisites: 001-reboot-foundation, 002-hollywood-migration, 005-sofia-ai-system, 006-document-vault, 007-will-creation-system, 008-family-collaboration, 009-professional-network, 010-emergency-access, 011-mobile-app, 012-animations-microinteractions, 013-time-capsule-legacy.
+- Prerequisites: 001-reboot-foundation, 003-hollywood-migration, 031-sofia-ai-system, 006-document-vault, 023-will-creation-system, 025-family-collaboration, 026-professional-network, 020-emergency-access, 029-mobile-app, 013-animations-microinteractions, 022-time-capsule-legacy.
 
 ## Goals
 
@@ -68,7 +68,7 @@ Note: Focus on Stripe-native features and proven conversion optimization pattern
 - Stripe documentation and best practices
 - Pricing psychology research and conversion optimization studies
 - 001-reboot-foundation for monorepo standards
-- 002-hollywood-migration for existing Stripe patterns
+- 003-hollywood-migration for existing Stripe patterns
 - 005-sofia-ai-system for personalized recommendations
 - 006-document-vault for usage tracking integration
 - 007-will-creation-system for premium feature gating
@@ -90,16 +90,16 @@ Note: Focus on Stripe-native features and proven conversion optimization pattern
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo structure and build configuration
-- See 002-hollywood-migration/spec.md for Stripe patterns and pricing psychology migration
-- See 005-sofia-ai-system/spec.md for AI integration and personalized recommendations
+- See 003-hollywood-migration/spec.md for Stripe patterns and pricing psychology migration
+- See 031-sofia-ai-system/spec.md for AI integration and personalized recommendations
 - See 006-document-vault/spec.md for usage tracking and storage limits
-- See 007-will-creation-system/spec.md for premium features and document processing
-- See 008-family-collaboration/spec.md for family plans and shared billing
-- See 009-professional-network/spec.md for professional pricing and network features
-- See 010-emergency-access/spec.md for emergency billing and access controls
-- See 011-mobile-app/spec.md for mobile payment optimization
-- See 012-animations-microinteractions/spec.md for pricing page animations
-- See 013-time-capsule-legacy/spec.md for premium time capsule features
+- See 023-will-creation-system/spec.md for premium features and document processing
+- See 025-family-collaboration/spec.md for family plans and shared billing
+- See 026-professional-network/spec.md for professional pricing and network features
+- See 020-emergency-access/spec.md for emergency billing and access controls
+- See 029-mobile-app/spec.md for mobile payment optimization
+- See 013-animations-microinteractions/spec.md for pricing page animations
+- See 022-time-capsule-legacy/spec.md for premium time capsule features
 
 ## Pricing Strategy Overview
 

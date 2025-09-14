@@ -138,7 +138,7 @@ Sofia AI implements a unique "Guided Dialog System" that minimizes AI costs whil
 
 ### **Authentication Flow**
 
-- **Clerk Integration**: Modern auth with social logins (Google, Apple, email)
+- **Supabase Auth**: Modern auth with social logins (Google, Apple, email)
 - **Progressive Onboarding**: Minimal initial signup, gradual profile completion
 - **Security-First**: MFA support, session management, breach detection
 - **Family Accounts**: Multiple users per family unit with role-based permissions
@@ -275,7 +275,7 @@ Sofia AI implements a unique "Guided Dialog System" that minimizes AI costs whil
 
 ### **External Services**
 
-- **Authentication Provider**: Clerk (or similar modern auth service)
+- **Authentication Provider**: Supabase Auth
 - **AI Provider**: OpenAI API (via secure proxy) or alternative
 - **OCR Service**: Google Vision API or Azure Computer Vision
 - **Database**: Supabase (PostgreSQL with real-time features)

@@ -1,4 +1,4 @@
-# Tasks: 014-pricing-conversion
+# Tasks: 028-pricing-conversion
 
 ## Ordering & rules
 
@@ -21,8 +21,8 @@
   - [ ] T1400a6 Create comprehensive testing utilities
   - [ ] T1400a7 Add pricing psychology features (anchoring, decoy effect)
   - [ ] T1400a8 Implement pricing animations and micro-interactions
-  - Acceptance: PricingSection component fully migrated and enhanced
-  - Dependencies: 002-hollywood-migration
+- Acceptance: PricingSection component fully migrated and enhanced
+  - Dependencies: 003-hollywood-migration
   - Effort: 10 hours
 
 - [ ] T1400b Migrate SubscriptionService from Hollywood
@@ -1002,19 +1002,26 @@
 - Sofia AI system availability
 - Mobile app integration requirements
 
+## Baseline: Identity, Security, and Observability
+
+- [ ] Replace Clerk with Supabase Auth across documentation and examples
+- [ ] Document RLS policies for user-scoped tables and add positive/negative test checklist
+- [ ] Document token handling best practices (hashed single-use tokens with expiry; no raw token logging)
+- [ ] Document observability baseline (structured logs in Supabase Edge Functions; critical alerts via Resend; no Sentry)
+
 ### Internal Dependencies
 
 - 001-reboot-foundation completion
-- 002-hollywood-migration completion
-- 005-sofia-ai-system availability
+- 003-hollywood-migration completion
+- 031-sofia-ai-system availability
 - 006-document-vault completion
-- 007-will-creation-system completion
-- 008-family-collaboration completion
-- 009-professional-network completion
-- 010-emergency-access completion
-- 011-mobile-app completion
-- 012-animations-microinteractions completion
-- 013-time-capsule-legacy completion
+- 023-will-creation-system completion
+- 025-family-collaboration completion
+- 026-professional-network completion
+- 020-emergency-access completion
+- 029-mobile-app completion
+- 013-animations-microinteractions completion
+- 022-time-capsule-legacy completion
 
 ### Potential Blockers
 

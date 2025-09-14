@@ -6,6 +6,8 @@ This directory contains API contract definitions for the Governance Spec Kit sys
 
 ## API Contract Files
 
+Security note: All APIs require authentication/authorization aligned with Supabase Auth. Do not log raw secrets or tokens. Use least-privilege access for governance operations.
+
 ### spec-kit-api.yaml
 
 **Purpose**: Defines the API contract for the Spec Kit Engine

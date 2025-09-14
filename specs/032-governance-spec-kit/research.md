@@ -38,6 +38,14 @@ From Hollywood codebase analysis, key user experience insights include:
 
 ## Technical Architecture
 
+### Identity & Observability Baseline
+
+- In-app identity uses Supabase Auth; RBAC follows least-privilege principles
+- External integrations (GitHub/Linear) use OAuth with secure token storage
+- Structured logging across services with correlation IDs
+- Critical governance incidents trigger email alerts via Resend
+- Monitoring via Supabase Edge Functions logs and dashboards; no Sentry
+
 ### System Architecture Overview
 
 ```text

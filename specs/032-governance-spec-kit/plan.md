@@ -146,6 +146,14 @@
 - Add governance analytics and insights
 - Implement governance health checks
 
+## Security & Observability Baseline
+
+- Identity: Supabase Auth for in-app authentication; OAuth for GitHub/Linear with secure token storage
+- Authorization: Owner-first access patterns enforced via RLS; least-privilege roles for governance ops
+- Logging: Structured logs for governance services; no raw secrets/tokens; correlation IDs per request
+- Alerts: Critical error alerts via Resend; paging rules for governance SLA breaches
+- No Sentry: Use Supabase Edge Functions logs and dashboards for monitoring
+
 ## Acceptance Signals
 
 - Governance system fully operational and integrated

@@ -2,7 +2,7 @@
 
 - Implementation of core LegacyGuard features that provide unique competitive advantage.
 - Focus on Sofia AI system, document management, and foundational user experience.
-- Prerequisites: 001-reboot-foundation and 002-hollywood-migration completed.
+- Prerequisites: 001-reboot-foundation and 003-hollywood-migration completed.
 
 ## Goals
 
@@ -15,7 +15,7 @@
 ## Non-Goals (out of scope)
 
 - Advanced estate planning features (will creation, family collaboration, professional network).
-- Emergency access systems and dead man's switch functionality (covered in 004).
+- Emergency access systems and dead man's switch functionality (covered in 018).
 - Mobile application features and cross-platform synchronization.
 - Payment processing and subscription management.
 - Advanced legal validation and jurisdiction-specific templates.
@@ -34,7 +34,7 @@
 
 ## Cross-links
 
-- See `../004-dead-man-switch/` for emergency system scope.
+- See `../018-dead-man-switch/` for emergency system scope.
 
 ## Risks & Mitigations
 

@@ -107,10 +107,17 @@ Contains TypeScript types for:
 
 ### Authentication
 
-- JWT tokens with Clerk integration
+- JWT tokens via Supabase Auth
 - Refresh token rotation
 - Role-based access control (RBAC)
 - API key authentication for services
+- Service-role tokens restricted to secure server contexts (Edge Functions/servers only; never exposed to clients)
+
+### Token Handling Best Practices
+
+- Use hashed single-use tokens for any external ingestion endpoints.
+- Store only token_hash with created_at and expires_at; never store or log raw tokens.
+- Enforce max age and invalidate tokens on first use.
 
 ### Rate Limiting
 
@@ -201,6 +208,8 @@ Contains TypeScript types for:
 - Error logging with stack traces
 - Audit logging for sensitive operations
 - Performance logging for optimization
+- Critical error alerts via Resend; no Sentry
+- Never log raw tokens or secrets
 
 ## Versioning
 
@@ -224,7 +233,7 @@ Contains TypeScript types for:
 
 - Stripe payment processing
 - Supabase database and storage
-- Clerk authentication
+- Supabase Auth authentication
 - Resend email delivery
 
 ### Internal Services

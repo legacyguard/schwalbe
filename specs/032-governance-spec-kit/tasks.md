@@ -182,6 +182,36 @@
 - [ ] T503g Create governance monitoring testing
 - [ ] T503h Add governance monitoring accessibility
 
+## T600 Security & Observability Baseline
+
+### T601 Identity & Authorization (`@schwalbe/logic`)
+
+- [ ] T601a Use Supabase Auth for in-app authentication
+- [ ] T601b Enforce owner-first access patterns via RLS on all governance entities
+- [ ] T601c Define least-privilege roles and permissions for governance operations
+- [ ] T601d Add identity propagation and user context to all governance actions
+
+### T602 Logging & Monitoring (`@schwalbe/shared`)
+
+- [ ] T602a Implement structured logging with correlation IDs across services
+- [ ] T602b Scrub secrets/tokens from logs; prohibit raw token logging
+- [ ] T602c Centralize logs via Supabase Edge Functions logs/dashboards
+- [ ] T602d Add log-based metrics for error rates, latency, throughput
+
+### T603 Alerts & Incident Response (`@schwalbe/shared`)
+
+- [ ] T603a Configure critical alerting via Resend for governance failures
+- [ ] T603b Define alert thresholds and escalation policies
+- [ ] T603c Add weekly digest of governance compliance anomalies
+- [ ] T603d Document runbooks for common incident types
+
+### T604 Security Testing (`@schwalbe/logic`)
+
+- [ ] T604a Create RLS positive/negative test cases for each entity
+- [ ] T604b Add access control unit/integration tests
+- [ ] T604c Include token/secret handling tests (no raw logging, rotation where applicable)
+- [ ] T604d Validate OAuth flows for external integrations (GitHub/Linear)
+
 ## Detailed Implementation Tasks by Requirement
 
 ### **1. Spec-Kit Workflow & Governance Compliance**

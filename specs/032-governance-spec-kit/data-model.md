@@ -330,9 +330,16 @@ Documentation → DocumentationStandard → DocumentationValidation → Governan
 ### Access Control
 
 - Row Level Security (RLS) policies for all entities
-- Role-based access for governance operations
-- Audit logging for all data modifications
+- Owner-first access: default allow owner, deny non-owners; admins via dedicated role with audit trail
+- Role-based access for governance operations (least-privilege)
+- Audit logging for all data modifications (no secrets in logs)
 - Encryption for sensitive configuration data
+
+### Token & Secret Handling
+
+- Store external integration tokens (GitHub/Linear) securely; do not log raw tokens
+- Prefer hashed/opaque token storage with rotation and expiry where applicable
+- Never store or transmit secrets in plaintext; use environment or secret manager
 
 ### Data Privacy
 

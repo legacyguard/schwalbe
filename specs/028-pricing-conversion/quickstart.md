@@ -24,16 +24,16 @@ This guide provides step-by-step instructions for setting up and testing the Pri
 ### Required Specifications
 
 - **001-reboot-foundation**: Monorepo structure
-- **002-hollywood-migration**: Core packages and Stripe patterns
-- **005-sofia-ai-system**: AI integration
+- **003-hollywood-migration**: Core packages and Stripe patterns
+- **031-sofia-ai-system**: AI integration
 - **006-document-vault**: Usage tracking
-- **007-will-creation-system**: Premium features
-- **008-family-collaboration**: Family plans
-- **009-professional-network**: Professional pricing
-- **010-emergency-access**: Emergency billing
-- **011-mobile-app**: Mobile optimization
-- **012-animations-microinteractions**: UI animations
-- **013-time-capsule-legacy**: Premium features
+- **023-will-creation-system**: Premium features
+- **025-family-collaboration**: Family plans
+- **026-professional-network**: Professional pricing
+- **020-emergency-access**: Emergency billing
+- **029-mobile-app**: Mobile optimization
+- **013-animations-microinteractions**: UI animations
+- **022-time-capsule-legacy**: Premium features
 
 ## Environment Setup
 
@@ -68,9 +68,8 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
+# Authentication
+# Using Supabase Auth only (no Clerk)
 
 # Email Configuration
 RESEND_API_KEY=re_...
@@ -114,6 +113,59 @@ SUPABASE_SERVICE_ROLE_KEY=your_production_service_role_key
 
 # Other production configurations...
 NEXT_PUBLIC_IS_PRODUCTION=true
+```
+
+### Security Verification Checklist
+
+- Identity: Supabase Auth only (no Clerk)
+- Row Level Security (RLS): enable and test on these tables at minimum
+  - user_subscriptions
+  - user_usage
+  - experiment_assignments
+  - payment_methods
+- Owner-first default policies examples:
+
+```sql
+-- Subscriptions
+ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Read own subscriptions"
+ON user_subscriptions
+FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Update own subscriptions"
+ON user_subscriptions
+FOR UPDATE
+USING (auth.uid() = user_id);
+
+-- Usage
+ALTER TABLE user_usage ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Read own usage"
+ON user_usage
+FOR SELECT
+USING (auth.uid() = user_id);
+```
+
+- Token handling:
+  - Only hashed single-use tokens with expires_at; store token_hash only; never log raw tokens
+  - For server-to-server, use Supabase service role in Edge Functions; never expose to clients
+
+- Observability baseline:
+  - Structured logging in Supabase Edge Functions: include requestId, userId, path, status, latency; redact PII
+  - Critical alerts via Resend; no Sentry
+
+- Verification tests:
+  - Positive/negative RLS tests using two distinct users; unauthorized access should return 0 rows
+
+```ts
+// Negative test for cross-tenant access
+const { data: others } = await supabaseClientAsUserA
+  .from('user_subscriptions')
+  .select('*')
+  .eq('user_id', userBId);
+expect(others).toHaveLength(0);
 ```
 
 ### 3. Supabase Setup

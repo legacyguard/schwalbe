@@ -53,34 +53,36 @@
 ## Cross-links
 
 - See 001-reboot-foundation/spec.md for monorepo foundation and CI setup
-- See 002-hollywood-migration/spec.md for migration governance requirements
-- See 005-sofia-ai-system/spec.md for AI system governance integration
+- See 002-nextjs-migration/spec.md for Next.js migration governance
+- See 003-hollywood-migration/spec.md for Hollywood migration governance
+- See 004-integration-testing/spec.md for testing governance
+- See 005-auth-rls-baseline/spec.md for authentication and RLS baseline
 - See 006-document-vault/spec.md for document management standards
-- See 007-will-creation-system/spec.md for legal document governance
-- See 008-family-collaboration/spec.md for collaboration governance
-- See 009-professional-network/spec.md for professional governance
-- See 010-emergency-access/spec.md for emergency access governance
-- See 011-mobile-app/spec.md for mobile app governance
-- See 012-animations-microinteractions/spec.md for animation governance
-- See 013-time-capsule-legacy/spec.md for legacy system governance
-- See 014-pricing-conversion/spec.md for pricing governance
-- See 015-business-journeys/spec.md for business process governance
-- See 016-integration-testing/spec.md for testing governance
-- See 017-production-deployment/spec.md for deployment governance
-- See 018-monitoring-analytics/spec.md for monitoring governance
-- See 019-nextjs-migration/spec.md for migration governance
-- See 020-auth-rls-baseline/spec.md for authentication governance
-- See 021-database-types/spec.md for database governance
-- See 022-billing-stripe/spec.md for billing governance
-- See 023-email-resend/spec.md for email governance
-- See 024-i18n-country-rules/spec.md for i18n governance
-- See 025-emotional-core-mvp/spec.md for emotional design governance
-- See 026-vault-encrypted-storage/spec.md for storage governance
-- See 027-family-shield-emergency/spec.md for emergency governance
-- See 028-time-capsules/spec.md for time capsule governance
-- See 029-will-generation-engine/spec.md for will generation governance
-- See 030-sharing-reminders-analytics/spec.md for sharing governance
-- See 031-observability-security-hardening/spec.md for security governance
+- See 007-email-resend/spec.md for email governance
+- See 008-billing-stripe/spec.md for billing governance
+- See 009-i18n-country-rules/spec.md for i18n governance
+- See 010-production-deployment/spec.md for production deployment governance
+- See 011-monitoring-analytics/spec.md for monitoring and analytics
+- See 012-observability-security-hardening/spec.md for observability and security hardening
+- See 013-animations-microinteractions/spec.md for animation governance
+- See 014-emotional-core-mvp/spec.md for emotional core MVP governance
+- See 015-database-types/spec.md for database types governance
+- See 016-vault-encrypted-storage/spec.md for encrypted storage governance
+- See 017-sharing-reminders-analytics/spec.md for sharing, reminders, and analytics
+- See 018-dead-man-switch/spec.md for dead-man-switch governance
+- See 019-family-shield-emergency/spec.md for family shield emergency governance
+- See 020-emergency-access/spec.md for emergency access governance
+- See 021-time-capsules/spec.md for time capsules governance
+- See 022-time-capsule-legacy/spec.md for time capsule legacy governance
+- See 023-will-creation-system/spec.md for will creation system governance
+- See 024-will-generation-engine/spec.md for will generation engine governance
+- See 025-family-collaboration/spec.md for family collaboration governance
+- See 026-professional-network/spec.md for professional network governance
+- See 027-business-journeys/spec.md for business journeys governance
+- See 028-pricing-conversion/spec.md for pricing conversion governance
+- See 029-mobile-app/spec.md for mobile app governance
+- See 030-core-features/spec.md for core features governance
+- See 031-sofia-ai-system/spec.md for AI system governance
 
 ## Linked design docs
 

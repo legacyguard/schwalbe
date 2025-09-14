@@ -275,6 +275,12 @@ supabase/
     └── stripe-config.ts            # Stripe configuration
 ```
 
+#### Observability Baseline
+
+- Structured logging in Supabase Edge Functions (requestId, userId, path, status, latency; redact PII)
+- Critical error alerts via Resend; no Sentry
+- Never log raw tokens or secrets
+
 ### Service Layer Architecture
 
 ```text
@@ -307,21 +313,21 @@ packages/logic/src/pricing/
 ### Required Dependencies
 
 - **001-reboot-foundation**: Monorepo structure and build system
-- **002-hollywood-migration**: Core packages and Stripe integration patterns
-- **005-sofia-ai-system**: AI-powered pricing recommendations
+- **003-hollywood-migration**: Core packages and Stripe integration patterns
+- **031-sofia-ai-system**: AI-powered pricing recommendations
 - **006-document-vault**: Usage tracking for storage limits
-- **007-will-creation-system**: Premium feature gating
-- **008-family-collaboration**: Family plan management
-- **009-professional-network**: Professional pricing tiers
-- **010-emergency-access**: Emergency billing scenarios
-- **011-mobile-app**: Mobile payment optimization
-- **012-animations-microinteractions**: Pricing page animations
-- **013-time-capsule-legacy**: Premium feature integration
+- **023-will-creation-system**: Premium feature gating
+- **025-family-collaboration**: Family plan management
+- **026-professional-network**: Professional pricing tiers
+- **020-emergency-access**: Emergency billing scenarios
+- **029-mobile-app**: Mobile payment optimization
+- **013-animations-microinteractions**: Pricing page animations
+- **022-time-capsule-legacy**: Premium feature integration
 
 ### Optional Dependencies
 
-- **015-business-journeys**: Business user pricing
-- **016-integration-testing**: End-to-end testing framework
+- **027-business-journeys**: Business user pricing
+- **004-integration-testing**: End-to-end testing framework
 
 ## Risk Mitigation
 

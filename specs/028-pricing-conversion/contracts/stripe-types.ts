@@ -400,19 +400,19 @@ export type StripeSubscriptionStatus =
 export interface StripePaymentMethod {
   id: string;
   object: 'payment_method';
-  acss_debit?: StripePaymentMethodAcssDebit;
-  affirm?: StripePaymentMethodAffirm;
+  acss_debit?: StripePaymentMethodOptionsAcssDebit;
+  affirm?: StripePaymentMethod;
   afterpay_clearpay?: StripePaymentMethodAfterpayClearpay;
-  alipay?: StripePaymentMethodAlipay;
-  au_becs_debit?: StripePaymentMethodAuBecsDebit;
-  bacs_debit?: StripePaymentMethodBacsDebit;
-  bancontact?: StripePaymentMethodBancontact;
+  alipay?: StripePaymentMethod;
+  au_becs_debit?: StripePaymentMethodOptionsAcssDebit;
+  bacs_debit?: StripePaymentMethod;
+  bancontact?: StripePaymentMethodOptionsBancontact;
   billing_details: StripeBillingDetails;
-  blik?: StripePaymentMethodBlik;
-  boleto?: StripePaymentMethodBoleto;
+  blik?: StripePaymentMethod;
+  boleto?: StripePaymentMethod;
   card?: StripePaymentMethodCard;
   card_present?: StripePaymentMethodCardPresent;
-  cashapp?: StripePaymentMethodCashapp;
+  cashapp?: StripePaymentMethod;
   customer?: string;
   customer_balance?: StripePaymentMethodCustomerBalance;
   eps?: StripePaymentMethodEps;
@@ -1459,5 +1459,131 @@ export interface StripeWechatPay {
 }
 
 export interface StripeZip {
+  reference?: string;
+}
+
+// ============================================================================
+// Missing Payment Method Types
+// ============================================================================
+
+export interface StripePaymentMethodAfterpayClearpay {
+  reference?: string;
+}
+
+export interface StripePaymentMethodCustomerBalance {
+  // Customer balance payment method details
+  [key: string]: any;
+}
+
+export interface StripePaymentMethodEps {
+  bank?: string;
+}
+
+export interface StripePaymentMethodFpx {
+  bank?: string;
+  transaction_id?: string;
+}
+
+export interface StripePaymentMethodGiropay {
+  bank_code?: string;
+  bank_name?: string;
+  bic?: string;
+}
+
+export interface StripePaymentMethodGrabpay {
+  transaction_id?: string;
+}
+
+export interface StripePaymentMethodIdeal {
+  bank?: string;
+  bic?: string;
+}
+
+export interface StripePaymentMethodInteracPresent {
+  brand?: string;
+  country?: string;
+  exp_month?: number;
+  exp_year?: number;
+  fingerprint?: string;
+  funding?: string;
+  last4?: string;
+  receipt?: StripePaymentMethodCardPresentReceipt;
+}
+
+export interface StripePaymentMethodKlarna {
+  payment_method_category?: string;
+  preferred_locale?: string;
+}
+
+export interface StripePaymentMethodKonbini {
+  store?: StripePaymentMethodOptionsKonbini;
+}
+
+export interface StripePaymentMethodLink {
+  email?: string;
+  persistent_token?: string;
+}
+
+export interface StripePaymentMethodOxxo {
+  number?: string;
+}
+
+export interface StripePaymentMethodP24 {
+  bank?: string;
+  reference?: string;
+}
+
+export interface StripePaymentMethodPaynow {
+  reference?: string;
+}
+
+export interface StripePaymentMethodPaypal {
+  payer_email?: string;
+  payer_id?: string;
+  reference?: string;
+}
+
+export interface StripePaymentMethodPix {
+  reference?: string;
+}
+
+export interface StripePaymentMethodPromptpay {
+  reference?: string;
+}
+
+export interface StripePaymentMethodSepaDebit {
+  bank_code?: string;
+  branch_code?: string;
+  country?: string;
+  fingerprint?: string;
+  last4?: string;
+  mandate?: string;
+}
+
+export interface StripePaymentMethodSofort {
+  country?: string;
+  bank_code?: string;
+  bank_name?: string;
+  bic?: string;
+  iban_last4?: string;
+  preferred_language?: string;
+  statement_descriptor?: string;
+}
+
+export interface StripePaymentMethodUsBankAccount {
+  account_holder_type?: string;
+  account_type?: string;
+  bank_name?: string;
+  fingerprint?: string;
+  last4?: string;
+  routing_number?: string;
+}
+
+export interface StripePaymentMethodWechatPay {
+  fingerprint?: string;
+  transaction_id?: string;
+}
+
+export interface StripePaymentMethodZip {
   reference?: string;
 }
