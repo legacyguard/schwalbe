@@ -3,7 +3,7 @@
 - Implementation of comprehensive mobile application for LegacyGuard using React Native and Expo
 - Focus on native mobile UX, offline functionality, push notifications, and biometric security
 - Builds on Hollywood's mobile foundation with enhanced features and production readiness
-- Leverages existing Hollywood mobile system: Expo/React Native setup, Clerk auth, Tamagui UI, AsyncStorage, SecureStore
+- Leverages existing Hollywood mobile system: Expo/React Native setup, Supabase Auth, Tamagui UI, AsyncStorage, SecureStore
 - Prerequisites: 001-reboot-foundation, 002-hollywood-migration completed
 
 ## Goals
@@ -30,7 +30,7 @@
 ### Existing Hollywood Components to Leverage
 
 - **Expo/React Native Setup**: Pre-configured development environment with TypeScript
-- **Clerk Authentication**: Existing auth integration with biometric support foundation
+- **Supabase Authentication**: Supabase Auth integration with biometric support foundation
 - **Tamagui UI Framework**: Consistent design system with Hollywood web components
 - **AsyncStorage Integration**: Local storage patterns for offline functionality
 - **SecureStore Implementation**: Secure key storage for sensitive data
