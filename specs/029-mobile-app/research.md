@@ -23,7 +23,7 @@
 - **Offline Capability**: Full document access and basic functionality without internet (depends on 006-document-vault)
 - **Security Requirements**: Biometric authentication, end-to-end encryption, secure key management (depends on 006-document-vault)
 - **Performance Targets**: <2s cold start, 60fps animations, <100MB bundle size
-- **Integration Points**: Supabase backend, Clerk authentication, cross-platform sync
+- **Integration Points**: Supabase backend and authentication, cross-platform sync
 
 ## Technical Architecture
 
@@ -410,7 +410,7 @@ await Notifications.scheduleNotificationAsync({
 
 - API integration testing with Supabase
 - Offline sync testing with network mocking
-- Authentication flow testing with Clerk
+- Authentication flow testing with Supabase Auth
 - Navigation testing with React Navigation
 - Database integration testing with SQLite
 - Push notification integration testing
@@ -563,7 +563,7 @@ jobs:
 ### Immediate Actions (Week 1-2)
 
 1. Set up Expo project with TypeScript
-2. Implement basic authentication with Clerk
+2. Implement basic authentication with Supabase Auth
 3. Create navigation structure and app shell
 4. Set up AsyncStorage and SecureStore
 

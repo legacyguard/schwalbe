@@ -11,13 +11,13 @@ Supabase Auth integration contract and Postgres RLS policy interfaces.
 ```yaml
 openapi: 3.0.3
 info:
-  title: Clerk Authentication API
+title: Supabase Authentication API
   version: 1.0.0
-  description: Clerk authentication service integration contract
+description: Supabase authentication service integration contract
 
 servers:
-  - url: https://api.clerk.com/v1
-    description: Clerk API server
+- url: https://your-project.supabase.co
+    description: Supabase REST API
 
 paths:
   /users:

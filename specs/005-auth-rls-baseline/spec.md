@@ -1,7 +1,7 @@
 # Auth + RLS Baseline - Supabase Auth and Postgres RLS
 
 - Implementation of Phase 2 — Auth + RLS Baseline from high-level-plan.md
-- Clerk authentication integration with Supabase Row Level Security
+- Supabase Auth integration with Postgres Row Level Security
 - Session management, access control, and secure database policies
 - Prerequisites: 001-reboot-foundation, 003-hollywood-migration completed
 
@@ -60,7 +60,7 @@
 
 ```text
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   User Request  │───▶│  Clerk Middleware│───▶│  Protected Route │
+│   User Request  │───▶│  Auth Middleware │───▶│  Protected Route │
 │                 │    │                 │    │                 │
 │ • Sign In/Up    │    │ • JWT Validation │    │ • Session Check  │
 │ • API Access    │    │ • Route Guards   │    │ • User Context   │
@@ -79,7 +79,7 @@
 
 ### Key Components
 
-1. **Clerk Provider**: Root-level authentication provider with session management
+1. **Supabase Auth Helpers**: Session-aware helpers for SSR and client
 2. **Auth Middleware**: Route protection and session validation middleware
 3. **Supabase Client**: Authenticated database client with JWT token injection
 4. **RLS Policies**: Database-level security policies for data access control
@@ -88,7 +88,7 @@
 
 ### Security Architecture
 
-- **JWT Token Flow**: Clerk JWT tokens automatically injected into Supabase requests
+- **JWT Token Flow**: Supabase Auth JWT tokens used for database requests
 - **Row Level Security**: PostgreSQL RLS policies ensure data isolation using auth.uid() as the identity source (Supabase Auth)
 - For transitional schemas where user_id is TEXT, compare with auth.uid()::text. See docs/security/rls-cookbook.md.
 - **Storage Security**: User-scoped file access with encryption
