@@ -161,7 +161,14 @@ export function useDashboard() {
 }
 ```
 
-## Authentication Architecture
+## Authentication & Header Architecture
+
+### Global Header and Multi-domain Overview
+
+- Marketing layout includes a right-aligned header actions bar: User, Country, Search, Support, Buy (see 033-landing-page/spec.md)
+- Country selector supports multi-domain per country; MVP allows legacyguard.cz and legacyguard.sk only; future-ready for more domains
+- Environment flag VITE_IS_PRODUCTION controls real redirects (production) vs Czech-language simulation modal (staging/local)
+- Authentication uses Supabase Auth; sign-in modal or /sign-in route
 
 ### Middleware Implementation
 

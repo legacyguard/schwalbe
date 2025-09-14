@@ -62,7 +62,7 @@
 
 ### **3.1 Language Detection System (`packages/shared`)**
 
-- Implement browser language detection with fallbacks
+- Implement browser/device language detection with fallbacks (web and mobile)
 - Add IP-based geolocation for country detection
 - Create user preference persistence system
 - Build language switching UI components
@@ -71,7 +71,7 @@
 
 ### **3.2 Auto-switching Logic (`packages/logic`)**
 
-- Create intelligent language switching algorithms
+- Create intelligent language switching algorithms (auto-choose user environment language when available; otherwise fall back to English)
 - Implement context-aware language selection
 - Add user behavior pattern recognition for language preferences
 - Build language switching performance optimization

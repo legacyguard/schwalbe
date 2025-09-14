@@ -13,7 +13,7 @@
 - Establish i18n health checks in CI pipeline
 - Implement country-specific rules: remove Russian from Germany, remove Ukrainian from Iceland/Liechtenstein, ensure 4+ languages per country
 - Ensure all UI text outside i18n files is English
-- Create language detection and auto-switching system
+- Create language detection and auto-switching system for both web and mobile; if browser/device language is not supported, fall back to English automatically
 - Build translation management and compliance validation system
 
 ## Non-Goals (out of scope)
