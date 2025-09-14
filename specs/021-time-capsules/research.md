@@ -62,7 +62,7 @@ The time capsule system enables users to create personal video or audio messages
 ├─────────────────────────────────────────────────────────────────┤
 │  External Services                                              │
 │  ├── Resend API (Email delivery)                               │
-│  ├── Clerk (Authentication)                                    │
+│  ├── Supabase Auth (Authentication)                            │
 │  └── Family Shield (Emergency triggers)                        │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -71,7 +71,7 @@ The time capsule system enables users to create personal video or audio messages
 
 - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
 - **Backend**: Supabase (Database, Storage, Edge Functions)
-- **Authentication**: Clerk with JWT tokens
+- **Authentication**: Supabase Auth with JWT tokens
 - **Email**: Resend API with custom templates
 - **Encryption**: TweetNaCl for client-side encryption
 - **Media**: MediaRecorder API, WebRTC, Canvas API
@@ -180,7 +180,7 @@ The time capsule creation follows a 4-step wizard:
 
 **Authentication**:
 
-- Clerk-based user authentication
+- Supabase Auth-based user authentication
 - JWT token validation
 - Session management with auto-logout
 - Multi-factor authentication support
@@ -343,7 +343,7 @@ The time capsule creation follows a 4-step wizard:
 
 **Integration Points**:
 
-- Clerk authentication with JWT token validation
+- Supabase Auth JWT token validation
 - Supabase Storage with encrypted file handling
 - Resend email integration with premium templates
 - Family Shield emergency trigger connectivity

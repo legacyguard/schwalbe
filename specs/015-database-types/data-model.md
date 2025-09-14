@@ -6,11 +6,11 @@ This document outlines the core database entities, relationships, and data struc
 
 ### Identity and RLS Note
 
-- Use `app.current_external_id()` as the identity source for Row Level Security (RLS) policies (Clerk external ID)
-- Reference Clerk users via `public.user_auth(clerk_id)` instead of `auth.users(id)`
-- Store Clerk external IDs as TEXT in all `user_id` columns
-- Avoid `auth.uid()` in RLS policies when using Clerk-based authentication
-- Ensure migrations and examples align to this identity model across tables and policies
+- Use `auth.uid()` as the identity source for Row Level Security (RLS) policies (Supabase Auth user ID).
+- Reference users via `auth.users(id)`.
+- Store `user_id` as UUID in all tables that reference `auth.users(id)`.
+- Remove any usage of `app.current_external_id()` and Clerk-specific identifiers in RLS policies and schemas.
+- Ensure migrations and examples align to this identity model across tables and policies.
 
 ## Core Entities
 
@@ -203,7 +203,7 @@ interface MigrationLog {
 ```sql
 CREATE TABLE user_subscriptions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-user_id TEXT NOT NULL REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   stripe_customer_id TEXT,
   stripe_subscription_id TEXT UNIQUE,
   plan TEXT CHECK (plan IN ('free', 'essential', 'family', 'premium')),
@@ -331,7 +331,7 @@ CREATE TABLE will_templates (
 CREATE TABLE guardians (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-guardian_user_id TEXT REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE,
+  guardian_user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   relationship TEXT,
   priority INTEGER DEFAULT 1,
   permissions JSONB DEFAULT '{}',

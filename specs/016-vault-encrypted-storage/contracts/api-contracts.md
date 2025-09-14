@@ -6,10 +6,10 @@ This document defines the API contracts for the encrypted vault system, includin
 
 ## Authentication
 
-All API endpoints require authentication via Clerk JWT tokens. Include the Authorization header:
+All API endpoints require authentication via Supabase Auth JWT tokens. Include the Authorization header:
 
 ```http
-Authorization: Bearer <clerk-jwt-token>
+Authorization: Bearer <jwt>
 ```
 
 ## Core Endpoints

@@ -73,7 +73,7 @@ tests/
 
 #### User Journey Coverage
 
-- **Authentication**: Clerk integration, biometric auth, session management
+- **Authentication**: Supabase Auth integration, biometric auth, session management
 - **Onboarding**: 3-act flow with Sofia AI guidance and emotional design
 - **Document Vault**: Upload, encryption, search, sharing, emergency access
 - **Will Creation**: Template selection, clause assembly, PDF generation
@@ -96,7 +96,7 @@ tests/
 
 - **Supabase Functions**: CRUD operations, RLS enforcement, error handling
 - **External APIs**: Stripe webhooks, Resend email, Google Translate
-- **Authentication**: Clerk JWT validation, session management
+- **Authentication**: Supabase Auth JWT validation, session management
 - **File Operations**: Upload/download, encryption/decryption, storage policies
 
 #### Database Integration
@@ -280,7 +280,7 @@ tests/
 ### Configuration Updates
 
 - [ ] Update base URLs for Schwalbe environment
-- [ ] Modify authentication flows for Clerk integration
+- [ ] Modify authentication flows for Supabase Auth integration
 - [ ] Adjust database connections for new Supabase project
 - [ ] Update external service mocks and integrations
 
@@ -288,7 +288,7 @@ tests/
 
 - [ ] Update selectors for new UI components
 - [ ] Modify user journeys for Schwalbe workflows
-- [ ] Adapt authentication tests for Clerk
+- [ ] Adapt authentication tests for Supabase Auth
 - [ ] Update API calls for new endpoint structures
 
 ### CI/CD Integration (Migration)

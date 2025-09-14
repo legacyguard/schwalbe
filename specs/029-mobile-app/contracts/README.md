@@ -8,7 +8,7 @@ This directory contains the API contract specifications for the LegacyGuard mobi
 
 Complete OpenAPI 3.0 specification for the mobile application APIs including:
 
-- Authentication endpoints (Clerk integration)
+- Authentication endpoints (Supabase Auth)
 - Document management APIs
 - Emergency access protocols
 - Push notification services

@@ -45,7 +45,7 @@ All contracts follow OpenAPI 3.0 specification and include:
 
 - Request/response schemas with TypeScript type generation
 - Error handling specifications with standardized error codes
-- Authentication requirements using existing Clerk integration
+- Authentication requirements using Supabase Auth
 - Rate limiting information for translation API calls
 - Performance requirements (response times, bundle sizes)
 - Accessibility considerations for i18n features
@@ -78,7 +78,7 @@ All contracts are validated against:
 Contracts integrate with existing systems:
 
 - **Supabase**: Database schemas for translations and user preferences
-- **Clerk**: Authentication for admin translation management
+- **Supabase Auth**: Authentication for admin translation management
 - **Google Translate API**: External translation service integration
 - **Next.js**: App Router and middleware integration points
 - **CI/CD**: Automated validation and health checks

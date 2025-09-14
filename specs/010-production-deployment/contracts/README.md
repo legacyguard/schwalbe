@@ -94,7 +94,7 @@ components:
 
 ## Authentication
 
-All APIs use JWT-based authentication with Clerk:
+All APIs use JWT-based authentication with Supabase Auth:
 
 ```yaml
 components:
@@ -103,7 +103,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT token from Clerk authentication
+      description: JWT token from Supabase Auth authentication
 
 security:
   - bearerAuth: []
@@ -691,7 +691,7 @@ monitoring:
 
 ### Security Authentication
 
-- JWT tokens with Clerk integration
+- JWT tokens with Supabase Auth integration
 - Refresh token rotation
 - Session management and timeouts
 

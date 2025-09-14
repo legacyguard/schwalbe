@@ -489,7 +489,7 @@ monitoring:
 
 ### Security Authentication
 
-- JWT tokens with Clerk integration
+- JWT tokens with Supabase Auth integration
 - Refresh token rotation
 - Session management and timeouts
 
