@@ -238,10 +238,6 @@ interface EnvironmentConfig {
     anonKey: string
     serviceRoleKey: string
   }
-  clerk: {
-    publishableKey: string
-    secretKey: string
-  }
   vercel: {
     projectId: string
     teamId?: string

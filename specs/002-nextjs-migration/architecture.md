@@ -526,9 +526,6 @@ export const config = {
     url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
     anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   },
-  clerk: {
-    publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!,
-  },
   environment: process.env.NODE_ENV,
   isProduction: process.env.NODE_ENV === 'production',
 }

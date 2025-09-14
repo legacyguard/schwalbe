@@ -181,30 +181,30 @@ async function DashboardPage() {
 #### Next.js Middleware
 
 ```typescript
-// middleware.ts
-// Middleware example updated to use NextResponse; see spec for Supabase Auth patterns
+// middleware.ts (Supabase Auth)
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 
-export default authMiddleware({
-  publicRoutes: ['/', '/api/webhooks'],
-  beforeAuth: (req) => {
-    // Custom middleware logic
-    const res = NextResponse.next()
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
 
-    // Add security headers
-    res.headers.set('X-Frame-Options', 'DENY')
-    res.headers.set('X-Content-Type-Options', 'nosniff')
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-    return res
-  },
-  afterAuth: (auth, req) => {
-    // Post-authentication logic
-    if (!auth.userId && !auth.isPublicRoute) {
-      return NextResponse.redirect(new URL('/sign-in', req.url))
-    }
+  // Example: protect non-public routes
+  if (!session?.user && !req.nextUrl.pathname.startsWith('/public')) {
+    return NextResponse.redirect(new URL('/sign-in', req.url))
   }
-})
+
+  // Add security headers
+  res.headers.set('X-Frame-Options', 'DENY')
+  res.headers.set('X-Content-Type-Options', 'nosniff')
+
+  return res
+}
 
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
@@ -643,13 +643,24 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 ### Authentication Security
 
 ```typescript
-// Middleware for route protection
-// Middleware example updated to use NextResponse; see spec for Supabase Auth patterns
+// Middleware for route protection (Supabase)
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 
-export default authMiddleware({
-  publicRoutes: ['/'],
-  ignoredRoutes: ['/api/webhooks']
-})
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session?.user && req.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/sign-in', req.url))
+  }
+
+  return res
+}
 ```
 
 ### Data Protection

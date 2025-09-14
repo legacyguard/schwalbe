@@ -385,28 +385,31 @@ await expect(page.locator('text=Server Component Test')).toBeVisible()
 1. Test middleware functionality:
 
 ```typescript
-// middleware.ts
-// Example middleware without external auth dependency
+// middleware.ts (Supabase Auth pattern)
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 
-export default authMiddleware({
-  publicRoutes: ['/', '/api/webhooks'],
-  beforeAuth: (req) => {
-    const res = NextResponse.next()
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
 
-    // Add security headers
-    res.headers.set('X-Frame-Options', 'DENY')
-    res.headers.set('X-Content-Type-Options', 'nosniff')
-    res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-    return res
-  },
-  afterAuth: (auth, req) => {
-    if (!auth.userId && !auth.isPublicRoute) {
-      return NextResponse.redirect(new URL('/sign-in', req.url))
-    }
+  // Add security headers
+  res.headers.set('X-Frame-Options', 'DENY')
+  res.headers.set('X-Content-Type-Options', 'nosniff')
+  res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+
+  // Redirect to sign-in for non-public routes
+  if (!session?.user && !req.nextUrl.pathname.startsWith('/public')) {
+    return NextResponse.redirect(new URL('/sign-in', req.url))
   }
-})
+
+  return res
+}
 
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']

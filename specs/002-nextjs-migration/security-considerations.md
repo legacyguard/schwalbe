@@ -12,44 +12,47 @@ Note: This spec standardizes on Supabase Auth for identity and Postgres RLS for 
 **Secure Configuration**:
 
 ```typescript
-// middleware.ts - Secure route protection
-import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs'
+// middleware.ts - Secure route protection (Supabase)
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 
-export default authMiddleware({
-  publicRoutes: ['/', '/about', '/contact', '/api/webhooks/stripe'],
-  ignoredRoutes: ['/api/webhooks/auth'],
-  beforeAuth: (req) => {
-    // Log authentication attempts
-    console.log(`Auth attempt: ${req.url}`)
-  },
-  afterAuth: (auth, req) => {
-    // Custom authorization logic
-    if (!auth.userId && req.nextUrl.pathname.startsWith('/dashboard')) {
-      return Response.redirect(new URL('/sign-in', req.url))
-    }
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  // Custom authorization logic
+  if (req.nextUrl.pathname.startsWith('/dashboard') && !session?.user) {
+    return NextResponse.redirect(new URL('/sign-in', req.url))
   }
-})
+
+  return res
+}
 ```
 
 **Session Management**:
 
 ```typescript
-// Secure session handling
-export async function getServerSideProps(context) {
-  const { userId } = getAuth(context.req)
+// Secure session handling (App Router)
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 
-  if (!userId) {
-    return {
-      redirect: {
-        destination: '/sign-in',
-        permanent: false,
-      },
-    }
+export default async function ProtectedPage() {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session?.user) {
+    redirect('/sign-in')
   }
 
-  return {
-    props: { userId },
-  }
+  return <div>Protected content</div>
 }
 ```
 
