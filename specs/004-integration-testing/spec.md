@@ -201,6 +201,7 @@
 
 ## Cross-links
 
+- See ../034-prep-operational-foundations/spec.md for CI guardrails (banned patterns) and RLS test harness references
 - See ORDER.md for the canonical mapping of specs and phases
 - See 001-reboot-foundation/spec.md for monorepo architecture and CI foundation
 - See 003-hollywood-migration/spec.md for testing infrastructure migration

@@ -196,6 +196,7 @@
 
 ## Cross-links
 
+- See ../034-prep-operational-foundations/spec.md for environment, RLS, observability, ADRs, and CI guardrails (MVP operational foundations)
 - See 001-reboot-foundation/spec.md for monorepo foundation and governance
 - See 002-hollywood-migration/spec.md for core packages and security patterns
 - See 003-core-features/spec.md for core platform features integration

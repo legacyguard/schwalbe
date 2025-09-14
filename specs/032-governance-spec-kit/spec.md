@@ -52,6 +52,7 @@
 
 ## Cross-links
 
+- See ../034-prep-operational-foundations/spec.md for MVP operational foundations (env, RLS, observability, ADRs, CI)
 - See 001-reboot-foundation/spec.md for monorepo foundation and CI setup
 - See 002-nextjs-migration/spec.md for Next.js migration governance
 - See 003-hollywood-migration/spec.md for Hollywood migration governance

@@ -161,6 +161,7 @@
 
 ## Cross-links
 
+- See ../034-prep-operational-foundations/spec.md for identity (auth.uid()), RLS catalog, and migration runbook references
 - See 001-reboot-foundation/spec.md for monorepo foundation and governance
 - See 003-hollywood-migration/spec.md for core packages and shared services
 - See 031-sofia-ai-system/spec.md for AI-powered schema analysis

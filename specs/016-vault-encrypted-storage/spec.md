@@ -78,6 +78,7 @@
 
 ## Cross-links
 
+- See ../034-prep-operational-foundations/spec.md for logging/alerting standards and CI/security guardrails
 - See 001-reboot-foundation/spec.md for core infrastructure
 - See 003-hollywood-migration/spec.md for migration framework
 - See 031-sofia-ai-system/spec.md for AI integration
