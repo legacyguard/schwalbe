@@ -2,36 +2,36 @@
 
 ## Phase 1: Auth Setup
 
-### T2000 Clerk Authentication Integration
+### T2000 Supabase Authentication Integration
 
-- [ ] Configure Clerk authentication system with email/password and OAuth providers
-- [ ] Set up JWT templates for Supabase RLS claims mapping and user identification
+- [ ] Configure Supabase Auth with email/password and OAuth providers
+- [ ] Ensure RLS uses auth.uid() as identity; align user_id types (UUID vs TEXT)
 - [ ] Implement comprehensive user management (registration, login, profile updates)
 - [ ] Configure authentication providers (Google OAuth, email verification flows)
-- [ ] Set up development, staging, and production Clerk environments with proper keys
-- [ ] Implement Clerk middleware for route protection and session validation
-- [ ] Configure TypeScript types for Clerk user objects and session data structures
-- [ ] Test Clerk dashboard integration and user management workflows
+- [ ] Set up development, staging, and production Supabase environments with proper keys
+- [ ] Implement Supabase SSR/client helpers for route protection and session validation
+- [ ] Configure auth-related TypeScript types (generated DB types, minimal custom types)
+- [ ] Verify Supabase dashboard Auth settings and user management workflows
 
-### T2001 Clerk Integration
+### T2001 Supabase Integration
 
-- [ ] Create Clerk application in dashboard
+- [ ] Create Supabase project (if not already created)
 - [ ] Configure authentication providers (Email/Password, Google OAuth)
 - [ ] Set up development environment keys
 - [ ] Configure production environment keys
 - [ ] Set up preview deployment keys
-- [ ] Configure JWT templates for Supabase integration
-- [ ] Test Clerk dashboard and user management
-- [ ] Document Clerk configuration settings
+- [ ] Confirm RLS works with auth.uid() and PostgREST
+- [ ] Test Supabase dashboard user management
+- [ ] Document Supabase configuration settings
 
 ### T2002 Auth Configuration
 
-- [ ] Install @clerk/nextjs package
-- [ ] Configure ClerkProvider in root layout
-- [ ] Set up environment variables (NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY)
-- [ ] Create basic authentication components
-- [ ] Configure TypeScript types for Clerk
-- [ ] Test provider initialization and error handling
+- [ ] Install @supabase/supabase-js and @supabase/ssr packages
+- [ ] Configure Supabase SSR helpers (server client via cookies)
+- [ ] Set up environment variables (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY)
+- [ ] Create basic authentication components (sign-in/out)
+- [ ] Configure generated DB types; minimize custom auth types
+- [ ] Test helper initialization and error handling
 - [ ] Validate Next.js App Router compatibility
 
 ## Phase 2: RLS Implementation
@@ -69,7 +69,7 @@
 ### T2006 Session Management & Token Handling
 
 - [ ] Implement comprehensive session handling and management system
-- [ ] Set up automatic JWT token refresh mechanisms with Clerk
+- [ ] Set up automatic JWT/session refresh mechanisms with Supabase Auth
 - [ ] Create secure session persistence mechanisms across browser sessions
 - [ ] Configure session security measures (encryption, secure storage, timeout policies)
 - [ ] Implement session monitoring and cleanup for expired/inactive sessions
@@ -79,7 +79,7 @@
 
 ### T2007 Advanced Session Security
 
-- [ ] Configure session persistence in Clerk with secure cookie settings
+- [ ] Configure session persistence with Supabase (secure cookies) and server helpers
 - [ ] Implement server-side session validation middleware for API routes
 - [ ] Create real-time session monitoring and anomaly detection
 - [ ] Add session timeout handling with graceful degradation
@@ -89,7 +89,7 @@
 
 ### T2008 JWT Token Management & Security
 
-- [ ] Set up comprehensive JWT token management system with Clerk integration
+- [ ] Set up comprehensive JWT/session management aligned with Supabase Auth
 - [ ] Implement automatic token refresh mechanisms with error handling
 - [ ] Configure token validation with signature verification and claims checking
 - [ ] Set up token security measures (encryption, secure transmission, expiration)

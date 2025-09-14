@@ -365,10 +365,7 @@ export async function POST(request: NextRequest) {
 import { describe, it, expect, vi } from 'vitest'
 import { createClient } from '@/lib/supabase'
 
-// Mock Clerk
-vi.mock('@clerk/nextjs', () => ({
-  currentUser: vi.fn(),
-}))
+// No external auth provider mocks required for this test
 
 describe('Authentication', () => {
   it('should create Supabase client', () => {

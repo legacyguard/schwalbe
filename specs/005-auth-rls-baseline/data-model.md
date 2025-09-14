@@ -24,7 +24,7 @@ CREATE TABLE public.user_auth (
 );
 
 -- Indexes
-CREATE INDEX idx_user_auth_clerk_id ON public.user_auth(clerk_id);
+CREATE INDEX idx_user_auth_user_id ON public.user_auth(user_id);
 CREATE INDEX idx_user_auth_email ON public.user_auth(email);
 CREATE INDEX idx_user_auth_role ON public.user_auth(role);
 
