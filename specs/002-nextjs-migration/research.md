@@ -182,7 +182,7 @@ async function DashboardPage() {
 
 ```typescript
 // middleware.ts
-import { authMiddleware } from '@clerk/nextjs'
+// Middleware example updated to use NextResponse; see spec for Supabase Auth patterns
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -644,7 +644,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 
 ```typescript
 // Middleware for route protection
-import { authMiddleware } from '@clerk/nextjs'
+// Middleware example updated to use NextResponse; see spec for Supabase Auth patterns
 
 export default authMiddleware({
   publicRoutes: ['/'],

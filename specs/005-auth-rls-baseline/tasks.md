@@ -39,7 +39,7 @@
 ### T2003 Supabase RLS Policies & Enforcement
 
 - [ ] Implement Supabase Row Level Security policies for database-level security
-- [ ] Create comprehensive database security rules with claims mapping from Clerk JWT
+- [ ] Create comprehensive database security rules using auth.uid() identity (no custom claim mapping)
 - [ ] Set up RLS for all auth-related tables (profiles, sessions, audit_logs, user_roles)
 - [ ] Implement policy enforcement with proper user isolation and data access control
 - [ ] Test RLS policy enforcement across different user contexts and permission levels

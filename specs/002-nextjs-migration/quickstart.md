@@ -386,7 +386,7 @@ await expect(page.locator('text=Server Component Test')).toBeVisible()
 
 ```typescript
 // middleware.ts
-import { authMiddleware } from '@clerk/nextjs'
+// Example middleware without external auth dependency
 import { NextResponse } from 'next/server'
 
 export default authMiddleware({

@@ -73,7 +73,7 @@ USING (
   auth.role() = 'service_role'
   OR EXISTS (
     SELECT 1 FROM public.user_roles ur
-    WHERE ur.user_id = app.current_external_id()
+    WHERE ur.user_id = auth.uid()::text
       AND ur.role_name = 'admin'
   )
 );
@@ -127,7 +127,7 @@ USING (
   auth.role() = 'service_role'
   OR EXISTS (
     SELECT 1 FROM public.user_roles ur
-    WHERE ur.user_id = app.current_external_id()
+    WHERE ur.user_id = auth.uid()::text
       AND ur.role_name = 'admin'
   )
 );
@@ -161,7 +161,7 @@ ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_roles"
 ON public.user_roles FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 CREATE POLICY "admin_can_manage_roles"
 ON public.user_roles FOR ALL
@@ -169,7 +169,7 @@ USING (
   auth.role() = 'service_role'
   OR EXISTS (
     SELECT 1 FROM public.user_roles ur
-    WHERE ur.user_id = app.current_external_id()
+    WHERE ur.user_id = auth.uid()::text
       AND ur.role_name = 'admin'
   )
 );
@@ -207,7 +207,7 @@ ALTER TABLE public.security_logs ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_logs"
 ON public.security_logs FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 CREATE POLICY "admin_can_read_all_logs"
 ON public.security_logs FOR SELECT
@@ -215,7 +215,7 @@ USING (
   auth.role() = 'service_role'
   OR EXISTS (
     SELECT 1 FROM public.user_roles ur
-    WHERE ur.user_id = app.current_external_id()
+    WHERE ur.user_id = auth.uid()::text
       AND ur.role_name = 'admin'
   )
 );
@@ -269,7 +269,7 @@ ALTER TABLE public.user_sessions ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_sessions"
 ON public.user_sessions FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 CREATE POLICY "system_can_manage_sessions"
 ON public.user_sessions FOR ALL
@@ -313,16 +313,9 @@ WITH CHECK (auth.role() = 'service_role');
 
 ### Helper Functions
 
-#### current_external_id()
+#### Identity Helper
 
-Extracts Clerk user ID from JWT claims.
-
-```sql
-CREATE OR REPLACE FUNCTION app.current_external_id()
-RETURNS TEXT AS $$
-  SELECT nullif(current_setting('request.jwt.claims', true)::json->>'sub', '')::text;
-$$ LANGUAGE sql SECURITY DEFINER;
-```
+Use Supabase's built-in `auth.uid()` in RLS policies to represent the current authenticated user. Do not create a custom function.
 
 #### log_auth_event()
 
@@ -396,18 +389,11 @@ USING (
 ### Authentication Types
 
 ```typescript
-// Clerk user object
-export interface ClerkUser {
+// Supabase user object
+export interface SupabaseUser {
   id: string;
-  emailAddresses: Array<{
-    id: string;
-    emailAddress: string;
-  }>;
-  firstName?: string;
-  lastName?: string;
-  imageUrl?: string;
-  publicMetadata: Record<string, any>;
-  privateMetadata: Record<string, any>;
+  email?: string | null;
+  user_metadata?: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -422,7 +408,7 @@ export interface AuthSession {
 
 // Auth context
 export interface AuthContextType {
-  user: ClerkUser | null;
+user: SupabaseUser | null;
   isLoaded: boolean;
   isSignedIn: boolean;
   signOut: () => Promise<void>;
@@ -534,7 +520,7 @@ export interface SignUpRequest {
 }
 
 export interface AuthResponse {
-  user: ClerkUser;
+user: SupabaseUser;
   session: AuthSession;
 }
 
@@ -574,7 +560,7 @@ Sign in with email and password.
 {
   success: boolean;
   data?: {
-    user: ClerkUser;
+    user: SupabaseUser;
     session: AuthSession;
   };
   error?: ApiError;
@@ -602,7 +588,7 @@ Create new account.
 {
   success: boolean;
   data?: {
-    user: ClerkUser;
+    user: SupabaseUser;
     session: AuthSession;
   };
   error?: ApiError;
@@ -916,10 +902,7 @@ CREATE INDEX idx_audit_logs_action ON public.audit_logs(action);
 CREATE INDEX idx_audit_logs_created_at ON public.audit_logs(created_at);
 
 -- Create helper functions
-CREATE OR REPLACE FUNCTION app.current_external_id()
-RETURNS TEXT AS $$
-  SELECT nullif(current_setting('request.jwt.claims', true)::json->>'sub', '')::text;
-$$ LANGUAGE sql SECURITY DEFINER;
+-- Deprecated: Former Clerk-specific helper removed. Use auth.uid() in policies.
 
 CREATE OR REPLACE FUNCTION app.log_auth_event(
   p_user_id TEXT,
@@ -941,25 +924,25 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 -- Create RLS policies for profiles
 CREATE POLICY "users_can_read_own_profile"
 ON public.profiles FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 CREATE POLICY "users_can_insert_own_profile"
 ON public.profiles FOR INSERT
-WITH CHECK (app.current_external_id() = user_id);
+WITH CHECK (auth.uid()::text = user_id);
 
 CREATE POLICY "users_can_update_own_profile"
 ON public.profiles FOR UPDATE
-USING (app.current_external_id() = user_id)
-WITH CHECK (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id)
+WITH CHECK (auth.uid()::text = user_id);
 
 CREATE POLICY "users_can_delete_own_profile"
 ON public.profiles FOR DELETE
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 -- Create RLS policies for sessions
 CREATE POLICY "users_can_read_own_sessions"
 ON public.user_sessions FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 CREATE POLICY "system_can_manage_sessions"
 ON public.user_sessions FOR ALL
@@ -968,7 +951,7 @@ USING (auth.role() = 'service_role');
 -- Create RLS policies for audit logs
 CREATE POLICY "users_can_read_own_audit_logs"
 ON public.audit_logs FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 CREATE POLICY "system_can_insert_audit_logs"
 ON public.audit_logs FOR INSERT
@@ -989,32 +972,32 @@ CREATE POLICY "users_can_upload_own_files"
 ON storage.objects FOR INSERT
 WITH CHECK (
   bucket_id = 'user-files'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+AND auth.uid()::text = (storage.foldername(name))[1]
 );
 
 CREATE POLICY "users_can_read_own_files"
 ON storage.objects FOR SELECT
 USING (
   bucket_id = 'user-files'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+AND auth.uid()::text = (storage.foldername(name))[1]
 );
 
 CREATE POLICY "users_can_update_own_files"
 ON storage.objects FOR UPDATE
 USING (
   bucket_id = 'user-files'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+AND auth.uid()::text = (storage.foldername(name))[1]
 )
 WITH CHECK (
   bucket_id = 'user-files'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+AND auth.uid()::text = (storage.foldername(name))[1]
 );
 
 CREATE POLICY "users_can_delete_own_files"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'user-files'
-  AND app.current_external_id() = (storage.foldername(name))[1]
+AND auth.uid()::text = (storage.foldername(name))[1]
 );
 ```
 
@@ -1026,4 +1009,4 @@ After running migrations, generate TypeScript types:
 npx supabase gen types typescript --project-id YOUR_PROJECT_ID > packages/shared/src/types/supabase.ts
 ```
 
-This will generate comprehensive types for all database tables, functions, and storage buckets with proper Clerk integration.
+This will generate comprehensive types for all database tables, functions, and storage buckets with Supabase integration.

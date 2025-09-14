@@ -102,15 +102,12 @@ export default async function DashboardPage() {
 'use client'
 
 import { useState } from 'react'
-import { useUser } from '@clerk/nextjs'
 
-export default function Dashboard({ initialData }) {
-  const { user } = useUser()
+export default function Dashboard({ user, initialData }: { user: { id: string; firstName?: string | null }, initialData: any }) {
   const [data, setData] = useState(initialData)
-
   return (
     <div>
-      <h1>Welcome, {user.firstName}</h1>
+      <h1>Welcome{user.firstName ? `, ${user.firstName}` : ''}</h1>
       {/* Interactive content */}
     </div>
   )
@@ -142,20 +139,23 @@ export async function getDashboardData(userId: string) {
 ```typescript
 // hooks/useDashboard.ts
 import { useState, useEffect } from 'react'
-import { useUser } from '@clerk/nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export function useDashboard() {
-  const { user } = useUser()
-  const [data, setData] = useState(null)
+  const supabase = createClientComponentClient()
+  const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (user) {
-      fetchDashboardData(user.id)
-        .then(setData)
-        .finally(() => setLoading(false))
-    }
-  }, [user])
+    supabase.auth.getUser().then(async ({ data }) => {
+      const uid = data.user?.id
+      if (uid) {
+        const res = await fetch(`/api/dashboard?uid=${uid}`)
+        setData(await res.json())
+      }
+      setLoading(false)
+    })
+  }, [])
 
   return { data, loading }
 }
@@ -173,19 +173,13 @@ export function useDashboard() {
 ### Middleware Implementation
 
 ```typescript
-// middleware.ts
-import { authMiddleware } from '@clerk/nextjs'
+// middleware.ts (example)
+import { NextResponse } from 'next/server'
 
-export default authMiddleware({
-  publicRoutes: ['/', '/about', '/contact'],
-  ignoredRoutes: ['/api/webhooks'],
-  beforeAuth: (req) => {
-    // Custom logic before authentication
-  },
-  afterAuth: (auth, req) => {
-    // Custom logic after authentication
-  }
-})
+export default function middleware() {
+  // Add security headers or basic routing guards here as needed
+  return NextResponse.next()
+}
 
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
@@ -196,20 +190,22 @@ export const config = {
 
 ```typescript
 // app/dashboard/layout.tsx
-import { currentUser } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { createServerClient } from '@supabase/ssr'
 
-export default async function DashboardLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
-  const user = await currentUser()
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { get: (name: string) => cookieStore.get(name)?.value } }
+  )
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
 
-  if (!user) {
-    redirect('/sign-in')
-  }
-
+  if (!user) redirect('/sign-in')
   return <div>{children}</div>
 }
 ```
