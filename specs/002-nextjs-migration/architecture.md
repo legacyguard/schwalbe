@@ -322,7 +322,7 @@ export function createBrowserSupabaseClient() {
 -- Core tables
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  clerk_id TEXT UNIQUE NOT NULL,
+  -- external_id deprecated; rely on auth.users(id) for identity
   email TEXT UNIQUE NOT NULL,
   first_name TEXT,
   last_name TEXT,

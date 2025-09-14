@@ -148,7 +148,7 @@
   - Validate webhook signature verification
 
 - [ ] **Authentication Integration**
-  - Test Clerk middleware and session validation
+  - Test Supabase Auth session handling and validation
   - Implement RLS policy enforcement testing
   - Create JWT token validation tests
   - Test authentication state management
