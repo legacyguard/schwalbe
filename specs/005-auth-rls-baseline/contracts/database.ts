@@ -19,7 +19,7 @@ export interface BaseEntity {
  * Represents a user's profile information
  */
 export interface Profile extends BaseEntity {
-  /** Clerk user ID (foreign key to auth) */
+  /** Supabase Auth user ID (UUID, foreign key to auth.users.id) */
   user_id: string;
   /** User's email address */
   email?: string;

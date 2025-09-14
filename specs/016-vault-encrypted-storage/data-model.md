@@ -220,38 +220,38 @@ EncryptionKey (1) ──── (N) VaultLog
 
 ### Row Level Security (RLS)
 
-Note: RLS policies use `app.current_external_id()` (Clerk external ID). Reference users via `public.user_auth(clerk_id)`. Avoid `auth.uid()` in RLS when using Clerk.
+Note: RLS policies use `auth.uid()` (Supabase Auth user ID). If user_id columns are TEXT, compare using `auth.uid()::text`.
 
 ```sql
 -- VaultConfig RLS
 CREATE POLICY "Users can manage own vault config"
 ON vault_config FOR ALL
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 -- EncryptionKey RLS
 CREATE POLICY "Users can access own encryption keys"
 ON encryption_key FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 -- EncryptedData RLS
 CREATE POLICY "Users can access own encrypted data"
 ON encrypted_data FOR ALL
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 -- ZeroKnowledgeProof RLS
 CREATE POLICY "Users can access own zero knowledge proofs"
 ON zero_knowledge_proof FOR ALL
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 -- SecurityScan RLS
 CREATE POLICY "Users can view own security scans"
 ON security_scan FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 
 -- VaultLog RLS
 CREATE POLICY "Users can view own vault logs"
 ON vault_log FOR SELECT
-USING (app.current_external_id() = user_id);
+USING (auth.uid()::text = user_id);
 ```
 
 ### Data Encryption Policies

@@ -7,46 +7,15 @@ Before implementing the Auth + RLS Baseline, ensure you have:
 - [ ] Node.js 18+ installed
 - [ ] npm (use npm ci for installs; use npm install only when adding new deps)
 - [ ] Supabase CLI installed
-- [ ] Clerk account and application
+- [ ] Supabase project with Auth enabled
 - [ ] Access to Schwalbe monorepo
 - [ ] Basic understanding of Next.js App Router
 
 ## Environment Setup
 
-### 1. Clerk Application Setup
+### 1. Supabase Auth Setup
 
-1. **Create Clerk Application**
-
-   ```bash
-   # Visit https://dashboard.clerk.com and create a new application
-   # Choose "Next.js" as the framework
-   # Configure authentication methods (Email + Google OAuth)
-   ```
-
-2. **Configure Environment Variables**
-
-   ```bash
-   # In apps/web-next/.env.local
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_key_here
-   CLERK_SECRET_KEY=sk_test_your_secret_key_here
-
-   # In supabase/.env.local (for edge functions)
-   CLERK_SECRET_KEY=sk_test_your_secret_key_here
-   ```
-
-3. **Configure JWT Template**
-
-   ```json
-   // In Clerk Dashboard → JWT Templates
-   {
-     "name": "supabase",
-     "claims": {
-       "sub": "{{user.id}}",
-       "email": "{{user.primary_email_address}}",
-       "role": "authenticated"
-     }
-   }
-   ```
+This quickstart is Supabase-first. Legacy Clerk setup has been removed. Ensure your Supabase project has Auth enabled and continue with the Supabase steps below.
 
 ### 2. Supabase Project Setup
 
@@ -59,23 +28,21 @@ Create a small runtime validator to ensure critical auth environment variables a
 import { z } from 'zod'
 
 const clientSchema = z.object({
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
 })
 
 const serverSchema = z.object({
-  CLERK_SECRET_KEY: z.string().min(1),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
 })
 
 export const env = {
   client: clientSchema.parse({
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   }),
   server: serverSchema.parse({
-    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   }),
 }
 ```
@@ -112,57 +79,49 @@ export const env = {
 
 ```bash
 # From repo root, add dependencies to the web-next workspace
-npm install -w apps/web-next @clerk/nextjs @supabase/supabase-js @supabase/ssr zod
+npm install -w apps/web-next @supabase/supabase-js @supabase/ssr zod
 
 # For development (devDependency)
 npm install -D -w apps/web-next @types/node
 ```
 
-### Step 2: Configure Clerk Provider
+### Step 2: Configure Supabase helpers (SSR)
 
-#### apps/web-next/src/app/layout.tsx
+Add server-side Supabase client helpers if needed for protected routes and SSR.
 
 ```typescript
-import { ClerkProvider } from '@clerk/nextjs'
-import { Inter } from 'next/font/google'
-import './globals.css'
+// apps/web-next/src/lib/supabase-server.ts
+import { cookies } from 'next/headers'
+import { createServerClient } from '@supabase/ssr'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
-    </ClerkProvider>
+export function getSupabaseServerClient() {
+  const cookieStore = cookies()
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+      },
+    }
   )
 }
 ```
 
-### Step 3: Create Middleware
-
-#### apps/web-next/middleware.ts
+### Step 3: Protect routes (server utils example)
 
 ```typescript
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+// apps/web-next/src/lib/require-user.ts
+import { redirect } from 'next/navigation'
+import { getSupabaseServerClient } from './supabase-server'
 
-const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-  '/profile(.*)',
-  '/vault(.*)',
-])
-
-export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) auth().protect()
-})
-
-export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+export async function requireUser() {
+  const supabase = getSupabaseServerClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/sign-in')
+  return user
 }
 ```
 
@@ -190,15 +149,19 @@ export const supabase = createClient()
 ```typescript
 'use client'
 
-import { SignInButton as ClerkSignInButton } from '@clerk/nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export function SignInButton() {
+  const supabase = createClientComponentClient()
   return (
-    <ClerkSignInButton mode="modal">
-      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-        Sign In
-      </button>
-    </ClerkSignInButton>
+    <button
+      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      onClick={async () => {
+        await supabase.auth.signInWithOAuth({ provider: 'google' })
+      }}
+    >
+      Sign In
+    </button>
   )
 }
 ```
@@ -208,10 +171,31 @@ export function SignInButton() {
 ```typescript
 'use client'
 
-import { UserButton } from '@clerk/nextjs'
+import { useEffect, useState } from 'react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export function UserMenu() {
-  return <UserButton afterSignOutUrl="/" />
+  const supabase = createClientComponentClient()
+  const [email, setEmail] = useState<string | null>(null)
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null))
+  }, [])
+
+  return (
+    <div className="flex items-center gap-3">
+      {email && <span className="text-sm text-gray-600">{email}</span>}
+      <button
+        className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+        onClick={async () => {
+          await supabase.auth.signOut()
+          window.location.href = '/'
+        }}
+      >
+        Sign Out
+      </button>
+    </div>
+  )
 }
 ```
 
@@ -220,18 +204,14 @@ export function UserMenu() {
 #### apps/web-next/src/app/dashboard/page.tsx
 
 ```typescript
-import { currentUser } from '@clerk/nextjs/server'
+import { requireUser } from '@/lib/require-user'
 
 export default async function DashboardPage() {
-  const user = await currentUser()
-
-  if (!user) {
-    return <div>Please sign in to access the dashboard.</div>
-  }
+  const user = await requireUser()
 
   return (
     <div>
-      <h1>Welcome to your Dashboard, {user.firstName}!</h1>
+      <h1>Welcome to your Dashboard!</h1>
       <p>Your user ID: {user.id}</p>
     </div>
   )
@@ -255,52 +235,42 @@ npx supabase migration up
 
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
-import { currentUser } from '@clerk/nextjs/server'
-import { createClient } from '@/lib/supabase'
+import { getSupabaseServerClient } from '@/lib/supabase-server'
 
 export async function GET() {
   try {
-    const user = await currentUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const supabase = getSupabaseServerClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const supabase = createClient()
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
       .eq('user_id', user.id)
       .single()
 
-    if (error && error.code !== 'PGRST116') {
-      throw error
-    }
+    if (error && (error as any).code !== 'PGRST116') throw error
 
     return NextResponse.json({ profile: data })
   } catch (error) {
     console.error('Error fetching profile:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const user = await currentUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const supabase = getSupabaseServerClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const body = await request.json()
-    const supabase = createClient()
 
     const { data, error } = await supabase
       .from('profiles')
       .insert({
         user_id: user.id,
-        email: user.primaryEmailAddress?.emailAddress,
+        email: user.email,
         first_name: body.firstName,
         last_name: body.lastName,
       })
@@ -312,10 +282,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ profile: data })
   } catch (error) {
     console.error('Error creating profile:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 ```
@@ -324,7 +291,7 @@ export async function POST(request: NextRequest) {
 
 ### 1) Auth Setup - configure authentication system
 
-- [ ] Set up Clerk application with proper configuration
+- [ ] Confirm Supabase Auth configured with required providers
 - [ ] Configure authentication providers and settings
 - [ ] Test basic authentication flow
 - [ ] Verify environment variables are properly set
@@ -525,15 +492,14 @@ npm run test:e2e
 
 ### Common Issues
 
-#### 1. Clerk Authentication Not Working
+#### 1. Supabase Auth Not Working
 
 ```bash
 # Check environment variables
-echo $NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-echo $CLERK_SECRET_KEY
-
-# Verify Clerk application settings
-# Visit https://dashboard.clerk.com
+echo $NEXT_PUBLIC_SUPABASE_URL
+echo $NEXT_PUBLIC_SUPABASE_ANON_KEY
+# For server-side
+echo $SUPABASE_SERVICE_ROLE_KEY
 ```
 
 #### 2. RLS Policies Blocking Access
@@ -572,16 +538,17 @@ echo $NEXT_PUBLIC_SUPABASE_ANON_KEY
 ### Debug Commands
 
 ```bash
-# Check Clerk user in browser console
-console.log(window.Clerk?.user)
+# Check Supabase user in browser console
+const { data: { user } } = await supabase.auth.getUser()
+console.log(user)
 
 # Test Supabase connection
 const { data } = await supabase.from('profiles').select('*').limit(1)
 console.log(data)
 
-# Check JWT token
-const token = await window.Clerk?.session?.getToken()
-console.log(token)
+# Check JWT session
+const { data: sessionData } = await supabase.auth.getSession()
+console.log(sessionData.session)
 ```
 
 ## Deployment
@@ -597,13 +564,12 @@ console.log(token)
 
 2. **Environment Variables**
 
-   ```bash
-   # Set in Vercel dashboard
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_...
-   CLERK_SECRET_KEY=sk_live_...
-   NEXT_PUBLIC_SUPABASE_URL=https://...
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-   ```
+```bash
+# Set in Vercel dashboard
+NEXT_PUBLIC_SUPABASE_URL=https://...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+```
 
 3. **Deploy**
 
@@ -646,27 +612,7 @@ npx supabase functions deploy
 
 ### Monitoring Setup
 
-```typescript
-// Add to layout or _app.tsx
-import { useEffect } from 'react'
-import { useUser } from '@clerk/nextjs'
-
-export function AuthMonitor() {
-  const { user } = useUser()
-
-  useEffect(() => {
-    if (user) {
-      // Log authentication event
-      console.log('User authenticated:', user.id)
-
-      // Send to monitoring service
-      // analytics.track('user_authenticated', { userId: user.id })
-    }
-  }, [user])
-
-  return null
-}
-```
+Use Supabase Edge Functions logs and Resend alerts for critical events. Track auth events client-side with your analytics tool as needed.
 
 ## Next Steps
 
@@ -683,7 +629,6 @@ After completing the Auth + RLS Baseline:
 
 For issues or questions:
 
-- **Clerk Documentation**: <https://clerk.com/docs>
 - **Supabase Documentation**: <https://supabase.com/docs>
 - **Next.js Auth**: <https://nextjs.org/docs/authentication>
 - **Team Chat**: Ask in #auth channel

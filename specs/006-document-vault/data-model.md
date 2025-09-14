@@ -216,8 +216,8 @@ CREATE INDEX idx_search_tokens_owner_token ON document_search_tokens(owner_id, t
 -- RLS: owner-scoped visibility
 ALTER TABLE document_search_tokens ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "owners_can_manage_token_rows" ON document_search_tokens
-  FOR ALL USING (app.current_external_id() = owner_id)
-  WITH CHECK (app.current_external_id() = owner_id);
+  FOR ALL USING (auth.uid() = owner_id)
+  WITH CHECK (auth.uid() = owner_id);
 ```
 
 #### documents_enhanced view
@@ -911,7 +911,7 @@ CREATE POLICY "Users cannot delete encryption keys" ON user_encryption_keys
 ```sql
 -- Users can view their own access logs
 CREATE POLICY "Users can view their own access logs" ON key_access_logs
-  FOR SELECT USING (app.current_external_id() = user_id);
+  FOR SELECT USING (auth.uid() = user_id);
 
 -- System can insert access logs
 CREATE POLICY "System can insert access logs" ON key_access_logs

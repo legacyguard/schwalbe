@@ -263,7 +263,7 @@ CREATE POLICY "Users can view sharing logs for own shares" ON sharing_log
     EXISTS (
       SELECT 1 FROM sharing_config
       WHERE sharing_config.id = sharing_log.sharing_config_id
-AND sharing_config.user_id = app.current_external_id()
+AND sharing_config.user_id = auth.uid()
     )
   );
 
@@ -295,7 +295,7 @@ CREATE POLICY "Users can manage own Sofia memory" ON sofia_ai_memory
   FOR ALL USING (auth.uid() = user_id);
 
 CREATE POLICY "Users can manage own Sofia personality" ON sofia_ai_personality
-  FOR ALL USING (app.current_external_id() = user_id);
+  FOR ALL USING (auth.uid() = user_id);
 ```
 
 ## Data Relationships

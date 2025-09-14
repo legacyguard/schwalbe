@@ -6,7 +6,7 @@
  * Represents a user in the authentication system
  */
 export interface AuthUser {
-  /** Unique user identifier from Clerk */
+  /** Unique user identifier from Supabase Auth */
   id: string;
   /** User's email address */
   email: string;

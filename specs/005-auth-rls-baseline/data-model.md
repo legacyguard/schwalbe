@@ -11,7 +11,7 @@ User authentication and profile information.
 ```sql
 CREATE TABLE public.user_auth (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  clerk_id TEXT NOT NULL UNIQUE,
+  user_id TEXT NOT NULL UNIQUE,
   email TEXT NOT NULL UNIQUE,
   first_name TEXT,
   last_name TEXT,
@@ -33,7 +33,7 @@ ALTER TABLE public.user_auth ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_auth"
 ON public.user_auth FOR SELECT
-USING (app.current_external_id() = clerk_id);
+USING (auth.uid()::text = user_id);
 
 CREATE POLICY "system_can_manage_auth"
 ON public.user_auth FOR ALL
@@ -230,17 +230,17 @@ WITH CHECK (auth.role() = 'service_role');
 ```sql
 -- UserAuth relationships
 ALTER TABLE public.user_roles ADD CONSTRAINT fk_user_roles_user_auth
-FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE;
+FOREIGN KEY (user_id) REFERENCES public.user_auth(user_id) ON DELETE CASCADE;
 
 ALTER TABLE public.session_data ADD CONSTRAINT fk_session_data_user_auth
-FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE;
+FOREIGN KEY (user_id) REFERENCES public.user_auth(user_id) ON DELETE CASCADE;
 
 ALTER TABLE public.security_logs ADD CONSTRAINT fk_security_logs_user_auth
-FOREIGN KEY (user_id) REFERENCES public.user_auth(clerk_id) ON DELETE CASCADE;
+FOREIGN KEY (user_id) REFERENCES public.user_auth(user_id) ON DELETE CASCADE;
 
 -- UserRole relationships
 ALTER TABLE public.user_roles ADD CONSTRAINT fk_user_roles_assigned_by
-FOREIGN KEY (assigned_by) REFERENCES public.user_auth(clerk_id) ON DELETE SET NULL;
+FOREIGN KEY (assigned_by) REFERENCES public.user_auth(user_id) ON DELETE SET NULL;
 ```
 
 #### user_sessions

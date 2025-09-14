@@ -92,14 +92,14 @@ ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
 
 -- User data access policy
 CREATE POLICY "Users can view own data" ON users
-  FOR SELECT USING (auth.uid()::text = clerk_id);
+  FOR SELECT USING (auth.uid() = id);
 
 CREATE POLICY "Users can update own data" ON users
-  FOR UPDATE USING (auth.uid()::text = clerk_id);
+  FOR UPDATE USING (auth.uid() = id);
 
 -- Audit log policy (read-only for users)
 CREATE POLICY "Users can view own audit logs" ON audit_logs
-  FOR SELECT USING (auth.uid()::text = (SELECT clerk_id FROM users WHERE id = user_id));
+  FOR SELECT USING (auth.uid() = user_id);
 ```
 
 ### Data Encryption
@@ -271,11 +271,11 @@ module.exports = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://cdn.clerk.dev",
+"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https: blob:",
-              "connect-src 'self' https://api.stripe.com https://api.clerk.dev https://*.supabase.co",
+"connect-src 'self' https://api.stripe.com https://*.supabase.co",
               "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
               "object-src 'none'",
               "base-uri 'self'",
@@ -297,7 +297,7 @@ module.exports = {
 export function generateCSP(nonce: string) {
   return [
     `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}' https://cdn.clerk.dev`,
+`script-src 'self' 'nonce-${nonce}'`,
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: https:`,
     `connect-src 'self' https://*.supabase.co`,
@@ -485,8 +485,6 @@ export function validateEnvironment() {
     'NEXT_PUBLIC_SUPABASE_URL',
     'NEXT_PUBLIC_SUPABASE_ANON_KEY',
     'SUPABASE_SERVICE_ROLE_KEY',
-    'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY',
-    'CLERK_SECRET_KEY',
     'STRIPE_SECRET_KEY',
     'RESEND_API_KEY'
   ]

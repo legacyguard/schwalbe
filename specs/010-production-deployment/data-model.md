@@ -178,7 +178,6 @@ interface EnvironmentConfig {
   redis_url?: string;
   supabase_url: string;
   supabase_anon_key: string;
-  clerk_publishable_key: string;
   stripe_publishable_key: string;
   resend_api_key: string;
   google_translate_api_key?: string;
@@ -398,7 +397,7 @@ CREATE INDEX idx_deployment_logs_level ON deployment_logs(level);
 
 ### Row Level Security
 
-Note: RLS policies use `app.current_external_id()` as the identity source (Clerk external ID) and reference Clerk users via `public.user_auth(clerk_id)`. Avoid `auth.uid()` when using Clerk.
+Note: RLS policies use `auth.uid()` (Supabase Auth) as the identity source. Reference users via `auth.users(id)`.
 
 ```sql
 -- Enable RLS on all tables

@@ -35,7 +35,7 @@
 ### T2203 Database Schema Migration (`@schwalbe/database`)
 
 - [ ] T2203a Port subscription tables migration from Hollywood
-- [ ] T2203b Update RLS policies for Clerk compatibility
+- [ ] T2203b Update RLS policies for Supabase Auth (auth.uid())
 - [ ] T2203c Implement database functions for usage tracking
 - [ ] T2203d Add subscription state machine triggers
 - [ ] T2203e Create database indexes for performance

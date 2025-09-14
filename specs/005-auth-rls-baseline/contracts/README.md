@@ -153,7 +153,7 @@ components:
       properties:
         id:
           type: string
-        clerk_id:
+        user_id:
           type: string
         email:
           type: string
@@ -165,7 +165,7 @@ components:
     CreateUserAuthRequest:
       type: object
       properties:
-        clerk_id:
+        user_id:
           type: string
         email:
           type: string

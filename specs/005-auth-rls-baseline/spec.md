@@ -22,15 +22,15 @@
 
 ## Non-Goals (out of scope)
 
-- Custom authentication UI components (use Clerk's built-in components)
+- Custom authentication UI components (use simple forms or Supabase UI patterns; no Clerk)
 - Complex role-based access control (RBAC) hierarchies beyond basic user/admin
 - Enterprise single sign-on (SSO) integrations
-- Multi-factor authentication (MFA) beyond Clerk's built-in options
+- Multi-factor authentication (MFA) beyond baseline Supabase options
 - Real-time session synchronization across multiple devices
 
 ## Review & Acceptance
 
-- [ ] Clerk authentication integration with Next.js App Router
+- [ ] Supabase Auth integration with Next.js App Router
 - [ ] Supabase RLS policies implemented and tested for all tables
 - [ ] Session management with secure token handling and refresh
 - [ ] Access control system with role-based permissions
@@ -123,14 +123,14 @@
 - RLS policy bypass → Comprehensive policy testing and security audits
 - Session hijacking → Secure session management and token validation
 - Performance degradation → Optimize authentication operations and caching
-- Integration complexity → Thorough testing of Clerk and Supabase compatibility
+- Integration complexity → Thorough testing of Supabase integration across modules
 - Security vulnerabilities → Regular security audits and vulnerability scanning
 
 ## Hollywood Auth System Integration
 
 **Key Components to Port:**
 
-- Clerk provider configuration and middleware patterns
+- Supabase Auth configuration patterns (SSR/client helpers)
 - Authentication state management and session handling
 - User profile management with RLS policies
 - Security hardening measures and audit logging
@@ -147,7 +147,7 @@
 ## References
 
 - Hollywood auth implementation (`/Users/luborfedak/Documents/Github/hollywood`)
-- Clerk documentation and authentication patterns
+- Supabase Auth documentation and authentication patterns
 - Supabase RLS documentation and security best practices
 - Next.js authentication integration guides
 - JWT security standards and token management
