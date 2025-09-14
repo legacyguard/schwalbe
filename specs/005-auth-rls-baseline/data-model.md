@@ -10,8 +10,8 @@ User authentication and profile information.
 
 ```sql
 CREATE TABLE public.user_auth (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT NOT NULL UNIQUE,
+id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id),
   email TEXT NOT NULL UNIQUE,
   first_name TEXT,
   last_name TEXT,
@@ -33,7 +33,7 @@ ALTER TABLE public.user_auth ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_auth"
 ON public.user_auth FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "system_can_manage_auth"
 ON public.user_auth FOR ALL
@@ -73,7 +73,7 @@ USING (
   auth.role() = 'service_role'
   OR EXISTS (
     SELECT 1 FROM public.user_roles ur
-    WHERE ur.user_id = auth.uid()::text
+WHERE ur.user_id = auth.uid()
       AND ur.role_name = 'admin'
   )
 );
@@ -140,9 +140,9 @@ User role assignments and management.
 ```sql
 CREATE TABLE public.user_roles (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT NOT NULL,
+  user_id UUID NOT NULL,
   role_name TEXT NOT NULL,
-  assigned_by TEXT,
+  assigned_by UUID,
   assigned_at TIMESTAMPTZ DEFAULT NOW(),
   expires_at TIMESTAMPTZ,
   is_active BOOLEAN DEFAULT true,
@@ -161,7 +161,7 @@ ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_roles"
 ON public.user_roles FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "admin_can_manage_roles"
 ON public.user_roles FOR ALL
@@ -169,7 +169,7 @@ USING (
   auth.role() = 'service_role'
   OR EXISTS (
     SELECT 1 FROM public.user_roles ur
-    WHERE ur.user_id = auth.uid()::text
+WHERE ur.user_id = auth.uid()
       AND ur.role_name = 'admin'
   )
 );
@@ -182,7 +182,7 @@ Security and audit logging.
 ```sql
 CREATE TABLE public.security_logs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT,
+  user_id UUID,
   event_type TEXT NOT NULL,
   severity TEXT NOT NULL, -- low, medium, high, critical
   resource_type TEXT,
@@ -207,7 +207,7 @@ ALTER TABLE public.security_logs ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_logs"
 ON public.security_logs FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "admin_can_read_all_logs"
 ON public.security_logs FOR SELECT
@@ -250,7 +250,7 @@ Session tracking for security monitoring and audit purposes.
 ```sql
 CREATE TABLE public.user_sessions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT NOT NULL,
+  user_id UUID NOT NULL,
   session_id TEXT NOT NULL UNIQUE,
   ip_address INET,
   user_agent TEXT,
@@ -269,7 +269,7 @@ ALTER TABLE public.user_sessions ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_sessions"
 ON public.user_sessions FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "system_can_manage_sessions"
 ON public.user_sessions FOR ALL
@@ -283,7 +283,7 @@ Comprehensive audit logging for security and compliance.
 ```sql
 CREATE TABLE public.audit_logs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT,
+  user_id UUID,
   action TEXT NOT NULL, -- 'login', 'logout', 'profile_update', 'data_access', etc.
   resource_type TEXT, -- 'profile', 'document', 'session', etc.
   resource_id TEXT,
@@ -304,7 +304,7 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "users_can_read_own_audit_logs"
 ON public.audit_logs FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "system_can_insert_audit_logs"
 ON public.audit_logs FOR INSERT
@@ -323,7 +323,7 @@ Logs authentication events for audit purposes.
 
 ```sql
 CREATE OR REPLACE FUNCTION app.log_auth_event(
-  p_user_id TEXT,
+  p_user_id UUID,
   p_action TEXT,
   p_metadata JSONB DEFAULT NULL
 )
@@ -355,32 +355,32 @@ CREATE POLICY "users_can_upload_own_files"
 ON storage.objects FOR INSERT
 WITH CHECK (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 
 CREATE POLICY "users_can_read_own_files"
 ON storage.objects FOR SELECT
 USING (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 
 CREATE POLICY "users_can_update_own_files"
 ON storage.objects FOR UPDATE
 USING (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND auth.uid() = (storage.foldername(name))[1]::uuid
 )
 WITH CHECK (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 
 CREATE POLICY "users_can_delete_own_files"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'user-files'
-  AND auth.uid()::text = (storage.foldername(name))[1]
+  AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 ```
 
@@ -857,7 +857,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Create profiles table
 CREATE TABLE public.profiles (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT NOT NULL UNIQUE,
+  user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id),
   email TEXT,
   first_name TEXT,
   last_name TEXT,
@@ -869,7 +869,7 @@ CREATE TABLE public.profiles (
 -- Create user_sessions table
 CREATE TABLE public.user_sessions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT NOT NULL,
+  user_id UUID NOT NULL,
   session_id TEXT NOT NULL UNIQUE,
   ip_address INET,
   user_agent TEXT,
@@ -881,7 +881,7 @@ CREATE TABLE public.user_sessions (
 -- Create audit_logs table
 CREATE TABLE public.audit_logs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT,
+  user_id UUID,
   action TEXT NOT NULL,
   resource_type TEXT,
   resource_id TEXT,
@@ -924,25 +924,25 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 -- Create RLS policies for profiles
 CREATE POLICY "users_can_read_own_profile"
 ON public.profiles FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "users_can_insert_own_profile"
 ON public.profiles FOR INSERT
-WITH CHECK (auth.uid()::text = user_id);
+WITH CHECK (auth.uid() = user_id);
 
 CREATE POLICY "users_can_update_own_profile"
 ON public.profiles FOR UPDATE
-USING (auth.uid()::text = user_id)
-WITH CHECK (auth.uid()::text = user_id);
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
 
 CREATE POLICY "users_can_delete_own_profile"
 ON public.profiles FOR DELETE
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 -- Create RLS policies for sessions
 CREATE POLICY "users_can_read_own_sessions"
 ON public.user_sessions FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "system_can_manage_sessions"
 ON public.user_sessions FOR ALL
@@ -951,7 +951,7 @@ USING (auth.role() = 'service_role');
 -- Create RLS policies for audit logs
 CREATE POLICY "users_can_read_own_audit_logs"
 ON public.audit_logs FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "system_can_insert_audit_logs"
 ON public.audit_logs FOR INSERT
@@ -972,32 +972,32 @@ CREATE POLICY "users_can_upload_own_files"
 ON storage.objects FOR INSERT
 WITH CHECK (
   bucket_id = 'user-files'
-AND auth.uid()::text = (storage.foldername(name))[1]
+AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 
 CREATE POLICY "users_can_read_own_files"
 ON storage.objects FOR SELECT
 USING (
   bucket_id = 'user-files'
-AND auth.uid()::text = (storage.foldername(name))[1]
+AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 
 CREATE POLICY "users_can_update_own_files"
 ON storage.objects FOR UPDATE
 USING (
   bucket_id = 'user-files'
-AND auth.uid()::text = (storage.foldername(name))[1]
+AND auth.uid() = (storage.foldername(name))[1]::uuid
 )
 WITH CHECK (
   bucket_id = 'user-files'
-AND auth.uid()::text = (storage.foldername(name))[1]
+AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 
 CREATE POLICY "users_can_delete_own_files"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'user-files'
-AND auth.uid()::text = (storage.foldername(name))[1]
+AND auth.uid() = (storage.foldername(name))[1]::uuid
 );
 ```
 

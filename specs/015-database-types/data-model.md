@@ -9,7 +9,7 @@ This document outlines the core database entities, relationships, and data struc
 - Use `auth.uid()` as the identity source for Row Level Security (RLS) policies (Supabase Auth user ID).
 - Reference users via `auth.users(id)`.
 - Store `user_id` as UUID in all tables that reference `auth.users(id)`.
-- Remove any usage of `app.current_external_id()` and Clerk-specific identifiers in RLS policies and schemas.
+- Remove any usage of `app.current_external_id()` and any legacy external-identity-specific identifiers in RLS policies, types, and schemas.
 - Ensure migrations and examples align to this identity model across tables and policies.
 
 ## Core Entities

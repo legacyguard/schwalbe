@@ -10,7 +10,7 @@ This specification defines the complete Stripe billing integration for Schwalbe,
 - **Subscription Lifecycle Management**: Complete state machine for subscription creation, updates, and cancellations
 - **Webhook Security**: Robust webhook validation and processing with proper error handling
 - **Database Integration**: Seamless integration with Supabase RLS and user management
-- **Monitoring & Analytics**: Comprehensive logging and error tracking for billing operations
+- **Monitoring & Analytics**: Comprehensive logging and error tracking for billing operations (use Supabase logs and Resend alerts)
 
 ## Key Components
 
@@ -84,6 +84,7 @@ This specification defines the complete Stripe billing integration for Schwalbe,
 - Use `auth.uid()` as the identity source (Supabase Auth user ID)
 - Reference users via `auth.users(id)`
 - Avoid `app.current_external_id()`; standardize all RLS on `auth.uid()`
+- Use Supabase logs and Resend for error monitoring and alerts
 
 ## API Contracts
 

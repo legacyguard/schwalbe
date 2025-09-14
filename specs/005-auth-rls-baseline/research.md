@@ -1,6 +1,6 @@
 # Auth + RLS Baseline: Technical Research
 
-## Clerk Authentication Integration Research
+## Supabase Authentication Integration Research
 
 - Comprehensive user management with email/password and OAuth providers
 - JWT token handling with automatic refresh and secure session management
@@ -70,71 +70,57 @@
 - GDPR compliance with data minimization and user consent mechanisms
 - International accessibility standards and regulatory compliance frameworks
 
-## Clerk Authentication Analysis
+## Supabase Authentication Analysis
 
 ### Core Capabilities
 
 **Authentication Methods**:
 
 - Email/password authentication with secure password policies
-- Google OAuth integration with customizable scopes
-- Social login support (configurable providers)
+- OAuth providers (Google, Apple, GitHub, etc.)
 - Magic link authentication for passwordless flows
 - Multi-factor authentication (MFA) support
 
 **Session Management**:
 
-- JWT-based session tokens with configurable expiration
+- JWT-based sessions managed by Supabase
 - Automatic token refresh with background renewal
-- Session persistence across browser tabs and refreshes
-- Secure session storage with HttpOnly cookies option
-- Session metadata and custom claims support
+- Session persistence across browser tabs and refreshes via cookies
+- Secure session storage with HttpOnly cookies
 
 **Security Features**:
 
-- Built-in CSRF protection and XSS prevention
-- Secure token generation with cryptographically secure randomness
+- CSRF protection via SameSite cookie attributes
+- Secure token generation and rotation
 - Rate limiting and brute force protection
-- Account lockout mechanisms and suspicious activity detection
-- Comprehensive audit logging and security event tracking
+- Audit logging and security event tracking via application logs
 
-### Hollywood Implementation Review
+### Next.js Integration Review (Supabase)
 
-**Provider Configuration**:
+**Client/Provider Setup**:
 
 ```typescript
-// Hollywood's ClerkProvider setup
-<ClerkProvider
-  publishableKey={CLERK_PUBLISHABLE_KEY}
-  appearance={{
-    baseTheme: dark,
-    variables: { colorPrimary: '#3b82f6' }
-  }}
->
-  <App />
-</ClerkProvider>
+// Minimal Supabase client setup (client components)
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+
+export function useSupabase() {
+  return createClientComponentClient();
+}
 ```
 
-**Middleware Implementation**:
+**Server Session Helper**:
 
 ```typescript
-// Route protection middleware
-export default clerkMiddleware((auth, req) => {
-  if (!auth.userId && isProtectedRoute(req)) {
-    const signInUrl = new URL('/sign-in', req.url);
-    signInUrl.searchParams.set('redirect_url', req.url);
-    return NextResponse.redirect(signInUrl);
-  }
-});
-```
+// Server-side session access (App Router)
+import { cookies } from 'next/headers';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
-**Session Helpers**:
-
-```typescript
-// Server-side session access
 export async function getServerSession() {
-  const { userId } = await auth();
-  return userId ? { userId } : null;
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session;
 }
 ```
 
@@ -149,20 +135,14 @@ export async function getServerSession() {
 - **UPDATE policies**: Control data modification rights
 - **DELETE policies**: Control data deletion permissions
 
-**Clerk Integration Pattern**:
+**Identity Pattern**:
 
 ```sql
--- Helper function for Clerk user ID extraction
-CREATE OR REPLACE FUNCTION app.current_external_id()
-RETURNS TEXT AS $$
-  SELECT nullif(current_setting('request.jwt.claims', true)::json->>'sub', '')::text;
-$$ LANGUAGE sql SECURITY DEFINER;
-
--- RLS policy using Clerk JWT
+-- Use Supabase's built-in auth.uid() to identify the authenticated user
 CREATE POLICY "Users can view their own data"
 ON public.user_profiles
 FOR SELECT
-USING (user_id = app.current_external_id());
+USING (user_id = auth.uid());
 ```
 
 ### Hollywood RLS Patterns
@@ -173,12 +153,12 @@ USING (user_id = app.current_external_id());
 -- Profile table policies
 CREATE POLICY "users_can_read_own_profile"
 ON public.profiles FOR SELECT
-USING (auth.uid()::text = user_id);
+USING (auth.uid() = user_id);
 
 CREATE POLICY "users_can_update_own_profile"
 ON public.profiles FOR UPDATE
-USING (auth.uid()::text = user_id)
-WITH CHECK (auth.uid()::text = user_id);
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
 ```
 
 **Storage Security**:
@@ -197,32 +177,48 @@ WITH CHECK (bucket_id = 'user-files' AND auth.uid()::text = (storage.foldername(
 **Server-Side Authentication**:
 
 ```typescript
-// Server component with auth
-export default async function ProtectedPage() {
-  const { userId } = await auth();
+// Server component with auth (Supabase)
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
-  if (!userId) {
+export default async function ProtectedPage() {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session?.user) {
     redirect('/sign-in');
   }
 
-  return <UserDashboard userId={userId} />;
+  return <UserDashboard userId={session.user.id} />;
 }
 ```
 
 **Middleware Integration**:
 
 ```typescript
-// middleware.ts for route protection
-export default clerkMiddleware((auth, req) => {
-  const { userId } = auth;
+// middleware.ts for route protection (Supabase)
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  const supabase = createMiddlewareClient({ req, res });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   // Protect API routes
-  if (req.nextUrl.pathname.startsWith('/api/') && !userId) {
+  if (req.nextUrl.pathname.startsWith('/api/') && !session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  return NextResponse.next();
-});
+  return res;
+}
 ```
 
 ### Client-Side Integration
@@ -256,7 +252,7 @@ export function UserMenu() {
 ```sql
 CREATE TABLE public.profiles (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT NOT NULL UNIQUE, -- Clerk user ID
+  user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id), -- Supabase Auth user ID
   email TEXT,
   first_name TEXT,
   last_name TEXT,
@@ -289,7 +285,7 @@ CREATE TABLE public.user_sessions (
 **Hollywood Migration Patterns**:
 
 - Preserve existing table structures where possible
-- Update user_id columns from UUID to TEXT for Clerk compatibility
+- Ensure user_id columns are UUID and reference auth.users(id)
 - Add proper indexes for performance
 - Implement comprehensive RLS policies
 - Create migration scripts with proper ordering
@@ -364,7 +360,7 @@ CREATE TABLE public.user_sessions (
 **Unit Tests**:
 
 ```typescript
-describe('Clerk Authentication', () => {
+describe('Supabase Authentication', () => {
   it('should validate JWT tokens correctly', async () => {
     const token = generateTestToken();
     const result = await validateToken(token);
@@ -438,9 +434,9 @@ SELECT * FROM public.profiles; -- Should return no results
 
 **Phase 2A: Foundation** (Week 1)
 
-- Clerk application setup and configuration
-- Basic Next.js integration with provider
-- Simple middleware implementation
+- Supabase project setup and configuration
+- Next.js integration with Supabase Auth helpers
+- Basic session utilities and optional middleware for route protection
 - Profile table creation with RLS
 
 **Phase 2B: Core Auth** (Week 2)
@@ -468,8 +464,8 @@ SELECT * FROM public.profiles; -- Should return no results
 
 **Reusable Components**:
 
-- Clerk provider configuration
-- Authentication middleware
+- Supabase client/auth helpers configuration
+- Authentication middleware (createMiddlewareClient)
 - Session management utilities
 - RLS policy templates
 - Security testing helpers
@@ -485,10 +481,10 @@ SELECT * FROM public.profiles; -- Should return no results
 
 ### Technical Risks
 
-**Clerk Service Dependency**:
+**Authentication Service Dependency (Supabase)**:
 
 - **Impact**: High - Authentication failure blocks all users
-- **Mitigation**: Implement fallback authentication, monitor service status, prepare migration plan
+- **Mitigation**: Monitor Supabase status, implement graceful degradation, and prepare a fallback plan
 
 **RLS Performance Impact**:
 
@@ -549,4 +545,4 @@ SELECT * FROM public.profiles; -- Should return no results
 
 ## Conclusion
 
-The Clerk + Supabase RLS implementation provides a robust, secure foundation for Schwalbe's authentication system. By leveraging Hollywood's proven patterns and following Next.js best practices, we can establish a scalable authentication baseline that supports future feature development while maintaining security and performance standards.
+The Supabase Auth + RLS implementation provides a robust, secure foundation for Schwalbe's authentication system. By leveraging Hollywood's proven patterns and following Next.js best practices, we can establish a scalable authentication baseline that supports future feature development while maintaining security and performance standards.
