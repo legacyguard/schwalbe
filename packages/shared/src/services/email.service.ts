@@ -9,6 +9,12 @@ export interface EmailTemplate {
 }
 
 export interface EmailNotification {
+  auto_will_update_proposal?: {
+    changeSummary: string;
+  };
+  auto_will_update_applied?: {
+    changeSummary: string;
+  };
   payment_failed: {
     planName: string;
     retryDate: string;
@@ -50,6 +56,73 @@ export interface EmailNotification {
 }
 
 class EmailService {
+  private readonly fromEmail = 'noreply@documentsafe.app';
+  private readonly appName = 'Document Safe';
+
+  async sendWillUpdateProposal(
+    email: string,
+    data: NonNullable<EmailNotification['auto_will_update_proposal']>
+  ): Promise<boolean> {
+    if (!email) return true; // No-op if email missing; avoid PII leaks
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #3182ce; color: white; padding: 24px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9f9f9; padding: 24px; border-radius: 0 0 10px 10px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h2>Automatic Will Update Proposal</h2>
+            </div>
+            <div class="content">
+              <p>We detected changes related to your will. A proposal is ready for your review.</p>
+              <p><strong>Summary:</strong> ${data.changeSummary}</p>
+              <p>Open your dashboard to review and approve the proposed updates.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+    return this.sendEmail({ to: email, subject: 'Your will has an update proposal', html, text: `Proposal summary: ${data.changeSummary}` });
+  }
+
+  async sendWillUpdateApplied(
+    email: string,
+    data: NonNullable<EmailNotification['auto_will_update_applied']>
+  ): Promise<boolean> {
+    if (!email) return true;
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #38a169; color: white; padding: 24px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9f9f9; padding: 24px; border-radius: 0 0 10px 10px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h2>Will Update Applied</h2>
+            </div>
+            <div class="content">
+              <p>Your approved changes have been applied.</p>
+              <p><strong>Summary:</strong> ${data.changeSummary}</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+    return this.sendEmail({ to: email, subject: 'Your will was updated', html, text: `Applied: ${data.changeSummary}` });
+  }
   private readonly fromEmail = 'noreply@documentsafe.app';
   private readonly appName = 'Document Safe';
 
