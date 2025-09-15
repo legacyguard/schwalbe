@@ -36,9 +36,9 @@ CREATE POLICY "Users can update own shield settings" ON family_shield_settings
     WITH CHECK (auth.uid() = user_id);
 
 -- Add indexes for performance
-CREATE INDEX idx_shield_settings_user_id ON family_shield_settings(user_id);
-CREATE INDEX idx_shield_settings_status ON family_shield_settings(shield_status);
-CREATE INDEX idx_shield_settings_activity_check ON family_shield_settings(last_activity_check) 
+CREATE INDEX IF NOT EXISTS idx_shield_settings_user_id ON family_shield_settings(user_id);
+CREATE INDEX IF NOT EXISTS idx_shield_settings_status ON family_shield_settings(shield_status);
+CREATE INDEX IF NOT EXISTS idx_shield_settings_activity_check ON family_shield_settings(last_activity_check) 
 WHERE shield_status = 'inactive';
 
 -- Ensure one settings record per user
