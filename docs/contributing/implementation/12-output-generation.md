@@ -28,7 +28,7 @@ CONSTRAINTS:
 - i18n 34; print styles a11y; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/output-generation
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Visual inspection; sample PDFs in repo (if appropriate)
@@ -58,7 +58,7 @@ CONSTRAINTS:
 - i18n 34; print a11y; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/output-generation
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Visual PDFs check; print CSS validated

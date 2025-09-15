@@ -33,7 +33,7 @@ CONSTRAINTS:
 - No secrets printed; use provider secret stores; keep diffs minimal
 PERMISSIONS:
 - edit docs: yes; prod ops: ask before execution
-BRANCH: chore/prod-env-runbook
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Test prod URL health; quick smoke test of money path

@@ -59,7 +59,7 @@ CONSTRAINTS:
 - UI English; i18n 34; respect redirect gating
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/topbar-multidomain
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - a11y check; build pass; docs updated
@@ -97,7 +97,7 @@ CONSTRAINTS:
 - UI English; respect redirect gating policy
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/topbar-multidomain
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - a11y pass for header; manual domain menu test

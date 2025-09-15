@@ -29,7 +29,7 @@ CONSTRAINTS:
 - UI English; Resend for email; privacy aware
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/subscriptions-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests; email template QA
@@ -61,7 +61,7 @@ CONSTRAINTS:
 - UI English; privacy-aware
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/subscriptions-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests; email template QA

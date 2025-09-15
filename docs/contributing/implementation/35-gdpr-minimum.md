@@ -29,7 +29,7 @@ CONSTRAINTS:
 - Irreversible delete warning; rate‑limit export requests; secrets not logged
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/gdpr-minimum
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Manual delete/export test on staging; logs show no PII leakage

@@ -28,7 +28,7 @@ CONSTRAINTS:
 - No secrets in plain text; env variables only; no printing secrets
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/<current-feature>
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Build/test pass; plan matched
@@ -37,7 +37,7 @@ CHECKS BEFORE DONE:
 Usage notes
 - Always start from the relevant phase doc and copy its prompt.
 - If you need to deviate, state the reason in CONTEXT and update SCOPE accordingly.
-- Keep each session focused on one feature branch.
+- Keep each session focused and small; commit directly to main.
 
 ---
 

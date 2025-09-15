@@ -34,7 +34,7 @@ CONSTRAINTS:
 - Secrets via env; no PII in logs; idempotent webhook actions
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/dunning-portal-ux
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Staging test: force failure → receive email + banner; pay → recovery email + banner cleared

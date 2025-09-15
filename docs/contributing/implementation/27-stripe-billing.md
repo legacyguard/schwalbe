@@ -41,7 +41,7 @@ CONSTRAINTS:
 - Secrets via env; never log PII or full webhook payloads; small diffs
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/billing-stripe-mvp
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Staging flow: free → checkout → paid → refresh shows entitlements

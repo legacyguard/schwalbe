@@ -33,7 +33,7 @@ CONSTRAINTS:
 - No secrets printed; least privilege; small diffs
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/preflight-global-rules
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - All global rules documented and validated
@@ -84,7 +84,7 @@ CONSTRAINTS:
 - No secrets printed; least privilege
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/preflight-global-rules
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - All global rules documented and validated

@@ -28,7 +28,7 @@ CONSTRAINTS:
 - i18n 34; UI English; per-country language rules
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/countries-config
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - QA per-country checklist
@@ -60,7 +60,7 @@ CONSTRAINTS:
 - i18n 34; UI English; per-country language rules
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/countries-config
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - QA per-country checklist

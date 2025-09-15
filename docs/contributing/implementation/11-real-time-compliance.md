@@ -28,7 +28,7 @@ CONSTRAINTS:
 - UI English; leverage engine rules
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/real-time-compliance
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit/UI tests for validation triggers
@@ -58,7 +58,7 @@ CONSTRAINTS:
 - UI English; leverage engine rules
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/real-time-compliance
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit/UI tests for triggers

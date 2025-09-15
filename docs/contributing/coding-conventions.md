@@ -16,9 +16,8 @@ Errors
 - Categorize: validation, auth, rls_denied, upstream, unknown
 - Include code and message; never include secrets
 
-Branching
-- One feature branch per SEATBELT prompt
-- Naming: feature/<kebab-name>, fix/<kebab-name>, chore/<kebab-name>, docs/<kebab-name>, refactor/<kebab-name>
+Mainline workflow
+- Commit directly to main
 - Keep diffs small and focused; avoid mass refactors.
 
 Conventional commits

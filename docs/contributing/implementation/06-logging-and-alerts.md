@@ -30,7 +30,7 @@ CONSTRAINTS:
 - Secrets via env; no secrets printed; least privilege
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/logging-supabase
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Staging e2e test for error path and email
@@ -64,7 +64,7 @@ CONSTRAINTS:
 - Secrets via env; no secrets printed; least privilege for service role
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/logging-supabase
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - End-to-end: throw test error → email and DB row present

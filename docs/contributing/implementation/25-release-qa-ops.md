@@ -28,7 +28,7 @@ CONSTRAINTS:
 - No interactive production ops without approval
 PERMISSIONS:
 - edit docs/code: yes; destructive ops: no (ask first)
-BRANCH: chore/release-playbook
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Dry-run on staging
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - No interactive production ops without approval
 PERMISSIONS:
 - edit docs/code: yes; destructive ops: no (ask first)
-BRANCH: chore/release-playbook
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Dry-run on staging

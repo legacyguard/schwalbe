@@ -35,7 +35,7 @@ CONSTRAINTS:
 - Secrets via env; never log PII; small diffs
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/billing-tax-czsk
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Test: CZ customer with VAT → invoice with correct tax/footers; data stored in Stripe + DB

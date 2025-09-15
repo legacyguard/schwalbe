@@ -29,7 +29,7 @@ CONSTRAINTS:
 - Secrets via env; privacy rules; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/documents-ocr
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - OCR accuracy smoke test; storage/security review
@@ -61,7 +61,7 @@ CONSTRAINTS:
 - Secrets via env; privacy rules; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/documents-ocr
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - OCR smoke test; storage/security review

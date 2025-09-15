@@ -29,7 +29,7 @@ CONSTRAINTS:
 - Least privilege; auditing where feasible
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/privacy-security
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Sign-off from security checklist
@@ -62,7 +62,7 @@ CONSTRAINTS:
 - Least privilege; auditing where feasible
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/privacy-security
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Sign-off from checklist

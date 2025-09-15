@@ -28,7 +28,7 @@ CONSTRAINTS:
 - Least privilege; no PII leakage in logs
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/identity-rls-guardrails
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - RLS tests green
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - Least privilege; no PII in logs
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/identity-rls-guardrails
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - RLS tests green

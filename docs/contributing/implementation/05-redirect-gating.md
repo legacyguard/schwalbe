@@ -28,7 +28,7 @@ CONSTRAINTS:
 - UI English; simulation text Czech; no interactive commands
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/redirect-gating
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Manual verification on CZ/SK
@@ -60,7 +60,7 @@ CONSTRAINTS:
 - UI English; simulation text in Czech; no interactive shell commands
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/redirect-gating
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Manual CZ/SK verification

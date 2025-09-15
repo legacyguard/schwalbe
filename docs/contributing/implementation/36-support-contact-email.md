@@ -31,7 +31,7 @@ CONSTRAINTS:
 - UI English baseline; localize to CZ/SK; no secrets in docs
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/support-contact-email-posture
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Test email passes SPF/DKIM/DMARC; support page renders in EN/CZ/SK
