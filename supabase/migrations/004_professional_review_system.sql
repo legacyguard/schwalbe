@@ -4,12 +4,18 @@
 -- Enable UUID extension if not already enabled
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Trust Score Fields for Wills Table
-ALTER TABLE wills 
-ADD COLUMN IF NOT EXISTS trust_score INTEGER DEFAULT 0 CHECK (trust_score >= 0 AND trust_score <= 100),
-ADD COLUMN IF NOT EXISTS trust_factors JSONB DEFAULT '[]'::jsonb,
-ADD COLUMN IF NOT EXISTS last_trust_calculation TIMESTAMPTZ,
-ADD COLUMN IF NOT EXISTS trust_score_history JSONB DEFAULT '[]'::jsonb;
+-- Trust Score Fields for Wills Table (guarded if wills table exists)
+DO $$
+BEGIN
+  IF to_regclass('public.wills') IS NOT NULL THEN
+    ALTER TABLE public.wills 
+      ADD COLUMN IF NOT EXISTS trust_score INTEGER DEFAULT 0 CHECK (trust_score >= 0 AND trust_score <= 100),
+      ADD COLUMN IF NOT EXISTS trust_factors JSONB DEFAULT '[]'::jsonb,
+      ADD COLUMN IF NOT EXISTS last_trust_calculation TIMESTAMPTZ,
+      ADD COLUMN IF NOT EXISTS trust_score_history JSONB DEFAULT '[]'::jsonb;
+  END IF;
+END
+$$;
 
 -- Professional Review Fields for Documents Table
 ALTER TABLE documents 
