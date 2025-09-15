@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@schwalbe/logic': path.resolve(__dirname, '../../packages/logic/src'),
     },
   },
   server: {
