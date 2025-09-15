@@ -36,5 +36,7 @@ export function computePreferredLocale(opts: {
 }
 
 function normalize(loc: string): string {
-  return loc.toLowerCase().split('-')[0]
+  const parts = loc.toLowerCase().split('-')
+  const base = parts[0] ?? ''
+  return base
 }
