@@ -1,7 +1,7 @@
 -- Create Family Shield settings table for Dead Man Switch configuration
 -- Part of emergency protection system migration from Hollywood
 
-CREATE TABLE family_shield_settings (
+CREATE TABLE IF NOT EXISTS family_shield_settings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   inactivity_period_months INTEGER DEFAULT 6 CHECK (inactivity_period_months > 0),
