@@ -35,7 +35,6 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       {image && <meta property="twitter:image" content={image} />}
       
       {/* Additional SEO */}
-      <meta name="robots" content="index, follow" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </Helmet>
   );

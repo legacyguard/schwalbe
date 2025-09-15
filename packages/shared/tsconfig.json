@@ -13,7 +13,8 @@
     "src/config/domains.ts",
     "src/config/languages.ts",
     "src/search/**/*.ts",
-    "src/search.ts"
+    "src/search.ts",
+    "src/services/sharing/sharing.service.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.test.*"]
 }

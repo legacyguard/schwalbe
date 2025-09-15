@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AppShell } from '@/components/layout/AppShell';
 import { WillWizardRoutes } from '@/features/will/wizard/routes/WillWizardRoutes';
 import { AssetsRoutes } from '@/features/assets/routes/AssetsRoutes';
+import { ShareViewer } from '@/features/sharing/viewer/ShareViewer';
 import '@/lib/i18n';
 
 const rootEl = document.getElementById('root');
@@ -16,6 +17,7 @@ if (rootEl) {
           <Routes>
             <Route path="/will/wizard/*" element={<WillWizardRoutes />} />
             <Route path="/assets/*" element={<AssetsRoutes />} />
+            <Route path="/share/:shareId" element={<ShareViewer />} />
             <Route
               path="/"
               element={

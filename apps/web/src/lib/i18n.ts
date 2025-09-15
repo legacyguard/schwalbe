@@ -4,6 +4,28 @@ import { initReactI18next } from 'react-i18next';
 // Translation resources
 const resources = {
   en: {
+    'sharing/viewer': {
+      metaDescription: 'Secure shared viewer',
+      loading: 'Loading…',
+      sharedViewer: 'Shared Viewer',
+      enterPassword: 'Enter Password',
+      linkExpired: 'Link Expired',
+      invalidLink: 'Invalid Link',
+      protectedTitle: 'This shared link is protected',
+      protectedPrompt: 'Please enter the password to continue.',
+      passwordLabel: 'Password',
+      unlock: 'Unlock',
+      unlockAria: 'Submit password',
+      expiredMessage: 'This link has expired.',
+      invalidMessage: 'This link is not valid or has been revoked.',
+      unableToVerify: 'Unable to verify link.',
+      back: 'Back',
+      exportPdf: 'Export PDF',
+      type: 'Type',
+      resourceId: 'Resource ID',
+      expires: 'Expires',
+      contentPlaceholder: 'Content preview is not yet implemented. Permissions:'
+    },
     'ui/scene1-promise': {
       title: 'Your Story Begins Here',
       subtitle:
