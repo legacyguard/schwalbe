@@ -23,6 +23,9 @@ export * from './types/animations';
 // Export Supabase client
 export * from './supabase/client';
 
+// Export Reminder service
+export * from './services/reminders/reminder.service';
+
 // Export domain + language config
 export * from './config/domains';
 export * from './config/languages';

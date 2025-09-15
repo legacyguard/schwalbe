@@ -14,7 +14,10 @@
     "src/config/languages.ts",
     "src/search/**/*.ts",
     "src/search.ts",
-    "src/services/sharing/sharing.service.ts"
+    "src/services/sharing/sharing.service.ts",
+    "src/services/monitoring.service.ts",
+    "src/services/reminders/reminder.service.ts",
+    "src/index.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.test.*"]
 }

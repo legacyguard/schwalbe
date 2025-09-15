@@ -5,6 +5,7 @@ import { AppShell } from '@/components/layout/AppShell';
 import { WillWizardRoutes } from '@/features/will/wizard/routes/WillWizardRoutes';
 import { AssetsRoutes } from '@/features/assets/routes/AssetsRoutes';
 import { ShareViewer } from '@/features/sharing/viewer/ShareViewer';
+import { RemindersRoutes } from '@/features/reminders/routes/RemindersRoutes';
 import '@/lib/i18n';
 
 const rootEl = document.getElementById('root');
@@ -17,6 +18,7 @@ if (rootEl) {
           <Routes>
             <Route path="/will/wizard/*" element={<WillWizardRoutes />} />
             <Route path="/assets/*" element={<AssetsRoutes />} />
+            <Route path="/reminders/*" element={<RemindersRoutes />} />
             <Route path="/share/:shareId" element={<ShareViewer />} />
             <Route
               path="/"

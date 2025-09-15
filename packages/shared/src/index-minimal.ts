@@ -8,3 +8,6 @@ export * from './supabase/client';
 // Minimal config exports helpful for UI wiring
 export * from './config/domains';
 export * from './config/languages';
+
+// Reminders (exposed for web UI)
+export * from './services/reminders/reminder.service';

@@ -95,6 +95,10 @@ export function TopBar() {
             </div>
             <LanguageSwitcher />
             <CountryMenu />
+            {/* Reminders link (Bell) */}
+            <a href="/reminders" aria-label="Open Reminders" className="text-slate-200 hover:text-white hover:bg-slate-800/50 px-2 py-1 rounded">
+              <span role="img" aria-hidden>🔔</span>
+            </a>
             <UserIcon />
           </div>
         </div>
