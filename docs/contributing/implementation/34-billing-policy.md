@@ -31,7 +31,7 @@ CONSTRAINTS:
 - UI English baseline; localize into CZ/SK; no secrets logging
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/billing-policy-ui
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Staging tests for cancel/upgrade/downgrade; trial/grace messaging verified

@@ -1,6 +1,6 @@
 # Implementation Kickoff Prompts by Spec (SEATBELT: ON)
 
-This document provides ready-to-use SEATBELT: ON prompts to start implementation safely and consistently across all major specs. Copy a prompt, adjust details, and use it to kick off a feature branch.
+This document provides ready-to-use SEATBELT: ON prompts to start implementation safely and consistently across all major specs. Copy a prompt, adjust details, and use it to kick off a main-branch implementation session.
 
 Index
 - 01. Multi-domain top bar & language auto-detect
@@ -25,7 +25,7 @@ Index
 
 How to use
 - Pick the relevant prompt, fill blanks, and paste it to start the implementation session.
-- Keep scopes to 3–6 bullets. Split larger scopes into multiple prompts/branches.
+- Keep scopes to 3–6 bullets. Split larger scopes into multiple prompts/sessions.
 
 ---
 
@@ -54,7 +54,7 @@ CONSTRAINTS:
 - Respect VITE_IS_PRODUCTION redirect gating
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/topbar-multidomain
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - lint/build pass; basic a11y for header; docs updated
@@ -81,7 +81,7 @@ CONSTRAINTS:
 - UI strings English; simulation message in Czech only
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/redirect-gating
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Manual verification for CZ/SK domains
@@ -109,7 +109,7 @@ CONSTRAINTS:
 - Keep domain matrices in sync with docs; UI strings English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/i18n-34-baseline
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - i18n smoke tests pass; docs updated
@@ -138,7 +138,7 @@ CONSTRAINTS:
 - Secrets via env; no secrets printed; follow least privilege
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/logging-supabase
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Test errors flow end-to-end in staging
@@ -166,7 +166,7 @@ CONSTRAINTS:
 - Secrets via env; do not log raw queries; i18n UI text English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/search-hashed-index
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Privacy review; unit tests for hashing path
@@ -193,7 +193,7 @@ CONSTRAINTS:
 - Least privilege; no leaking PII in logs
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/identity-rls-guardrails
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - RLS tests pass
@@ -220,7 +220,7 @@ CONSTRAINTS:
 - i18n 34 languages; legal terms per language-country; UI strings English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/will-engine
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests for compliance rules
@@ -247,7 +247,7 @@ CONSTRAINTS:
 - i18n 34; accessibility; UI text English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/will-wizard
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - E2E happy-path test for CZ/SK
@@ -274,7 +274,7 @@ CONSTRAINTS:
 - UI English; country logic from engine
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/real-time-compliance
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit/UI tests for validations
@@ -301,7 +301,7 @@ CONSTRAINTS:
 - i18n 34; UI English; a11y for print styles
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/output-generation
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Visual check of PDFs; print CSS validated
@@ -329,7 +329,7 @@ CONSTRAINTS:
 - Privacy-aware logging; UI English; i18n where visible
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/auto-will-updates
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit/E2E tests for change detection and rollback
@@ -356,7 +356,7 @@ CONSTRAINTS:
 - i18n 34; UI English; a11y
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/assets-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit/UI tests for CRUD and summaries
@@ -383,7 +383,7 @@ CONSTRAINTS:
 - Privacy rules; UI English; i18n for viewer
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/sharing-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Security review; link lifecycle tests
@@ -410,7 +410,7 @@ CONSTRAINTS:
 - UI English; email via Resend if used; privacy-aware
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/reminders-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests for schedules/triggers; QA checklist
@@ -438,7 +438,7 @@ CONSTRAINTS:
 - Secrets via env; privacy rules; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/documents-ocr
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - OCR accuracy smoke test; storage/security review
@@ -466,7 +466,7 @@ CONSTRAINTS:
 - UI English; Resend for email; privacy-aware
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/subscriptions-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests; email template QA
@@ -493,7 +493,7 @@ CONSTRAINTS:
 - i18n 34; each country ≥4 languages; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/countries-expansion
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - QA per country checklist
@@ -520,7 +520,7 @@ CONSTRAINTS:
 - i18n 34; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/language-rules-enforcement
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Spot-check affected countries
@@ -547,7 +547,7 @@ CONSTRAINTS:
 - Secrets via env; UI English; i18n for visible text
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/search-ui
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Privacy review; E2E test of query flow

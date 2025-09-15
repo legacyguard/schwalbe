@@ -28,7 +28,7 @@ CONSTRAINTS:
 - i18n 34; UI English; a11y
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/assets-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit/UI tests for CRUD and summaries
@@ -58,7 +58,7 @@ CONSTRAINTS:
 - i18n 34; UI English; a11y
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/assets-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit/UI CRUD tests

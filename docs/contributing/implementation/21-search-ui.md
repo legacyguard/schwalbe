@@ -28,7 +28,7 @@ CONSTRAINTS:
 - Secrets via env; UI English; i18n for visible text
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/search-ui
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Privacy review; E2E query flow test
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - Secrets via env; UI English; i18n for visible text
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/search-ui
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Privacy review; E2E query flow test

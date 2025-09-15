@@ -28,7 +28,7 @@ CONSTRAINTS:
 - i18n 34; a11y; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/will-wizard
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - E2E happy path for CZ/SK
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - i18n 34; a11y; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/will-wizard
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - E2E happy path for CZ/SK

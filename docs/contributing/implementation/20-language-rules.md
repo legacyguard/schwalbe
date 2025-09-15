@@ -29,7 +29,7 @@ CONSTRAINTS:
 - i18n 34; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/language-rules
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Spot checks of adjusted countries
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - i18n 34; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/language-rules
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Spot checks of adjusted countries

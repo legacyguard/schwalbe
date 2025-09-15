@@ -36,7 +36,7 @@ How this repository supports auto-docs
 - scripts/collect_feature_context.sh gathers context from staged changes, recent commits, endpoints, envs, and src tree.
 - scripts/collect_feature_context.sh gathers context from staged changes, recent commits, endpoints, envs, and src tree.
 - .git/hooks/pre-commit (local only; not versioned) can invoke your agent CLI to generate the spec before commit.
-- GitHub Actions (.github/workflows/build-auto-doc.yml) can run the agent on feature branches after build/tests pass, commit the doc, and push.
+- GitHub Actions (.github/workflows/build-auto-doc.yml) can run the agent after build/tests pass, commit the doc, and push on main.
 
 Manual workflow (minimal)
 - Optional local guard command: npm run doc:guard (runs typecheck, lint, and tests).

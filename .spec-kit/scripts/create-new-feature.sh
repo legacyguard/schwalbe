@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Create a new feature with branch, directory structure, and template
+# Create a new feature spec directory and template (main-only; no git branches)
 # Usage: ./create-new-feature.sh "feature description"
 #        ./create-new-feature.sh --json "feature description"
 
@@ -67,8 +67,8 @@ WORDS=$(echo "$BRANCH_NAME" | tr '-' '\n' | grep -v '^$' | head -3 | tr '\n' '-'
 # Final branch name
 BRANCH_NAME="${FEATURE_NUM}-${WORDS}"
 
-# Create and switch to new branch
-git checkout -b "$BRANCH_NAME"
+# Main-only policy: do not create or switch branches
+# We will name the spec directory using the generated feature number and slug, but remain on 'main'.
 
 # Create feature directory
 FEATURE_DIR="$SPECS_DIR/$BRANCH_NAME"

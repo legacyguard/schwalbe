@@ -28,7 +28,7 @@ CONSTRAINTS:
 - UI strings English; 34 total languages
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/i18n-34-baseline
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - i18n smoke tests pass; docs updated
@@ -91,7 +91,7 @@ CONSTRAINTS:
 - UI strings in English; total languages = 34 (docs already updated)
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/i18n-34-baseline
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Manual switcher check for CZ/SK

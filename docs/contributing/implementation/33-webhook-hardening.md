@@ -32,7 +32,7 @@ CONSTRAINTS:
 - No secrets in logs; PII minimization
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/webhook-hardening
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Simulate duplicate + bad signature; verify behavior and alerting

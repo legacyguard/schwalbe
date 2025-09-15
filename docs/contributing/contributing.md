@@ -11,7 +11,7 @@ What “SEATBELT: ON” means
 
 Quick one‑liner (copy/paste)
 ```
-SEATBELT: ON | MODE: IMPLEMENT | REPO: schwalbe | FEATURE: <name> | BRANCH: <feature/name> | SCOPE: <bulleted steps> | DELIVERABLES: <diffs, tests, docs> | CONSTRAINTS: <key rules> | PERMISSIONS: {edit_code: yes, readonly_cmds: yes, run_tests: yes, commit: ask} | DEADLINE: <when>
+SEATBELT: ON | MODE: IMPLEMENT | REPO: schwalbe | FEATURE: <name> | BRANCH: main | SCOPE: <bulleted steps> | DELIVERABLES: <diffs, tests, docs> | CONSTRAINTS: <key rules> | PERMISSIONS: {edit_code: yes, readonly_cmds: yes, run_tests: yes, commit: ask} | DEADLINE: <when>
 ```
 
 Standard template
@@ -41,7 +41,7 @@ PERMISSIONS:
 - run read‑only commands (build/test/lint): yes
 - run migrations or destructive ops: no (ask first)
 - commit: ask before commit
-BRANCH: feature/<name>
+BRANCH: main
 RISK TOLERANCE: low | medium | high
 CHECKS BEFORE DONE:
 - build/test pass
@@ -73,7 +73,7 @@ CONSTRAINTS:
 - No interactive commands; no push without confirmation
 PERMISSIONS:
 - edit code: yes; read‑only cmds: yes; commit: ask
-BRANCH: feature/redirect-gating
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - manual verification for CZ/SK domains
@@ -82,7 +82,7 @@ CHECKS BEFORE DONE:
 Usage tips
 - You can leave some fields blank if unknown (I’ll ask concise follow‑ups).
 - Keep SCOPE to 3–6 bullet points; split work if it grows.
-- Prefer one feature branch per SEATBELT prompt.
+- Commit directly to main; avoid creating feature branches.
 
 Related docs
 - See docs/contributing/coding-conventions.md for branching and conventional commit guidance.

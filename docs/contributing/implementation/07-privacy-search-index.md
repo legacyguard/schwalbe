@@ -29,7 +29,7 @@ CONSTRAINTS:
 - Salt via env; do not log raw queries
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/search-hashed-index
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests for tokenization/hashing
@@ -71,7 +71,7 @@ CONSTRAINTS:
 - SALT from env; no raw-term logging; UI text English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/search-hashed-index
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests cover tokenization/hashing consistency

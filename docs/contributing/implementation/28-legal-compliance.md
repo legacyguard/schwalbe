@@ -34,7 +34,7 @@ CONSTRAINTS:
 - UI strings in English by default; switchable via i18n; no tracking before consent
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/legal-pages-consent
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Manual check of all pages in EN/CZ/SK; consent row created on accept

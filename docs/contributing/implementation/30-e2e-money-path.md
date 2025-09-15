@@ -32,7 +32,7 @@ CONSTRAINTS:
 - No secrets printed in logs; mask Stripe keys
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: test/e2e-money-path
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - CI run green; artifacts show screenshots/videos on failure

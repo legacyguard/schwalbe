@@ -11,13 +11,13 @@ get_current_branch() {
     git rev-parse --abbrev-ref HEAD
 }
 
-# Check if current branch is a feature branch
-# Returns 0 if valid, 1 if not
+# Check branch policy (main-only)
+# Returns 0 if on main, 1 otherwise
 check_feature_branch() {
     local branch="$1"
-    if [[ ! "$branch" =~ ^[0-9]{3}- ]]; then
-        echo "ERROR: Not on a feature branch. Current branch: $branch"
-        echo "Feature branches should be named like: 001-feature-name"
+    if [[ "$branch" != "main" ]]; then
+        echo "ERROR: Branch policy is main-only. Current branch: $branch"
+        echo "Please work directly on 'main'."
         return 1
     fi
     return 0

@@ -20,7 +20,7 @@ source "$SCRIPT_DIR/common.sh"
 # Get all paths
 eval $(get_feature_paths)
 
-# Check if on feature branch
+# Enforce main-only policy
 check_feature_branch "$CURRENT_BRANCH" || exit 1
 
 # Create specs directory if it doesn't exist

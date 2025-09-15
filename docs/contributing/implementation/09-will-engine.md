@@ -28,7 +28,7 @@ CONSTRAINTS:
 - i18n 34; legal terms per language-country; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/will-engine
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests for rule validation
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - i18n 34; legal terms by language-country; UI English
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/will-engine
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests for compliance rules

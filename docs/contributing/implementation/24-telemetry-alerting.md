@@ -28,7 +28,7 @@ CONSTRAINTS:
 - No secrets in alerts; rate-limit to avoid noise
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/telemetry-alerting
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Staging alert test; runbook walkthrough
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - No secrets in alerts; rate-limit
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: chore/telemetry-alerting
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Staging alert test; runbook walkthrough

@@ -52,6 +52,11 @@ export interface DraftResult {
   form: WillForm
   content: string
   validation: ValidationResult
+  // Optional metadata useful for downstream output generation (checksum, title, etc.)
+  metadata?: {
+    title?: string
+    checksum?: string
+  }
 }
 
 // Rules

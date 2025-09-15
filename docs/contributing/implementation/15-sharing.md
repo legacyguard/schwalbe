@@ -28,7 +28,7 @@ CONSTRAINTS:
 - Privacy rules; UI English; i18n for viewer
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/sharing-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Security review; lifecycle tests
@@ -59,7 +59,7 @@ CONSTRAINTS:
 - Privacy rules; UI English; i18n for viewer
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/sharing-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Security review; lifecycle tests

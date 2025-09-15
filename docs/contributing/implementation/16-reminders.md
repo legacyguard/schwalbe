@@ -28,7 +28,7 @@ CONSTRAINTS:
 - UI English; email via Resend if used; privacy aware
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/reminders-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests for schedules/triggers; QA checklist
@@ -58,7 +58,7 @@ CONSTRAINTS:
 - UI English; email via Resend; privacy-aware
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/reminders-core
+BRANCH: main
 RISK TOLERANCE: medium
 CHECKS BEFORE DONE:
 - Unit tests for schedules/triggers
