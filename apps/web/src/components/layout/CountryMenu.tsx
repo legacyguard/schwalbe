@@ -4,16 +4,19 @@ import { ChevronDown, Globe } from 'lucide-react'
 import {
   COUNTRY_DOMAINS,
   getEnabledDomains,
-  buildCountryUrl,
-  isProduction,
   type CountryDomain,
   getDomainByHost,
   DEFAULT_COUNTRY,
 } from '@schwalbe/shared'
 import { getCurrentHost } from '@/lib/locale'
+import { redirectToCountryOrSimulate, type RedirectSimulationTarget } from '@/lib/utils/redirect-guard'
+import { RedirectSimulationModal } from '@/components/modals/RedirectSimulationModal'
 
 export function CountryMenu() {
   const [open, setOpen] = useState(false)
+  const [simOpen, setSimOpen] = useState(false)
+  const [simTargets, setSimTargets] = useState<RedirectSimulationTarget[]>([])
+
   const enabled = useMemo(() => new Set(getEnabledDomains().map((c) => c.code)), [])
   const items = useMemo<CountryDomain[]>(() => {
     const list = [...COUNTRY_DOMAINS]
@@ -34,13 +37,11 @@ export function CountryMenu() {
   }, [])
 
   const handleSelect = (code: string) => {
-    const url = buildCountryUrl(code)
-    if (!url) return
-    if (isProduction()) {
-      window.location.href = url
-    } else {
-      // Redirect simulation per project rule (Czech text allowed here)
-      window.alert(`Simulace přesměrování na: ${url}`)
+    const outcome = redirectToCountryOrSimulate(code)
+    setOpen(false)
+    if (!outcome.didRedirect && outcome.simulationTargets) {
+      setSimTargets(outcome.simulationTargets)
+      setSimOpen(true)
     }
   }
 
@@ -98,6 +99,8 @@ export function CountryMenu() {
           </ul>
         </div>
       )}
+
+      <RedirectSimulationModal open={simOpen} onOpenChange={setSimOpen} targets={simTargets} />
     </div>
   )
 }

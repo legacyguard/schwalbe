@@ -42,9 +42,10 @@ CREATE INDEX IF NOT EXISTS idx_shield_settings_activity_check ON family_shield_s
 WHERE shield_status = 'inactive';
 
 -- Ensure one settings record per user
-CREATE UNIQUE INDEX idx_shield_settings_user_unique ON family_shield_settings(user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_shield_settings_user_unique ON family_shield_settings(user_id);
 
--- Add updated_at trigger
+-- Add updated_at trigger (idempotent)
+DROP TRIGGER IF EXISTS update_shield_settings_updated_at ON family_shield_settings;
 CREATE TRIGGER update_shield_settings_updated_at 
   BEFORE UPDATE ON family_shield_settings 
   FOR EACH ROW 
