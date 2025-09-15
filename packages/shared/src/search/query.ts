@@ -20,24 +20,21 @@ export type SearchResult = {
 }
 
 function getServerSupabase(opts?: QueryOptions): SupabaseClient {
-  const url = opts?.supabaseUrl || process.env['SUPABASE_URL'] || process.env['NEXT_PUBLIC_SUPABASE_URL'] || ''
-  const key = opts?.serviceRoleKey || process.env['SUPABASE_SERVICE_ROLE_KEY'] || process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || ''
+  const url = opts?.supabaseUrl || process.env['SUPABASE_URL'] || ''
+  const key = opts?.serviceRoleKey || process.env['SUPABASE_SERVICE_ROLE_KEY'] || ''
   if (!url || !key) {
-    throw new Error('Supabase URL or Key missing. Provide SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in env or via options.')
+    throw new Error('Supabase URL or Key missing. Provide SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in env or via options (service role recommended for server contexts).')
   }
   return createClient(url, key)
 }
 
-export async function searchByQuery(params: SearchParams, options?: QueryOptions): Promise<SearchResult[]> {
-  const { query, locale, limit = 50 } = params
-  const client = getServerSupabase(options)
-
+export async function searchHashed(args: { supabase: SupabaseClient; query: string; locale?: string; limit?: number; salt?: string }): Promise<SearchResult[]> {
+  const { supabase, query, locale, limit = 50, salt } = args
   const tokens = Array.from(new Set(tokenize(query, { locale: locale || 'en' })))
   if (tokens.length === 0) return []
-  const hashes = tokens.map((t) => hmacSha256Hex(t, options?.salt))
+  const hashes = tokens.map((t) => hmacSha256Hex(t, salt))
 
-  // Fetch rows and aggregate client-side by doc_id
-  const { data, error } = await client
+  const { data, error } = await supabase
     .from('hashed_tokens')
     .select('doc_id,tf')
     .in('hash', hashes)
@@ -52,10 +49,13 @@ export async function searchByQuery(params: SearchParams, options?: QueryOptions
     agg.set(id, (agg.get(id) || 0) + f)
   }
 
-  const results: SearchResult[] = Array.from(agg.entries())
+  return Array.from(agg.entries())
     .map(([doc_id, rank]) => ({ doc_id, rank }))
     .sort((a, b) => b.rank - a.rank)
     .slice(0, limit)
+}
 
-  return results
+export async function searchByQuery(params: SearchParams, options?: QueryOptions): Promise<SearchResult[]> {
+  const client = getServerSupabase(options)
+  return searchHashed({ supabase: client, query: params.query, locale: params.locale, limit: params.limit, salt: options?.salt })
 }

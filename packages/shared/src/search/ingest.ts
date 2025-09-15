@@ -16,10 +16,10 @@ export type IngestOptions = {
 }
 
 function getServerSupabase(opts?: IngestOptions): SupabaseClient {
-  const url = opts?.supabaseUrl || process.env['SUPABASE_URL'] || process.env['NEXT_PUBLIC_SUPABASE_URL'] || ''
-  const key = opts?.serviceRoleKey || process.env['SUPABASE_SERVICE_ROLE_KEY'] || process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || ''
+  const url = opts?.supabaseUrl || process.env['SUPABASE_URL'] || ''
+  const key = opts?.serviceRoleKey || process.env['SUPABASE_SERVICE_ROLE_KEY'] || ''
   if (!url || !key) {
-    throw new Error('Supabase URL or Key missing. Provide SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in env or via options.')
+    throw new Error('Supabase URL or Key missing. Provide SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in env or via options (service role required).')
   }
   return createClient(url, key)
 }
@@ -45,33 +45,38 @@ export function buildTokenStats(text: string, locale = 'en'): TokenStats[] {
   return result
 }
 
-export async function indexDocumentText(params: IndexDocumentParams, options?: IngestOptions): Promise<{ inserted: number }>{
-  const { docId, text, locale } = params
-  const client = getServerSupabase(options)
+export async function ingestHashedIndex(args: { supabase: SupabaseClient; docId: string; text: string; locale?: string; salt?: string; chunkSize?: number }): Promise<{ inserted: number }>{
+  const { supabase, docId, text, locale, salt, chunkSize } = args
 
   // Build token stats and hash them
   const stats = buildTokenStats(text, locale || 'en')
   const rows = stats.map((s) => ({
     doc_id: docId,
-    hash: hmacSha256Hex(s.token, options?.salt),
+    hash: hmacSha256Hex(s.token, salt),
     tf: s.freq,
     positions: s.positions,
   }))
 
   // Replace existing index for the document
-  const delRes = await client.from('hashed_tokens').delete().eq('doc_id', docId)
+  const delRes = await supabase.from('hashed_tokens').delete().eq('doc_id', docId)
   if (delRes.error) throw delRes.error
 
   if (rows.length === 0) return { inserted: 0 }
 
-  const chunkSize = options?.chunkSize ?? 1000
+  const size = chunkSize ?? 1000
   let inserted = 0
-  for (let i = 0; i < rows.length; i += chunkSize) {
-    const chunk = rows.slice(i, i + chunkSize)
-    const insRes = await client.from('hashed_tokens').insert(chunk)
+  for (let i = 0; i < rows.length; i += size) {
+    const chunk = rows.slice(i, i + size)
+    const insRes = await supabase.from('hashed_tokens').insert(chunk)
     if (insRes.error) throw insRes.error
     inserted += chunk.length
   }
 
   return { inserted }
+}
+
+export async function indexDocumentText(params: IndexDocumentParams, options?: IngestOptions): Promise<{ inserted: number }>{
+  const { docId, text, locale } = params
+  const client = getServerSupabase(options)
+  return ingestHashedIndex({ supabase: client, docId, text, locale, salt: options?.salt, chunkSize: options?.chunkSize })
 }
