@@ -40,6 +40,23 @@ export interface Database {
         }
         Update: Partial<Database['public']['Tables']['documents']['Row']>
       }
+      assets: {
+        Row: {
+          id: string
+          user_id: string
+          category: 'property' | 'vehicle' | 'financial' | 'business' | 'personal'
+          name?: string | null
+          estimated_value?: number | null
+          currency?: string | null
+          acquired_at?: string | null
+          notes?: string | null
+          metadata?: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: Partial<Database['public']['Tables']['assets']['Row']>
+        Update: Partial<Database['public']['Tables']['assets']['Row']>
+      }
       scenarios: {
         Row: {
           created_at: string

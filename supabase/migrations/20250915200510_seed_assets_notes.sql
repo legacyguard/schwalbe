@@ -1,0 +1,2 @@
+-- Seed minimal category templates (optional, stored in a lookup table if needed later)
+-- This migration focuses on core assets table only.

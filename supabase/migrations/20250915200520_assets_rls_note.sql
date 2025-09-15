@@ -1,0 +1,3 @@
+-- Supabase client-side validation helper policies to ensure least privilege remain intact
+-- This file is a placeholder to document that assets RLS relies on auth.uid()
+-- and no cross-user access is permitted.
