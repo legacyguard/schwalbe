@@ -1,5 +1,5 @@
 -- Create Family Guidance Manual entries table for Family Shield
-CREATE TABLE family_guidance_entries (
+CREATE TABLE IF NOT EXISTS family_guidance_entries (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   entry_type VARCHAR(50) NOT NULL CHECK (entry_type IN (
@@ -15,20 +15,12 @@ CREATE TABLE family_guidance_entries (
   title TEXT NOT NULL,
   content TEXT NOT NULL,
   is_completed BOOLEAN DEFAULT false,
--- supabase/migrations/20250825163000_create_survivor_manual_entries.sql
-
-CREATE TABLE IF NOT EXISTS survivor_manual_entries (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   priority INTEGER NOT NULL DEFAULT 1 CHECK (priority > 0),
   tags TEXT[] NOT NULL DEFAULT ARRAY[]::text[],
   related_document_ids UUID[] NOT NULL DEFAULT ARRAY[]::uuid[],
   is_auto_generated BOOLEAN DEFAULT false,
-  -- ... other columns ...
-);
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 -- Add RLS (Row Level Security)
