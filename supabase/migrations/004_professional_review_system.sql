@@ -17,15 +17,21 @@ BEGIN
 END
 $$;
 
--- Professional Review Fields for Documents Table
-ALTER TABLE documents 
-ADD COLUMN IF NOT EXISTS professional_review_status TEXT DEFAULT 'none' 
-    CHECK (professional_review_status IN ('none', 'requested', 'in_progress', 'completed', 'cancelled')),
-ADD COLUMN IF NOT EXISTS professional_review_score INTEGER CHECK (professional_review_score >= 0 AND professional_review_score <= 100),
-ADD COLUMN IF NOT EXISTS professional_review_date TIMESTAMPTZ,
-ADD COLUMN IF NOT EXISTS professional_reviewer_id UUID,
-ADD COLUMN IF NOT EXISTS review_findings JSONB DEFAULT '[]'::jsonb,
-ADD COLUMN IF NOT EXISTS review_recommendations JSONB DEFAULT '[]'::jsonb;
+-- Professional Review Fields for Documents Table (guarded if documents table exists)
+DO $$
+BEGIN
+  IF to_regclass('public.documents') IS NOT NULL THEN
+    ALTER TABLE public.documents 
+      ADD COLUMN IF NOT EXISTS professional_review_status TEXT DEFAULT 'none' 
+          CHECK (professional_review_status IN ('none', 'requested', 'in_progress', 'completed', 'cancelled')),
+      ADD COLUMN IF NOT EXISTS professional_review_score INTEGER CHECK (professional_review_score >= 0 AND professional_review_score <= 100),
+      ADD COLUMN IF NOT EXISTS professional_review_date TIMESTAMPTZ,
+      ADD COLUMN IF NOT EXISTS professional_reviewer_id UUID,
+      ADD COLUMN IF NOT EXISTS review_findings JSONB DEFAULT '[]'::jsonb,
+      ADD COLUMN IF NOT EXISTS review_recommendations JSONB DEFAULT '[]'::jsonb;
+  END IF;
+END
+$$;
 
 -- Quick Insights Tables
 CREATE TABLE IF NOT EXISTS quick_insights (
