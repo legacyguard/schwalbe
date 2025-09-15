@@ -16,13 +16,13 @@ RETURNS TEXT
 LANGUAGE plpgsql
 IMMUTABLE
 STRICT
-AS $
+AS $$
 BEGIN
   -- File path format: "user_123abc/file.pdf"
   -- Extract first part before first slash
   RETURN split_part(file_path, '/', 1);
 END;
-$;
+$$;
 -- Politiky pre Storage sa musia nastaviť zvlášť, keďže nie sú súčasťou štandardných migrácií DB.
 -- Tieto politiky zabezpečia, že používatelia môžu manipulovať len so svojimi súbormi.
 
