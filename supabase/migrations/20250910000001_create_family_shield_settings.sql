@@ -16,6 +16,11 @@ CREATE TABLE IF NOT EXISTS family_shield_settings (
 -- Add RLS (Row Level Security)
 ALTER TABLE family_shield_settings ENABLE ROW LEVEL SECURITY;
 
+-- Ensure idempotent policies
+DROP POLICY IF EXISTS "Users can view own shield settings" ON family_shield_settings;
+DROP POLICY IF EXISTS "Users can insert own shield settings" ON family_shield_settings;
+DROP POLICY IF EXISTS "Users can update own shield settings" ON family_shield_settings;
+
 -- Policy: Users can only see their own settings
 CREATE POLICY "Users can view own shield settings" ON family_shield_settings
   FOR SELECT USING (auth.uid() = user_id);
