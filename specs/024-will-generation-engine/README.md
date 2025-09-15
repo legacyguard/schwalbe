@@ -1,5 +1,72 @@
 # Will Generation Engine - Specification 024
 
+## Implementation status (CZ/SK MVP)
+
+This iteration implements a minimal will generation engine for Czech Republic (CZ) and Slovakia (SK) focusing on:
+- Engine structure at packages/logic/src/will/
+- Jurisdiction rules for CZ and SK (witness/signature, age) under rules/
+- Minimal localized templates for en/cs/sk under templates/
+- Unit tests verifying compliance rules and template rendering
+
+### Engine API (packages/logic)
+
+```
+interface Person { id: string; fullName: string; age?: number; isBeneficiary?: boolean }
+interface Beneficiary { id: string; name: string; relationship?: string }
+
+type JurisdictionCode = 'CZ' | 'SK'
+type WillForm = 'holographic' | 'typed'
+
+interface WillInput {
+  jurisdiction: JurisdictionCode
+  language: 'en' | 'cs' | 'sk'
+  form: WillForm
+  testator: Person & { address?: string }
+  beneficiaries: Beneficiary[]
+  executorName?: string
+  signatures: { testatorSigned: boolean; witnessesSigned?: boolean }
+  witnesses?: Person[]
+}
+
+class WillEngine {
+  generate(input: WillInput): { content: string; validation: { isValid: boolean; errors: any[]; warnings: any[] } }
+}
+```
+
+Usage example:
+
+```
+import { WillEngine } from '@schwalbe/logic'
+
+const engine = new WillEngine()
+const result = engine.generate({
+  jurisdiction: 'CZ',
+  language: 'cs',
+  form: 'typed',
+  testator: { id: 't1', fullName: 'Jan Novak', age: 30, address: 'Prague' },
+  beneficiaries: [{ id: 'b1', name: 'Anna Novak' }],
+  executorName: 'Petr Sef',
+  signatures: { testatorSigned: true, witnessesSigned: true },
+  witnesses: [
+    { id: 'w1', fullName: 'Witness One', age: 21 },
+    { id: 'w2', fullName: 'Witness Two', age: 22 },
+  ],
+})
+```
+
+### Validation summary (not legal advice)
+- CZ/SK typed: require 2 witnesses, beneficiary cannot be a witness; testator and witness signatures must be present
+- CZ/SK holographic: no witnesses required; testator signature required
+- Age checks: typed >= 18, holographic >= 15
+
+### i18n constraints
+- The engine supports languages: en, cs, sk for this MVP; project-wide i18n remains at 34 supported languages overall.
+- All code and comments remain in English; only templates include localized legal phrasing.
+
+### Tests
+- See packages/logic/src/__tests__/will/willEngine.test.ts
+- Run: npm --workspace @schwalbe/logic test -- src/__tests__/will/willEngine.test.ts
+
 ## Overview
 
 The Will Generation Engine represents a critical component of Schwalbe's estate planning platform, providing automated legal document generation with jurisdiction-aware templates, real-time validation, and professional PDF output. This specification covers the incremental implementation of Phase 11 from the high-level-plan.md.
