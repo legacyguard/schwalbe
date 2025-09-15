@@ -11,3 +11,10 @@ export function useEngineDraft(input: WillInput) {
   const engine = useMemo(() => new WillEngine(), [])
   return useMemo(() => engine.generate(input), [engine, input])
 }
+
+// Convenience type guards
+export type EngineIssue = ReturnType<typeof useEngineValidation> extends infer R
+  ? R extends { errors: infer E; warnings: infer W }
+    ? (E extends Array<infer EI> ? EI : never) | (W extends Array<infer WI> ? WI : never)
+    : never
+  : never
