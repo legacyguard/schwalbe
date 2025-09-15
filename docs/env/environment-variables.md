@@ -34,6 +34,9 @@ Production Checklist
 - HTTPS used
 Evidence: /Users/luborfedak/Documents/Github/hollywood/docs/ENVIRONMENT_VARIABLES.md:64-76
 
+Supabase (functions/server) – additional
+- SEARCH_INDEX_SALT (server-only; used for HMAC hashing of search tokens; rotate with reindex plan)
+
 Security Notes
 - Never commit .env files; use .env.local and platform env UIs (e.g., Vercel)
 - Rotate keys regularly; separate dev vs prod

@@ -10,6 +10,10 @@
       "import": "./dist/index-minimal.js",
       "types": "./dist/index-minimal.d.ts"
     },
+    "./search": {
+      "import": "./dist/search/index.js",
+      "types": "./dist/search/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -30,6 +34,10 @@
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.3.1",
+    "jest": "^30.1.3",
+    "ts-jest": "^29.4.1",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
