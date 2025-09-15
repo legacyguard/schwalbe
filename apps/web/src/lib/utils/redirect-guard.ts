@@ -1,4 +1,17 @@
 // Simple redirect guard to prevent redirect loops
+import { buildCountryUrl, getEnabledDomains, isProduction } from '@schwalbe/shared'
+
+export interface RedirectSimulationTarget {
+  code: string
+  host: string
+  url: string
+}
+
+export interface RedirectOutcome {
+  didRedirect: boolean
+  simulationTargets?: RedirectSimulationTarget[]
+}
+
 class RedirectGuardClass {
   private redirectHistory: string[] = [];
   private readonly maxRedirects = 3;
@@ -33,3 +46,25 @@ class RedirectGuardClass {
 }
 
 export const RedirectGuard = new RedirectGuardClass();
+
+// Gate country redirect by environment.
+// - Production: perform real redirect to buildCountryUrl(code)
+// - Non-production: return a list of simulation targets for all enabled domains (no navigation)
+export function redirectToCountryOrSimulate(code: string): RedirectOutcome {
+  const targetUrl = buildCountryUrl(code)
+
+  if (isProduction()) {
+    if (targetUrl && RedirectGuard.canRedirect(targetUrl)) {
+      window.location.href = targetUrl
+      return { didRedirect: true }
+    }
+    return { didRedirect: false }
+  }
+
+  // Non-production: prepare simulation for all enabled domains
+  const simTargets: RedirectSimulationTarget[] = getEnabledDomains()
+    .map((d) => ({ code: d.code, host: d.host, url: buildCountryUrl(d.code) || '' }))
+    .filter((t) => !!t.url)
+
+  return { didRedirect: false, simulationTargets: simTargets }
+}
