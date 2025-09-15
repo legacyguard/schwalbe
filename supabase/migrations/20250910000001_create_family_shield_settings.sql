@@ -1,7 +1,7 @@
 -- Create Family Shield settings table for Dead Man Switch configuration
 -- Part of emergency protection system migration from Hollywood
 
-CREATE TABLE family_shield_settings (
+CREATE TABLE IF NOT EXISTS family_shield_settings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   inactivity_period_months INTEGER DEFAULT 6 CHECK (inactivity_period_months > 0),
@@ -15,6 +15,11 @@ CREATE TABLE family_shield_settings (
 
 -- Add RLS (Row Level Security)
 ALTER TABLE family_shield_settings ENABLE ROW LEVEL SECURITY;
+
+-- Ensure idempotent policies
+DROP POLICY IF EXISTS "Users can view own shield settings" ON family_shield_settings;
+DROP POLICY IF EXISTS "Users can insert own shield settings" ON family_shield_settings;
+DROP POLICY IF EXISTS "Users can update own shield settings" ON family_shield_settings;
 
 -- Policy: Users can only see their own settings
 CREATE POLICY "Users can view own shield settings" ON family_shield_settings
@@ -31,15 +36,16 @@ CREATE POLICY "Users can update own shield settings" ON family_shield_settings
     WITH CHECK (auth.uid() = user_id);
 
 -- Add indexes for performance
-CREATE INDEX idx_shield_settings_user_id ON family_shield_settings(user_id);
-CREATE INDEX idx_shield_settings_status ON family_shield_settings(shield_status);
-CREATE INDEX idx_shield_settings_activity_check ON family_shield_settings(last_activity_check) 
+CREATE INDEX IF NOT EXISTS idx_shield_settings_user_id ON family_shield_settings(user_id);
+CREATE INDEX IF NOT EXISTS idx_shield_settings_status ON family_shield_settings(shield_status);
+CREATE INDEX IF NOT EXISTS idx_shield_settings_activity_check ON family_shield_settings(last_activity_check) 
 WHERE shield_status = 'inactive';
 
 -- Ensure one settings record per user
-CREATE UNIQUE INDEX idx_shield_settings_user_unique ON family_shield_settings(user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_shield_settings_user_unique ON family_shield_settings(user_id);
 
--- Add updated_at trigger
+-- Add updated_at trigger (idempotent)
+DROP TRIGGER IF EXISTS update_shield_settings_updated_at ON family_shield_settings;
 CREATE TRIGGER update_shield_settings_updated_at 
   BEFORE UPDATE ON family_shield_settings 
   FOR EACH ROW 

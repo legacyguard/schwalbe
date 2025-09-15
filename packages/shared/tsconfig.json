@@ -11,7 +11,9 @@
     "src/types/emergency.ts",
     "src/supabase/client.ts",
     "src/config/domains.ts",
-    "src/config/languages.ts"
+    "src/config/languages.ts",
+    "src/search/**/*.ts",
+    "src/search.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.test.*"]
 }

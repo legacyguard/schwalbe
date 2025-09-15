@@ -4,22 +4,34 @@
 -- Enable UUID extension if not already enabled
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Trust Score Fields for Wills Table
-ALTER TABLE wills 
-ADD COLUMN IF NOT EXISTS trust_score INTEGER DEFAULT 0 CHECK (trust_score >= 0 AND trust_score <= 100),
-ADD COLUMN IF NOT EXISTS trust_factors JSONB DEFAULT '[]'::jsonb,
-ADD COLUMN IF NOT EXISTS last_trust_calculation TIMESTAMPTZ,
-ADD COLUMN IF NOT EXISTS trust_score_history JSONB DEFAULT '[]'::jsonb;
+-- Trust Score Fields for Wills Table (guarded if wills table exists)
+DO $$
+BEGIN
+  IF to_regclass('public.wills') IS NOT NULL THEN
+    ALTER TABLE public.wills 
+      ADD COLUMN IF NOT EXISTS trust_score INTEGER DEFAULT 0 CHECK (trust_score >= 0 AND trust_score <= 100),
+      ADD COLUMN IF NOT EXISTS trust_factors JSONB DEFAULT '[]'::jsonb,
+      ADD COLUMN IF NOT EXISTS last_trust_calculation TIMESTAMPTZ,
+      ADD COLUMN IF NOT EXISTS trust_score_history JSONB DEFAULT '[]'::jsonb;
+  END IF;
+END
+$$;
 
--- Professional Review Fields for Documents Table
-ALTER TABLE documents 
-ADD COLUMN IF NOT EXISTS professional_review_status TEXT DEFAULT 'none' 
-    CHECK (professional_review_status IN ('none', 'requested', 'in_progress', 'completed', 'cancelled')),
-ADD COLUMN IF NOT EXISTS professional_review_score INTEGER CHECK (professional_review_score >= 0 AND professional_review_score <= 100),
-ADD COLUMN IF NOT EXISTS professional_review_date TIMESTAMPTZ,
-ADD COLUMN IF NOT EXISTS professional_reviewer_id UUID,
-ADD COLUMN IF NOT EXISTS review_findings JSONB DEFAULT '[]'::jsonb,
-ADD COLUMN IF NOT EXISTS review_recommendations JSONB DEFAULT '[]'::jsonb;
+-- Professional Review Fields for Documents Table (guarded if documents table exists)
+DO $$
+BEGIN
+  IF to_regclass('public.documents') IS NOT NULL THEN
+    ALTER TABLE public.documents 
+      ADD COLUMN IF NOT EXISTS professional_review_status TEXT DEFAULT 'none' 
+          CHECK (professional_review_status IN ('none', 'requested', 'in_progress', 'completed', 'cancelled')),
+      ADD COLUMN IF NOT EXISTS professional_review_score INTEGER CHECK (professional_review_score >= 0 AND professional_review_score <= 100),
+      ADD COLUMN IF NOT EXISTS professional_review_date TIMESTAMPTZ,
+      ADD COLUMN IF NOT EXISTS professional_reviewer_id UUID,
+      ADD COLUMN IF NOT EXISTS review_findings JSONB DEFAULT '[]'::jsonb,
+      ADD COLUMN IF NOT EXISTS review_recommendations JSONB DEFAULT '[]'::jsonb;
+  END IF;
+END
+$$;
 
 -- Quick Insights Tables
 CREATE TABLE IF NOT EXISTS quick_insights (

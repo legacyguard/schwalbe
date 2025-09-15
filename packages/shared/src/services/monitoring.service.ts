@@ -1,6 +1,76 @@
 
 import { supabase } from '../supabase/client';
 
+// Log levels for error_log
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+
+// In-memory throttle/de-dupe for alerts (server/process-local)
+const ALERT_TTL_MS = 10 * 60 * 1000; // 10 minutes
+const ALERT_LRU_MAX = 512;
+const alertCache: Map<string, number> = new Map();
+
+function stableStringify(obj: Record<string, unknown> | undefined): string {
+  if (!obj) return '';
+  try {
+    const keys = Object.keys(obj).sort();
+    const normalized: Record<string, unknown> = {};
+    for (const k of keys) normalized[k] = (obj as any)[k];
+    return JSON.stringify(normalized);
+  } catch {
+    try { return JSON.stringify(obj); } catch { return String(obj); }
+  }
+}
+
+// Simple FNV-1a hash for signatures
+function fnv1a(str: string): string {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) {
+    hash ^= str.charCodeAt(i);
+    hash = (hash + ((hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24))) >>> 0;
+  }
+  return ('0000000' + hash.toString(16)).slice(-8);
+}
+
+function makeSignature(level: LogLevel, message: string, context?: Record<string, unknown>, stack?: string): string {
+  const base = [level, message, stack || '', stableStringify(context)].join('|');
+  return fnv1a(base);
+}
+
+function shouldSendAlert(signature: string): boolean {
+  const now = Date.now();
+  const last = alertCache.get(signature);
+  if (last && now - last < ALERT_TTL_MS) return false;
+  // LRU cap
+  if (alertCache.size >= ALERT_LRU_MAX) {
+    const firstKey = alertCache.keys().next().value;
+    if (firstKey) alertCache.delete(firstKey);
+  }
+  alertCache.set(signature, now);
+  return true;
+}
+
+function getEnv(name: string): string | undefined {
+  // Avoid direct property access to prevent bundlers from inlining secrets into client bundles
+  if (typeof process !== 'undefined' && (process as any).env) {
+    return (process as any).env[name];
+  }
+  return undefined;
+}
+
+function getRuntimeEnvironment(): string {
+  if (typeof window !== 'undefined') {
+    const viteMode = (window as any)?.import?.meta?.env?.MODE || (window as any)?.VITE_ENV;
+    return String(viteMode || 'browser');
+  }
+  return getEnv('NODE_ENV') || 'server';
+}
+
+function getAppVersion(): string {
+  // Prefer explicit env var; do not use package.json import to keep this lightweight
+  const v = getEnv('APP_VERSION') || getEnv('NEXT_PUBLIC_APP_VERSION') || getEnv('EXPO_PUBLIC_APP_VERSION');
+  return v || 'unknown';
+}
+
 export interface SystemHealthCheck {
   errorRate?: number;
   lastError?: string;
@@ -37,6 +107,156 @@ class MonitoringService {
   constructor() {
     this.sessionId = this.generateSessionId();
     this.startPerformanceMonitoring();
+  }
+
+  // -----------------------
+  // Error logging + alerts
+  // -----------------------
+  private isCritical(level: LogLevel) {
+    return level === 'error' || level === 'fatal';
+  }
+
+  private toStack(e: unknown): string | undefined {
+    if (!e) return undefined;
+    if (typeof e === 'string') return e;
+    if (e instanceof Error) return e.stack || e.message;
+    try {
+      return JSON.stringify(e);
+    } catch {
+      return String(e);
+    }
+  }
+
+  private async insertErrorLog(
+    level: LogLevel,
+    message: string,
+    context?: Record<string, any>,
+    stack?: string
+  ): Promise<void> {
+    try {
+      await supabase.from('error_log').insert({
+        level,
+        message,
+        context: context ?? {},
+        stack: stack ?? null,
+      });
+    } catch (err) {
+      console.error('Failed to persist error_log:', err);
+    }
+  }
+
+  private async sendCriticalAlert(
+    level: LogLevel,
+    message: string,
+    context?: Record<string, any>,
+    stack?: string
+  ): Promise<void> {
+    if (!this.isCritical(level)) return;
+
+    // Throttle/de-dupe
+    const signature = makeSignature(level, message, context, stack);
+    if (!shouldSendAlert(signature)) return;
+
+    // Prefer to send from server/edge only (least privilege). If in browser, try using functions.invoke with user auth.
+    const isBrowser = typeof window !== 'undefined';
+    const subject = `[${level.toUpperCase()}] Schwalbe alert: ${message.slice(0, 120)}`;
+    const body = {
+      to: getEnv('ALERT_EMAIL_TO') || undefined,
+      subject,
+      text: JSON.stringify({ level, message, context, stack }).slice(0, 5000),
+    };
+
+    try {
+      if (!isBrowser) {
+        const functionsBaseEnv = getEnv('SUPABASE_URL');
+        const functionsBase = (functionsBaseEnv || '').replace(/\/$/, '') + '/functions/v1';
+        const serviceKey = getEnv('SUPABASE_SERVICE_ROLE_KEY');
+        const anonKey = getEnv('SUPABASE_ANON_KEY');
+        const authToken = serviceKey || anonKey || '';
+        if (!functionsBaseEnv || !authToken || !getEnv('ALERT_EMAIL_TO')) {
+          console.warn('Critical alert not sent (missing server env: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ALERT_EMAIL_TO).');
+          return;
+        }
+        const res = await fetch(`${functionsBase}/send-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const details = await res.text();
+          console.error('Critical alert email failed:', details);
+        }
+      } else {
+        // Browser: use functions.invoke; requires an authenticated user session to include Authorization
+        // If not logged in, this may fail with 401 by design.
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (!sessionData?.session) {
+          console.warn('Skipping alert email in browser (no auth session).');
+          return;
+        }
+        const { error } = await supabase.functions.invoke('send-email', {
+          body,
+        });
+        if (error) {
+          console.error('Critical alert email failed (browser):', error);
+        }
+      }
+    } catch (err) {
+      console.error('Critical alert path error:', err);
+    }
+  }
+
+  async log(level: LogLevel, message: string, context?: Record<string, any>, error?: unknown): Promise<void> {
+    const stack = this.toStack(error);
+
+    // Structured console logging
+    try {
+      let userId: string | undefined;
+      try {
+        const { data } = await supabase.auth.getUser();
+        userId = data?.user?.id as string | undefined;
+      } catch {}
+      const entry = {
+        level,
+        message,
+        timestamp: new Date().toISOString(),
+        environment: getRuntimeEnvironment(),
+        app_version: getAppVersion(),
+        user_id: userId,
+        request_id: (context && (context.request_id || context.trace_id || (context as any).correlation_id)) || undefined,
+        context: context || {},
+        stack: stack || undefined,
+      };
+      const logText = JSON.stringify(entry);
+      if (level === 'error' || level === 'fatal') console.error(logText);
+      else if (level === 'warn') console.warn(logText);
+      else if (level === 'debug') console.debug ? console.debug(logText) : console.log(logText);
+      else console.info(logText);
+    } catch {}
+
+    await this.insertErrorLog(level, message, context, stack);
+    if (this.isCritical(level)) {
+      await this.sendCriticalAlert(level, message, context, stack);
+    }
+  }
+
+  debug(message: string, context?: Record<string, any>) {
+    return this.log('debug', message, context);
+  }
+  info(message: string, context?: Record<string, any>) {
+    return this.log('info', message, context);
+  }
+  warn(message: string, context?: Record<string, any>) {
+    return this.log('warn', message, context);
+  }
+  error(message: string, context?: Record<string, any>, err?: unknown) {
+    return this.log('error', message, context, err);
+  }
+  fatal(message: string, context?: Record<string, any>, err?: unknown) {
+    return this.log('fatal', message, context, err);
   }
 
   /**

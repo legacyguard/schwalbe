@@ -1,7 +1,10 @@
+-- Ensure required extensions
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- Create email_logs table for tracking sent emails
 CREATE TABLE IF NOT EXISTS public.email_logs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  to TEXT NOT NULL,
+  "to" TEXT NOT NULL,
   subject TEXT NOT NULL,
   status TEXT CHECK (status IN ('sent', 'failed', 'bounced', 'pending')) DEFAULT 'pending',
   message_id TEXT,
