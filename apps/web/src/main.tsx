@@ -6,6 +6,7 @@ import { WillWizardRoutes } from '@/features/will/wizard/routes/WillWizardRoutes
 import { AssetsRoutes } from '@/features/assets/routes/AssetsRoutes';
 import { ShareViewer } from '@/features/sharing/viewer/ShareViewer';
 import { RemindersRoutes } from '@/features/reminders/routes/RemindersRoutes';
+import { DocumentRoutes } from '@/features/documents/routes/DocumentRoutes';
 import '@/lib/i18n';
 
 const rootEl = document.getElementById('root');
@@ -18,7 +19,8 @@ if (rootEl) {
           <Routes>
             <Route path="/will/wizard/*" element={<WillWizardRoutes />} />
             <Route path="/assets/*" element={<AssetsRoutes />} />
-            <Route path="/reminders/*" element={<RemindersRoutes />} />
+<Route path="/reminders/*" element={<RemindersRoutes />} />
+            <Route path="/documents/*" element={<DocumentRoutes />} />
             <Route path="/share/:shareId" element={<ShareViewer />} />
             <Route
               path="/"
@@ -30,8 +32,11 @@ if (rootEl) {
                     <Link aria-label="Start Will Wizard" className="underline text-sky-300" to="/will/wizard/start">
                       Start Will Wizard
                     </Link>
-                    <Link aria-label="Open Asset Dashboard" className="underline text-emerald-300" to="/assets">
+<Link aria-label="Open Asset Dashboard" className="underline text-emerald-300" to="/assets">
                       Asset Dashboard
+                    </Link>
+                    <Link aria-label="Open Documents" className="underline text-indigo-300" to="/documents">
+                      Documents
                     </Link>
                   </div>
                 </div>
