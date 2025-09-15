@@ -1,3 +1,32 @@
+# TopBar and Language Detection Integration
+
+This phase wires a responsive top bar with domain-aware language switching.
+
+- Country menu lists EU markets; only CZ and SK are clickable during MVP.
+- Language switcher displays only allowed languages for the current host.
+- Manual language changes call i18n.changeLanguage(...) and are persisted to localStorage under 'lg.lang'.
+- Initial locale is already computed from computePreferredLocaleFromBrowser() and remains the single source of truth at startup.
+
+Implementation notes:
+- Allowed languages come from getAllowedLanguagesForCurrentHost() which maps hostname → domain language subset.
+- Country redirects are gated by environment: if production, perform real redirect; otherwise show a Czech alert simulating the redirect URL (per rules).
+- All UI texts are in English except the redirect simulation alert.
+
+Components:
+- apps/web/src/components/layout/TopBar.tsx
+- apps/web/src/components/layout/CountryMenu.tsx
+- apps/web/src/components/layout/SearchBox.tsx (stub)
+- apps/web/src/components/layout/UserIcon.tsx (stub)
+- apps/web/src/components/layout/AppShell.tsx (optional wrapper for global header)
+
+Language labels:
+- Mapping added in packages/shared/src/config/languages.ts as LANGUAGE_LABELS_EN and helper getLanguageLabel(locale)
+- Language switcher now displays English names (e.g., Czech, Slovak, English, German, Ukrainian)
+
+Active country indicator:
+- CountryMenu determines current country by matching window.location.hostname via getDomainByHost();
+- Falls back to DEFAULT_COUNTRY for localhost; the current country is highlighted and marked with aria-current.
+
 # Phase 04 – Multi-domain Top Bar & Language Auto-detect
 
 Purpose

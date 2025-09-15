@@ -48,6 +48,48 @@ export type LocaleCode = (typeof SUPPORTED_LANGUAGES_34)[number]
 
 export type DomainHost = string // e.g., 'legacyguard.cz'
 
+// English display labels for languages
+export const LANGUAGE_LABELS_EN: Record<LocaleCode, string> = {
+  cs: 'Czech',
+  sk: 'Slovak',
+  en: 'English',
+  de: 'German',
+  uk: 'Ukrainian',
+  pl: 'Polish',
+  da: 'Danish',
+  sv: 'Swedish',
+  fi: 'Finnish',
+  fr: 'French',
+  it: 'Italian',
+  es: 'Spanish',
+  pt: 'Portuguese',
+  el: 'Greek',
+  nl: 'Dutch',
+  lt: 'Lithuanian',
+  lv: 'Latvian',
+  et: 'Estonian',
+  hu: 'Hungarian',
+  ro: 'Romanian',
+  sl: 'Slovenian',
+  hr: 'Croatian',
+  sr: 'Serbian',
+  sq: 'Albanian',
+  mk: 'Macedonian',
+  me: 'Montenegrin',
+  bg: 'Bulgarian',
+  cy: 'Welsh',
+  ga: 'Irish',
+  mt: 'Maltese',
+  is: 'Icelandic',
+  no: 'Norwegian',
+  tr: 'Turkish',
+  ru: 'Russian',
+}
+
+export function getLanguageLabel(code: LocaleCode): string {
+  return LANGUAGE_LABELS_EN[code] ?? code.toUpperCase()
+}
+
 // MVP domain → languages mapping
 export const DOMAIN_LANGUAGES: Record<DomainHost, LocaleCode[]> = {
   'legacyguard.cz': ['cs', 'sk', 'en', 'de', 'uk'],

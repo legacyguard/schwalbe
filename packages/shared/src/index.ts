@@ -26,3 +26,4 @@ export * from './supabase/client';
 // Export domain + language config
 export * from './config/domains';
 export * from './config/languages';
+export { getLanguageLabel, LANGUAGE_LABELS_EN } from './config/languages';
