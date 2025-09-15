@@ -56,14 +56,14 @@ $$ LANGUAGE plpgsql;
 
 -- Add comments
 COMMENT ON TABLE family_shield_activation_log IS 'Audit log for Family Shield activation attempts';
-COMMENT ON COLUMN emergency_activation_log.user_id IS 'User whose protocol is being activated';
-COMMENT ON COLUMN emergency_activation_log.guardian_id IS 'Guardian who initiated the activation (if applicable)';
-COMMENT ON COLUMN emergency_activation_log.activation_type IS 'How the activation was triggered';
-COMMENT ON COLUMN emergency_activation_log.status IS 'Current status of the activation request';
-COMMENT ON COLUMN emergency_activation_log.verification_token IS 'Unique token for verifying the activation';
-COMMENT ON COLUMN emergency_activation_log.token_expires_at IS 'When the verification token expires';
-COMMENT ON COLUMN emergency_activation_log.guardian_email IS 'Email of guardian who initiated (for audit)';
-COMMENT ON COLUMN emergency_activation_log.guardian_name IS 'Name of guardian who initiated (for audit)';
-COMMENT ON COLUMN emergency_activation_log.notes IS 'Additional context or notes';
-COMMENT ON COLUMN emergency_activation_log.ip_address IS 'IP address of the request';
-COMMENT ON COLUMN emergency_activation_log.user_agent IS 'User agent of the request';
+COMMENT ON COLUMN family_shield_activation_log.user_id IS 'User whose protocol is being activated';
+COMMENT ON COLUMN family_shield_activation_log.guardian_id IS 'Guardian who initiated the activation (if applicable)';
+COMMENT ON COLUMN family_shield_activation_log.activation_type IS 'How the activation was triggered';
+COMMENT ON COLUMN family_shield_activation_log.status IS 'Current status of the activation request';
+COMMENT ON COLUMN family_shield_activation_log.verification_token IS 'Unique token for verifying the activation';
+COMMENT ON COLUMN family_shield_activation_log.token_expires_at IS 'When the verification token expires';
+COMMENT ON COLUMN family_shield_activation_log.guardian_email IS 'Email of guardian who initiated (for audit)';
+COMMENT ON COLUMN family_shield_activation_log.guardian_name IS 'Name of guardian who initiated (for audit)';
+COMMENT ON COLUMN family_shield_activation_log.notes IS 'Additional context or notes';
+COMMENT ON COLUMN family_shield_activation_log.ip_address IS 'IP address of the request';
+COMMENT ON COLUMN family_shield_activation_log.user_agent IS 'User agent of the request';

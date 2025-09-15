@@ -2,7 +2,7 @@
 -- Migration from Hollywood project with adaptations for Schwalbe
 
 -- User health checks table for activity monitoring
-CREATE TABLE user_health_checks (
+CREATE TABLE IF NOT EXISTS user_health_checks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   check_type VARCHAR(30) NOT NULL CHECK (check_type IN ('login', 'document_access', 'api_ping', 'manual_confirmation')),
@@ -15,7 +15,7 @@ CREATE TABLE user_health_checks (
 );
 
 -- Emergency detection rules table (for configurable detection logic)
-CREATE TABLE emergency_detection_rules (
+CREATE TABLE IF NOT EXISTS emergency_detection_rules (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   rule_name VARCHAR(100) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE emergency_detection_rules (
 );
 
 -- Guardian notifications table
-CREATE TABLE guardian_notifications (
+CREATE TABLE IF NOT EXISTS guardian_notifications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   guardian_id UUID NOT NULL REFERENCES guardians(id) ON DELETE CASCADE,
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -55,7 +55,7 @@ CREATE TABLE guardian_notifications (
 );
 
 -- Survivor access requests table
-CREATE TABLE survivor_access_requests (
+CREATE TABLE IF NOT EXISTS survivor_access_requests (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   access_token VARCHAR(500) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE survivor_access_requests (
 );
 
 -- Emergency access audit log
-CREATE TABLE emergency_access_audit (
+CREATE TABLE IF NOT EXISTS emergency_access_audit (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   accessor_type VARCHAR(20) NOT NULL CHECK (accessor_type IN ('guardian', 'survivor', 'system', 'admin')),
@@ -94,38 +94,46 @@ CREATE TABLE emergency_access_audit (
 -- Add RLS policies for user health checks
 ALTER TABLE user_health_checks ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view own health checks" ON user_health_checks;
 CREATE POLICY "Users can view own health checks" ON user_health_checks
   FOR SELECT USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can insert own health checks" ON user_health_checks;
 CREATE POLICY "Users can insert own health checks" ON user_health_checks
   FOR INSERT WITH CHECK (user_id = auth.uid());
 
 -- Add RLS policies for emergency detection rules
 ALTER TABLE emergency_detection_rules ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can manage own detection rules" ON emergency_detection_rules;
 CREATE POLICY "Users can manage own detection rules" ON emergency_detection_rules
   FOR ALL USING (user_id = auth.uid());
 
 -- Add RLS policies for guardian notifications
 ALTER TABLE guardian_notifications ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Guardians can view own notifications" ON guardian_notifications;
 CREATE POLICY "Guardians can view own notifications" ON guardian_notifications
   FOR SELECT USING (guardian_id IN (
     SELECT id FROM guardians WHERE user_id = auth.uid() OR id = guardian_id
   ));
 
+DROP POLICY IF EXISTS "System can insert notifications" ON guardian_notifications;
 CREATE POLICY "System can insert notifications" ON guardian_notifications
   FOR INSERT WITH CHECK (false); -- Service role only
 
+DROP POLICY IF EXISTS "System can update notifications" ON guardian_notifications;
 CREATE POLICY "System can update notifications" ON guardian_notifications
   FOR UPDATE USING (false); -- Service role only
 
 -- Add RLS policies for survivor access requests
 ALTER TABLE survivor_access_requests ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Public can insert access requests" ON survivor_access_requests;
 CREATE POLICY "Public can insert access requests" ON survivor_access_requests
   FOR INSERT WITH CHECK (true); -- Allow public access for requests
 
+DROP POLICY IF EXISTS "Guardians can view requests for their users" ON survivor_access_requests;
 CREATE POLICY "Guardians can view requests for their users" ON survivor_access_requests
   FOR SELECT USING (user_id IN (
     SELECT user_id FROM guardians WHERE id = auth.uid()
@@ -134,36 +142,39 @@ CREATE POLICY "Guardians can view requests for their users" ON survivor_access_r
 -- Add RLS policies for emergency access audit
 ALTER TABLE emergency_access_audit ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view own audit logs" ON emergency_access_audit;
 CREATE POLICY "Users can view own audit logs" ON emergency_access_audit
   FOR SELECT USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "System can insert audit logs" ON emergency_access_audit;
 CREATE POLICY "System can insert audit logs" ON emergency_access_audit
   FOR INSERT WITH CHECK (false); -- Service role only
 
 -- Add indexes for performance
-CREATE INDEX idx_user_health_checks_user_id ON user_health_checks(user_id);
-CREATE INDEX idx_user_health_checks_status ON user_health_checks(status, scheduled_at);
-CREATE INDEX idx_user_health_checks_type ON user_health_checks(check_type, created_at);
+CREATE INDEX IF NOT EXISTS idx_user_health_checks_user_id ON user_health_checks(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_health_checks_status ON user_health_checks(status, scheduled_at);
+CREATE INDEX IF NOT EXISTS idx_user_health_checks_type ON user_health_checks(check_type, created_at);
 
-CREATE INDEX idx_emergency_detection_rules_user_id ON emergency_detection_rules(user_id);
-CREATE INDEX idx_emergency_detection_rules_enabled ON emergency_detection_rules(is_enabled, rule_type);
+CREATE INDEX IF NOT EXISTS idx_emergency_detection_rules_user_id ON emergency_detection_rules(user_id);
+CREATE INDEX IF NOT EXISTS idx_emergency_detection_rules_enabled ON emergency_detection_rules(is_enabled, rule_type);
 
-CREATE INDEX idx_guardian_notifications_guardian_id ON guardian_notifications(guardian_id);
-CREATE INDEX idx_guardian_notifications_user_id ON guardian_notifications(user_id);
-CREATE INDEX idx_guardian_notifications_verification_token ON guardian_notifications(verification_token) WHERE verification_token IS NOT NULL;
-CREATE INDEX idx_guardian_notifications_expires_at ON guardian_notifications(expires_at) WHERE expires_at IS NOT NULL;
-CREATE INDEX idx_guardian_notifications_priority ON guardian_notifications(priority, created_at);
+CREATE INDEX IF NOT EXISTS idx_guardian_notifications_guardian_id ON guardian_notifications(guardian_id);
+CREATE INDEX IF NOT EXISTS idx_guardian_notifications_user_id ON guardian_notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_guardian_notifications_verification_token ON guardian_notifications(verification_token) WHERE verification_token IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_guardian_notifications_expires_at ON guardian_notifications(expires_at) WHERE expires_at IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_guardian_notifications_priority ON guardian_notifications(priority, created_at);
 
-CREATE INDEX idx_survivor_access_requests_user_id ON survivor_access_requests(user_id);
-CREATE INDEX idx_survivor_access_requests_token ON survivor_access_requests(access_token);
-CREATE INDEX idx_survivor_access_requests_status ON survivor_access_requests(status, expires_at);
-CREATE INDEX idx_survivor_access_requests_email ON survivor_access_requests(requester_email);
+CREATE INDEX IF NOT EXISTS idx_survivor_access_requests_user_id ON survivor_access_requests(user_id);
+CREATE INDEX IF NOT EXISTS idx_survivor_access_requests_token ON survivor_access_requests(access_token);
+CREATE INDEX IF NOT EXISTS idx_survivor_access_requests_status ON survivor_access_requests(status, expires_at);
+CREATE INDEX IF NOT EXISTS idx_survivor_access_requests_email ON survivor_access_requests(requester_email);
 
-CREATE INDEX idx_emergency_access_audit_user_id ON emergency_access_audit(user_id);
-CREATE INDEX idx_emergency_access_audit_accessor ON emergency_access_audit(accessor_type, accessor_id);
-CREATE INDEX idx_emergency_access_audit_created_at ON emergency_access_audit(created_at);
+CREATE INDEX IF NOT EXISTS idx_emergency_access_audit_user_id ON emergency_access_audit(user_id);
+CREATE INDEX IF NOT EXISTS idx_emergency_access_audit_accessor ON emergency_access_audit(accessor_type, accessor_id);
+CREATE INDEX IF NOT EXISTS idx_emergency_access_audit_created_at ON emergency_access_audit(created_at);
 
 -- Add triggers for updated_at columns
+DROP TRIGGER IF EXISTS update_emergency_detection_rules_updated_at ON emergency_detection_rules;
 CREATE TRIGGER update_emergency_detection_rules_updated_at 
   BEFORE UPDATE ON emergency_detection_rules 
   FOR EACH ROW 

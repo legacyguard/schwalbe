@@ -68,7 +68,7 @@ CREATE TABLE wills (
   executor_data JSONB NOT NULL DEFAULT '{}',
   -- Structure: {
   --   "primaryExecutor": {"name": "John Smith", "relationship": "friend", "phone": "555-1234"},
-  --   "backupExecutor": {"name": "Jane Smith", "relationship": "sibling", "phone": "555-5678"},
+  --   "backupExecutor": {"name": "Jane Smith", "relationship": "sibling"},
   --   "executorPowers": ["sell real estate", "manage investments", "pay debts"]
   -- }
   
@@ -111,6 +111,12 @@ CREATE TABLE wills (
   --   "templateVersion": "1.0",
   --   "pageCount": 8
   -- }
+  
+  -- Trust Score fields
+  trust_score INTEGER DEFAULT 0 CHECK (trust_score >= 0 AND trust_score <= 100),
+  trust_factors JSONB DEFAULT '[]'::jsonb,
+  last_trust_calculation TIMESTAMPTZ,
+  trust_score_history JSONB DEFAULT '[]'::jsonb,
   
   -- Version control
   version_number INTEGER DEFAULT 1,

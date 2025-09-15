@@ -35,6 +35,12 @@ CHECKS BEFORE DONE:
 - Unit tests for tokenization/hashing
 ```
 
+Implementation notes
+- Schema: public.hashed_tokens(id UUID PK, doc_id UUID, hash TEXT, tf INT2, positions SMALLINT[], created_at TIMESTAMPTZ). Indexes on (hash) and (doc_id). RLS ties access to documents.user_id via app.current_external_id() -> public.user_auth(). Writes restricted to service_role.
+- Ingestion: packages/shared/src/search/ingest.ts. Tokenize text, compute HMAC-SHA256(token, SEARCH_INDEX_SALT) hex for each unique token, build frequency and positions, then replace rows in hashed_tokens for the given doc_id. No plaintext stored or logged.
+- Query: packages/shared/src/search/query.ts. Tokenize the incoming query, hash with the same salt, and aggregate matches via hashed_tokens to return doc_id ranked by sum(freq). No raw-term logging.
+- Salt: SEARCH_INDEX_SALT is server-only. Do not expose in client bundles. In tests, pass a salt directly to functions.
+
 ---
 
 Ready-to-paste kickoff prompt (pre-filled)

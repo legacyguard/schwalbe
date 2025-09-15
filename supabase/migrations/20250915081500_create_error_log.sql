@@ -20,24 +20,53 @@ CREATE INDEX IF NOT EXISTS idx_error_log_level ON public.error_log(level);
 ALTER TABLE public.error_log ENABLE ROW LEVEL SECURITY;
 
 -- Allow inserts from anon/authenticated/service_role (any client may report errors)
-CREATE POLICY IF NOT EXISTS "Anyone can insert error logs" ON public.error_log
-  FOR INSERT
-  TO anon, authenticated, service_role
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE schemaname = 'public' AND tablename = 'error_log' AND policyname = 'Anyone can insert error logs'
+  ) THEN
+    CREATE POLICY "Anyone can insert error logs" ON public.error_log
+      FOR INSERT
+      TO anon, authenticated, service_role
+      WITH CHECK (true);
+  END IF;
+END $$;
 
 -- Only service role may read/update/delete
-CREATE POLICY IF NOT EXISTS "Service role can read error logs" ON public.error_log
-  FOR SELECT
-  TO service_role
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'error_log' AND policyname = 'Service role can read error logs'
+  ) THEN
+    CREATE POLICY "Service role can read error logs" ON public.error_log
+      FOR SELECT
+      TO service_role
+      USING (true);
+  END IF;
+END $$;
 
-CREATE POLICY IF NOT EXISTS "Service role can update error logs" ON public.error_log
-  FOR UPDATE
-  TO service_role
-  USING (true)
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'error_log' AND policyname = 'Service role can update error logs'
+  ) THEN
+    CREATE POLICY "Service role can update error logs" ON public.error_log
+      FOR UPDATE
+      TO service_role
+      USING (true)
+      WITH CHECK (true);
+  END IF;
+END $$;
 
-CREATE POLICY IF NOT EXISTS "Service role can delete error logs" ON public.error_log
-  FOR DELETE
-  TO service_role
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'error_log' AND policyname = 'Service role can delete error logs'
+  ) THEN
+    CREATE POLICY "Service role can delete error logs" ON public.error_log
+      FOR DELETE
+      TO service_role
+      USING (true);
+  END IF;
+END $$;

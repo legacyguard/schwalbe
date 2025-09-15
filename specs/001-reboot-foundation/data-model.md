@@ -49,6 +49,12 @@
 
 - LocaleContent(namespace, key, value, locale)
 
+## Identity and RLS note
+
+- Identity source: Supabase Auth. Use auth.uid() in Postgres RLS policies.
+- user_id columns: UUID referencing auth.users(id). Where legacy TEXT user_id exists, compare as user_id::text = auth.uid()::text until column type is migrated to UUID.
+- Do not use Clerk helpers (app.current_external_id() or public.user_auth) in new policies.
+
 ## Relations (examples)
 
 - User 1—N FamilyMember
