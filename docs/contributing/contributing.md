@@ -83,3 +83,6 @@ Usage tips
 - You can leave some fields blank if unknown (I’ll ask concise follow‑ups).
 - Keep SCOPE to 3–6 bullet points; split work if it grows.
 - Prefer one feature branch per SEATBELT prompt.
+
+Related docs
+- See docs/contributing/coding-conventions.md for branching and conventional commit guidance.

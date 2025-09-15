@@ -1,5 +1,7 @@
 # Auth + RLS Baseline: Data Model
 
+> Identity & RLS note: This project uses Supabase Auth as the identity source (see docs/adr/ADR-001-supabase-auth-identity.md). Row-Level Security (RLS) policies must use auth.uid(), and tables should reference auth.users(id) for user_id columns. Do not use app.current_external_id() or Clerk mapping helpers. Keep user_id as UUID referencing auth.users(id) across all scoped tables.
+
 ## Database Schema
 
 ### Core Entities

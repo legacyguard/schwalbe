@@ -15,11 +15,16 @@ const resources = {
   }
 };
 
+import { computePreferredLocaleFromBrowser } from './locale'
+
+const initialLocale = computePreferredLocaleFromBrowser()
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',
+    lng: initialLocale,
+    // i18next fallback is used when a key is missing; we keep English as the final fallback
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,

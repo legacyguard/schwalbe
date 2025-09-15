@@ -36,6 +36,31 @@ CHECKS BEFORE DONE:
 
 ---
 
+Example integration snippet
+
+```ts path=null start=null
+// Header menu (Phase 04 will wire this into the actual top bar)
+import { getAllowedLanguagesForHost } from '@schwalbe/shared'
+
+const host = typeof window !== 'undefined' ? window.location.hostname : 'legacyguard.cz'
+const languagesForMenu = getAllowedLanguagesForHost(host)
+// Render languagesForMenu as the Language switcher options
+```
+
+Smoke test expectations
+
+```ts path=null start=null
+import { getAllowedLanguagesForHost, computePreferredLocale } from '@schwalbe/shared'
+
+expect(getAllowedLanguagesForHost('legacyguard.cz')).toEqual(['cs','sk','en','de','uk'])
+expect(getAllowedLanguagesForHost('legacyguard.sk')).toEqual(['sk','cs','en','de','uk'])
+
+// Fallback chain (user → device → domain default → en)
+expect(
+  computePreferredLocale({ host: 'legacyguard.cz', userPreferred: 'uk-UA', deviceLocales: ['de-DE'] })
+).toBe('uk')
+```
+
 Ready-to-paste kickoff prompt (pre-filled)
 ```
 SEATBELT: ON

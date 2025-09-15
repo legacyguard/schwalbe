@@ -9,7 +9,9 @@
     "src/index-minimal.ts",
     "src/services/emergency.service.ts",
     "src/types/emergency.ts",
-    "src/supabase/client.ts"
+    "src/supabase/client.ts",
+    "src/config/domains.ts",
+    "src/config/languages.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.test.*"]
 }
