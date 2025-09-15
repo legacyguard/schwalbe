@@ -26,6 +26,16 @@ $$;
 -- Politiky pre Storage sa musia nastaviť zvlášť, keďže nie sú súčasťou štandardných migrácií DB.
 -- Tieto politiky zabezpečia, že používatelia môžu manipulovať len so svojimi súbormi.
 
+-- Ensure helper schema/function exist
+CREATE SCHEMA IF NOT EXISTS app;
+CREATE OR REPLACE FUNCTION app.current_external_id()
+RETURNS TEXT
+LANGUAGE SQL
+STABLE
+AS $$
+  SELECT (current_setting('request.jwt.claims', true)::jsonb ->> 'sub')
+$$;
+
 -- Najprv odstránime existujúce politiky ak existujú
 DROP POLICY IF EXISTS "Allow user to read their own files" ON storage.objects;
 DROP POLICY IF EXISTS "Allow user to upload to their own folder" ON storage.objects;
