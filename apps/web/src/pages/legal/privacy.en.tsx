@@ -15,6 +15,8 @@ export default function PrivacyEN() {
       <p>You can access, update, export, or delete your data where applicable.</p>
       <h2>Contact</h2>
       <p>For privacy inquiries, contact support@legacyguard.app.</p>
+      <h2>Billing Policy Reference</h2>
+      <p>For information on subscription cancellation, grace periods, trials, and refunds, see the Terms of Service (Subscription Cancellation & Refunds section). We avoid logging payment details and use Stripe defaults for proration.</p>
     </LegalLayout>
   )
 }

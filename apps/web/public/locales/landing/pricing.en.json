@@ -87,4 +87,10 @@
       "period": "month"
     }
   }
+,
+  "policy": {
+    "cancel_anytime": "Cancel anytime",
+    "trial": "Free trial available",
+    "grace": "Grace period applies"
+  }
 }

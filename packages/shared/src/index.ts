@@ -33,5 +33,8 @@ export * from './config/domains';
 export * from './config/languages';
 export { getLanguageLabel, LANGUAGE_LABELS_EN } from './config/languages';
 
+// Export billing config
+export * from './config/billing';
+
 // Export legal requirements dataset
 export * from './config/legal/requirements';

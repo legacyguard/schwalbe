@@ -15,6 +15,8 @@ export default function PrivacySK() {
       <p>Môžete pristupovať k svojim údajom, aktualizovať ich, exportovať alebo vymazať, kde je to možné.</p>
       <h2>Kontakt</h2>
       <p>Pre otázky týkajúce sa súkromia kontaktujte support@legacyguard.app.</p>
+      <h2>Informácie o fakturácii</h2>
+      <p>Informácie o zrušení predplatného, odklade (grace period), skúšobných verziách a refundáciách nájdete v Podmienkach používania (sekcia Zrušenie predplatného a vrátenie platieb). Platobné údaje neukladáme do logov a používame predvolené pravidlá Stripe pre pomerné sumy.</p>
     </LegalLayout>
   )
 }

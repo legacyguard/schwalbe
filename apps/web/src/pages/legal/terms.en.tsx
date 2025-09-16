@@ -17,6 +17,8 @@ export default function TermsEN() {
       <p>The service is provided "as is" without warranties. To the maximum extent permitted by law, we are not liable for indirect or consequential damages.</p>
       <h2>Changes</h2>
       <p>We may update these Terms. Significant changes will be communicated and require your acceptance.</p>
+      <h2>Subscription Cancellation & Refunds</h2>
+      <p>Unless otherwise stated, cancellations take effect at the end of the current billing period. Immediate cancellation (with access ending right away) may be available depending on your configuration; Stripe’s default proration applies where relevant. Refunds are not provided except where required by law.</p>
     </LegalLayout>
   )
 }

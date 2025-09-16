@@ -87,4 +87,10 @@
       "period": "month"
     }
   }
+,
+  "policy": {
+    "cancel_anytime": "Zrušení kdykoli",
+    "trial": "K dispozici je zkušební verze",
+    "grace": "Platí odkladné období"
+  }
 }

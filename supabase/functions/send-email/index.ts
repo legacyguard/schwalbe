@@ -178,6 +178,49 @@ export const templates = {
     `
   }),
 
+  cancellationConfirmation: (
+    userName: string,
+    mode: 'end_of_period' | 'immediate',
+    currentPeriodEnd?: string | null
+  ) => ({
+    subject: mode === 'end_of_period' ? 'Your subscription will end at period end' : 'Your subscription has been cancelled',
+    html: `
+      <!doctype html><html><body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color:#0f172a; max-width:600px; margin:0 auto; padding:20px;">
+        <div style="background:${mode==='end_of_period' ? '#f59e0b' : '#ef4444'}; color:white; padding:16px; border-radius:8px 8px 0 0;">
+          <h1 style="margin:0; font-size:20px;">${mode==='end_of_period' ? 'Cancellation Scheduled' : 'Subscription Cancelled'}</h1>
+        </div>
+        <div style="border:1px solid #e2e8f0; border-top:none; padding:16px; border-radius:0 0 8px 8px; background:#fff;">
+          <p>Hi ${userName || ''},</p>
+          ${mode==='end_of_period'
+            ? `<p>Your subscription will remain active until the end of your current billing period${currentPeriodEnd ? ` on <strong>${new Date(currentPeriodEnd).toLocaleDateString('en-US')}</strong>` : ''}. You may restart at any time.</p>`
+            : `<p>Your subscription has been cancelled immediately. You no longer have access to paid features. You may subscribe again at any time.</p>`}
+          <p style="font-size:12px; color:#64748b;">© 2025 LegacyGuard</p>
+        </div>
+      </body></html>
+    `,
+    text: mode==='end_of_period'
+      ? `Your subscription will end at the current period end${currentPeriodEnd ? ` on ${new Date(currentPeriodEnd).toLocaleDateString('en-US')}`:''}.`
+      : 'Your subscription has been cancelled.'
+  }),
+
+  trialEndingSoon: (userName: string, daysLeft: number) => ({
+    subject: `Your trial ends in ${daysLeft} day${daysLeft===1?'':'s'}`,
+    html: `
+      <!doctype html><html><body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color:#0f172a; max-width:600px; margin:0 auto; padding:20px;">
+        <div style="background:#f59e0b; color:white; padding:16px; border-radius:8px 8px 0 0;">
+          <h1 style="margin:0; font-size:20px;">Trial ending soon</h1>
+        </div>
+        <div style="border:1px solid #e2e8f0; border-top:none; padding:16px; border-radius:0 0 8px 8px; background:#fff;">
+          <p>Hi ${userName || ''},</p>
+          <p>Your trial ends in ${daysLeft} day${daysLeft===1?'':'s'}. To keep access to premium features, add a payment method.</p>
+          <p><a href="https://legacyguard.app/account/billing" style="color:#0ea5e9;">Open Billing</a></p>
+          <p style="font-size:12px; color:#64748b;">© 2025 LegacyGuard</p>
+        </div>
+      </body></html>
+    `,
+    text: `Your trial ends in ${daysLeft} day${daysLeft===1?'':'s'}. Open Billing: https://legacyguard.app/account/billing`
+  })
+}
   paymentFailedEmail: (userName: string, amount: string, retryDate: string, billingUrl: string) => ({
     subject: 'Action Required: Payment Failed - LegacyGuard',
     html: `

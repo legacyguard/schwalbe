@@ -17,6 +17,8 @@ export default function TermsCS() {
       <p>Služba je poskytována "tak jak je" bez záruk. V nejvyšší možné míře nepřebíráme odpovědnost za nepřímé či následné škody.</p>
       <h2>Změny</h2>
       <p>Tyto Podmínky můžeme aktualizovat. Významné změny oznámíme a bude vyžadován váš souhlas.</p>
+      <h2>Ukončení předplatného a vrácení plateb</h2>
+      <p>Není-li uvedeno jinak, zrušení předplatného se projeví na konci aktuálního fakturačního období. Okamžité zrušení (s okamžitým ukončením přístupu) může být dostupné v závislosti na nastavení; uplatní se výchozí pravidla Stripe pro poměrné částky. Vrácení plateb se neposkytuje, pokud to nevyžaduje zákon.</p>
     </LegalLayout>
   )
 }

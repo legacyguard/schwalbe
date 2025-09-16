@@ -202,7 +202,7 @@ export const PricingSection: React.FC = () => {
           </div>
           <div className='flex items-center gap-2'>
             <Check className='w-4 h-4' />
-            <span>Cancel anytime</span>
+            <span>{t('policy.cancel_anytime', { defaultValue: 'Cancel anytime' })}</span>
           </div>
         </motion.div>
 
