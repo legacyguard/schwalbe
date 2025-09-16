@@ -531,7 +531,7 @@ class MonitoringService {
         last_error: redactText(check.lastError) || null,
         metadata: check.metadata ? redactObject(check.metadata as any) : null,
       });
-    } catch (_error) {
+    } catch {
       console.error('Error logging health check');
     }
   }
@@ -599,7 +599,7 @@ class MonitoringService {
         session_id: this.sessionId,
         device_info: this.getDeviceInfo(),
       });
-    } catch (_error) {
+    } catch {
       console.error('Error flushing performance buffer');
     }
   }

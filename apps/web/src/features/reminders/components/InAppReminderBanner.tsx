@@ -9,7 +9,7 @@ export function InAppReminderBanner() {
     try {
       const data = await reminderService.fetchPendingInApp()
       setItems(data)
-    } catch (e) {
+    } catch {
       // no-op
     }
   }, [])

@@ -276,7 +276,7 @@ const SAMPLE_PROFESSIONALS: ProfessionalProfile[] = [
 ];
 
 export function ProfessionalNetworkDirectory({
-  onSelectProfessional,
+  onSelectProfessional: _onSelectProfessional,
   onBookConsultation,
   onRequestReview,
   className,

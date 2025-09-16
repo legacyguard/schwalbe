@@ -113,8 +113,7 @@ export const PricingSection: React.FC = () => {
       if (url) {
         window.location.href = url
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch {
       console.error('Checkout failed')
       alert('Unable to start checkout. Please try again later.')
     }

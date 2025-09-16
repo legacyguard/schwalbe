@@ -126,7 +126,7 @@ export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: 
   if (uploadErr) throw uploadErr
 
   // 3) Update file_path
-  const { data: updatedDoc, error: updateErr } = await supabase
+  const { error: updateErr } = await supabase
     .from('documents')
     .update({ file_path: uploadData.path })
     .eq('id', docId)
@@ -148,7 +148,6 @@ export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: 
     }
   } catch (e) {
     // Non-fatal; continue and mark as manual if nothing
-    // eslint-disable-next-line no-console
     console.error('Analysis invocation failed', e)
   }
 
@@ -227,7 +226,6 @@ export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: 
     }
   } catch (e) {
     // Best-effort; errors are logged but do not fail upload
-    // eslint-disable-next-line no-console
     console.error('Failed to create reminder for document', e)
   }
 

@@ -10,8 +10,6 @@ import { Card } from '@schwalbe/ui/components/Card';
 import { Badge } from '@schwalbe/ui/components/Badge';
 import {
   ArrowRight,
-  CheckCircle2,
-  Gift,
   Heart,
   Share2,
   Shield,

@@ -14,7 +14,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-export function ABTestOnboardingFlow({ onComplete, onSkip, userId, className, }) {
+export function ABTestOnboardingFlow({ onComplete, onSkip, userId: _userId, className, }) {
     const { t } = useTranslation('ui/onboarding-variants');
     // Simple A/B test - can be enhanced with proper A/B testing framework
     const [variant] = useState(() => Math.random() > 0.5 ? 'variant_a' : 'variant_b');
@@ -28,10 +28,10 @@ export function ABTestOnboardingFlow({ onComplete, onSkip, userId, className, })
     }, [variant]);
     const handleStepComplete = (stepData) => {
         const timeSpent = Date.now() - stepStartTime;
-        const stepId = getSteps(variant, t)[currentStep]?.id || 'unknown';
+const stepId = getSteps(variant)[currentStep]?.id || 'unknown';
         console.log(`Step ${stepId} completed in ${timeSpent}ms`);
         setUserData(prev => ({ ...prev, ...stepData }));
-        if (currentStep < getSteps(variant, t).length - 1) {
+if (currentStep < getSteps(variant).length - 1) {
             setCurrentStep(prev => prev + 1);
             setStepStartTime(Date.now());
         }
@@ -56,7 +56,7 @@ export function ABTestOnboardingFlow({ onComplete, onSkip, userId, className, })
             }
         }
     };
-    const steps = getSteps(variant, t);
+const steps = getSteps(variant);
     const currentStepData = steps[currentStep];
     const progress = ((currentStep + 1) / steps.length) * 100;
     return (_jsxs("div", { className: cn('max-w-2xl mx-auto p-6', className), children: [_jsxs("div", { className: 'mb-8', children: [_jsxs("div", { className: 'flex items-center justify-between mb-2', children: [_jsx("h1", { className: 'text-2xl font-bold text-gray-900', children: variant === 'variant_a'
@@ -68,7 +68,7 @@ export function ABTestOnboardingFlow({ onComplete, onSkip, userId, className, })
 /**
  * Get steps based on A/B test variant
  */
-function getSteps(variant, t) {
+function getSteps(variant) {
     const controlSteps = [
         {
             id: 'name',

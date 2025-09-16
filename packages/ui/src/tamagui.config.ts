@@ -389,16 +389,16 @@ export const tamaguiConfig = config;
 export type AppConfig = typeof config;
 
 declare module 'tamagui' {
-  interface TamaguiCustomConfig extends AppConfig {}
+  interface TamaguiCustomConfig extends AppConfig { _brand?: never }
 }
 
 export default config;
 
 // Type augmentation for Tamagui
 declare module "@tamagui/core" {
-  interface TamaguiCustomConfig extends AppConfig {}
+  interface TamaguiCustomConfig extends AppConfig { _brand?: never }
 }
 
 declare module "tamagui" {
-  interface TamaguiCustomConfig extends AppConfig {}
+  interface TamaguiCustomConfig extends AppConfig { _brand?: never }
 }

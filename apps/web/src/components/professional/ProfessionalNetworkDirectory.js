@@ -199,7 +199,7 @@ const SAMPLE_PROFESSIONALS = [
         languages: ['English', 'Spanish', 'Portuguese'],
     },
 ];
-export function ProfessionalNetworkDirectory({ onSelectProfessional, onBookConsultation, onRequestReview, className, }) {
+export function ProfessionalNetworkDirectory({ onSelectProfessional: _onSelectProfessional, onBookConsultation, onRequestReview, className, }) {
     const { t } = useTranslation('ui/professional-network');
     const SPECIALIZATIONS = t('specializations', { returnObjects: true });
     const [professionals] = useState(SAMPLE_PROFESSIONALS);

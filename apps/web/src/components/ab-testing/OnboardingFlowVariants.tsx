@@ -12,7 +12,6 @@ import {
   Shield,
   Users,
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -26,7 +25,6 @@ interface OnboardingFlowProps {
   className?: string;
   onComplete: (userData: Record<string, unknown>) => void;
   onSkip?: () => void;
-  userId?: string;
 }
 
 interface OnboardingStep {
@@ -39,11 +37,8 @@ interface OnboardingStep {
 export function ABTestOnboardingFlow({
   onComplete,
   onSkip,
-  userId,
   className,
 }: OnboardingFlowProps) {
-  const { t } = useTranslation('ui/onboarding-variants');
-  
   // Simple A/B test - can be enhanced with proper A/B testing framework
   const [variant] = useState(() => Math.random() > 0.5 ? 'variant_a' : 'variant_b');
   const [currentStep, setCurrentStep] = useState(0);
@@ -58,13 +53,13 @@ export function ABTestOnboardingFlow({
 
   const handleStepComplete = (stepData: Record<string, unknown>) => {
     const timeSpent = Date.now() - stepStartTime;
-    const stepId = getSteps(variant, t)[currentStep]?.id || 'unknown';
+    const stepId = getSteps(variant)[currentStep]?.id || 'unknown';
 
     console.log(`Step ${stepId} completed in ${timeSpent}ms`);
 
     setUserData(prev => ({ ...prev, ...stepData }));
 
-    if (currentStep < getSteps(variant, t).length - 1) {
+    if (currentStep < getSteps(variant).length - 1) {
       setCurrentStep(prev => prev + 1);
       setStepStartTime(Date.now());
     } else {
@@ -76,21 +71,21 @@ export function ABTestOnboardingFlow({
   };
 
   const handleStepSkip = () => {
-    const stepId = getSteps(variant, t)[currentStep]?.id || 'unknown';
+    const stepId = getSteps(variant)[currentStep]?.id || 'unknown';
     console.log(`Step ${stepId} skipped`);
 
     if (onSkip) {
       onSkip();
     } else {
       // Skip to next step
-      if (currentStep < getSteps(variant, t).length - 1) {
+      if (currentStep < getSteps(variant).length - 1) {
         setCurrentStep(prev => prev + 1);
         setStepStartTime(Date.now());
       }
     }
   };
 
-  const steps = getSteps(variant, t);
+  const steps = getSteps(variant);
   const currentStepData = steps[currentStep];
   const progress = ((currentStep + 1) / steps.length) * 100;
 
@@ -142,7 +137,7 @@ export function ABTestOnboardingFlow({
 /**
  * Get steps based on A/B test variant
  */
-function getSteps(variant: string, t: any): OnboardingStep[] {
+function getSteps(variant: string): OnboardingStep[] {
   const controlSteps = [
     {
       id: 'name',

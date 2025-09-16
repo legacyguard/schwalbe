@@ -14,12 +14,11 @@ interface DeadMansSwitchProps {
 const DeadMansSwitchManager: React.FC<DeadMansSwitchProps> = ({
   className = '',
   personalityMode = 'adaptive',
-  onEmergencyTriggered,
-  onHealthCheckMissed,
+  onEmergencyTriggered: _onEmergencyTriggered,
+  onHealthCheckMissed: _onHealthCheckMissed,
 }) => {
   const [switchStatus, setSwitchStatus] = useState<'active' | 'inactive' | 'pending' | 'triggered'>('inactive');
   const [lastActivity, setLastActivity] = useState<Date | null>(null);
-  const [loading, setLoading] = useState(false);
 
   // Get personality-specific content
   const getPersonalityContent = () => {

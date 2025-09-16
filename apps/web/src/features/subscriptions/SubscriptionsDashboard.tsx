@@ -16,7 +16,7 @@ export function SubscriptionsDashboard() {
       ])
       setSub(s)
       setPrefs(p)
-    } catch (e) {
+    } catch {
       setError('Failed to load subscription data')
     }
   }, [])
@@ -37,7 +37,7 @@ export function SubscriptionsDashboard() {
         // Trigger DB-side upsert of reminders via an innocuous update to user_subscriptions to refresh schedules
         // Not strictly necessary if prefs trigger exists; we rely on the DB trigger on subscription updates
       }
-    } catch (e) {
+    } catch {
       setError('Failed to save preferences')
     } finally {
       setSaving(false)

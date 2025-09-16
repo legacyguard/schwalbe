@@ -146,9 +146,6 @@ export function LandingPage() {
     navigate('/sign-up');
   };
 
-  const handleSignIn = () => {
-    navigate('/sign-in');
-  };
 
   const handleCTAHover = () => {
     setIsFireflyOnButton(true);

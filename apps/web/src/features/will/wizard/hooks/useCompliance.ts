@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useWizard, stepsOrder, type WizardStepKey } from '../state/WizardContext'
+import { useWizard, type WizardStepKey } from '../state/WizardContext'
 import { useEngineValidation } from './useEngineValidation'
 
 export interface ComplianceItem {

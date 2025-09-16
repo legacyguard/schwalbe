@@ -25,7 +25,7 @@ import { Typography } from '../Typography';
 import { Badge } from '../Badge';
 import { Alert } from '../Alert';
 import { TextArea } from '../TextArea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../Dialog';
+import { Dialog, DialogContent } from '../Dialog';
 import { cn } from '@schwalbe/shared';
 import {
   type FamilyInvitation,

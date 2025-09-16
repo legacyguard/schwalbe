@@ -241,3 +241,101 @@ Runbook
    - DB row: ✅ present (id: <redacted>, level: error, message: E2E test: logging baseline)
    - Email: ✅ alert received at ALERT_EMAIL_TO
    - Throttle: ✅ duplicate within 10 minutes produced no second email
+
+---
+
+# Production Environment / DNS / Robots / Secrets Runbook
+
+Scope: Vercel-hosted apps/web, custom domains for CZ/SK, robots policy, and env management.
+
+## Deploy Steps (no secrets printed)
+
+1) Vercel Domains (CZ/SK)
+- Add domains (CLI or UI):
+  - vercel domains add legacyguard.cz
+  - vercel domains add legacyguard.sk
+- Configure DNS with your registrar:
+  - Apex (legacyguard.cz / legacyguard.sk): A record → 76.76.21.21
+  - www subdomain (optional): CNAME → cname.vercel-dns.com
+- Verify:
+  - dig +short legacyguard.cz A
+  - dig +short www.legacyguard.cz CNAME
+  - curl -I https://legacyguard.cz
+
+2) HTTPS
+- Vercel issues TLS automatically after DNS propagates. Verify padlock in browser and with:
+  - curl -I https://legacyguard.cz | grep -i strict-transport-security
+
+3) Environment Variables (Production)
+- Add to Vercel project (Production env):
+  - vercel env add VITE_SUPABASE_URL production
+  - vercel env add VITE_SUPABASE_ANON_KEY production
+  - vercel env add VITE_IS_PRODUCTION production
+  - vercel env add SUPABASE_URL production
+  - vercel env add SUPABASE_SERVICE_ROLE_KEY production
+  - vercel env add STRIPE_SECRET_KEY production
+  - vercel env add STRIPE_WEBHOOK_SECRET production
+  - vercel env add MONITORING_ENVIRONMENT production
+  - vercel env add MONITORING_ALERT_EMAIL production
+  - vercel env add MONITORING_ALERT_FROM production
+  - vercel env add ALERT_RATE_LIMIT_MINUTES production
+- Supabase secrets (dashboard → Edge Functions):
+  - RESEND_API_KEY
+  - SEARCH_INDEX_SALT
+
+4) Robots policy
+- robots.txt is served by /api/robots via a rewrite. Behavior:
+  - Production (VITE_IS_PRODUCTION=true): allow all, includes Sitemap: https://<host>/sitemap.xml
+  - Staging/Preview: disallow all + X-Robots-Tag: noindex, nofollow
+- Quick check:
+  - curl -s https://legacyguard.cz/robots.txt
+  - curl -s https://<staging-domain>/robots.txt
+
+5) Headers
+- vercel.json sets security headers globally (HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy)
+- Validate:
+  - curl -I https://legacyguard.cz | egrep -i "strict-transport-security|x-content-type-options|x-frame-options|referrer-policy|permissions-policy"
+
+## Rollback
+- Revert latest deployment in Vercel (UI → Deployments → Promote previous) to restore prior behavior.
+- If domain misconfiguration:
+  - Temporarily remove domain from project: vercel domains rm legacyguard.cz
+  - Or update DNS to previous origin; document the change.
+- If robots policy regresses:
+  - Set VITE_IS_PRODUCTION=false to immediately disallow indexing (redeploy), then fix underlying config.
+
+## Incident Response
+- Symptom: 404/5xx on production URLs
+  - Check Vercel status, recent deploys, and DNS propagation
+  - Promote last known good deploy
+- Symptom: Search engines indexing staging
+  - Verify /robots.txt and X-Robots-Tag
+  - Ensure VITE_IS_PRODUCTION is false in staging and true in prod; redeploy
+- Symptom: Payments failing (money path)
+  - Verify STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET present in Production env
+  - Check Stripe webhook delivery logs; verify 2xx from our endpoint
+- Symptom: Emails not sent
+  - Verify RESEND_API_KEY in Supabase secrets and function logs
+
+## Supabase Backup/Restore (Minimum Viable)
+- Manual backup (read-only, no secrets shown):
+  - Use Supabase Dashboard → Database → Backups (enable if not active)
+  - Or run pg_dump from a secure workstation using the provided connection string
+- Restore plan:
+  - Use Dashboard restore to a new project or request point-in-time restore
+  - For table-level rollback, apply scoped SQL from version control migrations
+- Notes:
+  - Keep service role usage to servers only; never expose in client
+  - Test backup and restore in staging before relying in production
+
+## Checks Before Done
+- Domains resolve with HTTPS:
+  - curl -I https://legacyguard.cz | head -n 1  # HTTP/2 200
+  - curl -I https://legacyguard.sk | head -n 1
+- Env vars present (no values printed):
+  - vercel env ls | egrep "VITE_SUPABASE_URL|SUPABASE_URL|STRIPE_SECRET_KEY|MONITORING_ENVIRONMENT"
+- Robots policy correct:
+  - curl -s https://legacyguard.cz/robots.txt | head -n 3  # Disallow: (empty)
+  - curl -s https://<staging-domain>/robots.txt | grep "Disallow: /"
+- Money path smoke test (Stripe):
+  - Create a $0.50 test checkout session in staging, confirm 200 + webhook success

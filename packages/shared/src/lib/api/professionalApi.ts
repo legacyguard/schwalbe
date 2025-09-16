@@ -472,16 +472,10 @@ export const commissionTrackingApi = {
 
   // POST /api/commissions/process/:commissionId
   async processCommissionPayment(_commissionId: string): Promise<{ success: boolean }> {
-    try {
-      // Implementation for processing commission payments
-      // This would integrate with payment processors and update commission status
-      // Mock implementation – no-op
-      return { success: true };
-    } catch (error) {
-      throw new Error(
-        `Failed to process commission payment: ${error instanceof Error ? error.message : 'Unknown error'}`
-      );
-    }
+    // Implementation for processing commission payments
+    // This would integrate with payment processors and update commission status
+    // Mock implementation – no-op
+    return { success: true };
   },
 };
 

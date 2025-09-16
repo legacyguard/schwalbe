@@ -13,7 +13,7 @@ export function ShareViewer() {
   const [status, setStatus] = useState<'loading' | 'ok' | 'password_required' | 'password_incorrect' | 'expired' | 'invalid'>('loading');
   const [error, setError] = useState<string | null>(null);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
-  const [hasPassword, setHasPassword] = useState<boolean>(false);
+  // Password state not needed for rendering; handled via status
   const [password, setPassword] = useState('');
   const [resource, setResource] = useState<{ type?: string; id?: string; permissions?: any } | null>(null);
 
@@ -25,7 +25,6 @@ export function ShareViewer() {
         const res = await sharingService.verifyShareAccess(shareId);
         if (!mounted) return;
         setExpiresAt(res.expiresAt ?? null);
-        setHasPassword(Boolean(res.hasPassword));
         if (res.status === 'ok') {
           setStatus('ok');
           setResource({ type: res.resourceType, id: res.resourceId, permissions: res.permissions });
@@ -41,7 +40,7 @@ export function ShareViewer() {
           setStatus('invalid');
           setError(t('sharing/viewer.invalidMessage'));
         }
-      } catch (e: any) {
+      } catch {
         setStatus('invalid');
         setError(t('sharing/viewer.unableToVerify'));
       }
@@ -63,7 +62,6 @@ export function ShareViewer() {
     try {
       const res = await sharingService.verifyShareAccess(shareId, password);
       setExpiresAt(res.expiresAt ?? null);
-      setHasPassword(Boolean(res.hasPassword));
       if (res.status === 'ok') {
         setStatus('ok');
         setResource({ type: res.resourceType, id: res.resourceId, permissions: res.permissions });
@@ -78,7 +76,7 @@ export function ShareViewer() {
         setStatus('invalid');
         setError(t('sharing/viewer.invalidMessage'));
       }
-    } catch (e: any) {
+    } catch {
       setStatus('invalid');
       setError(t('sharing/viewer.unableToVerify'));
     }

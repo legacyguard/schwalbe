@@ -42,7 +42,7 @@ const SAMPLE_PROFESSIONALS: ProfessionalReviewer[] = [
 
 export function ProfessionalDirectoryLite() {
   const [query, setQuery] = useState('');
-  const [list, setList] = useState<ProfessionalReviewer[]>(SAMPLE_PROFESSIONALS);
+  const [list] = useState<ProfessionalReviewer[]>(SAMPLE_PROFESSIONALS);
   const prefersReducedMotion = useReducedMotion();
 
   const filtered = useMemo(() => {

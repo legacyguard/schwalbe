@@ -21,12 +21,16 @@ export function computePreferredLocaleFromBrowser(): LocaleCode {
 export function safeSetLocalStorage(key: string, value: string): void {
   try {
     if (typeof localStorage !== 'undefined') localStorage.setItem(key, value)
-  } catch {}
+  } catch {
+    // no-op: localStorage not available
+  }
 }
 
 export function safeGetLocalStorage(key: string): string | null {
   try {
     if (typeof localStorage !== 'undefined') return localStorage.getItem(key)
-  } catch {}
+  } catch {
+    // no-op: localStorage not available
+  }
   return null
 }

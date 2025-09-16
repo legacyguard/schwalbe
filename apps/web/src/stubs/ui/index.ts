@@ -3,7 +3,7 @@
 
 import React from 'react'
 
-type WithChildren<P = {}> = P & { children?: React.ReactNode }
+type WithChildren<P = Record<string, never>> = P & { children?: React.ReactNode }
 
 // Button
 export interface ButtonProps extends WithChildren<React.ButtonHTMLAttributes<HTMLButtonElement>> {
@@ -25,7 +25,7 @@ export const CardTitle: React.FC<WithChildren<React.HTMLAttributes<HTMLHeadingEl
 export const CardDescription: React.FC<WithChildren<React.HTMLAttributes<HTMLParagraphElement>>> = ({ children, ...props }) => React.createElement('p', { ...props }, children)
 
 // Input
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
 export const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => React.createElement('input', { ref, ...props }))
 Input.displayName = 'Input'
 

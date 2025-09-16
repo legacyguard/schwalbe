@@ -10,7 +10,6 @@ import type {
   FireflyPosition,
   TrailPoint,
   PersonalityMode,
-  CommunicationStyle,
 } from '@schwalbe/shared/types/animations';
 
 export const EnhancedFirefly: React.FC<EnhancedFireflyProps> = ({

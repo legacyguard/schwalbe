@@ -4,7 +4,7 @@ import { Button } from '../Button';
 import { Badge } from '../Badge';
 import { ProgressBar } from '../ProgressBar';
 import { Typography } from '../Typography';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../Dialog';
+import { Dialog, DialogContent } from '../Dialog';
 import {
   ArrowRight,
   Calendar,

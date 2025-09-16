@@ -7,7 +7,6 @@ import { EmergencyService } from '@schwalbe/shared';
 import type { 
   EmergencyRule, 
   HealthCheckStatus, 
-  FamilyShieldSettings,
   DeadMansSwitchProps,
   EmergencySystemStatus 
 } from '@schwalbe/shared';
@@ -27,8 +26,8 @@ import {
 export const DeadMansSwitchManager: React.FC<DeadMansSwitchProps> = ({
   className = '',
   personalityMode = 'adaptive',
-  onEmergencyTriggered,
-  onHealthCheckMissed,
+  onEmergencyTriggered: _onEmergencyTriggered,
+  onHealthCheckMissed: _onHealthCheckMissed,
 }) => {
   // State
   const [emergencyRules, setEmergencyRules] = useState<EmergencyRule[]>([]);
@@ -37,7 +36,7 @@ export const DeadMansSwitchManager: React.FC<DeadMansSwitchProps> = ({
   const [lastActivity, setLastActivity] = useState<Date | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<null | string>(null);
-  const [emergencyService, setEmergencyService] = useState<EmergencyService | null>(null);
+  const [emergencyService] = useState<EmergencyService | null>(null);
 
   // Get personality-specific content
   const getPersonalityContent = () => {

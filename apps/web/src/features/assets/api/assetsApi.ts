@@ -1,5 +1,4 @@
 import { supabase } from '@/lib/supabase';
-import type { Database } from '@schwalbe/shared/src/types/database';
 
 export type AssetsRow = {
   id: string;

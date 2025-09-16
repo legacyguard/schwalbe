@@ -40,7 +40,7 @@ const SAMPLE_PROFESSIONALS = [
 ];
 export function ProfessionalDirectoryLite() {
     const [query, setQuery] = useState('');
-    const [list, setList] = useState(SAMPLE_PROFESSIONALS);
+const [list] = useState(SAMPLE_PROFESSIONALS);
     const prefersReducedMotion = useReducedMotion();
     const filtered = useMemo(() => {
         const q = query.trim().toLowerCase();

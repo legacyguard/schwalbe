@@ -84,11 +84,10 @@ export function SearchBox() {
           const payload = (data || {}) as QueryResponse
           setResults(Array.isArray(payload.results) ? payload.results : [])
         }
-      } catch (_e) {
+      } catch {
         // Intentionally avoid logging raw terms. Only surface a generic failure.
-        // eslint-disable-next-line no-console
-        console.error('Search failed')
-        if (!cancelled) setResults([])
+             console.error('Search failed')
+   if (!cancelled) setResults([])
       } finally {
         if (!cancelled) setLoading(false)
       }

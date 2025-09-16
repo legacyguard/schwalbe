@@ -15,7 +15,6 @@ import {
   Trophy,
 } from 'lucide-react';
 import type {
-  MilestoneData,
   MilestoneCelebrationProps,
   PersonalityMode,
 } from '@schwalbe/shared/types/animations';
