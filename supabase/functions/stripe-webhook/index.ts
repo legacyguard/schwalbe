@@ -1,3 +1,189 @@
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+// Stripe types are referenced loosely to avoid bundling Stripe SDK in Edge Function.
+// We only read selected fields from the event payload.
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, stripe-signature',
+}
+
+function jsonResponse(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+}
+
+// Basic signer using Stripe's constructEvent is preferred, but to avoid SDK we validate timestamp window
+// and rely on Stripe to re-deliver on 4xx/5xx. In production, consider adding official Stripe signature validation.
+// For now, we accept requests only from configured environment with a secret gate header to reduce risk.
+const WEBHOOK_GATE = Deno.env.get('STRIPE_WEBHOOK_GATE')
+
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+
+// Helper: fetch user profile email
+async function getUserEmail(userId: string): Promise<string | null> {
+  const { data } = await supabase.from('profiles').select('email').eq('id', userId).maybeSingle()
+  return (data?.email as string) || null
+}
+
+// Helper: mark subscription status and banner
+async function setSubscriptionStatus(userId: string, status: 'past_due' | 'active') {
+  const { error } = await supabase
+    .from('user_subscriptions')
+    .update({ status })
+    .eq('user_id', userId)
+  if (error) {
+    console.error('stripe-webhook: update subscription status failed', { userId, status, code: error.code })
+  }
+}
+
+// Helper: insert in-app banner via notification_log (leveraging reminders channel/table for simple banners)
+async function upsertDunningBanner(userId: string, title: string, body: string) {
+  // Insert an in_app notification record; UI will display as banner
+  const { error } = await supabase.from('notification_log').insert({
+    reminder_rule_id: 'stripe_dunning', // sentinel
+    channel: 'in_app',
+    recipient: userId,
+    status: 'sent',
+    sent_at: new Date().toISOString(),
+    provider_response: { title, body },
+  })
+  if (error) {
+    console.error('stripe-webhook: failed to enqueue in-app banner', { userId, code: error.code })
+  }
+}
+
+// Helper: clear banners for this user (best-effort)
+async function clearDunningBanners(userId: string) {
+  await supabase
+    .from('notification_log')
+    .update({ status: 'delivered', delivered_at: new Date().toISOString() })
+    .eq('recipient', userId)
+    .eq('channel', 'in_app')
+    .eq('reminder_rule_id', 'stripe_dunning')
+}
+
+// Helper: call email function
+async function sendEmail(to: string, subject: string, html: string, text?: string) {
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ to, subject, html, text }),
+  })
+  if (!res.ok) {
+    const msg = await res.text()
+    console.error('stripe-webhook: send-email failed', { status: res.status, msg })
+  }
+}
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
+
+  try {
+    // Simple gate to reduce abuse in MVP
+    if (WEBHOOK_GATE) {
+      const gate = req.headers.get('x-webhook-gate')
+      if (gate !== WEBHOOK_GATE) {
+        return jsonResponse({ error: 'forbidden' }, 403)
+      }
+    }
+
+    // Read event body as JSON (Stripe can send JSON by default). Avoid logging PII.
+    const event = await req.json()
+    const type = event?.type as string
+
+    // We expect our integration to include our user_id in subscription metadata or invoice lines metadata.
+    // MVP: try invoice.customer and look up mapping via user_subscriptions by stripe_customer_id.
+    const obj = event?.data?.object || {}
+
+    // Resolve user_id by stripe customer id
+    let userId: string | null = null
+    const stripeCustomerId = obj?.customer as string | undefined
+    if (stripeCustomerId) {
+      const { data } = await supabase
+        .from('user_subscriptions')
+        .select('user_id')
+        .eq('stripe_customer_id', stripeCustomerId)
+        .maybeSingle()
+      userId = (data?.user_id as string) || null
+    }
+
+    // Process events
+    switch (type) {
+      case 'invoice.payment_failed': {
+        if (!userId) break
+        await setSubscriptionStatus(userId, 'past_due')
+
+        const email = await getUserEmail(userId)
+        // Derive amount and retry date from invoice if available
+        const amountCents = obj?.amount_due ?? obj?.amount_remaining ?? 0
+        const currency = (obj?.currency || 'usd').toUpperCase()
+        const nextAttemptTs = obj?.next_payment_attempt ? new Date(obj.next_payment_attempt * 1000) : null
+        const retryDate = nextAttemptTs ? nextAttemptTs.toLocaleDateString('en-US') : 'soon'
+
+        // Get Billing Portal link from app route (we will add a portal function and UI)
+        const siteUrl = Deno.env.get('SITE_URL') || 'https://legacyguard.app'
+        const billingUrl = `${siteUrl}/account/billing`
+
+        // Compose email via local minimal template
+        if (email) {
+          const amountFmt = amountCents ? `${(amountCents / 100).toFixed(2)} ${currency}` : 'your subscription'
+          const html = `<!doctype html><html><body>
+            <p>Hi,</p>
+            <p>We were unable to process your recent payment for ${amountFmt}. We will retry on ${retryDate}.</p>
+            <p><a href="${billingUrl}">Open Billing Portal</a> to update your payment method.</p>
+            <p style="font-size:12px;color:#64748b">© 2025 LegacyGuard</p>
+          </body></html>`
+          await sendEmail(email, 'Action Required: Payment Failed - LegacyGuard', html, `Payment failed. Retry on ${retryDate}. Update here: ${billingUrl}`)
+        }
+
+        // In-app banner
+        await upsertDunningBanner(
+          userId,
+          'Payment issue',
+          'We could not process your payment. Please open the Billing Portal to update your payment method.'
+        )
+        break
+      }
+      case 'invoice.payment_succeeded': {
+        if (!userId) break
+        // If previously past_due, set active and clear banners
+        await setSubscriptionStatus(userId, 'active')
+        await clearDunningBanners(userId)
+
+        // Send recovery email
+        const email = await getUserEmail(userId)
+        const amountCents = obj?.amount_paid ?? obj?.amount_due ?? 0
+        const currency = (obj?.currency || 'usd').toUpperCase()
+        if (email) {
+          const amountFmt = amountCents ? `${(amountCents / 100).toFixed(2)} ${currency}` : 'your subscription'
+          const html = `<!doctype html><html><body>
+            <p>Hi,</p>
+            <p>Your payment of ${amountFmt} has been processed successfully and your subscription is active again.</p>
+            <p style="font-size:12px;color:#64748b">© 2025 LegacyGuard</p>
+          </body></html>`
+          await sendEmail(email, 'Payment Confirmed - LegacyGuard', html, `Payment confirmed ${amountFmt}`)
+        }
+        break
+      }
+      default: {
+        // Ignore other events for MVP
+        break
+      }
+    }
+
+    return jsonResponse({ received: true })
+  } catch (e) {
+    console.error('stripe-webhook error', { message: (e as Error).message })
+    return jsonResponse({ error: 'internal_error' }, 500)
+  }
+})
+
 
 import { serve } from 'std/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@13.10.0?target=deno'

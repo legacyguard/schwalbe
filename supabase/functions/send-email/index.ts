@@ -117,18 +117,18 @@ serve(async (req) => {
 // Email Templates
 export const templates = {
   welcomeEmail: (userName: string, planName: string) => ({
-    subject: `Welcome to Document Safe ${planName}! 🎉`,
+    subject: `Welcome to LegacyGuard ${planName}! 🎉`,
     html: `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Welcome to Document Safe</title>
+          <title>Welcome to LegacyGuard</title>
         </head>
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center; border-radius: 10px 10px 0 0;">
-            <h1 style="margin: 0; font-size: 28px;">Welcome to Document Safe Pro!</h1>
+            <h1 style="margin: 0; font-size: 28px;">Welcome to LegacyGuard Pro!</h1>
           </div>
           <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px;">Hi ${userName},</p>
@@ -143,22 +143,22 @@ export const templates = {
               </ul>
             </div>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://documentsafe.app/dashboard" style="display: inline-block; padding: 14px 30px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Go to Dashboard</a>
+              <a href="https://legacyguard.app/dashboard" style="display: inline-block; padding: 14px 30px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Go to Dashboard</a>
             </div>
             <p style="font-size: 14px; color: #666; text-align: center;">
-              Need help? Reply to this email or visit our <a href="https://documentsafe.app/help" style="color: #667eea;">help center</a>.
+              Need help? Reply to this email or visit our <a href="https://legacyguard.app/help" style="color: #667eea;">help center</a>.
             </p>
           </div>
           <div style="text-align: center; padding: 20px; font-size: 12px; color: #999;">
-            © 2025 Document Safe. All rights reserved.<br>
-            <a href="https://documentsafe.app/unsubscribe" style="color: #999;">Unsubscribe</a> | 
-            <a href="https://documentsafe.app/privacy" style="color: #999;">Privacy Policy</a>
+            © 2025 LegacyGuard. All rights reserved.<br>
+            <a href="https://legacyguard.app/unsubscribe" style="color: #999;">Unsubscribe</a> |
+            <a href="https://legacyguard.app/privacy" style="color: #999;">Privacy Policy</a>
           </div>
         </body>
       </html>
     `,
     text: `
-      Welcome to Document Safe Pro!
+      Welcome to LegacyGuard Pro!
       
       Hi ${userName},
       
@@ -170,41 +170,74 @@ export const templates = {
       ✅ Advanced security features
       ✅ 24/7 priority support
       
-      Go to Dashboard: https://documentsafe.app/dashboard
+      Go to Dashboard: https://legacyguard.app/dashboard
       
-      Need help? Reply to this email or visit our help center at https://documentsafe.app/help
+      Need help? Reply to this email or visit our help center at https://legacyguard.app/help
       
-      © 2025 Document Safe. All rights reserved.
+      © 2025 LegacyGuard. All rights reserved.
     `
   }),
 
-  paymentFailedEmail: (userName: string, amount: string, retryDate: string) => ({
-    subject: 'Action Required: Payment Failed - Document Safe',
+  paymentFailedEmail: (userName: string, amount: string, retryDate: string, billingUrl: string) => ({
+    subject: 'Action Required: Payment Failed - LegacyGuard',
     html: `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Payment Failed</title>
         </head>
-        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background: #f56565; color: white; padding: 40px 30px; text-align: center; border-radius: 10px 10px 0 0;">
-            <h1 style="margin: 0; font-size: 28px;">Payment Failed</h1>
+        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #0f172a; max-width: 600px; margin: 0 auto; padding: 20px; background:#f8fafc;">
+          <div style="background: #ef4444; color: white; padding: 28px 24px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="margin: 0; font-size: 22px;">Payment Failed</h1>
           </div>
-          <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+          <div style="background: #ffffff; padding: 24px; border-radius: 0 0 10px 10px; border:1px solid #e2e8f0;">
             <p style="font-size: 16px;">Hi ${userName},</p>
-            <p style="font-size: 16px;">We were unable to process your payment of <strong>${amount}</strong>.</p>
-            <div style="background: #fff5f5; border-left: 4px solid #f56565; padding: 15px; margin: 20px 0;">
-              <p style="margin: 0; color: #c53030;"><strong>Important:</strong> We'll retry the payment on ${retryDate}. Please ensure your payment method is up to date to avoid service interruption.</p>
+            <p style="font-size: 16px;">We were unable to process your recent payment of <strong>${amount}</strong>.</p>
+            <div style="background: #fff7ed; border-left: 4px solid #f97316; padding: 12px 16px; margin: 16px 0;">
+              <p style="margin: 0; color: #7c2d12;"><strong>Next step:</strong> We'll retry the payment on ${retryDate}. To avoid any interruption, please update your payment method.</p>
             </div>
-            <div style="text-align: center; margin: 30px 0;">
-              <a href="https://documentsafe.app/billing" style="display: inline-block; padding: 14px 30px; background: #f56565; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Update Payment Method</a>
+            <div style="text-align: center; margin: 24px 0;">
+              <a href="${billingUrl}" style="display: inline-block; padding: 12px 22px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Open Billing Portal</a>
             </div>
+            <p style="font-size: 12px; color: #64748b; text-align: center; margin-top: 16px;">If you recently updated your card, you can ignore this message.</p>
+          </div>
+          <div style="text-align: center; padding: 14px; font-size: 12px; color: #94a3b8;">
+            © 2025 LegacyGuard. All rights reserved. | <a href="https://legacyguard.app/privacy" style="color:#94a3b8;">Privacy</a>
           </div>
         </body>
       </html>
     `,
-    text: `Payment Failed - Action Required\n\nHi ${userName},\n\nWe were unable to process your payment of ${amount}.\n\nWe'll retry on ${retryDate}. Please update your payment method at: https://documentsafe.app/billing`
+    text: `Payment Failed - Action Required\n\nHi ${userName},\n\nWe were unable to process your payment of ${amount}. We'll retry on ${retryDate}.\n\nOpen Billing Portal: ${billingUrl}\n\n© 2025 LegacyGuard.`
+  }),
+
+  paymentRecoveredEmail: (userName: string, amount: string) => ({
+    subject: 'Payment Confirmed - LegacyGuard',
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Payment Confirmed</title>
+        </head>
+        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #0f172a; max-width: 600px; margin: 0 auto; padding: 20px; background:#f8fafc;">
+          <div style="background: #10b981; color: white; padding: 28px 24px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="margin: 0; font-size: 22px;">Payment Confirmed</h1>
+          </div>
+          <div style="background: #ffffff; padding: 24px; border-radius: 0 0 10px 10px; border:1px solid #e2e8f0;">
+            <p style="font-size: 16px;">Hi ${userName},</p>
+            <p style="font-size: 16px;">Great news—your recent payment of <strong>${amount}</strong> has been processed successfully and your subscription is active again.</p>
+            <p style="font-size: 14px; color:#475569;">No further action is needed.</p>
+          </div>
+          <div style="text-align: center; padding: 14px; font-size: 12px; color: #94a3b8;">
+            © 2025 LegacyGuard. All rights reserved. | <a href="https://legacyguard.app/privacy" style="color:#94a3b8;">Privacy</a>
+          </div>
+        </body>
+      </html>
+    `,
+    text: `Payment Confirmed\n\nHi ${userName},\n\nYour payment of ${amount} was processed successfully and your subscription is active again.\n\n© 2025 LegacyGuard.`
   }),
 
   usageWarningEmail: (userName: string, usageType: string, percentage: number, upgradeUrl: string) => ({
