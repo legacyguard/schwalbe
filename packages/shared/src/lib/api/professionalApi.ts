@@ -453,7 +453,7 @@ export const commissionTrackingApi = {
     try {
       // This would typically query a commission_records table
       // For now, return mock data structure
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('professional_reviewers')
         .select('*')
         .eq('id', reviewerId)
@@ -471,14 +471,11 @@ export const commissionTrackingApi = {
   },
 
   // POST /api/commissions/process/:commissionId
-  async processCommissionPayment(commissionId: string): Promise<{ success: boolean }> {
+  async processCommissionPayment(_commissionId: string): Promise<{ success: boolean }> {
     try {
       // Implementation for processing commission payments
       // This would integrate with payment processors and update commission status
-      
-      // Mock implementation
-      console.log(`Processing commission payment for ID: ${commissionId}`);
-      
+      // Mock implementation – no-op
       return { success: true };
     } catch (error) {
       throw new Error(

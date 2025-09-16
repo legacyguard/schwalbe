@@ -9,5 +9,10 @@ module.exports = {
       { tsconfig: '<rootDir>/tsconfig.json', useESM: true }
     ],
   },
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@schwalbe/shared$': '<rootDir>/../../packages/shared/src/index-minimal.ts',
+    '^@schwalbe/shared/(.*)$': '<rootDir>/../../packages/shared/src/$1',
+  },
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
 };

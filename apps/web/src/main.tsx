@@ -8,6 +8,7 @@ import { ShareViewer } from '@/features/sharing/viewer/ShareViewer';
 import { RemindersRoutes } from '@/features/reminders/routes/RemindersRoutes';
 import { DocumentRoutes } from '@/features/documents/routes/DocumentRoutes';
 import { SubscriptionsRoutes } from '@/features/subscriptions/SubscriptionsRoutes';
+import { LegalRoutes } from '@/features/legal/routes/LegalRoutes';
 import '@/lib/i18n';
 
 const rootEl = document.getElementById('root');
@@ -24,6 +25,7 @@ if (rootEl) {
             <Route path="/documents/*" element={<DocumentRoutes />} />
             <Route path="/share/:shareId" element={<ShareViewer />} />
             <Route path="/subscriptions/*" element={<SubscriptionsRoutes />} />
+            <Route path="/legal/*" element={<LegalRoutes />} />
             <Route
               path="/"
               element={

@@ -1,11 +1,9 @@
-import type { AISuggestions, Database, DocumentUploadRequest, Json, Tables } from '@shared/types/database';
 /**
  * Unit tests for DocumentService
  * Tests all methods with success cases, error cases, and edge cases
  */
 
 import { DocumentService } from '../../api-definitions';
-import { LegacyGuardApiError } from '../../utils/api-error-handler';
 import type { ApiClientInterface } from '../../types/api';
 import type { Document } from '../../types/supabase';
 

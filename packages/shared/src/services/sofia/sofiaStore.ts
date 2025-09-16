@@ -173,9 +173,7 @@ class SimpleSofiaStore implements SofiaStore {
 export const sofiaStore = new SimpleSofiaStore();
 
 // React hooks for store integration
-export function useSofiaStore(): SofiaStore;
-export function useSofiaStore<T>(selector: (store: SofiaStore) => T): T;
-export function useSofiaStore<T>(selector?: (store: SofiaStore) => T) {
+export function useSofiaStore<T>(selector?: (store: SofiaStore) => T): SofiaStore | T {
   const forceUpdate = useForceUpdate();
 
   React.useEffect(() => {

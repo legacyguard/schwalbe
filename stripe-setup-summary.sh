@@ -1,0 +1,67 @@
+#!/bin/bash
+
+echo "🎉 Stripe Integration Setup Complete!"
+echo "======================================"
+
+# Colors for output
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo ""
+echo -e "${GREEN}✅ Completed Tasks:${NC}"
+echo "1. ✅ Created Stripe Products:"
+echo "   - Basic Plan (prod_T49cwadzLjb9yN)"
+echo "   - Pro Plan (prod_T49cUpVgCBCiW8)"
+echo ""
+echo "2. ✅ Created Stripe Prices:"
+echo "   - Basic CZK: price_1S81J7Fjl1oRWeU6JUreGpMu (299 CZK/month)"
+echo "   - Basic EUR: price_1S81J8Fjl1oRWeU6sxBsU9yL (12.90 EUR/month)"
+echo "   - Pro CZK: price_1S81J9Fjl1oRWeU6lSyWpU8S (799 CZK/month)"
+echo "   - Pro EUR: price_1S81JAFjl1oRWeU6JNQNNAoK (34.90 EUR/month)"
+echo ""
+echo "3. ✅ Set Supabase Secrets:"
+echo "   - STRIPE_SECRET_KEY"
+echo "   - STRIPE_WEBHOOK_SECRET"
+echo ""
+echo "4. ✅ Created Stripe Webhook Endpoint:"
+echo "   - URL: https://rnmqtqaegqpbpytqawpg.supabase.co/functions/v1/stripe-webhook"
+echo "   - Events: checkout.session.completed, subscription events, invoice events"
+echo ""
+echo "5. ✅ Deployed Supabase Functions:"
+echo "   - stripe-checkout (creates Stripe checkout sessions)"
+echo "   - stripe-webhook (handles Stripe webhook events)"
+echo ""
+
+echo -e "${BLUE}🔗 Useful Links:${NC}"
+echo "• Stripe Dashboard: https://dashboard.stripe.com"
+echo "• Webhooks: https://dashboard.stripe.com/webhooks"
+echo "• Supabase Functions: https://supabase.com/dashboard/project/rnmqtqaegqpbpytqawpg/functions"
+echo ""
+
+echo -e "${GREEN}🧪 Testing Your Integration:${NC}"
+echo ""
+echo "1. 📱 Frontend Test:"
+echo "   • Visit your staging app"
+echo "   • Click on a paid plan (Basic or Pro)"
+echo "   • Should redirect to Stripe Checkout"
+echo "   • Complete test payment with 4242424242424242"
+echo ""
+echo "2. 🔄 Webhook Test:"
+echo "   • After successful checkout, check Supabase logs"
+echo "   • User subscription should be created/updated"
+echo "   • Features should be unlocked (OCR, sharing)"
+echo ""
+echo "3. 🎯 Feature Gating Test:"
+echo "   • Try OCR upload before subscription → blocked"
+echo "   • Try OCR upload after subscription → allowed"
+echo ""
+
+echo -e "${BLUE}💡 Next Steps:${NC}"
+echo "• Switch to live mode when ready for production"
+echo "• Update webhook URL for production domain"
+echo "• Test full user journey end-to-end"
+echo "• Monitor Stripe Dashboard and Supabase logs"
+echo ""
+
+echo "🚀 Your Stripe integration is now fully automated and ready to test!"

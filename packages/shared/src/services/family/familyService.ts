@@ -12,7 +12,6 @@ type FamilyStats = any;
 type FamilyProtectionStatus = any;
 type EmergencyAccessRequest = any;
 type FamilyActivity = any;
-type FamilyCalendarEvent = any;
 type FamilyRole = any;
 type RelationshipType = any;
 

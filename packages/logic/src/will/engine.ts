@@ -11,7 +11,7 @@ export interface Person {
   isBeneficiary?: boolean
 }
 
-export interface Witness extends Person {}
+export type Witness = Person;
 
 export interface Beneficiary {
   id: string
@@ -68,7 +68,7 @@ import { renderTemplate } from './templates'
 
 export class WillEngine {
   generate(input: WillInput): DraftResult {
-    const rules = this.getRules(input.jurisdiction)
+    /* const rules = this.getRules(input.jurisdiction) */
     const validation = this.validate(input)
 
     const content = renderTemplate({

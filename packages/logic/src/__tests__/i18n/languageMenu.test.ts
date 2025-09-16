@@ -1,4 +1,4 @@
-import { DOMAIN_LANGUAGES, getAllowedLanguagesForHost, computePreferredLocale } from '@schwalbe/shared'
+import { getAllowedLanguagesForHost, computePreferredLocale } from '@schwalbe/shared'
 
 describe('i18n domain language subsets (MVP)', () => {
   test('CZ domain exposes only [cs, sk, en, de, uk]', () => {

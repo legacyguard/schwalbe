@@ -142,7 +142,7 @@ class SubscriptionService {
     const payload: any = { ...patch };
     if (payload.channels) {
       // Ensure JSONB array is persisted correctly
-      payload.channels = payload.channels;
+      payload.channels = [...payload.channels];
     }
 
     const { error } = await supabase

@@ -395,7 +395,7 @@ export class ProfessionalService {
     const { data, error } = await query.order('rating', { ascending: false });
     if (error) throw error;
 
-    return data || [];
+    return (data as any[]) || [];
   }
 
   // Pricing and Booking

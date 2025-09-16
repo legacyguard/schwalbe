@@ -94,16 +94,7 @@ class WillAutoUpdateService {
       if (wErr || !willRow) return { error: 'Will not found' };
 
       // Apply patch to existing will JSON
-      const willSnapshot: WillSnapshot = {
-        id: willRow.id,
-        userId: willRow.user_id,
-        assets: willRow.assets || {},
-        beneficiaries: willRow.beneficiaries || [],
-        guardianship: willRow.guardianship_data || {},
-        versionNumber: willRow.version_number,
-      };
-
-      const { next, inverse } = applyPatch(
+      const { next } = applyPatch(
         {
           assets: willRow.assets || {},
           beneficiaries: willRow.beneficiaries || [],
@@ -112,13 +103,7 @@ class WillAutoUpdateService {
         proposal.patch as WillPatch
       );
 
-      // Persist: create will_versions snapshot BEFORE and AFTER
-      const beforeVersion = {
-        assets: willRow.assets,
-        beneficiaries: willRow.beneficiaries,
-        guardianship_data: willRow.guardianship_data,
-        version_number: willRow.version_number,
-      };
+      // Persist: create will_versions snapshot AFTER
       const afterVersion = {
         assets: (next as any).assets,
         beneficiaries: (next as any).beneficiaries,

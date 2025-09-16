@@ -19,7 +19,7 @@ export interface RuleOptions {
 export function buildPatch(
   snapshot: WillSnapshot,
   changes: DetectedChanges,
-  options: RuleOptions = { safeMode: true }
+  _options: RuleOptions = { safeMode: true }
 ): WillPatch {
   const ops: PatchOperation[] = [];
   let assetsAdded = 0;

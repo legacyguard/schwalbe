@@ -11,8 +11,8 @@ declare global {
 
   // Generic Database types
   type Database = any;
-  type Tables<T = any> = any;
-  type Enums<T = any> = any;
+  type Tables = any;
+  type Enums = any;
 
   // Document types
   interface DocumentUploadRequest {
@@ -27,7 +27,7 @@ declare global {
   }
 
   // React component helpers
-  type FC<P = {}> = React.FC<P>;
+  type FC<P extends object = Record<string, unknown>> = React.FC<P>;
   type ReactElement = React.ReactElement;
 
   // Module declarations for problematic imports

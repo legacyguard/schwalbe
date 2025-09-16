@@ -72,11 +72,11 @@ function setPath(obj: any, path: string, value: unknown): { parent: any; key: st
   const parts = splitPath(path);
   let curr = obj;
   for (let i = 0; i < parts.length - 1; i++) {
-    const p = parts[i];
+    const p = parts[i]!;
     if (typeof curr[p] !== 'object' || curr[p] === null) curr[p] = {};
     curr = curr[p];
   }
-  const key = parts[parts.length - 1];
+  const key = parts[parts.length - 1]!;
   const prev = curr[key];
   curr[key] = value;
   return { parent: curr, key, prev };
@@ -86,11 +86,11 @@ function unsetPath(obj: any, path: string): { prev: unknown } {
   const parts = splitPath(path);
   let curr = obj;
   for (let i = 0; i < parts.length - 1; i++) {
-    const p = parts[i];
+    const p = parts[i]!;
     if (typeof curr[p] !== 'object' || curr[p] === null) return { prev: undefined };
     curr = curr[p];
   }
-  const key = parts[parts.length - 1];
+  const key = parts[parts.length - 1]!;
   const prev = curr[key];
   delete curr[key];
   return { prev };
@@ -100,7 +100,7 @@ function ensureArrayAt(obj: any, path: string): any[] {
   const parts = splitPath(path);
   let curr = obj;
   for (let i = 0; i < parts.length; i++) {
-    const p = parts[i];
+    const p = parts[i]!;
     if (curr[p] === undefined) curr[p] = i === parts.length - 1 ? [] : {};
     curr = curr[p];
   }

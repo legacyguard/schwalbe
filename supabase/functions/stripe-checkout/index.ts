@@ -16,11 +16,15 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
 const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 const stripe = new Stripe(STRIPE_SECRET_KEY ?? '', { apiVersion: '2023-10-16' })
 
-// Resolve plan -> price ID using env, per currency (CZK/EUR)
-function resolvePriceId(plan: string, currency: string): string | null {
-  const key = `${plan.toUpperCase()}_${currency.toUpperCase()}` // e.g., PREMIUM_EUR
-  const envKey = `STRIPE_PRICE_${key}`
-  return Deno.env.get(envKey) ?? null
+// Simple amount mapping (minor units)
+// MVP prices: Premium 4 EUR / 100 CZK; Family 10 EUR / 250 CZK
+function resolveAmount(plan: string, currency: 'CZK' | 'EUR'): number {
+  const p = plan.toLowerCase()
+  if (p === 'family') {
+    return currency === 'CZK' ? 25000 : 1000
+  }
+  // default premium
+  return currency === 'CZK' ? 10000 : 400
 }
 
 function getOrigin(req: Request): string | null {
@@ -45,7 +49,7 @@ serve(async (req: Request) => {
       throw new Error('Stripe secret not configured')
     }
 
-    const { plan, priceId: priceIdInput, userId, successUrl, cancelUrl } = await req.json()
+    const { plan, userId, successUrl, cancelUrl } = await req.json()
 
     if (!userId) {
       return new Response(JSON.stringify({ error: 'Missing userId' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } })
@@ -55,11 +59,8 @@ serve(async (req: Request) => {
     const origin = getOrigin(req)
     const currency = inferCurrencyFromOrigin(origin)
 
-    // Resolve priceId from plan + currency if not provided
-    const priceId = (priceIdInput as string | undefined) ?? resolvePriceId((plan as string) || 'premium', currency)
-    if (!priceId) {
-      return new Response(JSON.stringify({ error: 'Price not configured for requested plan/currency' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } })
-    }
+    // Resolve amount from plan + currency
+    const amount = resolveAmount((plan as string) || 'premium', currency)
 
     // Ensure we have a customer id (store on profiles, fallback to user_subscriptions)
     let stripeCustomerId: string | null = null
@@ -91,21 +92,34 @@ serve(async (req: Request) => {
       }
     }
 
+    const p = (plan as string) || 'premium'
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'subscription',
       payment_method_types: ['card'],
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: currency.toLowerCase(),
+            unit_amount: amount,
+            recurring: { interval: 'month' },
+            product_data: {
+              name: p.toLowerCase() === 'family' ? 'LegacyGuard Family' : 'LegacyGuard Premium',
+            },
+          },
+        },
+      ],
       success_url: successUrl || `${origin ?? ''}/?checkout=success`,
       cancel_url: cancelUrl || `${origin ?? ''}/?checkout=cancel`,
       metadata: {
         user_id: userId,
-        plan: (plan as string) || 'premium',
+        plan: p,
       },
       subscription_data: {
         metadata: {
           user_id: userId,
-          plan: (plan as string) || 'premium',
+          plan: p,
         },
       },
       billing_address_collection: 'auto',

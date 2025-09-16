@@ -193,9 +193,9 @@ class MonitoringService {
         context: sanitizedContext,
         stack: sanitizedStack ?? null,
       });
-    } catch (_err) {
+    } catch {
       // Do not print database errors or details
-      console.error('Failed to persist error_log');
+      // Intentionally swallow provider errors to avoid log loops
     }
   }
 
@@ -258,8 +258,9 @@ class MonitoringService {
           console.error('Critical alert email failed (browser)');
         }
       }
-    } catch (err) {
-      console.error('Critical alert path error:', err);
+    } catch {
+      // Avoid printing detailed provider errors
+      console.error('Critical alert path error');
     }
   }
 
@@ -285,7 +286,7 @@ class MonitoringService {
       else if (level === 'warn') console.warn(logText);
       else if ((console as any).debug && level === 'debug') (console as any).debug(logText);
       else console.info(logText);
-    } catch {}
+    } catch { /* ignore */ }
 
     await this.insertErrorLog(level, message, context, stack);
     if (this.isCritical(level)) {
@@ -407,7 +408,7 @@ class MonitoringService {
         session_id: this.sessionId,
         device_info: deviceInfo,
       });
-    } catch (_error) {
+    } catch {
       // Avoid printing event payloads or error details
       console.error('Error tracking event');
     }

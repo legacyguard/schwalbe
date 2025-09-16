@@ -6,7 +6,7 @@ describe('tokenization', () => {
   test('basic english tokenization removes punctuation and lowercases', () => {
     const t = tokenize("Hello, world! It's 2025-09-15.", { locale: 'en' })
     expect(t).toEqual(expect.arrayContaining(['hello', 'world']))
-    expect(t.join(' ')).not.toMatch(/[!,\.'-]/)
+    expect(t.join(' ')).not.toMatch(/[!,.'-]/)
   })
 
   test('min token length filters short tokens', () => {
