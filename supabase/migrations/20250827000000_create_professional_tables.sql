@@ -181,7 +181,7 @@ DO $$
 BEGIN
   -- Replace if exists to avoid conflicts
   IF EXISTS (
-    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'professional_onboarding' AND polname = 'Users can manage own onboarding'
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'professional_onboarding' AND policyname = 'Users can manage own onboarding'
   ) THEN
     DROP POLICY "Users can manage own onboarding" ON public.professional_onboarding;
   END IF;
