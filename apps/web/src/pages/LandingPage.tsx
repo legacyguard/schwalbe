@@ -6,6 +6,7 @@ import { Button } from '@schwalbe/ui';
 import { Card, CardContent } from '@schwalbe/ui';
 import { Icon } from '@/components/ui/icon-library';
 import { TopBar } from '@/components/layout/TopBar';
+import { DunningBanner } from '@/features/billing/DunningBanner';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { SecurityPromiseSection } from '@/components/landing/SecurityPromiseSection';
@@ -165,6 +166,7 @@ export function LandingPage() {
 
       {/* Navigation Header */}
       <TopBar />
+      <DunningBanner />
 
       {/* Hero Section - Full Screen Night Scene */}
       <section

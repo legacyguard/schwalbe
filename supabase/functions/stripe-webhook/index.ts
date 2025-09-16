@@ -17,10 +17,66 @@ function jsonResponse(body: unknown, status = 200) {
 // and rely on Stripe to re-deliver on 4xx/5xx. In production, consider adding official Stripe signature validation.
 // For now, we accept requests only from configured environment with a secret gate header to reduce risk.
 const WEBHOOK_GATE = Deno.env.get('STRIPE_WEBHOOK_GATE')
+const SIGNING_SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET')
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+
+// Helpers for Stripe signature verification (HMAC-SHA256)
+const enc = new TextEncoder()
+
+function toHex(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer)
+  let hex = ''
+  for (let i = 0; i < bytes.length; i++) {
+    const h = bytes[i].toString(16).padStart(2, '0')
+    hex += h
+  }
+  return hex
+}
+
+function timingSafeEqualStr(a: string, b: string): boolean {
+  if (a.length !== b.length) return false
+  let out = 0
+  for (let i = 0; i < a.length; i++) {
+    out |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  }
+  return out === 0
+}
+
+async function hmacSHA256Hex(secret: string, payload: string): Promise<string> {
+  const key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payload))
+  return toHex(sig)
+}
+
+async function verifyStripeSignature(rawBody: string, signatureHeader: string, secret: string, toleranceSec = 300): Promise<boolean> {
+  try {
+    const parts = signatureHeader.split(',')
+    let tStr: string | null = null
+    const v1: string[] = []
+    for (const part of parts) {
+      const [k, v] = part.split('=')
+      if (k === 't') tStr = v
+      if (k === 'v1') v1.push(v)
+    }
+    if (!tStr || v1.length === 0) return false
+    const t = Number(tStr)
+    if (!Number.isFinite(t)) return false
+
+    const nowSec = Math.floor(Date.now() / 1000)
+    if (Math.abs(nowSec - t) > toleranceSec) return false
+
+    const expected = await hmacSHA256Hex(secret, `${t}.${rawBody}`)
+    for (const candidate of v1) {
+      if (timingSafeEqualStr(expected, candidate)) return true
+    }
+    return false
+  } catch {
+    return false
+  }
+}
 
 // Helper: fetch user profile email
 async function getUserEmail(userId: string): Promise<string | null> {
@@ -41,7 +97,17 @@ async function setSubscriptionStatus(userId: string, status: 'past_due' | 'activ
 
 // Helper: insert in-app banner via notification_log (leveraging reminders channel/table for simple banners)
 async function upsertDunningBanner(userId: string, title: string, body: string) {
-  // Insert an in_app notification record; UI will display as banner
+  // Ensure only one active banner exists per user
+  const { data: existing } = await supabase
+    .from('notification_log')
+    .select('id')
+    .eq('recipient', userId)
+    .eq('channel', 'in_app')
+    .eq('reminder_rule_id', 'stripe_dunning')
+    .eq('status', 'sent')
+    .limit(1)
+  if (existing && existing.length > 0) return
+
   const { error } = await supabase.from('notification_log').insert({
     reminder_rule_id: 'stripe_dunning', // sentinel
     channel: 'in_app',
@@ -85,17 +151,45 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
-    // Simple gate to reduce abuse in MVP
-    if (WEBHOOK_GATE) {
+    // Read raw body first for signature verification
+    const rawBody = await req.text()
+    const sigHeader = req.headers.get('stripe-signature') || req.headers.get('Stripe-Signature')
+
+    if (SIGNING_SECRET) {
+      if (!sigHeader) {
+        return jsonResponse({ error: 'missing_signature' }, 400)
+      }
+      const ok = await verifyStripeSignature(rawBody, sigHeader, SIGNING_SECRET)
+      if (!ok) {
+        return jsonResponse({ error: 'invalid_signature' }, 400)
+      }
+    } else if (WEBHOOK_GATE) {
       const gate = req.headers.get('x-webhook-gate')
       if (gate !== WEBHOOK_GATE) {
         return jsonResponse({ error: 'forbidden' }, 403)
       }
     }
 
-    // Read event body as JSON (Stripe can send JSON by default). Avoid logging PII.
-    const event = await req.json()
+    // Parse after verification
+    let event: any
+    try {
+      event = JSON.parse(rawBody)
+    } catch {
+      return jsonResponse({ error: 'invalid_json' }, 400)
+    }
     const type = event?.type as string
+
+    // Idempotency: insert event id, skip if already processed
+    const eventId = event?.id as string | undefined
+    if (eventId) {
+      const { error: insErr } = await supabase
+        .from('processed_webhooks')
+        .insert({ event_id: eventId })
+      if (insErr && insErr.code === '23505') {
+        // duplicate primary key -> already processed
+        return jsonResponse({ received: true, duplicate: true })
+      }
+    }
 
     // We expect our integration to include our user_id in subscription metadata or invoice lines metadata.
     // MVP: try invoice.customer and look up mapping via user_subscriptions by stripe_customer_id.

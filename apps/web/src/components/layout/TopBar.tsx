@@ -82,6 +82,7 @@ export function TopBar() {
             <div className="hidden md:block">
               <SearchBox />
             </div>
+            <a href="/account/billing" className="text-slate-200 hover:text-white hover:bg-slate-800/50 px-2 py-1 rounded" aria-label="Billing">Billing</a>
             <LanguageSwitcher />
             <CountryMenu />
             {/* Reminders link (Bell) */}
