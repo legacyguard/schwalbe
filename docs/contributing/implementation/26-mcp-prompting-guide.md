@@ -4,10 +4,12 @@ Purpose
 Show exactly how to drive implementation through prompts using MCP servers in Warp.
 
 Inputs
+
 - MCP SERVERS: list of configured servers
 - WORKFLOW: when to use which prompt/file
 
 Kickoff prompt
+
 ```
 SEATBELT: ON
 MODE: IMPLEMENT
@@ -35,13 +37,16 @@ CHECKS BEFORE DONE:
 ```
 
 Usage notes
+
 - Always start from the relevant phase doc and copy its prompt.
 - If you need to deviate, state the reason in CONTEXT and update SCOPE accordingly.
 - Keep each session focused and small; commit directly to main.
+- Tokens/keys must be supplied via environment variables; do not commit secrets in this repo.
 
 ---
 
 Ready-to-paste kickoff prompt (pre-filled)
+
 ```
 SEATBELT: ON
 MODE: IMPLEMENT
@@ -62,7 +67,7 @@ CONSTRAINTS:
 - No secrets in plain text; env variables only; no printing secrets
 PERMISSIONS:
 - edit code: yes; read-only cmds: yes; commit: ask
-BRANCH: feature/<current-feature>
+BRANCH: main
 RISK TOLERANCE: low
 CHECKS BEFORE DONE:
 - Build/test pass; plan matched
