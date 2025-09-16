@@ -245,7 +245,7 @@ END$$;
 
 -- Document reviews (users can view their own reviews, reviewers can manage assigned reviews)
 DO $$
-DECLARE v_type text;
+DECLARE v_has_doc_user boolean; v_doc_user_type text; v_rr_type text;
 BEGIN
   IF EXISTS (
     SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'document_reviews' AND policyname = 'Users can view own reviews'
@@ -253,14 +253,32 @@ BEGIN
     EXECUTE 'DROP POLICY "Users can view own reviews" ON public.document_reviews';
   END IF;
 
-  SELECT data_type INTO v_type
-  FROM information_schema.columns
-  WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id';
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id'
+  ) INTO v_has_doc_user;
 
-  IF v_type = 'uuid' THEN
-    EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = auth.uid())';
+  IF v_has_doc_user THEN
+    SELECT data_type INTO v_doc_user_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id';
+
+    IF v_doc_user_type = 'uuid' THEN
+      EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = auth.uid())';
+    ELSE
+      EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = app.current_external_id())';
+    END IF;
   ELSE
-    EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = app.current_external_id())';
+    -- Fallback: derive ownership via review_requests by matching document_id
+    SELECT data_type INTO v_rr_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'review_requests' AND column_name = 'user_id';
+
+    IF v_rr_type = 'uuid' THEN
+      EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (EXISTS (SELECT 1 FROM public.review_requests rr WHERE rr.document_id = public.document_reviews.document_id AND rr.user_id = auth.uid()))';
+    ELSE
+      EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (EXISTS (SELECT 1 FROM public.review_requests rr WHERE rr.document_id = public.document_reviews.document_id AND rr.user_id = app.current_external_id()))';
+    END IF;
   END IF;
 END$$;
 
@@ -271,7 +289,7 @@ CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews
 
 -- Review results (users can view results of their reviews, reviewers can manage results)
 DO $$
-DECLARE v_type text;
+DECLARE v_has_doc_user boolean; v_doc_user_type text; v_rr_type text;
 BEGIN
   IF EXISTS (
     SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'review_results' AND policyname = 'Users can view own review results'
@@ -279,14 +297,32 @@ BEGIN
     EXECUTE 'DROP POLICY "Users can view own review results" ON public.review_results';
   END IF;
 
-  SELECT data_type INTO v_type
-  FROM information_schema.columns
-  WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id';
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id'
+  ) INTO v_has_doc_user;
 
-  IF v_type = 'uuid' THEN
-    EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (review_id IN (SELECT id FROM public.document_reviews WHERE user_id = auth.uid()))';
+  IF v_has_doc_user THEN
+    SELECT data_type INTO v_doc_user_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id';
+
+    IF v_doc_user_type = 'uuid' THEN
+      EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (review_id IN (SELECT id FROM public.document_reviews WHERE user_id = auth.uid()))';
+    ELSE
+      EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (review_id IN (SELECT id FROM public.document_reviews WHERE user_id = app.current_external_id()))';
+    END IF;
   ELSE
-    EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (review_id IN (SELECT id FROM public.document_reviews WHERE user_id = app.current_external_id()))';
+    -- Fallback via join to review_requests on document_id
+    SELECT data_type INTO v_rr_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'review_requests' AND column_name = 'user_id';
+
+    IF v_rr_type = 'uuid' THEN
+      EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (EXISTS (SELECT 1 FROM public.document_reviews dr JOIN public.review_requests rr ON rr.document_id = dr.document_id WHERE dr.id = public.review_results.review_id AND rr.user_id = auth.uid()))';
+    ELSE
+      EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (EXISTS (SELECT 1 FROM public.document_reviews dr JOIN public.review_requests rr ON rr.document_id = dr.document_id WHERE dr.id = public.review_results.review_id AND rr.user_id = app.current_external_id()))';
+    END IF;
   END IF;
 END$$;
 
