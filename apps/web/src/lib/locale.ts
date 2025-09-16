@@ -1,7 +1,7 @@
 // apps/web/src/lib/locale.ts
 // Browser helpers for locale selection and domain language menus
 
-import { computePreferredLocale, getAllowedLanguagesForHost, type LocaleCode } from '@schwalbe/shared/config/languages'
+import { computePreferredLocale, getAllowedLanguagesForHost, type LocaleCode } from '@schwalbe/shared'
 
 export function getCurrentHost(): string {
   if (typeof window !== 'undefined' && window.location) return window.location.hostname

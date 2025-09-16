@@ -6,8 +6,8 @@ import {
   getEnabledDomains,
   type CountryDomain,
   DEFAULT_COUNTRY,
-} from '@schwalbe/shared/config/domains'
-import { getDomainByHost } from '@schwalbe/shared/config/languages'
+} from '@schwalbe/shared'
+import { getDomainByHost } from '@schwalbe/shared'
 import { getCurrentHost } from '@/lib/locale'
 import { redirectToCountryOrSimulate, type RedirectSimulationTarget } from '@/lib/utils/redirect-guard'
 import { RedirectSimulationModal } from '@/components/modals/RedirectSimulationModal'

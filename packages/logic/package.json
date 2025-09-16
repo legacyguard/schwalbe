@@ -10,6 +10,14 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./assets/conflicts": {
+      "import": "./dist/assets/conflicts.js",
+      "types": "./dist/assets/conflicts.d.ts"
+    },
+    "./will/engine": {
+      "import": "./dist/will/engine.js",
+      "types": "./dist/will/engine.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {

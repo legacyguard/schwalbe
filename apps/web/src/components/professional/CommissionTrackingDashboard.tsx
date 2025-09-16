@@ -46,12 +46,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@schwalbe/ui/dropdown-menu';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@schwalbe/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@schwalbe/ui';
 import { cn } from '@schwalbe/lib/utils';
 
 interface CommissionRecord {

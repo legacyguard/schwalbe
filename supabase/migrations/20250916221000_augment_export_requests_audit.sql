@@ -2,7 +2,8 @@
 
 DO $mig$
 DECLARE
-  cons_name text;
+  existing_def text;
+  named_cons text := 'export_requests_status_check';
 BEGIN
   -- Ensure table exists before altering (no-op if missing)
   IF to_regclass('public.export_requests') IS NULL THEN
@@ -21,20 +22,26 @@ BEGIN
     RAISE NOTICE 'Alter table add columns failed: %', SQLERRM;
   END;
 
-  -- Replace existing status check constraint to include ''emailed''
-  SELECT conname INTO cons_name
+  -- Handle status check constraint idempotently
+  SELECT pg_get_constraintdef(oid) INTO existing_def
   FROM pg_constraint
   WHERE conrelid = 'public.export_requests'::regclass
     AND contype = 'c'
-    AND pg_get_constraintdef(oid) ILIKE '%status%check%';
+    AND conname = named_cons;
 
-  IF cons_name IS NOT NULL THEN
-    EXECUTE format('ALTER TABLE public.export_requests DROP CONSTRAINT %I', cons_name);
+  IF existing_def IS NULL THEN
+    -- If no named constraint exists, create one that includes ''emailed''
+    EXECUTE 'ALTER TABLE public.export_requests
+      ADD CONSTRAINT export_requests_status_check
+      CHECK (status IN (''started'',''completed'',''failed'',''emailed''))';
+  ELSE
+    -- If constraint exists but does not include ''emailed'', replace it
+    IF position('emailed' in existing_def) = 0 THEN
+      EXECUTE format('ALTER TABLE public.export_requests DROP CONSTRAINT %I', named_cons);
+      EXECUTE 'ALTER TABLE public.export_requests
+        ADD CONSTRAINT export_requests_status_check
+        CHECK (status IN (''started'',''completed'',''failed'',''emailed''))';
+    END IF;
   END IF;
-
-  -- Create a consistent named constraint
-  EXECUTE 'ALTER TABLE public.export_requests
-    ADD CONSTRAINT export_requests_status_check
-    CHECK (status IN (''started'',''completed'',''failed'',''emailed''))';
 END
 $mig$;

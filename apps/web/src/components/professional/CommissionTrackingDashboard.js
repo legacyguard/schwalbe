@@ -16,7 +16,7 @@ import { Progress } from '@schwalbe/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from '@schwalbe/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@schwalbe/ui/tabs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from '@schwalbe/ui/dropdown-menu';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, } from '@schwalbe/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, } from '@schwalbe/ui';
 import { cn } from '@schwalbe/lib/utils';
 const SAMPLE_COMMISSION_DATA = [
     {
