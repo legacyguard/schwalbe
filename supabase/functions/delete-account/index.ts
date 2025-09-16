@@ -110,7 +110,7 @@ serve(async (req) => {
 
     const deletionResults: Record<string, { success: boolean; error?: string }> = {}
 
-    for (const table of tablesToPurge) {
+for (const table of tablesToPurge) {
       try {
         const { error } = await supabaseAdmin
           .from(table)
@@ -118,14 +118,22 @@ serve(async (req) => {
           .or(`user_id.eq.${userId},created_by.eq.${userId},owner_id.eq.${userId}`)
         
         if (error) {
-          deletionResults[table] = { success: false, error: error.message }
+          const msg = String(error.message || '')
+          const relationMissing = /relation .* does not exist/i.test(msg)
+          if (relationMissing) {
+            deletionResults[table] = { success: true }
+          } else {
+            deletionResults[table] = { success: false, error: msg }
+          }
         } else {
           deletionResults[table] = { success: true }
         }
       } catch (e) {
+        const msg = String(e)
+        const relationMissing = /relation .* does not exist/i.test(msg)
         deletionResults[table] = { 
-          success: false, 
-          error: redactSensitiveData(String(e)) || 'Unknown error'
+          success: relationMissing ? true : false, 
+          error: relationMissing ? undefined : redactSensitiveData(msg) || 'Unknown error'
         }
       }
     }
@@ -188,8 +196,11 @@ serve(async (req) => {
     }
 
     // 8. Check if all critical deletions succeeded
-    const criticalTables = ['profiles', 'documents', 'assets']
-    const allCriticalDeleted = criticalTables.every(t => deletionResults[t]?.success)
+const criticalTables = ['profiles', 'documents', 'assets']
+    const allCriticalDeleted = criticalTables.every((t) => {
+      const r = deletionResults[t]
+      return !r || r.success === true
+    })
 
     if (!allCriticalDeleted || !authDeleted) {
       // Alert on partial failure

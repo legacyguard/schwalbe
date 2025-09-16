@@ -22,18 +22,33 @@ serve(async (req) => {
     const userId = authData.user?.id
     if (!userId) return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
 
-    const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
-    // Rate limit by export_requests table
-    await admin.rpc('ensure_export_tables')
-    const sinceISO = new Date(Date.now() - EXPORT_COOLDOWN_MINUTES * 60_000).toISOString()
-    const { count } = await admin.from('export_requests').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('requested_at', sinceISO)
-    if ((count || 0) > 0) {
+    // Rate limit by export_requests table (best effort; degrade gracefully if table not present)
+    let rateLimited = false
+    try {
+      const sinceISO = new Date(Date.now() - EXPORT_COOLDOWN_MINUTES * 60_000).toISOString()
+      const { count, error: rlErr } = await admin
+        .from('export_requests')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', userId)
+        .gte('requested_at', sinceISO)
+      if (!rlErr && (count || 0) > 0) {
+        rateLimited = true
+      }
+    } catch (_) {
+      // ignore
+    }
+    if (rateLimited) {
       return new Response(JSON.stringify({ error: 'rate_limited', retry_after_minutes: EXPORT_COOLDOWN_MINUTES }), { status: 429, headers: { 'Content-Type': 'application/json' } })
     }
 
-    // Insert request log
-    await admin.from('export_requests').insert({ user_id: userId, requested_at: new Date().toISOString(), status: 'started' })
+    // Insert request log (best effort)
+    try {
+      await admin.from('export_requests').insert({ user_id: userId, requested_at: new Date().toISOString(), status: 'started' })
+    } catch (_) {
+      // ignore
+    }
 
     // Pull key entities (redact sensitive fields where appropriate)
     const [profiles, assets, documents, reminders, subscriptions] = await Promise.all([
@@ -58,8 +73,17 @@ serve(async (req) => {
       subscriptions: subscriptions.data || [],
     }
 
-    // Update request log
-    await admin.from('export_requests').update({ status: 'completed', completed_at: new Date().toISOString() }).eq('user_id', userId).order('requested_at', { ascending: false }).limit(1)
+// Update request log (best effort)
+    try {
+      await admin
+        .from('export_requests')
+        .update({ status: 'completed', completed_at: new Date().toISOString() })
+        .eq('user_id', userId)
+        .order('requested_at', { ascending: false })
+        .limit(1)
+    } catch (_) {
+      // ignore
+    }
 
     return new Response(JSON.stringify({ success: true, bundle }), { status: 200, headers: { 'Content-Type': 'application/json' } })
   } catch (_e) {
