@@ -72,6 +72,11 @@ export function SubscriptionsDashboard() {
             {sub.renew_url ? (
               <div><a className="text-sky-300 underline" href={sub.renew_url} target="_blank" rel="noreferrer">Manage subscription</a></div>
             ) : null}
+            <div className="mt-3">
+              <a className="inline-flex items-center px-3 py-1 rounded bg-sky-600 text-white hover:bg-sky-500" href="/account/billing">
+                Open Billing Portal
+              </a>
+            </div>
           </div>
         ) : (
           <div>No subscription found.</div>
