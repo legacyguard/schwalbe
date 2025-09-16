@@ -442,28 +442,52 @@ BEGIN
   END IF;
 END$$;
 
-CREATE POLICY "Reviewers can manage own consultations" ON public.consultations
-    FOR ALL USING (
-        reviewer_id IN (
-            SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id()
-        )
-    );
 
 -- Create indexes for performance
-CREATE INDEX IF NOT EXISTS idx_professional_reviewers_user_id ON public.professional_reviewers(user_id);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='user_id'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_professional_reviewers_user_id ON public.professional_reviewers(user_id)';
+  END IF;
+END$$;
 CREATE INDEX IF NOT EXISTS idx_professional_reviewers_status ON public.professional_reviewers(status, verification_status);
-CREATE INDEX IF NOT EXISTS idx_professional_reviewers_specializations ON public.professional_reviewers USING GIN(specializations);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='specializations'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_professional_reviewers_specializations ON public.professional_reviewers USING GIN(specializations)';
+  END IF;
+END$$;
 
-CREATE INDEX IF NOT EXISTS idx_review_requests_user_id ON public.review_requests(user_id);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='review_requests' AND column_name='user_id'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_review_requests_user_id ON public.review_requests(user_id)';
+  END IF;
+END$$;
 CREATE INDEX IF NOT EXISTS idx_review_requests_document_id ON public.review_requests(document_id);
 CREATE INDEX IF NOT EXISTS idx_review_requests_status ON public.review_requests(status);
 
-CREATE INDEX IF NOT EXISTS idx_document_reviews_user_id ON public.document_reviews(user_id);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='document_reviews' AND column_name='user_id'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_document_reviews_user_id ON public.document_reviews(user_id)';
+  END IF;
+END$$;
 CREATE INDEX IF NOT EXISTS idx_document_reviews_reviewer_id ON public.document_reviews(reviewer_id);
 CREATE INDEX IF NOT EXISTS idx_document_reviews_document_id ON public.document_reviews(document_id);
 CREATE INDEX IF NOT EXISTS idx_document_reviews_status ON public.document_reviews(status);
 
-CREATE INDEX IF NOT EXISTS idx_consultations_user_id ON public.consultations(user_id);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='consultations' AND column_name='user_id'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_consultations_user_id ON public.consultations(user_id)';
+  END IF;
+END$$;
 CREATE INDEX IF NOT EXISTS idx_consultations_reviewer_id ON public.consultations(reviewer_id);
 CREATE INDEX IF NOT EXISTS idx_consultations_scheduled_at ON public.consultations(scheduled_at);
 
