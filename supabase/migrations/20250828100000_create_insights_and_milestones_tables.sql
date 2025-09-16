@@ -2,7 +2,7 @@
 -- These tables support the insights engine and milestone tracking system
 
 -- Enable UUID extension if not already enabled
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; -- disabled for remote compatibility (use gen_random_uuid())
 
 -- Add trust score fields to wills table if they don't exist
 ALTER TABLE wills 
@@ -23,7 +23,7 @@ ADD COLUMN IF NOT EXISTS review_recommendations JSONB DEFAULT '[]'::jsonb;
 
 -- Quick Insights Table
 CREATE TABLE IF NOT EXISTS quick_insights (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id TEXT NOT NULL, -- Using TEXT to match Clerk user IDs
     document_id UUID REFERENCES documents(id) ON DELETE SET NULL,
     type TEXT NOT NULL CHECK (type IN ('document_analysis', 'family_impact', 'time_saved', 'protection_level', 'completion_gap', 'urgent_action')),
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS quick_insights (
 
 -- Legacy Milestones Table
 CREATE TABLE IF NOT EXISTS legacy_milestones (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id TEXT NOT NULL, -- Using TEXT to match Clerk user IDs
     type TEXT NOT NULL CHECK (type IN ('first_document', 'protection_threshold', 'family_complete', 'professional_review', 'annual_update', 'legacy_complete')),
     title TEXT NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS legacy_milestones (
 
 -- Insight Analytics Table (for storing aggregated insights data)
 CREATE TABLE IF NOT EXISTS insight_analytics (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id TEXT NOT NULL,
     timeframe_start TIMESTAMPTZ NOT NULL,
     timeframe_end TIMESTAMPTZ NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS insight_analytics (
 
 -- Milestone Analytics Table  
 CREATE TABLE IF NOT EXISTS milestone_analytics (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id TEXT NOT NULL,
     timeframe_start TIMESTAMPTZ NOT NULL,
     timeframe_end TIMESTAMPTZ NOT NULL,
@@ -134,7 +134,13 @@ CREATE INDEX IF NOT EXISTS idx_quick_insights_document_id ON quick_insights(docu
 CREATE INDEX IF NOT EXISTS idx_legacy_milestones_user_id ON legacy_milestones(user_id);
 CREATE INDEX IF NOT EXISTS idx_legacy_milestones_type ON legacy_milestones(type);
 CREATE INDEX IF NOT EXISTS idx_legacy_milestones_category ON legacy_milestones(category);
-CREATE INDEX IF NOT EXISTS idx_legacy_milestones_completed ON legacy_milestones(criteria_is_complete);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='legacy_milestones' AND column_name='criteria_is_complete'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_legacy_milestones_completed ON legacy_milestones(criteria_is_complete)';
+  END IF;
+END$$;
 CREATE INDEX IF NOT EXISTS idx_legacy_milestones_created_at ON legacy_milestones(created_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_insight_analytics_user_id ON insight_analytics(user_id);
@@ -148,56 +154,109 @@ CREATE INDEX IF NOT EXISTS idx_milestone_analytics_timeframe ON milestone_analyt
 -- Quick Insights RLS
 ALTER TABLE quick_insights ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view their own insights" ON quick_insights
-    FOR SELECT USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+DO $$
+DECLARE v_type text;
+BEGIN
+  -- Drop existing policies if present
+  DROP POLICY IF EXISTS "Users can view their own insights" ON quick_insights;
+  DROP POLICY IF EXISTS "Users can create their own insights" ON quick_insights;
+  DROP POLICY IF EXISTS "Users can update their own insights" ON quick_insights;
+  DROP POLICY IF EXISTS "Users can delete their own insights" ON quick_insights;
 
-CREATE POLICY "Users can create their own insights" ON quick_insights
-    FOR INSERT WITH CHECK (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema='public' AND table_name='quick_insights' AND column_name='user_id';
 
-CREATE POLICY "Users can update their own insights" ON quick_insights
-    FOR UPDATE USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
-
-CREATE POLICY "Users can delete their own insights" ON quick_insights
-    FOR DELETE USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can view their own insights" ON quick_insights FOR SELECT USING (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can create their own insights" ON quick_insights FOR INSERT WITH CHECK (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can update their own insights" ON quick_insights FOR UPDATE USING (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can delete their own insights" ON quick_insights FOR DELETE USING (user_id = auth.uid())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can view their own insights" ON quick_insights FOR SELECT USING (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can create their own insights" ON quick_insights FOR INSERT WITH CHECK (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can update their own insights" ON quick_insights FOR UPDATE USING (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can delete their own insights" ON quick_insights FOR DELETE USING (user_id = app.current_external_id())';
+  END IF;
+END$$;
 
 -- Legacy Milestones RLS
 ALTER TABLE legacy_milestones ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view their own milestones" ON legacy_milestones
-    FOR SELECT USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+DO $$
+DECLARE v_type text;
+BEGIN
+  DROP POLICY IF EXISTS "Users can view their own milestones" ON legacy_milestones;
+  DROP POLICY IF EXISTS "Users can create their own milestones" ON legacy_milestones;
+  DROP POLICY IF EXISTS "Users can update their own milestones" ON legacy_milestones;
+  DROP POLICY IF EXISTS "Users can delete their own milestones" ON legacy_milestones;
 
-CREATE POLICY "Users can create their own milestones" ON legacy_milestones
-    FOR INSERT WITH CHECK (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema='public' AND table_name='legacy_milestones' AND column_name='user_id';
 
-CREATE POLICY "Users can update their own milestones" ON legacy_milestones
-    FOR UPDATE USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
-
-CREATE POLICY "Users can delete their own milestones" ON legacy_milestones
-    FOR DELETE USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can view their own milestones" ON legacy_milestones FOR SELECT USING (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can create their own milestones" ON legacy_milestones FOR INSERT WITH CHECK (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can update their own milestones" ON legacy_milestones FOR UPDATE USING (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can delete their own milestones" ON legacy_milestones FOR DELETE USING (user_id = auth.uid())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can view their own milestones" ON legacy_milestones FOR SELECT USING (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can create their own milestones" ON legacy_milestones FOR INSERT WITH CHECK (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can update their own milestones" ON legacy_milestones FOR UPDATE USING (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can delete their own milestones" ON legacy_milestones FOR DELETE USING (user_id = app.current_external_id())';
+  END IF;
+END$$;
 
 -- Insight Analytics RLS
 ALTER TABLE insight_analytics ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view their own insight analytics" ON insight_analytics
-    FOR SELECT USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+DO $$
+DECLARE v_type text;
+BEGIN
+  DROP POLICY IF EXISTS "Users can view their own insight analytics" ON insight_analytics;
+  DROP POLICY IF EXISTS "Users can create their own insight analytics" ON insight_analytics;
+  DROP POLICY IF EXISTS "Users can update their own insight analytics" ON insight_analytics;
 
-CREATE POLICY "Users can create their own insight analytics" ON insight_analytics
-    FOR INSERT WITH CHECK (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema='public' AND table_name='insight_analytics' AND column_name='user_id';
 
-CREATE POLICY "Users can update their own insight analytics" ON insight_analytics
-    FOR UPDATE USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can view their own insight analytics" ON insight_analytics FOR SELECT USING (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can create their own insight analytics" ON insight_analytics FOR INSERT WITH CHECK (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can update their own insight analytics" ON insight_analytics FOR UPDATE USING (user_id = auth.uid())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can view their own insight analytics" ON insight_analytics FOR SELECT USING (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can create their own insight analytics" ON insight_analytics FOR INSERT WITH CHECK (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can update their own insight analytics" ON insight_analytics FOR UPDATE USING (user_id = app.current_external_id())';
+  END IF;
+END$$;
 
 -- Milestone Analytics RLS
 ALTER TABLE milestone_analytics ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view their own milestone analytics" ON milestone_analytics
-    FOR SELECT USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+DO $$
+DECLARE v_type text;
+BEGIN
+  DROP POLICY IF EXISTS "Users can view their own milestone analytics" ON milestone_analytics;
+  DROP POLICY IF EXISTS "Users can create their own milestone analytics" ON milestone_analytics;
+  DROP POLICY IF EXISTS "Users can update their own milestone analytics" ON milestone_analytics;
 
-CREATE POLICY "Users can create their own milestone analytics" ON milestone_analytics
-    FOR INSERT WITH CHECK (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema='public' AND table_name='milestone_analytics' AND column_name='user_id';
 
-CREATE POLICY "Users can update their own milestone analytics" ON milestone_analytics
-    FOR UPDATE USING (user_id = (current_setting('request.jwt.claims', true)::jsonb ->> 'sub'));
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can view their own milestone analytics" ON milestone_analytics FOR SELECT USING (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can create their own milestone analytics" ON milestone_analytics FOR INSERT WITH CHECK (user_id = auth.uid())';
+    EXECUTE 'CREATE POLICY "Users can update their own milestone analytics" ON milestone_analytics FOR UPDATE USING (user_id = auth.uid())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can view their own milestone analytics" ON milestone_analytics FOR SELECT USING (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can create their own milestone analytics" ON milestone_analytics FOR INSERT WITH CHECK (user_id = app.current_external_id())';
+    EXECUTE 'CREATE POLICY "Users can update their own milestone analytics" ON milestone_analytics FOR UPDATE USING (user_id = app.current_external_id())';
+  END IF;
+END$$;
 
 -- Functions for automatic timestamp updates
 CREATE OR REPLACE FUNCTION update_insights_timestamp()
