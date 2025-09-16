@@ -204,6 +204,10 @@ await searchService.indexDocument(documentId, {
 
 #### Testing Scenarios 4
 
+Additional docs:
+- See ../../docs/features/documents-ocr-quickstart.md for a concise uploader/OCR smoke test
+- See ../../docs/features/security-privacy-checklist-documents-ocr.md for security checklist
+
 - **Happy Path**: OCR processing of clear PDF document
 - **Low Quality**: OCR processing of scanned document
 - **Multiple Languages**: OCR processing of multilingual document

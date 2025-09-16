@@ -196,6 +196,9 @@ CREATE INDEX idx_key_access_logs_success ON key_access_logs(success);
 
 ### Views and Functions
 
+Additional docs:
+- See ../../docs/features/documents-ocr-data-model.md (Identity and RLS note & columns touched)
+
 #### Privacy-Preserving Search Index (Hashed Tokens)
 
 ```sql

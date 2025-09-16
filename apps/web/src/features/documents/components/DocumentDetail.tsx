@@ -1,5 +1,5 @@
 import React from 'react'
-import { getDocument } from '../api/documentApi'
+import { getDocument, updateDocument } from '../api/documentApi'
 import { useParams, Link } from 'react-router-dom'
 
 export function DocumentDetail() {
@@ -28,6 +28,27 @@ export function DocumentDetail() {
   const title = doc.title || doc.file_name
   const exp = doc.expiration_date || (doc.expires_at ? new Date(doc.expires_at).toISOString().slice(0, 10) : null)
 
+const [saving, setSaving] = React.useState(false)
+  const [edit, setEdit] = React.useState<{ title?: string; category?: string; expiration_date?: string }>({})
+
+  const onAccept = async () => {
+    if (!doc) return
+    setSaving(true)
+    try {
+      const patch: any = {}
+      if (edit.title != null) patch.title = edit.title
+      if (edit.category != null) patch.category = edit.category
+      if (edit.expiration_date != null) {
+        patch.expiration_date = edit.expiration_date
+        patch.expires_at = new Date(`${edit.expiration_date}T09:00:00.000Z`).toISOString()
+      }
+      const updated = await updateDocument(doc.id, patch)
+      setDoc(updated)
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6 text-white">
       <div className="mb-4"><Link to="/documents" className="underline text-sky-300">← Back to Documents</Link></div>
@@ -50,8 +71,17 @@ export function DocumentDetail() {
           </div>
         </div>
         <div className="space-y-4">
-          <div className="border border-slate-700 rounded p-3">
+<div className="border border-slate-700 rounded p-3">
             <div className="font-medium mb-2">Analysis</div>
+            <div className="space-y-2">
+              <label className="block text-sm">Title</label>
+              <input className="w-full rounded bg-slate-800 border border-slate-700 p-2" defaultValue={doc.title || ''} onChange={(e)=>setEdit(s=>({...s,title:e.target.value}))} />
+              <label className="block text-sm">Category</label>
+              <input className="w-full rounded bg-slate-800 border border-slate-700 p-2" defaultValue={doc.category || ''} onChange={(e)=>setEdit(s=>({...s,category:e.target.value}))} />
+              <label className="block text-sm">Expiration (YYYY-MM-DD)</label>
+              <input className="w-full rounded bg-slate-800 border border-slate-700 p-2" defaultValue={exp || ''} onChange={(e)=>setEdit(s=>({...s,expiration_date:e.target.value}))} />
+              <button disabled={saving} className="mt-2 px-3 py-2 rounded bg-slate-700 hover:bg-slate-600" onClick={onAccept}>{saving ? 'Saving…' : 'Save'}</button>
+            </div>
             <div className="text-sm text-slate-300">Category: {doc.category || '—'} {doc.classification_confidence != null ? `(${Math.round(doc.classification_confidence*100)}%)` : ''}</div>
             <div className="text-sm text-slate-300">Title: {doc.title || '—'} {doc.ai_confidence != null ? `(${Math.round(doc.ai_confidence*100)}%)` : ''}</div>
             {doc.ai_reasoning ? (
