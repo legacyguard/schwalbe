@@ -35,6 +35,12 @@ const resources = {
       footer: 'This journey takes just a few minutes',
       skipIntroduction: 'Skip introduction',
     },
+    'ui/search': {
+      ariaLabel: 'Search',
+      placeholder: 'Search documents…',
+      noResults: 'No results',
+      resultsAria: 'Search results'
+    },
     'will/wizard': {
       title: 'Guided Will Creation',
       steps: {

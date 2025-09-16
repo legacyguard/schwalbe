@@ -46,18 +46,28 @@ ALTER TABLE public.hashed_tokens ENABLE ROW LEVEL SECURITY;
 
 -- Read: only the document owner (via app.current_external_id() -> public.user_auth)
 DROP POLICY IF EXISTS "hashed_tokens_select_owner" ON public.hashed_tokens;
-CREATE POLICY "hashed_tokens_select_owner"
-ON public.hashed_tokens
-FOR SELECT
-TO authenticated
-USING (
-  EXISTS (
-    SELECT 1
-    FROM public.documents d
-    WHERE d.id = hashed_tokens.doc_id
-      AND d.user_id = public.user_auth(app.current_external_id())
-  )
-);
+DO $$
+DECLARE v_type text;
+BEGIN
+  SELECT data_type INTO v_type FROM information_schema.columns WHERE table_schema='public' AND table_name='documents' AND column_name='user_id';
+  IF v_type = 'uuid' THEN
+    EXECUTE $$CREATE POLICY "hashed_tokens_select_owner"
+      ON public.hashed_tokens FOR SELECT TO authenticated USING (
+        EXISTS (
+          SELECT 1 FROM public.documents d
+          WHERE d.id = hashed_tokens.doc_id AND d.user_id = auth.uid()
+        )
+      )$$;
+  ELSE
+    EXECUTE $$CREATE POLICY "hashed_tokens_select_owner"
+      ON public.hashed_tokens FOR SELECT TO authenticated USING (
+        EXISTS (
+          SELECT 1 FROM public.documents d
+          WHERE d.id = hashed_tokens.doc_id AND d.user_id = app.current_external_id()
+        )
+      )$$;
+  END IF;
+END$$;
 
 -- Writes: only service role (server contexts)
 DROP POLICY IF EXISTS "hashed_tokens_insert_service_role" ON public.hashed_tokens;

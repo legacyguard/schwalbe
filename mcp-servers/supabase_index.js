@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const { exec } = require('child_process');
 
 // Track request IDs
 let nextRequestId = 0;
@@ -108,6 +109,47 @@ async function handleAuth(params, id) {
   }
 }
 
+// Handle migrations push (uses supabase CLI under the hood)
+function handleMigrationsPush(params, id) {
+  try {
+    const dbUrl = (params && params.dbUrl) || process.env.SUPABASE_DB_URL;
+    const includeAll = params && params.includeAll ? '--include-all' : '';
+    const base = dbUrl ? `supabase db push ${includeAll} --db-url "${dbUrl}"` : `supabase db push ${includeAll}`;
+    const cmd = `yes | ${base}`;
+
+    let attempts = 0;
+    const maxAttempts = (params && params.maxAttempts) || 4;
+    const delayMs = 3000;
+
+    const run = () => {
+      attempts++;
+      exec(cmd, { env: { ...process.env } }, (err, stdout, stderr) => {
+        if (err) {
+          const out = (stdout || '') + '\n' + (stderr || '');
+          const transient = /timeout|connect|refused|pooler/i.test(out) || /read: operation timed out/i.test(out);
+          if (transient && attempts < maxAttempts) {
+            setTimeout(run, delayMs);
+            return;
+          }
+          sendResponse(id, null, {
+            code: -32011,
+            message: 'Migration push failed',
+            data: { error: String(err), stdout, stderr }
+          });
+          return setTimeout(() => process.exit(1), 0);
+        }
+        sendResponse(id, { ok: true, stdout, stderr: stderr || '' });
+        setTimeout(() => process.exit(0), 0);
+      });
+    };
+
+    run();
+  } catch (error) {
+    sendResponse(id, null, { code: -32012, message: error.message });
+    setTimeout(() => process.exit(1), 0);
+  }
+}
+
 // Process incoming JSON-RPC requests
 process.stdin.on('data', async (chunk) => {
   try {
@@ -126,6 +168,9 @@ process.stdin.on('data', async (chunk) => {
         break;
       case 'auth':
         await handleAuth(request.params, request.id);
+        break;
+      case 'migrations.push':
+        handleMigrationsPush(request.params, request.id);
         break;
       default:
         sendResponse(request.id, null, {

@@ -294,11 +294,19 @@ CREATE TRIGGER update_legacy_milestones_timestamp
     FOR EACH ROW
     EXECUTE FUNCTION update_milestones_timestamp();
 
--- Insert default milestone templates
-INSERT INTO legacy_milestones (user_id, type, title, description, category, criteria_type, criteria_threshold, criteria_current_value, celebration_text, celebration_family_impact_message, celebration_emotional_framing, celebration_icon, celebration_color, metadata) VALUES
--- This is a template that will be copied for each user, using a placeholder user_id
-('template', 'first_document', 'First Document Upload', 'Upload your first important document to begin your legacy journey', 'foundation', 'document_count', '1', '0', 'Congratulations! You''ve planted the first seed in your Garden of Legacy!', 'Your family now has secure access to this important document', 'This moment marks the beginning of your family''s protected future', '🌱', 'emerald', '{"difficulty": "easy", "estimatedTime": "5 minutes", "priority": "high", "tags": ["beginner", "foundation", "important"], "version": "1.0"}')
-ON CONFLICT DO NOTHING;
+-- Insert default milestone templates (guarded)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='legacy_milestones' AND column_name='criteria_type')
+     AND EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='legacy_milestones' AND column_name='criteria_threshold')
+     AND EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='legacy_milestones' AND column_name='criteria_current_value')
+     AND EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='legacy_milestones' AND column_name='celebration_text') THEN
+    INSERT INTO legacy_milestones (user_id, type, title, description, category, criteria_type, criteria_threshold, criteria_current_value, celebration_text, celebration_family_impact_message, celebration_emotional_framing, celebration_icon, celebration_color, metadata) VALUES
+    -- This is a template that will be copied for each user, using a placeholder user_id
+    ('template', 'first_document', 'First Document Upload', 'Upload your first important document to begin your legacy journey', 'foundation', 'document_count', '1', '0', 'Congratulations! You''ve planted the first seed in your Garden of Legacy!', 'Your family now has secure access to this important document', 'This moment marks the beginning of your family''s protected future', '🌱', 'emerald', '{"difficulty": "easy", "estimatedTime": "5 minutes", "priority": "high", "tags": ["beginner", "foundation", "important"], "version": "1.0"}')
+    ON CONFLICT DO NOTHING;
+  END IF;
+END$$;
 
 -- Grant permissions
 GRANT ALL ON quick_insights TO authenticated;

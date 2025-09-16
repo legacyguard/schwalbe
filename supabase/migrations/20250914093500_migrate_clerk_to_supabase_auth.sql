@@ -11,6 +11,7 @@
 
 -- Documents table policies (public.documents)
 DO $$
+DECLARE v_type text;
 BEGIN
   IF EXISTS (
     SELECT 1 FROM information_schema.tables 
@@ -25,19 +26,19 @@ BEGIN
     -- Ensure RLS enabled
     ALTER TABLE public.documents ENABLE ROW LEVEL SECURITY;
 
-    -- Create Supabase Auth-based policies using auth.uid()
-    CREATE POLICY "Users can view own documents" ON public.documents
-      FOR SELECT USING (user_id = auth.uid()::text);
+    SELECT data_type INTO v_type FROM information_schema.columns WHERE table_schema='public' AND table_name='documents' AND column_name='user_id';
 
-    CREATE POLICY "Users can insert own documents" ON public.documents
-      FOR INSERT WITH CHECK (user_id = auth.uid()::text);
-
-    CREATE POLICY "Users can update own documents" ON public.documents
-      FOR UPDATE USING (user_id = auth.uid()::text)
-      WITH CHECK (user_id = auth.uid()::text);
-
-    CREATE POLICY "Users can delete own documents" ON public.documents
-      FOR DELETE USING (user_id = auth.uid()::text);
+    IF v_type = 'uuid' THEN
+      CREATE POLICY "Users can view own documents" ON public.documents FOR SELECT USING (user_id = auth.uid());
+      CREATE POLICY "Users can insert own documents" ON public.documents FOR INSERT WITH CHECK (user_id = auth.uid());
+      CREATE POLICY "Users can update own documents" ON public.documents FOR UPDATE USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+      CREATE POLICY "Users can delete own documents" ON public.documents FOR DELETE USING (user_id = auth.uid());
+    ELSE
+      CREATE POLICY "Users can view own documents" ON public.documents FOR SELECT USING (user_id = app.current_external_id());
+      CREATE POLICY "Users can insert own documents" ON public.documents FOR INSERT WITH CHECK (user_id = app.current_external_id());
+      CREATE POLICY "Users can update own documents" ON public.documents FOR UPDATE USING (user_id = app.current_external_id()) WITH CHECK (user_id = app.current_external_id());
+      CREATE POLICY "Users can delete own documents" ON public.documents FOR DELETE USING (user_id = app.current_external_id());
+    END IF;
   END IF;
 END
 $$;
@@ -159,6 +160,7 @@ $$;
 
 -- Professional network tables
 DO $$
+DECLARE v_type text; v_type_rr text; v_type_pr text; v_has_doc_user boolean;
 BEGIN
   -- professional_reviewers
   IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'professional_reviewers') THEN
@@ -177,9 +179,9 @@ BEGIN
   IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'professional_onboarding') THEN
     ALTER TABLE public.professional_onboarding ENABLE ROW LEVEL SECURITY;
     DROP POLICY IF EXISTS "Users can manage own onboarding" ON public.professional_onboarding;
-
+    -- Keep conservative: lock down if no mapping exists
     CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding
-      FOR ALL USING (email IS NOT NULL); -- keep permissive until email-to-user mapping finalized
+      FOR ALL USING (false);
   END IF;
 
   -- review_requests
@@ -187,9 +189,12 @@ BEGIN
     ALTER TABLE public.review_requests ENABLE ROW LEVEL SECURITY;
     DROP POLICY IF EXISTS "Users can manage own review requests" ON public.review_requests;
 
-    CREATE POLICY "Users can manage own review requests" ON public.review_requests
-      FOR ALL USING (user_id = auth.uid()::text)
-      WITH CHECK (user_id = auth.uid()::text);
+    SELECT data_type INTO v_type_rr FROM information_schema.columns WHERE table_schema='public' AND table_name='review_requests' AND column_name='user_id';
+    IF v_type_rr = 'uuid' THEN
+      CREATE POLICY "Users can manage own review requests" ON public.review_requests FOR ALL USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+    ELSE
+      CREATE POLICY "Users can manage own review requests" ON public.review_requests FOR ALL USING (user_id = app.current_external_id()) WITH CHECK (user_id = app.current_external_id());
+    END IF;
   END IF;
 
   -- document_reviews
@@ -198,15 +203,50 @@ BEGIN
     DROP POLICY IF EXISTS "Users can view own reviews" ON public.document_reviews;
     DROP POLICY IF EXISTS "Reviewers can manage assigned reviews" ON public.document_reviews;
 
-    CREATE POLICY "Users can view own reviews" ON public.document_reviews
-      FOR SELECT USING (user_id = auth.uid()::text);
+    SELECT EXISTS (
+      SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='document_reviews' AND column_name='user_id'
+    ) INTO v_has_doc_user;
 
-    CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews
-      FOR ALL USING (
-        reviewer_id IN (
-          SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid()::text
-        )
-      );
+    IF v_has_doc_user THEN
+      SELECT data_type INTO v_type FROM information_schema.columns WHERE table_schema='public' AND table_name='document_reviews' AND column_name='user_id';
+      IF v_type = 'uuid' THEN
+        CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = auth.uid());
+      ELSE
+        CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = app.current_external_id());
+      END IF;
+    ELSE
+      -- Fallback: via review_requests
+      IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='review_requests' AND column_name='user_id') THEN
+        SELECT data_type INTO v_type_rr FROM information_schema.columns WHERE table_schema='public' AND table_name='review_requests' AND column_name='user_id';
+        IF v_type_rr = 'uuid' THEN
+          CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (
+            EXISTS (SELECT 1 FROM public.review_requests rr WHERE rr.document_id = public.document_reviews.document_id AND rr.user_id = auth.uid())
+          );
+        ELSE
+          CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (
+            EXISTS (SELECT 1 FROM public.review_requests rr WHERE rr.document_id = public.document_reviews.document_id AND rr.user_id = app.current_external_id())
+          );
+        END IF;
+      ELSE
+        CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (false);
+      END IF;
+    END IF;
+
+    -- reviewers manage assigned reviews
+    IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='user_id') THEN
+      SELECT data_type INTO v_type_pr FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='user_id';
+      IF v_type_pr = 'uuid' THEN
+        CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews FOR ALL USING (
+          reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid())
+        );
+      ELSE
+        CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews FOR ALL USING (
+          reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id())
+        );
+      END IF;
+    ELSE
+      CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews FOR ALL USING (false);
+    END IF;
   END IF;
 
   -- review_results
@@ -214,12 +254,33 @@ BEGIN
     ALTER TABLE public.review_results ENABLE ROW LEVEL SECURITY;
     DROP POLICY IF EXISTS "Users can view own review results" ON public.review_results;
 
-    CREATE POLICY "Users can view own review results" ON public.review_results
-      FOR SELECT USING (
-        review_id IN (
-          SELECT id FROM public.document_reviews WHERE user_id = auth.uid()::text
-        )
-      );
+    IF v_has_doc_user IS TRUE THEN
+      IF v_type = 'uuid' THEN
+        CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (
+          review_id IN (SELECT id FROM public.document_reviews WHERE user_id = auth.uid())
+        );
+      ELSE
+        CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (
+          review_id IN (SELECT id FROM public.document_reviews WHERE user_id = app.current_external_id())
+        );
+      END IF;
+    ELSE
+      IF v_type_rr = 'uuid' THEN
+        CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (
+          EXISTS (
+            SELECT 1 FROM public.document_reviews dr JOIN public.review_requests rr ON rr.document_id = dr.document_id
+            WHERE dr.id = public.review_results.review_id AND rr.user_id = auth.uid()
+          )
+        );
+      ELSE
+        CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (
+          EXISTS (
+            SELECT 1 FROM public.document_reviews dr JOIN public.review_requests rr ON rr.document_id = dr.document_id
+            WHERE dr.id = public.review_results.review_id AND rr.user_id = app.current_external_id()
+          )
+        );
+      END IF;
+    END IF;
   END IF;
 
   -- professional_partnerships
@@ -227,12 +288,20 @@ BEGIN
     ALTER TABLE public.professional_partnerships ENABLE ROW LEVEL SECURITY;
     DROP POLICY IF EXISTS "Reviewers can manage own partnerships" ON public.professional_partnerships;
 
-    CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships
-      FOR ALL USING (
-        reviewer_id IN (
-          SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid()::text
-        )
-      );
+    IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='user_id') THEN
+      SELECT data_type INTO v_type_pr FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='user_id';
+      IF v_type_pr = 'uuid' THEN
+        CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships FOR ALL USING (
+          reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid())
+        );
+      ELSE
+        CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships FOR ALL USING (
+          reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id())
+        );
+      END IF;
+    ELSE
+      CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships FOR ALL USING (false);
+    END IF;
   END IF;
 
   -- consultations
@@ -241,16 +310,27 @@ BEGIN
     DROP POLICY IF EXISTS "Users can manage own consultations" ON public.consultations;
     DROP POLICY IF EXISTS "Reviewers can manage own consultations" ON public.consultations;
 
-    CREATE POLICY "Users can manage own consultations" ON public.consultations
-      FOR ALL USING (user_id = auth.uid()::text)
-      WITH CHECK (user_id = auth.uid()::text);
+    SELECT data_type INTO v_type FROM information_schema.columns WHERE table_schema='public' AND table_name='consultations' AND column_name='user_id';
+    IF v_type = 'uuid' THEN
+      CREATE POLICY "Users can manage own consultations" ON public.consultations FOR ALL USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+    ELSE
+      CREATE POLICY "Users can manage own consultations" ON public.consultations FOR ALL USING (user_id = app.current_external_id()) WITH CHECK (user_id = app.current_external_id());
+    END IF;
 
-    CREATE POLICY "Reviewers can manage own consultations" ON public.consultations
-      FOR ALL USING (
-        reviewer_id IN (
-          SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid()::text
-        )
-      );
+    IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='user_id') THEN
+      SELECT data_type INTO v_type_pr FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='user_id';
+      IF v_type_pr = 'uuid' THEN
+        CREATE POLICY "Reviewers can manage own consultations" ON public.consultations FOR ALL USING (
+          reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid())
+        );
+      ELSE
+        CREATE POLICY "Reviewers can manage own consultations" ON public.consultations FOR ALL USING (
+          reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id())
+        );
+      END IF;
+    ELSE
+      CREATE POLICY "Reviewers can manage own consultations" ON public.consultations FOR ALL USING (false);
+    END IF;
   END IF;
 END
 $$;

@@ -451,7 +451,15 @@ DO $$ BEGIN
     EXECUTE 'CREATE INDEX IF NOT EXISTS idx_professional_reviewers_user_id ON public.professional_reviewers(user_id)';
   END IF;
 END$$;
-CREATE INDEX IF NOT EXISTS idx_professional_reviewers_status ON public.professional_reviewers(status, verification_status);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='status'
+  ) AND EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='verification_status'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_professional_reviewers_status ON public.professional_reviewers(status, verification_status)';
+  END IF;
+END$$;
 DO $$ BEGIN
   IF EXISTS (
     SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='professional_reviewers' AND column_name='specializations'
@@ -488,8 +496,20 @@ DO $$ BEGIN
     EXECUTE 'CREATE INDEX IF NOT EXISTS idx_consultations_user_id ON public.consultations(user_id)';
   END IF;
 END$$;
-CREATE INDEX IF NOT EXISTS idx_consultations_reviewer_id ON public.consultations(reviewer_id);
-CREATE INDEX IF NOT EXISTS idx_consultations_scheduled_at ON public.consultations(scheduled_at);
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='consultations' AND column_name='reviewer_id'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_consultations_reviewer_id ON public.consultations(reviewer_id)';
+  END IF;
+END$$;
+DO $$ BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='consultations' AND column_name='scheduled_at'
+  ) THEN
+    EXECUTE 'CREATE INDEX IF NOT EXISTS idx_consultations_scheduled_at ON public.consultations(scheduled_at)';
+  END IF;
+END$$;
 
 -- Create triggers for updated_at columns
 CREATE TRIGGER update_professional_onboarding_updated_at
