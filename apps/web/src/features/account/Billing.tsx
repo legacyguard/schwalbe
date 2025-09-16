@@ -29,13 +29,16 @@ export function Billing() {
       <h1 className="text-2xl font-semibold mb-4">Billing</h1>
       <p className="text-slate-300 mb-4">Manage your payment methods, invoices and subscription.</p>
       {error ? <div className="text-red-400 mb-3">{error}</div> : null}
-      <button
-        className="bg-sky-600 hover:bg-sky-500 px-3 py-1 rounded disabled:opacity-50"
-        onClick={openPortal}
-        disabled={loading}
-      >
-        {loading ? 'Opening…' : 'Open Billing Portal'}
-      </button>
+      <div className="flex items-center gap-3">
+        <button
+          className="bg-sky-600 hover:bg-sky-500 px-3 py-1 rounded disabled:opacity-50"
+          onClick={openPortal}
+          disabled={loading}
+        >
+          {loading ? 'Opening…' : 'Open Billing Portal'}
+        </button>
+        <a href="/account/billing/details" className="text-slate-300 hover:text-white underline">Edit billing details</a>
+      </div>
     </div>
   )
 }

@@ -4,6 +4,18 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.ts'
 import { insertErrorAndMaybeAlert } from '../_shared/observability.ts'
 
+function buildInvoiceFooter(locale: 'en'|'cs'|'sk'): string {
+  const site = Deno.env.get('SITE_URL') || 'https://legacyguard.app'
+  const company = 'LegacyGuard s.r.o.'
+  const address = 'Prague, Czech Republic'
+  const terms = `${site}/terms-of-service`
+  const privacy = `${site}/privacy-policy`
+  const base = `${company} • ${address}`
+  if (locale === 'cs') return `${base}\nObchodní podmínky: ${terms}\nZásady ochrany soukromí: ${privacy}`
+  if (locale === 'sk') return `${base}\nObchodné podmienky: ${terms}\nZásady ochrany súkromia: ${privacy}`
+  return `${base}\nTerms: ${terms}\nPrivacy: ${privacy}`
+}
+
 // Env
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -58,6 +70,7 @@ serve(async (req: Request) => {
     // Determine currency from origin
     const origin = getOrigin(req)
     const currency = inferCurrencyFromOrigin(origin)
+    const locale: 'en'|'cs'|'sk' = (origin ?? '').includes('.cz') ? 'cs' : (origin ?? '').includes('.sk') ? 'sk' : 'en'
 
     // Resolve amount from plan + currency
     const amount = resolveAmount((plan as string) || 'premium', currency)
@@ -90,9 +103,19 @@ serve(async (req: Request) => {
           .from('user_subscriptions')
           .upsert({ user_id: userId, stripe_customer_id: stripeCustomerId }, { onConflict: 'user_id' })
       }
+
+      // Ensure invoice footer is localized based on origin (best-effort; user can override in Billing Details)
+      try {
+        await stripe.customers.update(stripeCustomerId!, {
+          invoice_settings: { footer: buildInvoiceFooter(locale) },
+        } as any)
+      } catch (_) {
+        // ignore
+      }
     }
 
     const p = (plan as string) || 'premium'
+    const requireAddress = currency === 'CZK' || currency === 'EUR'
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'subscription',
@@ -121,8 +144,13 @@ serve(async (req: Request) => {
           user_id: userId,
           plan: p,
         },
+        // Also enable automatic tax at the subscription level for renewals
+        automatic_tax: { enabled: true } as any,
       },
-      billing_address_collection: 'auto',
+      // Stripe Tax (MVP): enable automatic tax and collect address/VAT where supported
+      automatic_tax: { enabled: true },
+      billing_address_collection: requireAddress ? 'required' : 'auto',
+      tax_id_collection: { enabled: true },
       allow_promotion_codes: true,
       locale: 'auto',
     })

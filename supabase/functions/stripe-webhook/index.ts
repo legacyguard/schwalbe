@@ -449,9 +449,17 @@ async function handlePaymentSucceeded(invoice: any) {
   const subscriptionId = invoice?.subscription
   if (!subscriptionId) return
 
+  const amountCents = (invoice?.amount_paid ?? invoice?.amount_due ?? null) as number | null
+  const currency = ((invoice?.currency as string | undefined) || undefined)?.toUpperCase()
+
   await supabaseAdmin
     .from('user_subscriptions')
-    .update({ status: 'active', updated_at: new Date().toISOString() })
+    .update({
+      status: 'active',
+      updated_at: new Date().toISOString(),
+      ...(amountCents !== null ? { price_amount_cents: amountCents } : {}),
+      ...(currency ? { price_currency: currency } : {}),
+    } as any)
     .eq('stripe_subscription_id', subscriptionId)
 }
 
