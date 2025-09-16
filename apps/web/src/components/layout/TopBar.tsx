@@ -89,6 +89,8 @@ export function TopBar() {
             <a href="/reminders" aria-label="Open Reminders" className="text-slate-200 hover:text-white hover:bg-slate-800/50 px-2 py-1 rounded">
 <span role="img" aria-hidden="true">🔔</span>
             </a>
+            <a href="/account/export" className="text-slate-200 hover:text-white hover:bg-slate-800/50 px-2 py-1 rounded" aria-label="Export data">Export</a>
+            <a href="/account/delete" className="text-red-300 hover:text-white hover:bg-red-900/30 px-2 py-1 rounded" aria-label="Delete account">Delete</a>
             <UserIcon />
           </div>
         </div>

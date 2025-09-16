@@ -60,17 +60,25 @@ serve(async (req) => {
         .from('user_subscriptions')
         .update({ status: 'active', current_period_end: currentPeriodEndISO, updated_at: new Date().toISOString() })
         .eq('stripe_subscription_id', subscriptionId)
-      // Email confirmation
-      const { data: prof } = await supabase.from('profiles').select('email, full_name').eq('id', userId).maybeSingle()
+      // Email confirmation (localized)
+      const { data: prof } = await supabase.from('profiles').select('email, full_name, billing_address').eq('id', userId).maybeSingle()
       const email = (prof as any)?.email as string | undefined
       const fullName = (prof as any)?.full_name as string | undefined
+      const country = (((prof as any)?.billing_address)?.country as string | undefined)?.toUpperCase() || ''
+      const locale: 'en'|'cs'|'sk' = country === 'CZ' ? 'cs' : country === 'SK' ? 'sk' : 'en'
       if (email) {
+        const subj = locale === 'cs' ? 'Zrušení na konci období' : locale === 'sk' ? 'Zrušenie na konci obdobia' : 'Your subscription will end at period end'
+        const line = locale === 'cs'
+          ? `Vaše předplatné zůstane aktivní do konce aktuálního období (${new Date(currentPeriodEndISO).toLocaleDateString('en-US')}).`
+          : locale === 'sk'
+            ? `Vaše predplatné zostane aktívne do konca aktuálneho obdobia (${new Date(currentPeriodEndISO).toLocaleDateString('en-US')}).`
+            : `Your subscription will remain active until the end of your current billing period on ${new Date(currentPeriodEndISO).toLocaleDateString('en-US')}.`
         const html = `<!doctype html><html><body>
-          <p>Hi ${fullName ?? ''},</p>
-          <p>Your subscription will remain active until the end of your current billing period on <strong>${new Date(currentPeriodEndISO).toLocaleDateString('en-US')}</strong>. You may restart at any time.</p>
-          <p style="font-size:12px;color:#64748b">© 2025 LegacyGuard</p>
+          <p>${locale==='cs'?'Dobrý den':'Hi'} ${fullName ?? ''},</p>
+          <p>${line}</p>
+          <p style=\"font-size:12px;color:#64748b\">© 2025 LegacyGuard</p>
         </body></html>`
-        await sendEmail(email, 'Your subscription will end at period end', html, 'Your subscription will end at period end.')
+        await sendEmail(email, subj, html, line)
       }
       return json({ ok: true, mode: 'end_of_period' })
     }
@@ -82,17 +90,25 @@ serve(async (req) => {
       .update({ plan: 'free', status: 'cancelled', stripe_subscription_id: null, updated_at: new Date().toISOString(), expires_at: new Date().toISOString(), current_period_end: new Date().toISOString() })
       .eq('stripe_subscription_id', subscriptionId)
 
-    // Email confirmation
-    const { data: prof2 } = await supabase.from('profiles').select('email, full_name').eq('id', userId).maybeSingle()
+    // Email confirmation (localized)
+    const { data: prof2 } = await supabase.from('profiles').select('email, full_name, billing_address').eq('id', userId).maybeSingle()
     const email2 = (prof2 as any)?.email as string | undefined
     const fullName2 = (prof2 as any)?.full_name as string | undefined
+    const country2 = (((prof2 as any)?.billing_address)?.country as string | undefined)?.toUpperCase() || ''
+    const locale2: 'en'|'cs'|'sk' = country2 === 'CZ' ? 'cs' : country2 === 'SK' ? 'sk' : 'en'
     if (email2) {
+      const subj2 = locale2 === 'cs' ? 'Předplatné bylo zrušeno' : locale2 === 'sk' ? 'Predplatné bolo zrušené' : 'Your subscription has been cancelled'
+      const line2 = locale2 === 'cs'
+        ? 'Vaše předplatné bylo okamžitě zrušeno. Přístup k placeným funkcím byl ukončen.'
+        : locale2 === 'sk'
+          ? 'Vaše predplatné bolo okamžite zrušené. Prístup k plateným funkciám bol ukončený.'
+          : 'Your subscription has been cancelled immediately. You no longer have access to paid features.'
       const html2 = `<!doctype html><html><body>
-        <p>Hi ${fullName2 ?? ''},</p>
-        <p>Your subscription has been cancelled immediately. You no longer have access to paid features. You may subscribe again at any time.</p>
+        <p>${locale2==='cs'?'Dobrý den':'Hi'} ${fullName2 ?? ''},</p>
+        <p>${line2}</p>
         <p style=\"font-size:12px;color:#64748b\">© 2025 LegacyGuard</p>
       </body></html>`
-      await sendEmail(email2, 'Your subscription has been cancelled', html2, 'Your subscription has been cancelled.')
+      await sendEmail(email2, subj2, html2, line2)
     }
 
     return json({ ok: true, mode: 'immediate' })
