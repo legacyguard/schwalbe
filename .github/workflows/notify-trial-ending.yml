@@ -1,0 +1,25 @@
+name: Notify Trial Ending (Fallback)
+
+on:
+  schedule:
+    - cron: "0 8 * * *"  # 08:00 UTC daily
+  workflow_dispatch: {}
+
+jobs:
+  run-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Supabase function notify-trial-ending
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "Missing secrets SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" >&2
+            exit 1
+          fi
+          curl -sS -X POST \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json" \
+            "$SUPABASE_URL/functions/v1/notify-trial-ending" \
+            | jq '.'
