@@ -1,0 +1,26 @@
+{
+  "title": "Your Security is Our Sacred Promise",
+  "subtitle": "We've built LegacyGuard with military-grade security, ensuring your most precious memories and important documents are protected with the highest standards available.",
+  "features": [
+    {
+      "title": "End-to-End Encryption",
+      "description": "Your data is encrypted before it ever leaves your device. Even we cannot access your personal information."
+    },
+    {
+      "title": "Zero-Knowledge Architecture",
+      "description": "We designed our systems so that only you have the keys to your data. Complete privacy by design."
+    },
+    {
+      "title": "Professional Grade Security",
+      "description": "Bank-level security protocols protect your information with the same standards used by financial institutions."
+    },
+    {
+      "title": "Continuous Monitoring",
+      "description": "24/7 security monitoring and automated threat detection keep your legacy safe around the clock."
+    }
+  ],
+  "learnMore": {
+    "text": "Learn more about our security measures",
+    "arrow": "→"
+  }
+}
