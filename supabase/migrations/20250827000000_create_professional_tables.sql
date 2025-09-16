@@ -196,7 +196,19 @@ BEGIN
     SELECT 1 FROM information_schema.columns
     WHERE table_schema = 'public' AND table_name = 'professional_onboarding' AND column_name = 'user_id'
   ) THEN
-    EXECUTE 'CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding FOR ALL USING (user_id = app.current_external_id())';
+    -- Determine data type of user_id to choose the correct identity comparator
+    DECLARE v_user_id_type text;
+    BEGIN
+      SELECT data_type INTO v_user_id_type
+      FROM information_schema.columns
+      WHERE table_schema = 'public' AND table_name = 'professional_onboarding' AND column_name = 'user_id';
+
+      IF v_user_id_type = 'uuid' THEN
+        EXECUTE 'CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding FOR ALL USING (user_id = auth.uid())';
+      ELSE
+        EXECUTE 'CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding FOR ALL USING (user_id = app.current_external_id())';
+      END IF;
+    END;
   ELSE
     EXECUTE 'CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding FOR ALL USING (false)';
   END IF;
@@ -210,12 +222,47 @@ CREATE POLICY "System can manage reviewers" ON public.professional_reviewers
     FOR ALL USING (false); -- Service role only
 
 -- Review requests (users can manage their own requests)
-CREATE POLICY "Users can manage own review requests" ON public.review_requests
-    FOR ALL USING (user_id = app.current_external_id());
+DO $$
+DECLARE v_type text;
+BEGIN
+  -- Drop existing policy if present
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'review_requests' AND policyname = 'Users can manage own review requests'
+  ) THEN
+    EXECUTE 'DROP POLICY "Users can manage own review requests" ON public.review_requests';
+  END IF;
+
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema = 'public' AND table_name = 'review_requests' AND column_name = 'user_id';
+
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can manage own review requests" ON public.review_requests FOR ALL USING (user_id = auth.uid())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can manage own review requests" ON public.review_requests FOR ALL USING (user_id = app.current_external_id())';
+  END IF;
+END$$;
 
 -- Document reviews (users can view their own reviews, reviewers can manage assigned reviews)
-CREATE POLICY "Users can view own reviews" ON public.document_reviews
-    FOR SELECT USING (user_id = app.current_external_id());
+DO $$
+DECLARE v_type text;
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'document_reviews' AND policyname = 'Users can view own reviews'
+  ) THEN
+    EXECUTE 'DROP POLICY "Users can view own reviews" ON public.document_reviews';
+  END IF;
+
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id';
+
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = auth.uid())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can view own reviews" ON public.document_reviews FOR SELECT USING (user_id = app.current_external_id())';
+  END IF;
+END$$;
 
 CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews
     FOR ALL USING (reviewer_id IN (
@@ -223,12 +270,25 @@ CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews
     ));
 
 -- Review results (users can view results of their reviews, reviewers can manage results)
-CREATE POLICY "Users can view own review results" ON public.review_results
-    FOR SELECT USING (
-        review_id IN (
-            SELECT id FROM public.document_reviews WHERE user_id = app.current_external_id()
-        )
-    );
+DO $$
+DECLARE v_type text;
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'review_results' AND policyname = 'Users can view own review results'
+  ) THEN
+    EXECUTE 'DROP POLICY "Users can view own review results" ON public.review_results';
+  END IF;
+
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema = 'public' AND table_name = 'document_reviews' AND column_name = 'user_id';
+
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (review_id IN (SELECT id FROM public.document_reviews WHERE user_id = auth.uid()))';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can view own review results" ON public.review_results FOR SELECT USING (review_id IN (SELECT id FROM public.document_reviews WHERE user_id = app.current_external_id()))';
+  END IF;
+END$$;
 
 -- Professional partnerships (reviewers can manage their own partnerships)
 CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships
@@ -239,8 +299,25 @@ CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_par
     );
 
 -- Consultations (users and reviewers can manage their own consultations)
-CREATE POLICY "Users can manage own consultations" ON public.consultations
-    FOR ALL USING (user_id = app.current_external_id());
+DO $$
+DECLARE v_type text;
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'consultations' AND policyname = 'Users can manage own consultations'
+  ) THEN
+    EXECUTE 'DROP POLICY "Users can manage own consultations" ON public.consultations';
+  END IF;
+
+  SELECT data_type INTO v_type
+  FROM information_schema.columns
+  WHERE table_schema = 'public' AND table_name = 'consultations' AND column_name = 'user_id';
+
+  IF v_type = 'uuid' THEN
+    EXECUTE 'CREATE POLICY "Users can manage own consultations" ON public.consultations FOR ALL USING (user_id = auth.uid())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can manage own consultations" ON public.consultations FOR ALL USING (user_id = app.current_external_id())';
+  END IF;
+END$$;
 
 CREATE POLICY "Reviewers can manage own consultations" ON public.consultations
     FOR ALL USING (
