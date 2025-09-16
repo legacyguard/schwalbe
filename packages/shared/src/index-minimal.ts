@@ -11,3 +11,6 @@ export * from './config/languages';
 
 // Reminders (exposed for web UI)
 export * from './services/reminders/reminder.service';
+
+// Subscriptions (exposed for web UI)
+export * from './services/subscription.service';

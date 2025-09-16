@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@schwalbe/ui'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@schwalbe/ui/dialog'
 import { Button } from '@/components/ui/button'
 import type { RedirectSimulationTarget } from '@/lib/utils/redirect-guard'
 
@@ -22,7 +22,7 @@ export function RedirectSimulationModal({ open, onOpenChange, targets }: Redirec
             Prostředí není produkční. Probíhá simulace přesměrování — žádná navigace nebude provedena.
           </p>
           <div>
-            <div className="text-sm font-semibold mb-2">Cílové adresy pro domény:</div>
+            <div className="text-sm font-semibold mb-2">Target URLs for domains:</div>
             <ul className="text-sm list-disc pl-5 space-y-1">
               {targets.map((t) => (
                 <li key={t.code}>

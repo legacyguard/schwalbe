@@ -6,8 +6,14 @@
 import { supabase } from '../../supabase/client';
 
 // Temporary implementations until they're properly defined
-const cacheInvalidation = () => {};
-const professionalReviewCache = { get: () => null, set: () => {} };
+const cacheInvalidation = {
+  invalidateProfessionalReviewCaches: (_reviewId?: string) => {}
+};
+const professionalReviewCache = {
+  get: (_key: string) => null as any,
+  set: (_key: string, _value: any) => {},
+  invalidate: (_key: string) => {},
+};
 type Database = any;
 
 // Type definitions from database schema
@@ -672,7 +678,7 @@ export class ProfessionalService {
         to: credentials?.email || 'unknown@example.com',
         subject: `Professional Application Update - ${application.verification_status}`,
         template:
-          templateMap[application.verification_status] ||
+          templateMap[(application.verification_status as keyof typeof templateMap)] ||
           'application_status_change',
         applicantName: credentials?.full_name || 'Unknown',
         status: application.verification_status,
@@ -689,7 +695,7 @@ export class ProfessionalService {
         to: credentials?.email || 'unknown@example.com',
         subject: `Professional Application Update - ${application.verification_status}`,
         template:
-          templateMap[application.verification_status] ||
+          templateMap[(application.verification_status as keyof typeof templateMap)] ||
           'application_status_change',
         data: emailData,
       });

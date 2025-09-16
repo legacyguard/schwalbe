@@ -23,7 +23,11 @@ export function DocumentUpload() {
     setUploading(true)
     setError(null)
     try {
-      const file = files[0]
+      const file = files.item(0)
+      if (!file) {
+        setError('No file selected.')
+        return
+      }
       const { document } = await uploadDocumentAndAnalyze(file)
       navigate(`/documents/${document.id}`)
     } catch (e: any) {
@@ -47,7 +51,9 @@ export function DocumentUpload() {
         <input type="file" accept="application/pdf,image/*" onChange={onFileChange} />
       </div>
       {files && files.length > 0 ? (
-        <div className="mt-4 text-sm text-slate-300">Selected: {files[0].name} ({Math.round(files[0].size / 1024)} KB)</div>
+        (() => { const f = files?.item(0); return f ? (
+          <div className="mt-4 text-sm text-slate-300">Selected: {f.name} ({Math.round(f.size / 1024)} KB)</div>
+        ) : null })()
       ) : null}
       {error ? <div className="mt-3 text-red-400 text-sm" role="alert">{error}</div> : null}
       <div className="mt-6 flex gap-3">

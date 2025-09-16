@@ -22,7 +22,7 @@ class RedirectGuardClass {
     
     // Clean old entries
     this.redirectHistory = this.redirectHistory.filter(
-      entry => now - parseInt(entry.split(':')[1]) < this.timeWindow
+entry => now - parseInt((entry.split(':')[1] || '0')) < this.timeWindow
     );
 
     // Count redirects to this path

@@ -4,22 +4,11 @@ import { Button } from '@/components/ui/button'
 import { ChevronDown, Languages } from 'lucide-react'
 import i18n from '@/lib/i18n'
 import { getAllowedLanguagesForCurrentHost, safeSetLocalStorage } from '@/lib/locale'
-import { normalizeLocale, type LocaleCode } from '@schwalbe/shared'
+import { getLanguageLabel, normalizeLocale, type LocaleCode } from '@schwalbe/shared/config/languages'
 import { CountryMenu } from './CountryMenu'
 import { SearchBox } from './SearchBox'
 import { UserIcon } from './UserIcon'
 
-const LABELS_LOCAL: Record<string, string> = {
-  cs: 'Czech',
-  sk: 'Slovak',
-  en: 'English',
-  de: 'German',
-  uk: 'Ukrainian',
-}
-
-function getLanguageLabelLocal(code: string): string {
-  return LABELS_LOCAL[code] ?? code.toUpperCase()
-}
 
 function LanguageSwitcher() {
   const [open, setOpen] = useState(false)
@@ -47,7 +36,7 @@ function LanguageSwitcher() {
         onClick={() => setOpen((v) => !v)}
       >
         <Languages className="w-4 h-4 mr-2" />
-<span>{getLanguageLabelLocal(current)}</span>
+<span>{getLanguageLabel(current)}</span>
         <ChevronDown className="w-4 h-4 ml-1 opacity-70" />
       </Button>
       {open && (
@@ -69,7 +58,7 @@ function LanguageSwitcher() {
                   : 'text-slate-200 hover:bg-slate-800 hover:text-white')
               }
             >
-<span className="mr-2">{getLanguageLabelLocal(code)}</span>
+<span className="mr-2">{getLanguageLabel(code)}</span>
               {current === code ? <span className="sr-only">(selected)</span> : null}
             </button>
           ))}
@@ -97,7 +86,7 @@ export function TopBar() {
             <CountryMenu />
             {/* Reminders link (Bell) */}
             <a href="/reminders" aria-label="Open Reminders" className="text-slate-200 hover:text-white hover:bg-slate-800/50 px-2 py-1 rounded">
-              <span role="img" aria-hidden>🔔</span>
+<span role="img" aria-hidden="true">🔔</span>
             </a>
             <UserIcon />
           </div>

@@ -86,6 +86,17 @@ export async function getDocument(id: string): Promise<DocumentRow | null> {
   return (data as any) as DocumentRow | null
 }
 
+export async function updateDocument(id: string, patch: Partial<DocumentRow>): Promise<DocumentRow> {
+  const { data, error } = await supabase
+    .from('documents')
+    .update(patch as any)
+    .eq('id', id)
+    .select('*')
+    .single()
+  if (error) throw error
+  return (data as any) as DocumentRow
+}
+
 export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: DocumentRow; analysis?: AnalysisResult }>{
   const userId = await getUserId()
 

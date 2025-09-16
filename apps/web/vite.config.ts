@@ -8,7 +8,7 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
       '@schwalbe/logic': path.resolve(__dirname, '../../packages/logic/src'),
-      '@schwalbe/shared': path.resolve(__dirname, '../../packages/shared/src'),
+      '@schwalbe/shared': path.resolve(__dirname, '../../packages/shared/src/index-minimal.ts'),
     },
   },
   server: {

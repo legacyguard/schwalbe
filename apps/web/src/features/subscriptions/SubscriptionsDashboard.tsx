@@ -1,5 +1,5 @@
 import React from 'react'
-import { subscriptionService, type UserSubscription, type SubscriptionPreferences } from '@schwalbe/shared'
+import { subscriptionService, type UserSubscription, type SubscriptionPreferences } from '@schwalbe/shared/services/subscription.service'
 
 export function SubscriptionsDashboard() {
   const [sub, setSub] = React.useState<UserSubscription | null>(null)

@@ -28,6 +28,8 @@ export const LegacyGuardLogo: React.FC<LegacyGuardLogoProps> = ({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="w-full h-full"
+        aria-hidden="true"
+        focusable="false"
       >
         <defs>
           <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">

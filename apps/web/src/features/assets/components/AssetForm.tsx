@@ -10,7 +10,7 @@ export function AssetForm() {
   const { createAsset, creating } = useCreateAsset();
   const { updateAsset, updating } = useUpdateAsset();
 
-  const [category, setCategory] = useState('property');
+  const [category, setCategory] = useState<import('../state/useAssets').AssetCategory>('property');
   const [name, setName] = useState('');
   const [estimatedValue, setEstimatedValue] = useState<number | ''>('');
   const [currency, setCurrency] = useState('USD');
@@ -88,7 +88,7 @@ export function AssetForm() {
         <form onSubmit={onSubmit} className="space-y-4 max-w-2xl">
           <div>
             <label htmlFor="category" className="block mb-1">Category</label>
-            <select id="category" className="bg-zinc-900 text-white rounded px-3 py-2" value={category} onChange={e => setCategory(e.target.value)}>
+            <select id="category" className="bg-zinc-900 text-white rounded px-3 py-2" value={category} onChange={e => setCategory(e.target.value as import('../state/useAssets').AssetCategory)}>
               <option value="property">Property</option>
               <option value="vehicle">Vehicle</option>
               <option value="financial">Financial</option>

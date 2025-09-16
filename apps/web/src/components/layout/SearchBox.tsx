@@ -32,6 +32,8 @@ export function SearchBox() {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const navigate = useNavigate()
   const locale = useMemo(() => i18n.language || 'en', [])
+  const listboxId = 'search-results-listbox'
+  const activeId = useMemo(() => (results[highlight] ? `search-option-${results[highlight].id}` : undefined), [results, highlight])
 
   // Open and focus input
   const openAndFocus = () => {
@@ -144,6 +146,8 @@ export function SearchBox() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={onKeyDown}
+              aria-controls={listboxId}
+              aria-activedescendant={activeId}
               className="pl-9 pr-8 bg-slate-900/60 border-slate-700 text-slate-100 placeholder:text-slate-400"
               onBlur={() => {
                 // Keep open briefly to allow click selection; click-outside handler closes.
@@ -158,6 +162,7 @@ export function SearchBox() {
           {(loading || results.length > 0 || query.trim().length >= 2) && (
             <div
               role="listbox"
+              id={listboxId}
               aria-label={i18n.t('ui/search.resultsAria')}
               className="absolute mt-2 w-[min(90vw,360px)] rounded-md border border-slate-700 bg-slate-900/95 backdrop-blur-sm shadow-xl z-50"
             >
@@ -168,6 +173,7 @@ export function SearchBox() {
                   {results.map((r, idx) => (
                     <li key={r.id}>
                       <button
+                        id={`search-option-${r.id}`}
                         role="option"
                         aria-selected={highlight === idx}
                         onMouseEnter={() => setHighlight(idx)}
