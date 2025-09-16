@@ -1,21 +1,21 @@
-name: Notify Trial Ending (Fallback)
+name: Notify Trial Ending (Staging)
 
 on:
   schedule:
-    - cron: "30 7 * * *"  # 07:30 UTC daily (adjusted)
+    - cron: "0 9 * * *"  # 09:00 UTC daily, staging window
   workflow_dispatch: {}
 
 jobs:
-  run-notify:
+  run-notify-staging:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Supabase function notify-trial-ending
+      - name: Call Supabase function notify-trial-ending (staging)
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_URL: ${{ secrets.STAGING_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.STAGING_SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
-            echo "Missing secrets SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" >&2
+            echo "Missing staging secrets STAGING_SUPABASE_URL or STAGING_SUPABASE_SERVICE_ROLE_KEY" >&2
             exit 1
           fi
           curl -sS -X POST \
