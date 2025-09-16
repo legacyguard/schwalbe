@@ -38,7 +38,7 @@ $$;
 CREATE TABLE IF NOT EXISTS quick_insights (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    document_id UUID REFERENCES documents(id) ON DELETE SET NULL,
+    document_id UUID,
     type TEXT NOT NULL CHECK (type IN ('document_analysis', 'family_impact', 'time_saved', 'protection_level', 'completion_gap', 'urgent_action')),
     title TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -140,7 +140,7 @@ id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 CREATE TABLE IF NOT EXISTS review_requests (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+    document_id UUID NOT NULL,
     review_type TEXT NOT NULL CHECK (review_type IN ('basic', 'comprehensive', 'certified')),
     urgency_level TEXT DEFAULT 'standard' CHECK (urgency_level IN ('standard', 'priority', 'urgent')),
     specialization_required TEXT,
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS document_reviews (
 
 CREATE TABLE IF NOT EXISTS review_results (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    review_id UUID NOT NULL REFERENCES document_reviews(id) ON DELETE CASCADE,
+    review_id UUID NOT NULL,
     score INTEGER CHECK (score >= 0 AND score <= 100),
     findings JSONB DEFAULT '[]'::jsonb,
     summary TEXT,

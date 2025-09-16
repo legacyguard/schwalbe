@@ -25,7 +25,7 @@ ADD COLUMN IF NOT EXISTS review_recommendations JSONB DEFAULT '[]'::jsonb;
 CREATE TABLE IF NOT EXISTS quick_insights (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id TEXT NOT NULL, -- Using TEXT to match Clerk user IDs
-    document_id UUID REFERENCES documents(id) ON DELETE SET NULL,
+    document_id UUID,
     type TEXT NOT NULL CHECK (type IN ('document_analysis', 'family_impact', 'time_saved', 'protection_level', 'completion_gap', 'urgent_action')),
     title TEXT NOT NULL,
     description TEXT NOT NULL,
