@@ -4,7 +4,8 @@
 BEGIN;
 
 -- Create two synthetic documents for two users
-SET LOCAL request.jwt.claims TO '{"sub": "rls_user_a", "role": "service_role"}'; -- elevate for setup inserts
+SET LOCAL request.jwt.claims TO '{"sub": "setup_user", "role": "service_role"}'; -- elevate for setup inserts
+SET LOCAL ROLE service_role;
 
 -- Create documents for both users (assuming documents.user_id text matching Clerk external id)
 INSERT INTO public.documents (id, user_id, file_name, file_path, file_type, file_size)
@@ -20,7 +21,8 @@ VALUES
   ('00000000-0000-0000-0000-0000000000b1', 'hash_b', 3, ARRAY[1,3,5]);
 
 -- Switch to user A and verify visibility
-SET LOCAL request.jwt.claims TO '{"sub": "rls_user_a"}';
+SET LOCAL request.jwt.claims TO '{"sub": "rls_user_a", "role": "authenticated"}';
+SET LOCAL ROLE authenticated;
 DO $$
 DECLARE c int;
 BEGIN
@@ -39,7 +41,8 @@ BEGIN
 END $$;
 
 -- Switch to user B and verify isolation
-SET LOCAL request.jwt.claims TO '{"sub": "rls_user_b"}';
+SET LOCAL request.jwt.claims TO '{"sub": "rls_user_b", "role": "authenticated"}';
+SET LOCAL ROLE authenticated;
 DO $$
 DECLARE c int;
 BEGIN

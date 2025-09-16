@@ -28,9 +28,19 @@ export function DocumentUpload() {
         setError('No file selected.')
         return
       }
+
+      // Gate OCR for paid plans only
+      const { subscriptionService } = await import('@schwalbe/shared/services/subscription.service')
+      const canOCR = await subscriptionService.hasEntitlement('ocr')
+      if (!canOCR) {
+        setError('OCR is available on paid plans. Please upgrade to continue.')
+        return
+      }
+
       const { document } = await uploadDocumentAndAnalyze(file)
       navigate(`/documents/${document.id}`)
     } catch (e: any) {
+      // eslint-disable-next-line no-console
       console.error(e)
       setError('Upload failed. Please try again.')
     } finally {
@@ -57,11 +67,19 @@ export function DocumentUpload() {
       ) : null}
       {error ? <div className="mt-3 text-red-400 text-sm" role="alert">{error}</div> : null}
       <div className="mt-6 flex gap-3">
-        <Button onClick={onUpload} disabled={uploading || !files}>{uploading ? 'Uploading…' : 'Upload & Analyze'}</Button>
+        <Button onClick={onUpload} disabled={uploading || !files}>
+          {uploading ? 'Uploading…' : 'Upload & Analyze (Paid)'}
+        </Button>
         <Button onClick={() => navigate('/documents')}>Cancel</Button>
+        <Button
+          variant="outline"
+          onClick={() => (window.location.href = '/#pricing')}
+        >
+          Upgrade
+        </Button>
       </div>
       <div className="mt-6 text-xs text-slate-400">
-        Note: Documents are stored in your private storage folder. OCR and analysis run via an Edge Function; secrets are managed via environment variables.
+        Note: OCR is a paid feature in the MVP. Documents are stored in your private storage folder. OCR and analysis run via an Edge Function; secrets are managed via environment variables.
       </div>
     </div>
   )

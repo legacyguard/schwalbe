@@ -90,6 +90,36 @@ const PricingCard: React.FC<{ index: number; tier: PricingTier }> = ({
 export const PricingSection: React.FC = () => {
   const { t } = useTranslation('landing/pricing');
 
+  async function startCheckout(plan: 'premium' | 'family' | 'essential') {
+    // Require login for checkout
+    try {
+      const { supabase } = await import('@/lib/supabase')
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        window.location.href = '/sign-up?plan=' + plan
+        return
+      }
+      const origin = window.location.origin
+      const { data, error } = await supabase.functions.invoke('stripe-checkout', {
+        body: {
+          plan,
+          userId: user.id,
+          successUrl: `${origin}/?checkout=success`,
+          cancelUrl: `${origin}/?checkout=cancel`,
+        },
+      })
+      if (error) throw error
+      const url = (data as any)?.url as string | undefined
+      if (url) {
+        window.location.href = url
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Checkout failed')
+      alert('Unable to start checkout. Please try again later.')
+    }
+  }
+
   const pricingTiers: PricingTier[] = [
     {
       id: 'free',
@@ -99,8 +129,7 @@ export const PricingSection: React.FC = () => {
       features: t('tiers.free.features', { returnObjects: true }) as { description: string; title: string; }[],
       cta: t('tiers.free.cta'),
       ctaAction: () => {
-        // Navigate to app download or sign up
-        window.location.href = '/sign-up';
+        window.location.href = '/sign-up'
       },
     },
     {
@@ -113,10 +142,7 @@ export const PricingSection: React.FC = () => {
       badge: t('tiers.premium.badge'),
       features: t('tiers.premium.features', { returnObjects: true }) as { description: string; title: string; }[],
       cta: t('tiers.premium.cta'),
-      ctaAction: () => {
-        // Navigate to premium sign up
-        window.location.href = '/sign-up?plan=premium';
-      },
+      ctaAction: () => startCheckout('premium'),
     },
     {
       id: 'family',
@@ -126,10 +152,7 @@ export const PricingSection: React.FC = () => {
       description: t('tiers.family.description'),
       features: t('tiers.family.features', { returnObjects: true }) as { description: string; title: string; }[],
       cta: t('tiers.family.cta'),
-      ctaAction: () => {
-        // Navigate to family plan sign up
-        window.location.href = '/sign-up?plan=family';
-      },
+      ctaAction: () => startCheckout('family'),
     },
   ];
 

@@ -97,7 +97,6 @@ function extractGuardiansFromSnapshot(snapshot: WillSnapshot): GuardianItem[] {
   const list: GuardianItem[] = [];
   const p = (g as any).primaryGuardian;
   const b = (g as any).backupGuardian;
-  const kids = (g as any).minorChildren || [];
   if (p) list.push({ id: String(p.id || 'primary'), name: p.name || 'Primary Guardian', relationship: p.relationship, priority: 1, isChildGuardian: true });
   if (b) list.push({ id: String(b.id || 'backup'), name: b.name || 'Backup Guardian', relationship: b.relationship, priority: 2, isChildGuardian: true });
   // Children records are ignored for guardian comparison; they are subjects not guardians
@@ -113,7 +112,6 @@ function summarize(payload: {
   const aRem = payload.assets.filter(c => c.kind === 'removed').length;
   const bAdd = payload.beneficiaries.filter(c => c.kind === 'added').length;
   const bRem = payload.beneficiaries.filter(c => c.kind === 'removed').length;
-  const gMod = payload.guardians.filter(c => c.kind !== 'added' || c.kind !== 'removed').length;
   const parts = [] as string[];
   if (aAdd || aRem) parts.push(`Assets: +${aAdd}, -${aRem}`);
   if (bAdd || bRem) parts.push(`Beneficiaries: +${bAdd}, -${bRem}`);

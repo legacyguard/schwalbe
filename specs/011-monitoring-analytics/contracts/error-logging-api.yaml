@@ -38,11 +38,11 @@ paths:
                 message:
                   type: string
                   maxLength: 1000
-                  example: TypeError: Cannot read property 'x' of undefined
+                  example: "TypeError: Cannot read property 'x' of undefined"
                 stack:
                   type: string
                   description: Error stack trace (sanitized)
-                  example: at Component.render (component.js:15:10)
+                  example: "at Component.render (component.js:15:10)"
                 severity:
                   type: string
                   enum: [low, medium, high, critical]

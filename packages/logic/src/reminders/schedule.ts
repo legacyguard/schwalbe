@@ -13,7 +13,7 @@ export function nextRun(scheduledAtISO: string, rrule: string | null, fromISO?: 
   const rule = parseRRule(rrule)
   if (!rule.freq) return null
   const from = fromISO ? new Date(fromISO) : new Date()
-  let next = new Date(scheduledAtISO)
+  const next = new Date(scheduledAtISO)
   let i = 0
   while (next <= from && i < 1000) {
     if (rule.freq === 'DAILY') next.setUTCDate(next.getUTCDate() + rule.interval)

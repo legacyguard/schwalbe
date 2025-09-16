@@ -69,6 +69,38 @@ export type UsageType = 'documents' | 'scans' | 'storage' | 'time_capsules';
 
 class SubscriptionService {
   /**
+   * Get current plan for a given user (or current user if not specified)
+   */
+  async getPlan(userId?: string): Promise<SubscriptionPlan> {
+    let uid = userId
+    if (!uid) {
+      const { data: auth } = await supabase.auth.getUser()
+      uid = auth.user?.id ?? undefined
+    }
+    if (!uid) return 'free'
+    const { data } = await supabase
+      .from('user_subscriptions')
+      .select('plan')
+      .eq('user_id', uid)
+      .maybeSingle()
+    return ((data as any)?.plan as SubscriptionPlan) ?? 'free'
+  }
+
+  /**
+   * Check entitlement for a feature
+   * Minimal gate: free => no paid features; paid (essential/family/premium) => allowed
+   */
+  async hasEntitlement(
+    feature: 'ocr' | 'share' | 'export',
+    userId?: string
+  ): Promise<boolean> {
+    const plan = await this.getPlan(userId)
+    if (plan === 'free') return false
+    // MVP: all paid plans have all three features
+    return ['ocr', 'share', 'export'].includes(feature)
+  }
+
+  /**
    * Get subscription preferences for current user
    */
   async getPreferences(): Promise<SubscriptionPreferences | null> {

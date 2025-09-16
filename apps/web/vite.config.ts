@@ -5,11 +5,13 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@schwalbe/logic': path.resolve(__dirname, '../../packages/logic/src'),
-      '@schwalbe/shared': path.resolve(__dirname, '../../packages/shared/src/index-minimal.ts'),
-    },
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+      { find: /^@schwalbe\/shared\/config\//, replacement: path.resolve(__dirname, '../../packages/shared/src/config/') },
+      { find: /^@schwalbe\/shared\/services\//, replacement: path.resolve(__dirname, '../../packages/shared/src/services/') },
+      { find: '@schwalbe/logic', replacement: path.resolve(__dirname, '../../packages/logic/src') },
+      { find: '@schwalbe/shared', replacement: path.resolve(__dirname, '../../packages/shared/src/index-minimal.ts') },
+    ],
   },
   server: {
     port: 3000,

@@ -407,7 +407,7 @@
         "hints": {
           "ncrOptions.registerInNCR": "NCRza vedie Slovenská notárska komora; eviduje závetné úkony spísané formou notárskej zápisnice alebo prijaté do úschovy (§ o NCRza v Notárskom poriadku).",
           "declarations.cannotReadOrWrite": "Ak poručiteľ nemôže čítať alebo písať, notár do zápisnice uvedie osobitné náležitosti (kto písal/čítal atď.)."
-        ],
+        },
         "signing": {
           "handwrittenRequired": false,
           "witnessesRequired": 0,

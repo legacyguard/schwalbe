@@ -31,6 +31,7 @@ export interface VerifyShareAccessResult {
 }
 
 import { supabase } from '../../supabase/client';
+import { subscriptionService } from '../subscription.service';
 
 function normalizePermissions(p?: Partial<SharePermissions>): SharePermissions {
   return {
@@ -46,6 +47,13 @@ export class SharingService {
    * Create a share link via RPC. Requires an authenticated session.
    */
   static async createShareLink(input: CreateShareLinkInput): Promise<CreateShareLinkResult> {
+    // Entitlement gate: sharing is paid in MVP
+    const allowed = await subscriptionService.hasEntitlement('share')
+    if (!allowed) {
+      // Do not log details; surface minimal error
+      throw new Error('insufficient_plan')
+    }
+
     const permissions = normalizePermissions(input.permissions);
     const { data, error } = await supabase.rpc('create_share_link', {
       p_resource_type: input.resourceType,

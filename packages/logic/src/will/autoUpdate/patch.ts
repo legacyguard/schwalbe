@@ -1,7 +1,7 @@
 // Patch application and rollback utilities
 // All code and comments are in English.
 
-import type { PatchOperation, WillPatch, WillSnapshot } from './types';
+import type { PatchOperation, WillPatch } from './types';
 
 export interface ApplyResult {
   next: any; // next will JSON structure (partial) to be merged server-side
@@ -15,7 +15,7 @@ export function applyPatch(base: any, patch: WillPatch): ApplyResult {
   for (const op of patch.operations) {
     switch (op.op) {
       case 'set': {
-        const { parent, key, prev } = setPath(clone, op.path, op.value);
+        const { prev } = setPath(clone, op.path, op.value);
         inverse.push(prev === undefined ? { op: 'unset', path: op.path } : { op: 'set', path: op.path, value: prev });
         break;
       }

@@ -6,7 +6,8 @@ BEGIN;
 
 -- Use synthetic user identities (text IDs are fine; policies compare as ::text)
 -- User A context
-SET LOCAL request.jwt.claims TO '{"sub": "smoke_user_a"}';
+SET LOCAL request.jwt.claims TO '{"sub": "smoke_user_a", "role": "authenticated"}';
+SET LOCAL ROLE authenticated;
 
 -- Insert a document as user A (should pass RLS WITH CHECK)
 INSERT INTO public.documents (user_id, file_name, file_path, file_type, file_size)
@@ -24,7 +25,8 @@ BEGIN
 END $$;
 
 -- Switch to user B (isolation expected)
-SET LOCAL request.jwt.claims TO '{"sub": "smoke_user_b"}';
+SET LOCAL request.jwt.claims TO '{"sub": "smoke_user_b", "role": "authenticated"}';
+SET LOCAL ROLE authenticated;
 
 -- Verify user B cannot read user A's document
 DO $$
@@ -53,7 +55,8 @@ BEGIN
 END $$;
 
 -- Switch back to user A and delete own document (should succeed)
-SET LOCAL request.jwt.claims TO '{"sub": "smoke_user_a"}';
+SET LOCAL request.jwt.claims TO '{"sub": "smoke_user_a", "role": "authenticated"}';
+SET LOCAL ROLE authenticated;
 DELETE FROM public.documents WHERE user_id::text = 'smoke_user_a';
 
 DO $$

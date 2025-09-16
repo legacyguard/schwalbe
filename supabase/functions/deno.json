@@ -15,5 +15,10 @@
   "importMap": "./import_map.json",
   "tasks": {
     "dev": "deno run --allow-net --allow-env --watch index.ts"
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": true
   }
 }

@@ -5,6 +5,7 @@ BEGIN;
 
 -- Attempt insert as anon (should fail)
 RESET request.jwt.claims; -- anon
+SET LOCAL ROLE anon;
 DO $$
 BEGIN
   BEGIN
@@ -17,7 +18,8 @@ BEGIN
 END $$;
 
 -- Insert as authenticated (should succeed)
-SET LOCAL request.jwt.claims TO '{"sub": "error_rls_user"}';
+SET LOCAL request.jwt.claims TO '{"sub": "error_rls_user", "role": "authenticated"}';
+SET LOCAL ROLE authenticated;
 INSERT INTO public.error_log(level, message, context) VALUES ('error', 'auth insert ok', '{}'::jsonb);
 
 -- Select as authenticated (should return 0 rows due to no select policy)
@@ -32,6 +34,7 @@ END $$;
 
 -- Select as service_role (should be allowed)
 SET LOCAL request.jwt.claims TO '{"sub": "service_user", "role": "service_role"}';
+SET LOCAL ROLE service_role;
 DO $$
 DECLARE c int;
 BEGIN
