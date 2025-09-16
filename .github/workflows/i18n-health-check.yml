@@ -16,5 +16,7 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Generate missing/repair stubs
+        run: npm run i18n:generate-stubs
       - name: Validate i18n locale parity
         run: npm run i18n:check
