@@ -177,8 +177,30 @@ CREATE POLICY "Allow read access to specializations" ON public.professional_spec
     FOR SELECT USING (true);
 
 -- Professional onboarding (users can manage their own applications)
-CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding
-    FOR ALL USING (email = app.current_external_id() || '@placeholder.com');
+DO $$
+BEGIN
+  -- Replace if exists to avoid conflicts
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'professional_onboarding' AND polname = 'Users can manage own onboarding'
+  ) THEN
+    DROP POLICY "Users can manage own onboarding" ON public.professional_onboarding;
+  END IF;
+
+  -- Prefer email column when present; otherwise fall back to user_id; else lock down
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_onboarding' AND column_name = 'email'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding FOR ALL USING (email = app.current_external_id() || ''@placeholder.com'')';
+  ELSIF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_onboarding' AND column_name = 'user_id'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding FOR ALL USING (user_id = app.current_external_id())';
+  ELSE
+    EXECUTE 'CREATE POLICY "Users can manage own onboarding" ON public.professional_onboarding FOR ALL USING (false)';
+  END IF;
+END$$;
 
 -- Professional reviewers (read-only for users, write for system)
 CREATE POLICY "Allow read access to reviewers" ON public.professional_reviewers
