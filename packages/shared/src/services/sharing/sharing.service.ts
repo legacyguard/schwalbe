@@ -57,7 +57,8 @@ export class SharingService {
     });
 
     if (error) {
-      console.error('createShareLink RPC error', error);
+      // Avoid logging RPC error details
+      console.error('createShareLink RPC error');
       throw error;
     }
 
@@ -83,7 +84,8 @@ export class SharingService {
     });
 
     if (error) {
-      console.error('verifyShareAccess RPC error', error);
+      // Avoid logging RPC error details
+      console.error('verifyShareAccess RPC error');
       throw error;
     }
 

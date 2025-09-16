@@ -101,7 +101,7 @@ serve(async (req) => {
     // Replace existing rows
     const delRes = await supabase.from('hashed_tokens').delete().eq('doc_id', body.docId)
     if (delRes.error) {
-      console.error('Delete error', delRes.error)
+      console.error('Delete error')
       return new Response(JSON.stringify({ error: 'Delete failed' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
 
@@ -112,15 +112,15 @@ serve(async (req) => {
       if (chunk.length === 0) continue
       const insRes = await supabase.from('hashed_tokens').insert(chunk)
       if (insRes.error) {
-        console.error('Insert error', insRes.error)
+        console.error('Insert error')
         return new Response(JSON.stringify({ error: 'Insert failed' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
       }
       inserted += chunk.length
     }
 
     return new Response(JSON.stringify({ success: true, inserted }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
-  } catch (e) {
-    console.error('Ingest error', e)
+  } catch (_e) {
+    console.error('Ingest error')
     return new Response(JSON.stringify({ error: 'Ingest failed' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
   }
 })

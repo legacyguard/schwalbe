@@ -4,6 +4,56 @@ import { supabase } from '../supabase/client';
 // Log levels for error_log
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
+// -----------------------
+// Redaction utilities (no PII or secrets in logs)
+// -----------------------
+const SECRET_KEY_PATTERNS = [
+  'password', 'passcode', 'pwd', 'secret', 'token', 'apikey', 'api_key', 'key', 'authorization', 'auth', 'cookie', 'session', 'jwt', 'bearer',
+  // common personal data
+  'email', 'e-mail', 'phone', 'mobile', 'ssn', 'national', 'passport', 'iban', 'bank', 'credit', 'card', 'cc', 'cvv', 'address', 'name'
+];
+
+function isSecretKey(k?: string): boolean {
+  if (!k) return false;
+  const lk = k.toLowerCase();
+  return SECRET_KEY_PATTERNS.some(p => lk.includes(p));
+}
+
+function redactValue(key: string | undefined, value: unknown): unknown {
+  if (value == null) return value;
+  if (typeof value === 'string') {
+    if (isSecretKey(key)) return '[REDACTED]';
+    // mask likely email patterns and bearer tokens within free text
+    const masked = value
+      // emails
+      .replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '[REDACTED_EMAIL]')
+      // bearer-like tokens
+      .replace(/(Bearer\s+)[A-Za-z0-9\-_.]+/gi, '$1[REDACTED_TOKEN]')
+      // long hex strings (32+)
+      .replace(/\b[0-9a-f]{32,}\b/gi, '[REDACTED_HEX]');
+    return masked.length > 2000 ? masked.slice(0, 2000) + '…' : masked;
+  }
+  if (typeof value === 'object') return redactObject(value as Record<string, unknown>);
+  return isSecretKey(key) ? '[REDACTED]' : value;
+}
+
+function redactObject(obj: Record<string, unknown>): Record<string, unknown> {
+  try {
+    const out: Record<string, unknown> = Array.isArray(obj) ? {} : {};
+    for (const [k, v] of Object.entries(obj)) {
+      out[k] = redactValue(k, v);
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+function redactText(text?: string): string | undefined {
+  if (!text) return text;
+  return String(redactValue(undefined, text));
+}
+
 // In-memory throttle/de-dupe for alerts (server/process-local)
 const ALERT_TTL_MS = 10 * 60 * 1000; // 10 minutes
 const ALERT_LRU_MAX = 512;
@@ -134,14 +184,18 @@ class MonitoringService {
     stack?: string
   ): Promise<void> {
     try {
+      const sanitizedContext = context ? redactObject(context) : {};
+      const sanitizedMessage = typeof message === 'string' ? (redactText(message) || '') : JSON.stringify(message);
+      const sanitizedStack = redactText(stack);
       await supabase.from('error_log').insert({
         level,
-        message,
-        context: context ?? {},
-        stack: stack ?? null,
+        message: sanitizedMessage,
+        context: sanitizedContext,
+        stack: sanitizedStack ?? null,
       });
-    } catch (err) {
-      console.error('Failed to persist error_log:', err);
+    } catch (_err) {
+      // Do not print database errors or details
+      console.error('Failed to persist error_log');
     }
   }
 
@@ -159,11 +213,11 @@ class MonitoringService {
 
     // Prefer to send from server/edge only (least privilege). If in browser, try using functions.invoke with user auth.
     const isBrowser = typeof window !== 'undefined';
-    const subject = `[${level.toUpperCase()}] Schwalbe alert: ${message.slice(0, 120)}`;
+    const subject = `[${level.toUpperCase()}] Schwalbe alert: ${(redactText(message) || '').slice(0, 120)}`;
     const body = {
       to: getEnv('ALERT_EMAIL_TO') || undefined,
       subject,
-      text: JSON.stringify({ level, message, context, stack }).slice(0, 5000),
+      text: JSON.stringify({ level, message: redactText(message), context: context ? redactObject(context) : undefined, stack: redactText(stack) }).slice(0, 5000),
     };
 
     try {
@@ -186,8 +240,8 @@ class MonitoringService {
           body: JSON.stringify(body),
         });
         if (!res.ok) {
-          const details = await res.text();
-          console.error('Critical alert email failed:', details);
+          // Avoid logging provider response details to prevent leaks
+          console.error('Critical alert email failed');
         }
       } else {
         // Browser: use functions.invoke; requires an authenticated user session to include Authorization
@@ -201,7 +255,7 @@ class MonitoringService {
           body,
         });
         if (error) {
-          console.error('Critical alert email failed (browser):', error);
+          console.error('Critical alert email failed (browser)');
         }
       }
     } catch (err) {
@@ -212,28 +266,24 @@ class MonitoringService {
   async log(level: LogLevel, message: string, context?: Record<string, any>, error?: unknown): Promise<void> {
     const stack = this.toStack(error);
 
-    // Structured console logging
+    // Structured console logging (sanitized)
     try {
-      let userId: string | undefined;
-      try {
-        const { data } = await supabase.auth.getUser();
-        userId = data?.user?.id as string | undefined;
-      } catch {}
-      const entry = {
+      const sanitizedContext = context ? redactObject(context) : undefined;
+      const entry: Record<string, unknown> = {
         level,
-        message,
+        message: redactText(message) || '',
         timestamp: new Date().toISOString(),
         environment: getRuntimeEnvironment(),
         app_version: getAppVersion(),
-        user_id: userId,
-        request_id: (context && (context.request_id || context.trace_id || (context as any).correlation_id)) || undefined,
-        context: context || {},
-        stack: stack || undefined,
+        // Never include user identifiers in logs
+        request_id: (sanitizedContext && (sanitizedContext['request_id'] || (sanitizedContext as any)['trace_id'] || (sanitizedContext as any)['correlation_id'])) || undefined,
+        context: sanitizedContext,
+        stack: redactText(stack) || undefined,
       };
       const logText = JSON.stringify(entry);
       if (level === 'error' || level === 'fatal') console.error(logText);
       else if (level === 'warn') console.warn(logText);
-      else if (level === 'debug') console.debug ? console.debug(logText) : console.log(logText);
+      else if ((console as any).debug && level === 'debug') (console as any).debug(logText);
       else console.info(logText);
     } catch {}
 
@@ -347,15 +397,19 @@ class MonitoringService {
 
       const deviceInfo = this.getDeviceInfo();
 
+      // Sanitize event data before storing
+      const sanitizedData = eventData ? redactObject(eventData) : {};
+
       await supabase.from('analytics_events').insert({
         user_id: user?.id,
         event_type: eventType,
-        event_data: eventData,
+        event_data: sanitizedData,
         session_id: this.sessionId,
         device_info: deviceInfo,
       });
-    } catch (error) {
-      console.error('Error tracking event:', error);
+    } catch (_error) {
+      // Avoid printing event payloads or error details
+      console.error('Error tracking event');
     }
   }
 
@@ -473,11 +527,11 @@ class MonitoringService {
         status: check.status,
         response_time_ms: check.responseTime,
         error_rate: check.errorRate,
-        last_error: check.lastError,
-        metadata: check.metadata,
+        last_error: redactText(check.lastError) || null,
+        metadata: check.metadata ? redactObject(check.metadata as any) : null,
       });
-    } catch (error) {
-      console.error('Error logging health check:', error);
+    } catch (_error) {
+      console.error('Error logging health check');
     }
   }
 
@@ -544,8 +598,8 @@ class MonitoringService {
         session_id: this.sessionId,
         device_info: this.getDeviceInfo(),
       });
-    } catch (error) {
-      console.error('Error flushing performance buffer:', error);
+    } catch (_error) {
+      console.error('Error flushing performance buffer');
     }
   }
 
@@ -596,11 +650,8 @@ class MonitoringService {
    * Track error
    */
   async trackError(error: Error, context?: Record<string, any>): Promise<void> {
-    await this.trackEvent('error', {
-      message: error.message,
-      stack: error.stack,
-      context,
-    });
+    // Route through structured error logging with sanitization; do not store raw error details in analytics
+    await this.error(error.message, context, error);
   }
 
   /**
@@ -645,7 +696,7 @@ class MonitoringService {
       .lte('created_at', endDate.toISOString());
 
     if (error) {
-      console.error('Error fetching analytics:', error);
+      console.error('Error fetching analytics');
       return {};
     }
 
