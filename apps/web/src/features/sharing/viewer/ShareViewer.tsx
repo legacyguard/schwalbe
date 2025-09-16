@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { sharingService } from '@schwalbe/shared/services/sharing/sharing.service';
+import { sharingService } from '@schwalbe/shared';
 import { MetaTags } from '@/components/common/MetaTags';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';

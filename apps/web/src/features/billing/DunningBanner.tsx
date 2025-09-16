@@ -1,5 +1,5 @@
 import React from 'react'
-import { subscriptionService } from '@schwalbe/shared/services/subscription.service'
+import { subscriptionService } from '@schwalbe/shared'
 
 export function DunningBanner() {
   const [show, setShow] = React.useState(false)

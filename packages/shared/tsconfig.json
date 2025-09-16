@@ -12,6 +12,7 @@
     "src/supabase/client.ts",
     "src/config/domains.ts",
     "src/config/languages.ts",
+    "src/config/billing.ts",
     "src/search/**/*.ts",
     "src/search.ts",
     "src/services/sharing/sharing.service.ts",

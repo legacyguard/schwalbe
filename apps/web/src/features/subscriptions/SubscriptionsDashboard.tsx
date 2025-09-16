@@ -1,5 +1,5 @@
 import React from 'react'
-import { subscriptionService, type UserSubscription, type SubscriptionPreferences } from '@schwalbe/shared/services/subscription.service'
+import { subscriptionService, type UserSubscription, type SubscriptionPreferences } from '@schwalbe/shared'
 import { supabase } from '@/lib/supabase'
 import { billingConfig, daysUntil, isTrialActive } from '@schwalbe/shared'
 

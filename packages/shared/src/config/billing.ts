@@ -11,7 +11,8 @@ function readEnv(name: string): string | undefined {
   if (viteVal !== undefined) return viteVal
   // Deno / Edge Functions
   // eslint-disable-next-line no-undef
-  try { return (typeof Deno !== 'undefined' ? Deno.env.get(name) ?? undefined : undefined) } catch { /* noop */ }
+  // @ts-ignore Deno global may exist in Edge Functions; ignore in web/node builds
+  try { return (typeof (globalThis as any).Deno !== 'undefined' ? (globalThis as any).Deno.env.get(name) ?? undefined : undefined) } catch { /* noop */ }
   // Node (tests)
   if (typeof process !== 'undefined' && process.env) return process.env[name]
   return undefined

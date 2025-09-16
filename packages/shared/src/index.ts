@@ -36,5 +36,8 @@ export { getLanguageLabel, LANGUAGE_LABELS_EN } from './config/languages';
 // Export billing config
 export * from './config/billing';
 
+// Export sharing service
+export { sharingService, SharingService } from './services/sharing/sharing.service';
+
 // Export legal requirements dataset
 export * from './config/legal/requirements';

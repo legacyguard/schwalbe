@@ -30,7 +30,7 @@ export function DocumentUpload() {
       }
 
       // Gate OCR for paid plans only
-      const { subscriptionService } = await import('@schwalbe/shared/services/subscription.service')
+const { subscriptionService } = await import('@schwalbe/shared')
       const canOCR = await subscriptionService.hasEntitlement('ocr')
       if (!canOCR) {
         setError('OCR is available on paid plans. Please upgrade to continue.')
