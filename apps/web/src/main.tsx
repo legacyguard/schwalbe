@@ -10,6 +10,10 @@ import { DocumentRoutes } from '@/features/documents/routes/DocumentRoutes';
 import { SubscriptionsRoutes } from '@/features/subscriptions/SubscriptionsRoutes';
 import { AccountRoutes } from '@/features/account/AccountRoutes';
 import { LegalRoutes } from '@/features/legal/routes/LegalRoutes';
+import SupportEN from '@/pages/support/support.en'
+import SupportCS from '@/pages/support/support.cs'
+import SupportSK from '@/pages/support/support.sk'
+import { SupportIndex } from '@/features/support/SupportIndex'
 import '@/lib/i18n';
 
 const rootEl = document.getElementById('root');
@@ -28,6 +32,10 @@ if (rootEl) {
             <Route path="/subscriptions/*" element={<SubscriptionsRoutes />} />
             <Route path="/account/*" element={<AccountRoutes />} />
             <Route path="/legal/*" element={<LegalRoutes />} />
+            <Route path="/support" element={<SupportIndex />} />
+            <Route path="/support.en" element={<SupportEN />} />
+            <Route path="/support.cs" element={<SupportCS />} />
+            <Route path="/support.sk" element={<SupportSK />} />
             <Route
               path="/"
               element={
