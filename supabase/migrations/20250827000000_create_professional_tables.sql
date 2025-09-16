@@ -282,10 +282,39 @@ BEGIN
   END IF;
 END$$;
 
-CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews
-    FOR ALL USING (reviewer_id IN (
-        SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id()
-    ));
+DO $$
+DECLARE v_has_user_id boolean; v_type text;
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'document_reviews' AND policyname = 'Reviewers can manage assigned reviews'
+  ) THEN
+    EXECUTE 'DROP POLICY "Reviewers can manage assigned reviews" ON public.document_reviews';
+  END IF;
+
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_reviewers' AND column_name = 'user_id'
+  ) INTO v_has_user_id;
+
+  IF v_has_user_id THEN
+    SELECT data_type INTO v_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_reviewers' AND column_name = 'user_id';
+
+    IF v_type = 'uuid' THEN
+      EXECUTE 'CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews FOR ALL USING (
+        reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid())
+      )';
+    ELSE
+      EXECUTE 'CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews FOR ALL USING (
+        reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id())
+      )';
+    END IF;
+  ELSE
+    -- Fallback: lock down if reviewer identity mapping is unknown on remote
+    EXECUTE 'CREATE POLICY "Reviewers can manage assigned reviews" ON public.document_reviews FOR ALL USING (false)';
+  END IF;
+END$$;
 
 -- Review results (users can view results of their reviews, reviewers can manage results)
 DO $$
@@ -327,16 +356,43 @@ BEGIN
 END$$;
 
 -- Professional partnerships (reviewers can manage their own partnerships)
-CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships
-    FOR ALL USING (
-        reviewer_id IN (
-            SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id()
-        )
-    );
+DO $$
+DECLARE v_has_user_id boolean; v_type text;
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'professional_partnerships' AND policyname = 'Reviewers can manage own partnerships'
+  ) THEN
+    EXECUTE 'DROP POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships';
+  END IF;
+
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_reviewers' AND column_name = 'user_id'
+  ) INTO v_has_user_id;
+
+  IF v_has_user_id THEN
+    SELECT data_type INTO v_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_reviewers' AND column_name = 'user_id';
+
+    IF v_type = 'uuid' THEN
+      EXECUTE 'CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships FOR ALL USING (
+        reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid())
+      )';
+    ELSE
+      EXECUTE 'CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships FOR ALL USING (
+        reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id())
+      )';
+    END IF;
+  ELSE
+    -- Fallback: lock down to avoid accidental access on unknown schema
+    EXECUTE 'CREATE POLICY "Reviewers can manage own partnerships" ON public.professional_partnerships FOR ALL USING (false)';
+  END IF;
+END$$;
 
 -- Consultations (users and reviewers can manage their own consultations)
 DO $$
-DECLARE v_type text;
+DECLARE v_type text; v_has_pr_user_id boolean; v_pr_type text;
 BEGIN
   IF EXISTS (
     SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'consultations' AND policyname = 'Users can manage own consultations'
@@ -352,6 +408,37 @@ BEGIN
     EXECUTE 'CREATE POLICY "Users can manage own consultations" ON public.consultations FOR ALL USING (user_id = auth.uid())';
   ELSE
     EXECUTE 'CREATE POLICY "Users can manage own consultations" ON public.consultations FOR ALL USING (user_id = app.current_external_id())';
+  END IF;
+
+  -- Reviewer-side policy
+  IF EXISTS (
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'consultations' AND policyname = 'Reviewers can manage own consultations'
+  ) THEN
+    EXECUTE 'DROP POLICY "Reviewers can manage own consultations" ON public.consultations';
+  END IF;
+
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_reviewers' AND column_name = 'user_id'
+  ) INTO v_has_pr_user_id;
+
+  IF v_has_pr_user_id THEN
+    SELECT data_type INTO v_pr_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'professional_reviewers' AND column_name = 'user_id';
+
+    IF v_pr_type = 'uuid' THEN
+      EXECUTE 'CREATE POLICY "Reviewers can manage own consultations" ON public.consultations FOR ALL USING (
+        reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = auth.uid())
+      )';
+    ELSE
+      EXECUTE 'CREATE POLICY "Reviewers can manage own consultations" ON public.consultations FOR ALL USING (
+        reviewer_id IN (SELECT id FROM public.professional_reviewers WHERE user_id = app.current_external_id())
+      )';
+    END IF;
+  ELSE
+    -- Lock down if schema unknown
+    EXECUTE 'CREATE POLICY "Reviewers can manage own consultations" ON public.consultations FOR ALL USING (false)';
   END IF;
 END$$;
 
