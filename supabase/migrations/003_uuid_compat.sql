@@ -23,13 +23,13 @@ BEGIN
       JOIN pg_namespace n ON n.oid = p.pronamespace
       WHERE p.proname = 'uuid_generate_v4' AND n.nspname = 'public'
     ) THEN
-      CREATE FUNCTION public.uuid_generate_v4()
+CREATE FUNCTION public.uuid_generate_v4()
       RETURNS uuid
-      LANGUAGE sql
-      STABLE
       AS $$
         SELECT gen_random_uuid();
-      $$;
+      $$
+      LANGUAGE sql
+      STABLE;
       COMMENT ON FUNCTION public.uuid_generate_v4() IS 'Compatibility shim mapping to gen_random_uuid()';
     END IF;
   END IF;
