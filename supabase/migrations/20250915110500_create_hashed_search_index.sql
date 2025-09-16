@@ -51,21 +51,25 @@ DECLARE v_type text;
 BEGIN
   SELECT data_type INTO v_type FROM information_schema.columns WHERE table_schema='public' AND table_name='documents' AND column_name='user_id';
   IF v_type = 'uuid' THEN
-    EXECUTE $$CREATE POLICY "hashed_tokens_select_owner"
+    EXECUTE $POLICY$
+      CREATE POLICY "hashed_tokens_select_owner"
       ON public.hashed_tokens FOR SELECT TO authenticated USING (
         EXISTS (
           SELECT 1 FROM public.documents d
           WHERE d.id = hashed_tokens.doc_id AND d.user_id = auth.uid()
         )
-      )$$;
+      )
+    $POLICY$;
   ELSE
-    EXECUTE $$CREATE POLICY "hashed_tokens_select_owner"
+    EXECUTE $POLICY$
+      CREATE POLICY "hashed_tokens_select_owner"
       ON public.hashed_tokens FOR SELECT TO authenticated USING (
         EXISTS (
           SELECT 1 FROM public.documents d
           WHERE d.id = hashed_tokens.doc_id AND d.user_id = app.current_external_id()
         )
-      )$$;
+      )
+    $POLICY$;
   END IF;
 END$$;
 
