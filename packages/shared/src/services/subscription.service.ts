@@ -23,6 +23,11 @@ export interface UserSubscription {
   stripe_subscription_id?: string;
   updated_at: string;
   user_id: string;
+  // New metadata for cost view and renewal
+  price_amount_cents?: number | null;
+  price_currency?: string | null;
+  auto_renew?: boolean | null;
+  renew_url?: string | null;
 }
 
 export interface UserUsage {
@@ -51,9 +56,74 @@ export interface SubscriptionLimits {
   priority_support: boolean;
 }
 
+export interface SubscriptionPreferences {
+  user_id: string;
+  days_before_primary: number; // default 7
+  days_before_secondary: number; // default 1
+  channels: ('email' | 'in_app')[];
+  created_at?: string;
+  updated_at?: string;
+}
+
 export type UsageType = 'documents' | 'scans' | 'storage' | 'time_capsules';
 
 class SubscriptionService {
+  /**
+   * Get subscription preferences for current user
+   */
+  async getPreferences(): Promise<SubscriptionPreferences | null> {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const { data, error } = await supabase
+      .from('subscription_preferences')
+      .select('*')
+      .eq('user_id', user.id)
+      .single();
+    if (error) {
+      console.error('Error fetching subscription prefs:', error);
+      return null;
+    }
+    // Normalize channels to array of strings
+    const normalized = data
+      ? {
+          ...data,
+          channels: Array.isArray((data as any).channels)
+            ? ((data as any).channels as string[])
+            : JSON.parse(((data as any).channels as unknown as string) || '[]'),
+        }
+      : null;
+    return normalized as any;
+  }
+
+  /**
+   * Update subscription preferences for current user
+   */
+  async updatePreferences(patch: Partial<Omit<SubscriptionPreferences, 'user_id'>>): Promise<boolean> {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return false;
+
+    const payload: any = { ...patch };
+    if (payload.channels) {
+      // Ensure JSONB array is persisted correctly
+      payload.channels = payload.channels;
+    }
+
+    const { error } = await supabase
+      .from('subscription_preferences')
+      .upsert({ user_id: user.id, ...payload })
+      .select('user_id')
+      .single();
+    if (error) {
+      console.error('Error updating subscription prefs:', error);
+      return false;
+    }
+    return true;
+  }
   /**
    * Get current user's subscription
    */

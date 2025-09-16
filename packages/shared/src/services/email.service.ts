@@ -38,6 +38,13 @@ export interface EmailNotification {
     planName: string;
     userName: string;
   };
+  subscription_expiry_reminder: {
+    planName: string;
+    renewDate: string;
+    daysBefore: number;
+    renewUrl?: string;
+    userName: string;
+  };
   upgrade_suggestion: {
     benefits: string[];
     currentPlan: string;
@@ -123,8 +130,6 @@ class EmailService {
     `;
     return this.sendEmail({ to: email, subject: 'Your will was updated', html, text: `Applied: ${data.changeSummary}` });
   }
-  private readonly fromEmail = 'noreply@documentsafe.app';
-  private readonly appName = 'Document Safe';
 
   /**
    * Send email via Supabase Edge Function
@@ -240,7 +245,46 @@ The ${this.appName} Team
       subject: `Welcome to ${this.appName} ${data.planName}! 🎉`,
       html,
       text,
-    });
+  })
+}
+
+  /**
+   * Send subscription expiry reminder
+   */
+  async sendSubscriptionExpiryReminder(
+    email: string,
+    data: NonNullable<EmailNotification['subscription_expiry_reminder']>
+  ): Promise<boolean> {
+    if (!email) return true;
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #3182ce; color: white; padding: 24px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9f9f9; padding: 24px; border-radius: 0 0 10px 10px; }
+            .button { display: inline-block; padding: 12px 30px; background: #3182ce; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h2>Subscription Renewal Reminder</h2>
+            </div>
+            <div class="content">
+              <p>Hi ${data.userName},</p>
+              <p>Your <strong>${data.planName}</strong> plan renews on <strong>${data.renewDate}</strong>.</p>
+              <p>This reminder is sent ${data.daysBefore} day(s) in advance.</p>
+              ${data.renewUrl ? `<center><a href="${data.renewUrl}" class="button">Manage Subscription</a></center>` : ''}
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+    const text = `Your ${data.planName} plan renews on ${data.renewDate}. This reminder is ${data.daysBefore} day(s) in advance.`;
+    return this.sendEmail({ to: email, subject: 'Subscription Renewal Reminder', html, text });
   }
 
   /**

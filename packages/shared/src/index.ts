@@ -25,6 +25,8 @@ export * from './supabase/client';
 
 // Export Reminder service
 export * from './services/reminders/reminder.service';
+// Export Subscription service
+export * from './services/subscription.service';
 
 // Export domain + language config
 export * from './config/domains';
