@@ -1,6 +1,11 @@
 -- Phase 14: Asset Tracking Core
 -- Create enum for asset categories
-create type if not exists asset_category as enum ('property','vehicle','financial','business','personal');
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'asset_category') then
+    create type asset_category as enum ('property','vehicle','financial','business','personal');
+  end if;
+end$$;
 
 -- Assets table
 create table if not exists public.assets (
