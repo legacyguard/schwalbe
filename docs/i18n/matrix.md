@@ -11,4 +11,8 @@ This file is the canonical reference for languages and per-country rules used ac
 
 If you maintain a more detailed matrix elsewhere, keep it, but treat this path as the normalized reference for scripts and docs: docs/i18n/matrix.md.
 
-TODO: Paste or link the full matrix content here, or add a script that generates it from your original source file.
+Source of truth: docs/i18n/LANGUAGE MATRIX PER DOMAIN (39 COUNTRIES, 34 LANGUAGES).md
+
+For runtime mapping, see packages/shared/src/config/languages.ts (DOMAIN_LANGUAGES) which is derived from this matrix and enforces per-domain 4–5 languages.
+
+Future work: add a generation script to sync DOMAIN_LANGUAGES from this document.

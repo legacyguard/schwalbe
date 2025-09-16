@@ -12,11 +12,11 @@ Production (target)
   - docs/i18n/TARGET MARKETS (39 countries with dedicated domains).md
   - docs/i18n/LANGUAGE MATRIX PER DOMAIN (39 COUNTRIES, 34 LANGUAGES).md
 - Additions flow:
-  1) Update packages/shared/src/config/domains.ts (host, country code, enabled, languages)
-     - Note: languages[] mapping is not yet present in CountryDomain; track per docs for now; see docs/tickets/T-002-country-domain-languages-prop.md
-  2) Add/verify i18n resources for new languages
-  3) Validate currency and legal requirements where applicable
-  4) QA domain redirects (prod) vs simulation (staging/local)
+  1) Update packages/shared/src/config/domains.ts (host, country code, currency, enabled)
+  2) Update packages/shared/src/config/languages.ts DOMAIN_LANGUAGES mapping per domain
+  3) Add/verify i18n resources for new languages (stubs acceptable; UI remains English)
+  4) Validate currency and legal requirements where applicable (see packages/shared/src/config/legal/requirements.ts)
+  5) QA domain redirects (prod) vs simulation (staging/local)
 
 Rules and constraints
 - All UI strings outside i18n must be English

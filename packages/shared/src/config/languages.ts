@@ -35,13 +35,13 @@ export const SUPPORTED_LANGUAGES_34 = [
   'mk', // Macedonian
   'me', // Montenegrin
   'bg', // Bulgarian
-  'cy', // Welsh (example placeholder from docs assets)
   'ga', // Irish
   'mt', // Maltese
   'is', // Icelandic
   'no', // Norwegian (for regional UX parity)
   'tr', // Turkish (regional communities)
   'ru', // Russian (matrix-dependent; see project rules for specific countries)
+  'bs', // Bosnian
 ] as const
 
 export type LocaleCode = (typeof SUPPORTED_LANGUAGES_34)[number]
@@ -77,23 +77,58 @@ export const LANGUAGE_LABELS_EN: Record<LocaleCode, string> = {
   mk: 'Macedonian',
   me: 'Montenegrin',
   bg: 'Bulgarian',
-  cy: 'Welsh',
   ga: 'Irish',
   mt: 'Maltese',
   is: 'Icelandic',
   no: 'Norwegian',
   tr: 'Turkish',
   ru: 'Russian',
+  bs: 'Bosnian',
 }
 
 export function getLanguageLabel(code: LocaleCode): string {
   return LANGUAGE_LABELS_EN[code] ?? code.toUpperCase()
 }
 
-// MVP domain → languages mapping
+// Domain → languages mapping (≥4 per country) based on the 39-country matrix
 export const DOMAIN_LANGUAGES: Record<DomainHost, LocaleCode[]> = {
   'legacyguard.cz': ['cs', 'sk', 'en', 'de', 'uk'],
   'legacyguard.sk': ['sk', 'cs', 'en', 'de', 'uk'],
+  'legacyguard.de': ['de', 'en', 'pl', 'uk'],
+  'legacyguard.pl': ['pl', 'en', 'de', 'cs', 'uk'],
+  'legacyguard.dk': ['da', 'en', 'de', 'sv', 'uk'],
+  'legacyguard.at': ['de', 'en', 'it', 'cs', 'uk'],
+  'legacyguard.fr': ['fr', 'en', 'de', 'es', 'uk'],
+  'legacyguard.ch': ['de', 'fr', 'it', 'en', 'uk'],
+  'legacyguard.it': ['it', 'en', 'de', 'fr', 'uk'],
+  'legacyguard.hr': ['hr', 'en', 'de', 'it', 'sr'],
+  'legacyguard.be': ['nl', 'fr', 'en', 'de', 'uk'],
+  'legacyguard.lu': ['fr', 'de', 'en', 'pt', 'uk'],
+  'legacyguard.li': ['de', 'en', 'fr', 'it'],
+  'legacyguard.es': ['es', 'en', 'fr', 'de', 'uk'],
+  'legacyguard.se': ['sv', 'en', 'de', 'fi', 'uk'],
+  'legacyguard.fi': ['fi', 'sv', 'en', 'de', 'uk'],
+  'legacyguard.pt': ['pt', 'en', 'es', 'fr', 'uk'],
+  'legacyguard.gr': ['el', 'en', 'de', 'fr', 'uk'],
+  'legacyguard.nl': ['nl', 'en', 'de', 'fr', 'uk'],
+  'legacyguard.uk': ['en', 'pl', 'fr', 'de', 'uk'],
+  'legacyguard.lt': ['lt', 'en', 'ru', 'pl', 'uk'],
+  'legacyguard.lv': ['lv', 'ru', 'en', 'de', 'uk'],
+  'legacyguard.ee': ['et', 'ru', 'en', 'fi', 'uk'],
+  'legacyguard.mt': ['mt', 'en', 'it', 'de', 'fr'],
+  'legacyguard.cy': ['el', 'en', 'tr', 'ru', 'uk'],
+  'legacyguard.ie': ['en', 'ga', 'pl', 'fr', 'uk'],
+  'legacyguard.no': ['no', 'en', 'sv', 'da', 'uk'],
+  'legacyguard.is': ['is', 'en', 'da', 'no'],
+  'legacyguard.ro': ['ro', 'en', 'de', 'hu', 'uk'],
+  'legacyguard.bg': ['bg', 'en', 'de', 'ru', 'uk'],
+  'legacyguard.rs': ['sr', 'en', 'de', 'ru', 'hr'],
+  'legacyguard.al': ['sq', 'en', 'it', 'de', 'el'],
+  'legacyguard.mk': ['mk', 'sq', 'en', 'de', 'bg'],
+  'legacyguard.me': ['me', 'sr', 'en', 'de', 'ru'],
+  'legacyguard.md': ['ro', 'ru', 'en', 'uk', 'bg'],
+  'legacyguard.ua': ['uk', 'ru', 'en', 'pl', 'ro'],
+  'legacyguard.ba': ['bs', 'hr', 'sr', 'en', 'de'],
 }
 
 export function getDomainByHost(hostname: string): CountryDomain | undefined {

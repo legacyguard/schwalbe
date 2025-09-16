@@ -2,7 +2,7 @@
 
 ## TIER 1 LAUNCH MARKETS (Western & Central Europe) - €19/month
 
-- legacyguard.eu - Germany
+- legacyguard.de - Germany
 - legacyguard.fr - France
 - legacyguard.es - Spain
 - legacyguard.it - Italy
@@ -159,7 +159,7 @@
 - **Emergency Procedures:** Austrian emergency protocols
 - **Validation Rules:** Austrian legal compliance
 
-### UNITED KINGDOM (legacyguard.co.uk)
+### UNITED KINGDOM (legacyguard.uk)
 
 - **Legal System:** UK Inheritance Act, with variations for England/Wales, Scotland, and Northern Ireland
 - **Document Templates:** UK will, lasting power of attorney (LPA), advance decision to refuse treatment (living will)
