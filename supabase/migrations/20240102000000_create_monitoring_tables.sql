@@ -83,6 +83,9 @@ CREATE TABLE IF NOT EXISTS public.webhook_logs (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Optional narrow index for quick failure lookups in window
+CREATE INDEX IF NOT EXISTS idx_webhook_logs_event_status_created ON public.webhook_logs(event_type, status, created_at);
+
 -- Create indexes for better performance
 CREATE INDEX idx_email_logs_status ON public.email_logs(status);
 CREATE INDEX idx_email_logs_sent_at ON public.email_logs(sent_at);

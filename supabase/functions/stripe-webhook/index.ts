@@ -1,9 +1,9 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { serve } from 'std/http/server.ts'
+import Stripe from 'https://esm.sh/stripe@13.10.0?target=deno'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { insertErrorAndMaybeAlert, redactSensitiveData } from '../_shared/observability.ts'
 
-// Stripe types are referenced loosely to avoid bundling Stripe SDK in Edge Function.
-// We only read selected fields from the event payload.
-
+// CORS (Stripe doesn't need it, but keep OPTIONS for safety)
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, stripe-signature',
@@ -13,91 +13,178 @@ function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
 }
 
-// Basic signer using Stripe's constructEvent is preferred, but to avoid SDK we validate timestamp window
-// and rely on Stripe to re-deliver on 4xx/5xx. In production, consider adding official Stripe signature validation.
-// For now, we accept requests only from configured environment with a secret gate header to reduce risk.
-const WEBHOOK_GATE = Deno.env.get('STRIPE_WEBHOOK_GATE')
-const SIGNING_SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET')
-
+// Env
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+const STRIPE_SECRET_KEY = Deno.env.get('STRIPE_SECRET_KEY') ?? ''
+const STRIPE_WEBHOOK_SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET')
+
+// Alerting window and threshold (persistent failures)
+const FAILURE_WINDOW_MINUTES = parseInt(Deno.env.get('WEBHOOK_ALERT_WINDOW_MINUTES') ?? '10', 10)
+const FAILURE_THRESHOLD = parseInt(Deno.env.get('WEBHOOK_ALERT_THRESHOLD') ?? '3', 10)
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+const stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' })
 
-// Helpers for Stripe signature verification (HMAC-SHA256)
-const enc = new TextEncoder()
+// Structured logging helper (no PII)
+function log(level: 'info' | 'warn' | 'error', msg: string, fields: Record<string, unknown> = {}) {
+  const base = { level, msg, ts: new Date().toISOString(), ...fields }
+  // Avoid dumping large payloads or secrets
+  console[level === 'error' ? 'error' : level === 'warn' ? 'warn' : 'log'](JSON.stringify(base))
+}
 
-function toHex(buffer: ArrayBuffer): string {
-  const bytes = new Uint8Array(buffer)
-  let hex = ''
-  for (let i = 0; i < bytes.length; i++) {
-    const h = bytes[i].toString(16).padStart(2, '0')
-    hex += h
+// Idempotency helpers using webhook_logs (webhook_id UNIQUE)
+async function upsertWebhookReceive(
+  webhookId: string,
+  eventType: string
+): Promise<{ exists: boolean; status: 'received' | 'processing' | 'processed' | 'failed' | null; attempts: number }> {
+  // Try to insert; if conflict, fetch existing
+  const { error: insertErr } = await supabase
+    .from('webhook_logs')
+    .insert({ webhook_id: webhookId, event_type: eventType, status: 'received', attempts: 1 })
+
+  if (insertErr) {
+    if ((insertErr as any).code === '23505') {
+      // Duplicate; fetch current row and increment attempts
+      const { data: row } = await supabase
+        .from('webhook_logs')
+        .select('status, attempts')
+        .eq('webhook_id', webhookId)
+        .maybeSingle()
+      if (row) {
+        await supabase
+          .from('webhook_logs')
+          .update({ attempts: (row.attempts ?? 1) + 1 })
+          .eq('webhook_id', webhookId)
+        return { exists: true, status: row.status ?? null, attempts: (row.attempts ?? 1) + 1 }
+      }
+      return { exists: true, status: null, attempts: 1 }
+    }
+    // Other insert errors
+    throw insertErr
   }
-  return hex
+  return { exists: false, status: 'received', attempts: 1 }
 }
 
-function timingSafeEqualStr(a: string, b: string): boolean {
-  if (a.length !== b.length) return false
-  let out = 0
-  for (let i = 0; i < a.length; i++) {
-    out |= a.charCodeAt(i) ^ b.charCodeAt(i)
+async function markWebhookStatus(webhookId: string, status: 'processing' | 'processed' | 'failed', error?: unknown) {
+  const sanitizedError = error ? redactSensitiveData(String((error as any)?.message ?? error)) : null
+  await supabase
+    .from('webhook_logs')
+    .update({ status, error: sanitizedError ?? undefined, processed_at: status === 'processed' ? new Date().toISOString() : null })
+    .eq('webhook_id', webhookId)
+}
+
+// Attempt to acquire a processing lock by transitioning from 'received' -> 'processing'.
+// Returns true if lock acquired by this invocation; otherwise returns current status.
+async function acquireProcessingLock(webhookId: string): Promise<{ acquired: boolean; status: 'received' | 'processing' | 'processed' | 'failed' | null }> {
+  // Conditional update; only succeed if currently 'received'
+  const { data: updated, error: updErr } = await supabase
+    .from('webhook_logs')
+    .update({ status: 'processing' })
+    .eq('webhook_id', webhookId)
+    .eq('status', 'received')
+    .select('webhook_id')
+
+  if (updErr) {
+    // If this fails, we can't safely acquire
+    return { acquired: false, status: null }
   }
-  return out === 0
+  if (updated && updated.length > 0) {
+    return { acquired: true, status: 'processing' }
+  }
+  // Fetch current status to decide behavior
+  const { data: row } = await supabase
+    .from('webhook_logs')
+    .select('status')
+    .eq('webhook_id', webhookId)
+    .maybeSingle()
+  return { acquired: false, status: (row?.status as any) ?? null }
 }
 
-async function hmacSHA256Hex(secret: string, payload: string): Promise<string> {
-  const key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
-  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payload))
-  return toHex(sig)
+async function maybeAlertPersistentFailures(eventType: string) {
+  // Count failed events of this type within window
+  const sinceISO = new Date(Date.now() - FAILURE_WINDOW_MINUTES * 60_000).toISOString()
+  const { count } = await supabase
+    .from('webhook_logs')
+    .select('id', { count: 'exact', head: true })
+    .eq('event_type', eventType)
+    .eq('status', 'failed')
+    .gte('created_at', sinceISO)
+
+  if ((count ?? 0) >= FAILURE_THRESHOLD) {
+    // Use central alerting helper (sends via Resend and rate-limits by fingerprint)
+    try {
+      await insertErrorAndMaybeAlert(createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY), {
+        error_type: 'stripe_webhook_failures',
+        message: `${count} failures for ${eventType} in last ${FAILURE_WINDOW_MINUTES} minutes`,
+        context: 'billing',
+        http_status: 500,
+        unhandled: true,
+        severity: 'critical',
+      })
+    } catch (e) {
+      log('error', 'alert_insert_failed', { event_type: eventType, err: String(e) })
+      // Fallback: send a minimal alert email via Resend directly
+      try {
+        const recipients = (Deno.env.get('MONITORING_ALERT_EMAIL') ?? '').split(',').map((s) => s.trim()).filter(Boolean)
+        const from = Deno.env.get('MONITORING_ALERT_FROM') ?? 'Schwalbe Alerts <alerts@documentsafe.app>'
+        const resendKey = Deno.env.get('RESEND_API_KEY')
+        if (resendKey && recipients.length > 0) {
+          const subject = `[webhook] Persistent failures for ${eventType}`
+          const html = `<p>${count} failures for <b>${eventType}</b> in last ${FAILURE_WINDOW_MINUTES} minutes.</p><p>Automated fallback alert.</p>`
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ from, to: recipients, subject, html, text: `${count} failures for ${eventType} in last ${FAILURE_WINDOW_MINUTES} minutes.` }),
+          })
+        }
+      } catch (mailErr) {
+        log('error', 'alert_fallback_failed', { err: String(mailErr) })
+      }
+    }
+  }
 }
 
-async function verifyStripeSignature(rawBody: string, signatureHeader: string, secret: string, toleranceSec = 300): Promise<boolean> {
+async function incrementWebhookMetric(eventType: string) {
+  // Use RPC if available, otherwise naive upsert
   try {
-    const parts = signatureHeader.split(',')
-    let tStr: string | null = null
-    const v1: string[] = []
-    for (const part of parts) {
-      const [k, v] = part.split('=')
-      if (k === 't') tStr = v
-      if (k === 'v1') v1.push(v)
-    }
-    if (!tStr || v1.length === 0) return false
-    const t = Number(tStr)
-    if (!Number.isFinite(t)) return false
-
-    const nowSec = Math.floor(Date.now() / 1000)
-    if (Math.abs(nowSec - t) > toleranceSec) return false
-
-    const expected = await hmacSHA256Hex(secret, `${t}.${rawBody}`)
-    for (const candidate of v1) {
-      if (timingSafeEqualStr(expected, candidate)) return true
-    }
-    return false
+    const { error: rpcErr } = await supabase.rpc('increment_webhook_metric', { p_event_type: eventType })
+    if (rpcErr) throw rpcErr
   } catch {
-    return false
+    const today = new Date().toISOString().slice(0, 10)
+    const { data: existing } = await supabase
+      .from('webhook_metrics')
+      .select('count')
+      .eq('date', today)
+      .eq('event_type', eventType)
+      .maybeSingle()
+    if (existing) {
+      await supabase
+        .from('webhook_metrics')
+        .update({ count: (existing.count ?? 0) + 1 })
+        .eq('date', today)
+        .eq('event_type', eventType)
+    } else {
+      await supabase.from('webhook_metrics').insert({ date: today, event_type: eventType, count: 1 })
+    }
   }
 }
 
-// Helper: fetch user profile email
+// Dunning helpers (email + in-app banner), no PII in logs
 async function getUserEmail(userId: string): Promise<string | null> {
   const { data } = await supabase.from('profiles').select('email').eq('id', userId).maybeSingle()
   return (data?.email as string) || null
 }
 
-// Helper: mark subscription status and banner
 async function setSubscriptionStatus(userId: string, status: 'past_due' | 'active') {
   const { error } = await supabase
     .from('user_subscriptions')
-    .update({ status })
+    .update({ status, updated_at: new Date().toISOString() })
     .eq('user_id', userId)
-  if (error) {
-    console.error('stripe-webhook: update subscription status failed', { userId, status, code: error.code })
-  }
+  if (error) log('error', 'set_subscription_status_failed', { user_id: userId, code: error.code })
 }
 
-// Helper: insert in-app banner via notification_log (leveraging reminders channel/table for simple banners)
 async function upsertDunningBanner(userId: string, title: string, body: string) {
-  // Ensure only one active banner exists per user
   const { data: existing } = await supabase
     .from('notification_log')
     .select('id')
@@ -109,19 +196,16 @@ async function upsertDunningBanner(userId: string, title: string, body: string) 
   if (existing && existing.length > 0) return
 
   const { error } = await supabase.from('notification_log').insert({
-    reminder_rule_id: 'stripe_dunning', // sentinel
+    reminder_rule_id: 'stripe_dunning',
     channel: 'in_app',
     recipient: userId,
     status: 'sent',
     sent_at: new Date().toISOString(),
     provider_response: { title, body },
   })
-  if (error) {
-    console.error('stripe-webhook: failed to enqueue in-app banner', { userId, code: error.code })
-  }
+  if (error) log('error', 'enqueue_banner_failed', { user_id: userId, code: error.code })
 }
 
-// Helper: clear banners for this user (best-effort)
 async function clearDunningBanners(userId: string) {
   await supabase
     .from('notification_log')
@@ -131,219 +215,115 @@ async function clearDunningBanners(userId: string) {
     .eq('reminder_rule_id', 'stripe_dunning')
 }
 
-// Helper: call email function
 async function sendEmail(to: string, subject: string, html: string, text?: string) {
   const res = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ to, subject, html, text }),
   })
   if (!res.ok) {
     const msg = await res.text()
-    console.error('stripe-webhook: send-email failed', { status: res.status, msg })
+    log('error', 'send_email_failed', { status: res.status, msg })
   }
 }
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
-  try {
-    // Read raw body first for signature verification
-    const rawBody = await req.text()
-    const sigHeader = req.headers.get('stripe-signature') || req.headers.get('Stripe-Signature')
-
-    if (SIGNING_SECRET) {
-      if (!sigHeader) {
-        return jsonResponse({ error: 'missing_signature' }, 400)
-      }
-      const ok = await verifyStripeSignature(rawBody, sigHeader, SIGNING_SECRET)
-      if (!ok) {
-        return jsonResponse({ error: 'invalid_signature' }, 400)
-      }
-    } else if (WEBHOOK_GATE) {
-      const gate = req.headers.get('x-webhook-gate')
-      if (gate !== WEBHOOK_GATE) {
-        return jsonResponse({ error: 'forbidden' }, 403)
-      }
-    }
-
-    // Parse after verification
-    let event: any
-    try {
-      event = JSON.parse(rawBody)
-    } catch {
-      return jsonResponse({ error: 'invalid_json' }, 400)
-    }
-    const type = event?.type as string
-
-    // Idempotency: insert event id, skip if already processed
-    const eventId = event?.id as string | undefined
-    if (eventId) {
-      const { error: insErr } = await supabase
-        .from('processed_webhooks')
-        .insert({ event_id: eventId })
-      if (insErr && insErr.code === '23505') {
-        // duplicate primary key -> already processed
-        return jsonResponse({ received: true, duplicate: true })
-      }
-    }
-
-    // We expect our integration to include our user_id in subscription metadata or invoice lines metadata.
-    // MVP: try invoice.customer and look up mapping via user_subscriptions by stripe_customer_id.
-    const obj = event?.data?.object || {}
-
-    // Resolve user_id by stripe customer id
-    let userId: string | null = null
-    const stripeCustomerId = obj?.customer as string | undefined
-    if (stripeCustomerId) {
-      const { data } = await supabase
-        .from('user_subscriptions')
-        .select('user_id')
-        .eq('stripe_customer_id', stripeCustomerId)
-        .maybeSingle()
-      userId = (data?.user_id as string) || null
-    }
-
-    // Process events
-    switch (type) {
-      case 'invoice.payment_failed': {
-        if (!userId) break
-        await setSubscriptionStatus(userId, 'past_due')
-
-        const email = await getUserEmail(userId)
-        // Derive amount and retry date from invoice if available
-        const amountCents = obj?.amount_due ?? obj?.amount_remaining ?? 0
-        const currency = (obj?.currency || 'usd').toUpperCase()
-        const nextAttemptTs = obj?.next_payment_attempt ? new Date(obj.next_payment_attempt * 1000) : null
-        const retryDate = nextAttemptTs ? nextAttemptTs.toLocaleDateString('en-US') : 'soon'
-
-        // Get Billing Portal link from app route (we will add a portal function and UI)
-        const siteUrl = Deno.env.get('SITE_URL') || 'https://legacyguard.app'
-        const billingUrl = `${siteUrl}/account/billing`
-
-        // Compose email via local minimal template
-        if (email) {
-          const amountFmt = amountCents ? `${(amountCents / 100).toFixed(2)} ${currency}` : 'your subscription'
-          const html = `<!doctype html><html><body>
-            <p>Hi,</p>
-            <p>We were unable to process your recent payment for ${amountFmt}. We will retry on ${retryDate}.</p>
-            <p><a href="${billingUrl}">Open Billing Portal</a> to update your payment method.</p>
-            <p style="font-size:12px;color:#64748b">© 2025 LegacyGuard</p>
-          </body></html>`
-          await sendEmail(email, 'Action Required: Payment Failed - LegacyGuard', html, `Payment failed. Retry on ${retryDate}. Update here: ${billingUrl}`)
-        }
-
-        // In-app banner
-        await upsertDunningBanner(
-          userId,
-          'Payment issue',
-          'We could not process your payment. Please open the Billing Portal to update your payment method.'
-        )
-        break
-      }
-      case 'invoice.payment_succeeded': {
-        if (!userId) break
-        // If previously past_due, set active and clear banners
-        await setSubscriptionStatus(userId, 'active')
-        await clearDunningBanners(userId)
-
-        // Send recovery email
-        const email = await getUserEmail(userId)
-        const amountCents = obj?.amount_paid ?? obj?.amount_due ?? 0
-        const currency = (obj?.currency || 'usd').toUpperCase()
-        if (email) {
-          const amountFmt = amountCents ? `${(amountCents / 100).toFixed(2)} ${currency}` : 'your subscription'
-          const html = `<!doctype html><html><body>
-            <p>Hi,</p>
-            <p>Your payment of ${amountFmt} has been processed successfully and your subscription is active again.</p>
-            <p style="font-size:12px;color:#64748b">© 2025 LegacyGuard</p>
-          </body></html>`
-          await sendEmail(email, 'Payment Confirmed - LegacyGuard', html, `Payment confirmed ${amountFmt}`)
-        }
-        break
-      }
-      default: {
-        // Ignore other events for MVP
-        break
-      }
-    }
-
-    return jsonResponse({ received: true })
-  } catch (e) {
-    console.error('stripe-webhook error', { message: (e as Error).message })
-    return jsonResponse({ error: 'internal_error' }, 500)
-  }
-})
-
-
-import { serve } from 'std/http/server.ts'
-import Stripe from 'https://esm.sh/stripe@13.10.0?target=deno'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { insertErrorAndMaybeAlert } from '../_shared/observability.ts'
-
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-const STRIPE_SECRET_KEY = Deno.env.get('STRIPE_SECRET_KEY')
-const STRIPE_WEBHOOK_SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET')
-
-const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
-const stripe = new Stripe(STRIPE_SECRET_KEY ?? '', { apiVersion: '2023-10-16' })
-
-serve(async (req) => {
   const signature = req.headers.get('stripe-signature')
   if (!signature || !STRIPE_WEBHOOK_SECRET) {
-    return new Response('Bad Request', { status: 400 })
+    return jsonResponse({ error: 'missing_signature' }, 400)
   }
 
+  // Read raw body to verify signature
+  const body = await req.text()
+
+  let event: Stripe.Event
   try {
-    const body = await req.text()
-    const event = stripe.webhooks.constructEvent(body, signature, STRIPE_WEBHOOK_SECRET)
+    event = stripe.webhooks.constructEvent(body, signature, STRIPE_WEBHOOK_SECRET)
+  } catch (err: any) {
+    log('warn', 'invalid_signature', { reason: String(err?.message ?? err) })
+    return jsonResponse({ error: 'invalid_signature' }, 400)
+  }
 
-    // Minimal logging, no payload/PII
-    console.log(`stripe-webhook event: ${event.type} ${event.id}`)
+  const eventId = event.id
+  const eventType = event.type
+  const obj: any = (event as any).data?.object ?? {}
+  const customerId: string | undefined = obj?.customer ?? undefined
+  const subscriptionId: string | undefined = obj?.subscription ?? obj?.id // subscription events carry id directly
 
-    switch (event.type) {
+  log('info', 'webhook_received', { event_type: eventType, event_id: eventId, customer_id: customerId ?? null, subscription_id: subscriptionId ?? null })
+
+  // Idempotency guard
+  try {
+    const { exists, status } = await upsertWebhookReceive(eventId, eventType)
+    if (exists && status === 'processed') {
+      log('info', 'duplicate_skipped', { event_id: eventId, event_type: eventType })
+      return jsonResponse({ received: true, duplicate: true }, 200)
+    }
+  } catch (e) {
+    // If logging fails, still proceed but record later
+    log('warn', 'webhook_log_insert_failed', { event_id: eventId, err: String(e) })
+  }
+
+// Attempt to acquire processing lock
+const lock = await acquireProcessingLock(eventId)
+if (!lock.acquired) {
+  // If already processed, skip; if processing, acknowledge to avoid duplicate work
+  if (lock.status === 'processed' || lock.status === 'processing') {
+    log('info', 'duplicate_or_in_progress', { event_id: eventId, status: lock.status })
+    return jsonResponse({ received: true, duplicate: true }, 200)
+  }
+  // If failed or unknown, proceed (let Stripe retry if we error)
+}
+
+// Minimal metrics: count per event type (only once per unique event)
+await incrementWebhookMetric(eventType)
+
+  try {
+    switch (eventType) {
       case 'checkout.session.completed':
-        await handleCheckoutCompleted(event.data.object as any)
+        await handleCheckoutCompleted(obj)
         break
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
-        await handleSubscriptionUpdate(event.data.object as any)
+        await handleSubscriptionUpdate(obj)
         break
       case 'customer.subscription.deleted':
-        await handleSubscriptionDeleted(event.data.object as any)
+        await handleSubscriptionDeleted(obj)
         break
       case 'invoice.paid':
       case 'invoice.payment_succeeded':
-        await handlePaymentSucceeded(event.data.object as any)
+        await handlePaymentSucceeded(obj)
         break
       case 'invoice.payment_failed':
-        await handlePaymentFailed(event.data.object as any)
+        await handlePaymentFailed(obj)
         break
       default:
         // No-op for other events
         break
     }
 
-    return new Response(JSON.stringify({ received: true }), {
-      headers: { 'Content-Type': 'application/json' },
-      status: 200,
-    })
+    await markWebhookStatus(eventId, 'processed')
+    return jsonResponse({ received: true }, 200)
   } catch (err: any) {
-    console.error('stripe-webhook error')
-    try {
-      await insertErrorAndMaybeAlert(supabaseAdmin, {
-        error_type: 'billing',
-        message: `webhook_failed: ${String(err?.message ?? err)}`,
-        context: 'billing',
-        http_status: 400,
-        unhandled: true,
-      })
-    } catch {}
-    return new Response(JSON.stringify({ error: 'Webhook Error' }), { status: 400 })
+    log('error', 'webhook_processing_failed', {
+      event_id: eventId,
+      event_type: eventType,
+      customer_id: customerId ?? null,
+      subscription_id: subscriptionId ?? null,
+      err: redactSensitiveData(String(err?.message ?? err)),
+    })
+    await markWebhookStatus(eventId, 'failed', err)
+
+    // Alert on persistent failures within window
+    await maybeAlertPersistentFailures(eventType)
+
+    // Signal failure to Stripe for retry
+    return jsonResponse({ error: 'processing_failed' }, 500)
   }
 })
 
@@ -354,7 +334,6 @@ async function handleCheckoutCompleted(session: any) {
   const subscriptionId: string | null = session?.subscription ?? null
 
   if (!userId || !subscriptionId) {
-    // Missing metadata; nothing to do
     return
   }
 
@@ -365,12 +344,11 @@ async function handleCheckoutCompleted(session: any) {
   const periodStart = new Date((subscription.current_period_start ?? 0) * 1000).toISOString()
   const periodEnd = new Date((subscription.current_period_end ?? 0) * 1000).toISOString()
 
-  // Persist customer id on profiles (if present)
   if (customerId) {
-    await supabaseAdmin.from('profiles').update({ stripe_customer_id: customerId }).eq('id', userId)
+    await supabase.from('profiles').update({ stripe_customer_id: customerId }).eq('id', userId)
   }
 
-  await supabaseAdmin
+  await supabase
     .from('user_subscriptions')
     .upsert(
       {
@@ -388,8 +366,7 @@ async function handleCheckoutCompleted(session: any) {
       { onConflict: 'user_id' }
     )
 
-  // Reset usage for new billing period (idempotent upsert)
-  await supabaseAdmin
+  await supabase
     .from('user_usage')
     .upsert(
       {
@@ -407,15 +384,12 @@ async function handleCheckoutCompleted(session: any) {
 }
 
 async function handleSubscriptionUpdate(subscription: any) {
-  const userId: string | undefined = subscription?.metadata?.user_id
-  if (!userId) return
-
   const price = subscription.items?.data?.[0]?.price
   const plan = subscription?.metadata?.plan || mapPlanFromPriceId(price?.id)
   const interval = price?.recurring?.interval || 'month'
   const periodEnd = new Date((subscription.current_period_end ?? 0) * 1000).toISOString()
 
-  await supabaseAdmin
+  await supabase
     .from('user_subscriptions')
     .update({
       plan: (plan as any) || 'premium',
@@ -429,10 +403,7 @@ async function handleSubscriptionUpdate(subscription: any) {
 }
 
 async function handleSubscriptionDeleted(subscription: any) {
-  const userId: string | undefined = subscription?.metadata?.user_id
-  if (!userId) return
-
-  await supabaseAdmin
+  await supabase
     .from('user_subscriptions')
     .update({
       plan: 'free',
@@ -452,7 +423,8 @@ async function handlePaymentSucceeded(invoice: any) {
   const amountCents = (invoice?.amount_paid ?? invoice?.amount_due ?? null) as number | null
   const currency = ((invoice?.currency as string | undefined) || undefined)?.toUpperCase()
 
-  await supabaseAdmin
+  // Update subscription status
+  await supabase
     .from('user_subscriptions')
     .update({
       status: 'active',
@@ -461,22 +433,99 @@ async function handlePaymentSucceeded(invoice: any) {
       ...(currency ? { price_currency: currency } : {}),
     } as any)
     .eq('stripe_subscription_id', subscriptionId)
+
+  // Clear dunning banner and send confirmation email if we can resolve user
+  const { data: subRow } = await supabase
+    .from('user_subscriptions')
+    .select('user_id')
+    .eq('stripe_subscription_id', subscriptionId)
+    .maybeSingle()
+  const userId = subRow?.user_id as string | undefined
+  if (userId) {
+    await setSubscriptionStatus(userId, 'active')
+    await clearDunningBanners(userId)
+    const email = await getUserEmail(userId)
+    if (email) {
+      const amountFmt = amountCents ? `${(amountCents / 100).toFixed(2)} ${currency ?? ''}`.trim() : 'your subscription'
+      const html = `<!doctype html><html><body>
+        <p>Hi,</p>
+        <p>Your payment of ${amountFmt} has been processed successfully and your subscription is active again.</p>
+        <p style="font-size:12px;color:#64748b">© 2025 LegacyGuard</p>
+      </body></html>`
+      await sendEmail(email, 'Payment Confirmed - LegacyGuard', html, `Payment confirmed ${amountFmt}`)
+    }
+  }
 }
 
 async function handlePaymentFailed(invoice: any) {
-  const subscriptionId = invoice?.subscription
-  if (!subscriptionId) return
+  const subscriptionId = invoice?.subscription as string | undefined
+  const customerId = invoice?.customer as string | undefined
 
-  await supabaseAdmin
-    .from('user_subscriptions')
-    .update({ status: 'past_due', updated_at: new Date().toISOString() })
-    .eq('stripe_subscription_id', subscriptionId)
+  if (!subscriptionId && !customerId) return
+
+  // Update status via subscription id if available
+  if (subscriptionId) {
+    await supabase
+      .from('user_subscriptions')
+      .update({ status: 'past_due', updated_at: new Date().toISOString() })
+      .eq('stripe_subscription_id', subscriptionId)
+  }
+
+  // Resolve user via customer id (preferred for email/banner)
+  let userId: string | null = null
+  if (customerId) {
+    const { data: sub } = await supabase
+      .from('user_subscriptions')
+      .select('user_id')
+      .eq('stripe_customer_id', customerId)
+      .maybeSingle()
+    userId = (sub?.user_id as string) || null
+  } else if (subscriptionId) {
+    const { data: sub } = await supabase
+      .from('user_subscriptions')
+      .select('user_id')
+      .eq('stripe_subscription_id', subscriptionId)
+      .maybeSingle()
+    userId = (sub?.user_id as string) || null
+  }
+
+  if (userId) {
+    await setSubscriptionStatus(userId, 'past_due')
+    const email = await getUserEmail(userId)
+    const amountCents = (invoice?.amount_due ?? invoice?.amount_remaining ?? null) as number | null
+    const currency = ((invoice?.currency as string | undefined) || 'usd').toUpperCase()
+    const nextAttemptTs = invoice?.next_payment_attempt ? new Date(invoice.next_payment_attempt * 1000) : null
+    const retryDate = nextAttemptTs ? nextAttemptTs.toLocaleDateString('en-US') : 'soon'
+
+    const siteUrl = Deno.env.get('SITE_URL') || 'https://legacyguard.app'
+    const billingUrl = `${siteUrl}/account/billing`
+
+    if (email) {
+      const amountFmt = amountCents ? `${(amountCents / 100).toFixed(2)} ${currency}` : 'your subscription'
+      const html = `<!doctype html><html><body>
+        <p>Hi,</p>
+        <p>We were unable to process your recent payment for ${amountFmt}. We will retry on ${retryDate}.</p>
+        <p><a href="${billingUrl}">Open Billing Portal</a> to update your payment method.</p>
+        <p style="font-size:12px;color:#64748b">© 2025 LegacyGuard</p>
+      </body></html>`
+      await sendEmail(
+        email,
+        'Action Required: Payment Failed - LegacyGuard',
+        html,
+        `Payment failed. Retry on ${retryDate}. Update here: ${billingUrl}`
+      )
+    }
+
+    await upsertDunningBanner(
+      userId,
+      'Payment issue',
+      'We could not process your payment. Please open the Billing Portal to update your payment method.'
+    )
+  }
 }
 
 function mapPlanFromPriceId(priceId?: string | null): 'free' | 'essential' | 'family' | 'premium' {
-  // Fallback mapping when metadata.plan is not set
   const map: Record<string, 'essential' | 'family' | 'premium'> = {}
-  // Optionally support env-based mapping: STRIPE_PRICE_PREMIUM_EUR => 'premium'
   for (const [k, v] of Object.entries(Deno.env.toObject())) {
     if (k.startsWith('STRIPE_PRICE_')) {
       const id = v
