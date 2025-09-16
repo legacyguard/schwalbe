@@ -93,7 +93,7 @@ id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
 -- Professional Network Tables
 CREATE TABLE IF NOT EXISTS professional_specializations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL UNIQUE,
     description TEXT,
     category TEXT DEFAULT 'general',
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS professional_specializations (
 );
 
 CREATE TABLE IF NOT EXISTS professional_onboarding (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     credentials JSONB NOT NULL DEFAULT '{}'::jsonb,
     portfolio JSONB DEFAULT '{}'::jsonb,
@@ -138,7 +138,7 @@ id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 );
 
 CREATE TABLE IF NOT EXISTS review_requests (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     document_id UUID NOT NULL,
     review_type TEXT NOT NULL CHECK (review_type IN ('basic', 'comprehensive', 'certified')),
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS review_requests (
 );
 
 CREATE TABLE IF NOT EXISTS document_reviews (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
     reviewer_id UUID NOT NULL REFERENCES professional_reviewers(id) ON DELETE CASCADE,
     review_type TEXT NOT NULL DEFAULT 'legal',
@@ -200,7 +200,7 @@ id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
 -- Family Impact Statements Table
 CREATE TABLE IF NOT EXISTS family_impact_statements (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     statement JSONB NOT NULL DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ DEFAULT now(),
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS family_impact_statements (
 
 -- Notification and Communication Tables
 CREATE TABLE IF NOT EXISTS notification_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     type TEXT NOT NULL,
     recipient TEXT NOT NULL,
     application_id UUID REFERENCES professional_onboarding(id) ON DELETE SET NULL,
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS notification_logs (
 );
 
 CREATE TABLE IF NOT EXISTS failed_emails (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     recipient TEXT NOT NULL,
     subject TEXT NOT NULL,
     template TEXT NOT NULL,
@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS failed_emails (
 
 -- Insight Actions Tracking
 CREATE TABLE IF NOT EXISTS insight_actions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     insight_id UUID NOT NULL REFERENCES quick_insights(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     action_taken TEXT NOT NULL,
