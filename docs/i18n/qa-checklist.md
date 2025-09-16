@@ -14,6 +14,7 @@ For each domain, verify:
    - Iceland (IS), Liechtenstein (LI): no Ukrainian
    - Baltics (EE, LV, LT): include Russian
    - Each country has regionally appropriate 4–5 languages as per docs matrix
+   - Enforced by automated tests: packages/shared/src/config/__tests__/languageRules.test.ts
 
 3) Language stubs exist (apps/web/public/locales) for any newly referenced languages:
    - ui/landing-page.<lang>.json

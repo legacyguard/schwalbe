@@ -22,9 +22,14 @@ Rules and constraints
 - All UI strings outside i18n must be English
 - Follow language replacement/removal rules where specified by project
 - Each country must expose at least 4 languages; prefer regional relevance
+- Enforced rules: Germany (DE) has no Russian (ru); Iceland (IS) and Liechtenstein (LI) have no Ukrainian (uk); Baltics (EE, LV, LT) include Russian (ru)
+
+Automation
+- Tests enforce rules and minimum language counts: packages/shared/src/config/__tests__/languageRules.test.ts
 
 QA checklist
 - Language menu shows 5 languages for CZ and SK
 - Redirect simulation message is in Czech only (staging/local)
 - Production domains perform real redirects
 - No Russian in Germany; no Ukrainian in Iceland/Liechtenstein (per rules)
+- Baltics include Russian (ru)
