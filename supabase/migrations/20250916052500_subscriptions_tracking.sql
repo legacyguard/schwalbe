@@ -86,8 +86,8 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- 4) Upsert subscription expiry reminders based on preferences
-CREATE OR REPLACE FUNCTION public.upsert_subscription_reminders(p_user_id UUID)
-RETURNS void AS $$
+CREATE OR REPLACE FUNCTION public.upsert_subscription_reminders()
+RETURNS trigger AS $$
 DECLARE
   v_plan TEXT;
   v_expires TIMESTAMPTZ;
@@ -101,20 +101,20 @@ BEGIN
   -- Load active subscription
   SELECT plan, expires_at, status
     INTO v_plan, v_expires, v_status
-  FROM public.user_subscriptions
-  WHERE user_id = p_user_id
+FROM public.user_subscriptions
+  WHERE user_id = NEW.user_id
   ORDER BY updated_at DESC
   LIMIT 1;
 
   -- Load preferences (if present)
   SELECT COALESCE(days_before_primary, 7), COALESCE(days_before_secondary, 1), COALESCE(channels, '["email","in_app"]'::jsonb)
     INTO v_days_primary, v_days_secondary, v_channels
-  FROM public.subscription_preferences
-  WHERE user_id = p_user_id;
+FROM public.subscription_preferences
+  WHERE user_id = NEW.user_id;
 
   -- Clean up any existing subscription reminder rules for this user
-  DELETE FROM public.reminder_rule
-   WHERE user_id = p_user_id
+DELETE FROM public.reminder_rule
+   WHERE user_id = NEW.user_id
      AND title IN ('Subscription renewal reminder (primary)', 'Subscription renewal reminder (secondary)')
      AND status IN ('active','paused');
 
@@ -127,7 +127,7 @@ BEGIN
     INSERT INTO public.reminder_rule (
       user_id, title, description, scheduled_at, recurrence_rule, channels, priority, status, next_execution_at, execution_count
     ) VALUES (
-      p_user_id,
+      NEW.user_id,
       'Subscription renewal reminder (primary)',
       format('Your %s plan renews on %s. This is a reminder %s days before renewal.', COALESCE(v_plan,'free'), to_char(v_expires, 'YYYY-MM-DD'), v_days_primary::text),
       v_sched_primary,
@@ -143,7 +143,7 @@ BEGIN
     INSERT INTO public.reminder_rule (
       user_id, title, description, scheduled_at, recurrence_rule, channels, priority, status, next_execution_at, execution_count
     ) VALUES (
-      p_user_id,
+      NEW.user_id,
       'Subscription renewal reminder (secondary)',
       format('Your %s plan renews on %s. This is a reminder %s day(s) before renewal.', COALESCE(v_plan,'free'), to_char(v_expires, 'YYYY-MM-DD'), v_days_secondary::text),
       v_sched_secondary,
@@ -155,6 +155,7 @@ BEGIN
       0
     );
   END IF;
+RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
@@ -162,10 +163,10 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 DROP TRIGGER IF EXISTS trg_user_subscriptions_upsert_reminders ON public.user_subscriptions;
 CREATE TRIGGER trg_user_subscriptions_upsert_reminders
   AFTER INSERT OR UPDATE OF expires_at, status, plan ON public.user_subscriptions
-  FOR EACH ROW EXECUTE FUNCTION public.upsert_subscription_reminders(NEW.user_id);
+  FOR EACH ROW EXECUTE FUNCTION public.upsert_subscription_reminders();
 
 -- Trigger on subscription_preferences to reschedule reminders when preferences change
 DROP TRIGGER IF EXISTS trg_subscription_prefs_upsert_reminders ON public.subscription_preferences;
 CREATE TRIGGER trg_subscription_prefs_upsert_reminders
   AFTER INSERT OR UPDATE OF days_before_primary, days_before_secondary, channels ON public.subscription_preferences
-  FOR EACH ROW EXECUTE FUNCTION public.upsert_subscription_reminders(NEW.user_id);
+  FOR EACH ROW EXECUTE FUNCTION public.upsert_subscription_reminders();
