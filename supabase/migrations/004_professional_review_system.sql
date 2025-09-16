@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS review_requests (
 
 CREATE TABLE IF NOT EXISTS document_reviews (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+    document_id UUID NOT NULL,
     reviewer_id UUID NOT NULL REFERENCES professional_reviewers(id) ON DELETE CASCADE,
     review_type TEXT NOT NULL DEFAULT 'legal',
     status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'completed', 'cancelled')),
