@@ -1,12 +1,13 @@
 -- Family System Database Schema
 -- Tables for family member management, invitations, and emergency access
 
--- Enable UUID extension if not already enabled
+-- Enable required extensions
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Family Members Table
 CREATE TABLE IF NOT EXISTS family_members (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     family_owner_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     email TEXT NOT NULL,
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS family_members (
 
 -- Family Invitations Table
 CREATE TABLE IF NOT EXISTS family_invitations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     sender_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     family_member_id UUID NOT NULL REFERENCES family_members(id) ON DELETE CASCADE,
     email TEXT NOT NULL,
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS family_invitations (
 
 -- Emergency Access Requests Table
 CREATE TABLE IF NOT EXISTS emergency_access_requests (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     requester_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     owner_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     reason TEXT NOT NULL,
@@ -84,7 +85,7 @@ CREATE TABLE IF NOT EXISTS document_shares (
 
 -- Family Activity Log Table
 CREATE TABLE IF NOT EXISTS family_activity_log (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     family_owner_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     actor_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     actor_name TEXT,
@@ -101,7 +102,7 @@ CREATE TABLE IF NOT EXISTS family_activity_log (
 
 -- Family Communication Events Table (for calendar/scheduling)
 CREATE TABLE IF NOT EXISTS family_calendar_events (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     family_owner_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     created_by_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     title TEXT NOT NULL,

@@ -1,7 +1,8 @@
 -- Professional Review System Database Schema
 -- Comprehensive schema for professional network, reviews, and milestones
 
--- Enable UUID extension if not already enabled
+-- Enable required extensions
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Trust Score Fields for Wills Table (guarded if wills table exists)
@@ -35,7 +36,7 @@ $$;
 
 -- Quick Insights Tables
 CREATE TABLE IF NOT EXISTS quick_insights (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     document_id UUID REFERENCES documents(id) ON DELETE SET NULL,
     type TEXT NOT NULL CHECK (type IN ('document_analysis', 'family_impact', 'time_saved', 'protection_level', 'completion_gap', 'urgent_action')),
@@ -55,7 +56,7 @@ CREATE TABLE IF NOT EXISTS quick_insights (
 
 -- Legacy Milestones Tables
 CREATE TABLE IF NOT EXISTS legacy_milestones (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     type TEXT NOT NULL CHECK (type IN ('first_document', 'protection_threshold', 'family_complete', 'professional_review', 'annual_update', 'legacy_complete')),
     title TEXT NOT NULL,
@@ -81,7 +82,7 @@ CREATE TABLE IF NOT EXISTS milestone_progress (
 );
 
 CREATE TABLE IF NOT EXISTS milestone_celebrations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     milestone_id UUID NOT NULL REFERENCES legacy_milestones(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     celebration_data JSONB NOT NULL DEFAULT '{}'::jsonb,
@@ -115,7 +116,7 @@ CREATE TABLE IF NOT EXISTS professional_onboarding (
 );
 
 CREATE TABLE IF NOT EXISTS professional_reviewers (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     credentials TEXT NOT NULL,
     bar_number TEXT,
@@ -167,7 +168,7 @@ CREATE TABLE IF NOT EXISTS document_reviews (
 );
 
 CREATE TABLE IF NOT EXISTS review_results (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     review_id UUID NOT NULL REFERENCES document_reviews(id) ON DELETE CASCADE,
     score INTEGER CHECK (score >= 0 AND score <= 100),
     findings JSONB DEFAULT '[]'::jsonb,
@@ -182,7 +183,7 @@ CREATE TABLE IF NOT EXISTS review_results (
 );
 
 CREATE TABLE IF NOT EXISTS consultations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     professional_id UUID NOT NULL REFERENCES professional_reviewers(id) ON DELETE CASCADE,
     consultation_type TEXT NOT NULL CHECK (consultation_type IN ('initial_consultation', 'document_review', 'estate_planning', 'family_planning')),
