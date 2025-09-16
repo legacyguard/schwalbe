@@ -65,7 +65,7 @@ id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
 -- Document Shares Table (for family document sharing)
 CREATE TABLE IF NOT EXISTS document_shares (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     document_id UUID NOT NULL,
     owner_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     shared_with_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
