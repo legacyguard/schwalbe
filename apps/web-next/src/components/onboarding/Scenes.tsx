@@ -97,6 +97,7 @@ export function Scene3Key({ initialTrustedName = "", onBack, onNext, onSkip }: {
 
 export function Scene4Prepare({ onBack, onComplete }: { onBack: () => void; onComplete?: () => void }) {
   const t = useTranslations("onboarding.scene4");
+  const reduceMotion = useReducedMotion();
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="w-full max-w-2xl text-center border border-primary/20 shadow-xl bg-background/95 backdrop-blur rounded-lg">

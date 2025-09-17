@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Scene1Promise, Scene2Box, Scene3Key, Scene4Prepare } from "@/components/onboarding/Scenes";
 import { useTranslations } from "next-intl";
 import { track } from "@/lib/analytics";
+import { authAdapter } from "@/lib/auth-adapter";
 
 export default function OnboardingPage({ params }: { params: { locale: string } }) {
   if (!isOnboardingEnabled()) {
@@ -92,8 +93,12 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
       {step === 4 && (
         <Scene4Prepare
           onBack={goBack}
-          onComplete={() => {
+          onComplete={async () => {
             track({ event: "onboarding_complete", locale: params.locale, meta: { boxItemsLen: boxItems.trim().length, hasTrusted: !!trustedName.trim() } });
+            try {
+              const user = await authAdapter.getUser();
+              await authAdapter.setOnboardingCompleted(user.id, new Date());
+            } catch {}
             try {
               if (typeof window !== "undefined") localStorage.removeItem(STORAGE_KEY);
             } catch {}
