@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "include": [
     "src/app/[locale]/onboarding/page.tsx",
+    "src/components/onboarding/Scenes.tsx",
     "src/config/flags.ts",
     "src/messages/en/onboarding.json",
     "src/messages/sk/onboarding.json",

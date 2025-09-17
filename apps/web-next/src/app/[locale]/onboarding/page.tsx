@@ -1,45 +1,56 @@
+"use client";
+
 import { notFound } from "next/navigation";
 import { isOnboardingEnabled } from "@/config/flags";
-import { generatePlan, type Answer, type Plan } from "@schwalbe/onboarding";
+import { useState } from "react";
+import { Scene1Promise, Scene2Box, Scene3Key, Scene4Prepare } from "@/components/onboarding/Scenes";
 import { useTranslations } from "next-intl";
 
 export default function OnboardingPage({ params }: { params: { locale: string } }) {
   if (!isOnboardingEnabled()) {
     notFound();
   }
+
+  // Minimal client-side stepper using adapted scenes
   const t = useTranslations("onboarding");
-  const answers: Answer[] = [
-    { key: "priority", value: "safety" },
-    { key: "timeAvailable", value: "10m" },
-  ];
-  const plan = generatePlan(answers);
+  const [step, setStep] = useState(1);
+  const [boxItems, setBoxItems] = useState("");
+  const [trustedName, setTrustedName] = useState("");
+
+  const goBack = () => setStep((s) => Math.max(1, s - 1));
+  const goNext = () => setStep((s) => Math.min(4, s + 1));
 
   return (
-    <main className="min-h-screen text-slate-100 container mx-auto px-4 pt-28 pb-16">
-      <h1 className="text-3xl font-semibold mb-4">{t("title")}</h1>
-      <p className="text-slate-300 mb-8">{t("subtitle")}</p>
-
-      <section className="rounded-lg border border-slate-700 bg-slate-900/40 p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-2">{t("plan.heading")}</h2>
-        <p className="text-slate-300 mb-4">{t("plan.description")}</p>
-        <ul className="list-disc pl-5 space-y-2">
-          {plan.milestones.map((m: Plan["milestones"][number]) => (
-            <li key={m.id}>
-              <span className="font-medium">{m.title}</span>
-              <span className="text-slate-400"> — {m.description} ({m.estimateMinutes} min)</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="flex gap-3">
-        <button className="inline-flex items-center justify-center rounded-lg bg-slate-700/70 hover:bg-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 text-white px-6 py-3 text-base font-semibold border border-slate-600">
-          {t("cta.start")}
-        </button>
-        <button className="inline-flex items-center justify-center rounded-lg bg-slate-800/40 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 text-slate-100 px-6 py-3 text-base font-medium border border-slate-700">
-          {t("cta.later")}
-        </button>
-      </section>
+    <main className="min-h-screen text-slate-100">
+      {step === 1 && <Scene1Promise onNext={goNext} />}
+      {step === 2 && (
+        <Scene2Box
+          initialItems={boxItems}
+          onBack={goBack}
+          onNext={(items) => {
+            setBoxItems(items);
+            goNext();
+          }}
+        />
+      )}
+      {step === 3 && (
+        <Scene3Key
+          initialTrustedName={trustedName}
+          onBack={goBack}
+          onNext={(name) => {
+            setTrustedName(name);
+            goNext();
+          }}
+        />
+      )}
+      {step === 4 && (
+        <Scene4Prepare
+          onBack={goBack}
+          onComplete={() => {
+            // Placeholder complete handler; later: analytics + redirect
+          }}
+        />
+      )}
     </main>
   );
 }
