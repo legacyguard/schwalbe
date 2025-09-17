@@ -14,8 +14,21 @@ export default getRequestConfig(async () => {
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as Locale)) notFound();
 
+  // Load base and namespaces for features
+  const base = (await import(`../../messages/${locale}.json`).catch(() => ({ default: {} as any }))).default as any;
+  const onboarding = (await import(`../messages/${locale}/onboarding.json`).catch(() => ({ default: {} as any }))).default as any;
+  const assistant = (await import(`../messages/${locale}/assistant.json`).catch(() => ({ default: {} as any }))).default as any;
+  const dashboard = (await import(`../messages/${locale}/dashboard.json`).catch(() => ({ default: {} as any }))).default as any;
+
+  const messages = {
+    ...base,
+    onboarding: { ...(base?.onboarding || {}), ...onboarding },
+    assistant: { ...(base?.assistant || {}), ...assistant },
+    dashboard: { ...(base?.dashboard || {}), ...dashboard },
+  } as any;
+
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    messages,
   };
 });
