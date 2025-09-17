@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
 import { router } from 'expo-router';
-import { YStack, XStack, H1, Text, Button, Input, Spinner } from '@tamagui/core';
+import { YStack, XStack, H1, Text, Button, Input, Spinner } from 'tamagui';
 import { Mail, Lock, Eye, EyeOff } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card } from '@tamagui/core';
+import { YStack, XStack, H1, H2, Text, Button, Card } from 'tamagui';
 import { Bell, Plus, FileText, Shield, Users, TrendingUp } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';

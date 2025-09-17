@@ -5,10 +5,8 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { locales } from '@/i18n/request';
 import '../globals.css';
 import React from 'react'
-
-function StyledJsxRegistry({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
-}
+import { StyledJsxRegistry } from '../../i18n/StyledJsxRegistry'
+import Topbar from '@/components/topbar/Topbar'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -63,11 +61,10 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <StyledJsxRegistry>
-          <NextIntlClientProvider messages={messages}>
-            {children}
-          </NextIntlClientProvider>
-        </StyledJsxRegistry>
+        <NextIntlClientProvider messages={messages}>
+          <Topbar locale={locale} />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

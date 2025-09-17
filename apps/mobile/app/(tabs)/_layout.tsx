@@ -25,7 +25,7 @@ export default function TabLayout() {
         name="home"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Home size={size} color={color} />
           ),
         }}
@@ -34,7 +34,7 @@ export default function TabLayout() {
         name="documents"
         options={{
           title: 'Documents',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <FileText size={size} color={color} />
           ),
         }}
@@ -43,7 +43,7 @@ export default function TabLayout() {
         name="protection"
         options={{
           title: 'Protection',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Shield size={size} color={color} />
           ),
         }}
@@ -52,7 +52,7 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <User size={size} color={color} />
           ),
         }}

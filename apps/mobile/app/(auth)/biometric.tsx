@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { router } from 'expo-router';
-import { YStack, XStack, H1, Text, Button } from '@tamagui/core';
+import { YStack, XStack, H1, Text, Button } from 'tamagui';
 import { Fingerprint, ArrowLeft } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as LocalAuthentication from 'expo-local-authentication';

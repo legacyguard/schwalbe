@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card, Switch, Progress } from '@tamagui/core';
+import { YStack, XStack, H1, H2, Text, Button, Card, Switch, Progress } from 'tamagui';
 import { Shield, CheckCircle, AlertTriangle, Settings, Users, Lock, Smartphone } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

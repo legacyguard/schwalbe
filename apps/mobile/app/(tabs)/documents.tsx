@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card, Input } from '@tamagui/core';
+import { YStack, XStack, H1, H2, Text, Button, Card, Input } from 'tamagui';
 import { Search, Plus, FileText, Download, Share, Eye, Filter } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

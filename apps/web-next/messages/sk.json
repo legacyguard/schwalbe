@@ -15,7 +15,7 @@
     "features": {
       "security": {
         "title": "Bankové Zabezpečenie",
-        "description": "Vaše citlivé dokumenty a rodinné informácie são chránené šifrovaním a bezpečnostnými opatreniami na podnikovej úrovni."
+        "description": "Vaše citlivé dokumenty a rodinné informácie sú chránené šifrovaním a bezpečnostnými opatreniami na podnikovej úrovni."
       },
       "family": {
         "title": "Ochrana Rodiny",
@@ -26,5 +26,56 @@
         "description": "Tvorba právnych dokumentov s ohľadom na jurisdikciu a integrácia so sieťou profesionálnych advokátov."
       }
     }
+  },
+  "support": {
+    "title": "Podpora",
+    "intro": "Potrebujete pomoc? Napíšte nám na {emailLink} alebo navštívte naše {faqLink}.",
+    "faq": {
+      "title": "Často kladené otázky",
+      "cancel": "Ako zruším predplatné? — Prejdite do {billingLink} a zvoľte Zrušiť na konci obdobia.",
+      "export": "Ako exportujem svoje dáta? — Použite {exportLink}.",
+      "contact": "Ako kontaktovať podporu? — Napíšte na {emailLink}."
+    },
+    "legal": {
+      "title": "Právne:",
+      "terms": "Podmienky",
+      "privacy": "Súkromie",
+      "cookies": "Cookies",
+      "imprint": "Imprint"
+    }
+  },
+  "subscriptions": {
+    "title": "Predplatné",
+    "currentPlan": "Aktuálny plán",
+    "errors": {
+      "loadFailed": "Nepodarilo sa načítať údaje o predplatnom.",
+      "saveFailed": "Uloženie preferencií zlyhalo.",
+      "cancelFailed": "Zrušenie predplatného zlyhalo."
+    },
+    "trialActive": "Skúšobné obdobie je aktívne. Zostáva {remaining}.",
+    "gracePeriod": "Je aktívne ochranné obdobie {days} deň{ s }.",
+    "plan": "Plán",
+    "status": "Stav",
+    "billingCycle": "Fakturačný cyklus",
+    "price": "Cena",
+    "autoRenew": "Automatické obnovenie",
+    "renewalDate": "Dátum obnovenia",
+    "manageSubscription": "Spravovať predplatné",
+    "openBillingPortal": "Otvoriť účtovný portál",
+    "cancelSubscription": "Zrušiť predplatné",
+    "noSubscription": "Žiadne aktívne predplatné.",
+    "confirmCancellation": "Potvrdiť zrušenie",
+    "cancelEndOfPeriod": "Zrušenie sa prejaví na konci aktuálneho obdobia.",
+    "cancelImmediate": "Zrušenie sa prejaví okamžite.",
+    "cancelAtEndOfPeriod": "Zrušiť na konci obdobia",
+    "keepSubscription": "Ponechať predplatné",
+    "cancelling": "Ruším…",
+    "confirmCancellationButton": "Potvrdiť zrušenie",
+    "renewalReminders": "Pripomienky obnovenia",
+    "primaryReminder": "Primárna pripomienka (dni)",
+    "secondaryReminder": "Sekundárna pripomienka (dni)",
+    "channels": "Kanály",
+    "savePreferences": "Uložiť preferencie",
+    "loadingPreferences": "Načítavam preferencie…"
   }
 }

@@ -8,6 +8,7 @@
       "@/*": ["./src/*"]
     },
     "jsx": "react-jsx",
+    "types": ["react", "react-native"],
     "strict": true,
     "skipLibCheck": true
   },

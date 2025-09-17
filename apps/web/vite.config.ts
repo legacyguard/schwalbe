@@ -59,10 +59,54 @@ const tamaguiStubPlugin = () => ({
   },
 })
 
+// Force react-router to use production bundle even if a dev chunk is referenced
+const routerProdPlugin = () => ({
+  name: 'react-router-prod-bundle',
+  enforce: 'pre' as const,
+  resolveId(source: string) {
+    if (source.includes('/react-router/dist/development/')) {
+      return path.resolve(__dirname, '../../node_modules/react-router/dist/index.js')
+    }
+    if (source.includes('/react-router-dom/dist/development/')) {
+      return path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js')
+    }
+    return null
+  },
+  load(id: string) {
+    if (id.includes('/node_modules/react-router/dist/development/')) {
+      return `export * from '${path.resolve(__dirname, '../../node_modules/react-router/dist/index.js').replace(/\\/g, '/')}'`
+    }
+    if (id.includes('/node_modules/react-router-dom/dist/development/')) {
+      return `export * from '${path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js').replace(/\\/g, '/')}'`
+    }
+    return null
+  }
+})
+
+// Ensure cookie dist ESM is redirected to CJS entry exporting parse/serialize
+const cookieCjsPlugin = () => ({
+  name: 'cookie-cjs-redirect',
+  enforce: 'pre' as const,
+  resolveId(source: string) {
+    if (source.endsWith('/cookie/dist/index.js') || source === 'cookie/dist/index.js') {
+      return path.resolve(__dirname, './src/shims/cookie.ts')
+    }
+    return null
+  },
+  load(id: string) {
+    if (id.endsWith('/cookie/dist/index.js')) {
+      return `export * from '${path.resolve(__dirname, './src/shims/cookie.ts').replace(/\\/g, '/')}'`
+    }
+    return null
+  }
+})
+
 export default defineConfig({
   // RN stub plugin runs first, then UI stub, then React
-  plugins: [rnStubPlugin(), tamaguiStubPlugin(), uiStubPlugin(), react()],
+  plugins: [rnStubPlugin(), tamaguiStubPlugin(), routerProdPlugin(), cookieCjsPlugin(), uiStubPlugin(), react()],
   resolve: {
+    conditions: ['browser', 'module', 'production'],
+    mainFields: ['browser', 'main', 'module'],
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './src') },
       { find: /^@schwalbe\/shared\/config\//, replacement: path.resolve(__dirname, '../../packages/shared/src/config/') },
@@ -76,12 +120,20 @@ export default defineConfig({
       { find: /^react-native$/, replacement: 'react-native-web' },
       { find: /^react-native\/(.*)$/, replacement: 'react-native-web/dist/$1' },
       // Force production entry points to avoid dev ESM warnings
+      { find: /react-router\/dist\/development\/.+/, replacement: path.resolve(__dirname, '../../node_modules/react-router/dist/index.js') },
+      { find: /react-router-dom\/dist\/development\/.+/, replacement: path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js') },
+      { find: 'react-router/dist/development', replacement: path.resolve(__dirname, '../../node_modules/react-router/dist/index.js') },
+      { find: 'react-router-dom/dist/development', replacement: path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js') },
       { find: 'react-router', replacement: path.resolve(__dirname, '../../node_modules/react-router/dist/index.js') },
       { find: 'react-router-dom', replacement: path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js') },
       // Ensure cookie exports provide parse/serialize
-      { find: 'cookie', replacement: path.resolve(__dirname, '../../node_modules/cookie/index.js') },
+      { find: /^cookie$/, replacement: path.resolve(__dirname, './src/shims/cookie.ts') },
+      { find: /cookie\/dist\/index\.js$/, replacement: path.resolve(__dirname, './src/shims/cookie.ts') },
       
     ],
+  },
+  define: {
+    'process.env.NODE_ENV': '"production"'
   },
   server: {
     port: 3000,

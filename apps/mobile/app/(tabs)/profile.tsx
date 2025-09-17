@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl, Alert } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card, Avatar } from '@tamagui/core';
+import { YStack, XStack, H1, H2, Text, Button, Card, Avatar } from 'tamagui';
 import { 
   User, 
   Settings, 
