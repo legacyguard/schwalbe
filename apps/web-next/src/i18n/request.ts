@@ -16,6 +16,7 @@ export default getRequestConfig(async () => {
 
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    // Prefer project messages under src/messages (code in EN, copy in locale files)
+    messages: (await import(`../../src/messages/${locale}.json`)).default,
   };
 });

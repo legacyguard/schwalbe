@@ -1,0 +1,69 @@
+{
+  "landingV2": {
+    "hero": {
+      "title": "Chráňte rodinu. Usporiadajte odkaz. Začnite s pokojom.",
+      "subtitle": "Jednoduché kroky, citlivé vedenie a bezpečné úložisko dokumentov – všetko, čo potrebujete na pokoj v duši.",
+      "ctaPrimary": "Začať zdarma",
+      "ctaSecondary": "Zistiť viac"
+    },
+    "securityPromise": {
+      "title": "Bezpečie a súkromie na prvom mieste",
+      "subtitle": "Každý krok navrhnutý s empatiou, ochranou a jasnými ďalšími krokmi.",
+      "features": [
+        { "title": "Bankové šifrovanie", "description": "Vaše dáta sú šifrované v pokoji aj pri prenose." },
+        { "title": "Kontrola prístupu", "description": "Vy rozhodujete, kto a kedy môže vidieť vaše dokumenty." },
+        { "title": "Overená dôveryhodnosť", "description": "Procesy navrhnuté s ohľadom na rodinu a právnu istotu." },
+        { "title": "Rýchly štart", "description": "Za pár minút vytvoríte prvé kroky k vašej ochrane." }
+      ],
+      "learnMore": { "text": "Prečo je to bezpečné?", "arrow": "→" }
+    },
+    "pricing": {
+      "heading": "Plán pre každú životnú etapu",
+      "subheading": "Začnite zdarma a upgradujte, keď budete pripravení.",
+      "tiers": {
+        "free": {
+          "name": "Free",
+          "price": "0 €",
+          "description": "Základné funkcie a bezpečné úložisko dokumentov.",
+          "features": [
+            { "title": "Základný trezor", "description": "Bezpečné uloženie dôležitých súborov." },
+            { "title": "Základné pripomienky", "description": "Jemné pripomenutia k ďalším krokom." },
+            { "title": "Mobilná aplikácia", "description": "Začnite priamo z mobilu." }
+          ],
+          "cta": "Vytvoriť účet"
+        },
+        "premium": {
+          "name": "Premium",
+          "price": "9 €",
+          "period": "mesačne",
+          "description": "Pokročilé návody, AI pomocník a rodinné zdieľanie.",
+          "badge": "Najobľúbenejšie",
+          "features": [
+            { "title": "AI asistent Sofia", "description": "Empatické vedenie a kontrolné zoznamy." },
+            { "title": "Scenáre \"čo ak\"", "description": "Pripravte sa na dôležité životné situácie." },
+            { "title": "Pokročilé pripomienky", "description": "Chytré plánovanie krokov a termínov." }
+          ],
+          "cta": "Začať Premium"
+        },
+        "family": {
+          "name": "Family",
+          "price": "19 €",
+          "period": "mesačne",
+          "description": "Pre rodiny s viacerými členmi a správcami.",
+          "features": [
+            { "title": "Rodinný kruh", "description": "Správa prístupov pre blízkych a správcov." },
+            { "title": "Zdieľaný trezor", "description": "Bezpečné zdieľanie dokumentov v rodine." },
+            { "title": "Priority podpora", "description": "Rýchla pomoc a poradenstvo." }
+          ],
+          "cta": "Vybrať Family"
+        }
+      },
+      "trust": {
+        "encryption": "Bankové šifrovanie",
+        "families": "Dôverujú nám tisíce rodín",
+        "cancel": "Zrušenie kedykoľvek"
+      },
+      "faq": { "lead": "Máte otázky?", "link": "Pozrite FAQ" }
+    }
+  }
+}
