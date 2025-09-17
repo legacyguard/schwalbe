@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/app/[locale]/assistant/page.tsx",
+    "src/components/assistant/AssistantPanel.tsx",
+    "src/config/flags.ts",
+    "src/lib/analytics.ts",
+    "../../packages/ai-assistant/src/index.ts",
+    "../../packages/ai-assistant/src/types.ts",
+    "src/messages/en/assistant.json",
+    "src/messages/sk/assistant.json",
+    "src/messages/cs/assistant.json"
+  ],
+  "exclude": []
+}

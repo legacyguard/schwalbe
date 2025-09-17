@@ -25,3 +25,13 @@ Key Adaptations and Cautions
 - Environment variables: synchronize with Schwalbe env doc (Sentry removed; add logging settings if needed).
 - i18n language set: apply Schwalbe rules (language replacements/additions) and ensure minimum language count per country.
 
+Phase C (AI Assistant) – status
+- Feature flag: NEXT_PUBLIC_ENABLE_ASSISTANT (default OFF)
+- Package: packages/ai-assistant (types + minimal assistantCore)
+- Route: apps/web-next/src/app/[locale]/assistant/page.tsx (flag-guarded)
+- Component: apps/web-next/src/components/assistant/AssistantPanel.tsx (client, next-intl)
+- i18n: apps/web-next/src/messages/{en,sk,cs}/assistant.json
+- Analytics: assistant_view, assistant_send_message, assistant_response_shown
+- Targeted typecheck: apps/web-next/tsconfig.assistant-check.json
+- E2E: apps/web-next/tests/assistant.spec.ts
+

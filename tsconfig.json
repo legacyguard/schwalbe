@@ -3,6 +3,8 @@
   "references": [
     { "path": "./packages/shared" },
     { "path": "./packages/logic" },
+    { "path": "./packages/onboarding" },
+    { "path": "./packages/ai-assistant" },
     { "path": "./apps/web" }
   ],
   "compilerOptions": {
