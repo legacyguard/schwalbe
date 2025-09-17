@@ -25,3 +25,11 @@ Key Adaptations and Cautions
 - Environment variables: synchronize with Schwalbe env doc (Sentry removed; add logging settings if needed).
 - i18n language set: apply Schwalbe rules (language replacements/additions) and ensure minimum language count per country.
 
+Phase B (Onboarding) – status
+- Feature flag: NEXT_PUBLIC_ENABLE_ONBOARDING (default OFF)
+- Package: packages/onboarding (types + minimal plan generator)
+- Route: apps/web-next/src/app/[locale]/onboarding/page.tsx (flag-guarded)
+- i18n: apps/web-next/src/messages/{en,sk,cs}/onboarding.json
+- Targeted typecheck: apps/web-next/tsconfig.onboarding-check.json
+- E2E: apps/web-next/tests/onboarding.spec.ts
+

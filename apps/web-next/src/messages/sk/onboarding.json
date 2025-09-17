@@ -1,0 +1,9 @@
+{
+  "title": "Spoznajme sa v pár jemných krokoch",
+  "subtitle": "Z vašich odpovedí vytvoríme jednoduchý, pokojný plán — vaším tempom.",
+  "plan": {
+    "heading": "Váš štartovací plán",
+    "description": "Tieto míľniky vám pomôžu začať s istotou."
+  },
+  "cta": { "start": "Začať teraz", "later": "Možno neskôr" }
+}

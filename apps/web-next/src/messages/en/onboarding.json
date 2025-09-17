@@ -1,0 +1,9 @@
+{
+  "title": "Let’s get to know you in a few gentle steps",
+  "subtitle": "We’ll turn your answers into a simple, calm plan—at your pace.",
+  "plan": {
+    "heading": "Your starting plan",
+    "description": "These milestones are tailored to help you begin with confidence."
+  },
+  "cta": { "start": "Start now", "later": "Maybe later" }
+}

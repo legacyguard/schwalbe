@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/app/[locale]/onboarding/page.tsx",
+    "src/config/flags.ts",
+    "src/messages/en/onboarding.json",
+    "src/messages/sk/onboarding.json",
+    "src/messages/cs/onboarding.json"
+  ],
+  "exclude": []
+}
