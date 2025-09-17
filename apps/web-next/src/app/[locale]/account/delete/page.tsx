@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { DeleteAccount } from '@/features/account/DeleteAccount';
 
-export async function generateMetadata({ params: { locale } }): Promise<Metadata> {
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'account.delete' });
 
   return {

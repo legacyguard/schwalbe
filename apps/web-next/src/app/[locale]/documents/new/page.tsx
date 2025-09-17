@@ -35,7 +35,7 @@ export default function DocumentUploadPage() {
       const { document } = await uploadDocumentAndAnalyze(file);
       router.push(`../${document.id}`);
     } catch (e) {
-      logger.error(e);
+      logger.error(String(e));
       setError("Upload failed. Please try again.");
     } finally {
       setUploading(false);

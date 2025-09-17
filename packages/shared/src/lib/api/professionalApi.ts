@@ -4,6 +4,7 @@
  */
 
 import { supabase } from '../supabase/client';
+import { professionalService } from '../../services/professional/professionalService';
 
 // Temporary type definitions until they're properly defined
 type ProfessionalOnboarding = any;
@@ -514,7 +515,7 @@ export const professionalAnalyticsApi = {
       // Calculate average rating from review results
       const averageRating =
         reviews?.length && reviews.length > 0
-          ? reviews.reduce((sum, r) => {
+          ? reviews.reduce((sum: number, r: any) => {
               const result = Array.isArray(r.review_results)
                 ? r.review_results[0]
                 : r.review_results;
@@ -528,7 +529,7 @@ export const professionalAnalyticsApi = {
 
       // Calculate turnaround times
       const turnaroundTimes =
-        reviews?.map(r => {
+        reviews?.map((r: any) => {
           if (r.created_at && r.completion_date) {
             const created = new Date(r.created_at).getTime();
             const completed = new Date(r.completion_date).getTime();
@@ -538,7 +539,7 @@ export const professionalAnalyticsApi = {
         }) || [];
 
       const averageTurnaround = turnaroundTimes.length
-        ? turnaroundTimes.reduce((sum, time) => sum + time, 0) /
+        ? turnaroundTimes.reduce((sum: number, time: number) => sum + time, 0) /
           turnaroundTimes.length
         : 0;
 

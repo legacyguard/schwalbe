@@ -83,7 +83,7 @@ class EmailService {
         to: Array.isArray(options.to) ? options.to : [options.to],
         subject: options.subject,
         html,
-        reply_to: options.replyTo || SUPPORT_EMAIL,
+        replyTo: options.replyTo || SUPPORT_EMAIL,
         attachments: options.attachments,
       });
 

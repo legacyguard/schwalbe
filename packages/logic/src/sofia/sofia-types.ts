@@ -324,3 +324,54 @@ export function getPersonalityDisplayName(mode: PersonalityMode): string {
       return 'Unknown';
   }
 }
+
+// Memory and conversation types
+export interface ConversationMemory {
+  id: string;
+  userId: string;
+  conversationId: string;
+  message: string;
+  response: string;
+  timestamp: Date;
+  context: Record<string, any>;
+  importance: 'low' | 'medium' | 'high';
+  tags: string[];
+}
+
+export interface SofiaMemoryState {
+  userId: string;
+  totalConversations: number;
+  lastInteraction: Date;
+  memoryItems: ConversationMemory[];
+  contextSummary: string;
+  personalityInsights: {
+    preferredTopics: string[];
+    communicationStyle: CommunicationStyle;
+    engagementLevel: 'low' | 'medium' | 'high';
+  };
+}
+
+// Text management types
+export type TextCommunicationStyle = CommunicationStyle;
+
+export interface TextKey {
+  id: string;
+  category: string;
+  key: string;
+  variants: TextVariant[];
+}
+
+export interface TextVariant {
+  id: string;
+  text: string;
+  style: TextCommunicationStyle;
+  context: string[];
+  weight: number; // 0-100, higher means more likely to be selected
+}
+
+export interface TextConfig {
+  communicationStyle: TextCommunicationStyle;
+  personalityMode: PersonalityMode;
+  adaptiveEnabled: boolean;
+  customOverrides: Record<string, string>;
+}

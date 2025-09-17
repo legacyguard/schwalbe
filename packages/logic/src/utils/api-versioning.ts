@@ -1,5 +1,3 @@
-import { logger } from '@schwalbe/shared/lib/logger';
-
 /**
  * API Versioning Strategy
  * Implements semantic versioning with backward compatibility
@@ -178,7 +176,7 @@ export class VersionedApiClient {
    */
   checkServerVersion(serverVersionHeader: null | string): boolean {
     if (!serverVersionHeader) {
-      logger.warn('No server version header found, assuming compatibility');
+      console.warn('No server version header found, assuming compatibility');
       return true;
     }
 
@@ -186,7 +184,7 @@ export class VersionedApiClient {
       const serverVersion = parseVersion(serverVersionHeader);
       return isVersionCompatible(serverVersion, API_VERSIONS.minimum);
     } catch (error) {
-      logger.error('Failed to parse server version:', error);
+      console.error('Failed to parse server version:', error);
       return false;
     }
   }
@@ -207,12 +205,12 @@ export class VersionedApiClient {
     const serverVer = parseVersion(serverVersion);
 
     if (compareVersions(clientVersion, serverVer) < 0) {
-      logger.warn(
+      console.warn(
         `Client version (${formatVersion(clientVersion)}) is older than server version (${serverVersion}). ` +
           'Consider updating the client.'
       );
     } else {
-      logger.warn(
+      console.warn(
         `Client version (${formatVersion(clientVersion)}) is newer than server version (${serverVersion}). ` +
           'Some features may not be available.'
       );
@@ -285,7 +283,7 @@ export class VersionNegotiator {
       // No compatible version found
       throw new Error(`No compatible version found for ${requestedVersion}`);
     } catch (error) {
-      logger.error('Version negotiation failed:', error);
+      console.error('Version negotiation failed:', error);
       return API_VERSIONS.current;
     }
   }
@@ -402,7 +400,7 @@ export class DeprecationManager {
   warn(feature: string): void {
     const warning = this.getWarning(feature);
     if (warning) {
-      logger.warn(warning);
+      console.warn(warning);
     }
   }
 }

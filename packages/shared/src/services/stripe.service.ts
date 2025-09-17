@@ -110,14 +110,14 @@ export class StripeService {
   }
 
   async cancelSubscription(subscriptionId: string): Promise<void> {
-    logger.info('Subscription canceled:', subscriptionId);
+    logger.info('Subscription canceled', { metadata: { subscriptionId } });
   }
 
   async updateSubscription(
     subscriptionId: string,
     newPriceId: string
   ): Promise<void> {
-    logger.info('Subscription updated:', subscriptionId, 'to', newPriceId);
+    logger.info('Subscription updated', { metadata: { subscriptionId, newPriceId } });
   }
 
   async getProducts(): Promise<StripeProduct[]> {

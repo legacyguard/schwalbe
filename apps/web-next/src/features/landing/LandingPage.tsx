@@ -150,20 +150,19 @@ export function LandingPage() {
           <motion.div
             className='absolute inset-0 rounded-full'
             animate={{
-              boxShadow: [
-                '0 0 20px rgba(255, 255, 0, 0.4)',
-                '0 0 30px rgba(255, 255, 0, 0.6)',
-                '0 0 20px rgba(255, 255, 0, 0.4)',
-              ],
+              opacity: [0.4, 0.6, 0.4],
             }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              boxShadow: '0 0 20px rgba(255, 255, 0, 0.4)',
+            } as any}
           />
 
           {/* Firefly Body */}
           <motion.div
             className='w-6 h-6 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full shadow-lg'
             animate={{ scale: [1, 1.1, 1] }}
-            style={{ filter: 'brightness(1.3)' }}
+            style={{ filter: 'brightness(1.3)' } as any}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           />
 
@@ -394,7 +393,7 @@ export function LandingPage() {
                   left: `${star.x}%`,
                   top: `${star.y}%`,
                   opacity: star.opacity,
-                }}
+                } as any}
                 animate={{
                   opacity: [star.opacity, star.opacity * 0.3, star.opacity],
                 }}
@@ -426,11 +425,7 @@ export function LandingPage() {
               <motion.div
                 className='absolute inset-0 rounded-full w-16 h-16 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2'
                 animate={{
-                  boxShadow: [
-                    '0 0 30px rgba(255, 255, 0, 0.4)',
-                    '0 0 50px rgba(255, 255, 0, 0.6)',
-                    '0 0 30px rgba(255, 255, 0, 0.4)',
-                  ],
+                  opacity: [0.4, 0.6, 0.4],
                 }}
                 transition={{
                   duration: 3,

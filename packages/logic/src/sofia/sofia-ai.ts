@@ -1,6 +1,8 @@
-import { logger } from '@schwalbe/shared/lib/logger';
-
-// Sofia AI Assistant - The heart of Schwalbe
+/**
+ * Sofia AI Assistant - The heart of Schwalbe
+ * Provides intelligent, contextual guidance for users
+ * Now uses secure server-side API to protect OpenAI API keys
+ */
 // Provides intelligent, contextual guidance for users
 // Now uses secure server-side API to protect OpenAI API keys
 
@@ -66,11 +68,11 @@ class SofiaAI {
   private initialized = false;
 
   constructor() {
-    this.supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
+    this.supabaseUrl = (import.meta as any).env?.VITE_SUPABASE_URL || '';
     this.initialized = !!this.supabaseUrl;
 
     if (!this.initialized) {
-      logger.warn('Supabase URL not found. Sofia will use mock responses.');
+      console.warn('Supabase URL not found. Sofia will use mock responses.');
     }
   }
 
@@ -105,7 +107,7 @@ class SofiaAI {
     ) {
       return responses.greeting[
         Math.floor(Math.random() * responses.greeting.length)
-      ];
+      ] || '';
     }
     if (
       lowerMessage.includes('document') ||
@@ -114,7 +116,7 @@ class SofiaAI {
     ) {
       return responses.documents[
         Math.floor(Math.random() * responses.documents.length)
-      ];
+      ] || '';
     }
     if (
       lowerMessage.includes('guardian') ||
@@ -123,12 +125,12 @@ class SofiaAI {
     ) {
       return responses.guardians[
         Math.floor(Math.random() * responses.guardians.length)
-      ];
+      ] || '';
     }
 
     return responses.general[
       Math.floor(Math.random() * responses.general.length)
-    ];
+    ] || '';
   }
 
   async generateResponse(
@@ -154,7 +156,7 @@ class SofiaAI {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${import.meta.env?.VITE_SUPABASE_ANON_KEY}`,
+            Authorization: `Bearer ${(import.meta as any).env?.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
             action: 'generate_response',
@@ -169,7 +171,7 @@ class SofiaAI {
 
       if (!response.ok) {
         const errorText = await response.text();
-        logger.error('Sofia AI API error:', response.status, errorText);
+        console.error('Sofia AI API error:', response.status, errorText);
         throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
 
@@ -179,7 +181,7 @@ class SofiaAI {
         "I apologize, but I'm having trouble responding right now. Please try again."
       );
     } catch (error) {
-      logger.error('Error generating Sofia response:', error);
+      console.error('Error generating Sofia response:', error);
       // logger.info('Falling back to mock response');
       return this.getMockResponse(message, context);
     }
@@ -200,7 +202,7 @@ class SofiaAI {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${import.meta.env?.VITE_SUPABASE_ANON_KEY}`,
+            Authorization: `Bearer ${(import.meta as any).env?.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
             action: 'generate_suggestion',
@@ -216,7 +218,7 @@ class SofiaAI {
       const result = await response.json();
       return result.suggestion;
     } catch (error) {
-      logger.error('Error generating proactive suggestion:', error);
+      console.error('Error generating proactive suggestion:', error);
       return this.getMockProactiveSuggestion(context);
     }
   }
@@ -271,7 +273,7 @@ class SofiaAI {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${import.meta.env?.VITE_SUPABASE_ANON_KEY}`,
+            Authorization: `Bearer ${(import.meta as any).env?.VITE_SUPABASE_ANON_KEY}`,
           },
           body: JSON.stringify({
             action: 'get_contextual_help',
@@ -287,7 +289,7 @@ class SofiaAI {
       const result = await response.json();
       return result.help;
     } catch (error) {
-      logger.error('Error getting contextual help:', error);
+      console.error('Error getting contextual help:', error);
       return this.getMockContextualHelp(page, context);
     }
   }
@@ -365,7 +367,7 @@ export function getStoredConversation(userId: string): SofiaMessage[] {
       timestamp: new Date(msg.timestamp),
     }));
   } catch (error) {
-    logger.error('Error loading Sofia conversation:', error);
+    console.error('Error loading Sofia conversation:', error);
     return [];
   }
 }
@@ -379,6 +381,6 @@ export function saveConversation(userId: string, messages: SofiaMessage[]) {
       JSON.stringify(messagesToSave)
     );
   } catch (error) {
-    logger.error('Error saving Sofia conversation:', error);
+    console.error('Error saving Sofia conversation:', error);
   }
 }

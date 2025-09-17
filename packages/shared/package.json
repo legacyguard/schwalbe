@@ -14,6 +14,22 @@
       "import": "./dist/search/index.js",
       "types": "./dist/search/index.d.ts"
     },
+    "./lib/logger": {
+      "import": "./dist/lib/logger.js",
+      "types": "./dist/lib/logger.d.ts"
+    },
+    "./lib/search-service": {
+      "import": "./dist/lib/search-service.js",
+      "types": "./dist/lib/search-service.d.ts"
+    },
+    "./lib/resend": {
+      "import": "./dist/lib/resend.js",
+      "types": "./dist/lib/resend.d.ts"
+    },
+    "./types/reminders": {
+      "import": "./dist/types/reminders.js",
+      "types": "./dist/types/reminders.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {

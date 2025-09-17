@@ -1,6 +1,7 @@
-import { logger } from '@schwalbe/shared/lib/logger';
-
-// Adaptive Text Manager for Sofia's Empathetic/Pragmatic Communication
+/**
+ * Adaptive Text Manager for Sofia's Empathetic/Pragmatic Communication
+ * This system provides dual communication modes based on user preferences
+ */
 // This system provides dual communication modes based on user preferences
 
 export type CommunicationStyle = 'default' | 'empathetic' | 'pragmatic';
@@ -242,7 +243,7 @@ export class TextManager {
     const textConfig = texts[key];
 
     if (!textConfig) {
-      logger.warn(`Text key "${key}" not found in text manager`);
+      console.warn(`Text key "${key}" not found in text manager`);
       return `[Missing text: ${key}]`;
     }
 
@@ -401,7 +402,7 @@ export class TextManager {
         JSON.stringify(this.userStyleScores.get(userId))
       );
     } catch (error) {
-      logger.error('Failed to persist style scores:', error);
+      console.error('Failed to persist style scores:', error);
     }
   }
 

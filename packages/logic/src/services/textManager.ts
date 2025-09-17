@@ -6,7 +6,7 @@
 
 export type SofiaMode = 'balanced' | 'empathetic' | 'pragmatic';
 
-export interface SofiaResponse {
+export interface TextManagerResponse {
   animation?: 'dance' | 'flutter' | 'glow' | 'still';
   emotion: 'concerned' | 'encouraging' | 'happy' | 'neutral' | 'proud';
   suggestions?: string[];
@@ -23,7 +23,7 @@ export interface UserContext {
 
 export class TextManager {
   private mode: SofiaMode = 'balanced';
-  private responseHistory: SofiaResponse[] = [];
+  private responseHistory: TextManagerResponse[] = [];
 
   constructor(initialMode?: SofiaMode) {
     if (initialMode) {
@@ -39,12 +39,12 @@ export class TextManager {
     return this.mode;
   }
 
-  generateGreeting(context: UserContext): SofiaResponse {
+  generateGreeting(context: UserContext): TextManagerResponse {
     const { name, documentsCreated = 0, lastActivity } = context;
 
     let text = '';
-    let emotion: SofiaResponse['emotion'] = 'happy';
-    let animation: SofiaResponse['animation'] = 'flutter';
+    let emotion: TextManagerResponse['emotion'] = 'happy';
+    let animation: TextManagerResponse['animation'] = 'flutter';
 
     const daysSinceLastActivity = lastActivity
       ? Math.floor(
@@ -79,7 +79,7 @@ export class TextManager {
         break;
     }
 
-    const response: SofiaResponse = {
+    const response: TextManagerResponse = {
       text,
       emotion,
       animation,
@@ -93,9 +93,9 @@ export class TextManager {
   generateMilestoneMessage(
     milestone: string,
     context: UserContext
-  ): SofiaResponse {
+  ): TextManagerResponse {
     let text = '';
-    let emotion: SofiaResponse['emotion'] = 'proud';
+    let emotion: TextManagerResponse['emotion'] = 'proud';
 
     switch (this.mode) {
       case 'empathetic':
@@ -120,7 +120,7 @@ export class TextManager {
     };
   }
 
-  generateEncouragement(_context: UserContext): SofiaResponse {
+  generateEncouragement(_context: UserContext): TextManagerResponse {
     const encouragements = {
       empathetic: [
         'Remember, every document you create is a gift of love to those who matter most. 💝',
@@ -150,7 +150,7 @@ export class TextManager {
     };
   }
 
-  generateError(errorType: string): SofiaResponse {
+  generateError(errorType: string): TextManagerResponse {
     let text = '';
 
     switch (this.mode) {
@@ -192,7 +192,7 @@ export class TextManager {
     return suggestions;
   }
 
-  getResponseHistory(): SofiaResponse[] {
+  getResponseHistory(): TextManagerResponse[] {
     return this.responseHistory;
   }
 

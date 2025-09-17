@@ -83,7 +83,9 @@ class SofiaAPI {
         cost: 'low_cost',
       };
     } catch (error) {
-      logger.error('[Sofia API] Error in simple query:', error);
+      logger.error('[Sofia API] Error in simple query:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return this.getMockResponse(request);
     }
   }
@@ -136,7 +138,9 @@ class SofiaAPI {
         cost: 'premium',
       };
     } catch (error) {
-      logger.error('[Sofia API] Error in premium generation:', error);
+      logger.error('[Sofia API] Error in premium generation:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return {
         success: false,
         error:

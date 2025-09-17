@@ -8,7 +8,7 @@ import { LegacyGuardLogo } from '../shared/LegacyGuardLogo'
 import { Button } from '../ui/button'
 import { ChevronDown, Languages } from 'lucide-react'
 import { CountryMenu } from './CountryMenu'
-import { SearchBox } from './SearchBox'
+import { SearchBox } from '../search/SearchBox'
 import { UserIcon } from './UserIcon'
 import { getAllowedLanguagesForCurrentHost } from '@/lib/locale'
 import { LocaleCode, getLanguageLabel, normalizeLocale } from '@/lib/i18n-config'
@@ -58,7 +58,7 @@ function LanguageSwitcher() {
               key={code}
               role="menuitemradio"
               aria-checked={current === code}
-              onClick={() => onSelect(code)}
+              onClick={() => onSelect(code as LocaleCode)}
               className={
                 'w-full text-left px-3 py-2 rounded text-sm ' +
                 (current === code
@@ -66,7 +66,7 @@ function LanguageSwitcher() {
                   : 'text-slate-200 hover:bg-slate-800 hover:text-white')
               }
             >
-              <span className="mr-2">{getLanguageLabel(code)}</span>
+              <span className="mr-2">{getLanguageLabel(code as LocaleCode)}</span>
               {current === code ? <span className="sr-only">(selected)</span> : null}
             </button>
           ))}

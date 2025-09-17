@@ -1,29 +1,159 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '@schwalbe/shared/lib/logger';
 
-// Initialize Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia' as any,
-});
+// Initialize Stripe (only if environment variables are available)
+// Minimal Supabase database types used in this route
+type Database = {
+  public: {
+    Tables: {
+      processed_webhooks: {
+        Row: {
+          id: string;
+          stripe_event_id: string;
+          event_type: string;
+          processed_at: string;
+        };
+        Insert: {
+          stripe_event_id: string;
+          event_type: string;
+          processed_at: string;
+        };
+        Update: Partial<{
+          stripe_event_id: string;
+          event_type: string;
+          processed_at: string;
+        }>;
+        Relationships: [];
+      };
+      user_profiles: {
+        Row: {
+          user_id: string;
+          stripe_customer_id: string | null;
+          stripe_subscription_id: string | null;
+          subscription_status: string | null;
+          subscription_current_period_end: string | null;
+          subscription_cancel_at_period_end: boolean | null;
+          subscription_updated_at: string | null;
+          payment_failed: boolean | null;
+          payment_failed_at: string | null;
+          payment_retry_count: number | null;
+          stripe_customer_email: string | null;
+          updated_at: string | null;
+        };
+        Insert: Partial<{
+          user_id: string;
+          stripe_customer_id: string | null;
+          stripe_subscription_id: string | null;
+          subscription_status: string | null;
+          subscription_current_period_end: string | null;
+          subscription_cancel_at_period_end: boolean | null;
+          subscription_updated_at: string | null;
+          payment_failed: boolean | null;
+          payment_failed_at: string | null;
+          payment_retry_count: number | null;
+          stripe_customer_email: string | null;
+          updated_at: string | null;
+        }>;
+        Update: Partial<{
+          stripe_customer_id: string | null;
+          stripe_subscription_id: string | null;
+          subscription_status: string | null;
+          subscription_current_period_end: string | null;
+          subscription_cancel_at_period_end: boolean | null;
+          subscription_updated_at: string | null;
+          payment_failed: boolean | null;
+          payment_failed_at: string | null;
+          payment_retry_count: number | null;
+          stripe_customer_email: string | null;
+          updated_at: string | null;
+        }>;
+        Relationships: [];
+      };
+      payment_history: {
+        Row: {
+          id: string;
+          stripe_invoice_id: string | null;
+          stripe_subscription_id: string;
+          stripe_customer_id: string;
+          amount: number;
+          currency: string;
+          status: string;
+          paid_at: string | null;
+          failed_at: string | null;
+          attempt_count: number | null;
+        };
+        Insert: {
+          stripe_invoice_id?: string | null;
+          stripe_subscription_id: string;
+          stripe_customer_id: string;
+          amount: number;
+          currency: string;
+          status: string;
+          paid_at?: string | null;
+          failed_at?: string | null;
+          attempt_count?: number | null;
+        };
+        Update: Partial<{
+          stripe_invoice_id: string | null;
+          stripe_subscription_id: string;
+          stripe_customer_id: string;
+          amount: number;
+          currency: string;
+          status: string;
+          paid_at: string | null;
+          failed_at: string | null;
+          attempt_count: number | null;
+        }>;
+        Relationships: [];
+      };
+    };
+    Views: {};
+    Functions: {};
+    Enums: {};
+    CompositeTypes: {};
+  };
+};
 
-// Initialize Supabase admin client
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
+let stripe: Stripe | null = null;
+let supabaseAdmin: SupabaseClient<Database> | null = null;
+let endpointSecret: string | null = null;
+
+try {
+  if (process.env.STRIPE_SECRET_KEY && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2024-12-18.acacia' as any,
+    });
+
+    supabaseAdmin = createClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+        },
+      }
+    );
+
+    endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || null;
   }
-);
-
-// Webhook endpoint secret
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+} catch (error) {
+  // Silently fail during build time
+  console.warn('Stripe webhook initialization failed:', error);
+}
 
 export async function POST(request: NextRequest) {
+  // Check if services are initialized
+  if (!stripe || !supabaseAdmin || !endpointSecret) {
+    logger.error('Stripe webhook services not initialized');
+    return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
+  }
+
+  const s = stripe as Stripe;
+  const sb = supabaseAdmin as SupabaseClient<Database>;
+
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
 
@@ -36,7 +166,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // Verify webhook signature
-    event = stripe.webhooks.constructEvent(body, signature, endpointSecret);
+    event = s.webhooks.constructEvent(body, signature, endpointSecret);
   } catch (err: any) {
     logger.error('Stripe webhook signature verification failed', {
       action: 'webhook_signature_verification',
@@ -46,7 +176,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Check idempotency - prevent duplicate processing
-  const { data: existingWebhook } = await supabaseAdmin
+  const { data: existingWebhook } = await sb
     .from('processed_webhooks')
     .select('id')
     .eq('stripe_event_id', event.id)
@@ -62,7 +192,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // Record webhook as processed (idempotency key)
-    await supabaseAdmin.from('processed_webhooks').insert({
+    await sb.from('processed_webhooks').insert({
       stripe_event_id: event.id,
       event_type: event.type,
       processed_at: new Date().toISOString(),
@@ -71,35 +201,35 @@ export async function POST(request: NextRequest) {
     // Handle different event types
     switch (event.type) {
       case 'checkout.session.completed':
-        await handleCheckoutSessionCompleted(event);
+        await handleCheckoutSessionCompleted(event, sb);
         break;
 
       case 'customer.subscription.created':
-        await handleSubscriptionCreated(event);
+        await handleSubscriptionCreated(event, s, sb);
         break;
 
       case 'customer.subscription.updated':
-        await handleSubscriptionUpdated(event);
+        await handleSubscriptionUpdated(event, sb);
         break;
 
       case 'customer.subscription.deleted':
-        await handleSubscriptionDeleted(event);
+        await handleSubscriptionDeleted(event, sb);
         break;
 
       case 'invoice.payment_succeeded':
-        await handleInvoicePaymentSucceeded(event);
+        await handleInvoicePaymentSucceeded(event, sb);
         break;
 
       case 'invoice.payment_failed':
-        await handleInvoicePaymentFailed(event);
+        await handleInvoicePaymentFailed(event, sb);
         break;
 
       case 'payment_method.attached':
-        await handlePaymentMethodAttached(event);
+        await handlePaymentMethodAttached(event, s);
         break;
 
       case 'customer.updated':
-        await handleCustomerUpdated(event);
+        await handleCustomerUpdated(event, sb);
         break;
 
       default:
@@ -128,7 +258,7 @@ export async function POST(request: NextRequest) {
 
 // Handler functions for different event types
 
-async function handleCheckoutSessionCompleted(event: Stripe.Event) {
+async function handleCheckoutSessionCompleted(event: Stripe.Event, sb: SupabaseClient<Database>) {
   const session = event.data.object as Stripe.Checkout.Session;
   
   logger.info('Checkout session completed', {
@@ -143,7 +273,7 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
 
   // Update user subscription status
   if (session.client_reference_id && session.subscription) {
-    await supabaseAdmin
+    await sb
       .from('user_profiles')
       .update({
         stripe_customer_id: session.customer as string,
@@ -155,7 +285,7 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
   }
 }
 
-async function handleSubscriptionCreated(event: Stripe.Event) {
+async function handleSubscriptionCreated(event: Stripe.Event, s: Stripe, sb: SupabaseClient<Database>) {
   const subscription = event.data.object as Stripe.Subscription;
   
   logger.info('Subscription created', {
@@ -168,7 +298,7 @@ async function handleSubscriptionCreated(event: Stripe.Event) {
   });
 
   // Get customer to find user
-  const customer = await stripe.customers.retrieve(subscription.customer as string);
+  const customer = await s.customers.retrieve(subscription.customer as string);
   if ('deleted' in customer && customer.deleted) return;
 
   const userId = customer.metadata?.userId;
@@ -181,18 +311,18 @@ async function handleSubscriptionCreated(event: Stripe.Event) {
   }
 
   // Update user profile
-  await supabaseAdmin
+  await sb
     .from('user_profiles')
     .update({
       stripe_subscription_id: subscription.id,
       subscription_status: subscription.status,
-      subscription_current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+      subscription_current_period_end: (subscription as any).current_period_end ? new Date((subscription as any).current_period_end * 1000).toISOString() : null,
       subscription_updated_at: new Date().toISOString(),
     })
     .eq('user_id', userId);
 }
 
-async function handleSubscriptionUpdated(event: Stripe.Event) {
+async function handleSubscriptionUpdated(event: Stripe.Event, sb: SupabaseClient<Database>) {
   const subscription = event.data.object as Stripe.Subscription;
   
   logger.info('Subscription updated', {
@@ -205,18 +335,18 @@ async function handleSubscriptionUpdated(event: Stripe.Event) {
   });
 
   // Update subscription status in database
-  await supabaseAdmin
+  await sb
     .from('user_profiles')
     .update({
       subscription_status: subscription.status,
-      subscription_current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+      subscription_current_period_end: (subscription as any).current_period_end ? new Date((subscription as any).current_period_end * 1000).toISOString() : null,
       subscription_cancel_at_period_end: subscription.cancel_at_period_end,
       subscription_updated_at: new Date().toISOString(),
     })
     .eq('stripe_subscription_id', subscription.id);
 }
 
-async function handleSubscriptionDeleted(event: Stripe.Event) {
+async function handleSubscriptionDeleted(event: Stripe.Event, sb: SupabaseClient<Database>) {
   const subscription = event.data.object as Stripe.Subscription;
   
   logger.info('Subscription deleted', {
@@ -228,7 +358,7 @@ async function handleSubscriptionDeleted(event: Stripe.Event) {
   });
 
   // Mark subscription as canceled in database
-  await supabaseAdmin
+  await sb
     .from('user_profiles')
     .update({
       subscription_status: 'canceled',
@@ -237,7 +367,7 @@ async function handleSubscriptionDeleted(event: Stripe.Event) {
     .eq('stripe_subscription_id', subscription.id);
 }
 
-async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
+async function handleInvoicePaymentSucceeded(event: Stripe.Event, sb: SupabaseClient<Database>) {
   const invoice = event.data.object as Stripe.Invoice;
   
   logger.info('Invoice payment succeeded', {
@@ -250,12 +380,12 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
   });
 
   // Record successful payment
-  if (invoice.subscription) {
-    await supabaseAdmin
+  if ((invoice as any).subscription) {
+    await sb
       .from('payment_history')
       .insert({
         stripe_invoice_id: invoice.id,
-        stripe_subscription_id: invoice.subscription as string,
+        stripe_subscription_id: (invoice as any).subscription as string,
         stripe_customer_id: invoice.customer as string,
         amount: invoice.amount_paid,
         currency: invoice.currency,
@@ -264,17 +394,17 @@ async function handleInvoicePaymentSucceeded(event: Stripe.Event) {
       });
 
     // Clear any payment failure flags
-    await supabaseAdmin
+    await sb
       .from('user_profiles')
       .update({
         payment_failed: false,
         payment_failed_at: null,
       })
-      .eq('stripe_subscription_id', invoice.subscription);
+      .eq('stripe_subscription_id', (invoice as any).subscription);
   }
 }
 
-async function handleInvoicePaymentFailed(event: Stripe.Event) {
+async function handleInvoicePaymentFailed(event: Stripe.Event, sb: SupabaseClient<Database>) {
   const invoice = event.data.object as Stripe.Invoice;
   
   logger.error('Invoice payment failed', {
@@ -287,12 +417,12 @@ async function handleInvoicePaymentFailed(event: Stripe.Event) {
   });
 
   // Record failed payment
-  if (invoice.subscription) {
-    await supabaseAdmin
+  if ((invoice as any).subscription) {
+    await sb
       .from('payment_history')
       .insert({
         stripe_invoice_id: invoice.id,
-        stripe_subscription_id: invoice.subscription as string,
+        stripe_subscription_id: (invoice as any).subscription as string,
         stripe_customer_id: invoice.customer as string,
         amount: invoice.amount_due,
         currency: invoice.currency,
@@ -302,21 +432,21 @@ async function handleInvoicePaymentFailed(event: Stripe.Event) {
       });
 
     // Set payment failure flag
-    await supabaseAdmin
+    await sb
       .from('user_profiles')
       .update({
         payment_failed: true,
         payment_failed_at: new Date().toISOString(),
         payment_retry_count: invoice.attempt_count,
       })
-      .eq('stripe_subscription_id', invoice.subscription);
+      .eq('stripe_subscription_id', (invoice as any).subscription);
 
     // TODO: Trigger dunning email via Resend
     // This will be implemented when Resend is configured
   }
 }
 
-async function handlePaymentMethodAttached(event: Stripe.Event) {
+async function handlePaymentMethodAttached(event: Stripe.Event, s: Stripe) {
   const paymentMethod = event.data.object as Stripe.PaymentMethod;
   
   logger.info('Payment method attached', {
@@ -330,12 +460,12 @@ async function handlePaymentMethodAttached(event: Stripe.Event) {
 
   // Update default payment method if needed
   if (paymentMethod.customer) {
-    const customer = await stripe.customers.retrieve(paymentMethod.customer as string);
+    const customer = await s.customers.retrieve(paymentMethod.customer as string);
     if ('deleted' in customer && customer.deleted) return;
 
     // Set as default if no default exists
     if (!customer.invoice_settings.default_payment_method) {
-      await stripe.customers.update(paymentMethod.customer as string, {
+      await s.customers.update(paymentMethod.customer as string, {
         invoice_settings: {
           default_payment_method: paymentMethod.id,
         },
@@ -344,7 +474,7 @@ async function handlePaymentMethodAttached(event: Stripe.Event) {
   }
 }
 
-async function handleCustomerUpdated(event: Stripe.Event) {
+async function handleCustomerUpdated(event: Stripe.Event, sb: SupabaseClient<Database>) {
   const customer = event.data.object as Stripe.Customer;
   
   logger.info('Customer updated', {
@@ -358,7 +488,7 @@ async function handleCustomerUpdated(event: Stripe.Event) {
   // Update customer information in database
   const userId = customer.metadata?.userId;
   if (userId) {
-    await supabaseAdmin
+    await sb
       .from('user_profiles')
       .update({
         stripe_customer_email: customer.email,

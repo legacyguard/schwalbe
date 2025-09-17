@@ -4,7 +4,6 @@
  */
 
 import type { SofiaContext } from './sofia-types';
-import { logger } from '@schwalbe/shared/lib/logger';
 import { getSofiaMemory } from './sofia-memory';
 
 export interface ProactiveIntervention {
@@ -423,7 +422,7 @@ export class SofiaProactiveService {
         this.shownInterventions = new Set(JSON.parse(stored));
       }
     } catch (error) {
-      logger.error('Failed to load shown interventions:', error);
+      console.error('Failed to load shown interventions:', error);
     }
   }
 
@@ -439,7 +438,7 @@ export class SofiaProactiveService {
         JSON.stringify(Array.from(this.shownInterventions))
       );
     } catch (error) {
-      logger.error('Failed to save shown interventions:', error);
+      console.error('Failed to save shown interventions:', error);
     }
   }
 

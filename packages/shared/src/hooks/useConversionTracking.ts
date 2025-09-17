@@ -8,10 +8,10 @@ import { useCallback, useEffect } from 'react';
 // Temporary implementations until they're properly defined
 const useUser = () => ({ user: { id: 'anonymous' } });
 const abTestingSystem = {
-  trackOnboardingMetric: () => {},
-  trackConversion: () => {},
-  trackProfessionalReviewConversion: () => {},
-  trackTrustScoreInteraction: () => {},
+  trackOnboardingMetric: (...args: any[]) => {},
+  trackConversion: (...args: any[]) => {},
+  trackProfessionalReviewConversion: (...args: any[]) => {},
+  trackTrustScoreInteraction: (...args: any[]) => {},
 };
 
 // Google Analytics gtag types

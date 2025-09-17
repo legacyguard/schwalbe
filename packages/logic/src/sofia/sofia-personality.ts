@@ -2,7 +2,6 @@
 // Handles personality detection, adaptation, and message personalization
 
 import {
-import { logger } from '@schwalbe/shared/lib/logger';
   type AdaptiveMessageConfig,
   type CommunicationStyle,
   createDefaultPersonality,
@@ -10,6 +9,9 @@ import { logger } from '@schwalbe/shared/lib/logger';
   type PersonalityMode,
   type SofiaPersonality,
 } from './sofia-types';
+
+// Temporarily removed logger import to avoid circular dependency
+// import { logger } from '@schwalbe/shared/lib/logger';
 
 export class AdaptivePersonalityManager {
   private personality: SofiaPersonality;
@@ -278,7 +280,7 @@ export class AdaptivePersonalityManager {
         return parsed;
       }
     } catch (error) {
-      logger.error('Failed to load Sofia personality from storage:', error);
+      console.error('Failed to load Sofia personality from storage:', error);
     }
     return null;
   }
@@ -287,7 +289,7 @@ export class AdaptivePersonalityManager {
     try {
       localStorage.setItem(this.storageKey, JSON.stringify(this.personality));
     } catch (error) {
-      logger.error('Failed to save Sofia personality to storage:', error);
+      console.error('Failed to save Sofia personality to storage:', error);
     }
   }
 

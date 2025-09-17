@@ -6,7 +6,6 @@
 
 import type { SofiaContext, SofiaMessage } from './sofia-types';
 
-import { logger } from '@schwalbe/shared/lib/logger';
 export interface ConversationMemory {
   importantContext: Record<string, any>;
   lastActions: string[];
@@ -55,7 +54,7 @@ export class SofiaMemoryService {
         return parsed;
       }
     } catch (error) {
-      logger.error('Failed to load Sofia memory:', error);
+      console.error('Failed to load Sofia memory:', error);
     }
 
     return {
@@ -73,7 +72,7 @@ export class SofiaMemoryService {
     try {
       localStorage.setItem(this.storageKey, JSON.stringify(this.memoryState));
     } catch (error) {
-      logger.error('Failed to save Sofia memory:', error);
+      console.error('Failed to save Sofia memory:', error);
     }
   }
 
@@ -196,7 +195,7 @@ export class SofiaMemoryService {
     }
 
     const lastMessage =
-      lastUserMessages[lastUserMessages.length - 1].content.toLowerCase();
+      lastUserMessages[lastUserMessages.length - 1]?.content.toLowerCase() || '';
 
     // Topic detection based on keywords
     if (lastMessage.includes('document') || lastMessage.includes('upload')) {

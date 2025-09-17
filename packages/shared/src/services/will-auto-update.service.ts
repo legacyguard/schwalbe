@@ -8,10 +8,8 @@
 import { supabase } from '../supabase/client';
 import { emailService } from './email.service';
 import { monitoringService } from './monitoring.service';
-import type { WillPatch, WillSnapshot, ExternalState } from '@schwalbe/logic/src/will/autoUpdate/types';
-import { detectChanges } from '@schwalbe/logic/src/will/autoUpdate/diff';
-import { buildPatch } from '@schwalbe/logic/src/will/autoUpdate/rules';
-import { applyPatch } from '@schwalbe/logic/src/will/autoUpdate/patch';
+import type { WillPatch, WillSnapshot, ExternalState } from '@schwalbe/logic';
+import { detectChanges, buildPatch, applyPatch } from '@schwalbe/logic';
 
 export type ProposalStatus = 'pending' | 'approved' | 'rejected' | 'applied' | 'rolled_back';
 

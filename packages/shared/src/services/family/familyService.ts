@@ -40,7 +40,9 @@ export class FamilyService {
         .order('created_at', { ascending: true });
 
       if (error) {
-        logger.error('Error fetching family members:', error);
+        logger.error('Error fetching family members:', {
+          metadata: { error: error instanceof Error ? error.message : String(error) }
+        });
         return [];
       }
 
@@ -66,7 +68,9 @@ export class FamilyService {
         preferences: member.preferences || {},
       }));
     } catch (error) {
-      logger.error('Failed to fetch family members:', error);
+      logger.error('Failed to fetch family members:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return [];
     }
   }
@@ -119,7 +123,9 @@ export class FamilyService {
         .single();
 
       if (error) {
-        logger.error('Error creating family member:', error);
+        logger.error('Error creating family member:', {
+          metadata: { error: error instanceof Error ? error.message : String(error) }
+        });
         throw new Error('Failed to create family member');
       }
 
@@ -159,7 +165,9 @@ export class FamilyService {
         preferences: newMember.preferences || {},
       };
     } catch (error) {
-      logger.error('Failed to add family member:', error);
+      logger.error('Failed to add family member:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -190,7 +198,9 @@ export class FamilyService {
         .single();
 
       if (fetchError || !invitation) {
-        logger.error('Error fetching created invitation:', fetchError);
+        logger.error('Error fetching created invitation:', {
+          metadata: { error: fetchError instanceof Error ? fetchError.message : String(fetchError) }
+        });
         throw new Error('Failed to retrieve invitation');
       }
 
@@ -213,7 +223,9 @@ export class FamilyService {
         invitedBy: invitation.sender_id,
       };
     } catch (error) {
-      logger.error('Failed to send invitation:', error);
+      logger.error('Failed to send invitation:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -240,7 +252,9 @@ export class FamilyService {
         protectionScore: this.calculateFamilyProtectionLevel(members, { total: 0, shared: 0 }),
       };
     } catch (error) {
-      logger.error('Failed to calculate family stats:', error);
+      logger.error('Failed to calculate family stats:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return {
         totalMembers: 0,
         activeMembers: 0,
@@ -275,7 +289,9 @@ export class FamilyService {
         recommendations: ['Add more family members', 'Set up emergency contacts'],
       };
     } catch (error) {
-      logger.error('Failed to get family protection status:', error);
+      logger.error('Failed to get family protection status:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return {
         totalMembers: 0,
         activeMembers: 0,
@@ -331,7 +347,9 @@ export class FamilyService {
         invitedBy: invitation.sender_id,
       }));
     } catch (error) {
-      logger.error('Failed to fetch family invitations:', error);
+      logger.error('Failed to fetch family invitations:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return [];
     }
   }
@@ -365,7 +383,9 @@ export class FamilyService {
         createdAt: activity.created_at,
       }));
     } catch (error) {
-      logger.error('Failed to fetch family activity:', error);
+      logger.error('Failed to fetch family activity:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return [];
     }
   }
@@ -396,7 +416,9 @@ export class FamilyService {
         .single();
 
       if (error || !request) {
-        logger.error('Error creating emergency access request:', error);
+        logger.error('Error creating emergency access request:', {
+          metadata: { error: error instanceof Error ? error.message : String(error) }
+        });
         throw new Error('Failed to create emergency access request');
       }
 
@@ -420,7 +442,9 @@ export class FamilyService {
         emergencyLevel: 'medium',
       };
     } catch (error) {
-      logger.error('Failed to request emergency access:', error);
+      logger.error('Failed to request emergency access:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }

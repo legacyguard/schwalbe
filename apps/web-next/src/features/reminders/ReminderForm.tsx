@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { reminderService, type ReminderPayload } from '@schwalbe/shared';
+import { reminderService } from '@schwalbe/shared';
+import type { ReminderPayload } from '@schwalbe/shared/types/reminders';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Icon } from '@/components/ui/icon-library';
@@ -26,14 +27,14 @@ export function ReminderForm({ className = '', onSubmit }: ReminderFormProps) {
     setSaving(true);
     try {
       const reminder: ReminderPayload = {
+        user_id: 'anonymous', // TODO: Get from auth context
         title,
-        date: when,
-        type: 'event',
-        channel: 'inapp',
-        notificationStrategy: 'fixed',
+        scheduled_at: when,
+        channels: ['in_app'],
+        status: 'active',
       };
 
-      await reminderService.createReminder(reminder);
+      await reminderService.create(reminder);
       
       setTitle('');
       setWhen('');

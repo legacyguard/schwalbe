@@ -25,6 +25,9 @@ export * from './supabase/client';
 
 // Export Reminder service
 export * from './services/reminders/reminder.service';
+// Export Reminder types
+export type { ReminderPayload } from './types/reminders';
+export type { ReminderRule as Reminder } from './services/reminders/reminder.service';
 // Export Subscription service
 export * from './services/subscription.service';
 

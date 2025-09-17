@@ -112,3 +112,26 @@ export type Tables<T extends keyof Database['public']['Tables']> =
 
 export type Enums<T extends keyof Database['public']['Enums']> =
   Database['public']['Enums'][T];
+
+// Professional reviewer types for B2B2C marketplace
+export interface ProfessionalReviewerDTO {
+  id: string;
+  user_id: string;
+  full_name: string;
+  email: string;
+  professional_title: string;
+  bar_number?: string;
+  licensed_states: string[];
+  specializations: string[];
+  experience_years: number;
+  hourly_rate?: number;
+  law_firm_name?: string;
+  bio?: string;
+  status: 'active' | 'inactive' | 'pending' | 'suspended';
+  verification_status: 'pending' | 'verified' | 'rejected';
+  trust_score: number;
+  total_reviews: number;
+  average_rating: number;
+  created_at: string;
+  updated_at: string;
+}

@@ -2,7 +2,14 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { reminderService, type Reminder } from '@schwalbe/shared';
+import { reminderService } from '@schwalbe/shared';
+
+interface Reminder {
+  id: string;
+  title: string;
+  scheduled_at: string;
+  status: string;
+}
 import { ReminderForm } from './ReminderForm';
 import { Card } from '@/components/ui/card';
 import { Icon } from '@/components/ui/icon-library';
@@ -14,7 +21,7 @@ export function RemindersDashboard() {
 
   const load = React.useCallback(async () => {
     try {
-      const data = await reminderService.listReminders();
+      const data = await reminderService.list();
       setReminders(data);
     } catch (error) {
       console.error('Failed to load reminders:', error);
@@ -67,7 +74,7 @@ export function RemindersDashboard() {
                       {reminder.title}
                     </h4>
                     <p className="text-sm text-slate-400">
-                      {new Date(reminder.date).toLocaleString()}
+                      {new Date(reminder.scheduled_at).toLocaleString()}
                     </p>
                   </div>
                 </div>

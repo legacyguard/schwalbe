@@ -650,7 +650,9 @@ export class ProfessionalService {
         status: 'sent',
       });
     } catch (error) {
-      logger.error('Failed to send admin notification:', error);
+      logger.error('Failed to send admin notification:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       await this.logNotification({
         type: 'admin_application',
         recipient: 'admin@schwalbe.app',
@@ -709,7 +711,9 @@ export class ProfessionalService {
         metadata: { newStatus: application.verification_status },
       });
     } catch (error) {
-      logger.error('Failed to send applicant notification:', error);
+      logger.error('Failed to send applicant notification:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       await this.logNotification({
         type: 'applicant_status_change',
         recipient: 'unknown@example.com',
@@ -737,9 +741,13 @@ export class ProfessionalService {
 
       if (error) throw error;
 
-      logger.warn('Email sent successfully:', emailData.to);
+      logger.warn('Email sent successfully:', {
+        metadata: { recipient: emailData.to }
+      });
     } catch (error) {
-      logger.error('Email sending failed:', error);
+      logger.error('Email sending failed:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       // Fallback: log to database for manual processing
       await this.logFailedEmail(
         emailData,
@@ -770,7 +778,9 @@ export class ProfessionalService {
       //     created_at: new Date().toISOString()
       //   });
     } catch (error) {
-      logger.error('Failed to log notification:', error);
+      logger.error('Failed to log notification:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 
@@ -785,7 +795,9 @@ export class ProfessionalService {
   ): Promise<void> {
     try {
       // Since failed_emails table doesn't exist, we'll use console logging for now
-      logger.warn('Failed email logged:', { emailData, error });
+      logger.warn('Failed email logged:', {
+        metadata: { recipient: emailData.to, error: error }
+      });
 
       // TODO: Create failed_emails table in database schema
       // await supabase
@@ -800,7 +812,9 @@ export class ProfessionalService {
       //     created_at: new Date().toISOString()
       //   });
     } catch (logError) {
-      logger.error('Failed to log failed email:', logError);
+      logger.error('Failed to log failed email:', {
+        metadata: { error: logError instanceof Error ? logError.message : String(logError) }
+      });
     }
   }
 

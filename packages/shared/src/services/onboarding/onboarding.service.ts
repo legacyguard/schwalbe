@@ -34,7 +34,9 @@ export class OnboardingService {
       const updated = { ...existing, ...data };
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updated));
     } catch (error) {
-      logger.error('Failed to save onboarding progress:', error);
+      logger.error('Failed to save onboarding progress:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 
@@ -48,7 +50,9 @@ export class OnboardingService {
         return JSON.parse(stored);
       }
     } catch (error) {
-      logger.error('Failed to retrieve onboarding progress:', error);
+      logger.error('Failed to retrieve onboarding progress:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
 
     return {
@@ -86,7 +90,9 @@ export class OnboardingService {
     try {
       localStorage.removeItem(this.STORAGE_KEY);
     } catch (error) {
-      logger.error('Failed to clear onboarding progress:', error);
+      logger.error('Failed to clear onboarding progress:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 

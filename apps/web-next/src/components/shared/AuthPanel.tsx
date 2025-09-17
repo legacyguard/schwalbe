@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { createClientComponentClient } from '../lib/supabase-client';
+import { createClientComponentClient } from '../../lib/supabase';
 
 interface AuthPanelProps {
   className?: string;

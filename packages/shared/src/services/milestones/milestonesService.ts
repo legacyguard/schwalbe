@@ -62,7 +62,9 @@ export class MilestonesService {
       // Initialize milestone progress tracking
       await this.updateMilestoneProgress(userId);
     } catch (error) {
-      logger.error('Failed to initialize user milestones:', error);
+      logger.error('Failed to initialize user milestones:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -116,7 +118,9 @@ export class MilestonesService {
 
       return completedMilestones;
     } catch (error) {
-      logger.error('Milestone check failed:', error);
+      logger.error('Milestone check failed:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -200,7 +204,9 @@ export class MilestonesService {
 
       return mappedMilestones;
     } catch (error) {
-      logger.error('Failed to fetch user milestones:', error);
+      logger.error('Failed to fetch user milestones:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -261,7 +267,9 @@ export class MilestonesService {
         recommendations,
       };
     } catch (error) {
-      logger.error('Failed to calculate milestone progress:', error);
+      logger.error('Failed to calculate milestone progress:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -285,7 +293,9 @@ export class MilestonesService {
 
       await this.updateMilestoneProgress(userId);
     } catch (error) {
-      logger.error('Milestone evaluation failed:', error);
+      logger.error('Milestone evaluation failed:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -308,7 +318,9 @@ export class MilestonesService {
       // Clear cache
       this.clearUserCache(milestoneId);
     } catch (error) {
-      logger.error('Failed to mark celebration as viewed:', error);
+      logger.error('Failed to mark celebration as viewed:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -341,7 +353,9 @@ export class MilestonesService {
         timeframe
       );
     } catch (error) {
-      logger.error('Failed to calculate milestone analytics:', error);
+      logger.error('Failed to calculate milestone analytics:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw error;
     }
   }
@@ -601,7 +615,9 @@ export class MilestonesService {
       .eq('user_id', userId);
 
     if (error) {
-      logger.error('Error getting document count:', error);
+      logger.error('Error getting document count:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return 0;
     }
 
@@ -632,7 +648,9 @@ export class MilestonesService {
 
       return Math.min(100, Math.round(basePercentage + bonusPercentage));
     } catch (error) {
-      logger.error('Error calculating protection level:', error);
+      logger.error('Error calculating protection level:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return 0;
     }
   }
@@ -675,7 +693,9 @@ export class MilestonesService {
         created_at: new Date().toISOString(),
       });
     } catch (error) {
-      logger.error('Failed to store celebration event:', error);
+      logger.error('Failed to store celebration event:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 
@@ -770,6 +790,8 @@ export class MilestonesService {
     for (let i = MILESTONE_LEVELS.length - 1; i >= 0; i--) {
       const level = MILESTONE_LEVELS[i];
 
+      if (!level) continue; // Skip if level is undefined
+
       if (overallProgress >= level.progressThreshold) {
         // Check if they meet the requirements
         if (
@@ -800,15 +822,31 @@ export class MilestonesService {
       }
     }
 
-    return MILESTONE_LEVELS[0]; // Default to first level
+    return MILESTONE_LEVELS[0] || {
+      level: 1,
+      name: 'Foundation',
+      description: 'Default foundation level',
+      progressThreshold: 0,
+      requirements: {
+        milestonesRequired: 0,
+      },
+      benefits: {
+        title: 'Foundation',
+        features: [],
+        protectionLevel: '0%',
+        statusMessage: 'Starting your legacy journey',
+      },
+      celebrationMessage: 'Welcome to your legacy journey!',
+    }; // Default to first level or fallback
   }
 
   private getNextLevel(currentLevel: MilestoneLevel): MilestoneLevel | null {
     const currentIndex = MILESTONE_LEVELS.findIndex(
       l => l.level === currentLevel.level
     );
+    if (currentIndex < 0) return null;
     return currentIndex < MILESTONE_LEVELS.length - 1
-      ? MILESTONE_LEVELS[currentIndex + 1]
+      ? MILESTONE_LEVELS[currentIndex + 1] || null
       : null;
   }
 

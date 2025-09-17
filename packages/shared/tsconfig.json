@@ -6,26 +6,7 @@
     "rootDir": "./src"
   },
   "include": [
-    "src/index-minimal.ts",
-    "src/services/emergency.service.ts",
-    "src/types/emergency.ts",
-    "src/supabase/client.ts",
-    "src/config/domains.ts",
-    "src/config/languages.ts",
-    "src/config/billing.ts",
-    "src/search/**/*.ts",
-    "src/search.ts",
-    "src/services/sharing/sharing.service.ts",
-    "src/services/monitoring.service.ts",
-    "src/services/reminders/reminder.service.ts",
-    "src/index.ts",
-    "src/services/subscription.service.ts",
-    "src/services/auth.service.ts",
-    "src/services/documentService.ts",
-    "src/services/encryption.service.ts",
-    "src/services/freemium.service.ts",
-    "src/types/animations.ts",
-    "src/config/legal/requirements.ts"
+    "src/**/*.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.test.*"]
 }

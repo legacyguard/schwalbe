@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { logger } from '@schwalbe/shared/lib/logger';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '@/lib/supabase';
@@ -30,7 +29,7 @@ export const useAuthStore = create<AuthState>()(
           const { data: { session }, error } = await supabase.auth.getSession();
           
           if (error) {
-            logger.error('Error getting session:', error);
+            console.error('Error getting session:', error);
             set({ isLoading: false });
             return;
           }
@@ -70,7 +69,7 @@ export const useAuthStore = create<AuthState>()(
             }
           });
         } catch (error) {
-          logger.error('Error initializing auth:', error);
+          console.error('Error initializing auth:', error);
           set({
             session: null,
             user: null,
@@ -90,7 +89,7 @@ export const useAuthStore = create<AuthState>()(
           });
 
           if (error) {
-            logger.error('Sign in error:', error);
+            console.error('Sign in error:', error);
             set({ isLoading: false });
             return false;
           }
@@ -108,7 +107,7 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: false });
           return false;
         } catch (error) {
-          logger.error('Sign in error:', error);
+          console.error('Sign in error:', error);
           set({ isLoading: false });
           return false;
         }
@@ -124,7 +123,7 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
           });
         } catch (error) {
-          logger.error('Sign out error:', error);
+          console.error('Sign out error:', error);
         }
       },
 

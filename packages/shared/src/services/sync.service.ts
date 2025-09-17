@@ -62,7 +62,7 @@ export class SyncService {
 
   private async syncItem(item: SyncItem): Promise<void> {
     // Implementation would sync with backend
-    logger.info('Syncing item:', item.id);
+    logger.info('Syncing item', { metadata: { itemId: item.id } });
     item.status = 'synced';
     item.lastSynced = new Date();
   }
@@ -78,7 +78,7 @@ export class SyncService {
     conflict: SyncConflict,
     resolution: SyncConflictResolution
   ): Promise<void> {
-    logger.info('Resolving conflict:', conflict.itemId, 'with', resolution);
+    logger.info('Resolving conflict', { metadata: { itemId: conflict.itemId, resolution } });
 
     switch (resolution) {
       case 'local':

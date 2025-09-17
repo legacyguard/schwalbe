@@ -9,6 +9,10 @@ export * from './utils/date';
 
 // Will engine (CZ/SK)
 export * from './will/engine';
+export * from './will/autoUpdate';
 
 // Output generation modules
 export * from './output';
+
+// Sofia AI types
+export * from './sofia/sofia-types';

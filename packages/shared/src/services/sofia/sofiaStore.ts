@@ -70,7 +70,9 @@ class SimpleSofiaStore implements SofiaStore {
         };
       }
     } catch (error) {
-      logger.error('Failed to load Sofia store state:', error);
+      logger.error('Failed to load Sofia store state:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 
@@ -84,7 +86,9 @@ class SimpleSofiaStore implements SofiaStore {
       };
       localStorage.setItem('sofia-store', JSON.stringify(stateToStore));
     } catch (error) {
-      logger.error('Failed to persist Sofia store state:', error);
+      logger.error('Failed to persist Sofia store state:', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 
@@ -200,7 +204,7 @@ export function useUserContext() {
 function useForceUpdate() {
   const [, setTick] = React.useState(0);
   const update = React.useCallback(() => {
-    setTick(tick => tick + 1);
+    setTick((tick: number) => tick + 1);
   }, []);
   return update;
 }

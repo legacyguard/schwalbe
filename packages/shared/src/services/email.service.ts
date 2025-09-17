@@ -148,13 +148,17 @@ class EmailService {
       });
 
       if (error) {
-        logger.error('Error sending email:', error);
+        logger.error('Error sending email:', {
+          metadata: { error: error instanceof Error ? error.message : String(error) }
+        });
         return false;
       }
 
       return true;
     } catch (error) {
-      logger.error('Failed to send email:', error);
+      logger.error('Failed to send email', {
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return false;
     }
   }

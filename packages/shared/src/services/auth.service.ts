@@ -88,7 +88,7 @@ export class AuthService {
 
   async resetPassword(email: string): Promise<void> {
     // Implementation would send reset email
-    logger.info('Password reset email sent to:', email);
+    logger.info('Password reset email sent', { metadata: { emailAddress: email } });
   }
 
   async updatePassword(
@@ -99,7 +99,7 @@ export class AuthService {
       throw new Error('Not authenticated');
     }
     // Implementation would update password
-    logger.info('Password updated successfully');
+    logger.info('Password updated successfully', { action: 'password_update', metadata: {} });
   }
 }
 

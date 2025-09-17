@@ -32,7 +32,7 @@
     "i18n:generate-stubs": "node scripts/generate-locale-stubs.mjs && node scripts/repair-ui-locale-stubs.mjs",
     "qa:all": "npx tsx scripts/qa-all.ts",
     "qa:accessibility": "npx tsx scripts/qa-accessibility.ts",
-    "qa:security": "npx tsx scripts/qa-security.ts", 
+    "qa:security": "npx tsx scripts/qa-security.ts",
     "qa:alerts": "npx tsx scripts/qa-alerts.ts",
     "qa:staging-full": "npm run qa:all && echo 'Run manual smoke tests in staging environment'",
     "verify:redirect-gating": "npx tsx scripts/verify-redirect-gating.ts",
@@ -74,5 +74,8 @@
     "cookie": "0.6.0",
     "react-router": "6.26.2",
     "react-router-dom": "6.26.2"
+  },
+  "dependencies": {
+    "resend": "^6.1.0"
   }
 }
