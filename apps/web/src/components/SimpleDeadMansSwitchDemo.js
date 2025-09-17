@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 // Simple Dead Man Switch Demo without external dependencies
 // Demonstrates the migrated Dead Man Switch functionality
 import { useState } from 'react';
@@ -96,7 +97,7 @@ const DeadMansSwitchManager = ({ className = '', personalityMode = 'adaptive', o
     const recordActivity = () => {
         setLastActivity(new Date());
         setSwitchStatus('active');
-        console.log('Activity recorded successfully');
+        logger.info('Activity recorded successfully');
     };
     // Toggle switch status
     const toggleSwitch = () => {
@@ -137,11 +138,11 @@ const DeadMansSwitchManager = ({ className = '', personalityMode = 'adaptive', o
 const DeadMansSwitchDemo = () => {
     const [personalityMode, setPersonalityMode] = useState('adaptive');
     const handleEmergencyTriggered = (ruleId) => {
-        console.log('Emergency triggered for rule:', ruleId);
+        logger.info('Emergency triggered for rule:', ruleId);
         alert(`Emergency protocol activated for rule: ${ruleId}`);
     };
     const handleHealthCheckMissed = (checkId) => {
-        console.log('Health check missed:', checkId);
+        logger.info('Health check missed:', checkId);
         alert(`Health check missed: ${checkId}`);
     };
     return (_jsx("div", { className: "min-h-screen bg-gray-50 py-8", children: _jsxs("div", { className: "max-w-4xl mx-auto px-4", children: [_jsxs("div", { className: "text-center mb-8", children: [_jsx("h1", { className: "text-3xl font-bold text-gray-900 mb-4", children: "Dead Man Switch System Demo" }), _jsx("p", { className: "text-lg text-gray-600 mb-6", children: "Emergency protection system migrated from Hollywood project" }), _jsxs("div", { className: "flex justify-center gap-4 mb-8", children: [_jsx("button", { onClick: () => setPersonalityMode('empathetic'), className: `px-4 py-2 rounded-lg transition-colors ${personalityMode === 'empathetic'

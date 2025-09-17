@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { uploadDocumentAndAnalyze } from '../api/documentApi';
@@ -38,7 +39,7 @@ export function DocumentUpload() {
         }
         catch (e) {
             // eslint-disable-next-line no-console
-            console.error(e);
+            logger.error(e);
             setError('Upload failed. Please try again.');
         }
         finally {

@@ -2,6 +2,7 @@
 // Demonstrates the migrated Dead Man Switch functionality
 
 import React, { useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { supabase } from '../lib/supabaseClient';
 
 interface DeadMansSwitchProps {
@@ -114,7 +115,7 @@ const DeadMansSwitchManager: React.FC<DeadMansSwitchProps> = ({
   const recordActivity = () => {
     setLastActivity(new Date());
     setSwitchStatus('active');
-    console.log('Activity recorded successfully');
+    logger.info('Activity recorded successfully');
   };
 
   // Toggle switch status
@@ -260,12 +261,12 @@ const DeadMansSwitchDemo: React.FC = () => {
   const [personalityMode, setPersonalityMode] = useState<'empathetic' | 'pragmatic' | 'adaptive'>('adaptive');
 
   const handleEmergencyTriggered = (ruleId: string) => {
-    console.log('Emergency triggered for rule:', ruleId);
+    logger.info('Emergency triggered for rule:', ruleId);
     alert(`Emergency protocol activated for rule: ${ruleId}`);
   };
 
   const handleHealthCheckMissed = (checkId: string) => {
-    console.log('Health check missed:', checkId);
+    logger.info('Health check missed:', checkId);
     alert(`Health check missed: ${checkId}`);
   };
 

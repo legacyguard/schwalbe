@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Onboarding from '@/pages/onboarding/Onboarding';
@@ -54,7 +55,7 @@ export function OnboardingWrapper({ children }) {
             setShowOnboarding(false);
         }
         catch (error) {
-            console.error('Failed to update onboarding status: ', error);
+            logger.error('Failed to update onboarding status: ', error);
             // Even if metadata update fails, don't show onboarding again this session
             setShowOnboarding(false);
         }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import {
   FileText,
   Shield,
@@ -43,7 +44,7 @@ export const Icon: React.FC<IconProps> = ({ name, className, size }) => {
   const IconComponent = iconMap[name];
   
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found in icon library`);
+    logger.warn(`Icon "${name}" not found in icon library`);
     return null;
   }
 

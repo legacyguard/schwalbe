@@ -2,6 +2,7 @@
 // Migrated from Hollywood project with adaptations for Schwalbe
 
 import React, { useCallback, useEffect, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { motion } from 'framer-motion';
 import { EmergencyService } from '@schwalbe/shared';
 import type { 
@@ -160,7 +161,7 @@ export const DeadMansSwitchManager: React.FC<DeadMansSwitchProps> = ({
 
       setError(null);
     } catch (err) {
-      console.error("Error loading Dead Man's Switch status:", err);
+      logger.error("Error loading Dead Man's Switch status:", err);
       setError(
         err instanceof Error ? err.message : 'Failed to load switch status'
       );
@@ -186,9 +187,9 @@ export const DeadMansSwitchManager: React.FC<DeadMansSwitchProps> = ({
         setSwitchStatus('active');
 
         // Show success message
-        console.log('Activity recorded successfully');
+        logger.info('Activity recorded successfully');
       } catch (err) {
-        console.error('Error recording activity:', err);
+        logger.error('Error recording activity:', err);
       }
     },
     [emergencyService]
@@ -208,9 +209,9 @@ export const DeadMansSwitchManager: React.FC<DeadMansSwitchProps> = ({
           )
         );
 
-        console.log(`Emergency rule ${enabled ? 'enabled' : 'disabled'}`);
+        logger.info(`Emergency rule ${enabled ? 'enabled' : 'disabled'}`);
       } catch (err) {
-        console.error('Error toggling rule:', err);
+        logger.error('Error toggling rule:', err);
       }
     },
     [emergencyService]

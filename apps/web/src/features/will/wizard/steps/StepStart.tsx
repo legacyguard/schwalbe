@@ -29,8 +29,8 @@ export function StepStart() {
           value={state.jurisdiction}
           onChange={(e) => setState((s) => ({ ...s, jurisdiction: e.target.value as any }))}
         >
-          <option value="CZ">Czech Republic (CZ)</option>
-          <option value="SK">Slovakia (SK)</option>
+          <option value="CZ">{t('options.jurisdictions.CZ')}</option>
+          <option value="SK">{t('options.jurisdictions.SK')}</option>
         </select>
       </div>
 
@@ -44,9 +44,9 @@ export function StepStart() {
           value={state.language}
           onChange={(e) => setState((s) => ({ ...s, language: e.target.value as any }))}
         >
-          <option value="en">English</option>
-          <option value="cs">Czech</option>
-          <option value="sk">Slovak</option>
+          <option value="en">{t('options.languages.en')}</option>
+          <option value="cs">{t('options.languages.cs')}</option>
+          <option value="sk">{t('options.languages.sk')}</option>
         </select>
       </div>
 
@@ -60,8 +60,8 @@ export function StepStart() {
           value={state.form}
           onChange={(e) => setState((s) => ({ ...s, form: e.target.value as any }))}
         >
-          <option value="typed">Typed</option>
-          <option value="holographic">Holographic</option>
+          <option value="typed">{t('options.forms.typed')}</option>
+          <option value="holographic">{t('options.forms.holographic')}</option>
         </select>
       </div>
 

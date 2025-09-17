@@ -1,4 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -121,7 +122,7 @@ export function WizardProvider({ children }) {
             onConflict: 'user_id,session_id',
         });
         if (error) {
-            console.error('Failed to save draft', { error });
+            logger.error('Failed to save draft', { error });
             // Fallback to local
             localStorage.setItem('will_wizard_state', JSON.stringify(state));
             if (opts?.toast)
@@ -144,7 +145,7 @@ export function WizardProvider({ children }) {
             .eq('session_id', sid)
             .maybeSingle();
         if (error) {
-            console.error('Failed to load draft', { error });
+            logger.error('Failed to load draft', { error });
             return false;
         }
         if (data?.draft_data) {

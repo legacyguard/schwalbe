@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -71,7 +72,7 @@ export function SearchBox() {
             }
             catch {
                 // Intentionally avoid logging raw terms. Only surface a generic failure.
-                console.error('Search failed');
+                logger.error('Search failed');
                 if (!cancelled)
                     setResults([]);
             }

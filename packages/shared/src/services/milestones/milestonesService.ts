@@ -4,6 +4,7 @@
  */
 
 import { supabase } from '../../lib/supabase';
+import { logger } from '../../lib/logger';
 import {
   DEFAULT_MILESTONE_TEMPLATES,
   type LegacyMilestone,
@@ -61,7 +62,7 @@ export class MilestonesService {
       // Initialize milestone progress tracking
       await this.updateMilestoneProgress(userId);
     } catch (error) {
-      console.error('Failed to initialize user milestones:', error);
+      logger.error('Failed to initialize user milestones:', error);
       throw error;
     }
   }
@@ -115,7 +116,7 @@ export class MilestonesService {
 
       return completedMilestones;
     } catch (error) {
-      console.error('Milestone check failed:', error);
+      logger.error('Milestone check failed:', error);
       throw error;
     }
   }
@@ -199,7 +200,7 @@ export class MilestonesService {
 
       return mappedMilestones;
     } catch (error) {
-      console.error('Failed to fetch user milestones:', error);
+      logger.error('Failed to fetch user milestones:', error);
       throw error;
     }
   }
@@ -260,7 +261,7 @@ export class MilestonesService {
         recommendations,
       };
     } catch (error) {
-      console.error('Failed to calculate milestone progress:', error);
+      logger.error('Failed to calculate milestone progress:', error);
       throw error;
     }
   }
@@ -284,7 +285,7 @@ export class MilestonesService {
 
       await this.updateMilestoneProgress(userId);
     } catch (error) {
-      console.error('Milestone evaluation failed:', error);
+      logger.error('Milestone evaluation failed:', error);
       throw error;
     }
   }
@@ -307,7 +308,7 @@ export class MilestonesService {
       // Clear cache
       this.clearUserCache(milestoneId);
     } catch (error) {
-      console.error('Failed to mark celebration as viewed:', error);
+      logger.error('Failed to mark celebration as viewed:', error);
       throw error;
     }
   }
@@ -340,7 +341,7 @@ export class MilestonesService {
         timeframe
       );
     } catch (error) {
-      console.error('Failed to calculate milestone analytics:', error);
+      logger.error('Failed to calculate milestone analytics:', error);
       throw error;
     }
   }
@@ -600,7 +601,7 @@ export class MilestonesService {
       .eq('user_id', userId);
 
     if (error) {
-      console.error('Error getting document count:', error);
+      logger.error('Error getting document count:', error);
       return 0;
     }
 
@@ -631,7 +632,7 @@ export class MilestonesService {
 
       return Math.min(100, Math.round(basePercentage + bonusPercentage));
     } catch (error) {
-      console.error('Error calculating protection level:', error);
+      logger.error('Error calculating protection level:', error);
       return 0;
     }
   }
@@ -643,7 +644,7 @@ export class MilestonesService {
       .eq('user_id', userId);
 
     if (error) {
-      console.error('Error getting family member count:', error);
+      logger.error('Error getting family member count:', error);
       return 0;
     }
 
@@ -674,7 +675,7 @@ export class MilestonesService {
         created_at: new Date().toISOString(),
       });
     } catch (error) {
-      console.error('Failed to store celebration event:', error);
+      logger.error('Failed to store celebration event:', error);
     }
   }
 

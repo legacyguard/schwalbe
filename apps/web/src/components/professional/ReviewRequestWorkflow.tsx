@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import {
   ArrowRight,
   CheckCircle,
@@ -198,7 +199,7 @@ export function ReviewRequestWorkflow({
 
       await onRequestSubmitted(request);
     } catch (error) {
-      console.error('Error submitting review request:', error);
+      logger.error('Error submitting review request:', error);
     } finally {
       setIsSubmitting(false);
     }

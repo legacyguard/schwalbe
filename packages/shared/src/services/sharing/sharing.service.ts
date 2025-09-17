@@ -31,6 +31,7 @@ export interface VerifyShareAccessResult {
 }
 
 import { supabase } from '../../supabase/client';
+import { logger } from '../../lib/logger';
 import { subscriptionService } from '../subscription.service';
 
 function normalizePermissions(p?: Partial<SharePermissions>): SharePermissions {
@@ -66,7 +67,7 @@ export class SharingService {
 
     if (error) {
       // Avoid logging RPC error details
-      console.error('createShareLink RPC error');
+      logger.error('createShareLink RPC error');
       throw error;
     }
 
@@ -93,7 +94,7 @@ export class SharingService {
 
     if (error) {
       // Avoid logging RPC error details
-      console.error('verifyShareAccess RPC error');
+      logger.error('verifyShareAccess RPC error');
       throw error;
     }
 

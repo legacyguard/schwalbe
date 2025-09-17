@@ -1,4 +1,5 @@
 import React from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Check, Shield, Star, Users } from 'lucide-react';
@@ -114,7 +115,7 @@ export const PricingSection: React.FC = () => {
         window.location.href = url
       }
     } catch {
-      console.error('Checkout failed')
+      logger.error('Checkout failed')
       alert('Unable to start checkout. Please try again later.')
     }
   }

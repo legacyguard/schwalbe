@@ -1,6 +1,7 @@
 
 import { supabase } from '../supabase/client';
 
+import { logger } from '../lib/logger';
 // Log levels for error_log
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
@@ -228,7 +229,7 @@ class MonitoringService {
         const anonKey = getEnv('SUPABASE_ANON_KEY');
         const authToken = serviceKey || anonKey || '';
         if (!functionsBaseEnv || !authToken || !getEnv('ALERT_EMAIL_TO')) {
-          console.warn('Critical alert not sent (missing server env: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ALERT_EMAIL_TO).');
+          logger.warn('Critical alert not sent (missing server env: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ALERT_EMAIL_TO).');
           return;
         }
         const res = await fetch(`${functionsBase}/send-email`, {
@@ -241,26 +242,26 @@ class MonitoringService {
         });
         if (!res.ok) {
           // Avoid logging provider response details to prevent leaks
-          console.error('Critical alert email failed');
+          logger.error('Critical alert email failed');
         }
       } else {
         // Browser: use functions.invoke; requires an authenticated user session to include Authorization
         // If not logged in, this may fail with 401 by design.
         const { data: sessionData } = await supabase.auth.getSession();
         if (!sessionData?.session) {
-          console.warn('Skipping alert email in browser (no auth session).');
+          logger.warn('Skipping alert email in browser (no auth session).');
           return;
         }
         const { error } = await supabase.functions.invoke('send-email', {
           body,
         });
         if (error) {
-          console.error('Critical alert email failed (browser)');
+          logger.error('Critical alert email failed (browser)');
         }
       }
     } catch {
       // Avoid printing detailed provider errors
-      console.error('Critical alert path error');
+      logger.error('Critical alert path error');
     }
   }
 
@@ -282,10 +283,10 @@ class MonitoringService {
         stack: redactText(stack) || undefined,
       };
       const logText = JSON.stringify(entry);
-      if (level === 'error' || level === 'fatal') console.error(logText);
-      else if (level === 'warn') console.warn(logText);
+      if (level === 'error' || level === 'fatal') logger.error(logText);
+      else if (level === 'warn') logger.warn(logText);
       else if ((console as any).debug && level === 'debug') (console as any).debug(logText);
-      else console.info(logText);
+      else logger.info(logText);
     } catch { /* ignore */ }
 
     await this.insertErrorLog(level, message, context, stack);
@@ -410,7 +411,7 @@ class MonitoringService {
       });
     } catch {
       // Avoid printing event payloads or error details
-      console.error('Error tracking event');
+      logger.error('Error tracking event');
     }
   }
 
@@ -532,7 +533,7 @@ class MonitoringService {
         metadata: check.metadata ? redactObject(check.metadata as any) : null,
       });
     } catch {
-      console.error('Error logging health check');
+      logger.error('Error logging health check');
     }
   }
 
@@ -600,7 +601,7 @@ class MonitoringService {
         device_info: this.getDeviceInfo(),
       });
     } catch {
-      console.error('Error flushing performance buffer');
+      logger.error('Error flushing performance buffer');
     }
   }
 
@@ -697,7 +698,7 @@ class MonitoringService {
       .lte('created_at', endDate.toISOString());
 
     if (error) {
-      console.error('Error fetching analytics');
+      logger.error('Error fetching analytics');
       return {};
     }
 

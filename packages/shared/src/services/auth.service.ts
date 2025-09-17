@@ -1,3 +1,5 @@
+import { logger } from '../lib/logger';
+
 
 /**
  * Authentication Service
@@ -86,7 +88,7 @@ export class AuthService {
 
   async resetPassword(email: string): Promise<void> {
     // Implementation would send reset email
-    console.log('Password reset email sent to:', email);
+    logger.info('Password reset email sent to:', email);
   }
 
   async updatePassword(
@@ -97,7 +99,7 @@ export class AuthService {
       throw new Error('Not authenticated');
     }
     // Implementation would update password
-    console.log('Password updated successfully');
+    logger.info('Password updated successfully');
   }
 }
 

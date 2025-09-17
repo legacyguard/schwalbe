@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { reminderService } from '@schwalbe/shared';
 function arrayBufferToBase64(buffer) {
     // Convert ArrayBuffer to base64 without leaking memory
@@ -97,7 +98,7 @@ export async function uploadDocumentAndAnalyze(file) {
     }
     catch (e) {
         // Non-fatal; continue and mark as manual if nothing
-        console.error('Analysis invocation failed', e);
+        logger.error('Analysis invocation failed', e);
     }
     // 5) Persist analysis to document row
     const patch = {};
@@ -174,7 +175,7 @@ export async function uploadDocumentAndAnalyze(file) {
     }
     catch (e) {
         // Best-effort; errors are logged but do not fail upload
-        console.error('Failed to create reminder for document', e);
+        logger.error('Failed to create reminder for document', e);
     }
     return { document: analyzedDoc, analysis };
 }

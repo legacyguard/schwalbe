@@ -4,6 +4,7 @@
  */
 
 import { useCallback, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 // import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // Mock react-query hooks
@@ -156,7 +157,7 @@ export const useProfessionalNetwork = () => {
           setCurrentRequest(request);
           return request;
         } catch (error) {
-          console.error('Failed to request attorney review:', error);
+          logger.error('Failed to request attorney review:', error);
           throw error;
         }
       },
@@ -170,7 +171,7 @@ export const useProfessionalNetwork = () => {
             await submitReviewMutation.mutateAsync(reviewRequest);
           return feedback;
         } catch (error) {
-          console.error('Failed to submit for review:', error);
+          logger.error('Failed to submit for review:', error);
           throw error;
         }
       },
@@ -197,7 +198,7 @@ export const useProfessionalNetwork = () => {
         setCurrentOffers(offers);
         return offers;
       } catch (error) {
-        console.error('Failed to get consultation offers:', error);
+        logger.error('Failed to get consultation offers:', error);
         throw error;
       }
     }, []);
@@ -229,7 +230,7 @@ export const useProfessionalNetwork = () => {
           setCurrentMatches(matches);
           return matches;
         } catch (error) {
-          console.error('Failed to find notaries:', error);
+          logger.error('Failed to find notaries:', error);
           throw error;
         }
       },

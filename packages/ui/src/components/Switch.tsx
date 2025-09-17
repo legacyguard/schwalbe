@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import {
   Label,
   styled,
@@ -127,7 +128,7 @@ export interface SwitchProps extends Omit<TamaguiSwitchProps, 'size'> {
  * @example
  * ```tsx
  * // Basic switch
- * <Switch onValueChange={(value) => console.log(value)} />
+ * <Switch onValueChange={(value) => logger.info(value)} />
  *
  * // Switch with label
  * <Switch

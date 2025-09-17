@@ -1,18 +1,23 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
+import { DOMAIN_LANGUAGES, getDefaultLanguageForDomain, getSupportedLanguagesForDomain } from './config/domains';
 
-// Basic domain configuration - will be enhanced later
-const DOMAIN_LANGUAGES: Record<string, string[]> = {
-  'legacyguard.app': ['en', 'cs', 'sk'], // Development/staging domain
-  'legacyguard.cz': ['cs', 'sk', 'en'],
-  'legacyguard.sk': ['sk', 'cs', 'en'],
-  'localhost:3001': ['en', 'cs', 'sk'], // Local development
+// Add development domains to the configuration
+const EXTENDED_DOMAIN_LANGUAGES: Record<string, string[]> = {
+  ...DOMAIN_LANGUAGES,
+  'legacyguard.app': ['en', 'cs', 'sk', 'de'], // Development/staging domain
+  'localhost:3001': ['en', 'cs', 'sk', 'de'], // Local development
 };
 
 function getAllowedLanguagesForHost(hostname: string): string[] {
   // Remove port if present
   const cleanHost = hostname.split(':')[0];
-  return DOMAIN_LANGUAGES[hostname] || DOMAIN_LANGUAGES[cleanHost] || ['en'];
+  const domainWithExtension = cleanHost.includes('.') ? cleanHost : `legacyguard.${cleanHost}`;
+  
+  return EXTENDED_DOMAIN_LANGUAGES[hostname] || 
+         EXTENDED_DOMAIN_LANGUAGES[cleanHost] || 
+         EXTENDED_DOMAIN_LANGUAGES[domainWithExtension] || 
+         ['en'];
 }
 
 function getDomainDefaultLanguage(hostname: string): string {
@@ -47,6 +52,6 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match only internationalized pathnames
-  matcher: ['/', '/(cs|sk|en)/:path*']
+  // Match all 34 supported language pathnames
+  matcher: ['/', '/(en|bg|hr|cs|da|nl|et|fi|fr|de|el|hu|ga|it|lv|lt|mt|pl|pt|ro|sk|sl|es|sv|no|is|tr|sr|sq|mk|me|bs|ru|uk)/:path*']
 };

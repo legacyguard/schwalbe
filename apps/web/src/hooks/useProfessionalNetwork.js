@@ -3,6 +3,7 @@
  * React hooks for professional network operations and B2B2C revenue streams
  */
 import { useCallback, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 // import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 // Mock react-query hooks
 const useQuery = ({ queryKey: _queryKey, queryFn: _queryFn, staleTime: _staleTime }) => ({
@@ -79,7 +80,7 @@ export const useProfessionalNetwork = () => {
                 return request;
             }
             catch (error) {
-                console.error('Failed to request attorney review:', error);
+                logger.error('Failed to request attorney review:', error);
                 throw error;
             }
         }, []);
@@ -89,7 +90,7 @@ export const useProfessionalNetwork = () => {
                 return feedback;
             }
             catch (error) {
-                console.error('Failed to submit for review:', error);
+                logger.error('Failed to submit for review:', error);
                 throw error;
             }
         }, []);
@@ -111,7 +112,7 @@ export const useProfessionalNetwork = () => {
                 return offers;
             }
             catch (error) {
-                console.error('Failed to get consultation offers:', error);
+                logger.error('Failed to get consultation offers:', error);
                 throw error;
             }
         }, []);
@@ -136,7 +137,7 @@ export const useProfessionalNetwork = () => {
                 return matches;
             }
             catch (error) {
-                console.error('Failed to find notaries:', error);
+                logger.error('Failed to find notaries:', error);
                 throw error;
             }
         }, []);

@@ -6,6 +6,7 @@
 
 import type { SofiaContext, SofiaMessage } from './sofia-types';
 
+import { logger } from '@schwalbe/shared/lib/logger';
 export interface ConversationMemory {
   importantContext: Record<string, any>;
   lastActions: string[];
@@ -54,7 +55,7 @@ export class SofiaMemoryService {
         return parsed;
       }
     } catch (error) {
-      console.error('Failed to load Sofia memory:', error);
+      logger.error('Failed to load Sofia memory:', error);
     }
 
     return {
@@ -72,7 +73,7 @@ export class SofiaMemoryService {
     try {
       localStorage.setItem(this.storageKey, JSON.stringify(this.memoryState));
     } catch (error) {
-      console.error('Failed to save Sofia memory:', error);
+      logger.error('Failed to save Sofia memory:', error);
     }
   }
 

@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 /**
  * Review Request Workflow Component
  * Email-based workflow for requesting professional document reviews
@@ -126,7 +127,7 @@ export function ReviewRequestWorkflow({ documentId, documentType, documentName, 
             await onRequestSubmitted(request);
         }
         catch (error) {
-            console.error('Error submitting review request:', error);
+            logger.error('Error submitting review request:', error);
         }
         finally {
             setIsSubmitting(false);

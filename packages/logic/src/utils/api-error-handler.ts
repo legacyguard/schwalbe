@@ -1,5 +1,6 @@
 import type { ApiError } from '../types/api';
 
+import { logger } from '@schwalbe/shared/lib/logger';
 /**
  * Custom error class for API operations
  * Provides structured error handling with retry logic and detailed error information
@@ -88,7 +89,7 @@ export async function withErrorHandling<T>(
   try {
     return await operation();
   } catch (error) {
-    console.error(`[API Error] ${operationName}:`, error);
+    logger.error(`[API Error] ${operationName}:`, error);
 
     // If it's already a LegacyGuardApiError, re-throw it
     if (error instanceof LegacyGuardApiError) {
@@ -270,7 +271,7 @@ export async function withRetry<T>(
 
       // Wait before retrying (exponential backoff)
       const delay = delayMs * Math.pow(2, attempt - 1);
-      console.warn(
+      logger.warn(
         `[API Retry] ${operationName} attempt ${attempt}/${maxRetries} failed, retrying in ${delay}ms...`
       );
       await new Promise(resolve => setTimeout(resolve, delay));

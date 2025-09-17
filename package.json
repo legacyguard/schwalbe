@@ -28,6 +28,7 @@
     "lint:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run lint --cache-dir=.turbo",
     "lint:ci:strict": "eslint --max-warnings=0 .",
     "i18n:check": "node scripts/validate-i18n.mjs",
+    "i18n:health-check": "node scripts/i18n-health-check.mjs",
     "i18n:generate-stubs": "node scripts/generate-locale-stubs.mjs && node scripts/repair-ui-locale-stubs.mjs",
     "qa:all": "npx tsx scripts/qa-all.ts",
     "qa:accessibility": "npx tsx scripts/qa-accessibility.ts",

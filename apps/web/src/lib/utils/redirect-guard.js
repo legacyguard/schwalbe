@@ -1,5 +1,6 @@
 // Simple redirect guard to prevent redirect loops
 import { buildCountryUrl, getEnabledDomains, isProduction } from '@schwalbe/shared';
+import { logger } from '@schwalbe/shared/lib/logger';
 class RedirectGuardClass {
     redirectHistory = [];
     maxRedirects = 3;
@@ -11,7 +12,7 @@ class RedirectGuardClass {
         // Count redirects to this path
         const redirectsToPath = this.redirectHistory.filter(entry => entry.startsWith(`${path}:`)).length;
         if (redirectsToPath >= this.maxRedirects) {
-            console.warn(`Redirect loop detected for path: ${path}`);
+            logger.warn(`Redirect loop detected for path: ${path}`);
             return false;
         }
         // Log this redirect attempt

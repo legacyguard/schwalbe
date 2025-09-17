@@ -3,6 +3,7 @@
  * Handles attorney applications, verification, and marketplace operations
  */
 import { supabase } from '../../supabase/client';
+import { logger } from '../../lib/logger';
 // Temporary implementations until they're properly defined
 const cacheInvalidation = {
     invalidateProfessionalReviewCaches: (_reviewId) => { }
@@ -443,7 +444,7 @@ export class ProfessionalService {
             });
         }
         catch (error) {
-            console.error('Failed to send admin notification:', error);
+            logger.error('Failed to send admin notification:', error);
             await this.logNotification({
                 type: 'admin_application',
                 recipient: 'admin@schwalbe.app',
@@ -491,7 +492,7 @@ export class ProfessionalService {
             });
         }
         catch (error) {
-            console.error('Failed to send applicant notification:', error);
+            logger.error('Failed to send applicant notification:', error);
             await this.logNotification({
                 type: 'applicant_status_change',
                 recipient: 'unknown@example.com',
@@ -511,10 +512,10 @@ export class ProfessionalService {
             });
             if (error)
                 throw error;
-            console.warn('Email sent successfully:', emailData.to);
+            logger.warn('Email sent successfully:', emailData.to);
         }
         catch (error) {
-            console.error('Email sending failed:', error);
+            logger.error('Email sending failed:', error);
             // Fallback: log to database for manual processing
             await this.logFailedEmail(emailData, error instanceof Error ? error.message : 'Unknown error');
             throw error;
@@ -523,7 +524,7 @@ export class ProfessionalService {
     async logNotification(notification) {
         try {
             // Since notification_logs table doesn't exist, we'll use console logging for now
-            console.warn('Notification logged:', notification);
+            logger.warn('Notification logged:', notification);
             // TODO: Create notification_logs table in database schema
             // await supabase
             //   .from('notification_logs')
@@ -533,13 +534,13 @@ export class ProfessionalService {
             //   });
         }
         catch (error) {
-            console.error('Failed to log notification:', error);
+            logger.error('Failed to log notification:', error);
         }
     }
     async logFailedEmail(emailData, error) {
         try {
             // Since failed_emails table doesn't exist, we'll use console logging for now
-            console.warn('Failed email logged:', { emailData, error });
+            logger.warn('Failed email logged:', { emailData, error });
             // TODO: Create failed_emails table in database schema
             // await supabase
             //   .from('failed_emails')
@@ -554,7 +555,7 @@ export class ProfessionalService {
             //   });
         }
         catch (logError) {
-            console.error('Failed to log failed email:', logError);
+            logger.error('Failed to log failed email:', logError);
         }
     }
     // Helper methods

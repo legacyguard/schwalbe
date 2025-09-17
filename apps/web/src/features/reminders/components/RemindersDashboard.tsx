@@ -1,4 +1,5 @@
 import React from 'react'
+import { logger } from '@schwalbe/shared/lib/logger';
 import { reminderService, type ReminderRule } from '@schwalbe/shared'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +16,7 @@ export function RemindersDashboard() {
       const data = await reminderService.list()
       setItems(data)
     } catch (e) {
-      console.error(e)
+      logger.error(e)
       toast({ title: 'Failed to load reminders' })
     } finally {
       setLoading(false)

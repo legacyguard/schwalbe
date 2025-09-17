@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { User, Globe, Search, LifeBuoy, ShoppingCart, ChevronDown, X } from "lucide-react";
+import { SearchBox } from "../search/SearchBox";
 
 interface TopbarProps {
   locale: string;
@@ -19,10 +20,9 @@ export function Topbar({ locale }: TopbarProps) {
   const [countryOpen, setCountryOpen] = React.useState(false);
   const [buyOpen, setBuyOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
-  const [query, setQuery] = React.useState("");
   const [simMsg, setSimMsg] = React.useState<string | null>(null);
 
-  const isProduction = (process.env.NEXT_PUBLIC_IS_PRODUCTION ?? "false") === "true";
+  const isProduction = (process.env.NEXT_PUBLIC_VITE_IS_PRODUCTION ?? process.env.VITE_IS_PRODUCTION ?? "false") === "true";
 
   React.useEffect(() => {
     function onEsc(e: KeyboardEvent) {
@@ -47,11 +47,9 @@ export function Topbar({ locale }: TopbarProps) {
     }
   }
 
-  function onSearchSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!query.trim()) return;
-    // Navigate to a stub search route (to be implemented later)
-    router.push(`/${locale}/search?q=${encodeURIComponent(query.trim())}`);
+  function handleSearchResultClick(result: any) {
+    router.push(`/${locale}/documents/${result.documentId}`);
+    setSearchOpen(false);
   }
 
   const products = React.useMemo(
@@ -107,21 +105,13 @@ export function Topbar({ locale }: TopbarProps) {
             <Search size={18} />
           </button>
           {searchOpen ? (
-            <form
-              onSubmit={onSearchSubmit}
-              className="absolute right-0 mt-2 bg-slate-900 border border-slate-700 rounded flex items-center gap-2 p-2 w-64 shadow-lg"
-              role="search"
-              aria-label="Site"
-            >
-              <Search size={16} className="text-slate-400" />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                autoFocus
-                placeholder="Search articles…"
-                className="bg-transparent outline-none w-full text-sm placeholder:text-slate-400"
+            <div className="absolute right-0 mt-2 w-80 z-50">
+              <SearchBox
+                onResultClick={handleSearchResultClick}
+                placeholder="Search documents..."
+                embedded={true}
               />
-            </form>
+            </div>
           ) : null}
         </div>
 

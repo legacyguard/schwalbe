@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { supabase } from '@/lib/supabase';
 import Onboarding from '@/pages/onboarding/Onboarding';
 
@@ -65,7 +66,7 @@ export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
 
       setShowOnboarding(false);
     } catch (error) {
-      console.error('Failed to update onboarding status: ', error);
+      logger.error('Failed to update onboarding status: ', error);
       // Even if metadata update fails, don't show onboarding again this session
       setShowOnboarding(false);
     }

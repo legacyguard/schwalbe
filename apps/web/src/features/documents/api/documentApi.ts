@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase'
+import { logger } from '@schwalbe/shared/lib/logger';
 import { reminderService, type ReminderRule } from '@schwalbe/shared'
 
 export type DocumentRow = {
@@ -148,7 +149,7 @@ export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: 
     }
   } catch (e) {
     // Non-fatal; continue and mark as manual if nothing
-    console.error('Analysis invocation failed', e)
+    logger.error('Analysis invocation failed', e)
   }
 
   // 5) Persist analysis to document row
@@ -226,7 +227,7 @@ export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: 
     }
   } catch (e) {
     // Best-effort; errors are logged but do not fail upload
-    console.error('Failed to create reminder for document', e)
+    logger.error('Failed to create reminder for document', e)
   }
 
   return { document: analyzedDoc as any as DocumentRow, analysis }

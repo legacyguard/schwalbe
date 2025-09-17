@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 /**
  * A/B Testing Onboarding Flow Variants
  * Tests different onboarding approaches for conversion optimization
@@ -24,12 +25,12 @@ export function ABTestOnboardingFlow({ onComplete, onSkip, userId: _userId, clas
     const [userData, setUserData] = useState({});
     // Track onboarding start
     useEffect(() => {
-        console.log('Onboarding started with variant:', variant);
+        logger.info('Onboarding started with variant:', variant);
     }, [variant]);
     const handleStepComplete = (stepData) => {
         const timeSpent = Date.now() - stepStartTime;
 const stepId = getSteps(variant)[currentStep]?.id || 'unknown';
-        console.log(`Step ${stepId} completed in ${timeSpent}ms`);
+        logger.info(`Step ${stepId} completed in ${timeSpent}ms`);
         setUserData(prev => ({ ...prev, ...stepData }));
 if (currentStep < getSteps(variant).length - 1) {
             setCurrentStep(prev => prev + 1);
@@ -38,13 +39,13 @@ if (currentStep < getSteps(variant).length - 1) {
         else {
             // Onboarding complete
             const totalTime = Date.now() - startTime;
-            console.log(`Onboarding completed in ${totalTime}ms with variant ${variant}`);
+            logger.info(`Onboarding completed in ${totalTime}ms with variant ${variant}`);
             onComplete({ ...userData, ...stepData, variant, totalTime });
         }
     };
     const handleStepSkip = () => {
         const stepId = getSteps(variant, t)[currentStep]?.id || 'unknown';
-        console.log(`Step ${stepId} skipped`);
+        logger.info(`Step ${stepId} skipped`);
         if (onSkip) {
             onSkip();
         }

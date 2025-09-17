@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 import React from 'react';
 import { reminderService } from '@schwalbe/shared';
 import { Button } from '@/components/ui/button';
@@ -35,7 +36,7 @@ export function ReminderForm() {
             navigate('/reminders');
         }
         catch (e) {
-            console.error(e);
+            logger.error(e);
             toast({ title: 'Failed to create reminder' });
         }
         finally {

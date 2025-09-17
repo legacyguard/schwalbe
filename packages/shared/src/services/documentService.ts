@@ -1,6 +1,7 @@
 
 import { supabase } from '../supabase/client';
 
+import { logger } from '../lib/logger';
 export interface Document {
   category: string;
   createdAt: string;
@@ -29,7 +30,7 @@ export class DocumentService {
       .order('createdAt', { ascending: false });
 
     if (error) {
-      console.error('Error fetching documents:', error);
+      logger.error('Error fetching documents:', error);
       throw error;
     }
 
@@ -47,7 +48,7 @@ export class DocumentService {
       .single();
 
     if (error) {
-      console.error('Error fetching document:', error);
+      logger.error('Error fetching document:', error);
       throw error;
     }
 
@@ -65,7 +66,7 @@ export class DocumentService {
       .single();
 
     if (error) {
-      console.error('Error creating document:', error);
+      logger.error('Error creating document:', error);
       throw error;
     }
 
@@ -87,7 +88,7 @@ export class DocumentService {
       .single();
 
     if (error) {
-      console.error('Error updating document:', error);
+      logger.error('Error updating document:', error);
       throw error;
     }
 
@@ -104,7 +105,7 @@ export class DocumentService {
       .eq('id', documentId);
 
     if (error) {
-      console.error('Error deleting document:', error);
+      logger.error('Error deleting document:', error);
       throw error;
     }
   }
@@ -124,7 +125,7 @@ export class DocumentService {
       });
 
     if (error) {
-      console.error('Error uploading file:', error);
+      logger.error('Error uploading file:', error);
       throw error;
     }
 
@@ -153,7 +154,7 @@ export class DocumentService {
       .order('createdAt', { ascending: false });
 
     if (error) {
-      console.error('Error fetching documents by category:', error);
+      logger.error('Error fetching documents by category:', error);
       throw error;
     }
 
@@ -175,7 +176,7 @@ export class DocumentService {
       .order('createdAt', { ascending: false });
 
     if (error) {
-      console.error('Error searching documents:', error);
+      logger.error('Error searching documents:', error);
       throw error;
     }
 

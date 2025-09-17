@@ -1,4 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 import { FileText, Shield, Folder, Check, Users, User, Gift, Vault, Heart, Key, Sparkles, BookOpen, ShieldCheck } from 'lucide-react';
 const iconMap = {
     'file-text': FileText,
@@ -19,7 +20,7 @@ const iconMap = {
 export const Icon = ({ name, className, size }) => {
     const IconComponent = iconMap[name];
     if (!IconComponent) {
-        console.warn(`Icon "${name}" not found in icon library`);
+        logger.warn(`Icon "${name}" not found in icon library`);
         return null;
     }
     return _jsx(IconComponent, { className: className, size: size });

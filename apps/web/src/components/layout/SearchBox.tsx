@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { logger } from '@schwalbe/shared/lib/logger';
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Search, Loader2 } from 'lucide-react'
@@ -86,7 +87,7 @@ export function SearchBox() {
         }
       } catch {
         // Intentionally avoid logging raw terms. Only surface a generic failure.
-             console.error('Search failed')
+             logger.error('Search failed')
    if (!cancelled) setResults([])
       } finally {
         if (!cancelled) setLoading(false)

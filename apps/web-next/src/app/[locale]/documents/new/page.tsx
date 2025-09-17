@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { logger } from '@schwalbe/shared/lib/logger';
 import { uploadDocumentAndAnalyze } from "@/lib/documentsApi";
 import { useRouter } from "next/navigation";
 
@@ -34,7 +35,7 @@ export default function DocumentUploadPage() {
       const { document } = await uploadDocumentAndAnalyze(file);
       router.push(`../${document.id}`);
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       setError("Upload failed. Please try again.");
     } finally {
       setUploading(false);

@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -413,7 +414,7 @@ export const defaultOnboardingFlows: OnboardingFlow[] = [
         action: {
           type: 'click',
           text: 'View Insights',
-          callback: () => console.log('Showing insights panel'),
+          callback: () => logger.info('Showing insights panel'),
         },
       },
     ],
@@ -486,12 +487,12 @@ export function useOnboarding(userId: string) {
 
   const handleComplete = (flowId: string) => {
     setActiveFlowId(null);
-    console.log(`Onboarding flow ${flowId} completed`);
+    logger.info(`Onboarding flow ${flowId} completed`);
   };
 
   const handleSkip = (flowId: string, stepIndex: number) => {
     setActiveFlowId(null);
-    console.log(`Onboarding flow ${flowId} skipped at step ${stepIndex}`);
+    logger.info(`Onboarding flow ${flowId} skipped at step ${stepIndex}`);
   };
 
   return {

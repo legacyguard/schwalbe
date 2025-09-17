@@ -1,6 +1,7 @@
 
 import { supabase } from '../supabase/client';
 
+import { logger } from '../lib/logger';
 export type SubscriptionPlan = 'essential' | 'family' | 'free' | 'premium';
 export type SubscriptionStatus =
   | 'active'
@@ -115,7 +116,7 @@ class SubscriptionService {
       .eq('user_id', user.id)
       .single();
     if (error) {
-      console.error('Error fetching subscription prefs:', error);
+      logger.error('Error fetching subscription prefs:', error);
       return null;
     }
     // Normalize channels to array of strings
@@ -151,7 +152,7 @@ class SubscriptionService {
       .select('user_id')
       .single();
     if (error) {
-      console.error('Error updating subscription prefs:', error);
+      logger.error('Error updating subscription prefs:', error);
       return false;
     }
     return true;
@@ -172,7 +173,7 @@ class SubscriptionService {
       .single();
 
     if (error) {
-      console.error('Error fetching subscription:', error);
+      logger.error('Error fetching subscription:', error);
       return null;
     }
 
@@ -195,7 +196,7 @@ class SubscriptionService {
       .single();
 
     if (error) {
-      console.error('Error fetching usage:', error);
+      logger.error('Error fetching usage:', error);
       return null;
     }
 
@@ -215,7 +216,7 @@ class SubscriptionService {
       .single();
 
     if (error) {
-      console.error('Error fetching plan limits:', error);
+      logger.error('Error fetching plan limits:', error);
       return null;
     }
 
@@ -232,7 +233,7 @@ class SubscriptionService {
       .order('plan');
 
     if (error) {
-      console.error('Error fetching plans:', error);
+      logger.error('Error fetching plans:', error);
       return [];
     }
 
@@ -258,7 +259,7 @@ class SubscriptionService {
     });
 
     if (error) {
-      console.error('Error checking usage limit:', error);
+      logger.error('Error checking usage limit:', error);
       return false;
     }
 
@@ -284,7 +285,7 @@ class SubscriptionService {
     });
 
     if (error) {
-      console.error('Error incrementing usage:', error);
+      logger.error('Error incrementing usage:', error);
       return false;
     }
 

@@ -1,4 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { logger } from '@schwalbe/shared/lib/logger';
 /**
  * Onboarding Tooltips System
  * Interactive guided tour for new features with smart positioning and progressive disclosure
@@ -221,7 +222,7 @@ export const defaultOnboardingFlows = [
                 action: {
                     type: 'click',
                     text: 'View Insights',
-                    callback: () => console.log('Showing insights panel'),
+                    callback: () => logger.info('Showing insights panel'),
                 },
             },
         ],
@@ -277,11 +278,11 @@ export function useOnboarding(userId) {
     };
     const handleComplete = (flowId) => {
         setActiveFlowId(null);
-        console.log(`Onboarding flow ${flowId} completed`);
+        logger.info(`Onboarding flow ${flowId} completed`);
     };
     const handleSkip = (flowId, stepIndex) => {
         setActiveFlowId(null);
-        console.log(`Onboarding flow ${flowId} skipped at step ${stepIndex}`);
+        logger.info(`Onboarding flow ${flowId} skipped at step ${stepIndex}`);
     };
     return {
         activeFlowId,

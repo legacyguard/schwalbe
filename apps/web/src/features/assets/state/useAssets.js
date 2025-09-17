@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { supabase } from '@/lib/supabase';
 export const categoryTemplates = {
     property: { name: 'Primary Residence', notes: 'Address, ownership %, mortgage details.', metadata: { fields: ['address', 'ownership', 'mortgage'] } },
@@ -43,7 +44,7 @@ export function useAssetById(id) {
             if (!mounted)
                 return;
             if (error) {
-                console.error('Failed to load asset', { id, error });
+                logger.error('Failed to load asset', { id, error });
                 setAsset(null);
             }
             else

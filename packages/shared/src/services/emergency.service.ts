@@ -2,6 +2,7 @@
 // Migrated from Hollywood project with adaptations for Schwalbe
 
 import { SupabaseClient } from '@supabase/supabase-js';
+import { logger } from '../lib/logger';
 import type {
   EmergencyRule,
   HealthCheckStatus,
@@ -25,7 +26,7 @@ export class EmergencyService {
       .single();
 
     if (error) {
-      console.error('Error fetching shield settings:', error);
+      logger.error('Error fetching shield settings:', error);
       return null;
     }
 
@@ -45,7 +46,7 @@ export class EmergencyService {
       });
 
     if (error) {
-      console.error('Error updating shield settings:', error);
+      logger.error('Error updating shield settings:', error);
       return false;
     }
 
@@ -61,7 +62,7 @@ export class EmergencyService {
       .order('priority', { ascending: true });
 
     if (error) {
-      console.error('Error fetching emergency rules:', error);
+      logger.error('Error fetching emergency rules:', error);
       return [];
     }
 
@@ -81,7 +82,7 @@ export class EmergencyService {
       .eq('id', ruleId);
 
     if (error) {
-      console.error('Error updating emergency rule:', error);
+      logger.error('Error updating emergency rule:', error);
       return false;
     }
 
@@ -96,7 +97,7 @@ export class EmergencyService {
       .single();
 
     if (error) {
-      console.error('Error creating emergency rule:', error);
+      logger.error('Error creating emergency rule:', error);
       return null;
     }
 
@@ -113,7 +114,7 @@ export class EmergencyService {
       .limit(limit);
 
     if (error) {
-      console.error('Error fetching health checks:', error);
+      logger.error('Error fetching health checks:', error);
       return [];
     }
 
@@ -133,7 +134,7 @@ export class EmergencyService {
       });
 
     if (error) {
-      console.error('Error recording activity:', error);
+      logger.error('Error recording activity:', error);
       return false;
     }
 
@@ -155,7 +156,7 @@ export class EmergencyService {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching guardian notifications:', error);
+      logger.error('Error fetching guardian notifications:', error);
       return [];
     }
 
@@ -170,7 +171,7 @@ export class EmergencyService {
       .single();
 
     if (error) {
-      console.error('Error creating guardian notification:', error);
+      logger.error('Error creating guardian notification:', error);
       return null;
     }
 
@@ -186,7 +187,7 @@ export class EmergencyService {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching survivor access requests:', error);
+      logger.error('Error fetching survivor access requests:', error);
       return [];
     }
 
@@ -201,7 +202,7 @@ export class EmergencyService {
       .single();
 
     if (error) {
-      console.error('Error creating survivor access request:', error);
+      logger.error('Error creating survivor access request:', error);
       return null;
     }
 
@@ -215,7 +216,7 @@ export class EmergencyService {
       .insert(audit);
 
     if (error) {
-      console.error('Error logging emergency access:', error);
+      logger.error('Error logging emergency access:', error);
       return false;
     }
 
@@ -237,7 +238,7 @@ export class EmergencyService {
     });
 
     if (error) {
-      console.error('Error initializing default rules:', error);
+      logger.error('Error initializing default rules:', error);
       return false;
     }
 

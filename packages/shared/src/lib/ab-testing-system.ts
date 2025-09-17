@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 /**
  * A/B Testing System for Schwalbe
  * Tracks onboarding metrics and conversions
@@ -57,7 +59,7 @@ class ABTestingSystem {
     this.onboardingMetrics.push(metric);
     
     // In a real implementation, this would send to an analytics service
-    console.log('Onboarding metric tracked:', metric);
+    logger.info('Onboarding metric tracked:', metric);
   }
 
   trackConversion(
@@ -79,7 +81,7 @@ class ABTestingSystem {
     this.conversions.push(conversion);
     
     // In a real implementation, this would send to an analytics service
-    console.log('Conversion tracked:', conversion);
+    logger.info('Conversion tracked:', conversion);
   }
 
   trackProfessionalReviewConversion(
@@ -97,7 +99,7 @@ class ABTestingSystem {
     this.professionalReviewEvents.push(event);
     
     // In a real implementation, this would send to an analytics service
-    console.log('Professional review event tracked:', event);
+    logger.info('Professional review event tracked:', event);
   }
 
   trackTrustScoreInteraction(
@@ -115,7 +117,7 @@ class ABTestingSystem {
     this.trustScoreEvents.push(event);
     
     // In a real implementation, this would send to an analytics service
-    console.log('Trust score interaction tracked:', event);
+    logger.info('Trust score interaction tracked:', event);
   }
 
   // Get metrics for analysis

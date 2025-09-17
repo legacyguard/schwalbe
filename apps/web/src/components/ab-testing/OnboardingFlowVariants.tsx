@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import {
   ArrowRight,
   CheckCircle,
@@ -48,14 +49,14 @@ export function ABTestOnboardingFlow({
 
   // Track onboarding start
   useEffect(() => {
-    console.log('Onboarding started with variant:', variant);
+    logger.info('Onboarding started with variant:', variant);
   }, [variant]);
 
   const handleStepComplete = (stepData: Record<string, unknown>) => {
     const timeSpent = Date.now() - stepStartTime;
     const stepId = getSteps(variant)[currentStep]?.id || 'unknown';
 
-    console.log(`Step ${stepId} completed in ${timeSpent}ms`);
+    logger.info(`Step ${stepId} completed in ${timeSpent}ms`);
 
     setUserData(prev => ({ ...prev, ...stepData }));
 
@@ -65,14 +66,14 @@ export function ABTestOnboardingFlow({
     } else {
       // Onboarding complete
       const totalTime = Date.now() - startTime;
-      console.log(`Onboarding completed in ${totalTime}ms with variant ${variant}`);
+      logger.info(`Onboarding completed in ${totalTime}ms with variant ${variant}`);
       onComplete({ ...userData, ...stepData, variant, totalTime });
     }
   };
 
   const handleStepSkip = () => {
     const stepId = getSteps(variant)[currentStep]?.id || 'unknown';
-    console.log(`Step ${stepId} skipped`);
+    logger.info(`Step ${stepId} skipped`);
 
     if (onSkip) {
       onSkip();

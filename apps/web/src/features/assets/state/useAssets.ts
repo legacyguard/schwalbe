@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { supabase } from '@/lib/supabase';
 
 export type AssetCategory = 'property' | 'vehicle' | 'financial' | 'business' | 'personal';
@@ -67,7 +68,7 @@ export function useAssetById(id?: string) {
       const { data, error } = await supabase.from('assets').select('*').eq('id', id).single();
       if (!mounted) return;
       if (error) {
-        console.error('Failed to load asset', { id, error });
+        logger.error('Failed to load asset', { id, error });
         setAsset(null);
       } else setAsset(data as Asset);
       setLoading(false);

@@ -3,6 +3,7 @@
 
 import type { SofiaContext, SofiaMessage } from '@schwalbe/logic';
 
+import { logger } from '../../lib/logger';
 interface SofiaStore {
   // Chat state
   messages: SofiaMessage[];
@@ -69,7 +70,7 @@ class SimpleSofiaStore implements SofiaStore {
         };
       }
     } catch (error) {
-      console.error('Failed to load Sofia store state:', error);
+      logger.error('Failed to load Sofia store state:', error);
     }
   }
 
@@ -83,7 +84,7 @@ class SimpleSofiaStore implements SofiaStore {
       };
       localStorage.setItem('sofia-store', JSON.stringify(stateToStore));
     } catch (error) {
-      console.error('Failed to persist Sofia store state:', error);
+      logger.error('Failed to persist Sofia store state:', error);
     }
   }
 

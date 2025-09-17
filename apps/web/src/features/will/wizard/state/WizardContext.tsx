@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react'
+import { logger } from '@schwalbe/shared/lib/logger';
 import { supabase } from '@/lib/supabase'
 import { useNavigate, useLocation } from 'react-router-dom'
 import type { JurisdictionCode, WillForm, WillInput } from '@schwalbe/logic/will/engine'
@@ -177,7 +178,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
       })
 
       if (error) {
-        console.error('Failed to save draft', { error })
+        logger.error('Failed to save draft', { error })
         // Fallback to local
         localStorage.setItem('will_wizard_state', JSON.stringify(state))
         if (opts?.toast) opts.toast('Draft saved locally (offline mode)')
@@ -204,7 +205,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
         .maybeSingle()
 
       if (error) {
-        console.error('Failed to load draft', { error })
+        logger.error('Failed to load draft', { error })
         return false
       }
 

@@ -1,3 +1,5 @@
+import { logger } from '../lib/logger';
+
 
 /**
  * Sync Service
@@ -42,7 +44,7 @@ export class SyncService {
 
   async sync(): Promise<void> {
     if (this.isSyncing) {
-      console.log('Sync already in progress');
+      logger.info('Sync already in progress');
       return;
     }
 
@@ -60,7 +62,7 @@ export class SyncService {
 
   private async syncItem(item: SyncItem): Promise<void> {
     // Implementation would sync with backend
-    console.log('Syncing item:', item.id);
+    logger.info('Syncing item:', item.id);
     item.status = 'synced';
     item.lastSynced = new Date();
   }
@@ -76,7 +78,7 @@ export class SyncService {
     conflict: SyncConflict,
     resolution: SyncConflictResolution
   ): Promise<void> {
-    console.log('Resolving conflict:', conflict.itemId, 'with', resolution);
+    logger.info('Resolving conflict:', conflict.itemId, 'with', resolution);
 
     switch (resolution) {
       case 'local':

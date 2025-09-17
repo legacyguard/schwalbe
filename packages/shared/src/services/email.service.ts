@@ -1,6 +1,7 @@
 
 import { supabase } from '../supabase/client';
 
+import { logger } from '../lib/logger';
 export interface EmailTemplate {
   html: string;
   subject: string;
@@ -147,13 +148,13 @@ class EmailService {
       });
 
       if (error) {
-        console.error('Error sending email:', error);
+        logger.error('Error sending email:', error);
         return false;
       }
 
       return true;
     } catch (error) {
-      console.error('Failed to send email:', error);
+      logger.error('Failed to send email:', error);
       return false;
     }
   }

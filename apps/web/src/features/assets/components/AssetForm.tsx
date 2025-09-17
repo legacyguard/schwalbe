@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAssetById, useCreateAsset, useUpdateAsset, categoryTemplates } from '../state/useAssets';
 
@@ -64,7 +65,7 @@ export function AssetForm() {
       }
     } catch (err) {
       // Log and proceed; in unauthenticated environments this allows UI flow during demos/tests
-      console.error('Asset save failed', err);
+      logger.error('Asset save failed', err);
     } finally {
       navigate('/assets/list');
     }

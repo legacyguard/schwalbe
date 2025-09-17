@@ -1,4 +1,5 @@
 import { toast } from '@/hooks/use-toast';
+import { logger } from '@schwalbe/shared/lib/logger';
 import React from 'react';
 class ProfessionalReviewRealtimeService {
     channel = null;
@@ -30,10 +31,10 @@ class ProfessionalReviewRealtimeService {
                 this.handleReviewTableUpdate(payload);
             })
                 .subscribe();
-            console.log(`Subscribed to real-time reviews for user: ${userId}`);
+            logger.info(`Subscribed to real-time reviews for user: ${userId}`);
         }
         catch (error) {
-            console.error('Failed to subscribe to review updates:', error);
+            logger.error('Failed to subscribe to review updates:', error);
         }
     }
     /**
@@ -89,7 +90,7 @@ class ProfessionalReviewRealtimeService {
             }
         }
         catch (error) {
-            console.error('Error handling review update:', error);
+            logger.error('Error handling review update:', error);
         }
     }
     /**
@@ -119,7 +120,7 @@ class ProfessionalReviewRealtimeService {
             }
         }
         catch (error) {
-            console.error('Error handling professional review table update:', error);
+            logger.error('Error handling professional review table update:', error);
         }
     }
     /**
@@ -190,7 +191,7 @@ class ProfessionalReviewRealtimeService {
             }
         }
         catch (error) {
-            console.error('Error creating notification:', error);
+            logger.error('Error creating notification:', error);
         }
     }
     /**
@@ -240,7 +241,7 @@ class ProfessionalReviewRealtimeService {
             }
         }
         catch (error) {
-            console.error('Error showing toast notification:', error);
+            logger.error('Error showing toast notification:', error);
         }
     }
     /**
@@ -255,7 +256,7 @@ class ProfessionalReviewRealtimeService {
             });
         }
         catch (error) {
-            console.error('Failed to broadcast update to user:', error);
+            logger.error('Failed to broadcast update to user:', error);
         }
     }
     /**
@@ -269,11 +270,11 @@ class ProfessionalReviewRealtimeService {
             }
             const { error } = await supabase.from('documents').update(updates).eq('id', documentId);
             if (error) {
-                console.error('Failed to update review progress:', error);
+                logger.error('Failed to update review progress:', error);
             }
         }
         catch (error) {
-            console.error('Error updating review progress:', error);
+            logger.error('Error updating review progress:', error);
         }
     }
     /**
@@ -292,12 +293,12 @@ class ProfessionalReviewRealtimeService {
             })
                 .eq('id', documentId);
             if (error) {
-                console.error('Failed to complete review:', error);
+                logger.error('Failed to complete review:', error);
                 throw error;
             }
         }
         catch (error) {
-            console.error('Error completing review:', error);
+            logger.error('Error completing review:', error);
             throw error;
         }
     }

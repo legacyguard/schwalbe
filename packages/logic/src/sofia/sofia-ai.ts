@@ -1,3 +1,5 @@
+import { logger } from '@schwalbe/shared/lib/logger';
+
 // Sofia AI Assistant - The heart of Schwalbe
 // Provides intelligent, contextual guidance for users
 // Now uses secure server-side API to protect OpenAI API keys
@@ -68,7 +70,7 @@ class SofiaAI {
     this.initialized = !!this.supabaseUrl;
 
     if (!this.initialized) {
-      console.warn('Supabase URL not found. Sofia will use mock responses.');
+      logger.warn('Supabase URL not found. Sofia will use mock responses.');
     }
   }
 
@@ -140,7 +142,7 @@ class SofiaAI {
     }
 
     try {
-      // console.log(
+      // logger.info(
       //   'Calling Sofia AI API:',
       //   `${this.supabaseUrl}/functions/v1/sofia-ai`
       // );
@@ -167,7 +169,7 @@ class SofiaAI {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Sofia AI API error:', response.status, errorText);
+        logger.error('Sofia AI API error:', response.status, errorText);
         throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
 
@@ -177,8 +179,8 @@ class SofiaAI {
         "I apologize, but I'm having trouble responding right now. Please try again."
       );
     } catch (error) {
-      console.error('Error generating Sofia response:', error);
-      // console.log('Falling back to mock response');
+      logger.error('Error generating Sofia response:', error);
+      // logger.info('Falling back to mock response');
       return this.getMockResponse(message, context);
     }
   }
@@ -214,7 +216,7 @@ class SofiaAI {
       const result = await response.json();
       return result.suggestion;
     } catch (error) {
-      console.error('Error generating proactive suggestion:', error);
+      logger.error('Error generating proactive suggestion:', error);
       return this.getMockProactiveSuggestion(context);
     }
   }
@@ -285,7 +287,7 @@ class SofiaAI {
       const result = await response.json();
       return result.help;
     } catch (error) {
-      console.error('Error getting contextual help:', error);
+      logger.error('Error getting contextual help:', error);
       return this.getMockContextualHelp(page, context);
     }
   }
@@ -363,7 +365,7 @@ export function getStoredConversation(userId: string): SofiaMessage[] {
       timestamp: new Date(msg.timestamp),
     }));
   } catch (error) {
-    console.error('Error loading Sofia conversation:', error);
+    logger.error('Error loading Sofia conversation:', error);
     return [];
   }
 }
@@ -377,6 +379,6 @@ export function saveConversation(userId: string, messages: SofiaMessage[]) {
       JSON.stringify(messagesToSave)
     );
   } catch (error) {
-    console.error('Error saving Sofia conversation:', error);
+    logger.error('Error saving Sofia conversation:', error);
   }
 }

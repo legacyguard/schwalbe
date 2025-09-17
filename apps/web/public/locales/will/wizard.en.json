@@ -1,0 +1,31 @@
+{
+  "hints": {
+    "startInfo": "Let's begin creating your will. First, we need some basic information."
+  },
+  "labels": {
+    "jurisdiction": "Jurisdiction",
+    "language": "Language",
+    "form": "Will Type"
+  },
+  "actions": {
+    "next": "Continue",
+    "back": "Back",
+    "save": "Save Draft",
+    "preview": "Preview"
+  },
+  "options": {
+    "jurisdictions": {
+      "CZ": "Czech Republic",
+      "SK": "Slovakia"
+    },
+    "languages": {
+      "en": "English",
+      "cs": "Czech", 
+      "sk": "Slovak"
+    },
+    "forms": {
+      "typed": "Typed",
+      "holographic": "Holographic"
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import React from 'react'
+import { logger } from '@schwalbe/shared/lib/logger';
 import { Button } from '@/components/ui/button'
 import { uploadDocumentAndAnalyze } from '../api/documentApi'
 import { useNavigate } from 'react-router-dom'
@@ -41,7 +42,7 @@ const { subscriptionService } = await import('@schwalbe/shared')
       navigate(`/documents/${document.id}`)
     } catch (e: any) {
       // eslint-disable-next-line no-console
-      console.error(e)
+      logger.error(e)
       setError('Upload failed. Please try again.')
     } finally {
       setUploading(false)

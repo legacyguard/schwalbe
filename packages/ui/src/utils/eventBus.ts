@@ -42,7 +42,7 @@ class EventBus {
         try {
           callback(...args);
         } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+          logger.error(`Error in event handler for ${event}:`, error);
         }
       });
     }
@@ -80,6 +80,7 @@ export type EventType = (typeof EVENTS)[keyof typeof EVENTS];
 // Helper hooks for React components
 import { type DependencyList, useEffect } from 'react';
 
+import { logger } from '@schwalbe/shared/lib/logger';
 export function useEventBus(
   event: EventType | string,
   handler: EventCallback,

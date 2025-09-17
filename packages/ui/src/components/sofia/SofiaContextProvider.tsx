@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { AdaptivePersonalityManager, textManager, type SofiaContext } from '@schwalbe/logic';
 
 interface SofiaContextProviderProps {
@@ -88,7 +89,7 @@ const SofiaContextProvider: React.FC<SofiaContextProviderProps> = ({
         documentCount = Array.isArray(parsed) ? parsed.length : 0;
       }
     } catch (error) {
-      console.error('Failed to parse documents from localStorage:', error);
+      logger.error('Failed to parse documents from localStorage:', error);
     }
 
     try {
@@ -98,7 +99,7 @@ const SofiaContextProvider: React.FC<SofiaContextProviderProps> = ({
         guardianCount = Array.isArray(parsed) ? parsed.length : 0;
       }
     } catch (error) {
-      console.error('Failed to parse guardians from localStorage:', error);
+      logger.error('Failed to parse guardians from localStorage:', error);
     }
 
     // Calculate completion percentage based on key milestones
@@ -132,7 +133,7 @@ const SofiaContextProvider: React.FC<SofiaContextProviderProps> = ({
         familyStatus = parsed.familyStatus || 'single';
       }
     } catch (error) {
-      console.error(
+      logger.error(
         'Failed to parse onboarding data from localStorage:',
         error
       );

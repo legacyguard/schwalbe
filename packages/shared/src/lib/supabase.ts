@@ -1,6 +1,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 
+import { logger } from './logger';
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL ||
   process.env.EXPO_PUBLIC_SUPABASE_URL ||
@@ -11,7 +12,7 @@ const supabaseAnonKey =
   '';
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
+  logger.warn(
     'Missing Supabase environment variables. Database features will not work.'
   );
 }

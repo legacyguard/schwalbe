@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { Button, H2, Paragraph, XStack, YStack } from 'tamagui';
 import { AlertCircle, RefreshCw } from '@tamagui/lucide-icons';
@@ -121,8 +122,8 @@ const DefaultErrorFallback: React.FC<FallbackProps> = ({
 const logError = (error: Error, errorInfo: React.ErrorInfo) => {
   // In development, log to console
   if (process.env.NODE_ENV === 'development') {
-    console.error('GlobalErrorBoundary caught an error:', error);
-    console.error('Error Info:', errorInfo);
+    logger.error('GlobalErrorBoundary caught an error:', error);
+    logger.error('Error Info:', errorInfo);
   }
 
   // In production, send to your observability pipeline
@@ -131,10 +132,10 @@ const logError = (error: Error, errorInfo: React.ErrorInfo) => {
     if (process.env.NODE_ENV === 'production') {
       // Replace with your actual error reporting service integration
       // Example: monitoringService.trackError(error, { extra: errorInfo });
-      console.error('Error logged to monitoring service:', error);
+      logger.error('Error logged to monitoring service:', error);
     }
   } catch (reportingError) {
-    console.error('Failed to report error:', reportingError);
+    logger.error('Failed to report error:', reportingError);
   }
 };
 

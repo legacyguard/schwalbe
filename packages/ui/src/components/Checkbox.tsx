@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import {
   Label,
   styled,
@@ -19,7 +20,7 @@ import { Check } from 'lucide-react';
  *   size="md"
  *   theme="primary"
  *   label="Enable notifications"
- *   onCheckedChange={(checked) => console.log(checked)}
+ *   onCheckedChange={(checked) => logger.info(checked)}
  * />
  * ```
  */

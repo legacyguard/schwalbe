@@ -1,3 +1,5 @@
+import { logger } from '../lib/logger';
+
 
 /**
  * Stripe Service
@@ -108,14 +110,14 @@ export class StripeService {
   }
 
   async cancelSubscription(subscriptionId: string): Promise<void> {
-    console.log('Subscription canceled:', subscriptionId);
+    logger.info('Subscription canceled:', subscriptionId);
   }
 
   async updateSubscription(
     subscriptionId: string,
     newPriceId: string
   ): Promise<void> {
-    console.log('Subscription updated:', subscriptionId, 'to', newPriceId);
+    logger.info('Subscription updated:', subscriptionId, 'to', newPriceId);
   }
 
   async getProducts(): Promise<StripeProduct[]> {

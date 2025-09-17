@@ -5,6 +5,7 @@
 
 import { supabase } from '@schwalbe/shared';
 
+import { logger } from '../../lib/logger';
 // Temporary type definitions until they're properly defined
 type FamilyInvitation = any;
 type FamilyMember = any;
@@ -39,7 +40,7 @@ export class FamilyService {
         .order('created_at', { ascending: true });
 
       if (error) {
-        console.error('Error fetching family members:', error);
+        logger.error('Error fetching family members:', error);
         return [];
       }
 
@@ -65,7 +66,7 @@ export class FamilyService {
         preferences: member.preferences || {},
       }));
     } catch (error) {
-      console.error('Failed to fetch family members:', error);
+      logger.error('Failed to fetch family members:', error);
       return [];
     }
   }
@@ -118,7 +119,7 @@ export class FamilyService {
         .single();
 
       if (error) {
-        console.error('Error creating family member:', error);
+        logger.error('Error creating family member:', error);
         throw new Error('Failed to create family member');
       }
 
@@ -158,7 +159,7 @@ export class FamilyService {
         preferences: newMember.preferences || {},
       };
     } catch (error) {
-      console.error('Failed to add family member:', error);
+      logger.error('Failed to add family member:', error);
       throw error;
     }
   }
@@ -189,7 +190,7 @@ export class FamilyService {
         .single();
 
       if (fetchError || !invitation) {
-        console.error('Error fetching created invitation:', fetchError);
+        logger.error('Error fetching created invitation:', fetchError);
         throw new Error('Failed to retrieve invitation');
       }
 
@@ -212,7 +213,7 @@ export class FamilyService {
         invitedBy: invitation.sender_id,
       };
     } catch (error) {
-      console.error('Failed to send invitation:', error);
+      logger.error('Failed to send invitation:', error);
       throw error;
     }
   }
@@ -239,7 +240,7 @@ export class FamilyService {
         protectionScore: this.calculateFamilyProtectionLevel(members, { total: 0, shared: 0 }),
       };
     } catch (error) {
-      console.error('Failed to calculate family stats:', error);
+      logger.error('Failed to calculate family stats:', error);
       return {
         totalMembers: 0,
         activeMembers: 0,
@@ -274,7 +275,7 @@ export class FamilyService {
         recommendations: ['Add more family members', 'Set up emergency contacts'],
       };
     } catch (error) {
-      console.error('Failed to get family protection status:', error);
+      logger.error('Failed to get family protection status:', error);
       return {
         totalMembers: 0,
         activeMembers: 0,
@@ -307,7 +308,7 @@ export class FamilyService {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching family invitations:', error);
+        logger.error('Error fetching family invitations:', error);
         return [];
       }
 
@@ -330,7 +331,7 @@ export class FamilyService {
         invitedBy: invitation.sender_id,
       }));
     } catch (error) {
-      console.error('Failed to fetch family invitations:', error);
+      logger.error('Failed to fetch family invitations:', error);
       return [];
     }
   }
@@ -348,7 +349,7 @@ export class FamilyService {
         .limit(20);
 
       if (error) {
-        console.error('Error fetching family activity:', error);
+        logger.error('Error fetching family activity:', error);
         return [];
       }
 
@@ -364,7 +365,7 @@ export class FamilyService {
         createdAt: activity.created_at,
       }));
     } catch (error) {
-      console.error('Failed to fetch family activity:', error);
+      logger.error('Failed to fetch family activity:', error);
       return [];
     }
   }
@@ -395,7 +396,7 @@ export class FamilyService {
         .single();
 
       if (error || !request) {
-        console.error('Error creating emergency access request:', error);
+        logger.error('Error creating emergency access request:', error);
         throw new Error('Failed to create emergency access request');
       }
 
@@ -419,7 +420,7 @@ export class FamilyService {
         emergencyLevel: 'medium',
       };
     } catch (error) {
-      console.error('Failed to request emergency access:', error);
+      logger.error('Failed to request emergency access:', error);
       throw error;
     }
   }

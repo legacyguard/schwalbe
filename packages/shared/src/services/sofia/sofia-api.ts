@@ -3,6 +3,7 @@
 
 import type { SofiaContext, SofiaMessage } from '@schwalbe/logic';
 
+import { logger } from '../../lib/logger';
 interface SofiaAPIRequest {
   context: SofiaContext;
   conversationHistory?: SofiaMessage[];
@@ -30,9 +31,9 @@ class SofiaAPI {
     this.initialized = !!(this.supabaseUrl && this.supabaseKey);
 
     if (this.initialized) {
-      // console.log('[Sofia API] Initialized with Supabase Edge Function');
+      // logger.info('[Sofia API] Initialized with Supabase Edge Function');
     } else {
-      console.warn(
+      logger.warn(
         '[Sofia API] Supabase credentials not found. Using mock responses only.'
       );
     }
@@ -82,7 +83,7 @@ class SofiaAPI {
         cost: 'low_cost',
       };
     } catch (error) {
-      console.error('[Sofia API] Error in simple query:', error);
+      logger.error('[Sofia API] Error in simple query:', error);
       return this.getMockResponse(request);
     }
   }
@@ -135,7 +136,7 @@ class SofiaAPI {
         cost: 'premium',
       };
     } catch (error) {
-      console.error('[Sofia API] Error in premium generation:', error);
+      logger.error('[Sofia API] Error in premium generation:', error);
       return {
         success: false,
         error:

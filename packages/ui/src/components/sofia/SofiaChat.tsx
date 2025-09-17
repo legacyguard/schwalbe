@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { logger } from '@schwalbe/shared/lib/logger';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../Button';
 import { Input } from '../Input';
@@ -98,7 +99,7 @@ const SofiaChat: React.FC<SofiaChatProps> = ({
         try {
           setUserPreferences(JSON.parse(savedPrefs));
         } catch (error) {
-          console.error('Error loading user preferences:', error);
+          logger.error('Error loading user preferences:', error);
         }
       }
     }
@@ -129,7 +130,7 @@ const SofiaChat: React.FC<SofiaChatProps> = ({
           const welcomeMessage = createSofiaMessage('assistant', helpText);
           store.addMessage(welcomeMessage);
         } catch (error) {
-          console.error('Failed to get contextual help:', error);
+          logger.error('Failed to get contextual help:', error);
 
           // Use adaptive welcome message based on user's communication preference
           const isReturningUser =
@@ -196,7 +197,7 @@ const SofiaChat: React.FC<SofiaChatProps> = ({
         1000 + Math.random() * 1000
       ); // 1-2 second delay
     } catch (error) {
-      console.error('Error getting Sofia response:', error);
+      logger.error('Error getting Sofia response:', error);
 
       // Use adaptive error message
       const adaptiveError = textManager.getText(
