@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import prettier from 'eslint-config-prettier';
+import pluginImport from 'eslint-plugin-import';
 
 export default [
   js.configs.recommended,
@@ -18,7 +19,8 @@ export default [
       }
     },
     plugins: {
-      '@typescript-eslint': typescript
+      '@typescript-eslint': typescript,
+      import: pluginImport
     },
     rules: {
       ...typescript.configs.recommended.rules,
@@ -42,7 +44,19 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       'prefer-const': 'error',
-      'no-var': 'error'
+      'no-var': 'error',
+      // Enforce import hygiene across packages/apps (except Next.js app which has its own ESLint)
+      'import/order': ['warn', { groups: [['builtin','external','internal','parent','sibling','index']], 'newlines-between': 'always' }],
+      'import/no-extraneous-dependencies': ['error', {
+        packageDir: [
+          '.',
+          './packages/logic',
+          './packages/shared',
+          './packages/ui',
+          './apps/web',
+          './apps/mobile'
+        ]
+      }]
     }
   },
   // Loosen rules for declaration files in apps/web to avoid noisy warnings

@@ -12,9 +12,18 @@ const config: Config = {
   testEnvironment: 'jsdom',
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/.next/',
+    // Exclude Playwright specs from Jest
+    '<rootDir>/tests/.*\\.spec\\.(ts|tsx|js)$',
+  ],
   moduleNameMapper: {
     // Handle module aliases
     '^@/(.*)$': '<rootDir>/src/$1',
+    // Map monorepo shared package to built dist for Jest
+    '^@schwalbe/shared$': '<rootDir>/../..//packages/shared/dist/index-minimal.js',
+    '^@schwalbe/shared/(.*)$': '<rootDir>/../..//packages/shared/dist/$1',
   },
 }
 

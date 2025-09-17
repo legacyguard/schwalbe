@@ -1,5 +1,7 @@
 module.exports = function (api) {
   api.cache(true);
+  const isWeb = process.env.EXPO_PUBLIC_PLATFORM === 'web';
+  
   return {
     presets: ['babel-preset-expo'],
     plugins: [
@@ -13,8 +15,8 @@ module.exports = function (api) {
           disableExtraction: process.env.NODE_ENV === 'development',
         },
       ],
-      // Reanimated plugin has to be listed last
-      'react-native-reanimated/plugin',
+      // Only include reanimated for native platforms
+      ...(!isWeb ? ['react-native-reanimated/plugin'] : []),
     ],
   };
 };

@@ -6,7 +6,8 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig = {
   typescript: {
-    ignoreBuildErrors: true,
+    // Allow local dev to proceed, but CI will enforce type errors (see CI job)
+    ignoreBuildErrors: process.env.CI ? false : true,
   },
   experimental: {
     serverComponentsExternalPackages: [],

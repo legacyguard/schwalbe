@@ -3,25 +3,23 @@ import { render as rtlRender } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 
 const messages = {
-  'en': {
-    'reminders': {
-      'form': {
-        'title': {
-          'label': 'Title',
-          'placeholder': 'Enter reminder title'
-        },
-        'when': {
-          'label': 'When'
-        },
-        'saving': 'Saving...',
-        'create': 'Create Reminder'
+  'reminders': {
+    'form': {
+      'title': {
+        'label': 'Title',
+        'placeholder': 'Enter reminder title'
       },
-      'dashboard': {
-        'title': 'Reminders',
-        'upcoming': 'Upcoming Reminders',
-        'loading': 'Loading reminders...',
-        'empty': 'No reminders yet'
-      }
+      'when': {
+        'label': 'When'
+      },
+      'saving': 'Saving...',
+      'create': 'Create Reminder'
+    },
+    'dashboard': {
+      'title': 'Reminders',
+      'upcoming': 'Upcoming Reminders',
+      'loading': 'Loading reminders...',
+      'empty': 'No reminders yet'
     }
   }
 };

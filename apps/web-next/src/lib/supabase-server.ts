@@ -1,13 +1,14 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { ENV } from '@/lib/env';
 
 // Server-side Supabase client for Server Components
 export function createServerComponentClient() {
   const cookieStore = cookies();
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    ENV.SUPABASE_URL,
+    ENV.SUPABASE_ANON_KEY,
     {
       cookies: {
         get(name: string) {

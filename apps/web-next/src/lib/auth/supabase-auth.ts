@@ -5,13 +5,11 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { logger } from '@schwalbe/shared/lib/logger';
-import { emailService } from '@schwalbe/shared/lib/resend';
+// Server-only emails: do not import emailService directly in client-consumable modules
+import { ENV } from '@/lib/env';
 
 // Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabase = createClient(ENV.SUPABASE_URL, ENV.SUPABASE_ANON_KEY);
 
 export interface User {
   id: string;
@@ -79,11 +77,18 @@ class AuthService {
       // Create user profile in database
       await this.createUserProfile(data.user.id, email, name);
 
-      // Send welcome email
-      await emailService.sendWelcomeEmail(email, {
-        name: name || email.split('@')[0],
-        loginUrl: `${process.env.NEXT_PUBLIC_APP_URL}/login`,
-      });
+      // Send welcome email via server route to avoid bundling secrets on client
+      try {
+        await fetch('/api/emails/welcome', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            name,
+            loginUrl: `${process.env.NEXT_PUBLIC_APP_URL}/login`,
+          }),
+        });
+      } catch {}
 
       logger.info('User signed up successfully', {
         action: 'auth_signup_success',

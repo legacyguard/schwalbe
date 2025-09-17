@@ -32,7 +32,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "bundler": "metro",
+      "build": {
+        "babel": {
+          "include": [
+            "@schwalbe/shared",
+            "@schwalbe/ui",
+            "@schwalbe/logic"
+          ]
+        }
+      },
+      "serviceWorker": false
     },
     "assetBundlePatterns": [
       "**/*"

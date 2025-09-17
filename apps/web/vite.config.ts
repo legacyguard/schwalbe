@@ -59,28 +59,12 @@ const tamaguiStubPlugin = () => ({
   },
 })
 
-// Force react-router to use production bundle even if a dev chunk is referenced
+// Simplified router resolution now that we pin react-router-dom to v6
 const routerProdPlugin = () => ({
   name: 'react-router-prod-bundle',
   enforce: 'pre' as const,
-  resolveId(source: string) {
-    if (source.includes('/react-router/dist/development/')) {
-      return path.resolve(__dirname, '../../node_modules/react-router/dist/index.js')
-    }
-    if (source.includes('/react-router-dom/dist/development/')) {
-      return path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js')
-    }
-    return null
-  },
-  load(id: string) {
-    if (id.includes('/node_modules/react-router/dist/development/')) {
-      return `export * from '${path.resolve(__dirname, '../../node_modules/react-router/dist/index.js').replace(/\\/g, '/')}'`
-    }
-    if (id.includes('/node_modules/react-router-dom/dist/development/')) {
-      return `export * from '${path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js').replace(/\\/g, '/')}'`
-    }
-    return null
-  }
+  resolveId() { return null },
+  load() { return null }
 })
 
 // Ensure cookie dist ESM is redirected to CJS entry exporting parse/serialize

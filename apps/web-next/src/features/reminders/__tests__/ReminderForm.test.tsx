@@ -69,11 +69,11 @@ describe('ReminderForm', () => {
     // Assert
     await waitFor(() => {
       expect(reminderService.create).toHaveBeenCalledWith({
+        user_id: 'anonymous',
         title: 'Test Reminder',
-        date: '2025-12-25T12:00',
-        type: 'event',
-        channel: 'inapp',
-        notificationStrategy: 'fixed',
+        scheduled_at: '2025-12-25T12:00',
+        channels: ['in_app'],
+        status: 'active',
       });
       expect(onSubmit).toHaveBeenCalled();
     });

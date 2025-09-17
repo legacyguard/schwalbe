@@ -73,7 +73,7 @@ jobs:
       - name: Lint all workspaces
         run: |
           # Lint each workspace that has lint script
-          for workspace in apps/web apps/mobile packages/shared packages/logic packages/ui; do
+          for workspace in apps/web apps/web-next apps/mobile packages/shared packages/logic packages/ui; do
             if [ -f "$workspace/package.json" ] && npm run --silent --workspace="$workspace" lint --if-present; then
               echo "✅ Lint passed for $workspace"
             else
@@ -85,7 +85,7 @@ jobs:
       - name: Type check all workspaces
         run: |
           # Type check each workspace that has typecheck script
-          for workspace in apps/web apps/mobile packages/shared packages/logic packages/ui; do
+          for workspace in apps/web apps/web-next apps/mobile packages/shared packages/logic packages/ui; do
             if [ -f "$workspace/package.json" ] && npm run --silent --workspace="$workspace" typecheck --if-present; then
               echo "✅ Type check passed for $workspace"
             else
@@ -220,14 +220,20 @@ jobs:
           npm run build --workspace=packages/ui
           echo "✅ All packages built successfully"
 
-      - name: Build web app
+      - name: Build Vite web app
         run: |
-          # Note: This may fail until Next.js migration is complete (Phase 8)
           if npm run build --workspace=apps/web; then
-            echo "✅ Web app build succeeded"
+            echo "✅ Vite web app build succeeded"
           else
-            echo "⚠️ Web app build failed - expected until Phase 8 (Next.js migration)"
-            # Don't fail CI for this until migration is complete
+            echo "⚠️ Vite web app build failed"
+          fi
+
+      - name: Build Next.js app (does not fail CI yet)
+        run: |
+          if npm run build --workspace=apps/web-next; then
+            echo "✅ Next.js app build succeeded"
+          else
+            echo "⚠️ Next.js app build failed - tolerated until migration completes"
           fi
 
   playwright-smoke:
