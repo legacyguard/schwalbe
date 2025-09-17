@@ -1,0 +1,46 @@
+{
+  "title": "Button Component",
+  "description": "Fundamental UI element used throughout the LegacyGuard application",
+  "variants": {
+    "default": "Button",
+    "destructive": "Delete Account", 
+    "outline": "Outline",
+    "secondary": "Secondary",
+    "ghost": "Ghost",
+    "link": "Link Button"
+  },
+  "sizes": {
+    "small": "Small Button",
+    "large": "Large Button",
+    "icon": "Icon Button"
+  },
+  "withIcons": {
+    "sendEmail": "Send Email",
+    "continue": "Continue",
+    "downloadReport": "Download Report",
+    "delete": "Delete",
+    "createDocument": "Create New Document"
+  },
+  "states": {
+    "processing": "Processing...",
+    "disabled": "Disabled Button",
+    "loading": "Loading..."
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "fullWidth": "Full Width Button"
+  },
+  "documentation": {
+    "features": "Features",
+    "usage": "Usage",
+    "bestPractices": "Best Practices",
+    "multipleVariants": "Multiple variants: default, destructive, outline, secondary, ghost, link",
+    "fourSizes": "Four sizes: sm, default, lg, icon",
+    "loadingState": "Loading state: Shows a spinner when loading",
+    "iconSupport": "Icon support: Can include icons before or after text",
+    "fullWidthOption": "Full width option: Can expand to fill container width",
+    "keyboardAccessible": "Keyboard accessible: Fully keyboard navigable",
+    "screenReaderFriendly": "Screen reader friendly: Proper ARIA attributes"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "loading": {
+    "title": "Detecting your location...",
+    "description": "Please wait while we detect your location"
+  },
+  "languageSelection": {
+    "title": "Choose Your Language",
+    "subtitle": "Select the language for your will interface",
+    "stepLabels": {
+      "language": "Language",
+      "jurisdiction": "Jurisdiction", 
+      "confirm": "Confirm"
+    }
+  },
+  "jurisdictionSelection": {
+    "title": "Choose Legal Jurisdiction",
+    "subtitle": "Select the legal framework that applies to your will",
+    "backButton": "Back to Language"
+  },
+  "confirmation": {
+    "title": "Confirm Your Selection",
+    "labels": {
+      "interfaceLanguage": "Interface Language:",
+      "legalJurisdiction": "Legal Jurisdiction:",
+      "currency": "Currency:"
+    },
+    "legalCompliance": {
+      "title": "Your selection ensures legal compliance",
+      "description": "The interface will be in {{language}}, and your will will comply with {{jurisdiction}} legal requirements ({{legalBasis}})."
+    },
+    "buttons": {
+      "startCreatingWill": "Start Creating Will",
+      "back": "Back"
+    }
+  },
+  "countryList": {
+    "title": "Select Your Country",
+    "subtitle": "Choose your country to ensure your will complies with local laws",
+    "backButton": "Back"
+  },
+  "defaultConfirmation": {
+    "title": "Will Creator",
+    "subtitle": "Let's ensure your will complies with the right legal framework",
+    "description": "We're creating your will according to the laws of {{jurisdiction}}",
+    "question": "Is this correct?",
+    "buttons": {
+      "yesCorrect": "Yes, that's correct",
+      "changeCountry": "Change Country"
+    },
+    "whyCountryMatters": {
+      "title": "Why country matters",
+      "description": "Different countries have varying legal requirements for wills. Selecting the correct jurisdiction ensures your will is legally valid and enforceable."
+    }
+  },
+  "jurisdictions": {
+    "slovakia": "Slovak legal framework",
+    "czechRepublic": "Czech legal framework"
+  }
+}

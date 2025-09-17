@@ -1,0 +1,127 @@
+{
+  "header": {
+    "title": "Book Legal Consultation",
+    "subtitle": "Schedule a consultation with {{name}}",
+    "step": "Step {{current}} of {{total}}"
+  },
+  "steps": {
+    "type": "Consultation Type",
+    "schedule": "Date & Time",
+    "details": "Your Information",
+    "review": "Review & Pay"
+  },
+  "type": {
+    "title": "Choose Consultation Type",
+    "subtitle": "Select the format that works best for your legal consultation needs",
+    "availableDurations": "Available durations:",
+    "includes": "Includes:",
+    "durationOptions": "Duration Options",
+    "hourlyRate": "Hourly Rate",
+    "totalCost": "Total Cost",
+    "perHour": "{{amount}}/hour",
+    "min": "{{value}} min",
+    "minCompact": "{{value}}min",
+    "priceLabel": "${{amount}}/hour"
+  },
+  "schedule": {
+    "title": "Select Date & Time",
+    "subtitle": "Choose a convenient time slot for your consultation with {{name}}",
+    "availableDates": "Available Dates",
+    "availableTimes": "Available Times",
+    "booked": "Booked",
+    "selectedTime": "Selected Time",
+    "selectedTimeDesc": "{{type}} consultation on {{date}} at {{time}} ({{minutes}} minutes) - ${{cost}}"
+  },
+  "details": {
+    "title": "Your Information",
+    "subtitle": "Help us prepare for your consultation by sharing some background information",
+    "name": "Full Name *",
+    "namePlaceholder": "John Smith",
+    "email": "Email Address *",
+    "emailPlaceholder": "john@example.com",
+    "phone": "Phone Number *",
+    "phonePlaceholder": "(555) 123-4567",
+    "urgency": "Urgency Level",
+    "urgencyLow": "Low - General consultation",
+    "urgencyMedium": "Medium - Important matter",
+    "urgencyHigh": "High - Urgent legal issue",
+    "topic": "Consultation Topic *",
+    "topicPlaceholder": "Brief description of what you'd like to discuss...",
+    "background": "Background Information",
+    "backgroundPlaceholder": "Any additional context that would help prepare for our discussion...",
+    "requests": "Special Requests",
+    "requestsPlaceholder": "Any special accommodations or requests..."
+  },
+  "review": {
+    "title": "Review & Confirm",
+    "subtitle": "Please review your consultation details before confirming your booking",
+    "attorney": "Your Attorney",
+    "experience": "{{years}} years experience",
+    "details": "Consultation Details",
+    "type": "Type:",
+    "date": "Date:",
+    "time": "Time:",
+    "duration": "Duration:",
+    "minutes": "{{value}} minutes",
+    "total": "Total Cost:",
+    "clientInfo": "Your Information",
+    "name": "Name:",
+    "email": "Email:",
+    "phone": "Phone:",
+    "urgency": "Urgency:",
+    "topic": "Consultation Topic:",
+    "background": "Background:",
+    "nextTitle": "What happens next?",
+    "nextDesc": "After confirming your booking, you'll receive a confirmation email with meeting details and preparation instructions. The attorney will also receive your consultation information to prepare for your session."
+  },
+  "confirmation": {
+    "title": "Consultation Booked!",
+    "subtitle": "Your consultation with {{name}} has been confirmed.",
+    "dateTime": "Date & Time:",
+    "type": "Type:",
+    "duration": "Duration:",
+    "emailSent": "Confirmation details have been sent to {{email}}",
+    "done": "Done",
+    "addToCalendar": "Add to Calendar"
+  },
+  "actions": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "next": "Next",
+    "total": "Total:",
+    "booking": "Booking...",
+    "confirmPay": "Confirm & Pay ${{amount}}"
+  },
+  "types": {
+    "phone": {
+      "name": "Phone Consultation",
+      "description": "Professional advice over a secure phone call",
+      "features": [
+        "Secure phone line",
+        "Call recording available",
+        "Follow-up summary email"
+      ]
+    },
+    "video": {
+      "name": "Video Consultation",
+      "description": "Face-to-face consultation via secure video call",
+      "features": [
+        "HD video call",
+        "Screen sharing",
+        "Session recording",
+        "Digital document review"
+      ]
+    },
+    "in_person": {
+      "name": "In-Person Meeting",
+      "description": "Traditional office consultation",
+      "features": [
+        "Office meeting",
+        "Document review",
+        "Comprehensive discussion",
+        "Follow-up materials"
+      ]
+    }
+  }
+}
+

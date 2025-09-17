@@ -1,0 +1,352 @@
+{
+  "templateId": "cz-holographic-cs",
+  "jurisdiction": "CZ",
+  "type": "holographic",
+  "language": "cs",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Česká holografická závěť",
+    "description": "Standardní holografická závěť pro Českou republiku",
+    "lastUpdated": "2025-01-25",
+    "legalReview": {
+      "isApproved": true,
+      "reviewDate": "2025-01-25"
+    }
+  },
+  "variables": [
+    {
+      "key": "testatorName",
+      "label": "Celé jméno",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Celé jméno je povinné"
+        },
+        {
+          "type": "minLength",
+          "value": 2,
+          "message": "Jméno musí obsahovat alespoň 2 znaky"
+        }
+      ]
+    },
+    {
+      "key": "birthDate",
+      "label": "Datum narození",
+      "type": "date",
+      "required": true,
+      "dataSource": "user",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Datum narození je povinné"
+        }
+      ]
+    },
+    {
+      "key": "birthPlace",
+      "label": "Místo narození",
+      "type": "text",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "personalId",
+      "label": "Rodné číslo",
+      "type": "text",
+      "required": false,
+      "dataSource": "user",
+      "validation": [
+        {
+          "type": "pattern",
+          "value": "^\\d{6}/\\d{3,4}$",
+          "message": "Rodné číslo musí být ve formátu RRMMDD/XXXX"
+        }
+      ]
+    },
+    {
+      "key": "address",
+      "label": "Adresa bydliště",
+      "type": "text",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "citizenship",
+      "label": "Státní občanství",
+      "type": "select",
+      "required": true,
+      "dataSource": "user",
+      "options": [
+        { "value": "česká", "label": "Česká republika" },
+        { "value": "slovenská", "label": "Slovenská republika" },
+        { "value": "německá", "label": "Německo" },
+        { "value": "jiná", "label": "Jiná" }
+      ]
+    },
+    {
+      "key": "age",
+      "label": "Věk",
+      "type": "number",
+      "required": true,
+      "dataSource": "user",
+      "validation": [
+        {
+          "type": "legal",
+          "value": 18,
+          "message": "Osoba musí být starší 18 let pro vykonání závěti"
+        }
+      ]
+    },
+    {
+      "key": "maritalStatus",
+      "label": "Rodinný stav",
+      "type": "select",
+      "required": true,
+      "dataSource": "user",
+      "options": [
+        { "value": "ženatý/vdaná", "label": "Ženatý/Vdaná" },
+        { "value": "svobodný/svobodná", "label": "Svobodný/Svobodná" },
+        { "value": "rozvedený/rozvedená", "label": "Rozvedený/Rozvedená" },
+        { "value": "ovdovělý/ovdovělá", "label": "Ovdovělý/Ovdovělá" }
+      ]
+    },
+    {
+      "key": "spouse",
+      "label": "Manžel/Manželka",
+      "type": "object",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "spouseName",
+      "label": "Jméno manžela/manželky",
+      "type": "text",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "children",
+      "label": "Děti",
+      "type": "array",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "beneficiaries",
+      "label": "Dědicové",
+      "type": "array",
+      "required": true,
+      "dataSource": "beneficiary",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Musí být určen alespoň jeden dědic"
+        }
+      ]
+    },
+    {
+      "key": "realEstate",
+      "label": "Nemovitý majetek",
+      "type": "array",
+      "required": false,
+      "dataSource": "asset"
+    },
+    {
+      "key": "bankAccounts",
+      "label": "Bankovní účty",
+      "type": "array",
+      "required": false,
+      "dataSource": "asset"
+    },
+    {
+      "key": "vehicles",
+      "label": "Vozidla",
+      "type": "array",
+      "required": false,
+      "dataSource": "asset"
+    },
+    {
+      "key": "personalProperty",
+      "label": "Movitý majetek",
+      "type": "array",
+      "required": false,
+      "dataSource": "asset"
+    },
+    {
+      "key": "hasExecutor",
+      "label": "Má vykonavatele závěti",
+      "type": "boolean",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "executorName",
+      "label": "Jméno vykonavatele",
+      "type": "text",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "executorAddress",
+      "label": "Adresa vykonavatele",
+      "type": "text",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "hasMinorChildren",
+      "label": "Má nezletilé děti",
+      "type": "boolean",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "primaryGuardian",
+      "label": "Hlavní opatrovník",
+      "type": "object",
+      "required": false,
+      "dataSource": "guardian"
+    },
+    {
+      "key": "backupGuardian",
+      "label": "Náhradní opatrovník",
+      "type": "object",
+      "required": false,
+      "dataSource": "guardian"
+    },
+    {
+      "key": "funeralWishes",
+      "label": "Pohřební přání",
+      "type": "text",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "organDonation",
+      "label": "Darování orgánů",
+      "type": "object",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "digitalAssets",
+      "label": "Digitální majetek",
+      "type": "text",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "personalMessages",
+      "label": "Osobní vzkazy",
+      "type": "array",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "currentDate",
+      "label": "Aktuální datum",
+      "type": "date",
+      "required": true,
+      "dataSource": "system"
+    },
+    {
+      "key": "forcedHeirsNotice",
+      "label": "Upozornění na nutné dědice",
+      "type": "boolean",
+      "required": false,
+      "dataSource": "system"
+    },
+    {
+      "key": "charitableBequests",
+      "label": "Charitativní odkazy",
+      "type": "array",
+      "required": false,
+      "dataSource": "user"
+    },
+    {
+      "key": "residuaryBeneficiary",
+      "label": "Univerzální dědic",
+      "type": "text",
+      "required": true,
+      "dataSource": "beneficiary"
+    }
+  ],
+  "validationRules": [
+    {
+      "type": "legal",
+      "field": "age",
+      "condition": ">=18",
+      "message": "Zůstavitel musí být starší 18 let",
+      "severity": "error",
+      "jurisdictionSpecific": true
+    },
+    {
+      "type": "custom",
+      "field": "beneficiaries",
+      "condition": "length > 0",
+      "message": "Musí být určen alespoň jeden dědic",
+      "severity": "error"
+    },
+    {
+      "type": "legal",
+      "field": "forcedHeirs",
+      "condition": "respectForcedHeirship",
+      "message": "Rozdělení musí respektovat práva nutných dědiců",
+      "severity": "error",
+      "jurisdictionSpecific": true
+    }
+  ],
+  "legalClauses": [
+    {
+      "id": "holographic_declaration",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "content": "Tato holografická závěť je napsána celá mou rukou a podepsána mnou, jak povoluje § 1540 občanského zákoníka.",
+      "legalBasis": "§ 1540 zákona č. 89/2012 Sb., občanský zákoník"
+    },
+    {
+      "id": "revocation_clause",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "content": "Tímto odvolávám všechny dříve učiněné závěti a kodiciily.",
+      "legalBasis": "§ 1537 zákona č. 89/2012 Sb., občanský zákoník"
+    },
+    {
+      "id": "forced_heirship_notice",
+      "type": "conditional",
+      "jurisdiction": "CZ",
+      "content": "Podle českého práva mají některé osoby nárok na povinný podíl - nutný dědický podíl.",
+      "legalBasis": "§ 1642-1655 zákona č. 89/2012 Sb., občanský zákoník",
+      "applicableWhenConditions": {
+        "hasSpouse": true,
+        "hasChildren": true
+      }
+    }
+  ],
+  "executionInstructions": {
+    "holographic": {
+      "steps": [
+        "Celý text závěti přepište vlastní rukou na papír",
+        "Podepište se svým obvyklým podpisem",
+        "Napište datum podpisu",
+        "Uložte na bezpečné místo",
+        "Informujte vykonavatele nebo důvěryhodnou osobu o umístění"
+      ],
+      "requirements": [
+        "Celá závěť musí být napsána rukou zůstavitele",
+        "Musí být podepsána zůstavitelem",
+        "Musí být datována",
+        "Zůstavitel musí být při smyslech a starší 18 let"
+      ],
+      "warnings": [
+        "Nepoužívejte tiskopis ani počítač",
+        "Nepodepisujte prázdný nebo částečně vyplněný formulář",
+        "Ujistěte se, že je písmo čitelné",
+        "V případě oprav nebo škrtnutí iniciálujte změny"
+      ]
+    }
+  }
+}

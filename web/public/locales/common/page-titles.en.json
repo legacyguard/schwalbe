@@ -1,0 +1,22 @@
+{
+  "dashboard": "Dashboard",
+  "timeCapsule": "Time Capsule",
+  "familyProtection": "Family Protection", 
+  "familyShieldSettings": "Family Shield Settings",
+  "welcomeJourney": "Welcome Journey",
+  "guardians": "Guardians",
+  "settings": "Settings",
+  "legacy": "Legacy",
+  "vault": "Vault",
+  "willManagement": "Will Management",
+  "blog": "Blog",
+  "myFamily": "My Family",
+  "emergencyAccess": "Emergency Access",
+  "intelligentOrganizer": "Intelligent Organizer",
+  "securityDeepDive": "Security Deep Dive",
+  "testNotifications": "Test Notifications",
+  "componentShowcase": "Component Showcase",
+  "landingPage": "LegacyGuard",
+  "notFound": "Page Not Found",
+  "onboarding": "Onboarding"
+}

@@ -1,0 +1,24 @@
+{
+  "title": "Garden of Your Legacy",
+  "loading": "Growing your Garden of Legacy...",
+  "milestones": {
+    "achieved": "Milestones achieved: {{count}} of {{total}}",
+    "unlocked": "Unlocked",
+    "awaitingUnlock": "Awaiting unlock"
+  },
+  "challenge": {
+    "title": "Your next {{minutes}}-minute journey to peace",
+    "startButton": "Start {{minutes}}-minute challenge",
+    "guidance": "Sofia will guide you step by step",
+    "startedToast": "Challenge started! Sofia will guide you step by step."
+  },
+  "modal": {
+    "close": "Close"
+  },
+  "toast": {
+    "milestonesUnlocked": "🌟 You unlocked {{count}} milestones in your Garden of Legacy!"
+  },
+  "errors": {
+    "loadingStats": "Error loading user stats:"
+  }
+}

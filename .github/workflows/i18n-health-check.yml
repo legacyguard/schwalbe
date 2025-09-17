@@ -1,0 +1,159 @@
+name: i18n Health Check
+
+on:
+  push:
+    paths:
+      - 'locales/**/*.json'
+      - 'src/**/*.tsx'
+      - 'src/**/*.ts'
+  pull_request:
+    paths:
+      - 'locales/**/*.json'
+      - 'src/**/*.tsx'
+      - 'src/**/*.ts'
+  schedule:
+    # Run weekly on Monday at 9 AM
+    - cron: '0 9 * * 1'
+
+jobs:
+  check-translation-health:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci --legacy-peer-deps
+          npm install -g tsx
+
+      - name: Run i18n health check
+        id: health_check
+        run: |
+          tsx scripts/i18n-optimizer.ts analyze > health-check.log 2>&1
+          cat health-check.log
+
+          # Extract metrics from report
+          if [ -f "./locales/_health-report.json" ]; then
+            OVERSIZED=$(jq '.summary.oversizedFiles' ./locales/_health-report.json)
+            WARNING=$(jq '.summary.warningFiles' ./locales/_health-report.json)
+            
+            echo "oversized=$OVERSIZED" >> $GITHUB_OUTPUT
+            echo "warning=$WARNING" >> $GITHUB_OUTPUT
+            
+            # Fail if there are oversized files
+            if [ "$OVERSIZED" -gt 0 ]; then
+              echo "❌ Found $OVERSIZED oversized translation files!"
+              exit 1
+            fi
+            
+            # Warn if files are approaching limit
+            if [ "$WARNING" -gt 0 ]; then
+              echo "⚠️ $WARNING files are approaching the 700-line limit"
+            fi
+          fi
+
+      - name: Generate split suggestions
+        if: failure()
+        run: |
+          echo "### 🔧 Auto-split suggestions:" >> $GITHUB_STEP_SUMMARY
+          tsx scripts/i18n-optimizer.ts dry-run | tail -50 >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload health report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: i18n-health-report
+          path: |
+            locales/_health-report.json
+            health-check.log
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('./locales/_health-report.json', 'utf8'));
+
+            const comment = `## ❌ i18n Health Check Failed
+
+            Found **${report.summary.oversizedFiles}** translation files exceeding 700 lines.
+
+            ### 📊 Summary:
+            - Total files: ${report.summary.totalFiles}
+            - Oversized: ${report.summary.oversizedFiles} ❌
+            - Warning: ${report.summary.warningFiles} ⚠️
+            - Healthy: ${report.summary.healthyFiles} ✅
+
+            ### 🔧 Recommended Actions:
+            ${report.recommendations.map(r => `- ${r}`).join('\n')}
+
+            Run \`npm run i18n:optimize\` locally to automatically split oversized files.
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })
+
+  auto-optimize:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    needs: check-translation-health
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci --legacy-peer-deps
+          npm install -g tsx
+
+      - name: Auto-optimize translations
+        run: |
+          tsx scripts/i18n-optimizer.ts split
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6.0.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: auto-optimize oversized translation files'
+          title: '[Auto] Optimize oversized translation files'
+          body: |
+            ## 🤖 Automated Translation Optimization
+
+            This PR automatically splits translation files that exceeded the 700-line limit.
+
+            ### Changes:
+            - Split oversized translation files into smaller, manageable chunks
+            - Maintained logical grouping of translations
+            - Created backups of original files
+
+            Please review the changes and ensure translations are still correctly organized.
+          branch: auto/i18n-optimization
+          delete-branch: true

@@ -1,0 +1,114 @@
+{
+  "attorney": {
+    "hero": {
+      "badge": "Professional Partnership Program",
+      "title": "Join the Leading Legal Network",
+      "description": "Partner with LegacyGuard to provide professional document reviews and legal guidance to families planning their legacy. Earn additional revenue while making a meaningful impact.",
+      "buttons": {
+        "apply": "Apply Now",
+        "schedule": "Schedule Call"
+      }
+    },
+    "stats": {
+      "0": { "number": "500+", "label": "Partner Attorneys" },
+      "1": { "number": "$350", "label": "Avg. Review Fee" },
+      "2": { "number": "10K+", "label": "Reviews Completed" },
+      "3": { "number": "98%", "label": "Client Satisfaction" }
+    },
+    "benefits": {
+      "title": "Why Join LegacyGuard's Network?",
+      "subtitle": "Discover the benefits of partnering with the leading family legacy platform",
+      "items": [
+        {
+          "title": "Additional Revenue Stream",
+          "description": "Earn $150-$500 per document review with flexible scheduling"
+        },
+        {
+          "title": "Quality Client Referrals",
+          "description": "Connect with pre-qualified families who value professional guidance"
+        },
+        {
+          "title": "Flexible Schedule",
+          "description": "Choose your availability and accept reviews that fit your schedule"
+        },
+        {
+          "title": "Professional Platform",
+          "description": "Secure, compliant platform designed specifically for legal professionals"
+        },
+        {
+          "title": "Growing Market",
+          "description": "Join the fastest-growing family legacy planning platform"
+        },
+        {
+          "title": "Build Your Reputation",
+          "description": "Showcase your expertise and build a strong professional profile"
+        }
+      ]
+    },
+    "process": {
+      "title": "Simple Application Process",
+      "subtitle": "Get started in just 4 easy steps",
+      "steps": [
+        {
+          "title": "Apply to Join",
+          "description": "Complete our application with your credentials and specializations"
+        },
+        {
+          "title": "Verification Process",
+          "description": "We verify your bar admission and professional credentials"
+        },
+        {
+          "title": "Platform Training",
+          "description": "Quick onboarding to our platform and review processes"
+        },
+        {
+          "title": "Start Reviewing",
+          "description": "Accept review requests and start earning immediately"
+        }
+      ]
+    },
+    "application": {
+      "title": "Apply to Join Our Network",
+      "subtitle": "Complete the application below to get started",
+      "fields": {
+        "firstName": "First Name *",
+        "lastName": "Last Name *",
+        "email": "Email Address *",
+        "phone": "Phone Number *",
+        "firm": "Law Firm/Practice *",
+        "barNumber": "Bar Number *",
+        "state": "State of Admission *",
+        "specializations": "Areas of Specialization *",
+        "experience": "Years of Experience *",
+        "motivation": "Why do you want to join our network? *"
+      },
+      "button": "Submit Application"
+    }
+  },
+  "client": {
+    "header": {
+      "title": "Professional Legal Network",
+      "subtitle": "Connect with verified attorneys for professional document review and legal guidance"
+    },
+    "filters": {
+      "specialization": "Specialization:",
+      "location": "Location:"
+    },
+    "specializations": [
+      "All Specializations",
+      "Estate Planning",
+      "Family Law",
+      "Elder Law",
+      "Tax Law",
+      "Business Law"
+    ],
+    "attorney": {
+      "verified": "Verified",
+      "responseTime": "Response time",
+      "reviewsCompleted": "{{count}} completed reviews",
+      "buttons": {
+        "requestReview": "Request Review"
+      }
+    }
+  }
+}

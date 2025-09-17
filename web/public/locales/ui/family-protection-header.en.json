@@ -1,0 +1,33 @@
+{
+  "greetings": {
+    "morning": "🌅 Good morning",
+    "afternoon": "☀️ Good afternoon",
+    "evening": "🌙 Good evening"
+  },
+  "protectionMessages": {
+    "ready": "Ready to start protecting your family's future?",
+    "firstDay": "Your first day of family protection - what a beautiful beginning! 🌱",
+    "growing": "{{days}} days of growing protection for {{totalProtected}} {{peopleLabel}} 🌿",
+    "strong": "{{days}} days of strong family protection - you're building something lasting! 🌳",
+    "comprehensive": "{{days}} days of comprehensive family security - your legacy is flourishing! 🌺"
+  },
+  "stats": {
+    "daysOfProtection": "days of protection",
+    "dayOfProtection": "day of protection",
+    "documentsSecured": "documents secured",
+    "peopleProtected": "people protected", 
+    "trustScore": "trust score",
+    "protected": "protected",
+    "documents": "documents"
+  },
+  "trustScoreBadge": "{{score}}/100 Trust Score",
+  "buttons": {
+    "viewProgress": "View Progress",
+    "protectFirstFamilyMember": "Protect Your First Family Member"
+  },
+  "peopleLabels": {
+    "your": "your",
+    "person": "person",
+    "lovedOnes": "loved ones"
+  }
+}

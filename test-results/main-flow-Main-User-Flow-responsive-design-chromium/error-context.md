@@ -1,0 +1,346 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation "Skip links":
+    - list:
+      - listitem:
+        - link "Skip to main content" [ref=e3] [cursor=pointer]:
+          - /url: "#main-content"
+      - listitem:
+        - link "Skip to navigation" [ref=e4] [cursor=pointer]:
+          - /url: "#navigation"
+      - listitem:
+        - link "Skip to search" [ref=e5] [cursor=pointer]:
+          - /url: "#search"
+  - generic [ref=e6]:
+    - banner [ref=e7]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - img "ariaLabel" [ref=e12]
+          - generic [ref=e17]: LegacyGuard
+        - generic [ref=e18]:
+          - link "navigation.blog" [ref=e20] [cursor=pointer]:
+            - /url: /blog
+            - button "navigation.blog" [ref=e21] [cursor=pointer]
+          - button "navigation.signIn" [ref=e23] [cursor=pointer]
+          - button "Get Started Free" [ref=e25] [cursor=pointer]
+    - generic [ref=e26]:
+      - img [ref=e79]
+      - generic [ref=e83]:
+        - heading "Your Legacy is a Story. hero.subtitle" [level=1] [ref=e84]:
+          - text: Your Legacy is a Story.
+          - generic [ref=e85]: hero.subtitle
+        - paragraph [ref=e86]: The most caring and secure way to organize your life's journey and protect your family's future.
+        - button "hero.cta.main" [ref=e88] [cursor=pointer]:
+          - generic [ref=e90] [cursor=pointer]: hero.cta.main
+    - generic [ref=e93]:
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - generic [ref=e96]: 📄
+          - generic [ref=e97]: 🔑
+          - generic [ref=e98]: "%"
+          - generic [ref=e99]: 📋
+          - generic [ref=e100]: 💾
+          - generic [ref=e101]: ⚠️
+          - generic [ref=e102]: 📅
+          - generic [ref=e103]: 🔒
+          - generic [ref=e104]: 📊
+          - generic [ref=e105]: 💳
+          - generic [ref=e106]: 📧
+          - generic [ref=e107]: 🏠
+        - generic [ref=e108]:
+          - heading "Life is Complex" [level=3] [ref=e109]
+          - paragraph [ref=e110]:
+            - text: Documents expire. Passwords get lost. Instructions are unclear.
+            - generic [ref=e111]: In a crisis, this chaos becomes a burden for your loved ones.
+      - generic [ref=e116]:
+        - heading "Clarity is a Gift" [level=3] [ref=e117]
+        - paragraph [ref=e118]:
+          - text: We help you transform this chaos into a single, secure, and beautifully organized source of truth.
+          - generic [ref=e119]: A gift of peace for your family.
+    - generic [ref=e121]:
+      - generic [ref=e122]:
+        - heading "Your Story in 3 Acts" [level=2] [ref=e123]
+        - paragraph [ref=e124]: Experience how LegacyGuard transforms your journey from chaos to clarity
+      - generic [ref=e125]:
+        - generic [ref=e126]:
+          - generic [ref=e128]:
+            - img [ref=e134]
+            - img [ref=e142]
+          - 'heading "Act 1: Organize Your Present" [level=3] [ref=e144]'
+          - paragraph [ref=e145]: Our AI assistant, Sofia, intelligently analyzes your documents, extracts key data, and sets up reminders, so you don't have to.
+        - generic [ref=e146]:
+          - img [ref=e149]
+          - 'heading "Act 2: Protect Your Family" [level=3] [ref=e151]'
+          - paragraph [ref=e152]: Build your Family Shield by appointing trusted guardians with specific roles and permissions, ready to act in any emergency.
+        - generic [ref=e153]:
+          - generic [ref=e155]:
+            - generic:
+              - generic: 💌
+              - generic: 📜
+              - generic: ⏰
+          - 'heading "Act 3: Define Your Legacy" [level=3] [ref=e157]'
+          - paragraph [ref=e158]: Go beyond documents. Create a legally-sound will, record personal messages, and watch your legacy garden grow with every act of care.
+    - generic [ref=e160]:
+      - generic [ref=e161]:
+        - heading "How It Works" [level=2] [ref=e162]
+        - paragraph [ref=e163]: Your journey to family security in three simple steps
+      - generic [ref=e164]:
+        - generic [ref=e167]:
+          - img [ref=e169]
+          - heading "Organize Your Present" [level=3] [ref=e180]
+          - paragraph [ref=e181]: Securely upload and manage all your vital documents with AI-powered assistance. Sofia guides you through every step with care and intelligence.
+        - generic [ref=e184]:
+          - img [ref=e186]
+          - heading "Protect Your Family" [level=3] [ref=e188]
+          - paragraph [ref=e189]: Build your Family Shield by appointing trusted guardians for any situation. Ensure your loved ones know exactly what to do and where to find help.
+        - generic [ref=e192]:
+          - img [ref=e194]
+          - heading "Define Your Legacy" [level=3] [ref=e198]
+          - paragraph [ref=e199]: Create a legally sound will and leave personal messages that last forever. Your wisdom and love will guide your family for generations.
+    - generic [ref=e201]:
+      - heading "Our Security Promise to Your Family" [level=2] [ref=e202]
+      - paragraph [ref=e203]: Your sanctuary is sacred. So is your privacy. We've built LegacyGuard on a foundation of world-class security principles to protect what matters most.
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - img [ref=e207]
+          - heading "Fortress-Level Protection" [level=3] [ref=e210]
+          - paragraph [ref=e211]: Secure your account with the highest level of protection, including biometrics and hardware keys. You decide how strong the lock is.
+        - generic [ref=e212]:
+          - img [ref=e214]
+          - heading "Only You Hold the Key" [level=3] [ref=e217]
+          - paragraph [ref=e218]: Your information is encrypted on your device before it ever reaches us. Not even we can see it. Your privacy is mathematically guaranteed.
+        - generic [ref=e219]:
+          - img [ref=e221]
+          - heading "An Unbreakable Seal of Trust" [level=3] [ref=e224]
+          - paragraph [ref=e225]: Every critical action is recorded in a secure, unchangeable audit log. This creates a verifiable history for ultimate peace of mind.
+        - generic [ref=e226]:
+          - img [ref=e228]
+          - heading "Share with Absolute Control" [level=3] [ref=e231]
+          - paragraph [ref=e232]: When you share information, you are in complete control. Set time limits, track access, and know exactly who sees what, and when.
+      - link "Curious about the technical details? Read our full security documentation →" [ref=e234] [cursor=pointer]:
+        - /url: /security-deep-dive
+    - generic [ref=e236]:
+      - generic [ref=e237]:
+        - heading "Our Commitments to You" [level=2] [ref=e238]
+        - paragraph [ref=e239]: The principles that guide everything we do
+      - generic [ref=e240]:
+        - generic [ref=e243]:
+          - img [ref=e245]
+          - heading "Empathy by Design" [level=3] [ref=e248]
+          - paragraph [ref=e249]: We believe technology should be caring. Our platform is designed to support you emotionally, not just functionally.
+        - generic [ref=e252]:
+          - img [ref=e255]
+          - heading "Zero-Knowledge Security" [level=3] [ref=e259]
+          - paragraph [ref=e260]: Your privacy is sacred. We use end-to-end encryption, meaning not even we can access your sensitive data.
+        - generic [ref=e263]:
+          - img [ref=e265]
+          - heading "Effortless Automation" [level=3] [ref=e271]
+          - paragraph [ref=e272]: From AI-powered analysis to automated reminders, we do the heavy lifting so you can focus on what matters.
+        - generic [ref=e275]:
+          - heading "A Living Legacy" [level=3] [ref=e278]
+          - paragraph [ref=e279]: This isn't a one-time task. It's a living, growing garden that evolves with you and your family's journey.
+    - generic [ref=e284]:
+      - generic [ref=e285]:
+        - heading "A Plan for Every Stage of Your Journey" [level=2] [ref=e286]
+        - paragraph [ref=e287]: Start for free with our mobile app, and upgrade when you're ready to build your complete legacy.
+      - generic [ref=e288]:
+        - generic [ref=e289]:
+          - generic [ref=e290]:
+            - heading "Forever Free" [level=3] [ref=e291]
+            - generic [ref=e293]: €0
+            - paragraph [ref=e294]: The perfect starting point, powered by our mobile app.
+          - generic [ref=e295]:
+            - generic [ref=e296]:
+              - img [ref=e298]
+              - generic [ref=e300]:
+                - generic [ref=e301]: Intelligent Document Scanner
+                - generic [ref=e302]: Transform paper chaos into digital order with a single photo.
+            - generic [ref=e303]:
+              - img [ref=e305]
+              - generic [ref=e307]:
+                - generic [ref=e308]: Basic Digital Vault
+                - generic [ref=e309]: Secure storage for up to 10 of your most important documents.
+            - generic [ref=e310]:
+              - img [ref=e312]
+              - generic [ref=e314]:
+                - generic [ref=e315]: Sofia AI Assistant (Basic)
+                - generic [ref=e316]: Get help and answers to your basic questions.
+            - generic [ref=e317]:
+              - img [ref=e319]
+              - generic [ref=e321]:
+                - generic [ref=e322]: Basic Family Shield
+                - generic [ref=e323]: Invite 1 Guardian to ensure your family has someone to turn to.
+          - button "Start with the Free App" [ref=e324] [cursor=pointer]
+        - generic [ref=e325]:
+          - generic [ref=e327]:
+            - img [ref=e328]
+            - text: Most Popular
+          - generic [ref=e330]:
+            - heading "Legacy Premium" [level=3] [ref=e331]
+            - generic [ref=e332]:
+              - generic [ref=e333]: €9.99
+              - generic [ref=e334]: / month
+            - paragraph [ref=e335]: For individuals ready to create a complete, lasting legacy.
+          - generic [ref=e336]:
+            - generic [ref=e337]:
+              - img [ref=e339]
+              - generic [ref=e341]:
+                - generic [ref=e342]: Unlimited Digital Vault
+                - generic [ref=e343]: Store everything that matters, without any limits.
+            - generic [ref=e344]:
+              - img [ref=e346]
+              - generic [ref=e348]:
+                - generic [ref=e349]: Premium Will Creator
+                - generic [ref=e350]: Create a legally robust will with our intelligent guide.
+            - generic [ref=e351]:
+              - img [ref=e353]
+              - generic [ref=e355]:
+                - generic [ref=e356]: Time Capsule (Personal Messages)
+                - generic [ref=e357]: Record video and audio messages to be delivered to your loved ones in the future.
+            - generic [ref=e358]:
+              - img [ref=e360]
+              - generic [ref=e362]:
+                - generic [ref=e363]: Complete Family Shield
+                - generic [ref=e364]: Set up detailed emergency protocols and invite unlimited Guardians.
+            - generic [ref=e365]:
+              - img [ref=e367]
+              - generic [ref=e369]:
+                - generic [ref=e370]: Advanced AI Assistance
+                - generic [ref=e371]: Sofia helps you draft your will and provides in-depth analysis.
+          - button "Build Your Legacy" [ref=e372] [cursor=pointer]
+        - generic [ref=e373]:
+          - generic [ref=e374]:
+            - heading "Family Premium" [level=3] [ref=e375]
+            - generic [ref=e376]:
+              - generic [ref=e377]: €14.99
+              - generic [ref=e378]: / month
+            - paragraph [ref=e379]: The ultimate solution for protecting your entire family circle.
+          - generic [ref=e380]:
+            - generic [ref=e381]:
+              - img [ref=e383]
+              - generic [ref=e385]:
+                - generic [ref=e386]: Shared Access for up to 5 Members
+                - generic [ref=e387]: Your entire family can collaborate in one connected ecosystem.
+            - generic [ref=e388]:
+              - img [ref=e390]
+              - generic [ref=e392]:
+                - generic [ref=e393]: Shared Family Calendar
+                - generic [ref=e394]: Track all important dates and anniversaries in one place.
+            - generic [ref=e395]:
+              - img [ref=e397]
+              - generic [ref=e399]:
+                - generic [ref=e400]: Collaborative Family Shield
+                - generic [ref=e401]: Together set up and test emergency protocols.
+            - generic [ref=e402]:
+              - img [ref=e404]
+              - generic [ref=e406]:
+                - generic [ref=e407]: Visual Family Tree
+                - generic [ref=e408]: Clearly map your entire family and assign roles and inheritance.
+            - generic [ref=e409]:
+              - img [ref=e411]
+              - generic [ref=e413]:
+                - generic [ref=e414]: Priority Support
+                - generic [ref=e415]: Get priority access to our team of experts.
+          - button "Protect Your Entire Family" [ref=e416] [cursor=pointer]
+      - generic [ref=e417]:
+        - generic [ref=e418]:
+          - img [ref=e419]
+          - generic [ref=e421]: Bank-level encryption
+        - generic [ref=e422]:
+          - img [ref=e423]
+          - generic [ref=e428]: Trusted by 50,000+ families
+        - generic [ref=e429]:
+          - img [ref=e430]
+          - generic [ref=e432]: Cancel anytime
+      - paragraph [ref=e434]:
+        - text: Have questions?
+        - link "Check our FAQ" [ref=e435] [cursor=pointer]:
+          - /url: "#faq"
+        - text: or
+        - link "contact us" [ref=e436] [cursor=pointer]:
+          - /url: "#contact"
+    - generic [ref=e438]:
+      - generic [ref=e439]:
+        - heading "Trusted by Professionals, Built for Families" [level=2] [ref=e440]
+        - paragraph [ref=e441]: LegacyGuard is built on principles of legal precision and bank-level security, in consultation with legal and financial experts.
+      - generic [ref=e442]:
+        - generic [ref=e443]:
+          - generic [ref=e445]: C
+          - generic [ref=e446]: Secured by Clerk
+        - generic [ref=e447]:
+          - generic [ref=e449]: S
+          - generic [ref=e450]: Powered by Supabase
+        - generic [ref=e451]:
+          - generic [ref=e453]: ▲
+          - generic [ref=e454]: Deployed on Vercel
+        - generic [ref=e455]:
+          - generic [ref=e457]: ⚖
+          - generic [ref=e458]: Legal Partnership
+        - generic [ref=e459]:
+          - generic [ref=e461]: 🇪🇺
+          - generic [ref=e462]: GDPR Compliant
+      - generic [ref=e463]:
+        - generic [ref=e464]:
+          - img [ref=e465]
+          - generic [ref=e468]: End-to-End Encryption
+        - generic [ref=e469]:
+          - img [ref=e470]
+          - generic [ref=e472]: Zero-Knowledge Architecture
+        - generic [ref=e473]:
+          - img [ref=e474]
+          - generic [ref=e478]: Bank-Level Security
+        - generic [ref=e479]:
+          - img [ref=e480]
+          - generic [ref=e485]: Legal Expert Consultation
+    - generic [ref=e518]:
+      - heading "Your Story is Waiting" [level=2] [ref=e519]
+      - button "Begin Your LegacyGuard Today" [ref=e521] [cursor=pointer]:
+        - generic [ref=e522] [cursor=pointer]: Begin Your LegacyGuard Today
+    - contentinfo [ref=e523]:
+      - generic [ref=e524]:
+        - generic [ref=e525]:
+          - generic [ref=e526]:
+            - generic [ref=e527]:
+              - img "ariaLabel" [ref=e529]
+              - generic [ref=e534]: LegacyGuard
+            - paragraph [ref=e535]: Securing your legacy, protecting your family, one document at a time.
+          - generic [ref=e536]:
+            - heading "Product" [level=4] [ref=e537]
+            - list [ref=e538]:
+              - listitem [ref=e539]:
+                - link "Features" [ref=e540] [cursor=pointer]:
+                  - /url: /features
+              - listitem [ref=e541]:
+                - link "Security" [ref=e542] [cursor=pointer]:
+                  - /url: /security
+              - listitem [ref=e543]:
+                - link "Pricing" [ref=e544] [cursor=pointer]:
+                  - /url: /pricing
+          - generic [ref=e545]:
+            - heading "Support" [level=4] [ref=e546]
+            - list [ref=e547]:
+              - listitem [ref=e548]:
+                - link "Help Center" [ref=e549] [cursor=pointer]:
+                  - /url: /help
+              - listitem [ref=e550]:
+                - link "Contact Us" [ref=e551] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e552]:
+                - link "User Guides" [ref=e553] [cursor=pointer]:
+                  - /url: /guides
+          - generic [ref=e554]:
+            - heading "Legal" [level=4] [ref=e555]
+            - list [ref=e556]:
+              - listitem [ref=e557]:
+                - link "Privacy Policy" [ref=e558] [cursor=pointer]:
+                  - /url: /privacy-policy
+              - listitem [ref=e559]:
+                - link "Terms of Service" [ref=e560] [cursor=pointer]:
+                  - /url: /terms-of-service
+              - listitem [ref=e561]:
+                - link "Security Policy" [ref=e562] [cursor=pointer]:
+                  - /url: /security-policy
+        - paragraph [ref=e564]: © 2025 LegacyGuard. All rights reserved.
+```

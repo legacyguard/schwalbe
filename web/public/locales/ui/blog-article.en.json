@@ -1,0 +1,143 @@
+{
+  "header": {
+    "backToHome": "Back to Home"
+  },
+  "badge": {
+    "category": "Estate Planning Guide"
+  },
+  "meta": {
+    "keywords": "will creation, estate planning, family protection, legacy planning, legal documents, family security"
+  },
+  "byline": {
+    "by": "By"
+  },
+  "intro": {
+    "whyThisMatters": {
+      "title": "Why This Matters",
+      "text": "Creating a will isn't about dwelling on the end—it's about ensuring your family's future is secure and your wishes are respected. It's one of the most caring things you can do for the people you love most."
+    }
+  },
+  "reason1": {
+    "title": "1. Protect Your Family's Financial Future",
+    "p1": "Without a will, your assets may not be distributed according to your wishes. State laws (intestacy laws) will determine who gets what, which could leave your family in a difficult financial situation or result in assets going to unintended beneficiaries.",
+    "p2": "A properly drafted will ensures that your hard-earned assets—whether it's your home, savings, investments, or personal belongings—go to the people you care about most. It also helps minimize the financial burden on your family during an already difficult time.",
+    "example": {
+      "title": "Real Example",
+      "text": "Sarah's father passed without a will. His $500,000 estate went through probate for 18 months, with 40% going to legal fees and taxes. With proper planning, Sarah could have received the full inheritance much sooner."
+    }
+  },
+  "reason2": {
+    "title": "2. Ensure Your Children Are Cared For",
+    "p1": "If you have minor children, a will is absolutely essential. It allows you to name guardians who will care for your children if something happens to both parents. Without this designation, the courts will decide who raises your children—and it might not be the person you would have chosen.",
+    "p2": "You can also establish trusts for your children's education, healthcare, and general welfare. This ensures that any inheritance is used for their benefit and protection, rather than being given to them all at once when they might not be ready to manage it responsibly.",
+    "guardianSelection": {
+      "title": "Guardian Selection",
+      "bullets": [
+        "Choose someone who shares your values",
+        "Consider their financial stability",
+        "Discuss the responsibility with them",
+        "Name backup guardians"
+      ]
+    },
+    "trustBenefits": {
+      "title": "Trust Benefits",
+      "bullets": [
+        "Control when children receive money",
+        "Protect assets from creditors",
+        "Ensure funds are used appropriately",
+        "Provide for special needs"
+      ]
+    }
+  },
+  "reason3": {
+    "title": "3. Avoid Family Conflicts and Legal Battles",
+    "p1": "Family disputes over inheritance are unfortunately common and can tear families apart. A clear, well-drafted will eliminates ambiguity and reduces the likelihood of conflicts. It provides your family with clear instructions about your wishes, preventing misunderstandings and disagreements.",
+    "p2": "Even in families with good relationships, the stress and grief of losing a loved one can lead to disagreements about 'what they would have wanted.' A will removes this uncertainty and gives your family peace of mind knowing they're following your exact wishes.",
+    "card": {
+      "title": "Protect Family Harmony",
+      "text": "Your will isn't just about money—it's about preserving family relationships. Clear instructions prevent the kind of conflicts that can last for generations."
+    }
+  },
+  "reason4": {
+    "title": "4. Reduce Legal Costs and Speed Up the Process",
+    "p1": "Dying without a will (intestate) means your estate must go through probate court, which can be expensive, time-consuming, and emotionally draining for your family. Legal fees, court costs, and other expenses can significantly reduce what your family ultimately receives.",
+    "p2": "A well-planned estate can often avoid probate entirely or streamline the process significantly. This means your family gets access to your assets much faster, and more of your wealth goes to them rather than to legal fees and court costs.",
+    "costComparison": {
+      "title": "Cost Comparison",
+      "withoutWill": "Without Will",
+      "withWill": "With Will",
+      "feesCourt": "Legal fees & court costs",
+      "feesOnly": "Legal fees only",
+      "monthsLong": "12-24 months process",
+      "monthsShort": "3-6 months process"
+    }
+  },
+  "reason5": {
+    "title": "5. Express Your Personal Wishes and Values",
+    "p1": "A will is about more than just money—it's your final opportunity to express your values, beliefs, and wishes. You can specify how you want to be remembered, what causes you want to support, and how you want your legacy to live on.",
+    "p2": "Whether it's leaving a portion of your estate to charity, creating educational funds for future generations, or simply ensuring that sentimental items go to the right people, a will allows you to make a lasting impact that reflects who you are and what matters to you.",
+    "card": {
+      "title": "Legacy Beyond Money",
+      "text": "Consider including personal letters, family stories, or specific instructions about how you want certain items to be used or remembered. This creates a meaningful connection for future generations."
+    }
+  },
+  "howHelps": {
+    "title": "How LegacyGuard Makes Will Creation Easier",
+    "cards": {
+      "storage": {
+        "title": "Secure Document Storage",
+        "text": "Store your will and other legal documents securely with bank-level encryption. Access them anytime, anywhere, and share them securely with family members or legal professionals."
+      },
+      "family": {
+        "title": "Family Access Management",
+        "text": "Set up emergency access for trusted family members and designate guardians for minor children. Ensure your family can access important documents when they need them most."
+      },
+      "reminders": {
+        "title": "Reminder System",
+        "text": "Get gentle reminders to review and update your will regularly. Life changes—marriages, births, divorces, and new assets—require will updates to keep your plan current."
+      },
+      "organization": {
+        "title": "Document Organization",
+        "text": "Keep all your estate planning documents organized in one secure location. From wills and trusts to insurance policies and property deeds, everything is easily accessible."
+      }
+    },
+    "footer": {
+      "text": "LegacyGuard doesn't replace the need for professional legal advice, but it provides the secure foundation and organizational tools that make the will creation process smoother and more manageable.",
+      "cta": "Start Securing Your Legacy Today"
+    }
+  },
+  "nextSteps": {
+    "title": "Your Next Steps",
+    "intro": "Creating a will doesn't have to be overwhelming. Here's a simple roadmap to get you started:",
+    "steps": {
+      "gather": {
+        "title": "Gather Information",
+        "text": "List your assets, debts, and important documents. Include bank accounts, investments, real estate, insurance policies, and personal items of value."
+      },
+      "beneficiaries": {
+        "title": "Choose Beneficiaries",
+        "text": "Decide who will inherit your assets. Consider family members, friends, charities, or organizations that are important to you."
+      },
+      "guardians": {
+        "title": "Select Guardians",
+        "text": "If you have minor children, choose guardians who will care for them. Discuss this responsibility with the people you're considering."
+      },
+      "consult": {
+        "title": "Consult a Professional",
+        "text": "Work with an estate planning attorney to draft your will. They can ensure it's legally valid and addresses all your specific needs and concerns."
+      },
+      "store": {
+        "title": "Store Securely",
+        "text": "Keep your will in a safe place and let trusted family members know where to find it. Consider using LegacyGuard for secure digital storage and easy access."
+      }
+    }
+  },
+  "conclusion": {
+    "title": "The Gift of Peace of Mind",
+    "p1": "Creating a will is one of the most caring and responsible things you can do for your family. It's not about dwelling on the end—it's about ensuring that the people you love are protected, provided for, and able to honor your wishes when you're no longer here to guide them.",
+    "p2": "The peace of mind that comes from knowing your affairs are in order is priceless. Start today, even if it's just a simple will. You can always update it as your life changes. The important thing is to begin.",
+    "primary": "Get Started with LegacyGuard",
+    "secondary": "Learn More About LegacyGuard"
+  }
+}
+

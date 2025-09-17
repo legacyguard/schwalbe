@@ -1,0 +1,70 @@
+appId: com.legacyguard.mobile
+---
+# Tablet/Responsive Layout Test
+# Run this test on iPad or Android tablet
+- launchApp:
+    device: iPad
+
+# Test dashboard on tablet
+- assertVisible:
+    text: 'Family Shield'
+
+- takeScreenshot: '01-dashboard-tablet'
+
+# Test Documents with grid view
+- tapOn:
+    text: 'Documents Protected'
+
+- assertVisible:
+    text: 'Grid View'
+
+- tapOn:
+    text: 'Grid View'
+
+- waitForAnimationToEnd
+
+- takeScreenshot: '02-documents-grid-tablet'
+
+# Switch to list view
+- tapOn:
+    text: 'List View'
+
+- takeScreenshot: '03-documents-list-tablet'
+
+# Test People screen grid layout
+- tapOn:
+    text: 'Home'
+
+- tapOn:
+    text: 'Family Members'
+
+- takeScreenshot: '04-people-grid-tablet'
+
+# Test Will screen centered layout
+- tapOn:
+    text: 'Home'
+
+- tapOn:
+    text: 'Create Will'
+
+- takeScreenshot: '05-will-centered-tablet'
+
+# Test form in landscape orientation
+- setOrientation: landscape
+
+- takeScreenshot: '06-will-landscape-tablet'
+
+# Navigate through will steps in landscape
+- tapOn:
+    text: 'Next'
+
+- takeScreenshot: '07-will-step2-landscape'
+
+# Reset to portrait
+- setOrientation: portrait
+
+# Test split view if available
+- tapOn:
+    text: 'Home'
+
+- takeScreenshot: '08-dashboard-portrait-tablet'

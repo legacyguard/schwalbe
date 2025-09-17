@@ -1,0 +1,79 @@
+{
+  "title": "Family Management",
+  "description": "Manage your family groups, invite members, and control access permissions",
+  "tabs": {
+    "members": "Family Members",
+    "invitations": "Invitations", 
+    "activity": "Activity",
+    "settings": "Settings"
+  },
+  "buttons": {
+    "createFamily": "Create Family Group",
+    "inviteMember": "Invite Member",
+    "sendInvitation": "Send Invitation",
+    "removeMember": "Remove Member",
+    "editMember": "Edit Member",
+    "viewActivity": "View Activity",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete"
+  },
+  "labels": {
+    "familyName": "Family Name",
+    "description": "Description",
+    "memberEmail": "Member Email",
+    "memberRole": "Member Role", 
+    "personalMessage": "Personal Message",
+    "permissions": "Permissions",
+    "invitationStatus": "Status"
+  },
+  "placeholders": {
+    "enterEmail": "Enter email address",
+    "enterFamilyName": "Enter family name",
+    "describFamily": "Describe your family group",
+    "addPersonalMessage": "Add a personal message to the invitation"
+  },
+  "messages": {
+    "loadFamiliesError": "Failed to load family groups",
+    "loadMembersError": "Failed to load family members", 
+    "loadActivitiesError": "Failed to load family activities",
+    "memberRemovedSuccess": "Family member removed successfully",
+    "memberRemoveError": "Failed to remove family member",
+    "invitationSent": "Invitation sent",
+    "invitationSentSuccess": "Invitation sent successfully to {{email}}",
+    "invitationError": "Failed to send invitation",
+    "familyCreated": "Family created",
+    "familyCreatedSuccess": "Family group created successfully",
+    "familyCreateError": "Failed to create family group",
+    "noFamilies": "No family groups found",
+    "noMembers": "No family members yet",
+    "noActivity": "No recent activity",
+    "loading": "Loading family information..."
+  },
+  "roles": {
+    "owner": "Owner",
+    "admin": "Administrator", 
+    "member": "Member",
+    "viewer": "Viewer"
+  },
+  "permissions": {
+    "canInvite": "Can invite members",
+    "canRemove": "Can remove members",
+    "canEdit": "Can edit family settings",
+    "canView": "Can view documents"
+  },
+  "activity": {
+    "memberJoined": "{{name}} joined the family",
+    "memberLeft": "{{name}} left the family", 
+    "documentShared": "{{name}} shared a document",
+    "invitationSent": "Invitation sent to {{email}}",
+    "settingsChanged": "Family settings updated"
+  },
+  "confirmations": {
+    "removeMemberTitle": "Remove Family Member",
+    "removeMemberMessage": "Are you sure you want to remove {{name}} from the family group? This action cannot be undone.",
+    "removeMemberConfirm": "Yes, Remove Member",
+    "deleteFamilyTitle": "Delete Family Group",
+    "deleteFamilyMessage": "Are you sure you want to delete this family group? All members will be removed and shared documents will become private."
+  }
+}

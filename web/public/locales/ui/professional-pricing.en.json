@@ -1,0 +1,173 @@
+{
+  "header": {
+    "badge": "Professional Legal Review",
+    "title": "Choose Your Review Level",
+    "description": "Get your estate planning documents reviewed by licensed attorneys with our tiered service levels. Each review includes legal compliance verification and personalized recommendations."
+  },
+  "recommendation": {
+    "title": "Recommended for Your Family",
+    "familyContext": {
+      "members": "{{count}} members",
+      "minorChildren": "minor children",
+      "complexAssets": "complex assets",
+      "businessInterests": "business interests"
+    },
+    "description": "Based on your family situation ({{familyDescription}}), we recommend the {{tierName}} for optimal protection."
+  },
+  "tiers": {
+    "basic": {
+      "name": "Basic Review",
+      "description": "Essential legal review for straightforward documents",
+      "estimatedTime": "2-3 hours",
+      "turnaroundTime": "2-3 business days"
+    },
+    "comprehensive": {
+      "name": "Comprehensive Review", 
+      "description": "Thorough analysis with detailed recommendations",
+      "estimatedTime": "4-6 hours",
+      "turnaroundTime": "3-5 business days"
+    },
+    "certified": {
+      "name": "Certified Review",
+      "description": "Premium service with legal certification and ongoing support",
+      "estimatedTime": "6-8 hours",
+      "turnaroundTime": "5-7 business days"
+    }
+  },
+  "badges": {
+    "mostPopular": "Most Popular",
+    "premium": "Premium",
+    "recommended": "Recommended"
+  },
+  "pricing": {
+    "saveAmount": "Save ${{amount}}",
+    "limitedTime": "Limited Time"
+  },
+  "features": {
+    "documentStructureReview": {
+      "name": "Document Structure Review",
+      "description": "Check overall document organization and completeness"
+    },
+    "legalComplianceCheck": {
+      "name": "Legal Compliance Check", 
+      "description": "Verify compliance with state laws and regulations"
+    },
+    "basicErrorDetection": {
+      "name": "Basic Error Detection",
+      "description": "Identify obvious errors and inconsistencies"
+    },
+    "advancedErrorDetection": {
+      "name": "Advanced Error Detection",
+      "description": "Deep analysis for subtle issues and improvements"
+    },
+    "comprehensiveAnalysis": {
+      "name": "Comprehensive Analysis",
+      "description": "Complete legal, tax, and strategic analysis"
+    },
+    "writtenSummary": {
+      "name": "Written Summary",
+      "description": "Brief summary of findings and recommendations"
+    },
+    "detailedWrittenReport": {
+      "name": "Detailed Written Report",
+      "description": "Comprehensive report with specific recommendations"
+    },
+    "certifiedLegalOpinion": {
+      "name": "Certified Legal Opinion",
+      "description": "Formal legal opinion with professional certification"
+    },
+    "followUpCall": {
+      "name": "Follow-up Call",
+      "description": "One 15-minute follow-up call to discuss findings"
+    },
+    "followUpCall30": {
+      "name": "Follow-up Call",
+      "description": "One 30-minute consultation to discuss findings"
+    },
+    "extendedConsultation": {
+      "name": "Extended Consultation",
+      "description": "One 60-minute consultation with unlimited follow-up"
+    },
+    "priorityProcessing": {
+      "name": "Priority Processing",
+      "description": "Fast-track your review ahead of regular queue"
+    },
+    "priorityProcessingDedicated": {
+      "name": "Priority Processing", 
+      "description": "Highest priority processing with dedicated attorney"
+    }
+  },
+  "includes": {
+    "basic": [
+      "Document structure and completeness review",
+      "Basic legal compliance verification", 
+      "Written findings report",
+      "Email support during review process"
+    ],
+    "comprehensive": [
+      "Everything in Basic Review",
+      "Advanced legal strategy analysis",
+      "Tax optimization recommendations", 
+      "Family protection assessment",
+      "30-minute consultation call",
+      "Revision suggestions with reasoning"
+    ],
+    "certified": [
+      "Everything in Comprehensive Review",
+      "Formal legal certification",
+      "Multi-jurisdiction compliance check",
+      "60-minute consultation + unlimited follow-up",
+      "Document revision assistance",
+      "90-day support period",
+      "Emergency contact access"
+    ]
+  },
+  "bestFor": {
+    "basic": [
+      "Simple wills with standard provisions",
+      "Basic estate planning documents", 
+      "Documents with straightforward family situations"
+    ],
+    "comprehensive": [
+      "Complex family situations",
+      "Significant assets or business interests",
+      "Multi-generational planning needs",
+      "Tax optimization requirements"
+    ],
+    "certified": [
+      "High-value estates ($1M+)",
+      "Complex business structures",
+      "Multi-state property ownership", 
+      "Regulatory compliance requirements",
+      "Peace of mind with formal certification"
+    ]
+  },
+  "sections": {
+    "whatsIncluded": "What's Included",
+    "bestFor": "Best For"
+  },
+  "buttons": {
+    "selected": "Selected",
+    "chooseThisPlan": "Choose This Plan",
+    "showDetailedComparison": "Show Detailed Feature Comparison",
+    "hideDetailedComparison": "Hide Detailed Feature Comparison"
+  },
+  "comparison": {
+    "title": "Feature Comparison",
+    "featureColumn": "Feature"
+  },
+  "trustIndicators": {
+    "licensedAttorneys": {
+      "title": "Licensed Attorneys",
+      "description": "All reviews conducted by licensed, verified attorneys with estate planning expertise"
+    },
+    "qualityGuaranteed": {
+      "title": "Quality Guaranteed", 
+      "description": "100% satisfaction guarantee with unlimited revisions on recommendations"
+    },
+    "familyFocused": {
+      "title": "Family Focused",
+      "description": "Specialized in family protection with personalized recommendations for your situation"
+    }
+  }
+}

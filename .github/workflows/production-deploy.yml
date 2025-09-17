@@ -1,0 +1,317 @@
+name: Production Deployment Pipeline
+
+on:
+  # Disabled to avoid conflicts with production-pipeline.yml
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20.19.1'
+
+jobs:
+  lint-and-test:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run linting
+        run: npm run lint:ci || true
+
+      - name: Run type checking
+        run: npm run type-check
+
+      - name: Run tests
+        run: npm run test
+        continue-on-error: true
+
+      - name: Setup Turbo env
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+        run: |
+          if [ -n "$TURBO_TOKEN" ]; then
+            echo "TURBO_TOKEN=$TURBO_TOKEN" >> $GITHUB_ENV
+            echo "✅ TURBO_TOKEN configured"
+          else
+            echo "⚠️ TURBO_TOKEN not configured - Turbo caching disabled"
+          fi
+          if [ -n "$TURBO_TEAM" ]; then
+            echo "TURBO_TEAM=$TURBO_TEAM" >> $GITHUB_ENV
+            echo "✅ TURBO_TEAM configured"
+          else
+            echo "⚠️ TURBO_TEAM not configured"
+          fi
+
+      - name: Build packages
+        run: npm run build:packages
+
+      - name: Setup web build env
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
+        run: |
+          echo "NODE_ENV=production" >> $GITHUB_ENV
+          if [ -n "$VITE_SUPABASE_URL" ]; then
+            echo "VITE_SUPABASE_URL=$VITE_SUPABASE_URL" >> $GITHUB_ENV
+            echo "✅ VITE_SUPABASE_URL configured"
+          else
+            echo "⚠️ VITE_SUPABASE_URL not configured"
+          fi
+          if [ -n "$VITE_SUPABASE_ANON_KEY" ]; then
+            echo "VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY" >> $GITHUB_ENV
+            echo "✅ VITE_SUPABASE_ANON_KEY configured"
+          else
+            echo "⚠️ VITE_SUPABASE_ANON_KEY not configured"
+          fi
+          if [ -n "$VITE_CLERK_PUBLISHABLE_KEY" ]; then
+            echo "VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY" >> $GITHUB_ENV
+            echo "✅ VITE_CLERK_PUBLISHABLE_KEY configured"
+          else
+            echo "⚠️ VITE_CLERK_PUBLISHABLE_KEY not configured"
+          fi
+
+      - name: Build web application
+        run: |
+          echo "🔨 Starting production build with enhanced configuration..."
+          
+          # Use production-specific Vite config
+          export VITE_CONFIG_FILE=vite.config.prod.ts
+          
+          # Build with production settings
+          cd web && npm run build:production || {
+            echo "❌ Production build failed. Analyzing..."
+            echo "Node version: $(node --version)"
+            echo "Build environment: $NODE_ENV"
+            echo "Vite config: $VITE_CONFIG_FILE"
+            echo "Available environment variables:"
+            env | grep -E "^(VITE_|NODE_)" | head -10
+            
+            # Try fallback build with standard config
+            echo "🔄 Attempting fallback build..."
+            npm run build:memory-safe || {
+              echo "❌ Fallback build also failed"
+              exit 1
+            }
+          }
+          
+          echo "✅ Production build completed successfully"
+          
+          # Verify build artifacts
+          echo "📦 Build artifacts:"
+          ls -la dist/
+          echo "📊 Bundle sizes:"
+          find dist/ -name "*.js" -exec ls -lh {} \; | head -10
+          
+          # Check deployment manifest
+          if [ -f "dist/deployment-manifest.json" ]; then
+            echo "📋 Deployment manifest:"
+            cat dist/deployment-manifest.json
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: web/dist/
+          retention-days: 30
+
+  e2e-tests:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: web/dist/
+
+      - name: Install Playwright browsers
+        run: cd web && npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: cd web && npm run test:e2e
+        env:
+          CI: true
+
+      - name: Upload E2E test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-test-results
+          path: |
+            web/test-results/
+            web/playwright-report/
+          retention-days: 7
+
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        run: npm audit --audit-level moderate
+        continue-on-error: true
+
+      - name: Setup Snyk token
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          if [ -n "$SNYK_TOKEN" ]; then
+            echo "SNYK_TOKEN=$SNYK_TOKEN" >> $GITHUB_ENV
+            echo "✅ SNYK_TOKEN configured"
+          else
+            echo "⚠️ SNYK_TOKEN not configured - Snyk scan will be skipped"
+          fi
+
+      - name: Run Snyk security scan
+        run: |
+          npm install -g snyk
+          if [ -n "$SNYK_TOKEN" ]; then
+            snyk auth "$SNYK_TOKEN"
+            snyk test --severity-threshold=high || true
+          else
+            echo "Snyk scan skipped (SNYK_TOKEN not configured)"
+          fi
+        continue-on-error: true
+
+  deploy-vercel:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: [lint-and-test, e2e-tests]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: web/dist/
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Deploy to Vercel (production)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "❌ VERCEL_TOKEN not configured"
+            exit 1
+          fi
+          cd web
+          echo "🚀 Deploying to Vercel production..."
+          
+          # Use production-specific configuration
+          cp vite.config.prod.ts vite.config.ts
+          
+          # Deploy with production settings
+          vercel build --prod --token=$VERCEL_TOKEN || {
+            echo "❌ Vercel build failed, trying with standard config..."
+            cp vite.config.ts.backup vite.config.ts 2>/dev/null || true
+            vercel build --prod --token=$VERCEL_TOKEN
+          }
+          
+          vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+          
+          echo "✅ Production deployment completed"
+
+      - name: Verify deployment
+        run: |
+          echo "🔍 Verifying production deployment..."
+          sleep 30  # Wait for deployment to propagate
+          
+          # Check if site is accessible
+          curl -I https://legacyguard.cz || echo "⚠️ Site may not be fully propagated yet"
+          
+          # Check for critical errors
+          curl -s https://legacyguard.cz | grep -i "error\|failed" || echo "✅ No obvious errors in HTML"
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: web/dist/
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Deploy to Vercel (preview)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel build --token=$VERCEL_TOKEN
+          vercel deploy --prebuilt --token=$VERCEL_TOKEN
+
+  performance-audit:
+    name: Performance Audit
+    runs-on: ubuntu-latest
+    needs: deploy-vercel
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://legacyguard.cz
+            https://legacyguard.cz/terms
+            https://legacyguard.cz/privacy
+          uploadArtifacts: true
+          temporaryPublicStorage: true

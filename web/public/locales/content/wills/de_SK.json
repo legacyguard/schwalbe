@@ -1,0 +1,165 @@
+{
+  "title": "Letzter Wille und Testament",
+  "jurisdiction": "Slowakische Republik",
+  "language": "Deutsch",
+  "legalNotice": "Dieses Dokument wurde in Übereinstimmung mit dem Bürgerlichen Gesetzbuch der Slowakischen Republik (Gesetz Nr. 40/1964 Slg. in der geltenden Fassung) erstellt",
+  "sections": {
+    "testator": {
+      "title": "Erblasser",
+      "declaration": "Ich, {{fullName}}, Geburtsdatum {{dateOfBirth}}, mit Wohnsitz in {{address}}, Staatsbürger von {{citizenship}}, errichte hiermit mein Testament.",
+      "mentalCapacity": "Ich erkläre, dass ich bei klarem Verstand und voll geschäftsfähig bin."
+    },
+    "revocation": {
+      "title": "Widerruf früherer Testamente",
+      "text": "Hiermit widerrufe ich alle von mir früher errichteten Testamente und Nachträge."
+    },
+    "beneficiaries": {
+      "title": "Erbeinsetzung",
+      "introduction": "Ich setze folgende Personen als meine Erben ein:",
+      "designation": "{{name}}, {{relationship}}, erbt {{percentage}}% meines Nachlasses",
+      "conditionalInheritance": "unter der Bedingung: {{conditions}}",
+      "substituteHeir": "Für den Fall, dass {{name}} nicht erbt, setze ich als Ersatzerben ein:"
+    },
+    "forcedHeirs": {
+      "title": "Pflichtteilsberechtigte",
+      "notice": "Gemäß § 479 des Bürgerlichen Gesetzbuches haben Pflichtteilsberechtigte (Nachkommen) Anspruch auf einen Pflichtteil.",
+      "minorChildren": "Minderjährige Nachkommen müssen mindestens ihren vollen gesetzlichen Erbteil erhalten.",
+      "adultChildren": "Volljährige Nachkommen müssen mindestens die Hälfte ihres gesetzlichen Erbteils erhalten.",
+      "disinheritance": "Eine Enterbung ist nur aus den in § 469a des Bürgerlichen Gesetzbuches genannten gesetzlichen Gründen möglich."
+    },
+    "specificBequests": {
+      "title": "Vermächtnisse",
+      "introduction": "Ich ordne folgende Vermächtnisse an:",
+      "item": "{{description}} vermache ich {{recipient}}",
+      "monetary": "Den Betrag von {{amount}} EUR vermache ich {{recipient}}"
+    },
+    "executor": {
+      "title": "Testamentsvollstrecker",
+      "appointment": "Ich ernenne zum Testamentsvollstrecker: {{name}}, {{relationship}}",
+      "backup": "Für den Fall, dass {{primaryExecutor}} diese Funktion nicht ausüben kann oder will, ernenne ich als Ersatz-Testamentsvollstrecker: {{backupExecutor}}",
+      "powers": "Der Testamentsvollstrecker ist befugt, alle zur ordnungsgemäßen Abwicklung meines Nachlasses erforderlichen Handlungen vorzunehmen."
+    },
+    "guardianship": {
+      "title": "Vormundschaft",
+      "appointment": "Für den Fall meines Todes ernenne ich zum Vormund meiner minderjährigen Kinder: {{guardianName}}",
+      "backup": "Als Ersatzvormund ernenne ich: {{backupGuardianName}}",
+      "instructions": "Ich bitte den Vormund: {{instructions}}"
+    },
+    "finalWishes": {
+      "title": "Letzte Wünsche",
+      "funeral": "Bezüglich meiner Beerdigung wünsche ich: {{funeralWishes}}",
+      "organDonation": "Ich stimme der Organspende für Transplantationszwecke zu.",
+      "other": "Weitere Wünsche: {{otherWishes}}"
+    },
+    "residuary": {
+      "title": "Restnachlass",
+      "text": "Das gesamte verbleibende Vermögen, das oben nicht ausdrücklich vermacht wurde, soll an {{residuaryBeneficiaries}} gehen"
+    },
+    "signature": {
+      "title": "Unterschrift",
+      "date": "In {{city}} am {{date}}",
+      "testatorSignature": "Unterschrift des Erblassers: _______________________",
+      "witnessSection": {
+        "title": "Zeugen",
+        "introduction": "Dieses Testament wurde in unserer Anwesenheit unterzeichnet und wir unterzeichnen es auf Wunsch des Erblassers als Zeugen:",
+        "witness": "Zeuge {{number}}: {{name}}, Geburtsdatum: {{dateOfBirth}}, Adresse: {{address}}, Unterschrift: _______________________"
+      }
+    }
+  },
+  "legalRequirements": {
+    "formTypes": {
+      "holographic": "Ein eigenhändiges Testament muss vollständig handschriftlich verfasst und vom Erblasser unterzeichnet sein.",
+      "allographic": "Ein allographisches Testament muss vom Erblasser und zwei gleichzeitig anwesenden Zeugen unterzeichnet werden.",
+      "notarial": "Ein Testament in Form einer notariellen Urkunde bietet die höchste Rechtssicherheit."
+    },
+    "witnesses": {
+      "requirements": "Ein Zeuge darf nicht Erbe, Vermächtnisnehmer oder eine ihnen nahestehende Person sein.",
+      "count": "Für ein allographisches Testament werden zwei Zeugen benötigt.",
+      "capacity": "Zeugen müssen geschäftsfähig und unterschriftsfähig sein."
+    },
+    "capacity": {
+      "age": "Eine Person über 15 Jahre kann ein Testament errichten (mit Einschränkungen bis zum 18. Lebensjahr).",
+      "mental": "Der Erblasser muss bei der Testamentserrichtung bei klarem Verstand und rechtlich handlungsfähig sein."
+    }
+  },
+  "validation": {
+    "errors": {
+      "missingForcedHeirs": "Minderjährige Nachkommen müssen ihren vollen gesetzlichen Anteil erhalten",
+      "invalidWitness": "{{name}} kann nicht Zeuge sein, da er/sie Erbe ist",
+      "missingSignature": "Das Testament muss unterzeichnet werden",
+      "invalidForm": "Das Testament erfüllt nicht die formalen Anforderungen"
+    },
+    "warnings": {
+      "unclearWording": "Die Formulierung kann unklar oder mehrdeutig sein",
+      "missingExecutor": "Es wird empfohlen, einen Testamentsvollstrecker zu ernennen",
+      "taxImplications": "Bedenken Sie die steuerlichen Auswirkungen für die Erben"
+    }
+  },
+  "commonPhrases": {
+    "beingOfSoundMind": "bei klarem Verstand und Gedächtnis",
+    "iHerebyDeclare": "Ich erkläre hiermit",
+    "witnessWhereof": "Zu Urkund dessen",
+    "signedSealedDelivered": "Unterzeichnet, gesiegelt und übergeben",
+    "thisIsMyLastWill": "Dies ist mein letzter Wille und Testament",
+    "iRevokeAllPrior": "Ich widerrufe alle früheren Testamente und Nachträge",
+    "subjectToCondition": "unter der Bedingung, dass",
+    "perStirpes": "nach Stämmen",
+    "perCapita": "nach Köpfen",
+    "ifSurviving": "falls mich überlebend"
+  },
+  "legalTerms": {
+    "testator": "Die Person, die das Testament errichtet",
+    "heir": "Person, die nach dem Testament erbberechtigt ist",
+    "forcedHeir": "Nachkomme mit Pflichtteilsanspruch",
+    "legacy": "Spezifisches Vermächtnis von Eigentum oder Geld",
+    "executor": "Person, die für die Nachlassverwaltung verantwortlich ist",
+    "codicil": "Nachtrag zu einem bestehenden Testament",
+    "intestate": "Versterben ohne gültiges Testament",
+    "probate": "Rechtliches Verfahren zur Testamentsbestätigung",
+    "estate": "Gesamtes Vermögen und Besitz des Verstorbenen",
+    "beneficiary": "Person, die Leistungen aus dem Testament erhält"
+  },
+  "specificToSlovakia": {
+    "notarialCentralRegister": "Das Testament kann im Zentralregister der Testamente registriert werden",
+    "jointWill": "Gemeinschaftliche Testamente zwischen Ehegatten sind nach slowakischem Recht nicht zulässig",
+    "reciprocalWill": "Wechselseitige Testamente müssen als separate Dokumente erstellt werden",
+    "publicNotary": "Ein öffentlicher Notar kann rechtliche Beratung leisten und das Testament entwerfen",
+    "inheritanceTax": "Die Erbschaftssteuer wurde in der Slowakei 2004 abgeschafft",
+    "forcedShare": {
+      "explanation": "Der Pflichtteil (povinný podiel) schützt Nachkommen vor vollständiger Enterbung",
+      "calculation": "Minderjährige Kinder: 100% des gesetzlichen Anteils, Volljährige Kinder: 50% des gesetzlichen Anteils"
+    },
+    "estateProcedure": {
+      "notary": "Das Nachlassverfahren wird von einem vom Gericht bestellten Notar durchgeführt",
+      "certificate": "Der Notar stellt eine Erbschaftsbescheinigung aus (osvedčenie o dedičstve)",
+      "timeline": "Das Verfahren dauert in der Regel 3-6 Monate ab dem Todestag"
+    }
+  },
+  "germanSpecific": {
+    "euRegulations": {
+      "title": "EU-Erbrechtsverordnung",
+      "notice": "Für grenzüberschreitende Erbfälle innerhalb der EU gilt die EU-Erbrechtsverordnung (EU) Nr. 650/2012",
+      "habitualResidence": "Das anwendbare Recht richtet sich nach dem gewöhnlichen Aufenthalt des Erblassers",
+      "choiceOfLaw": "Eine Rechtswahl zugunsten des Heimatrechts ist möglich"
+    },
+    "taxConsiderations": {
+      "title": "Steuerliche Aspekte",
+      "slovakTax": "In der Slowakischen Republik wurde die Erbschaftssteuer 2004 abgeschafft",
+      "germanTax": "Für deutsche Staatsangehörige können deutsche Erbschaftssteuerpflichten bestehen",
+      "doubleTaxation": "Doppelbesteuerungsabkommen zwischen Deutschland und der Slowakei beachten"
+    },
+    "crossBorder": {
+      "title": "Grenzüberschreitende Aspekte",
+      "certificate": "Europäisches Nachlasszeugnis für Vermögen in mehreren EU-Staaten",
+      "recognition": "Anerkennung des Testaments in Deutschland und der Slowakei",
+      "translation": "Beglaubigte Übersetzungen können erforderlich sein",
+      "consularServices": "Deutsche Konsulate in Bratislava und Košice bieten Unterstützung"
+    },
+    "austrianBorder": {
+      "title": "Österreichische Grenzregion",
+      "bratislava": "Besondere Bedeutung für die Region Bratislava nahe der österreichischen Grenze",
+      "vienna": "Viele Deutsche in der Slowakei pendeln nach Wien",
+      "crossBorderAssets": "Besondere Regelungen für grenzüberschreitendes Vermögen"
+    }
+  }
+}

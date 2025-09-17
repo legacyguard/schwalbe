@@ -1,0 +1,163 @@
+{
+  "title": "Join Our Professional Network",
+  "subtitle": "Help families secure their legacy with professional legal review",
+  "steps": {
+    "personal": "Personal Information",
+    "credentials": "Professional Credentials", 
+    "expertise": "Areas of Expertise",
+    "preferences": "Work Preferences",
+    "review": "Review & Submit"
+  },
+  "stepIndicator": "Step {{current}} of {{total}}",
+  "personal": {
+    "title": "Personal Information",
+    "subtitle": "Tell us about yourself and your professional background",
+    "fullName": {
+      "label": "Full Name",
+      "placeholder": "John Smith",
+      "required": "Full name is required"
+    },
+    "email": {
+      "label": "Email Address",
+      "placeholder": "john@lawfirm.com",
+      "required": "Email is required"
+    },
+    "professionalTitle": {
+      "label": "Professional Title",
+      "placeholder": "Attorney, Esq.",
+      "required": "Professional title is required"
+    },
+    "lawFirmName": {
+      "label": "Law Firm Name",
+      "placeholder": "Smith & Associates"
+    },
+    "bio": {
+      "label": "Professional Bio",
+      "placeholder": "Brief description of your legal practice and experience..."
+    }
+  },
+  "credentials": {
+    "title": "Professional Credentials",
+    "subtitle": "Verify your legal credentials and experience",
+    "barNumber": {
+      "label": "Bar Number",
+      "placeholder": "123456789",
+      "required": "Bar number is required"
+    },
+    "experienceYears": {
+      "label": "Years of Experience",
+      "required": "Experience years must be at least 1"
+    },
+    "licensedStates": {
+      "label": "Licensed States",
+      "required": "At least one licensed state is required"
+    }
+  },
+  "expertise": {
+    "title": "Areas of Expertise", 
+    "subtitle": "Select your legal specializations and areas of practice",
+    "required": "At least one specialization is required",
+    "selectedCount": "Selected Specializations ({{count}})"
+  },
+  "specializations": {
+    "estatePlanning": {
+      "name": "Estate Planning",
+      "description": "Wills, trusts, and inheritance planning"
+    },
+    "probateLaw": {
+      "name": "Probate Law", 
+      "description": "Estate administration and probate proceedings"
+    },
+    "familyLaw": {
+      "name": "Family Law",
+      "description": "Divorce, custody, and family matters"
+    },
+    "realEstateLaw": {
+      "name": "Real Estate Law",
+      "description": "Property transactions and real estate matters"
+    },
+    "businessLaw": {
+      "name": "Business Law",
+      "description": "Corporate structures and business planning"
+    },
+    "taxLaw": {
+      "name": "Tax Law",
+      "description": "Tax planning and compliance"
+    },
+    "elderLaw": {
+      "name": "Elder Law",
+      "description": "Legal issues affecting seniors"
+    },
+    "assetProtection": {
+      "name": "Asset Protection",
+      "description": "Protecting wealth from creditors"
+    }
+  },
+  "categories": {
+    "estate_planning": "estate planning",
+    "family_law": "family law", 
+    "real_estate": "real estate",
+    "business_law": "business law",
+    "tax_law": "tax law"
+  },
+  "preferences": {
+    "title": "Work Preferences",
+    "subtitle": "Set your availability and work preferences",
+    "hourlyRate": {
+      "label": "Hourly Rate (USD)",
+      "placeholder": "250",
+      "help": "Optional - leave blank if you prefer project-based pricing"
+    },
+    "referralSource": {
+      "label": "How did you hear about us?",
+      "placeholder": "Professional network, Google, etc."
+    },
+    "motivation": {
+      "label": "Why do you want to join our network?",
+      "placeholder": "Tell us what motivates you to help families with their legacy planning..."
+    },
+    "professionalStandards": {
+      "title": "Professional Standards",
+      "description": "All reviewers must maintain professional liability insurance and commit to our quality standards and turnaround times."
+    }
+  },
+  "review": {
+    "title": "Review Your Application",
+    "subtitle": "Please review your information before submitting",
+    "sections": {
+      "personalInformation": "Personal Information",
+      "credentials": "Credentials",
+      "specializations": "Specializations"
+    },
+    "fields": {
+      "name": "Name:",
+      "email": "Email:",
+      "title": "Title:", 
+      "firm": "Firm:",
+      "barNumber": "Bar Number:",
+      "experience": "Experience:",
+      "experienceYears": "years",
+      "licensedStates": "Licensed States:"
+    },
+    "nextSteps": {
+      "title": "Next Steps",
+      "description": "After submission, our team will review your application within 3-5 business days. You'll receive an email with the status and next steps."
+    }
+  },
+  "states": [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+    "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+    "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire",
+    "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+    "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+    "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
+    "Wisconsin", "Wyoming"
+  ],
+  "navigation": {
+    "back": "Back",
+    "next": "Next",
+    "cancel": "Cancel", 
+    "submitApplication": "Submit Application"
+  }
+}

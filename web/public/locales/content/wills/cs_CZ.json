@@ -1,0 +1,98 @@
+{
+  "title": "Poslední vůle a závěť",
+  "jurisdiction": "Česká republika",
+  "language": "Čeština",
+  "legalNotice": "Tento dokument byl vytvořen v souladu s občanským zákoníkem České republiky (zákon č. 89/2012 Sb.)",
+  "sections": {
+    "testator": {
+      "title": "Zůstavitel",
+      "declaration": "Já, {{fullName}}, datum narození {{dateOfBirth}}, trvale bytem {{address}}, občan {{citizenship}}, činím tímto svou poslední vůli a závěť.",
+      "mentalCapacity": "Prohlašuji, že jsem při plné duševní síle a způsobilý k právním úkonům."
+    },
+    "revocation": {
+      "title": "Odvolání předchozích závětí",
+      "text": "Tímto odvolávám všechny své dříve učiněné závěti a dodatky k nim."
+    },
+    "beneficiaries": {
+      "title": "Ustanovení dědiců",
+      "introduction": "Ustanovuji následující osoby za své dědice:",
+      "designation": "{{name}}, {{relationship}}, dědí {{percentage}}% mé pozůstalosti",
+      "conditionalInheritance": "s podmínkou: {{conditions}}",
+      "substituteHeir": "Pro případ, že by {{name}} nedědil(a), ustanovuji náhradním dědicem:"
+    },
+    "forcedHeirs": {
+      "title": "Nepominutelní dědicové",
+      "notice": "Podle § 1643 občanského zákoníku mají nepominutelní dědicové (potomci) právo na povinný díl.",
+      "minorChildren": "Nezletilý potomek má právo nejméně na tři čtvrtiny svého zákonného dědického podílu.",
+      "adultChildren": "Zletilý potomek má právo nejméně na jednu čtvrtinu svého zákonného dědického podílu.",
+      "disinheritance": "Vydědění je možné pouze ze zákonných důvodů uvedených v § 1646 občanského zákoníku."
+    },
+    "specificBequests": {
+      "title": "Odkazy",
+      "introduction": "Činím následující odkazy:",
+      "item": "{{description}} odkazuji {{recipient}}",
+      "monetary": "Částku {{amount}} Kč odkazuji {{recipient}}"
+    },
+    "executor": {
+      "title": "Vykonavatel závěti",
+      "appointment": "Jmenuji vykonavatelem své závěti: {{name}}, {{relationship}}",
+      "backup": "Pro případ, že by {{primaryExecutor}} nemohl(a) nebo nechtěl(a) tuto funkci vykonávat, jmenuji náhradním vykonavatelem: {{backupExecutor}}",
+      "powers": "Vykonavatel závěti je oprávněn provést všechny úkony potřebné k řádnému vypořádání mé pozůstalosti."
+    },
+    "guardianship": {
+      "title": "Poručenství",
+      "appointment": "Pro případ mé smrti jmenuji poručníkem svých nezletilých dětí: {{guardianName}}",
+      "backup": "Náhradním poručníkem jmenuji: {{backupGuardianName}}",
+      "instructions": "Žádám poručníka, aby: {{instructions}}"
+    },
+    "finalWishes": {
+      "title": "Poslední přání",
+      "funeral": "Ohledně mého pohřbu si přeji: {{funeralWishes}}",
+      "organDonation": "Souhlasím s darováním svých orgánů pro transplantační účely.",
+      "other": "Další přání: {{otherWishes}}"
+    },
+    "residuary": {
+      "title": "Zbytek pozůstalosti",
+      "text": "Veškerý zbývající majetek, který není výslovně odkázán výše, připadne {{residuaryBeneficiaries}}"
+    },
+    "signature": {
+      "title": "Podpis",
+      "date": "V {{city}} dne {{date}}",
+      "testatorSignature": "Podpis zůstavitele: _______________________",
+      "witnessSection": {
+        "title": "Svědci",
+        "introduction": "Tato závěť byla podepsána v naší přítomnosti a my ji na žádost zůstavitele podpisujeme jako svědci:",
+        "witness": "Svědek {{number}}: {{name}}, datum narození: {{dateOfBirth}}, adresa: {{address}}, podpis: _______________________"
+      }
+    }
+  },
+  "legalRequirements": {
+    "formTypes": {
+      "holographic": "Holografická závěť musí být celá napsána vlastní rukou a podepsána.",
+      "allographic": "Alografická závěť musí být podepsána zůstavitelem a dvěma svědky současně přítomnými.",
+      "notarial": "Závěť ve formě notářského zápisu poskytuje nejvyšší právní jistotu."
+    },
+    "witnesses": {
+      "requirements": "Svědkem nemůže být dědic, odkazovník ani osoba jim blízká.",
+      "count": "Vyžadují se dva svědci pro alografickou závěť.",
+      "capacity": "Svědci musí být svéprávní a schopni podepsat se."
+    },
+    "capacity": {
+      "age": "Závěť může pořídit osoba starší 15 let (s omezením do 18 let).",
+      "mental": "Zůstavitel musí být při pořízení závěti při smyslech a schopen právně jednat."
+    }
+  },
+  "validation": {
+    "errors": {
+      "missingForcedHeirs": "Nezletilí potomci musí dostat nejméně 3/4 svého zákonného podílu",
+      "invalidWitness": "{{name}} nemůže být svědkem, protože je dědicem",
+      "missingSignature": "Závěť musí být podepsána",
+      "invalidForm": "Závěť nesplňuje formální požadavky"
+    },
+    "warnings": {
+      "unclearWording": "Formulace může být nejasná nebo dvojznačná",
+      "missingExecutor": "Doporučuje se jmenovat vykonavatele závěti",
+      "taxImplications": "Zvažte daňové důsledky pro dědice"
+    }
+  }
+}

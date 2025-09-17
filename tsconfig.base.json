@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./web/src/*"
+      ],
+      "@packages/*": [
+        "./packages/*"
+      ],
+      "@ui/*": [
+        "./packages/ui/src/*"
+      ],
+      "@logic/*": [
+        "./packages/logic/src/*"
+      ],
+      "@shared/*": [
+        "./packages/shared/src/*"
+      ]
+    }
+  }
+}

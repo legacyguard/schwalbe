@@ -1,0 +1,138 @@
+{
+  "title": {
+    "empathetic": "💚 Family Care Command Center",
+    "pragmatic": "🛡️ Family Protection Command Center",
+    "adaptive": "🏠 Family Protection Hub"
+  },
+  "subtitle": {
+    "empathetic": "Your loving hub for family protection and wellbeing",
+    "pragmatic": "Comprehensive emergency response and monitoring system",
+    "adaptive": "Complete family safety and support coordination center"
+  },
+  "description": {
+    "empathetic": "Everything you need to keep your family safe and cared for, all in one gentle place",
+    "pragmatic": "Central control hub for all family protection protocols and emergency procedures",
+    "adaptive": "Your central dashboard for managing family protection, emergency contacts, and communications"
+  },
+  "overviewTitle": {
+    "empathetic": "Circle of Love Overview",
+    "pragmatic": "System Status Overview",
+    "adaptive": "Protection Overview"
+  },
+  "tabs": {
+    "empathetic": {
+      "overview": "Love Circle",
+      "switch": "Care Shield",
+      "contacts": "Trusted Friends",
+      "notifications": "Loving Messages"
+    },
+    "pragmatic": {
+      "overview": "System Status",
+      "switch": "Emergency Protocol",
+      "contacts": "Response Team",
+      "notifications": "Alert System"
+    },
+    "adaptive": {
+      "overview": "Overview",
+      "switch": "Protection Switch",
+      "contacts": "Support Network",
+      "notifications": "Communications"
+    }
+  },
+  "status": {
+    "messages": {
+      "active": {
+        "empathetic": "Your family is lovingly protected",
+        "pragmatic": "All systems operational",
+        "adaptive": "Family protection active"
+      },
+      "triggered": {
+        "empathetic": "Emergency care activated",
+        "pragmatic": "Emergency protocol engaged",
+        "adaptive": "Emergency response active"
+      },
+      "pending": {
+        "empathetic": "Checking on your wellbeing",
+        "pragmatic": "Verification required",
+        "adaptive": "Status verification needed"
+      },
+      "inactive": {
+        "empathetic": "Care system is resting",
+        "pragmatic": "System standby",
+        "adaptive": "Protection inactive"
+      }
+    }
+  },
+  "metrics": {
+    "healthScore": {
+      "label": "Health Score",
+      "ratings": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "fair": "Fair",
+        "needsAttention": "Needs Attention"
+      }
+    },
+    "guardians": {
+      "label": "Guardians",
+      "primary": "primary"
+    },
+    "notifications": {
+      "label": "Notifications",
+      "needAction": "need action"
+    },
+    "lastCheck": {
+      "label": "Last Check",
+      "never": "Never",
+      "noRecentActivity": "No recent activity"
+    }
+  },
+  "alerts": {
+    "title": "Recent Alerts",
+    "emergencyActivated": "Emergency protocol activated"
+  },
+  "quickActions": {
+    "title": {
+      "empathetic": "💫 Caring Actions",
+      "pragmatic": "⚡ System Actions",
+      "adaptive": "🚀 Quick Actions"
+    },
+    "addContact": {
+      "empathetic": "Invite a caring friend",
+      "pragmatic": "Add emergency contact",
+      "adaptive": "Add guardian"
+    },
+    "sendMessage": {
+      "empathetic": "Send loving message",
+      "pragmatic": "Send status update",
+      "adaptive": "Send notification"
+    },
+    "settings": {
+      "empathetic": "Care settings",
+      "pragmatic": "Protocol settings",
+      "adaptive": "Protection settings"
+    },
+    "generateManual": {
+      "empathetic": "Create Family Love Letter",
+      "pragmatic": "Generate Emergency Manual",
+      "adaptive": "Download Family Manual"
+    },
+    "statusMessage": {
+      "empathetic": "Your family is surrounded by love and protection 💚",
+      "pragmatic": "All systems monitoring and ready for response",
+      "adaptive": "Your family protection network is active and ready"
+    }
+  },
+  "toasts": {
+    "manualSuccess": {
+      "empathetic": "💚 Your family manual has been lovingly prepared!",
+      "pragmatic": "Family manual generated successfully",
+      "adaptive": "Your family manual is ready!"
+    },
+    "manualError": {
+      "empathetic": "Oh dear, something went wrong. Let's try again together.",
+      "pragmatic": "Error: Failed to generate manual",
+      "adaptive": "Failed to generate family manual"
+    }
+  }
+}

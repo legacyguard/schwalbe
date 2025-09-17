@@ -1,0 +1,33 @@
+{
+  "errors": {
+    "mustBeSignedIn": "You must be signed in to {{action}}",
+    "initializationFailed": "Failed to initialize encryption keys",
+    "unlockFailed": "An error occurred while unlocking encryption", 
+    "incorrectPassword": "Incorrect password",
+    "migrationFailed": "Failed to migrate encryption keys",
+    "rotationFailed": "Failed to rotate encryption keys",
+    "genericError": "An error occurred while {{action}}"
+  },
+  "success": {
+    "keysInitialized": "Encryption keys initialized successfully",
+    "unlocked": "Encryption unlocked successfully", 
+    "keysMigrated": "Encryption keys migrated successfully",
+    "keysRotated": "Encryption keys rotated successfully",
+    "locked": "Encryption locked"
+  },
+  "actions": {
+    "initializeEncryption": "initialize encryption",
+    "unlockEncryption": "unlock encryption",
+    "migrateKeys": "migrate encryption keys", 
+    "rotateKeys": "rotate encryption keys",
+    "lockEncryption": "lock encryption"
+  },
+  "states": {
+    "initializing": "Initializing encryption...",
+    "unlocking": "Unlocking encryption...",
+    "migrating": "Migrating encryption keys...",
+    "rotating": "Rotating encryption keys...",
+    "ready": "Encryption ready",
+    "locked": "Encryption locked"
+  }
+}

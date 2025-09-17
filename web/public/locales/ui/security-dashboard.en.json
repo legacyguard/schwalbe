@@ -1,0 +1,77 @@
+{
+  "loading": {
+    "message": "Loading security data..."
+  },
+  "errors": {
+    "loadFailed": "Failed to load security information"
+  },
+  "securityScore": {
+    "title": "Security Score",
+    "description": "Your overall security posture based on multiple factors",
+    "labels": {
+      "excellent": "Excellent",
+      "good": "Good", 
+      "fair": "Fair",
+      "needsImprovement": "Needs Improvement"
+    }
+  },
+  "factors": {
+    "passwordStrength": {
+      "label": "Password Strength",
+      "rating": "{{current}}/4"
+    },
+    "twoFactorAuth": {
+      "label": "Two-Factor Auth",
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    },
+    "encryption": {
+      "label": "Encryption",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "recentBackup": {
+      "label": "Recent Backup",
+      "upToDate": "Up to date",
+      "outdated": "Outdated"
+    },
+    "recoverySetup": {
+      "label": "Recovery Setup",
+      "configured": "Configured",
+      "notSet": "Not Set"
+    },
+    "keyRotation": {
+      "label": "Key Rotation",
+      "needed": "Needed",
+      "current": "Current"
+    }
+  },
+  "activeSessions": {
+    "title": "Active Sessions",
+    "current": "Current",
+    "active": "Active {{timeAgo}}"
+  },
+  "recentActivity": {
+    "title": "Recent Security Activity",
+    "operation": "{{operation}} Operation",
+    "noActivity": "No recent activity"
+  },
+  "recommendations": {
+    "title": "Security Recommendations",
+    "rotateKeys": {
+      "title": "Rotate Encryption Keys",
+      "description": "Your encryption keys are over 90 days old. Consider rotating them for enhanced security.",
+      "action": "Rotate Keys Now"
+    },
+    "enable2FA": {
+      "title": "Enable Two-Factor Authentication",
+      "description": "Add an extra layer of security to your account with 2FA.",
+      "action": "Setup 2FA"
+    },
+    "createBackup": {
+      "title": "Create a Recent Backup",
+      "description": "Your last backup is over a week old. Create a new backup to protect your data.",
+      "action": "Backup Now"
+    }
+  }
+}

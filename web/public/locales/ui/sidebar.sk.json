@@ -1,0 +1,36 @@
+{
+  "brand": "LegacyGuard",
+  "items": {
+    "dashboard": "Dashboard",
+    "vault": "Trezor",
+    "documents": "Dokumenty",
+    "intelligentOrganizer": "Inteligentný organizátor",
+    "analytics": "Analýzy",
+    "collaboration": "Spolupráca",
+    "family": "Rodina",
+    "legacy": "Dedičstvo",
+    "timeCapsule": "Časová kapsula",
+    "timeline": "Časová os",
+    "wishes": "Priania",
+    "familyProtection": "Ochrana rodiny",
+    "settings": "Nastavenia"
+  },
+  "tooltips": {
+    "dashboard": "Zobraziť prehľad ochrany",
+    "vault": "Bezpečné ukladanie dokumentov",
+    "documents": "Spravovať dokumenty",
+    "intelligentOrganizer": "AI organizácia",
+    "analytics": "Zobraziť prehľady a analýzy",
+    "collaboration": "Spolupracovať s rodinou",
+    "family": "Správa rodiny",
+    "legacy": "Vytvoriť dedičstvo",
+    "timeCapsule": "Správy časovej kapsuly",
+    "timeline": "Životná časová os",
+    "wishes": "Posledné priania",
+    "familyProtection": "Nástroje ochrany rodiny",
+    "settings": "Nastavenia účtu"
+  },
+  "user": {
+    "fallback": "Používateľ"
+  }
+}

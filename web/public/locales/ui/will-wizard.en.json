@@ -1,0 +1,196 @@
+{
+  "header": {
+    "backButton": "Back",
+    "title": "Will Creation Wizard",
+    "stepIndicator": "Step {{current}} of {{total}} — {{title}}"
+  },
+  "navigation": {
+    "changeWillType": "Change Will Type",
+    "back": "Back",
+    "continue": "Continue",
+    "createWill": "Create Will",
+    "stepCounter": "Step {{current}} of {{total}}"
+  },
+  "draftData": {
+    "indicator": "Draft data loaded",
+    "description": "You can review and update fields before creating your final will."
+  },
+  "common": {
+    "stepNotImplemented": "This step is not implemented yet."
+  },
+  "steps": {
+    "personal": {
+      "title": "Personal Information",
+      "description": "Provide your basic details to personalize your will."
+    },
+    "beneficiaries": {
+      "title": "Beneficiaries",
+      "description": "Specify who should inherit and under what conditions."
+    },
+    "assets": {
+      "title": "Assets",
+      "description": "List your key assets for accurate distribution."
+    },
+    "executor": {
+      "title": "Executor",
+      "description": "Assign a trusted person to carry out your wishes."
+    },
+    "guardianship": {
+      "title": "Guardianship",
+      "description": "Designate guardians and provide guidance for minor children."
+    },
+    "wishes": {
+      "title": "Special Wishes",
+      "description": "Capture funeral wishes, pet care, and digital assets guidance."
+    },
+    "sofiaCheck": {
+      "title": "Sofia Correctness Check",
+      "description": "AI-assisted review for completeness and clarity."
+    },
+    "review": {
+      "title": "Review",
+      "description": "Review your inputs before creating your will."
+    }
+  },
+  "personal": {
+    "fullName": { "label": "Full Legal Name", "placeholder": "Your full legal name" },
+    "dateOfBirth": { "label": "Date of Birth" },
+    "address": { "label": "Address", "placeholder": "Street, City, Country" },
+    "citizenship": { "label": "Citizenship", "placeholder": "Your citizenship" },
+    "maritalStatus": {
+      "label": "Marital Status",
+      "placeholder": "Select status",
+      "options": {
+        "single": "Single",
+        "married": "Married",
+        "divorced": "Divorced",
+        "widowed": "Widowed"
+      }
+    }
+  },
+  "relationships": {
+    "spouse": "Spouse",
+    "child": "Child",
+    "parent": "Parent",
+    "sibling": "Sibling",
+    "grandchild": "Grandchild",
+    "friend": "Friend",
+    "charity": "Charity",
+    "other": "Other"
+  },
+  "beneficiaries": {
+    "title": "Beneficiaries",
+    "addButton": "Add Beneficiary",
+    "emptyState": {
+      "title": "No beneficiaries added yet",
+      "description": "Add beneficiaries to specify who should inherit and in what proportion."
+    },
+    "beneficiaryCard": {
+      "title": "Beneficiary {{index}}",
+      "fields": {
+        "name": { "label": "Name", "placeholder": "Recipient name" },
+        "relationship": { "label": "Relationship" },
+        "percentage": { "label": "Percentage", "placeholder": "e.g. 50" },
+        "conditions": { "label": "Conditions (optional)", "placeholder": "Any special conditions" }
+      }
+    }
+  },
+  "assets": {
+    "realEstate": {
+      "title": "Real Estate",
+      "fromVaultButton": "Add from Vault",
+      "addButton": "Add Property",
+      "fields": {
+        "description": "Property description",
+        "address": "Address",
+        "value": "Value"
+      },
+      "emptyState": "No real estate added yet."
+    },
+    "vehicles": {
+      "title": "Vehicles",
+      "fromVaultButton": "Add from Vault",
+      "addButton": "Add Vehicle",
+      "fields": {
+        "make": "Make",
+        "model": "Model",
+        "year": "Year",
+        "vin": "VIN"
+      },
+      "emptyState": "No vehicles added yet."
+    },
+    "bankAccounts": {
+      "title": "Bank Accounts",
+      "fromVaultButton": "Add from Vault",
+      "addButton": "Add Account",
+      "fields": {
+        "bankName": "Bank Name",
+        "accountNumber": "Account Number",
+        "type": {
+          "checking": "Checking",
+          "savings": "Savings",
+          "investment": "Investment"
+        }
+      },
+      "emptyState": "No bank accounts added yet."
+    },
+    "personalProperty": {
+      "title": "Personal Property",
+      "fromVaultButton": "Add from Vault",
+      "addButton": "Add Item",
+      "fields": {
+        "description": "Item description",
+        "value": "Value",
+        "recipient": "Recipient (optional)"
+      },
+      "emptyState": "No personal property added yet."
+    }
+  },
+  "executor": {
+    "primary": {
+      "title": "Primary Executor",
+      "fields": {
+        "name": { "label": "Full Name", "placeholder": "Executor full name" },
+        "relationship": { "label": "Relationship", "placeholder": "e.g. Spouse, Friend" },
+        "phone": { "label": "Phone Number", "placeholder": "Contact phone" }
+      }
+    },
+    "backup": {
+      "title": "Backup Executor",
+      "fields": {
+        "name": { "label": "Full Name", "placeholder": "Backup executor full name" },
+        "relationship": { "label": "Relationship", "placeholder": "e.g. Sibling, Friend" }
+      }
+    },
+    "responsibilities": {
+      "title": "About the Executor Role",
+      "description": "Your executor will manage your estate, settle debts, and distribute assets according to your will. Choose someone responsible and willing to serve."
+    }
+  },
+  "wishes": {
+    "funeral": { "label": "Funeral Wishes", "placeholder": "Describe any specific funeral or memorial wishes" },
+    "organDonation": { "label": "I wish to be an organ donor" },
+    "petCare": { "label": "Pet Care Instructions", "placeholder": "Who will care for pets and how" },
+    "digitalAssets": { "label": "Digital Assets", "placeholder": "Instructions for passwords, social media, and digital files" }
+  },
+  "review": {
+    "header": {
+      "title": "Review Your Will",
+      "description": "Make sure all information is correct before creating your will."
+    },
+    "sections": {
+      "personalInfo": { "title": "Personal Information" },
+      "beneficiaries": { "title": "Beneficiaries", "summary": "{{count}} beneficiaries" },
+      "executor": { "title": "Executor", "notSpecified": "Not specified" }
+    },
+    "readyToCreate": {
+      "title": "Ready to Create",
+      "description": "Everything looks good. You can create your will now."
+    }
+  },
+  "toast": {
+    "assetsAdded": "{{count}} asset(s) added",
+    "assetsSingular": "asset",
+    "assetsPlural": "assets"
+  }
+}

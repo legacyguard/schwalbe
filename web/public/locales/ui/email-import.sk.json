@@ -1,0 +1,16 @@
+{
+  "tooltip": {
+    "gmail": "Import z Gmailu"
+  },
+  "title": "Import z Gmailu",
+  "badge": {
+    "new": "Novinka"
+  },
+  "description": "Automaticky nájdite a usporiadajte dôležité dokumenty z príloh vašich emailov",
+  "button": {
+    "start": "Spustiť import"
+  },
+  "dialog": {
+    "close": "Zatvoriť"
+  }
+}

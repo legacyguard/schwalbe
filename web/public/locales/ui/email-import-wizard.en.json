@@ -1,0 +1,93 @@
+{
+  "header": {
+    "title": "Import Documents from Gmail",
+    "subtitle": "Automatically find and import important documents from your email attachments"
+  },
+  "steps": {
+    "connect": "Connect",
+    "configure": "Configure",
+    "scan": "Scan",
+    "process": "Process",
+    "duplicates": "Duplicates",
+    "review": "Review",
+    "import": "Import",
+    "complete": "Complete"
+  },
+  "errors": {
+    "authFailed": "Failed to authenticate with Gmail. Please try again.",
+    "importFailed": "Failed to import documents: {{message}}",
+    "resolveFailed": "Failed to resolve duplicates: {{message}}",
+    "completeFailed": "Failed to complete import: {{message}}"
+  },
+  "auth": {
+    "title": "Connect Your Gmail Account",
+    "subtitle": "We'll securely scan your Gmail for document attachments. Your email content remains private - we only look at attachments.",
+    "button": {
+      "connecting": "Connecting...",
+      "connect": "Connect Gmail Account"
+    },
+    "secure": "Secure OAuth2",
+    "readonly": "Read-Only Access",
+    "errorTitle": "Authentication Error"
+  },
+  "config": {
+    "title": "Configure Import Settings",
+    "subtitle": "Customize what documents to import from your Gmail",
+    "dateRange": "Date Range",
+    "from": "From",
+    "to": "To",
+    "fileTypes": "File Types",
+    "scanNote": "This will scan up to {{max}} emails with attachments",
+    "start": {
+      "scanning": "Starting Scan...",
+      "start": "Start Scanning"
+    }
+  },
+  "scanning": {
+    "title": "Scanning Your Gmail",
+    "subtitle": "Looking for emails with document attachments...",
+    "found": "Found {{count}} emails to check",
+    "searching": "Searching..."
+  },
+  "processing": {
+    "title": "Processing Documents",
+    "subtitle": "Extracting and categorizing your documents...",
+    "progress": "{{processed}} of {{total}} emails processed",
+    "processing": "Processing...",
+    "docsFound": "{{count}} documents found"
+  },
+  "review": {
+    "title": "Review Found Documents",
+    "subtitle": "Select which documents to import into your vault",
+    "none": "No documents found in the selected time range. Try expanding your date range or checking different file types.",
+    "summary": "Found {{total}} documents, {{selected}} selected",
+    "selectAll": "Select All",
+    "clearAll": "Clear All",
+    "meta": {
+      "from": "From:",
+      "subject": "Subject:",
+      "date": "Date:",
+      "size": "Size: {{kb}} KB"
+    },
+    "confidence": "Confidence: {{value}}%",
+    "insightPrefix": "",
+    "footer": {
+      "selected": "{{count}} documents selected • Estimated time saved: {{minutes}} minutes",
+      "import": "Import {{count}} Documents"
+    }
+  },
+  "importing": {
+    "title": "Importing Documents",
+    "subtitle": "Securely importing your documents into the vault...",
+    "encrypting": "Encrypting and storing documents..."
+  },
+  "complete": {
+    "title": "Import Complete!",
+    "subtitle": "Your documents have been successfully imported and secured.",
+    "docsAdded": "Documents Added",
+    "timeSaved": "Time Saved",
+    "protection": "Protection Increase",
+    "view": "View My Documents"
+  }
+}
+

@@ -1,0 +1,37 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# TypeScript type checking
+echo "🔍 Running TypeScript type check..."
+npm run type-check
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ TypeScript errors detected!"
+  echo ""
+  echo "Run 'npm run type-check' to see details"
+  echo "or use 'npm run fix:types' for automatic fixes"
+  echo ""
+  exit 1
+fi
+
+# Check translation file sizes before commit
+echo "🔍 Checking translation file sizes..."
+
+# Run the i18n health check
+npm run i18n:check
+
+# Check the exit code
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Translation files exceed size limits!"
+  echo ""
+  echo "Run 'npm run i18n:optimize' to see suggestions"
+  echo "or 'npm run i18n:split' to automatically split oversized files"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Translation files are within size limits"
+
+# Run other pre-commit checks
+npm run lint:staged

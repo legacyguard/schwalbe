@@ -1,0 +1,41 @@
+{
+  "title": "Loading Animations",
+  "subtitle": "Dynamic loading states with personality adaptation",
+  "loadingStates": {
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "saving": "Saving...",
+    "uploading": "Uploading...",
+    "downloading": "Downloading...",
+    "analyzing": "Analyzing...",
+    "generating": "Generating...",
+    "connecting": "Connecting...",
+    "authenticating": "Authenticating...",
+    "validating": "Validating..."
+  },
+  "animations": {
+    "spinner": "Spinner Animation",
+    "dots": "Dots Animation", 
+    "pulse": "Pulse Animation",
+    "skeleton": "Skeleton Loader",
+    "progress": "Progress Bar",
+    "typewriter": "Typewriter Effect",
+    "firefly": "Firefly Animation",
+    "heartbeat": "Heartbeat Animation",
+    "wave": "Wave Animation",
+    "bounce": "Bounce Animation"
+  },
+  "personalityModes": {
+    "empathetic": "Empathetic Mode",
+    "pragmatic": "Pragmatic Mode",
+    "adaptive": "Adaptive Mode"
+  },
+  "ui": {
+    "overlay": "Loading Overlay",
+    "pageLoader": "Page Loading",
+    "buttonLoader": "Button Loading",
+    "formLoader": "Form Loading",
+    "cardLoader": "Card Loading",
+    "progressLoader": "Progress Loading"
+  }
+}

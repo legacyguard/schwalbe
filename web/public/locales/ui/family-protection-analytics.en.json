@@ -1,0 +1,60 @@
+{
+  "header": {
+    "title": "Family Protection Analytics",
+    "subtitle": "AI-powered insights into your family's protection status",
+    "detailed": "Detailed Analysis",
+    "simple": "Simple View"
+  },
+  "score": {
+    "title": "Family Security Score",
+    "subtitle": "Overall protection level for your family",
+    "outOf": "/100",
+    "deltaMonth": "+{{value}} this month",
+    "wellProtected": "areas well protected",
+    "needAttention": "areas need attention",
+    "criticalAreas": "critical areas"
+  },
+  "alerts": {
+    "criticalDetected": "{{count}} critical risk{{suffix}} detected",
+    "reviewNow": "Review Now"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "recommendations": "AI Recommendations",
+    "trends": "Trends",
+    "risks": "Risk Analysis"
+  },
+  "overview": {
+    "protectionLevel": "Protection Level",
+    "improvement": "improvement",
+    "decline": "decline",
+    "risks": "Risks:",
+    "recommendations": "Recommendations:"
+  },
+  "recommendations": {
+    "title": "AI-Generated Recommendations",
+    "powered": "Powered by LegacyGuard AI",
+    "impactScore": "Impact Score: {{score}}/100",
+    "priority": "Priority #{{rank}}",
+    "takeAction": "Take Action"
+  },
+  "trends": {
+    "title": "Protection Trends",
+    "placeholder": "Trend visualization would be implemented here",
+    "shows": "Shows protection score changes over {{timeframe}}",
+    "improving": "Improving Areas",
+    "stable": "Stable Areas",
+    "declining": "Declining Areas",
+    "financialFamily": "Financial + Family",
+    "legal": "Legal",
+    "healthcare": "Healthcare"
+  },
+  "risks": {
+    "title": "Risk Analysis",
+    "criticalCount": "{{count}} Critical",
+    "affects": "Affects: {{list}}",
+    "impact": "Impact:",
+    "mitigate": "Mitigate"
+  }
+}
+

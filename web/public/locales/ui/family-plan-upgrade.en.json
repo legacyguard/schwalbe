@@ -1,0 +1,66 @@
+{
+  "header": {
+    "title": "Upgrade Your Family Plan",
+    "subtitle": "Choose the perfect plan for your family's protection needs"
+  },
+  "billing": {
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "savings": "Save {{percent}}%"
+  },
+  "plans": {
+    "mostPopular": "Most Popular",
+    "currentPlan": "Current Plan",
+    "recommended": "Recommended",
+    "limitReached": "Member limit reached"
+  },
+  "features": {
+    "unlimitedMembers": "Unlimited family members",
+    "maxMembers": "Up to {{count}} family members",
+    "unlimitedDocuments": "Unlimited Documents",
+    "professionalReviews": "Professional Reviews",
+    "emergencyAccess": "Emergency Access",
+    "familyCalendar": "Family Calendar",
+    "advancedSharing": "Advanced Sharing",
+    "prioritySupport": "Priority Support",
+    "customBranding": "Custom Branding"
+  },
+  "pricing": {
+    "free": "Free",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "billedYearly": "billed yearly",
+    "billedMonthly": "billed monthly"
+  },
+  "buttons": {
+    "startTrial": "Start Free Trial",
+    "upgradeNow": "Upgrade Now",
+    "choosePlan": "Choose Plan",
+    "currentPlan": "Current Plan",
+    "switch": "Switch Plan"
+  },
+  "benefits": {
+    "title": "Why upgrade?",
+    "items": [
+      "Protect unlimited family members",
+      "Advanced document sharing",
+      "Professional legal reviews",
+      "Emergency access features",
+      "Priority customer support"
+    ]
+  },
+  "comparison": {
+    "title": "Plan Comparison",
+    "features": "Features",
+    "included": "Included",
+    "notIncluded": "Not Included"
+  },
+  "progress": {
+    "memberUsage": "{{current}} of {{max}} members used",
+    "unlimited": "Unlimited members"
+  },
+  "toast": {
+    "upgradeSuccess": "Plan upgraded successfully!",
+    "upgradeError": "Failed to upgrade plan. Please try again."
+  }
+}

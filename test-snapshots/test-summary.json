@@ -1,0 +1,95 @@
+{
+  "generated": "2025-09-06T21:28:02.677Z",
+  "totalCombinations": 8,
+  "combinations": [
+    {
+      "language": "sk",
+      "jurisdiction": "SK",
+      "label": "Slovenčina (Slovensko)",
+      "file": "sk_SK.json"
+    },
+    {
+      "language": "cs",
+      "jurisdiction": "SK",
+      "label": "Čeština (Slovensko)",
+      "file": "cs_SK.json"
+    },
+    {
+      "language": "en",
+      "jurisdiction": "SK",
+      "label": "English (Slovakia)",
+      "file": "en_SK.json"
+    },
+    {
+      "language": "de",
+      "jurisdiction": "SK",
+      "label": "Deutsch (Slowakei)",
+      "file": "de_SK.json"
+    },
+    {
+      "language": "sk",
+      "jurisdiction": "CZ",
+      "label": "Slovenčina (Česko)",
+      "file": "sk_CZ.json"
+    },
+    {
+      "language": "cs",
+      "jurisdiction": "CZ",
+      "label": "Čeština (Česko)",
+      "file": "cs_CZ.json"
+    },
+    {
+      "language": "en",
+      "jurisdiction": "CZ",
+      "label": "English (Czech Republic)",
+      "file": "en_CZ.json"
+    },
+    {
+      "language": "de",
+      "jurisdiction": "CZ",
+      "label": "Deutsch (Tschechien)",
+      "file": "de_CZ.json"
+    }
+  ],
+  "testUrls": {
+    "testPage": "http://localhost:8082/test/will-wizard-combinations",
+    "devServer": "http://localhost:8082"
+  },
+  "fileRouting": {
+    "sk-SK": "/web/public/locales/content/wills/sk_SK.json",
+    "cs-SK": "/web/public/locales/content/wills/cs_SK.json",
+    "en-SK": "/web/public/locales/content/wills/en_SK.json",
+    "de-SK": "/web/public/locales/content/wills/de_SK.json",
+    "sk-CZ": "/web/public/locales/content/wills/sk_CZ.json",
+    "cs-CZ": "/web/public/locales/content/wills/cs_CZ.json",
+    "en-CZ": "/web/public/locales/content/wills/en_CZ.json",
+    "de-CZ": "/web/public/locales/content/wills/de_CZ.json"
+  },
+  "expectedFeatures": [
+    "Language-Jurisdiction separation",
+    "Enhanced CountrySelector with steps",
+    "LocalStorage preference persistence",
+    "German language support",
+    "Slovak and Czech jurisdiction support",
+    "Responsive mobile design",
+    "Accessibility compliance"
+  ],
+  "jurisdictionDifferences": {
+    "Slovakia": {
+      "code": "SK",
+      "currency": "EUR",
+      "legalBasis": "§ 476-478 Slovak Civil Code",
+      "holographicDating": "recommended",
+      "witnessRestrictions": "not beneficiaries or relatives",
+      "minimumAge": 18
+    },
+    "CzechRepublic": {
+      "code": "CZ",
+      "currency": "CZK",
+      "legalBasis": "§ 1540-1542 Czech Civil Code",
+      "holographicDating": "mandatory",
+      "witnessRestrictions": "not beneficiaries or their spouses",
+      "minimumAge": 15
+    }
+  }
+}

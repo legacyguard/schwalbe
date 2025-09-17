@@ -1,0 +1,34 @@
+{
+  "title": "Quick Search",
+  "placeholder": "Search documents, guardians, or quick actions...",
+  "loading": "Searching...",
+  "noResults": "No results found for \"{{query}}\"",
+  "trySearching": "Try searching for documents, guardians, or actions",
+  "actions": {
+    "uploadDocument": "Upload Document",
+    "addGuardian": "Add Guardian",
+    "dashboard": "Dashboard",
+    "legacyPlanning": "Legacy Planning",
+    "uploadDocumentSubtitle": "Add new document to vault",
+    "addGuardianSubtitle": "Add trusted person to your circle",
+    "dashboardSubtitle": "View your progress overview",
+    "legacyPlanningSubtitle": "Plan your digital legacy"
+  },
+  "navigation": {
+    "hint": "Use ↑ ↓ to navigate • Enter to select",
+    "close": "Press Esc to close"
+  },
+  "sofia": {
+    "learnedFromDocuments": "Sofia learned from your documents:",
+    "askAssistant": "Ask Sofia Assistant:",
+    "remembersPatterns": "Sofia remembers your document patterns",
+    "willHelp": "Sofia will help you find exactly what you need"
+  },
+  "toast": {
+    "navigateUpload": "Navigate to Vault to upload documents",
+    "navigateGuardian": "Navigate to Guardians to add new guardian",
+    "foundDocument": "Found document: {{title}}",
+    "foundGuardian": "Found guardian: {{name}}",
+    "searchFailed": "Search failed. Please try again."
+  }
+}

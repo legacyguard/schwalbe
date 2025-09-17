@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "title": "LegacyGuard - Váš príbeh, ich dedičstvo",
+    "description": "Najstarostlivejší a najbezpečnejší sposôb, ako organizovať svoju životnú cestu a chrániť budúcnosť svojej rodiny.",
+    "url": "https://legacyguard.sk"
+  },
+  "navigation": {
+    "blog": "Blog",
+    "signIn": "Prihlásiť sa"
+  },
+  "hero": {
+    "title": "Vaše dedičstvo je príbeh.",
+    "subtitle": "Rozpovte ho dobre.",
+    "description": "Najstarostlivejší a najbezpečnejší sposôb, ako organizovať svoju životnú cestu a chrániť budúcnosť svojej rodiny.",
+    "cta": {
+      "main": "Začnite váš príbeh",
+      "free": "Začať zadarmo"
+    }
+  },
+  "problem": {
+    "title": "Život je zložitý",
+    "description": "Dokumenty expirujú. Heslá sa stratia. Pokyny sú nejasné.",
+    "highlight": "V kríze sa tento chaos stáva bremenom pre vašich blízkych."
+  },
+  "promise": {
+    "title": "Jasnosť je dar",
+    "description": "Pomáhame vám transformovať tento chaos do jedného, bezpečného a krásne organizovaného zdroja pravdy.",
+    "highlight": "Dar pokoja pre vašu rodinu."
+  },
+  "features": {
+    "title": "Váš príbeh v 3 aktoch",
+    "subtitle": "Zažite, ako LegacyGuard transformuje vašu cestu z chaosu do jasnosti",
+    "effortlessOrganization": {
+      "title": "Bezproblemová organizácia",
+      "description": "Nahrajte dokumenty, e-maily a spomienky. Naša AI kategorizuje a organizuje všetko automaticky. Žiadne roztrúsené súbory či zabudnuté heslá."
+    },
+    "familyProtection": {
+      "title": "Ochrana rodiny",
+      "description": "Bezpečné zdieľanie s členmi rodiny. Protokoly núdzového prístupu. Oznámenia opatrovníkom. Vaša rodina je pripravená, nie prekvapená."
+    },
+    "livingLegacy": {
+      "title": "Živé dedičstvo",
+      "description": "Časové kapsuly, zachovanie spomienok a digitálne dedičstvo. Váš príbeh rastie a vyvíja sa, vytvárając trvalé dedičstvo pre generácie."
+    }
+  },
+  "values": {
+    "title": "Postavené na dôvere a innoáciách",
+    "subtitle": "Neuchovávame len vaše dáta - chránime váš príbeh",
+    "empathyByDesign": {
+      "title": "Empatia v dizajne",
+      "description": "Veríme, že technológie by mali byť starostlivé. Naša platforma je navrhnutá tak, aby vás podporovala emocionálne, nielen funkčne."
+    },
+    "zeroKnowledgeSecurity": {
+      "title": "Bezpečnosť bez znalosti",
+      "description": "Vaše súkromie je sväté. Používame end-to-end šifrovanie, čo znamená, že ani my nemáme prístup k vašim citlivým údajom."
+    },
+    "effortlessAutomation": {
+      "title": "Bezproblémová automatizácia",
+      "description": "Od AI-powered analýzy po automatické pripomienky, robíme ťažkú prácu za vás, aby ste sa mohli sústrediť na to, čo je dôležité."
+    },
+    "aLivingLegacy": {
+      "title": "Živé dedičstvo",
+      "description": "Toto nie je jednorazová úloha. Je to živá, rastúca záhrada, ktorá sa vyvíja s vami a cestou vašej rodiny."
+    }
+  },
+  "trust": {
+    "title": "Dôverujú nám rodiny po celom svete",
+    "subtitle": "Pridajte sa k tisíckam rodín, ktoré našli pokoj duše s LegacyGuard. Začnite svoju 30-dňovú bezplatnú skúšku dnes.",
+    "poweredBy": {
+      "clerk": "Zabezpečené Clerk",
+      "supabase": "Poháňané Supabase",
+      "vercel": "Nasadené na Vercel",
+      "legal": "Právne partnerstvo",
+      "gdpr": "GDPR kompatibilné"
+    },
+    "features": {
+      "encryption": "Šifrovanie na úrovni bánk",
+      "availability": "99.9% záruka dostupnosti",
+      "support": "24/7 podpora rodín",
+      "backups": "Automatické denné zálohy"
+    }
+  },
+  "cta": {
+    "final": {
+      "title": "Váš príbeh sa začína tu",
+      "subtitle": "Začnite vaše dedičstvo s LegacyGuard. Zabezpečte, organizujte a zachovajte to, čo je najdôležitejšie.",
+      "button": "Začnite vašu bezplatnú skúšku"
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "jurisdiction": "General (English)",
+  "countryCode": "en",
+  "languageCode": "en",
+  "currency": "USD",
+  "willTypes": {
+    "holographic": {
+      "name": "Holographic Will",
+      "description": "Must be entirely written and signed by your own hand",
+      "requirements": [
+        "Must be written entirely in your own handwriting",
+        "Must be signed with your own signature",
+        "Date is strongly recommended",
+        "No witnesses required in most jurisdictions",
+        "Must be in local language or translated"
+      ],
+      "advantages": [
+        "Complete privacy and simplicity",
+        "No witnesses needed in most places",
+        "Can be created anywhere, anytime",
+        "Lower cost"
+      ],
+      "disadvantages": [
+        "Higher risk of being contested",
+        "Handwriting authentication may be required",
+        "Risk of loss or damage",
+        "Not valid in all jurisdictions"
+      ],
+      "legalBasis": "Varies by jurisdiction"
+    },
+    "witnessed": {
+      "name": "Witnessed Will",
+      "description": "Can be typed or written by another person, requires witnesses",
+      "requirements": [
+        "Must be signed by testator in presence of witnesses",
+        "Witnesses must sign in testator's presence",
+        "Number of witnesses varies by jurisdiction (usually 2-3)",
+        "Witnesses must be legally capable adults",
+        "Witnesses typically cannot be beneficiaries"
+      ],
+      "advantages": [
+        "Greater legal certainty",
+        "Suitable if you cannot write",
+        "Less likely to be contested",
+        "Valid in most jurisdictions"
+      ],
+      "disadvantages": [
+        "Requires finding suitable witnesses",
+        "Less privacy",
+        "More complex process"
+      ],
+      "legalBasis": "Varies by jurisdiction"
+    }
+  },
+  "inheritanceLaw": {
+    "forcedHeirs": {
+      "enabled": false,
+      "description": "Most common law jurisdictions allow free disposition of assets",
+      "rules": {}
+    },
+    "executorRules": {
+      "required": true,
+      "canBeNonResident": true,
+      "mustBeAdult": true,
+      "restrictions": [
+        "Cannot be mentally incapacitated",
+        "Should be trustworthy"
+      ]
+    }
+  },
+  "witnessRequirements": {
+    "minimumAge": 18,
+    "mentalCapacity": true,
+    "cannotBeBeneficiary": true,
+    "cannotBeSpouseOfBeneficiary": false,
+    "simultaneousPresence": true
+  },
+  "documentRequirements": {
+    "language": "English or local language",
+    "dating": "Strongly recommended",
+    "notarization": "Optional but recommended",
+    "registration": "Not required in most jurisdictions"
+  },
+  "revocation": {
+    "methods": [
+      "Creating a new will that explicitly revokes previous ones",
+      "Physical destruction of the will with intent to revoke",
+      "Written revocation statement"
+    ]
+  }
+}

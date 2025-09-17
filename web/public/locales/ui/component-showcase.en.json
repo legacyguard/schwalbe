@@ -1,0 +1,137 @@
+{
+  "header": {
+    "title": "Enhanced Components Showcase",
+    "description": "Preview all enhanced UI components from Tailladmin and Hero UI templates"
+  },
+  "tabs": {
+    "metrics": "Metrics",
+    "activity": "Activity", 
+    "datatable": "Data Table",
+    "progress": "Progress",
+    "profiles": "Profiles"
+  },
+  "metrics": {
+    "card": {
+      "title": "Metric Cards"
+    },
+    "grid": {
+      "title": "Grid Layout (4 columns)"
+    },
+    "individual": {
+      "title": "Individual Cards"
+    },
+    "data": {
+      "totalDocuments": "Total Documents",
+      "familyMembers": "Family Members", 
+      "completionRate": "Completion Rate",
+      "daysActive": "Days Active",
+      "revenueThisMonth": "Revenue This Month",
+      "pendingTasks": "Pending Tasks"
+    }
+  },
+  "activity": {
+    "card": {
+      "title": "Activity Feed"
+    },
+    "recent": "Recent Activity"
+  },
+  "dataTable": {
+    "title": "Document Management",
+    "description": "Advanced data table with sorting, filtering, and bulk actions",
+    "headers": {
+      "documentName": "Document Name",
+      "category": "Category", 
+      "size": "Size",
+      "uploaded": "Uploaded",
+      "status": "Status"
+    },
+    "actions": {
+      "view": "View",
+      "download": "Download",
+      "delete": "Delete"
+    },
+    "toast": {
+      "viewing": "Viewing {{name}}",
+      "downloading": "Downloading {{name}}",
+      "deleted": "Deleted {{name}}",
+      "export": "Export functionality would be here"
+    },
+    "status": {
+      "processed": "processed",
+      "processing": "processing", 
+      "pending": "pending"
+    }
+  },
+  "progress": {
+    "card": {
+      "title": "Progress Indicators"
+    },
+    "sections": {
+      "radial": "Radial Progress",
+      "linear": "Linear Progress",
+      "group": "Progress Group"
+    },
+    "labels": {
+      "overall": "Overall",
+      "documents": "Documents",
+      "family": "Family",
+      "security": "Security",
+      "profileCompletion": "Profile Completion",
+      "documentUpload": "Document Upload",
+      "willDraft": "Will Draft",
+      "familySetup": "Family Setup",
+      "willProgress": "Will Progress"
+    }
+  },
+  "profiles": {
+    "card": {
+      "title": "Profile Cards"
+    },
+    "sections": {
+      "defaultGrid": "Default Grid",
+      "compactVariant": "Compact Variant", 
+      "detailedVariant": "Detailed Variant"
+    },
+    "toast": {
+      "edit": "Edit {{name}}",
+      "delete": "Delete {{name}}",
+      "view": "View {{name}}"
+    },
+    "metadata": {
+      "lastLogin": "Last Login",
+      "documents": "Documents",
+      "tasks": "Tasks"
+    },
+    "data": {
+      "hoursAgo": "2 hours ago",
+      "documentsCount": "24",
+      "pendingTasks": "5 pending"
+    }
+  },
+  "mockData": {
+    "documents": {
+      "birthCertificate": "Birth Certificate.pdf",
+      "insurancePolicy": "Insurance Policy.pdf", 
+      "willDraft": "Will Draft.docx",
+      "propertyDeed": "Property Deed.pdf",
+      "medicalRecords": "Medical Records.pdf"
+    },
+    "categories": {
+      "personal": "Personal",
+      "financial": "Financial",
+      "legal": "Legal",
+      "property": "Property",
+      "health": "Health"
+    },
+    "relationships": {
+      "spouse": "Spouse",
+      "brother": "Brother",
+      "mother": "Mother"
+    },
+    "roles": {
+      "executor": "Executor",
+      "beneficiary": "Beneficiary", 
+      "guardian": "Guardian"
+    }
+  }
+}

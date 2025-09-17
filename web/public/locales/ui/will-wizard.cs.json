@@ -1,0 +1,393 @@
+{
+  "wizard": {
+    "title": "Pokročilý tvůrce závěti",
+    "subtitle": "Krok {{currentStep}} z {{totalSteps}}: {{stepTitle}}",
+    "backToPlanning": "Zpět na plánování dědictví",
+    "draftActive": "Sofia inteligentní koncept aktivní",
+    "draftDescription": "Předvyplněno s právní validací - Zkontrolujte a upravte podle potřeby"
+  },
+  "steps": {
+    "personal": {
+      "title": "Osobní údaje",
+      "description": "Vaše údaje"
+    },
+    "beneficiaries": {
+      "title": "Dědicové",
+      "description": "Kdo dědí"
+    },
+    "assets": {
+      "title": "Majetek",
+      "description": "Co vlastníte"
+    },
+    "executor": {
+      "title": "Vykonavatel",
+      "description": "Kdo spravuje"
+    },
+    "guardianship": {
+      "title": "Opatrovnictví",
+      "description": "Pro nezletilé děti"
+    },
+    "wishes": {
+      "title": "Poslední přání",
+      "description": "Speciální pokyny"
+    },
+    "legal_validation": {
+      "title": "Právní kontrola",
+      "description": "Kontrola souladu"
+    },
+    "sofia_check": {
+      "title": "Sofia kontrola",
+      "description": "AI kontrola"
+    },
+    "sofiaCheck": {
+      "title": "Sofia kontrola",
+      "description": "Kontrola správnosti"
+    },
+    "review": {
+      "title": "Finální kontrola",
+      "description": "Potvrdit a vygenerovat"
+    }
+  },
+  "relationships": {
+    "spouse": "Manžel/manželka",
+    "child": "Dítě",
+    "parent": "Rodič",
+    "sibling": "Sourozenec",
+    "grandchild": "Vnouče",
+    "friend": "Přítel",
+    "charity": "Charita/organizace",
+    "other": "Jiný"
+  },
+  "personal": {
+    "title": "Osobní údaje",
+    "description": "Vaše údaje",
+    "fullName": {
+      "label": "Celé jméno",
+      "placeholder": "Zadejte své úplné právní jméno"
+    },
+    "dateOfBirth": {
+      "label": "Datum narození"
+    },
+    "address": {
+      "label": "Adresa",
+      "placeholder": "Zadejte svou úplnou adresu"
+    },
+    "citizenship": {
+      "label": "Občanství",
+      "placeholder": "např. české, slovenské, americké"
+    },
+    "jurisdiction": {
+      "label": "Právní jurisdikce",
+      "placeholder": "Vyberte jurisdikci"
+    },
+    "maritalStatus": {
+      "label": "Rodinný stav",
+      "placeholder": "Vyberte stav",
+      "single": "Svobodný/á",
+      "married": "Ženatý/vdaná",
+      "divorced": "Rozvedený/á",
+      "widowed": "Ovdovělý/á",
+      "options": {
+        "single": "Svobodný/á",
+        "married": "Ženatý/vdaná",
+        "divorced": "Rozvedený/á",
+        "widowed": "Ovdovělý/á"
+      }
+    }
+  },
+  "beneficiaries": {
+    "title": "Vaši dědicové",
+    "addButton": "Přidat dědice",
+    "addBeneficiary": "Přidat dědice",
+    "noBeneficiaries": "Zatím nebyli přidáni žádní dědicové",
+    "clickToStart": "Klikněte na \"Přidat dědice\" pro začátek",
+    "beneficiaryNumber": "Dědic {{number}}",
+    "emptyState": {
+      "title": "Zatím nebyli přidáni žádní dědicové",
+      "description": "Klikněte na \"Přidat dědice\" pro začátek"
+    },
+    "beneficiaryCard": {
+      "title": "Dědic {{index}}",
+      "fields": {
+        "name": {
+          "label": "Jméno",
+          "placeholder": "Jméno dědice"
+        },
+        "relationship": {
+          "label": "Vztah"
+        },
+        "percentage": {
+          "label": "Procentuální podíl dědictví",
+          "placeholder": "0"
+        },
+        "conditions": {
+          "label": "Speciální podmínky (volitelné)",
+          "placeholder": "např. pokud přežije, pokud dosáhne 18 let"
+        }
+      }
+    },
+    "fields": {
+      "name": {
+        "label": "Jméno",
+        "placeholder": "Jméno dědice"
+      },
+      "relationship": {
+        "label": "Vztah"
+      },
+      "percentage": {
+        "label": "Procentuální podíl dědictví",
+        "placeholder": "0"
+      },
+      "conditions": {
+        "label": "Speciální podmínky (volitelné)",
+        "placeholder": "např. pokud přežije, pokud dosáhne 18 let"
+      }
+    },
+    "guidance": {
+      "title": "Právní pokyny pro {{jurisdiction}}",
+      "forcedHeirs": "Informace o neopominutelných dědicích a dědických právech"
+    }
+  },
+  "assets": {
+    "header": {
+      "title": "Zdokumentujte svůj majetek",
+      "description": "Přidejte svůj majetek ručně nebo jej importujte ze svého trezoru LegacyGuard pro pohodlí.",
+      "importButton": "Importovat z mého trezoru"
+    },
+    "realEstate": {
+      "title": "Nemovitosti",
+      "fromVaultButton": "Z trezoru",
+      "addButton": "Přidat nemovitost",
+      "emptyState": "Zatím nebyly přidány žádné nemovitosti",
+      "fields": {
+        "description": "Popis nemovitosti",
+        "address": "Adresa",
+        "value": "Odhadovaná hodnota"
+      }
+    },
+    "vehicles": {
+      "title": "Vozidla",
+      "fromVaultButton": "Z trezoru",
+      "addButton": "Přidat vozidlo",
+      "emptyState": "Zatím nebyla přidána žádná vozidla",
+      "fields": {
+        "make": "Značka",
+        "model": "Model",
+        "year": "Rok",
+        "vin": "VIN (volitelné)"
+      }
+    },
+    "bankAccounts": {
+      "title": "Bankovní účty a investice",
+      "fromVaultButton": "Z trezoru",
+      "addButton": "Přidat účet",
+      "emptyState": "Zatím nebyly přidány žádné bankovní účty",
+      "fields": {
+        "bankName": "Název banky",
+        "accountNumber": "Poslední 4 číslice",
+        "type": {
+          "checking": "Běžný",
+          "savings": "Spořicí",
+          "investment": "Investiční"
+        }
+      }
+    },
+    "personalProperty": {
+      "title": "Osobní majetek",
+      "fromVaultButton": "Z trezoru",
+      "addButton": "Přidat položku",
+      "emptyState": "Zatím nebyly přidány žádné položky osobního majetku",
+      "fields": {
+        "description": "Popis položky",
+        "value": "Odhadovaná hodnota",
+        "recipient": "Určený příjemce"
+      }
+    }
+  },
+  "executor": {
+    "primary": {
+      "title": "Hlavní vykonavatel",
+      "fields": {
+        "name": {
+          "label": "Jméno",
+          "placeholder": "Celé jméno vykonavatele"
+        },
+        "relationship": {
+          "label": "Vztah",
+          "placeholder": "např. manžel/ka, přítel, právník"
+        },
+        "phone": {
+          "label": "Telefon (volitelné)",
+          "placeholder": "Telefonní číslo"
+        }
+      }
+    },
+    "backup": {
+      "title": "Záložní vykonavatel (volitelné)",
+      "fields": {
+        "name": {
+          "label": "Jméno",
+          "placeholder": "Jméno záložního vykonavatele"
+        },
+        "relationship": {
+          "label": "Vztah",
+          "placeholder": "např. sourozenec, přítel"
+        }
+      }
+    },
+    "responsibilities": {
+      "title": "Odpovědnosti vykonavatele",
+      "description": "Váš vykonavatel bude řešit vypořádání vaší pozůstalosti, placení dluhů, rozdělování majetku a zajištění splnění vašich přání. Vyberte někoho, komu důvěřujete, kdo je organizovaný a zodpovědný."
+    }
+  },
+  "wishes": {
+    "funeral": {
+      "label": "Přání ohledně pohřbu a vzpomínkové akce",
+      "placeholder": "Popište své preference pro pohřební uspořádání, vzpomínkovou akci, pohřeb/kremaci atd."
+    },
+    "organDonation": {
+      "label": "Přeji si být dárcem orgánů"
+    },
+    "specificBequests": {
+      "label": "Specifické odkazy",
+      "placeholder": "Uveďte konkrétní položky nebo částky, které chcete odkázat konkrétním osobám"
+    },
+    "residuary": {
+      "label": "Zbytkové ustanovení",
+      "placeholder": "Vysvětlete, jak má být rozdělen veškerý zbývající majetek"
+    }
+  },
+  "guardianship": {
+    "title": "Opatrovnictví nezletilých dětí",
+    "description": "Jmenujte opatrovníky pro své nezletilé děti",
+    "primary": {
+      "title": "Hlavní opatrovník",
+      "fields": {
+        "name": {
+          "label": "Jméno",
+          "placeholder": "Celé jméno opatrovníka"
+        },
+        "relationship": {
+          "label": "Vztah k dětem",
+          "placeholder": "např. teta, rodinný přítel"
+        },
+        "phone": {
+          "label": "Telefon (volitelné)",
+          "placeholder": "Telefonní číslo"
+        }
+      }
+    },
+    "backup": {
+      "title": "Záložní opatrovník (volitelné)",
+      "fields": {
+        "name": {
+          "label": "Jméno",
+          "placeholder": "Jméno záložního opatrovníka"
+        },
+        "relationship": {
+          "label": "Vztah k dětem",
+          "placeholder": "např. prarodič, blízký přítel"
+        }
+      }
+    },
+    "instructions": {
+      "label": "Speciální pokyny pro opatrovníky",
+      "placeholder": "Jakékoliv speciální pokyny nebo přání týkající se péče o vaše děti"
+    }
+  },
+  "sofiaCheck": {
+    "title": "Sofia kontrola",
+    "description": "Naše AI kontroluje správnost a úplnost vaší závěti",
+    "analyzing": "Analyzuji vaši závěť...",
+    "complete": "Kontrola dokončena",
+    "issues": {
+      "title": "Zjištěné problémy",
+      "none": "Nebyly zjištěny žádné problémy"
+    },
+    "suggestions": {
+      "title": "Doporučení",
+      "none": "Žádná doporučení"
+    }
+  },
+  "review": {
+    "title": "Zkontrolujte svou závěť",
+    "description": "Zkontrolujte všechny informace před vygenerováním závěti",
+    "section": {
+      "personal": "Osobní údaje",
+      "beneficiaries": "Dědicové",
+      "assets": "Majetek",
+      "executor": "Vykonavatel",
+      "guardianship": "Opatrovnictví",
+      "wishes": "Poslední přání"
+    },
+    "actions": {
+      "generate": "Vygenerovat závěť",
+      "download": "Stáhnout PDF",
+      "save": "Uložit koncept"
+    }
+  },
+  "jurisdictions": {
+    "Slovakia": "Slovensko",
+    "Czech-Republic": "Česká republika",
+    "US-General": "Spojené státy (obecně)",
+    "US-California": "Kalifornie, USA",
+    "US-Texas": "Texas, USA",
+    "US-Florida": "Florida, USA",
+    "US-NewYork": "New York, USA",
+    "UK": "Spojené království",
+    "Canada": "Kanada",
+    "Australia": "Austrálie"
+  },
+  "legalValidation": {
+    "title": "Kontrola právní shody",
+    "description": "Vaše závěť se kontroluje podle {{jurisdiction}} práva",
+    "requirements": {
+      "title": "Právní požadavky pro {{jurisdiction}}",
+      "forcedHeirs": {
+        "title": "Ochrana neopominutelných dědiců",
+        "description": "Informace o požadavcích na ochranu neopominutelných dědiců"
+      },
+      "witnesses": {
+        "title": "Požadavky na svědky",
+        "description": "Informace o požadavcích na svědky"
+      },
+      "revocation": {
+        "title": "Odvolání závěti",
+        "description": "Informace o postupech odvolání závěti"
+      },
+      "notarization": {
+        "title": "Notářské ověření",
+        "description": "Informace o požadavcích na notářské ověření"
+      }
+    }
+  },
+  "navigation": {
+    "back": "Zpět",
+    "continue": "Pokračovat",
+    "createWill": "Vytvořit závěť",
+    "changeWillType": "Změnit typ závěti",
+    "stepIndicator": "Krok {{current}} z {{total}}"
+  },
+  "validation": {
+    "errors": "{{count}} chyba",
+    "errors_few": "{{count}} chyby",
+    "errors_many": "{{count}} chyb",
+    "errors_plural": "{{count}} chyb",
+    "warnings": "{{count}} upozornění",
+    "warnings_few": "{{count}} upozornění",
+    "warnings_many": "{{count}} upozornění",
+    "warnings_plural": "{{count}} upozornění",
+    "resolveErrors": "Prosím vyřešte všechny problémy s právním souladem před vytvořením závěti",
+    "resolveStepErrors": "Prosím vyřešte chyby validace před pokračováním"
+  },
+  "common": {
+    "loading": "Načítává se...",
+    "remove": "Odstranit",
+    "add": "Přidat",
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "required": "Povinné",
+    "optional": "Volitelné",
+    "notImplemented": "Krok není implementován"
+  }
+}

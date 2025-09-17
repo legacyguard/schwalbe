@@ -1,0 +1,80 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "continue": "Continue"
+  },
+  "navigation": {
+    "home": "Home",
+    "vault": "Vault",
+    "garden": "Garden",
+    "family": "Family",
+    "wills": "Wills",
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "buttons": {
+    "create": "Create",
+    "update": "Update",
+    "submit": "Submit",
+    "reset": "Reset",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort"
+  },
+  "forms": {
+    "required": "This field is required",
+    "invalid": "Invalid input",
+    "tooShort": "Too short",
+    "tooLong": "Too long",
+    "invalidEmail": "Invalid email address"
+  },
+  "dashboard": {
+    "header": {
+      "title": "Family Shield",
+      "titleWithName": "Family Shield, {{name}}",
+      "subtitle": {
+        "adaptive": "Overview of everything protecting your family",
+        "empathetic": "A loving overview of your family's protection and care",
+        "pragmatic": "System status and family protection metrics"
+      },
+      "actions": {
+        "secureNewInformation": "Secure New Information"
+      }
+    },
+    "metrics": {
+      "title": {
+        "adaptive": "Your Legacy at a Glance",
+        "empathetic": "💫 Your Family's Circle of Love",
+        "pragmatic": "📈 System Performance Metrics"
+      },
+      "subtitle": {
+        "empathetic": "Every number represents care and protection"
+      },
+      "documentsProtected": "Documents Protected",
+      "familyMembers": "Family Members",
+      "guardians": "Guardians",
+      "daysProtected": "Days Protected",
+      "labels": {
+        "active": "Active"
+      }
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password"
+  }
+}

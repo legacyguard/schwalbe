@@ -1,0 +1,41 @@
+{
+  "header": {
+    "title": "My Family",
+    "subtitle": "Manage your family members and assign their roles in your estate plan"
+  },
+  "buttons": {
+    "addFamilyMember": "Add Family Member"
+  },
+  "insights": {
+    "familyMembers": "Family Members",
+    "heirsAssigned": "Heirs Assigned",
+    "guardiansAssigned": "Guardians Assigned",
+    "complete": "Complete"
+  },
+  "alerts": {
+    "missingRoles": "{{count}} family member{{plural}} no assigned roles. Click on them in the family tree to assign inheritance, guardian, or executor roles.",
+    "missingRolesPlural": "s have",
+    "missingRolesSingular": " has"
+  },
+  "familyTree": {
+    "title": "Interactive Family Tree",
+    "description": "Click on any family member to assign roles: heirs, guardians, executors, or legacy messages",
+    "placeholder": "Family Tree Visualization component will be implemented here"
+  },
+  "familyMembersList": {
+    "title": "Family Members"
+  },
+  "memberCard": {
+    "born": "Born: {{date}}",
+    "roles": {
+      "heir": "Heir ({{percentage}}%)",
+      "executor": "Executor",
+      "guardian": "Guardian",
+      "legacy": "Legacy"
+    },
+    "status": {
+      "partial": "Roles incomplete",
+      "missingInfo": "No roles assigned"
+    }
+  }
+}

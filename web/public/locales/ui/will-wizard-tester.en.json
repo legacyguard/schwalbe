@@ -1,0 +1,53 @@
+{
+  "title": "Will Wizard Testing Suite",
+  "subtitle": "Test all 8 language-jurisdiction combinations for the will wizard",
+  "currentLabel": "Current:",
+  "buttons": {
+    "clearTestResults": "Clear Test Results",
+    "viewTestResults": "View Test Results",
+    "testCombination": "Test {{language}}-{{jurisdiction}}"
+  },
+  "status": {
+    "tested": "✅ Tested",
+    "pending": "⏳ Pending"
+  },
+  "labels": {
+    "ui": "UI:",
+    "law": "Law:",
+    "file": "File:"
+  },
+  "sections": {
+    "expectedCombinations": "Expected Test Combinations",
+    "slovakiaJurisdiction": "Slovakia Jurisdiction (SK)",
+    "czechJurisdiction": "Czech Jurisdiction (CZ)",
+    "testInstructions": "Test Instructions",
+    "expectedFileRouting": "Expected File Routing"
+  },
+  "combinations": {
+    "sk-SK": "Slovak interface + Slovak law",
+    "cs-SK": "Czech interface + Slovak law", 
+    "en-SK": "English interface + Slovak law",
+    "de-SK": "German interface + Slovak law",
+    "sk-CZ": "Slovak interface + Czech law",
+    "cs-CZ": "Czech interface + Czech law",
+    "en-CZ": "English interface + Czech law",
+    "de-CZ": "German interface + Czech law"
+  },
+  "instructions": [
+    "Click each test button to launch the will wizard in that language-jurisdiction combination",
+    "Navigate through the wizard steps to verify the interface language is correct",
+    "Check that legal terms and requirements match the selected jurisdiction",
+    "Complete the wizard or go through several steps to verify functionality",
+    "Close the wizard and check that the test is marked as completed",
+    "Repeat for all 8 combinations",
+    "Use \"View Test Results\" to inspect the saved test data",
+    "Use browser dev tools to take HTML snapshots if needed"
+  ],
+  "fileRouting": {
+    "description": "The system should load translation files from:",
+    "path": "/public/locales/content/wills/[language]_[jurisdiction].json"
+  },
+  "alerts": {
+    "testCompleted": "✅ Test completed for {{label}}!\nCheck console and localStorage for results."
+  }
+}

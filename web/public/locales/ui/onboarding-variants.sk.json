@@ -1,0 +1,197 @@
+{
+  "header": {
+    "variant_a_title": "Chráňte svoju rodinu",
+    "variant_b_title": "Vitajte v LegacyGuard",
+    "progress": "{{current}} z {{total}}",
+    "variant_a_subtitle": "Každý krok prináša vašim blízkym väčšiu bezpečnosť",
+    "step_description": "Krok {{current}}: {{description}}"
+  },
+  "steps": {
+    "control": {
+      "name": {
+        "id": "name",
+        "title": "Povedzte nám svoje meno",
+        "description": "Osobné údaje"
+      },
+      "purpose": {
+        "id": "purpose",
+        "title": "Čo vás sem priviedlo?",
+        "description": "Pochopenie vašich potrieb"
+      },
+      "family": {
+        "id": "family",
+        "title": "Informácie o rodine",
+        "description": "Tých, ktorých chcete chrániť"
+      },
+      "next_steps": {
+        "id": "next_steps",
+        "title": "Vaše ďalšie kroky",
+        "description": "Začíname"
+      }
+    },
+    "emotion_first": {
+      "family_impact": {
+        "id": "family_impact",
+        "title": "Koho chcete chrániť?",
+        "description": "Ľudia, ktorí sú najdôležitejší"
+      },
+      "protection_goals": {
+        "id": "protection_goals",
+        "title": "Čo by vám prinieslo pokoj?",
+        "description": "Vaše priority ochrany"
+      },
+      "personal_info": {
+        "id": "personal_info",
+        "title": "Prispôsobme vašu skúsenosť",
+        "description": "Základné informácie"
+      },
+      "first_action": {
+        "id": "first_action",
+        "title": "Urobte svoj prvý ochranný krok",
+        "description": "Začnite chrániť svoju rodinu už dnes"
+      }
+    }
+  },
+  "name_step": {
+    "title": "Ako sa máme k vám oslovovať?",
+    "label": "Vaše meno",
+    "placeholder": "Zadajte svoje celé meno",
+    "continue": "Pokračovať",
+    "skip": "Preskočiť"
+  },
+  "purpose_step": {
+    "title": "Čo vás priviedlo do LegacyGuard?",
+    "options": {
+      "organize_documents": "Organizovať dôležité dokumenty",
+      "create_will": "Vytvoriť závet alebo dedičský plán",
+      "family_access": "Zabezpečiť, aby moja rodina mala prístup k informáciám",
+      "legal_review": "Získať právnu kontrolu od profesionálov",
+      "all_above": "Všetko vyššie spomenuté"
+    },
+    "continue": "Pokračovať",
+    "skip": "Preskočiť"
+  },
+  "family_step": {
+    "title": "Povedzte nám o svojej rodine",
+    "family_size_label": "Koľko členov rodiny chcete chrániť?",
+    "family_size_options": {
+      "1-2": "1-2 ľudia",
+      "3-4": "3-4 ľudia", 
+      "5-6": "5-6 ľudí",
+      "7+": "7+ ľudí"
+    },
+    "minors_label": "Máte maloletné deti?",
+    "yes": "Áno",
+    "no": "Nie",
+    "continue": "Pokračovať",
+    "skip": "Preskočiť"
+  },
+  "next_steps": {
+    "title": "Perfektne! Tu je to, čo odporúčame ďalej",
+    "subtitle": "Na základe vašich informácií vám tieto kroky poskytnú najlepšiu ochranu",
+    "recommendations": {
+      "upload_documents": {
+        "title": "Nahrať dôležité dokumenty",
+        "description": "Zabezpečte si doklady totožnosti, poistenie a finančné dokumenty",
+        "time": "5 minút"
+      },
+      "emergency_contacts": {
+        "title": "Pridať núdzové kontakty",
+        "description": "Nechajte dôveryhodných ľudí pristupovať k vašim informáciám v prípade potreby",
+        "time": "2 minúty"
+      },
+      "complete_will": {
+        "title": "Dokončiť sprievodcu závetom",
+        "description": "Vytvorte právne platný závet s našim riadeným procesom",
+        "time": "15 minút"
+      }
+    },
+    "start_button": "Začať chrániť moju rodinu"
+  },
+  "family_impact_step": {
+    "title": "Koho chcete chrániť?",
+    "subtitle": "Bezpečnosť a pokoj vašej rodiny začína vami. Vyberte všetkých, ktorí sú pre vás najdôležitejší.",
+    "people": {
+      "spouse": "Manžel/Manželka/Partner",
+      "children": "Deti",
+      "parents": "Rodičia",
+      "siblings": "Súrodenci",
+      "extended": "Rozšírená rodina"
+    },
+    "confirmation": {
+      "single": "Výborná voľba! Pomôžeme vám vytvoriť ochranný plán pre vášho blízkeho.",
+      "multiple": "Výborná voľba! Pomôžeme vám vytvoriť ochranný plán pre všetkých {{count}} vašich blízkych."
+    },
+    "continue": "Pokračovať v ochrane mojej rodiny",
+    "skip": "Preskočiť"
+  },
+  "protection_goals_step": {
+    "title": "Čo by vám prinieslo pokoj?",
+    "subtitle": "Vyberte ciele ochrany, ktoré sú najdôležitejšie pre budúcnosť vašej rodiny.",
+    "goals": {
+      "emergency_access": {
+        "title": "Núdzový prístup k informáciám",
+        "description": "Rodina môže rýchlo nájsť dôležité dokumenty a kontakty",
+        "impact": "Vysoký"
+      },
+      "financial_security": {
+        "title": "Finančná bezpečnosť",
+        "description": "Jasné pokyny pre prístup k účtom a majetku",
+        "impact": "Vysoký"
+      },
+      "child_care": {
+        "title": "Pokyny pre starostlivosť o deti",
+        "description": "Plány opatrovníctva a preferencie starostlivosti",
+        "impact": "Kritický"
+      },
+      "legal_compliance": {
+        "title": "Právna zhoda",
+        "description": "Dokumenty, ktoré obstoja pred súdom",
+        "impact": "Vysoký"
+      },
+      "peace_of_mind": {
+        "title": "Pokoj v duši",
+        "description": "Vedieť, že vaša rodina je pripravená na čokoľvek",
+        "impact": "Nevyhnutný"
+      }
+    },
+    "continue": "Vytvoriť môj ochranný plán",
+    "skip": "Preskočiť"
+  },
+  "personal_info_step": {
+    "title": "Prispôsobme váš ochranný plán",
+    "subtitle": "Toto nám pomáha poskytnúť vám relevantnejšie pokyny a právnu zhodu.",
+    "name_label": "Vaše meno",
+    "name_placeholder": "Zadajte svoje celé meno",
+    "location_label": "Štát/Provincia",
+    "location_placeholder": "napr. Kalifornia, Ontario",
+    "location_help": "Toto zabezpečuje, že vaše dokumenty budú v súlade s miestnymi zákonmi",
+    "continue": "Pokračovať",
+    "skip": "Preskočiť"
+  },
+  "first_action_step": {
+    "title": "Urobte svoj prvý ochranný krok",
+    "subtitle": "Každá cesta začína jediným krokom. Vyberte si, ako by ste chceli začať chrániť svoju rodinu dnes.",
+    "actions": {
+      "upload_document": {
+        "title": "Nahrajte svoj prvý dokument",
+        "description": "Začnite s dokladom totožnosti, poistením alebo akýmkoľvek dôležitým dokumentom",
+        "time": "2 minúty",
+        "impact": "Okamžitá ochrana pre vašu rodinu"
+      },
+      "add_contact": {
+        "title": "Pridať núdzový kontakt",
+        "description": "Niekoho, kto môže pristupovať k vašim informáciám v prípade potreby",
+        "time": "1 minúta",
+        "impact": "Pokoj v duši v núdzových situáciách"
+      },
+      "start_will": {
+        "title": "Začať tvorbu závetu",
+        "description": "Spustite riadeného sprievodcu závetom pre kompletnú ochranu",
+        "time": "5 minút",
+        "impact": "Kompletná právna ochrana rodiny"
+      }
+    },
+    "footer_note": "Ostatné akcie môžete vykonať neskôr zo svojho panelu"
+  }
+}

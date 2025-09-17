@@ -1,0 +1,59 @@
+{
+  "title": "Quick Search",
+  "placeholder": "Search documents, guardians, or actions...",
+  "loading": "Searching...",
+  "noResults": "No results for \"{{query}}\"",
+  "trySearching": "Try a different term or browse suggestions below.",
+  "navigation": {
+    "hint": "Use ↑/↓ to navigate, Enter to select",
+    "close": "Esc to close"
+  },
+  "actions": {
+    "uploadDocument": "Upload Document",
+    "uploadDocumentSubtitle": "Go to Vault and upload a new file",
+    "addGuardian": "Add Guardian",
+    "addGuardianSubtitle": "Invite a trusted person to your account",
+    "dashboard": "Open Dashboard",
+    "dashboardSubtitle": "Return to home overview",
+    "legacyPlanning": "Legacy Planning",
+    "legacyPlanningSubtitle": "Work on wills, trusts, and plans"
+  },
+  "toast": {
+    "navigateUpload": "Opening Vault...",
+    "navigateGuardian": "Opening Guardians...",
+    "foundDocument": "Found document: {{title}}",
+    "foundGuardian": "Found guardian: {{name}}",
+    "searchFailed": "Search failed. Please try again."
+  },
+  "sofia": {
+    "learnedFromDocuments": "Based on your documents",
+    "askAssistant": "Ask Sofia Assistant",
+    "remembersPatterns": "Sofia learns from your activity to suggest actions",
+    "willHelp": "Sofia will help you find what you need"
+  }
+}
+{
+  "title": "Quick Search",
+  "placeholder": "Search documents, guardians, or ask Sofia...",
+  "loading": "Searching...",
+  "noResults": "No results found for \"{{query}}\"",
+  "trySearching": "Try searching for documents, guardians, or features",
+  "actions": {
+    "uploadDocument": "Upload Document", 
+    "uploadDocumentSubtitle": "Secure document storage",
+    "addGuardian": "Add Guardian",
+    "addGuardianSubtitle": "Emergency contact management",
+    "dashboard": "Dashboard",
+    "dashboardSubtitle": "Your protection overview",
+    "legacyPlanning": "Legacy Planning",
+    "legacyPlanningSubtitle": "Create your legacy"
+  },
+  "sofia": {
+    "askAssistant": "Ask Sofia, your AI assistant",
+    "learnedFromDocuments": "Sofia learned from your documents"
+  },
+  "toast": {
+    "foundDocument": "Opening document: {{title}}",
+    "searchFailed": "Search failed. Please try again."
+  }
+}

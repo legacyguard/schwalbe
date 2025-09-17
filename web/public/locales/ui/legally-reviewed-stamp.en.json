@@ -1,0 +1,26 @@
+{
+  "certification": {
+    "legal_certified": {
+      "label": "Legally Certified",
+      "badge": "Legal Expert"
+    },
+    "premium": {
+      "label": "Premium Review",
+      "badge": "Professional"
+    },
+    "basic": {
+      "label": "Professionally Reviewed",
+      "badge": "Reviewed"
+    },
+    "default": {
+      "label": "Reviewed",
+      "badge": "Basic"
+    }
+  },
+  "watermark": {
+    "text": "REVIEWED"
+  },
+  "fallback": {
+    "dateNotAvailable": "Date not available"
+  }
+}

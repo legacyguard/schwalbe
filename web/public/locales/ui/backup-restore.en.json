@@ -1,0 +1,72 @@
+{
+  "title": "Backup & Restore",
+  "description": "Safeguard your data with regular backups",
+  "lastBackup": "Last backup",
+  "export": {
+    "title": "Export Your Data",
+    "description": "Download a complete backup of all your data including documents, settings, and preferences. You can optionally encrypt your backup with a password for enhanced security.",
+    "estimatedSize": "Estimated backup size: {{size}}",
+    "encryptOption": "Encrypt backup with password",
+    "passwordLabel": "Backup Password",
+    "passwordPlaceholder": "Enter a strong password",
+    "passwordWarning": "⚠️ Remember this password! You'll need it to restore your backup.",
+    "button": "Export Data",
+    "preparing": "Preparing Export..."
+  },
+  "import": {
+    "title": "Restore From Backup",
+    "description": "Restore your data from a previously exported backup file. This will merge the backup data with your existing data, avoiding duplicates where possible.",
+    "passwordRequired": "Backup Password Required",
+    "passwordPlaceholder": "Enter backup password",
+    "button": "Choose Backup File",
+    "decryptButton": "Decrypt & Import",
+    "cancel": "Cancel",
+    "importing": "Importing...",
+    "maxFileSize": "Max file size: 10MB"
+  },
+  "info": {
+    "title": "Important Information",
+    "points": [
+      "Backups contain sensitive data. Store them securely and never share them publicly.",
+      "Regular backups are recommended, especially before major changes.", 
+      "Imported data will be merged with existing data to avoid duplicates."
+    ]
+  },
+  "dangerZone": {
+    "title": "Danger Zone",
+    "clearTitle": "Clear All Data",
+    "clearDescription": "Permanently delete all your local data. This action cannot be undone. Make sure you have a backup before proceeding.",
+    "clearButton": "Clear All Data"
+  },
+  "dialog": {
+    "confirmTitle": "Clear All Data?",
+    "confirmDescription": "This will permanently delete ALL your local data including:",
+    "confirmItems": [
+      "Documents and files metadata",
+      "Personal information and settings", 
+      "Saved preferences and progress"
+    ],
+    "confirmWarning": "This action cannot be undone!",
+    "confirmBackupReminder": "Make sure you have exported a backup before proceeding.",
+    "confirmButton": "Yes, Clear All Data",
+    "cancelButton": "Cancel"
+  },
+  "errors": {
+    "loginRequired": "You must be logged in to export data",
+    "passwordRequired": "Please enter a password to encrypt your backup",
+    "passwordTooShort": "Password must be at least 8 characters long",
+    "exportFailed": "Failed to export data",
+    "invalidFileType": "Please select a valid backup file (.json)",
+    "fileTooLarge": "Backup file is too large (max 10MB)",
+    "invalidFormat": "Invalid backup file format",
+    "importLoginRequired": "You must be logged in to import data",
+    "importFailed": "Failed to import data",
+    "clearDataFailed": "Failed to clear data"
+  },
+  "success": {
+    "dataCleared": "All data has been cleared successfully"
+  },
+  "messages": {
+    "encrypted": "This backup is encrypted. Please enter the password."
+  }
+}

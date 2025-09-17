@@ -1,0 +1,109 @@
+{
+  "title": "Secure Vault",
+  "header": {
+    "title": "My Vault",
+    "subtitle": "Securely store and automatically analyze your important documents with AI-powered OCR technology."
+  },
+  "meta": {
+    "title": "Document Vault",
+    "description": "Securely store and automatically analyze your important documents with AI-powered OCR technology. Your digital vault for all important documents.",
+    "keywords": "document vault, secure storage, AI OCR, document analysis, encrypted documents"
+  },
+  "metrics": {
+    "totalDocuments": "Total Documents",
+    "encrypted": "Encrypted",
+    "ocrProcessed": "OCR Processed",
+    "expiringSoon": "Expiring Soon",
+    "labels": {
+      "secured": "Secured",
+      "searchable": "Searchable",
+      "within90Days": "Within 90 days"
+    }
+  },
+  "table": {
+    "title": "Document Vault",
+    "description": "All your protected documents in one secure place",
+    "searchPlaceholder": "Search documents by name, category, or tags...",
+    "headers": {
+      "documentName": "Document Name",
+      "category": "Category",
+      "size": "Size",
+      "uploaded": "Uploaded",
+      "expires": "Expires",
+      "ocrStatus": "OCR Status",
+      "tags": "Tags",
+      "actions": "Actions"
+    },
+    "ocrStatus": {
+      "complete": "Complete",
+      "processing": "Processing",
+      "failed": "Failed",
+      "none": "-"
+    },
+    "actions": {
+      "view": "View",
+      "download": "Download",
+      "delete": "Delete"
+    }
+  },
+  "upload": {
+    "title": "Upload Documents",
+    "subtitle": "Drag and drop your documents or click to browse",
+    "button": "Upload New Document"
+  },
+  "notifications": {
+    "ocrInfo": {
+      "title": "✨ AI-Powered Document Analysis Now Available!",
+      "description": "Upload any document and our AI will automatically extract text, classify document types, identify important information like dates and amounts, and make your documents searchable."
+    }
+  },
+  "actions": {
+    "refreshDocuments": "Refresh Documents",
+    "exportDocuments": "Export Documents"
+  },
+  "dialogs": {
+    "delete": {
+      "title": "Delete Document",
+      "description": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
+  },
+  "categories": {
+    "personal": "Personal",
+    "financial": "Financial",
+    "property": "Property",
+    "legal": "Legal",
+    "health": "Health",
+    "insurance": "Insurance",
+    "education": "Education",
+    "other": "Other"
+  },
+  "sampleDocuments": {
+    "birthCertificate": "Birth Certificate.pdf",
+    "insurancePolicy": "Insurance Policy 2024.pdf",
+    "propertyDeed": "Property Deed.pdf",
+    "willDraft": "Will Draft v3.docx",
+    "medicalRecords": "Medical Records 2024.pdf"
+  },
+  "tags": {
+    "identity": "identity",
+    "official": "official",
+    "health": "health",
+    "annual": "annual",
+    "realEstate": "real-estate",
+    "ownership": "ownership",
+    "draft": "draft",
+    "inheritance": "inheritance",
+    "medical": "medical",
+    "records": "records"
+  },
+  "messages": {
+    "loadError": "Failed to load documents",
+    "deleteSuccess": "Deleted {{name}}",
+    "deleteError": "Failed to delete document",
+    "openingDocument": "Opening {{name}}",
+    "downloadingDocument": "Downloading {{name}}",
+    "documentsExported": "Documents exported successfully"
+  }
+}

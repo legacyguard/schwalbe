@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+dist/
+build/
+
+# Generated files
+*.min.js
+*.min.css
+*.bundle.js
+
+# Supabase functions (Deno format)
+supabase/functions/
+
+# Legacy code
+claude-code-history-viewer/
+Tailadmin/
+Hero UI/
+
+# Config files
+package-lock.json
+bun.lockb
+
+# Documentation
+*.md
+
+# Environment files
+.env*
+env.template
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

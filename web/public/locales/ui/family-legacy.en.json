@@ -1,0 +1,253 @@
+{
+  "header": {
+    "title": "Family Legacy Project Management",
+    "subtitle": "Organize and manage your family's legacy planning projects"
+  },
+  "navigation": {
+    "newProject": "New Project",
+    "close": "Close",
+    "cancel": "Cancel"
+  },
+  "filters": {
+    "filterByStatus": "Filter by status",
+    "allProjects": "All Projects",
+    "planning": "Planning",
+    "active": "Active",
+    "completed": "Completed",
+    "onHold": "On Hold",
+    "archived": "Archived",
+    "on-hold": "On Hold"
+  },
+  "projectCreation": {
+    "title": "Create New Legacy Project",
+    "createCustomProject": "Create Custom Project"
+  },
+  "projectDetails": {
+    "projectProgress": "Project Progress",
+    "started": "Started",
+    "due": "Due",
+    "members": "members",
+    "tasks": "Tasks",
+    "milestones": "Milestones",
+    "team": "Team",
+    "resources": "Resources"
+  },
+  "taskManagement": {
+    "addTask": "Add Task",
+    "createNewTask": "Create New Task",
+    "taskTitle": "Task title",
+    "taskDescription": "Task description",
+    "assignee": "Assignee",
+    "priority": "Priority",
+    "estimatedHours": "Estimated hours",
+    "createTask": "Create Task",
+    "comments": "comments",
+    "progress": "Progress"
+  },
+  "milestones": {
+    "addMilestone": "Add Milestone",
+    "completed": "Completed:"
+  },
+  "team": {
+    "teamMembers": "Team Members",
+    "addMember": "Add Member",
+    "expertise": "Expertise:"
+  },
+  "resources": {
+    "projectResources": "Project Resources",
+    "addResource": "Add Resource",
+    "noResourcesTitle": "No resources added yet",
+    "noResourcesSubtitle": "Add templates, documents, or helpful links"
+  },
+  "projectList": {
+    "progress": "Progress"
+  },
+  "emptyState": {
+    "noProjectsTitle": "No Projects Found",
+    "noProjectsFilterMessage": "Try adjusting your filters to see more projects",
+    "noProjectsCreateMessage": "Create your first legacy project to start organizing your family planning",
+    "createFirstProject": "Create First Project"
+  },
+  "priorities": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "critical": "Critical"
+  },
+  "statuses": {
+    "todo": "todo",
+    "inProgress": "in-progress",
+    "review": "review",
+    "completed": "completed",
+    "blocked": "blocked"
+  },
+  "viewModes": {
+    "kanban": "Kanban",
+    "list": "List",
+    "calendar": "Calendar"
+  },
+  "templates": {
+    "comprehensiveWill": {
+      "name": "Comprehensive Will Creation",
+      "description": "Complete will creation with legal review and family consultation",
+      "estimatedDuration": "4-6 weeks",
+      "tasks": {
+        "gatherInfo": {
+          "title": "Gather personal information and assets",
+          "description": "Compile all necessary personal and financial information"
+        },
+        "defineBeneficiaries": {
+          "title": "Define beneficiaries and inheritance wishes",
+          "description": "Clearly define who gets what and under what conditions"
+        },
+        "draftWill": {
+          "title": "Draft initial will document",
+          "description": "Create the first draft using legal templates"
+        },
+        "familyReview": {
+          "title": "Family review and feedback",
+          "description": "Share draft with family for input and discussion"
+        },
+        "legalReview": {
+          "title": "Professional legal review",
+          "description": "Have attorney review and validate the will"
+        },
+        "finalizeWill": {
+          "title": "Finalize and execute will",
+          "description": "Complete final signing and witnessing process"
+        }
+      },
+      "milestones": {
+        "infoComplete": {
+          "title": "Information Collection Complete",
+          "description": "All personal and asset information gathered",
+          "rewards": "Foundation for will is solid"
+        },
+        "firstDraft": {
+          "title": "First Draft Complete",
+          "description": "Initial will document is ready for review",
+          "rewards": "Major milestone - will is taking shape"
+        },
+        "willExecuted": {
+          "title": "Will Legally Executed",
+          "description": "Will is signed, witnessed, and legally valid",
+          "rewards": "Family protection is now legally secured"
+        }
+      }
+    },
+    "emergencyPlanning": {
+      "name": "Family Emergency Planning",
+      "description": "Comprehensive emergency preparedness and response planning",
+      "estimatedDuration": "2-3 weeks",
+      "tasks": {
+        "contactDatabase": {
+          "title": "Create emergency contact database",
+          "description": "Compile all important emergency contact information"
+        },
+        "procedures": {
+          "title": "Develop emergency procedures",
+          "description": "Create step-by-step emergency response procedures"
+        },
+        "emergencyKits": {
+          "title": "Prepare emergency kits",
+          "description": "Assemble physical emergency kits for each household"
+        }
+      },
+      "milestones": {
+        "contactsEstablished": {
+          "title": "Emergency Contacts Established",
+          "description": "All family members have access to emergency contacts",
+          "rewards": "Quick access to help in emergencies"
+        },
+        "planComplete": {
+          "title": "Emergency Plan Complete",
+          "description": "Comprehensive emergency plan is finalized",
+          "rewards": "Family is prepared for any emergency"
+        }
+      }
+    },
+    "familyHistory": {
+      "name": "Family History Documentation",
+      "description": "Preserve family history through stories, photos, and recordings",
+      "estimatedDuration": "8-12 weeks",
+      "tasks": {
+        "interviews": {
+          "title": "Interview family elders",
+          "description": "Record stories and memories from older family members"
+        },
+        "digitizePhotos": {
+          "title": "Digitize family photos",
+          "description": "Scan and organize historical family photographs"
+        },
+        "familyTree": {
+          "title": "Create family tree",
+          "description": "Build comprehensive family genealogy"
+        }
+      },
+      "milestones": {
+        "interviewsComplete": {
+          "title": "Elder Interviews Complete",
+          "description": "All available elder interviews have been recorded",
+          "rewards": "Precious memories are preserved forever"
+        },
+        "archiveComplete": {
+          "title": "Family Archive Complete",
+          "description": "Complete digital family history archive is ready",
+          "rewards": "Family legacy is documented for future generations"
+        }
+      }
+    }
+  },
+  "categories": {
+    "will-creation": "Will Creation",
+    "emergency-planning": "Emergency Planning",
+    "family-history": "Family History",
+    "asset-management": "Asset Management",
+    "document-organization": "Document Organization",
+    "trust-setup": "Trust Setup",
+    "custom": "Custom"
+  },
+  "roles": {
+    "viewer": "Viewer",
+    "contributor": "Contributor",
+    "reviewer": "Reviewer",
+    "project-manager": "Project Manager"
+  },
+  "availability": {
+    "full-time": "Full Time",
+    "part-time": "Part Time",
+    "limited": "Limited",
+    "unavailable": "Unavailable"
+  },
+  "tags": {
+    "information-gathering": "Information Gathering",
+    "assets": "Assets",
+    "beneficiaries": "Beneficiaries",
+    "inheritance": "Inheritance",
+    "drafting": "Drafting",
+    "legal": "Legal",
+    "family-review": "Family Review",
+    "feedback": "Feedback",
+    "legal-review": "Legal Review",
+    "attorney": "Attorney",
+    "execution": "Execution",
+    "signing": "Signing",
+    "contacts": "Contacts",
+    "emergency": "Emergency",
+    "procedures": "Procedures",
+    "response": "Response",
+    "emergency-kit": "Emergency Kit",
+    "supplies": "Supplies",
+    "interviews": "Interviews",
+    "stories": "Stories",
+    "memories": "Memories",
+    "photos": "Photos",
+    "digitization": "Digitization",
+    "genealogy": "Genealogy",
+    "family-tree": "Family Tree"
+  },
+  "misc": {
+    "you": "You",
+    "newTask": "New Task"
+  }
+}

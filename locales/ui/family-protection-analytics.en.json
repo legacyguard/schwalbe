@@ -1,0 +1,55 @@
+{
+  "header": {
+    "title": "Family Protection Analytics",
+    "description": "AI-powered insights into your family's protection status",
+    "simpleView": "Simple View",
+    "detailedAnalysis": "Detailed Analysis"
+  },
+  "score": {
+    "title": "Family Security Score",
+    "subtitle": "Overall protection level for your family",
+    "wellProtectedAreas": "{{count}} areas well protected",
+    "needsAttentionAreas": "{{count}} areas need attention",
+    "criticalAreas": "{{count}} critical areas",
+    "thisMonthImprovement": "+{{count}} this month"
+  },
+  "criticalRisks": {
+    "title": "Critical risk detected",
+    "count": "{{count}} critical risk{{count, plural, one {} other {s}}} detected",
+    "reviewNow": "Review Now"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "recommendations": "AI Recommendations",
+    "trends": "Trends",
+    "risks": "Risk Analysis"
+  },
+  "protectionArea": {
+    "protectionLevel": "Protection Level",
+    "improvement": "improvement",
+    "decline": "decline",
+    "risks": "Risks:",
+    "recommendations": "Recommendations:"
+  },
+  "recommendations": {
+    "aiRecommendations": "AI-Generated Recommendations",
+    "poweredBy": "Powered by LegacyGuard AI",
+    "impactScore": "Impact Score: {{score}}/100",
+    "priority": "Priority #{{index}}",
+    "takeAction": "Take Action"
+  },
+  "trends": {
+    "protectionTrends": "Protection Trends",
+    "visualizationPlaceholder": "Trend visualization would be implemented here",
+    "timeframe": "Shows protection score changes over {{timeframe}}",
+    "improvingAreas": "Improving Areas",
+    "stableAreas": "Stable Areas",
+    "decliningAreas": "Declining Areas"
+  },
+  "risks": {
+    "riskAnalysis": "Risk Analysis",
+    "mitigate": "Mitigate",
+    "affects": "Affects: {{affected}}",
+    "impact": "Impact: {{impact}}"
+  }
+}
