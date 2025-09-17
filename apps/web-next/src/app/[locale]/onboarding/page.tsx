@@ -2,9 +2,10 @@
 
 import { notFound } from "next/navigation";
 import { isOnboardingEnabled } from "@/config/flags";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Scene1Promise, Scene2Box, Scene3Key, Scene4Prepare } from "@/components/onboarding/Scenes";
 import { useTranslations } from "next-intl";
+import { track } from "@/lib/analytics";
 
 export default function OnboardingPage({ params }: { params: { locale: string } }) {
   if (!isOnboardingEnabled()) {
@@ -17,8 +18,24 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
   const [boxItems, setBoxItems] = useState("");
   const [trustedName, setTrustedName] = useState("");
 
-  const goBack = () => setStep((s) => Math.max(1, s - 1));
-  const goNext = () => setStep((s) => Math.min(4, s + 1));
+  // Analytics: view event on mount
+  useEffect(() => {
+    track({ event: "onboarding_view", locale: params.locale });
+  }, [params.locale]);
+
+  const goBack = () =>
+    setStep((s) => {
+      const prev = Math.max(1, s - 1);
+      if (prev !== s) track({ event: "onboarding_step_back", locale: params.locale, meta: { from: s, to: prev } });
+      return prev;
+    });
+
+  const goNext = () =>
+    setStep((s) => {
+      const next = Math.min(4, s + 1);
+      if (next !== s) track({ event: "onboarding_step_next", locale: params.locale, meta: { from: s, to: next } });
+      return next;
+    });
 
   return (
     <main className="min-h-screen text-slate-100">
@@ -47,7 +64,8 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
         <Scene4Prepare
           onBack={goBack}
           onComplete={() => {
-            // Placeholder complete handler; later: analytics + redirect
+            track({ event: "onboarding_complete", locale: params.locale, meta: { boxItemsLen: boxItems.trim().length, hasTrusted: !!trustedName.trim() } });
+            // Later: redirect to dashboard or next step
           }}
         />
       )}
