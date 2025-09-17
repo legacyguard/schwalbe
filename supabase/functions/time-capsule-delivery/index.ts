@@ -54,7 +54,7 @@ serve(async (req) => {
     // Process each capsule
     for (const capsule of readyCapsules as TimeCapsuleDelivery[]) {
       try {
-        console.log(`Processing capsule ${capsule.capsule_id} for ${capsule.recipient_email}`);
+        console.log(`Processing capsule ${capsule.capsule_id} for recipient ${capsule.recipient_id || 'unknown'}`);
 
         // Generate viewing URL
         const baseUrl = Deno.env.get('SITE_URL') ?? 'https://legacyguard.app';

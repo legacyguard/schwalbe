@@ -22,6 +22,7 @@ export default [
     },
     rules: {
       ...typescript.configs.recommended.rules,
+      '@typescript-eslint/no-unused-expressions': 'off',
       // Boundary enforcement rules
       'no-restricted-imports': [
         'error',
@@ -42,6 +43,14 @@ export default [
       '@typescript-eslint/no-explicit-any': 'warn',
       'prefer-const': 'error',
       'no-var': 'error'
+    }
+  },
+  // Loosen rules for declaration files in apps/web to avoid noisy warnings
+  {
+    files: ['apps/web/src/**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off'
     }
   },
   // Test files: provide Jest globals

@@ -4,8 +4,14 @@
  */
 import { supabase } from '../../supabase/client';
 // Temporary implementations until they're properly defined
-const cacheInvalidation = () => { };
-const professionalReviewCache = { get: () => null, set: () => { } };
+const cacheInvalidation = {
+    invalidateProfessionalReviewCaches: (_reviewId) => { }
+};
+const professionalReviewCache = {
+    get: (_key) => null,
+    set: (_key, _value) => { },
+    invalidate: (_key) => { },
+};
 export class ProfessionalService {
     static instance;
     static getInstance() {

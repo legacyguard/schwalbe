@@ -4,7 +4,8 @@ import { supabase } from '@/lib/supabase'
 export function ExportData() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [bundle, setBundle] = useState<any | null>(null)
+  type ExportBundle = { meta?: unknown } & Record<string, unknown>
+  const [bundle, setBundle] = useState<ExportBundle | null>(null)
   const [rateLimited, setRateLimited] = useState<number | null>(null)
   const [emailLoading, setEmailLoading] = useState(false)
   const [emailFeedback, setEmailFeedback] = useState<string | null>(null)
@@ -17,11 +18,11 @@ export function ExportData() {
     try {
       const { data, error } = await supabase.functions.invoke('export-data', { body: {} })
       if (error) throw error
-      if ((data as any)?.error === 'rate_limited') {
-        setRateLimited((data as any)?.retry_after_minutes || 15)
+      if ((data as { error?: string; retry_after_minutes?: number } | null | undefined)?.error === 'rate_limited') {
+        setRateLimited((data as { retry_after_minutes?: number } | null | undefined)?.retry_after_minutes || 15)
         return
       }
-      const b = (data as any)?.bundle
+      const b = (data as { bundle?: ExportBundle } | null | undefined)?.bundle
       if (!b) throw new Error('No bundle')
       setBundle(b)
       // Offer download
@@ -32,7 +33,7 @@ export function ExportData() {
       a.download = `legacyguard-export-${new Date().toISOString().slice(0,19)}.json`
       a.click()
       URL.revokeObjectURL(url)
-    } catch (_e) {
+    } catch {
       setError('Failed to export data')
     } finally {
       setLoading(false)
@@ -47,7 +48,7 @@ export function ExportData() {
     try {
       const { data, error } = await supabase.functions.invoke('export-data', { body: { delivery: 'email' } })
       if (error) throw error
-      const resp = data as any
+      const resp = data as { error?: string; retry_after_minutes?: number; expires_in_seconds?: number } | null | undefined
       if (resp?.error === 'rate_limited') {
         setRateLimited(resp?.retry_after_minutes || 15)
         return
@@ -58,7 +59,7 @@ export function ExportData() {
       }
       const hours = resp?.expires_in_seconds ? Math.floor(resp.expires_in_seconds / 3600) : 24
       setEmailFeedback(`We have emailed you a secure download link. It will expire in about ${hours} hour(s).`)
-    } catch (_e) {
+    } catch {
       setError('Failed to email the download link')
     } finally {
       setEmailLoading(false)

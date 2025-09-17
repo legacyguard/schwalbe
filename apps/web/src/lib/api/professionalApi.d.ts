@@ -20,12 +20,12 @@ export type DocumentReview = any;
 export type ReviewRequest = any;
 export type Consultation = any;
 export declare const professionalApi: {
-    applications: Record<string, never>;
-    reviewRequests: Record<string, never>;
-    reviews: Record<string, never>;
-    directory: Record<string, never>;
-    consultations: Record<string, never>;
-    analytics: Record<string, never>;
+    applications: Record<string, unknown>;
+    reviewRequests: Record<string, unknown>;
+    reviews: Record<string, unknown>;
+    directory: Record<string, unknown>;
+    consultations: Record<string, unknown>;
+    analytics: Record<string, unknown>;
 };
 export default professionalApi;
 //# sourceMappingURL=professionalApi.d.ts.map

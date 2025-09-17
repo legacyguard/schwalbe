@@ -1,9 +1,11 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { subscriptionService, type UserSubscription, type SubscriptionPreferences } from '@schwalbe/shared'
 import { supabase } from '@/lib/supabase'
 import { billingConfig, daysUntil, isTrialActive } from '@schwalbe/shared'
 
 export function SubscriptionsDashboard() {
+  const { t } = useTranslation('subscriptions')
   const [sub, setSub] = React.useState<UserSubscription | null>(null)
   const [prefs, setPrefs] = React.useState<SubscriptionPreferences | null>(null)
   const [saving, setSaving] = React.useState(false)
@@ -22,7 +24,7 @@ export function SubscriptionsDashboard() {
       setSub(s)
       setPrefs(p)
     } catch {
-      setError('Failed to load subscription data')
+      setError(t('errors.loadFailed'))
     }
   }, [])
 
@@ -33,17 +35,14 @@ export function SubscriptionsDashboard() {
     setSaving(true)
     setError(null)
     try {
-      const ok = await subscriptionService.updatePreferences({
+      await subscriptionService.updatePreferences({
         days_before_primary: prefs.days_before_primary,
         days_before_secondary: prefs.days_before_secondary,
-        channels: prefs.channels as any,
+        channels: prefs.channels,
       })
-      if (ok) {
-        // Trigger DB-side upsert of reminders via an innocuous update to user_subscriptions to refresh schedules
-        // Not strictly necessary if prefs trigger exists; we rely on the DB trigger on subscription updates
-      }
+      // DB-side triggers handle schedule refresh; no local side effects required
     } catch {
-      setError('Failed to save preferences')
+      setError(t('errors.saveFailed'))
     } finally {
       setSaving(false)
     }
@@ -60,57 +59,62 @@ export function SubscriptionsDashboard() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 text-white">
-      <h1 className="text-2xl font-semibold mb-4">Subscriptions</h1>
+      <h1 className="text-2xl font-semibold mb-4">{t('title')}</h1>
 
       {error ? <div className="text-red-400 mb-3">{error}</div> : null}
 
       <section className="mb-6 border border-slate-700 rounded p-4">
-        <h2 className="text-xl font-medium mb-2">Current plan</h2>
+        <h2 className="text-xl font-medium mb-2">{t('currentPlan')}</h2>
         {/* Trial / grace banners */}
         {sub ? (
           <div className="space-y-2 mb-3">
             {isTrialActive(sub.status) && billingConfig.trialEnabled ? (
               <div className="rounded border border-amber-400/40 bg-amber-500/10 p-3 text-amber-200">
-                Trial active. {(() => {
-                  const d = daysUntil(sub.expires_at)
-                  return d !== null ? `${d} day${d===1?'':'s'} remaining.` : ''
-                })()}
+                {t('trialActive', { 
+                  remaining: (() => {
+                    const d = daysUntil(sub.expires_at)
+                    return d !== null ? `${d} day${d===1?'':'s'}` : ''
+                  })()
+                })}
               </div>
             ) : null}
             {billingConfig.gracePeriodDays > 0 && sub?.status === 'cancelled' ? (
               <div className="rounded border border-sky-400/40 bg-sky-500/10 p-3 text-sky-200">
-                Grace period: you will retain access for {billingConfig.gracePeriodDays} day{billingConfig.gracePeriodDays===1?'':'s'} after cancellation.
+                {t('gracePeriod', { 
+                  days: billingConfig.gracePeriodDays,
+                  s: billingConfig.gracePeriodDays === 1 ? '' : 's'
+                })}
               </div>
             ) : null}
           </div>
         ) : null}
         {sub ? (
           <div className="space-y-1 text-slate-200">
-            <div>Plan: <span className="font-semibold capitalize">{sub.plan}</span></div>
-            <div>Status: <span className="font-semibold">{sub.status}</span></div>
-            <div>Billing cycle: <span className="font-semibold">{sub.billing_cycle}</span></div>
-            <div>Price: <span className="font-semibold">{fmtMoney(sub.price_amount_cents, sub.price_currency)}</span></div>
-            <div>Auto renew: <span className="font-semibold">{sub.auto_renew ? 'Yes' : 'No'}</span></div>
-            <div>Renewal date: <span className="font-semibold">{sub.expires_at ? new Date(sub.expires_at).toLocaleDateString() : '—'}</span></div>
+            <div>{t('plan')}: <span className="font-semibold capitalize">{sub.plan}</span></div>
+            <div>{t('status')}: <span className="font-semibold">{sub.status}</span></div>
+            <div>{t('billingCycle')}: <span className="font-semibold">{sub.billing_cycle}</span></div>
+            <div>{t('price')}: <span className="font-semibold">{fmtMoney(sub.price_amount_cents, sub.price_currency)}</span></div>
+            <div>{t('autoRenew')}: <span className="font-semibold">{sub.auto_renew ? 'Yes' : 'No'}</span></div>
+            <div>{t('renewalDate')}: <span className="font-semibold">{sub.expires_at ? new Date(sub.expires_at).toLocaleDateString() : '—'}</span></div>
             {sub.renew_url ? (
-              <div><a className="text-sky-300 underline" href={sub.renew_url} target="_blank" rel="noreferrer">Manage subscription</a></div>
+              <div><a className="text-sky-300 underline" href={sub.renew_url} target="_blank" rel="noreferrer">{t('manageSubscription')}</a></div>
             ) : null}
             <div className="mt-3 flex gap-3">
               <a className="inline-flex items-center px-3 py-1 rounded bg-sky-600 text-white hover:bg-sky-500" href="/account/billing">
-                Open Billing Portal
+                {t('openBillingPortal')}
               </a>
               {sub?.status === 'active' || sub?.status === 'trialing' ? (
                 <button
                   className="inline-flex items-center px-3 py-1 rounded bg-red-600 text-white hover:bg-red-500"
                   onClick={() => setCancelOpen(true)}
                 >
-                  Cancel subscription
+                  {t('cancelSubscription')}
                 </button>
               ) : null}
             </div>
           </div>
         ) : (
-          <div>No subscription found.</div>
+          <div>{t('noSubscription')}</div>
         )}
       </section>
 
@@ -118,11 +122,11 @@ export function SubscriptionsDashboard() {
       {cancelOpen ? (
         <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md rounded bg-slate-900 border border-slate-700 p-4 text-slate-200">
-            <h3 className="text-lg font-semibold mb-2">Confirm cancellation</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('confirmCancellation')}</h3>
             <p className="text-sm mb-4">
               {billingConfig.cancellationPolicy === 'end_of_period'
-                ? 'Your subscription will remain active until the end of the current billing period.'
-                : 'Your subscription will be cancelled immediately and access will end now.'}
+                ? t('cancelEndOfPeriod')
+                : t('cancelImmediate')}
             </p>
             {billingConfig.cancellationPolicy === 'end_of_period' ? (
               <label className="flex items-center gap-2 text-sm mb-4">
@@ -131,34 +135,34 @@ export function SubscriptionsDashboard() {
                   checked={cancelMode === 'end_of_period'}
                   onChange={(e) => setCancelMode(e.target.checked ? 'end_of_period' : 'immediate')}
                 />
-                Cancel at end of current period (recommended)
+                {t('cancelAtEndOfPeriod')}
               </label>
             ) : null}
             <div className="flex justify-end gap-2">
               <button className="px-3 py-1 rounded bg-slate-700 hover:bg-slate-600" onClick={() => setCancelOpen(false)}>
-                Keep subscription
+                {t('keepSubscription')}
               </button>
               <button
                 className="px-3 py-1 rounded bg-red-600 hover:bg-red-500 disabled:opacity-50"
                 disabled={cancelLoading}
                 onClick={async () => {
                   setCancelLoading(true)
-                  try {
-                    const { data, error } = await supabase.functions.invoke('cancel-subscription', {
+              try {
+                const { error } = await supabase.functions.invoke('cancel-subscription', {
                       body: { userId: (await supabase.auth.getUser()).data.user?.id, cancelAtPeriodEnd: cancelMode === 'end_of_period' },
                     })
                     if (error) throw error
                     // Reload subscription state
                     await load()
                     setCancelOpen(false)
-                  } catch (_e) {
-                    setError('Failed to cancel subscription')
+              } catch {
+                    setError(t('errors.cancelFailed'))
                   } finally {
                     setCancelLoading(false)
                   }
                 }}
               >
-                {cancelLoading ? 'Cancelling…' : 'Confirm cancellation'}
+                {cancelLoading ? t('cancelling') : t('confirmCancellationButton')}
               </button>
             </div>
           </div>
@@ -166,11 +170,11 @@ export function SubscriptionsDashboard() {
       ) : null}
 
       <section className="mb-6 border border-slate-700 rounded p-4">
-        <h2 className="text-xl font-medium mb-2">Renewal reminders</h2>
+        <h2 className="text-xl font-medium mb-2">{t('renewalReminders')}</h2>
         {prefs ? (
           <div className="space-y-3">
             <div className="flex gap-4 items-center">
-              <label className="w-48">Primary reminder (days)</label>
+              <label className="w-48">{t('primaryReminder')}</label>
               <input
                 className="bg-slate-800 border border-slate-600 rounded px-2 py-1 w-24"
                 type="number"
@@ -181,7 +185,7 @@ export function SubscriptionsDashboard() {
               />
             </div>
             <div className="flex gap-4 items-center">
-              <label className="w-48">Secondary reminder (days)</label>
+              <label className="w-48">{t('secondaryReminder')}</label>
               <input
                 className="bg-slate-800 border border-slate-600 rounded px-2 py-1 w-24"
                 type="number"
@@ -192,7 +196,7 @@ export function SubscriptionsDashboard() {
               />
             </div>
             <div className="flex gap-4 items-center">
-              <label className="w-48">Channels</label>
+              <label className="w-48">{t('channels')}</label>
               <div className="flex gap-3">
                 {['email','in_app'].map(ch => (
                   <label key={ch} className="flex items-center gap-2 text-slate-200">
@@ -216,11 +220,11 @@ export function SubscriptionsDashboard() {
                 className="bg-sky-600 hover:bg-sky-500 px-3 py-1 rounded disabled:opacity-50"
                 disabled={saving}
                 onClick={onSavePrefs}
-              >Save preferences</button>
+              >{t('savePreferences')}</button>
             </div>
           </div>
         ) : (
-          <div>Loading preferences…</div>
+          <div>{t('loadingPreferences')}</div>
         )}
       </section>
     </div>

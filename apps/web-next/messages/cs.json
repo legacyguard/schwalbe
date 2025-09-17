@@ -1,0 +1,30 @@
+{
+  "landing-page": {
+    "meta": {
+      "title": "LegacyGuard - Digitální Dědictví a Ochrana Rodiny",
+      "description": "Bezpečné plánování digitálního dědictví, protokoly ochrany rodiny a správa právních dokumentů."
+    },
+    "hero": {
+      "title": "Chraňte Budoucnost Své Rodiny",
+      "subtitle": "Kompletní plánování digitálního dědictví, protokoly ochrany rodiny a bezpečná správa dokumentů v jedné ucelené platformě.",
+      "cta": {
+        "primary": "Začněte Své Dědictví",
+        "secondary": "Zjistit Více"
+      }
+    },
+    "features": {
+      "security": {
+        "title": "Bankovní Zabezpečení",
+        "description": "Vaše citlivé dokumenty a rodinné informace jsou chráněny šifrováním a bezpečnostními opatřeními na podnikové úrovni."
+      },
+      "family": {
+        "title": "Ochrana Rodiny",
+        "description": "Komplexní opatrovnické protokoly, systémy nouzového přístupu a nástroje pro komunikaci v rodině."
+      },
+      "legal": {
+        "title": "Právní Soulad",
+        "description": "Tvorba právních dokumentů s ohledem na jurisdikci a integrace se sítí profesionálních advokátů."
+      }
+    }
+  }
+}

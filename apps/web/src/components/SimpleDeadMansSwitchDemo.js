@@ -3,7 +3,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 // Demonstrates the migrated Dead Man Switch functionality
 import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-const DeadMansSwitchManager = ({ className = '', personalityMode = 'adaptive', _onEmergencyTriggered, _onHealthCheckMissed, }) => {
+const DeadMansSwitchManager = ({ className = '', personalityMode = 'adaptive', onEmergencyTriggered: _onEmergencyTriggered, onHealthCheckMissed: _onHealthCheckMissed, }) => {
     const [switchStatus, setSwitchStatus] = useState('inactive');
     const [lastActivity, setLastActivity] = useState(null);
     // Get personality-specific content

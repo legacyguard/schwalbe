@@ -43,7 +43,7 @@ import {
 import { Checkbox } from '@schwalbe/ui/checkbox';
 import { Slider } from '@schwalbe/ui/slider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@schwalbe/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@schwalbe/ui';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
 import { cn } from '@schwalbe/lib/utils';
 import type { ProfessionalReviewer } from '@schwalbe/types/professional';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Check, Shield, Star, Users } from 'lucide-react';
-import { Button } from '@schwalbe/ui';
+import { Button } from '@/stubs/ui';
 import { cn } from '@/lib/utils';
 
 interface PricingTier {

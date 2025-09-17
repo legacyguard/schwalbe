@@ -5,7 +5,7 @@ import path from 'path';
 // Plugin to remap @schwalbe/ui imports to web stubs early
 const uiStubPlugin = () => ({
   name: 'ui-stub',
-  enforce: 'pre',
+  enforce: 'pre' as const,
   resolveId(source: string) {
     if (source === '@schwalbe/ui') {
       return path.resolve(__dirname, './src/stubs/ui/index')
@@ -18,31 +18,50 @@ const uiStubPlugin = () => ({
   },
 })
 
-// Plugin to force-react-native to an empty module during build
-const rnNullPlugin = () => ({
-  name: 'rn-null',
-  enforce: 'pre',
-  resolveId(source: string) {
-    if (source === 'react-native' || source.startsWith('react-native/')) {
-      return '\0rn-empty'
+// Plugin to aggressively replace react-native with react-native-web
+const rnStubPlugin = () => ({
+  name: 'rn-web-replace',
+  enforce: 'pre' as const,
+  resolveId(source: string, importer?: string) {
+    // Replace react-native with react-native-web
+    if (source === 'react-native') {
+      return 'react-native-web'
+    }
+    if (source.startsWith('react-native/')) {
+      const subpath = source.substring('react-native/'.length)
+      return `react-native-web/dist/${subpath}`
     }
     return null
   },
   load(id: string) {
-    if (id === '\0rn-empty') {
-      return 'export {}'
-    }
-    // Also null-out any resolved absolute path to react-native files
-    if (id.includes('/node_modules/react-native/')) {
+    // Intercept any actual react-native files that slip through and return empty
+    if (id.includes('/node_modules/react-native/') && !id.includes('/node_modules/react-native-web/')) {
       return 'export {}'
     }
     return null
   },
 })
 
+// Plugin to stub Tamagui native-only modules to empty during web build
+const tamaguiStubPlugin = () => ({
+  name: 'tamagui-native-stub',
+  enforce: 'pre' as const,
+  resolveId(source: string) {
+    if (
+      source === '@tamagui/react-native-media-driver' ||
+      source.startsWith('@tamagui/react-native-media-driver/') ||
+      source === '@tamagui/animations-react-native' ||
+      source.startsWith('@tamagui/animations-react-native/')
+    ) {
+      return path.resolve(__dirname, './src/stubs/empty.js')
+    }
+    return null
+  },
+})
+
 export default defineConfig({
-  // Ensure RN null plugin runs first, then UI stub, then React
-  plugins: [rnNullPlugin(), uiStubPlugin(), react()],
+  // RN stub plugin runs first, then UI stub, then React
+  plugins: [rnStubPlugin(), tamaguiStubPlugin(), uiStubPlugin(), react()],
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './src') },
@@ -51,15 +70,17 @@ export default defineConfig({
       { find: '@schwalbe/logic', replacement: path.resolve(__dirname, '../../packages/logic/src') },
       { find: '@schwalbe/shared', replacement: path.resolve(__dirname, '../../packages/shared/src/index-minimal.ts') },
       // Map UI subpaths to web stubs for build compatibility
-      { find: /^@schwalbe\/ui\//, replacement: path.resolve(__dirname, './src/stubs/ui/') + '/' },
+      { find: /^@schwalbe\/ui\/(.+)$/, replacement: path.resolve(__dirname, './src/stubs/ui/$1') },
       { find: '@schwalbe/ui', replacement: path.resolve(__dirname, './src/stubs/ui/index') },
-      // Prevent RN packages from being parsed in web build
-      { find: /^react-native(\/.*)?$/, replacement: path.resolve(__dirname, './src/stubs/empty.js') },
-      { find: 'react-native', replacement: path.resolve(__dirname, './src/stubs/empty.js') },
-      { find: /^@tamagui\/react-native-media-driver(\/.*)?$/, replacement: path.resolve(__dirname, './src/stubs/empty.js') },
-      { find: '@tamagui/react-native-media-driver', replacement: path.resolve(__dirname, './src/stubs/empty.js') },
-      { find: /^@tamagui\/animations-react-native(\/.*)?$/, replacement: path.resolve(__dirname, './src/stubs/empty.js') },
-      { find: '@tamagui/animations-react-native', replacement: path.resolve(__dirname, './src/stubs/empty.js') },
+      // Alias react-native to react-native-web
+      { find: /^react-native$/, replacement: 'react-native-web' },
+      { find: /^react-native\/(.*)$/, replacement: 'react-native-web/dist/$1' },
+      // Force production entry points to avoid dev ESM warnings
+      { find: 'react-router', replacement: path.resolve(__dirname, '../../node_modules/react-router/dist/index.js') },
+      { find: 'react-router-dom', replacement: path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js') },
+      // Ensure cookie exports provide parse/serialize
+      { find: 'cookie', replacement: path.resolve(__dirname, '../../node_modules/cookie/index.js') },
+      
     ],
   },
   server: {
@@ -67,6 +88,7 @@ export default defineConfig({
     host: true,
   },
   optimizeDeps: {
+    include: ['react-native-web'],
     exclude: ['react-native','@tamagui/react-native-media-driver','@tamagui/animations-react-native']
   },
   ssr: {
@@ -76,11 +98,11 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     rollupOptions: {
-      external: (id: string) => id.includes('react-native') || id.includes('@tamagui/react-native-media-driver') || id.includes('@tamagui/animations-react-native') || id.includes('/packages/ui/dist/') || id.includes('/packages/ui/src/'),
+      external: (id: string) => id.includes('@tamagui/react-native-media-driver') || id.includes('@tamagui/animations-react-native'),
     },
     commonjsOptions: {
-      exclude: [/node_modules\/react-native\//],
-      ignore: ['react-native', /^react-native/]
+      include: [],
+      exclude: [/node_modules\/react-native/]
     }
   },
 });

@@ -1,0 +1,30 @@
+{
+  "landing-page": {
+    "meta": {
+      "title": "LegacyGuard - Digital Estate & Family Protection",
+      "description": "Secure digital estate planning, family protection protocols, and legal document management."
+    },
+    "hero": {
+      "title": "Protect Your Family's Future",
+      "subtitle": "Complete digital estate planning, family protection protocols, and secure document management in one comprehensive platform.",
+      "cta": {
+        "primary": "Start Your Legacy",
+        "secondary": "Learn More"
+      }
+    },
+    "features": {
+      "security": {
+        "title": "Bank-Grade Security",
+        "description": "Your sensitive documents and family information are protected with enterprise-level encryption and security measures."
+      },
+      "family": {
+        "title": "Family Protection",
+        "description": "Comprehensive guardian protocols, emergency access systems, and family communication tools."
+      },
+      "legal": {
+        "title": "Legal Compliance",
+        "description": "Jurisdiction-aware legal document creation with professional attorney network integration."
+      }
+    }
+  }
+}

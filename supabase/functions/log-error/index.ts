@@ -1,4 +1,4 @@
-// Minimal log-error function that writes to error_logs and sends rate-limited alert emails on critical severity
+// Enhanced log-error function with sophisticated rate limiting and observability
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4'
 import { 
@@ -8,6 +8,7 @@ import {
   type LogContext,
   type Severity,
 } from '../_shared/observability.ts'
+import { EnhancedObservability, type EnhancedLogErrorInput } from '../_shared/enhanced-observability.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -26,6 +27,9 @@ interface LogErrorRequest {
   unhandled?: boolean
   severity?: Severity
   user_id?: string | null
+  labels?: Record<string, string>
+  override_rate_limit?: boolean
+  use_enhanced_observability?: boolean
 }
 
 serve(async (req) => {
@@ -62,17 +66,68 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    const result = await insertErrorAndMaybeAlert(supabaseAdmin, body)
+    // Use enhanced observability if requested
+    if (body.use_enhanced_observability) {
+      const observability = new EnhancedObservability(supabaseAdmin)
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        severity: result.severity,
-        alerted: result.alerted,
-        environment: BASELINE_CONFIG.environment,
-      }),
-      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    )
+      // Record request metric
+      await observability.recordMetric({
+        name: 'log_error_requests',
+        type: 'counter',
+        value: 1,
+        labels: {
+          error_type: body.error_type,
+          context: body.context || 'unknown',
+          enhanced: 'true'
+        }
+      })
+
+      const enhancedInput: EnhancedLogErrorInput = {
+        error_type: body.error_type,
+        message: body.message,
+        stack: body.stack,
+        context: body.context,
+        http_status: body.http_status,
+        url: body.url,
+        user_agent: body.user_agent,
+        session_id: body.session_id,
+        unhandled: body.unhandled,
+        severity: body.severity,
+        user_id: body.user_id,
+        labels: body.labels,
+        override_rate_limit: body.override_rate_limit
+      }
+
+      const result = await observability.logErrorWithObservability(enhancedInput)
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          severity: result.severity,
+          alerted: result.alerted,
+          alert_id: result.alertId,
+          rate_limited: result.rateLimited,
+          escalation_level: result.escalationLevel,
+          environment: BASELINE_CONFIG.environment,
+          enhanced: true
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    } else {
+      // Use legacy observability for backward compatibility
+      const result = await insertErrorAndMaybeAlert(supabaseAdmin, body)
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          severity: result.severity,
+          alerted: result.alerted,
+          environment: BASELINE_CONFIG.environment,
+          enhanced: false
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
   } catch (error) {
     console.error('log-error exception:', error)
     return new Response(

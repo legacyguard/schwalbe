@@ -18,7 +18,7 @@ export function DeleteAccount() {
     try {
       const { data, error } = await supabase.functions.invoke('delete-account', { body: { confirm: true } })
       if (error) throw error
-      const ok = (data as any)?.success
+      const ok = (data as { success?: boolean; error?: string } | null | undefined)?.success
       if (ok) {
         setSuccess('Your account has been deleted. You will be signed out now.')
         // Proactively sign out
@@ -27,9 +27,9 @@ export function DeleteAccount() {
           window.location.href = '/'
         }, 1500)
       } else {
-        setError((data as any)?.error || 'Failed to delete account')
+        setError(((data as { error?: string } | null | undefined)?.error) || 'Failed to delete account')
       }
-    } catch (_e) {
+    } catch {
       setError('Failed to delete account')
     } finally {
       setLoading(false)

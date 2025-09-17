@@ -11,13 +11,13 @@ export function Billing() {
     try {
       const { data, error } = await supabase.functions.invoke('create-billing-portal-session', { body: {} })
       if (error) throw error
-      const url = (data as any)?.url
+      const url = (data as { url?: string } | null | undefined)?.url
       if (url) {
         window.location.href = url
       } else {
         throw new Error('No portal URL')
       }
-    } catch (e) {
+    } catch {
       setError('Failed to open billing portal')
     } finally {
       setLoading(false)

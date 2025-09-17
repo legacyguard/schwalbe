@@ -1,1 +1,3 @@
-export const cn = (...a) => a.filter(Boolean).join(' ');
+export function cn(..._args) {
+    return _args.filter(Boolean).join(' ');
+}

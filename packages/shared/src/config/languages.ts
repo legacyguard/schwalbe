@@ -92,6 +92,7 @@ export function getLanguageLabel(code: LocaleCode): string {
 
 // Domain → languages mapping (≥4 per country) based on the 39-country matrix
 export const DOMAIN_LANGUAGES: Record<DomainHost, LocaleCode[]> = {
+  'legacyguard.app': ['en', 'cs', 'sk', 'de', 'uk'], // Development/staging domain
   'legacyguard.cz': ['cs', 'sk', 'en', 'de', 'uk'],
   'legacyguard.sk': ['sk', 'cs', 'en', 'de', 'uk'],
   'legacyguard.de': ['de', 'en', 'pl', 'uk'],

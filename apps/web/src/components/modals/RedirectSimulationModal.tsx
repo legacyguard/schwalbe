@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@schwalbe/ui'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui'
 import { Button } from '@/components/ui/button'
 import type { RedirectSimulationTarget } from '@/lib/utils/redirect-guard'
 

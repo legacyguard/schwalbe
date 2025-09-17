@@ -3,7 +3,13 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true
   },
   "references": [
     {
@@ -13,6 +19,6 @@
       "path": "../../packages/logic"
     }
   ],
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "app/**/*"],
   "exclude": ["node_modules", "dist"]
 }

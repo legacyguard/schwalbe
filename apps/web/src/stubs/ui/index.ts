@@ -35,3 +35,7 @@ export const Dialog: React.FC<DialogProps> = ({ children }) => React.createEleme
 export const DialogHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, ...props }) => React.createElement('div', { ...props }, children)
 export const DialogTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, ...props }) => React.createElement('div', { ...props }, children)
 export const DialogContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, ...props }) => React.createElement('div', { ...props }, children)
+
+// Dark mode hook stub
+export const useDarkMode = () => ({ isDark: false, toggleDarkMode: () => {} })
+export const withDarkMode = <P extends object>(Component: React.ComponentType<P>) => Component

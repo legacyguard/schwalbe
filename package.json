@@ -6,6 +6,7 @@
   "packageManager": "npm@10.8.2",
   "workspaces": [
     "apps/web",
+    "apps/web-next",
     "apps/mobile",
     "packages/*"
   ],
@@ -20,19 +21,37 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "dev:web": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev --filter=@schwalbe/web",
+    "dev:web-next": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev --filter=@schwalbe/web-next",
     "dev:mobile": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev --filter=@schwalbe/mobile",
     "build:web": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter=@schwalbe/web",
+    "build:web-next": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter=@schwalbe/web-next",
     "build:mobile": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter=@schwalbe/mobile",
     "build:packages": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter='./packages/*'",
     "test:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test --cache-dir=.turbo",
     "lint:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run lint --cache-dir=.turbo",
     "i18n:check": "node scripts/validate-i18n.mjs",
     "i18n:generate-stubs": "node scripts/generate-locale-stubs.mjs && node scripts/repair-ui-locale-stubs.mjs",
+    "qa:all": "npx tsx scripts/qa-all.ts",
+    "qa:accessibility": "npx tsx scripts/qa-accessibility.ts",
+    "qa:security": "npx tsx scripts/qa-security.ts", 
+    "qa:alerts": "npx tsx scripts/qa-alerts.ts",
+    "qa:staging-full": "npm run qa:all && echo 'Run manual smoke tests in staging environment'",
+    "verify:redirect-gating": "npx tsx scripts/verify-redirect-gating.ts",
+    "test:redirect-env": "npx tsx scripts/test-redirect-env.ts",
     "i18n:ci": "npm run i18n:generate-stubs && npm run i18n:check",
     "scan:secrets": "bash scripts/scan-secrets.sh",
     "doc:guard": "npm run typecheck && npm run lint && npm test -- --watch=false",
     "doc:feature": "bash scripts/collect_feature_context.sh && (open docs/_autodoc_context.txt || xdg-open docs/_autodoc_context.txt || echo 'Open docs/_autodoc_context.txt')",
-    "doc:agent": "bash scripts/agent/run-agent.sh"
+    "doc:agent": "bash scripts/agent/run-agent.sh",
+    "reindex:search": "npx tsx scripts/reindex-hashed-search.ts",
+    "salt:rotate": "bash scripts/rotate-search-salt.sh",
+    "salt:rotate:dry-run": "bash scripts/rotate-search-salt.sh --dry-run",
+    "salt:monitor": "npx tsx scripts/monitor-salt-health.ts",
+    "salt:monitor:json": "npx tsx scripts/monitor-salt-health.ts --json",
+    "salt:monitor:alerts": "npx tsx scripts/monitor-salt-health.ts --alerts",
+    "observability:dashboard": "npx tsx scripts/observability-dashboard.ts",
+    "observability:dashboard:json": "npx tsx scripts/observability-dashboard.ts --json",
+    "observability:dashboard:prod": "npx tsx scripts/observability-dashboard.ts --environment=production"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.42.0",
@@ -46,5 +65,8 @@
   "engines": {
     "node": ">=20.0.0",
     "npm": ">=9.0.0"
+  },
+  "overrides": {
+    "cookie": "0.6.0"
   }
 }

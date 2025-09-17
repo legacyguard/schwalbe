@@ -12,9 +12,11 @@ export interface CountryDomain {
   enabled: boolean // MVP: true only for CZ, SK
 }
 
-// 39 countries with dedicated domains (Tier 1 + Tier 2)
+// 39 countries with dedicated domains (Tier 1 + Tier 2) + development domain
 // Enabled flags remain true only for CZ/SK for MVP; others are configured but disabled.
 export const COUNTRY_DOMAINS: CountryDomain[] = [
+  // Development/staging domain
+  { code: 'APP', host: 'legacyguard.app', name: 'Development', currency: 'USD', enabled: true },
   // Tier 1
   { code: 'DE', host: 'legacyguard.de', name: 'Germany', currency: 'EUR', enabled: false },
   { code: 'FR', host: 'legacyguard.fr', name: 'France', currency: 'EUR', enabled: false },

@@ -237,7 +237,7 @@ async function notifyGuardiansProtocolActive(supabaseClient: any, userId: string
 
     for (const guardian of guardians || []) {
       // TODO: Send notification email to each guardian
-      console.log(`Would notify ${guardian.email} that protocol is active`);
+      console.log(`Would notify guardian ${guardian.id} that protocol is active`);
       
       /*
       await sendEmail({
@@ -296,7 +296,7 @@ async function generateGuardianAccessTokens(supabaseClient: any, userId: string)
         }
       });
 
-      console.log(`Generated access token for ${guardian.name}: ${accessToken}`);
+      console.log(`Generated access token for guardian ${guardian.id}: [REDACTED]`);
     }
 
     return accessTokens;
