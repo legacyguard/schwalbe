@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useOnceInView } from "@/hooks/useOnceInView";
 
 import { useEffect } from "react";
 import { track } from "@/lib/analytics";
@@ -105,7 +106,7 @@ export default function LandingV2({ locale }: { locale: string }) {
 
       {/* Key value & trust sections */}
       <div id="features" className="bg-slate-900/50">
-        <SecurityPromiseSection />
+        <SecurityPromiseSection locale={locale} />
       </div>
 
       <PricingSection locale={locale} />
@@ -113,7 +114,7 @@ export default function LandingV2({ locale }: { locale: string }) {
   );
 }
 
-function SecurityPromiseSection() {
+function SecurityPromiseSection({ locale }: { locale: string }) {
   const t = useTranslations("landingV2.securityPromise");
   const features = [0, 1, 2, 3].map((i) => ({
     title: t(`features.${i}.title`),
@@ -123,11 +124,15 @@ function SecurityPromiseSection() {
 
   // Section view (security promise) when mounted
   useEffect(() => {
-    track({ event: "landing_v2_security_promise_view", locale: (useTranslations as any).locale?.() || "en" });
-  }, []);
+    track({ event: "landing_v2_security_promise_view", locale });
+  }, [locale]);
+
+  const sectionRef = useOnceInView<HTMLDivElement>({ root: null, rootMargin: "0px", threshold: 0.2 }, () => {
+    track({ event: "landing_v2_security_promise_view", locale });
+  });
 
   return (
-    <section className="py-20">
+    <section className="py-20" ref={sectionRef}>
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-4xl font-bold text-white mb-4">{t("title")}</h2>
         <p className="text-lg text-slate-300 mb-12 max-w-3xl mx-auto">{t("subtitle")}</p>
@@ -158,10 +163,23 @@ function SecurityPromiseSection() {
 }
 
 function PricingSection({ locale }: { locale: string }) {
-  useEffect(() => {
+  const pricingRef = useOnceInView<HTMLDivElement>({ root: null, rootMargin: "0px", threshold: 0.2 }, () => {
     track({ event: "landing_v2_pricing_view", locale });
-  }, [locale]);
+  });
   const t = useTranslations("landingV2.pricing");
+
+  const freeFeatures = [0, 1, 2].map((i) => ({
+    title: t(`tiers.free.features.${i}.title`),
+    description: t(`tiers.free.features.${i}.description`),
+  }));
+  const premiumFeatures = [0, 1, 2].map((i) => ({
+    title: t(`tiers.premium.features.${i}.title`),
+    description: t(`tiers.premium.features.${i}.description`),
+  }));
+  const familyFeatures = [0, 1, 2].map((i) => ({
+    title: t(`tiers.family.features.${i}.title`),
+    description: t(`tiers.family.features.${i}.description`),
+  }));
 
   const tiers = [
     {
@@ -169,7 +187,7 @@ function PricingSection({ locale }: { locale: string }) {
       name: t("tiers.free.name"),
       price: t("tiers.free.price"),
       description: t("tiers.free.description"),
-      features: t("tiers.free.features", { returnObjects: true }) as { title: string; description: string }[],
+      features: freeFeatures,
       cta: t("tiers.free.cta"),
       href: `/${locale}/sign-up`,
       highlighted: false,
@@ -182,7 +200,7 @@ function PricingSection({ locale }: { locale: string }) {
       price: t("tiers.premium.price"),
       period: t("tiers.premium.period"),
       description: t("tiers.premium.description"),
-      features: t("tiers.premium.features", { returnObjects: true }) as { title: string; description: string }[],
+      features: premiumFeatures,
       cta: t("tiers.premium.cta"),
       href: `/${locale}/sign-up?plan=premium`,
       highlighted: true,
@@ -194,7 +212,7 @@ function PricingSection({ locale }: { locale: string }) {
       price: t("tiers.family.price"),
       period: t("tiers.family.period"),
       description: t("tiers.family.description"),
-      features: t("tiers.family.features", { returnObjects: true }) as { title: string; description: string }[],
+      features: familyFeatures,
       cta: t("tiers.family.cta"),
       href: `/${locale}/sign-up?plan=family`,
       highlighted: false,
@@ -203,7 +221,7 @@ function PricingSection({ locale }: { locale: string }) {
   ];
 
   return (
-    <section className="relative py-24 px-6 lg:px-8 overflow-hidden">
+    <section className="relative py-24 px-6 lg:px-8 overflow-hidden" ref={pricingRef}>
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl" />
