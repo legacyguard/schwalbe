@@ -3,7 +3,7 @@
     "hero": {
       "title": "Chráňte rodinu. Usporiadajte odkaz. Začnite s pokojom.",
       "subtitle": "Jemné vedenie, jednoduché kroky a bezpečné úložisko dokumentov – všetko pre pokoj v duši.",
-      "ctaPrimary": "Začať zdarma",
+"ctaPrimary": "Začněte za 7 minut — zdarma",
       "ctaSecondary": "Ako to funguje"
     },
     "securityPromise": {
@@ -19,7 +19,7 @@
     },
     "pricing": {
       "heading": "Plán pre každú životnú etapu",
-      "subheading": "Začnite zdarma a upgradujte, keď budete pripravení.",
+"subheading": "Začněte zdarma ještě dnes a upgradujte, až budete připraveni — většina rodin zvládne první 3 kroky do 12 minut.",
       "tiers": {
         "free": {
           "name": "Free",

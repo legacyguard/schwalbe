@@ -85,14 +85,14 @@ export default function LandingV2({ locale }: { locale: string }) {
           >
             <Link
               href={`/${locale}/landing-v2`}
-              className="inline-flex items-center justify-center rounded-lg bg-slate-700/70 hover:bg-slate-600 text-white px-6 py-3 text-lg font-semibold border border-slate-600"
+className="inline-flex items-center justify-center rounded-lg bg-slate-700/70 hover:bg-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 text-white px-6 py-3 text-lg font-semibold border border-slate-600" aria-label={t("hero.ctaPrimary")}
               onClick={() => track({ event: "landing_v2_cta_primary_click", locale })}
             >
               {t("hero.ctaPrimary")}
             </Link>
             <a
               href="#features"
-              className="inline-flex items-center justify-center rounded-lg bg-slate-800/40 hover:bg-slate-800 text-slate-100 px-6 py-3 text-lg font-medium border border-slate-700"
+className="inline-flex items-center justify-center rounded-lg bg-slate-800/40 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 text-slate-100 px-6 py-3 text-lg font-medium border border-slate-700" aria-label={t("hero.ctaSecondary")}
               onClick={() => track({ event: "landing_v2_cta_secondary_click", locale })}
             >
               {t("hero.ctaSecondary")}
@@ -284,7 +284,7 @@ function PricingSection({ locale }: { locale: string }) {
 
               <Link
                 href={tier.href}
-                className={`w-full inline-flex items-center justify-center rounded-lg px-4 py-3 border transition-colors ${
+className={`w-full inline-flex items-center justify-center rounded-lg px-4 py-3 border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                   tier.highlighted
                     ? "bg-primary text-white border-primary hover:bg-primary/90"
                     : "bg-slate-800/40 text-slate-100 border-slate-700 hover:bg-slate-800"

@@ -3,7 +3,7 @@
     "hero": {
       "title": "Protect your family. Organize your legacy. Start with calm.",
       "subtitle": "Gentle guidance, simple steps, and secure document storage—everything you need for peace of mind.",
-      "ctaPrimary": "Get started free",
+"ctaPrimary": "Start in 7 minutes — it’s free",
       "ctaSecondary": "See how it works"
     },
     "securityPromise": {
@@ -19,7 +19,7 @@
     },
     "pricing": {
       "heading": "A plan for every stage of your journey",
-      "subheading": "Start for free and upgrade when you're ready.",
+"subheading": "Start free today and upgrade when you're ready — most families complete the first 3 steps in under 12 minutes.",
       "tiers": {
         "free": {
           "name": "Free",
