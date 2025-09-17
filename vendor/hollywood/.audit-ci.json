@@ -1,0 +1,17 @@
+{
+  "moderate": false,
+  "high": true,
+  "critical": true,
+  "allowlist": [
+    // Add any temporary exceptions here with comments explaining why
+    // Example: "GHSA-xxxx-xxxx-xxxx", // Temporary exception until fix available
+  ],
+  "registry": "https://registry.npmjs.org/",
+  "report-type": "full",
+  "retry": {
+    "count": 3,
+    "delay": 1000
+  },
+  "skip-dev": false,
+  "output-format": "text"
+}

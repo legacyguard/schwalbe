@@ -1,0 +1,18 @@
+{
+  "defaults": {
+    "title": "LegacyGuard | Your Legacy, Secured. Your Family, Protected.",
+    "description": "The most caring and secure way to organize your life's journey and protect your family's future. AI-powered document management, family shield protocol, and will creation.",
+    "keywords": "legacy planning, document management, family protection, digital vault, will creation, emergency planning, secure storage, AI assistant",
+    "author": "LegacyGuard",
+    "robots": "index, follow",
+    "siteName": "LegacyGuard",
+    "locale": "en_US"
+  },
+  "structuredData": {
+    "name": "LegacyGuard",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "freeCategory": "Free"
+  },
+  "titleWithBrand": "{{title}} | LegacyGuard"
+}

@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "title": "LegacyGuard - Your Story, Their Legacy",
+    "description": "The most caring and secure way to organize your life's journey and protect your family's future.",
+    "url": "https://legacyguard.com"
+  },
+  "navigation": {
+    "blog": "Blog",
+    "signIn": "Sign In"
+  },
+  "hero": {
+    "title": "Your Legacy is a Story.",
+    "subtitle": "Tell It Well.",
+    "description": "The most caring and secure way to organize your life's journey and protect your family's future.",
+    "cta": {
+      "main": "Begin Your Story",
+      "free": "Get Started Free"
+    }
+  },
+  "problem": {
+    "title": "Life is Complex",
+    "description": "Documents expire. Passwords get lost. Instructions are unclear.",
+    "highlight": "In a crisis, this chaos becomes a burden for your loved ones."
+  },
+  "promise": {
+    "title": "Clarity is a Gift",
+    "description": "We help you transform this chaos into a single, secure, and beautifully organized source of truth.",
+    "highlight": "A gift of peace for your family."
+  },
+  "features": {
+    "title": "Your Story in 3 Acts",
+    "subtitle": "Experience how LegacyGuard transforms your journey from chaos to clarity",
+    "act1": {
+      "title": "Act 1: Organize Your Present",
+      "description": "Our AI assistant, Sofia, intelligently analyzes your documents, extracts key data, and sets up reminders, so you don't have to."
+    },
+    "act2": {
+      "title": "Act 2: Protect Your Family",
+      "description": "Build your Family Shield by appointing trusted guardians with specific roles and permissions, ready to act in any emergency."
+    },
+    "act3": {
+      "title": "Act 3: Define Your Legacy",
+      "description": "Go beyond documents. Create a legally-sound will, record personal messages, and watch your legacy garden grow with every act of care."
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Your journey to family security in three simple steps",
+    "steps": {
+      "act1": {
+        "title": "Organize Your Present",
+        "description": "Securely upload and manage all your vital documents with AI-powered assistance. Sofia guides you through every step with care and intelligence."
+      },
+      "act2": {
+        "title": "Protect Your Family",
+        "description": "Build your Family Shield by appointing trusted guardians for any situation. Ensure your loved ones know exactly what to do and where to find help."
+      },
+      "act3": {
+        "title": "Define Your Legacy",
+        "description": "Create a legally sound will and leave personal messages that last forever. Your wisdom and love will guide your family for generations."
+      }
+    }
+  },
+  "values": {
+    "title": "Built on Trust & Innovation",
+    "subtitle": "We don't just store your data - we protect your story",
+    "empathyByDesign": {
+      "title": "Empathy by Design",
+      "description": "We believe technology should be caring. Our platform is designed to support you emotionally, not just functionally."
+    },
+    "zeroKnowledgeSecurity": {
+      "title": "Zero-Knowledge Security",
+      "description": "Your privacy is sacred. We use end-to-end encryption, meaning not even we can access your sensitive data."
+    },
+    "effortlessAutomation": {
+      "title": "Effortless Automation",
+      "description": "From AI-powered analysis to automated reminders, we do the heavy lifting so you can focus on what matters."
+    },
+    "aLivingLegacy": {
+      "title": "A Living Legacy",
+      "description": "This isn't a one-time task. It's a living, growing garden that evolves with you and your family's journey."
+    }
+  },
+  "trust": {
+    "title": "Trusted by Professionals, Built for Families",
+    "subtitle": "LegacyGuard is built on principles of legal precision and bank-level security, in consultation with legal and financial experts.",
+    "poweredBy": {
+      "clerk": "Secured by Clerk",
+      "supabase": "Powered by Supabase",
+      "vercel": "Deployed on Vercel",
+      "legal": "Legal Partnership",
+      "gdpr": "GDPR Compliant"
+    },
+    "indicators": {
+      "endToEndEncryption": "End-to-End Encryption",
+      "zeroKnowledge": "Zero-Knowledge Architecture",
+      "bankLevelSecurity": "Bank-Level Security",
+      "legalExpertConsultation": "Legal Expert Consultation"
+    },
+    "features": {
+      "encryption": "Bank-level encryption",
+      "availability": "99.9% uptime guarantee",
+      "support": "24/7 family support",
+      "backups": "Automated daily backups"
+    }
+  },
+  "cta": {
+    "final": {
+      "title": "Your Story is Waiting",
+      "subtitle": "Begin your legacy with LegacyGuard. Secure, organize, and preserve what matters most.",
+      "button": "Begin Your LegacyGuard Today"
+    }
+  },
+  "footer": {
+    "tagline": "Securing your legacy, protecting your family, one document at a time.",
+    "sections": {
+      "product": "Product",
+      "support": "Support",
+      "legal": "Legal"
+    },
+    "links": {
+      "features": "Features",
+      "security": "Security",
+      "pricing": "Pricing",
+      "helpCenter": "Help Center",
+      "contactUs": "Contact Us",
+      "userGuides": "User Guides",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "securityPolicy": "Security Policy"
+    },
+    "copyright": "All rights reserved."
+  }
+}

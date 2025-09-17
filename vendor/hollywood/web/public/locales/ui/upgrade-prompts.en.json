@@ -1,0 +1,154 @@
+{
+  "triggers": {
+    "familyLimit": {
+      "title": "Family Plan Needed",
+      "subtitle": "You've reached your 2 family member limit",
+      "description": "Add unlimited family members and unlock collaborative features with our Family Plan.",
+      "benefits": [
+        "Unlimited family member invitations",
+        "Advanced collaboration tools",
+        "Shared family calendar and timeline",
+        "Family decision voting system"
+      ]
+    },
+    "professionalReview": {
+      "title": "Get Professional Review",
+      "subtitle": "Ensure your documents are legally sound",
+      "description": "Connect with verified attorneys for professional document review and legal guidance.",
+      "benefits": [
+        "Access to verified legal professionals",
+        "Professional document reviews",
+        "Legal compliance checking",
+        "Direct consultation booking"
+      ]
+    },
+    "analyticsLimit": {
+      "title": "Unlock Advanced Analytics",
+      "subtitle": "Get deeper insights into your family's protection",
+      "description": "Premium analytics provide AI-powered recommendations and comprehensive risk assessment.",
+      "benefits": [
+        "AI-powered family risk assessment",
+        "Personalized improvement recommendations",
+        "Advanced progress tracking",
+        "Historical trend analysis"
+      ]
+    },
+    "timeCapsule": {
+      "title": "Create Time Capsules",
+      "subtitle": "Preserve memories for future generations",
+      "description": "Premium Time Capsule feature lets you create scheduled messages and memory preservation.",
+      "benefits": [
+        "Unlimited time capsule creation",
+        "Video and audio messages",
+        "Scheduled delivery system",
+        "Multi-generational sharing"
+      ]
+    },
+    "prioritySupport": {
+      "title": "Need Priority Support?",
+      "subtitle": "Get faster help when you need it most",
+      "description": "Premium users get priority support with dedicated assistance for urgent family matters.",
+      "benefits": [
+        "Priority customer support",
+        "Dedicated account manager",
+        "24/7 urgent assistance",
+        "Phone and video support"
+      ]
+    },
+    "default": {
+      "title": "Upgrade to Premium",
+      "subtitle": "Unlock all features",
+      "description": "Get access to all premium features and enhanced family protection."
+    }
+  },
+  "benefits": {
+    "title": "What you'll get:"
+  },
+  "plans": {
+    "header": {
+      "title": "Choose Your Plan",
+      "subtitle": "All plans include a 14-day free trial"
+    },
+    "premium": {
+      "name": "Premium",
+      "price": "$9.99",
+      "period": "month",
+      "description": "Perfect for individuals and small families",
+      "features": [
+        "Up to 5 family members",
+        "Professional document reviews",
+        "Advanced analytics & insights",
+        "Priority support",
+        "Time capsule creation",
+        "Unlimited document storage"
+      ]
+    },
+    "family": {
+      "name": "Family Plan",
+      "price": "$19.99",
+      "period": "month",
+      "description": "Best for larger families with collaboration needs",
+      "features": [
+        "Unlimited family members",
+        "Advanced collaboration tools",
+        "Family decision voting",
+        "Shared family timeline",
+        "Multi-generational features",
+        "Everything in Premium"
+      ]
+    },
+    "professional": {
+      "name": "Professional",
+      "price": "$39.99",
+      "period": "month",
+      "description": "For those who need comprehensive legal support",
+      "features": [
+        "Unlimited attorney consultations",
+        "Legal compliance monitoring",
+        "Dedicated legal advisor",
+        "Advanced estate planning tools",
+        "White-glove setup service",
+        "Everything in Family Plan"
+      ]
+    },
+    "badges": {
+      "mostPopular": "Most Popular",
+      "recommended": "Recommended"
+    }
+  },
+  "buttons": {
+    "startFreeTrial": "Start Free Trial",
+    "upgradeNow": "Upgrade Now",
+    "close": "Close"
+  },
+  "footer": {
+    "freeTrial": "14-day free trial",
+    "cancelAnytime": "Cancel anytime",
+    "moneyBack": "30-day money-back guarantee",
+    "noCardRequired": "No credit card required for trial"
+  },
+  "featurePrompts": {
+    "professionalReview": {
+      "title": "Professional Review",
+      "description": "Get your documents reviewed by verified attorneys",
+      "requiredPlan": "Premium"
+    },
+    "advancedAnalytics": {
+      "title": "Advanced Analytics",
+      "description": "AI-powered insights and risk assessment",
+      "requiredPlan": "Premium"
+    },
+    "familyCollaboration": {
+      "title": "Family Collaboration",
+      "description": "Unlimited family members and collaboration tools",
+      "requiredPlan": "Family"
+    },
+    "default": {
+      "title": "Premium Feature",
+      "description": "This feature requires a premium plan",
+      "requiredPlan": "Premium"
+    },
+    "requiredSuffix": "Required",
+    "upgradePrefix": "Upgrade to"
+  }
+}

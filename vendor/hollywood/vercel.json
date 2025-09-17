@@ -1,0 +1,161 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "web/dist",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "alias": [
+    "legacyguard.cz",
+    "www.legacyguard.cz",
+    "app.legacyguard.cz",
+    "api.legacyguard.cz",
+    "staging.legacyguard.cz"
+  ],
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    },
+    {
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/(.*).js",
+      "destination": "/assets/js/$1.js"
+    },
+    {
+      "source": "/(.*).css",
+      "destination": "/assets/$1.css"
+    },
+    {
+      "source": "/(.*).woff2",
+      "destination": "/assets/fonts/$1.woff2"
+    },
+    {
+      "source": "/(.*).woff",
+      "destination": "/assets/fonts/$1.woff"
+    },
+    {
+      "source": "/(.*).ttf",
+      "destination": "/assets/fonts/$1.ttf"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/dashboard/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/auth/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/onboarding",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/onboarding/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/settings",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/settings/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/vault",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/vault/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/family-shield",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/family-shield/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/legacy-garden",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/legacy-garden/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/security-policy",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.legacyguard.cz"
+        }
+      ],
+      "destination": "https://legacyguard.cz/$1",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains; preload"
+        },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://*.supabase.co https://api.openai.com https://*.clerk.com https://*.clerk.accounts.dev https://*.vercel.app https://*.vercel.sh; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; worker-src 'self' blob:; child-src 'self' blob:;"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,POST,PUT,DELETE,OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "loading": {
+    "message": "Loading documents..."
+  },
+  "error": {
+    "title": "Error Loading Documents",
+    "retry": "Retry"
+  },
+  "empty": {
+    "title": "No Documents Yet",
+    "message": "Upload your first document to get started with secure storage"
+  },
+  "header": {
+    "title": "Your Encrypted Documents",
+    "count": "{{count}} document",
+    "count_plural": "{{count}} documents"
+  },
+  "document": {
+    "uploaded": "Encrypted {{date}}",
+    "size": "{{size}}",
+    "secure": "Secure",
+    "download": "Download",
+    "delete": "Delete"
+  },
+  "actions": {
+    "downloading": "Downloading...",
+    "deleting": "Deleting..."
+  },
+  "toast": {
+    "deleteSuccess": "Document deleted successfully!",
+    "deleteError": "Failed to delete document. Please try again.",
+    "downloadSuccess": "Document downloaded successfully!",
+    "downloadError": "Failed to download document. Please try again."
+  },
+  "confirm": {
+    "deleteTitle": "Delete Document",
+    "deleteMessage": "Are you sure you want to delete this document? This action cannot be undone."
+  }
+}

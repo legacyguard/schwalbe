@@ -1,0 +1,34 @@
+# Maestro Configuration
+appId: com.legacyguard.mobile
+name: LegacyGuard Mobile Tests
+
+# Test environment configuration
+env:
+  APP_ENV: test
+  API_URL: http://localhost:3000
+
+# Device configuration
+devices:
+  - platform: iOS
+    osVersion: '17.0'
+    device: 'iPhone 15'
+  - platform: Android
+    osVersion: '14'
+    device: 'Pixel 7'
+
+# Test output configuration
+output:
+  screenshots: ./test-results/screenshots
+  videos: ./test-results/videos
+  reports: ./test-results/reports
+
+# Retry configuration
+retry:
+  times: 2
+  delay: 5000
+
+# Timeout configuration
+timeouts:
+  appLaunch: 30000
+  element: 10000
+  assertion: 5000

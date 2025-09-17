@@ -1,0 +1,142 @@
+{
+  "title": "Letzter Wille und Testament",
+  "jurisdiction": "Tschechische Republik",
+  "language": "Deutsch",
+  "legalNotice": "Dieses Dokument wurde in Übereinstimmung mit dem Bürgerlichen Gesetzbuch der Tschechischen Republik (Gesetz Nr. 89/2012 Slg.) erstellt",
+  "sections": {
+    "testator": {
+      "title": "Erblasser",
+      "declaration": "Ich, {{fullName}}, Geburtsdatum {{dateOfBirth}}, mit Wohnsitz in {{address}}, Staatsbürger von {{citizenship}}, errichte hiermit meinen letzten Willen und mein Testament.",
+      "mentalCapacity": "Ich erkläre, dass ich bei klarem Verstand und voll geschäftsfähig bin."
+    },
+    "revocation": {
+      "title": "Widerruf früherer Testamente",
+      "text": "Hiermit widerrufe ich alle von mir früher errichteten Testamente und Nachträge."
+    },
+    "beneficiaries": {
+      "title": "Erbeinsetzung",
+      "introduction": "Ich setze folgende Personen als meine Erben ein:",
+      "designation": "{{name}}, {{relationship}}, erbt {{percentage}}% meines Nachlasses",
+      "conditionalInheritance": "unter der Bedingung: {{conditions}}",
+      "substituteHeir": "Für den Fall, dass {{name}} nicht erbt, setze ich als Ersatzerben ein:"
+    },
+    "forcedHeirs": {
+      "title": "Pflichtteilsberechtigte",
+      "notice": "Gemäß § 1643 des Bürgerlichen Gesetzbuches haben Pflichtteilsberechtigte (Nachkommen) Anspruch auf einen Pflichtteil.",
+      "minorChildren": "Ein minderjähriger Nachkomme hat Anspruch auf mindestens drei Viertel seines gesetzlichen Erbteils.",
+      "adultChildren": "Ein volljähriger Nachkomme hat Anspruch auf mindestens ein Viertel seines gesetzlichen Erbteils.",
+      "disinheritance": "Eine Enterbung ist nur aus den in § 1646 des Bürgerlichen Gesetzbuches genannten gesetzlichen Gründen möglich."
+    },
+    "specificBequests": {
+      "title": "Vermächtnisse",
+      "introduction": "Ich ordne folgende Vermächtnisse an:",
+      "item": "{{description}} vermache ich {{recipient}}",
+      "monetary": "Den Betrag von {{amount}} CZK vermache ich {{recipient}}"
+    },
+    "executor": {
+      "title": "Testamentsvollstrecker",
+      "appointment": "Ich ernenne zum Testamentsvollstrecker: {{name}}, {{relationship}}",
+      "backup": "Für den Fall, dass {{primaryExecutor}} diese Funktion nicht ausüben kann oder will, ernenne ich als Ersatz-Testamentsvollstrecker: {{backupExecutor}}",
+      "powers": "Der Testamentsvollstrecker ist befugt, alle zur ordnungsgemäßen Abwicklung meines Nachlasses erforderlichen Handlungen vorzunehmen."
+    },
+    "guardianship": {
+      "title": "Vormundschaft",
+      "appointment": "Für den Fall meines Todes ernenne ich zum Vormund meiner minderjährigen Kinder: {{guardianName}}",
+      "backup": "Als Ersatzvormund ernenne ich: {{backupGuardianName}}",
+      "instructions": "Ich bitte den Vormund: {{instructions}}"
+    },
+    "finalWishes": {
+      "title": "Letzte Wünsche",
+      "funeral": "Bezüglich meiner Beerdigung wünsche ich: {{funeralWishes}}",
+      "organDonation": "Ich stimme der Organspende für Transplantationszwecke zu.",
+      "other": "Weitere Wünsche: {{otherWishes}}"
+    },
+    "residuary": {
+      "title": "Restnachlass",
+      "text": "Das gesamte verbleibende Vermögen, das oben nicht ausdrücklich vermacht wurde, soll an {{residuaryBeneficiaries}} gehen"
+    },
+    "signature": {
+      "title": "Unterschrift",
+      "date": "In {{city}} am {{date}}",
+      "testatorSignature": "Unterschrift des Erblassers: _______________________",
+      "witnessSection": {
+        "title": "Zeugen",
+        "introduction": "Dieses Testament wurde in unserer Anwesenheit unterzeichnet und wir unterzeichnen es auf Wunsch des Erblassers als Zeugen:",
+        "witness": "Zeuge {{number}}: {{name}}, Geburtsdatum: {{dateOfBirth}}, Adresse: {{address}}, Unterschrift: _______________________"
+      }
+    }
+  },
+  "legalRequirements": {
+    "formTypes": {
+      "holographic": "Ein eigenhändiges Testament muss vollständig handschriftlich verfasst und vom Erblasser unterzeichnet sein.",
+      "allographic": "Ein allographisches Testament muss vom Erblasser und zwei gleichzeitig anwesenden Zeugen unterzeichnet werden.",
+      "notarial": "Ein Testament in Form einer notariellen Urkunde bietet die höchste Rechtssicherheit."
+    },
+    "witnesses": {
+      "requirements": "Ein Zeuge darf nicht Erbe, Vermächtnisnehmer oder eine ihnen nahestehende Person sein.",
+      "count": "Für ein allographisches Testament werden zwei Zeugen benötigt.",
+      "capacity": "Zeugen müssen geschäftsfähig und unterschriftsfähig sein."
+    },
+    "capacity": {
+      "age": "Eine Person über 15 Jahre kann ein Testament errichten (mit Einschränkungen bis zum 18. Lebensjahr).",
+      "mental": "Der Erblasser muss bei der Testamentserrichtung bei klarem Verstand und rechtlich handlungsfähig sein."
+    }
+  },
+  "validation": {
+    "errors": {
+      "missingForcedHeirs": "Minderjährige Nachkommen müssen mindestens 3/4 ihres gesetzlichen Anteils erhalten",
+      "invalidWitness": "{{name}} kann nicht Zeuge sein, da er/sie Erbe ist",
+      "missingSignature": "Das Testament muss unterzeichnet werden",
+      "invalidForm": "Das Testament erfüllt nicht die formalen Anforderungen"
+    },
+    "warnings": {
+      "unclearWording": "Die Formulierung kann unklar oder mehrdeutig sein",
+      "missingExecutor": "Es wird empfohlen, einen Testamentsvollstrecker zu ernennen",
+      "taxImplications": "Bedenken Sie die steuerlichen Auswirkungen für die Erben"
+    }
+  },
+  "commonPhrases": {
+    "beingOfSoundMind": "bei klarem Verstand und Gedächtnis",
+    "iHerebyDeclare": "Ich erkläre hiermit",
+    "witnessWhereof": "Zu Urkund dessen",
+    "signedSealedDelivered": "Unterzeichnet, gesiegelt und übergeben",
+    "thisIsMyLastWill": "Dies ist mein letzter Wille und Testament",
+    "iRevokeAllPrior": "Ich widerrufe alle früheren Testamente und Nachträge",
+    "subjectToCondition": "unter der Bedingung, dass",
+    "perStirpes": "nach Stämmen",
+    "perCapita": "nach Köpfen",
+    "ifSurviving": "falls mich überlebend"
+  },
+  "legalTerms": {
+    "testator": "Die Person, die das Testament errichtet",
+    "heir": "Person, die nach dem Testament erbberechtigt ist",
+    "forcedHeir": "Nachkomme mit Pflichtteilsanspruch",
+    "legacy": "Spezifisches Vermächtnis von Eigentum oder Geld",
+    "executor": "Person, die für die Nachlassverwaltung verantwortlich ist",
+    "codicil": "Nachtrag zu einem bestehenden Testament",
+    "intestate": "Versterben ohne gültiges Testament",
+    "probate": "Rechtliches Verfahren zur Testamentsbestätigung",
+    "estate": "Gesamtes Vermögen und Besitz des Verstorbenen",
+    "beneficiary": "Person, die Leistungen aus dem Testament erhält"
+  },
+  "germanSpecific": {
+    "euRegulations": {
+      "title": "EU-Erbrechtsverordnung",
+      "notice": "Für grenzüberschreitende Erbfälle innerhalb der EU gilt die EU-Erbrechtsverordnung (EU) Nr. 650/2012",
+      "habitualResidence": "Das anwendbare Recht richtet sich nach dem gewöhnlichen Aufenthalt des Erblassers",
+      "choiceOfLaw": "Eine Rechtswahl zugunsten des Heimatrechts ist möglich"
+    },
+    "taxConsiderations": {
+      "title": "Steuerliche Aspekte",
+      "czechTax": "In der Tschechischen Republik wurde die Erbschaftssteuer 2014 abgeschafft",
+      "germanTax": "Für deutsche Staatsangehörige können deutsche Erbschaftssteuerpflichten bestehen",
+      "doubleTaxation": "Doppelbesteuerungsabkommen zwischen Deutschland und Tschechien beachten"
+    },
+    "crossBorder": {
+      "title": "Grenzüberschreitende Aspekte",
+      "certificate": "Europäisches Nachlasszeugnis für Vermögen in mehreren EU-Staaten",
+      "recognition": "Anerkennung des Testaments in Deutschland und Tschechien",
+      "translation": "Beglaubigte Übersetzungen können erforderlich sein"
+    }
+  }
+}

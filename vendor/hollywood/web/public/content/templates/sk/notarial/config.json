@@ -1,0 +1,66 @@
+{
+  "id": "sk-notarial-sk",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Notarial Will (Slovakia)",
+    "name_sk": "Notársky závet (Slovensko)",
+    "description": "A notarial will created before a notary public, providing maximum legal certainty",
+    "description_sk": "Notársky závet vytvorený pred notárom, poskytuje maximálnu právnu istotu",
+    "lastUpdated": "2024-12-06",
+    "jurisdiction": "Slovakia",
+    "legalBasis": "§ 478 Občiansky zákonník SR",
+    "legalReview": {
+      "isApproved": true,
+      "reviewDate": "2024-12-06",
+      "reviewedBy": "Legal AI Assistant"
+    }
+  },
+  "variables": [
+    {
+      "key": "testatorName",
+      "label": "Testator Full Name",
+      "label_sk": "Plné meno testátora",
+      "type": "text",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "beneficiaries",
+      "label": "Beneficiaries",
+      "label_sk": "Dedičia",
+      "type": "array",
+      "required": true,
+      "dataSource": "beneficiary"
+    }
+  ],
+  "sections": [
+    {
+      "id": "notarial_declaration",
+      "title": "Notarial Declaration",
+      "title_sk": "Notárske vyhlásenie",
+      "order": 1,
+      "required": true,
+      "content": "This will is created before a notary public.",
+      "content_sk": "Tento závet je vytvorený pred notárom.",
+      "legalReference": "§ 478 Občiansky zákonník SR"
+    }
+  ],
+  "executionInstructions": {
+    "notarial": {
+      "steps": [
+        "Schedule appointment with a notary",
+        "Prepare necessary documents",
+        "Appear before notary with valid ID",
+        "Dictate or present will to notary",
+        "Review and sign the notarized document"
+      ],
+      "requirements": [
+        "Must be created before a notary public",
+        "No additional witnesses required",
+        "Provides maximum legal certainty"
+      ]
+    }
+  },
+  "validationRules": [],
+  "legalClauses": []
+}

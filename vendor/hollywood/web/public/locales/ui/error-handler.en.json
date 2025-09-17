@@ -1,0 +1,22 @@
+{
+  "userMessages": {
+    "authenticationFailed": "Authentication failed. Please sign in again.",
+    "noPermission": "You do not have permission to perform this action.",
+    "checkInput": "Please check your input and try again.",
+    "networkError": "Network error. Please check your connection and try again.",
+    "databaseError": "A database error occurred. Please try again later.",
+    "encryptionError": "Encryption error. Please contact support.",
+    "rateLimitError": "Too many requests. Please try again in {{seconds}} seconds."
+  },
+  "logMessages": {
+    "criticalError": "🚨 CRITICAL ERROR:",
+    "highSeverityError": "❌ HIGH SEVERITY ERROR:",
+    "mediumSeverityError": "⚠️ MEDIUM SEVERITY ERROR:",
+    "lowSeverityError": "ℹ️ LOW SEVERITY ERROR:"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "description": "We're sorry, but something went wrong. Please try refreshing the page.",
+    "refreshButton": "Refresh Page"
+  }
+}

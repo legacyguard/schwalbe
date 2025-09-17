@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will Wizard Language-Jurisdiction Test Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8fafc;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .combinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .combination-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        .combination-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1e40af;
+        }
+        .combination-details {
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            color: #1e40af;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 10px;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .feature-list li:before {
+            content: "✅ ";
+            margin-right: 8px;
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .badge-sk { background-color: #dcfce7; color: #166534; }
+        .badge-cz { background-color: #dbeafe; color: #1d4ed8; }
+        .badge-en { background-color: #fef3c7; color: #d97706; }
+        .badge-de { background-color: #f3e8ff; color: #7c3aed; }
+        .routing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .routing-table th,
+        .routing-table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+        .routing-table th {
+            background-color: #f8fafc;
+            font-weight: 600;
+        }
+        .timestamp {
+            color: #64748b;
+            font-size: 0.875rem;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ Will Wizard Language-Jurisdiction Test Suite</h1>
+        <p>Comprehensive testing documentation for all supported language and jurisdiction combinations</p>
+        <div class="timestamp">Generated on: 9/6/2025, 11:28:02 PM</div>
+    </div>
+
+    <div class="section">
+        <h2>📊 Test Combinations Overview</h2>
+        <p>The system supports <strong>8 combinations</strong> of interface language and legal jurisdiction:</p>
+        
+        <div class="combinations-grid">
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        SK-SK
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> Slovenčina (Slovensko)<br>
+                        <strong>Translation File:</strong> <code>sk_SK.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-sk">sk</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-sk">SK</span>
+                    </div>
+                </div>
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        CS-SK
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> Čeština (Slovensko)<br>
+                        <strong>Translation File:</strong> <code>cs_SK.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-cs">cs</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-sk">SK</span>
+                    </div>
+                </div>
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        EN-SK
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> English (Slovakia)<br>
+                        <strong>Translation File:</strong> <code>en_SK.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-en">en</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-sk">SK</span>
+                    </div>
+                </div>
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        DE-SK
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> Deutsch (Slowakei)<br>
+                        <strong>Translation File:</strong> <code>de_SK.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-de">de</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-sk">SK</span>
+                    </div>
+                </div>
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        SK-CZ
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> Slovenčina (Česko)<br>
+                        <strong>Translation File:</strong> <code>sk_CZ.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-sk">sk</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-cz">CZ</span>
+                    </div>
+                </div>
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        CS-CZ
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> Čeština (Česko)<br>
+                        <strong>Translation File:</strong> <code>cs_CZ.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-cs">cs</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-cz">CZ</span>
+                    </div>
+                </div>
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        EN-CZ
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> English (Czech Republic)<br>
+                        <strong>Translation File:</strong> <code>en_CZ.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-en">en</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-cz">CZ</span>
+                    </div>
+                </div>
+            
+                <div class="combination-card">
+                    <div class="combination-title">
+                        DE-CZ
+                    </div>
+                    <div class="combination-details">
+                        <strong>Label:</strong> Deutsch (Tschechien)<br>
+                        <strong>Translation File:</strong> <code>de_CZ.json</code><br>
+                        <strong>UI Language:</strong> <span class="badge badge-de">de</span><br>
+                        <strong>Legal Jurisdiction:</strong> <span class="badge badge-cz">CZ</span>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Implementation Features</h2>
+        <ul class="feature-list">
+            <li>Separation of UI language from legal jurisdiction</li>
+            <li>Support for 4 languages: Slovak (sk), Czech (cs), English (en), German (de)</li>
+            <li>Support for 2 jurisdictions: Slovakia (SK), Czech Republic (CZ)</li>
+            <li>Dynamic translation file loading based on language-jurisdiction combination</li>
+            <li>Enhanced CountrySelector with step-by-step language and jurisdiction selection</li>
+            <li>LocalStorage persistence of user preferences</li>
+            <li>Proper fallback handling for missing translations</li>
+            <li>Responsive design with mobile optimization</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🗂️ File Routing Structure</h2>
+        <p>Translation files are loaded according to this pattern:</p>
+        <div class="code-block">
+/web/public/locales/content/wills/[language]_[jurisdiction].json
+        </div>
+        
+        <table class="routing-table">
+            <thead>
+                <tr>
+                    <th>Combination</th>
+                    <th>File Path</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <tr>
+                        <td><strong>sk-SK</strong></td>
+                        <td><code>sk_SK.json</code></td>
+                        <td>Slovenčina (Slovensko)</td>
+                    </tr>
+                
+                    <tr>
+                        <td><strong>cs-SK</strong></td>
+                        <td><code>cs_SK.json</code></td>
+                        <td>Čeština (Slovensko)</td>
+                    </tr>
+                
+                    <tr>
+                        <td><strong>en-SK</strong></td>
+                        <td><code>en_SK.json</code></td>
+                        <td>English (Slovakia)</td>
+                    </tr>
+                
+                    <tr>
+                        <td><strong>de-SK</strong></td>
+                        <td><code>de_SK.json</code></td>
+                        <td>Deutsch (Slowakei)</td>
+                    </tr>
+                
+                    <tr>
+                        <td><strong>sk-CZ</strong></td>
+                        <td><code>sk_CZ.json</code></td>
+                        <td>Slovenčina (Česko)</td>
+                    </tr>
+                
+                    <tr>
+                        <td><strong>cs-CZ</strong></td>
+                        <td><code>cs_CZ.json</code></td>
+                        <td>Čeština (Česko)</td>
+                    </tr>
+                
+                    <tr>
+                        <td><strong>en-CZ</strong></td>
+                        <td><code>en_CZ.json</code></td>
+                        <td>English (Czech Republic)</td>
+                    </tr>
+                
+                    <tr>
+                        <td><strong>de-CZ</strong></td>
+                        <td><code>de_CZ.json</code></td>
+                        <td>Deutsch (Tschechien)</td>
+                    </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>🔧 Testing Instructions</h2>
+        <ol>
+            <li><strong>Start Development Server:</strong>
+                <div class="code-block">cd /Users/luborfedak/Documents/Github/hollywood/web && npm run dev</div>
+            </li>
+            <li><strong>Navigate to Test Page:</strong>
+                <div class="code-block">http://localhost:8082/test/will-wizard-combinations</div>
+            </li>
+            <li><strong>Test Each Combination:</strong>
+                <ul>
+                    <li>Click each "Test [language]-[jurisdiction]" button</li>
+                    <li>Verify the language selection step shows correctly</li>
+                    <li>Verify the jurisdiction selection step shows correctly</li>
+                    <li>Verify the confirmation step displays the correct combination</li>
+                    <li>Click "Start Creating Will" to enter the wizard</li>
+                    <li>Verify the wizard interface uses the selected language</li>
+                    <li>Verify legal requirements match the selected jurisdiction</li>
+                </ul>
+            </li>
+            <li><strong>HTML Snapshots:</strong>
+                <ul>
+                    <li>Use browser developer tools to save HTML snapshots</li>
+                    <li>Test on different screen sizes (mobile, tablet, desktop)</li>
+                    <li>Verify accessibility features work correctly</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>⚖️ Legal Compliance Verification</h2>
+        <div class="combinations-grid">
+            <div class="combination-card">
+                <div class="combination-title">🇸🇰 Slovakia (SK)</div>
+                <div class="combination-details">
+                    <strong>Legal Framework:</strong> Slovak Civil Code § 476-478<br>
+                    <strong>Currency:</strong> EUR<br>
+                    <strong>Holographic:</strong> Dating recommended<br>
+                    <strong>Witnessed:</strong> 2 witnesses (not beneficiaries or relatives)<br>
+                    <strong>Minimum Age:</strong> 18 years
+                </div>
+            </div>
+            <div class="combination-card">
+                <div class="combination-title">🇨🇿 Czech Republic (CZ)</div>
+                <div class="combination-details">
+                    <strong>Legal Framework:</strong> Czech Civil Code § 1540-1542<br>
+                    <strong>Currency:</strong> CZK<br>
+                    <strong>Holographic:</strong> Dating MANDATORY<br>
+                    <strong>Witnessed:</strong> 2 witnesses (not beneficiaries OR their spouses)<br>
+                    <strong>Minimum Age:</strong> 15 years
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📋 Test Checklist</h2>
+        <p>For each of the 8 combinations, verify:</p>
+        <ul class="feature-list">
+            <li>Language selection interface displays correctly</li>
+            <li>Jurisdiction selection interface displays correctly</li>
+            <li>Confirmation step shows accurate information</li>
+            <li>Will wizard launches with correct language</li>
+            <li>Legal requirements match selected jurisdiction</li>
+            <li>Translation file loads properly</li>
+            <li>Fallback behavior works if translation is missing</li>
+            <li>LocalStorage saves preferences correctly</li>
+            <li>Mobile responsive design works</li>
+            <li>Accessibility features function properly</li>
+        </ul>
+    </div>
+
+    <div class="timestamp">
+        🚀 Will Wizard Testing Suite - 2025 LegacyGuard
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "header": {
+    "title": "Family Document Collaboration",
+    "subtitle": "Work together on important family documents"
+  },
+  "sidebar": {
+    "documentsTitle": "Family Documents",
+    "newDocument": "New Family Document",
+    "noDocuments": "No family documents yet",
+    "createFirst": "Create your first shared document"
+  },
+  "document": {
+    "titlePlaceholder": "Document Title",
+    "contentPlaceholder": "Start writing your document...",
+    "locked": "Locked",
+    "unlocked": "Unlocked",
+    "saveStatus": "Saving...",
+    "saved": "Saved",
+    "lastModified": "Last modified {{time}} by {{user}}"
+  },
+  "collaborators": {
+    "title": "Active Collaborators",
+    "addPlaceholder": "Add a collaborator",
+    "online": "online",
+    "offline": "offline",
+    "roles": {
+      "owner": "Owner",
+      "editor": "Editor", 
+      "commenter": "Commenter",
+      "viewer": "Viewer"
+    }
+  },
+  "comments": {
+    "title": "Comments",
+    "addComment": "Add a comment:",
+    "noComments": "No comments yet",
+    "reply": "Reply",
+    "resolve": "Resolve"
+  },
+  "history": {
+    "title": "Document History",
+    "showVersions": "Show All Versions",
+    "recentChanges": "Recent Changes",
+    "timestamp": "{{time}} ago"
+  },
+  "permissions": {
+    "title": "Document Permissions",
+    "visibility": "Visibility",
+    "settings": "Permission Settings"
+  },
+  "buttons": {
+    "save": "Save",
+    "share": "Share", 
+    "export": "Export",
+    "history": "History",
+    "comment": "Comment",
+    "lock": "Lock",
+    "unlock": "Unlock"
+  },
+  "toast": {
+    "documentSaved": "Document saved successfully",
+    "collaboratorAdded": "Collaborator added successfully",
+    "permissionChanged": "Permissions updated",
+    "commentAdded": "Comment added successfully"
+  }
+}

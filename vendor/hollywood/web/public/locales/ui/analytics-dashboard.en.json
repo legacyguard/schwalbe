@@ -1,0 +1,71 @@
+{
+  "header": {
+    "title": "Analytics Dashboard",
+    "subtitle": "Track subscriptions, revenue, churn, and system health"
+  },
+  "dateRange": {
+    "7d": "Last 7 days",
+    "30d": "Last 30 days",
+    "90d": "Last 90 days"
+  },
+  "metrics": {
+    "totalUsers": "Total Users",
+    "mrr": "Monthly Recurring Revenue",
+    "churnRate": "Churn Rate",
+    "newSubscriptions": "New Subscriptions"
+  },
+  "plans": {
+    "free": "Free",
+    "essential": "Essential",
+    "family": "Family",
+    "premium": "Premium"
+  },
+  "charts": {
+    "revenueTrend": "Revenue Trend",
+    "userGrowth": "User Growth",
+    "planDistribution": "Plan Distribution",
+    "systemHealth": "System Health"
+  },
+  "system": {
+    "errors": "{{percent}}% errors",
+    "response": "{{ms}}ms"
+  }
+}
+{
+  "header": {
+    "title": "Analytics Dashboard",
+    "subtitle": "Monitor your business metrics and system health"
+  },
+  "dateRange": {
+    "7d": "7 Days",
+    "30d": "30 Days", 
+    "90d": "90 Days"
+  },
+  "metrics": {
+    "totalUsers": "Total Users",
+    "mrr": "MRR",
+    "churnRate": "Churn Rate",
+    "newSubscriptions": "New Subscriptions"
+  },
+  "charts": {
+    "revenueTrend": "Revenue Trend",
+    "userGrowth": "User Growth",
+    "planDistribution": "Plan Distribution",
+    "systemHealth": "System Health"
+  },
+  "plans": {
+    "free": "Free",
+    "essential": "Essential", 
+    "premium": "Premium",
+    "family": "Family"
+  },
+  "health": {
+    "status": "Status",
+    "responseTime": "Response Time",
+    "errorRate": "Error Rate",
+    "healthy": "Healthy",
+    "degraded": "Degraded",
+    "down": "Down"
+  },
+  "loading": "Loading analytics data..."
+}

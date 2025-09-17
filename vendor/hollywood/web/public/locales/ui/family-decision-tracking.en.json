@@ -1,0 +1,141 @@
+{
+  "templates": {
+    "healthcare-decision": {
+      "name": "Healthcare Decision",
+      "description": "Make important healthcare decisions for family members",
+      "options": ["Approve", "Reject", "Need More Information"]
+    },
+    "legacy-distribution": {
+      "name": "Legacy Distribution", 
+      "description": "Decide on distribution of family assets or heirlooms",
+      "options": ["Equal Distribution", "Based on Need", "Based on Contribution", "Other"]
+    },
+    "family-tradition": {
+      "name": "Family Tradition",
+      "description": "Decisions about maintaining or changing family traditions",
+      "options": ["Continue as is", "Modify tradition", "Create new tradition", "Discontinue"]
+    },
+    "emergency-protocol": {
+      "name": "Emergency Protocol", 
+      "description": "Establish emergency procedures and decision-making authority",
+      "options": ["Approve Protocol", "Modify Protocol", "Reject Protocol"]
+    }
+  },
+  "tabs": {
+    "active": "Active Decisions",
+    "completed": "Completed",
+    "templates": "Decision Templates",
+    "analytics": "Analytics"
+  },
+  "filters": {
+    "all": "All Categories",
+    "healthcare": "Healthcare",
+    "financial": "Financial",
+    "legacy": "Legacy Planning",
+    "property": "Property",
+    "emergency": "Emergency",
+    "governance": "Family Governance",
+    "other": "Other"
+  },
+  "status": {
+    "draft": "Draft",
+    "voting": "Voting",
+    "decided": "Decided", 
+    "implemented": "Implemented",
+    "archived": "Archived"
+  },
+  "priority": {
+    "critical": "Critical",
+    "high": "High", 
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "buttons": {
+    "createDecision": "Create Decision",
+    "useTemplate": "Use Template",
+    "viewDecision": "View Decision",
+    "vote": "Vote",
+    "editDecision": "Edit Decision",
+    "finalizeDecision": "Finalize Decision",
+    "archiveDecision": "Archive Decision",
+    "addComment": "Add Comment",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "submitVote": "Submit Vote",
+    "updateVote": "Update Vote",
+    "cancelEdit": "Cancel",
+    "saveChanges": "Save Changes"
+  },
+  "labels": {
+    "decisionTitle": "Decision Title", 
+    "description": "Description",
+    "category": "Category",
+    "priority": "Priority",
+    "deadline": "Voting Deadline",
+    "eligibleVoters": "Eligible Voters",
+    "options": "Voting Options",
+    "settings": "Decision Settings",
+    "comments": "Comments & Discussion",
+    "results": "Results",
+    "implementation": "Implementation Notes",
+    "voteReasoning": "Reasoning (Optional)"
+  },
+  "placeholders": {
+    "decisionTitle": "Enter decision title",
+    "description": "Describe the decision to be made...",
+    "optionText": "Option text",
+    "implementation": "Add implementation notes...",
+    "comment": "Add your comment...",
+    "voteReasoning": "Explain your vote (optional)..."
+  },
+  "settings": {
+    "allowComments": "Allow comments and discussion",
+    "allowVoteChanges": "Allow voters to change their votes", 
+    "isAnonymous": "Anonymous voting",
+    "showReasoning": "Show vote reasoning",
+    "requiresUnanimity": "Requires unanimous decision"
+  },
+  "emptyStates": {
+    "noDecisions": "No decisions found",
+    "noActiveDecisions": "No active decisions. Create your first family decision to get started with collaborative decision-making.",
+    "noCompletedDecisions": "No completed decisions yet",
+    "noComments": "No comments yet. Start the discussion!",
+    "noVotes": "No votes cast yet"
+  },
+  "voting": {
+    "votesCount": "{{count}} vote{{plural}}",
+    "votingDeadline": "Voting deadline: {{date}}",
+    "votingClosed": "Voting is now closed",
+    "resultFinalized": "Result finalized by {{name}} on {{date}}",
+    "unanimousRequired": "Unanimous decision required",
+    "quorumMet": "Quorum met",
+    "quorumNotMet": "Quorum not yet met"
+  },
+  "messages": {
+    "voteSubmitted": "Your vote has been submitted successfully",
+    "voteUpdated": "Your vote has been updated",
+    "commentAdded": "Comment added successfully", 
+    "decisionCreated": "Decision created successfully",
+    "decisionUpdated": "Decision updated successfully",
+    "decisionFinalized": "Decision has been finalized",
+    "decisionArchived": "Decision has been archived"
+  },
+  "validation": {
+    "titleRequired": "Decision title is required",
+    "descriptionRequired": "Description is required", 
+    "optionsRequired": "At least 2 options are required",
+    "votersRequired": "At least one eligible voter required",
+    "commentRequired": "Comment cannot be empty",
+    "implementationRequired": "Implementation notes are required for finalization"
+  },
+  "member": {
+    "you": "You",
+    "votingWeight": "Voting weight: {{weight}}"
+  },
+  "analytics": {
+    "totalDecisions": "Total Decisions",
+    "completionRate": "Completion Rate", 
+    "averageTime": "Average Decision Time",
+    "participationRate": "Participation Rate"
+  }
+}

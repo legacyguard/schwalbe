@@ -1,0 +1,48 @@
+{
+  "title": "Recent Activity",
+  "viewAll": "View All Activity",
+  "empty": {
+    "title": "No Recent Activity",
+    "description": "Your family protection activities will appear here."
+  },
+  "actions": {
+    "documentUploaded": "Document Uploaded",
+    "familyMemberAdded": "Family Member Added",
+    "guardianAppointed": "Guardian Appointed",
+    "willCreated": "Will Created",
+    "legacyMessageRecorded": "Legacy Message Recorded",
+    "emergencyContactAdded": "Emergency Contact Added",
+    "documentShared": "Document Shared",
+    "timeCapsuleCreated": "Time Capsule Created",
+    "professionalReviewRequested": "Professional Review Requested",
+    "encryptionEnabled": "Encryption Enabled"
+  },
+  "descriptions": {
+    "birthCertificateAdded": "Birth Certificate was added to your vault",
+    "spouseAdded": "{{name}} was added as a spouse",
+    "executorDesignated": "{{name}} was designated as an executor",
+    "willDrafted": "Last will and testament was drafted",
+    "videoRecorded": "Video message for loved ones was recorded",
+    "contactAdded": "{{name}} was added as emergency contact",
+    "documentSharedWith": "{{document}} was shared with {{recipient}}",
+    "capsuleScheduled": "Time capsule scheduled for delivery",
+    "reviewSubmitted": "Documents submitted for professional review",
+    "vaultSecured": "Document vault was secured with encryption"
+  },
+  "metadata": {
+    "category": "Category",
+    "status": "Status",
+    "role": "Role",
+    "permission": "Permission",
+    "ocrComplete": "OCR Complete",
+    "active": "Active",
+    "spouse": "Spouse",
+    "fullAccess": "Full Access"
+  },
+  "timestamps": {
+    "minutesAgo": "{{minutes}}m ago",
+    "hoursAgo": "{{hours}}h ago", 
+    "daysAgo": "{{days}}d ago",
+    "now": "Just now"
+  }
+}

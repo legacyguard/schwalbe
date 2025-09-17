@@ -1,0 +1,54 @@
+{
+  "header": {
+    "title": "AI-Powered Analytics Dashboard",
+    "description": "Comprehensive insights into your family's legacy planning progress",
+    "showInsights": "Show Insights",
+    "hideInsights": "Hide Insights"
+  },
+  "metrics": {
+    "protection": "Protection",
+    "completion": "Completion",
+    "risks": "Risks",
+    "achievements": "Achievements",
+    "time": "Time",
+    "streak": "Streak",
+    "family": "Family",
+    "documents": "Documents",
+    "securityScore": "Security Score",
+    "progress": "Progress",
+    "earned": "Earned",
+    "invested": "Invested",
+    "days": "Days",
+    "members": "Members",
+    "secured": "Secured",
+    "active": "Active"
+  },
+  "smartInsights": {
+    "title": "AI-Powered Smart Insights",
+    "poweredBy": "Powered by LegacyGuard AI",
+    "urgentBadge": "{{count}} urgent",
+    "confidence": "Confidence: {{value}}%"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "protection": "Protection Analytics",
+    "progress": "Progress Tracking"
+  },
+  "overview": {
+    "progressTrends": "Progress Trends",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "familyProtection": "Family Protection",
+    "recentActivity": "Recent Activity",
+    "completed": "completed",
+    "started": "started",
+    "unlocked": "unlocked",
+    "achievement": "Achievement"
+  },
+  "status": {
+    "justNow": "Just now",
+    "hAgo": "{{hours}}h ago",
+    "dAgo": "{{days}}d ago",
+    "yesterday": "Yesterday"
+  }
+}

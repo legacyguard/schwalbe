@@ -1,0 +1,953 @@
+import { createClient } from '@supabase/supabase-js';
+import type {
+  EmergencyActivation,
+  EmergencyDocument,
+  EmergencyTimeCapsule,
+  GuardianPermissions,
+  SurvivorAccessRequest,
+} from '@/types/emergency';
+import type { Guardian } from '@/types/guardian';
+
+export type AccessLevel =
+  | 'emergency_activated'
+  | 'guardian_verified'
+  | 'public'
+  | 'will_executor';
+export type ResourceType =
+  | 'contact'
+  | 'document'
+  | 'guidance'
+  | 'memorial'
+  | 'time_capsule';
+export type AccessorType =
+  | 'family_member'
+  | 'guardian'
+  | 'public'
+  | 'survivor'
+  | 'system';
+
+export interface AccessContext {
+  accessorId?: string;
+  accessorType: AccessorType;
+  accessToken?: string;
+  emergencyActivation?: EmergencyActivation;
+  guardianPermissions?: GuardianPermissions;
+  userRelation?: string;
+}
+
+interface AccessAuditEntry {
+  access_type: string;
+  accessor_id?: string;
+  accessor_type: AccessorType;
+  action: 'create' | 'delete' | 'download' | 'modify' | 'view';
+  ip_address?: string;
+  metadata?: Record<string, any>;
+  resource_id?: string;
+  resource_type: ResourceType;
+  success: boolean;
+  user_agent?: string;
+  user_id: string;
+}
+
+export class EmergencyAccessControl {
+  private supabaseUrl: string;
+  private supabaseServiceKey: string;
+  private requests = new Map<string, any>();
+  private pendingRequests: any[] = [];
+  private approvedRequests: any[] = [];
+  private accessLogs = new Map<string, any[]>();
+
+  constructor(supabaseUrl: string, supabaseServiceKey: string) {
+    this.supabaseUrl = supabaseUrl;
+    this.supabaseServiceKey = supabaseServiceKey;
+  }
+
+  private getServiceClient() {
+    return createClient(this.supabaseUrl, this.supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
+  }
+
+  async validateAccess(
+    userId: string,
+    resourceType: ResourceType,
+    resourceId: string,
+    action: string,
+    context: AccessContext
+  ): Promise<{
+    accessLevel: AccessLevel;
+    granted: boolean;
+    reason: string;
+    restrictions?: string[];
+  }> {
+    const supabase = this.getServiceClient();
+
+    try {
+      // Public memorial information is always accessible
+      if (resourceType === 'memorial' && action === 'view') {
+        await this.auditAccess({
+          user_id: userId,
+          accessor_type: context.accessorType,
+          accessor_id: context.accessorId,
+          access_type: 'memorial_view',
+          resource_type: resourceType,
+          resource_id: resourceId,
+          action: 'view',
+          success: true,
+          metadata: { public_access: true },
+        });
+
+        return {
+          granted: true,
+          reason: 'Public memorial access',
+          accessLevel: 'public',
+        };
+      }
+
+      // Check if user has active emergency shield
+      const { data: shieldSettings } = await supabase
+        .from('family_shield_settings')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      const hasActiveShield =
+        shieldSettings?.is_shield_enabled &&
+        shieldSettings?.shield_status === 'active';
+
+      // Guardian access validation
+      if (context.accessorType === 'guardian' && context.guardianPermissions) {
+        return await this.validateGuardianAccess(
+          userId,
+          resourceType,
+          resourceId,
+          action,
+          context.guardianPermissions,
+          hasActiveShield
+        );
+      }
+
+      // Survivor/family access validation
+      if (
+        context.accessorType === 'survivor' ||
+        context.accessorType === 'family_member'
+      ) {
+        return await this.validateSurvivorAccess(
+          userId,
+          resourceType,
+          resourceId,
+          action,
+          context,
+          hasActiveShield
+        );
+      }
+
+      // System access (always granted for internal operations)
+      if (context.accessorType === 'system') {
+        await this.auditAccess({
+          user_id: userId,
+          accessor_type: context.accessorType,
+          access_type: 'system_access',
+          resource_type: resourceType,
+          resource_id: resourceId,
+          action: action as any,
+          success: true,
+        });
+
+        return {
+          granted: true,
+          reason: 'System access',
+          accessLevel: 'emergency_activated',
+        };
+      }
+
+      // Default deny
+      await this.auditAccess({
+        user_id: userId,
+        accessor_type: context.accessorType,
+        accessor_id: context.accessorId,
+        access_type: 'unauthorized_attempt',
+        resource_type: resourceType,
+        resource_id: resourceId,
+        action: action as any,
+        success: false,
+        metadata: { reason: 'No valid access context' },
+      });
+
+      return {
+        granted: false,
+        reason: 'Access denied - insufficient permissions',
+        accessLevel: 'public',
+      };
+    } catch (error) {
+      console.error('Error validating access:', error);
+
+      // Log failed access attempt
+      await this.auditAccess({
+        user_id: userId,
+        accessor_type: context.accessorType,
+        accessor_id: context.accessorId,
+        access_type: 'validation_error',
+        resource_type: resourceType,
+        resource_id: resourceId,
+        action: action as any,
+        success: false,
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
+      });
+
+      return {
+        granted: false,
+        reason: 'Access validation failed',
+        accessLevel: 'public',
+      };
+    }
+  }
+
+  private async validateGuardianAccess(
+    userId: string,
+    resourceType: ResourceType,
+    resourceId: string,
+    action: string,
+    permissions: GuardianPermissions,
+    hasActiveShield: boolean
+  ): Promise<{
+    accessLevel: AccessLevel;
+    granted: boolean;
+    reason: string;
+    restrictions?: string[];
+  }> {
+    const restrictions: string[] = [];
+    let granted = false;
+    let reason = '';
+    const accessLevel: AccessLevel = 'guardian_verified';
+
+    // Emergency activation required for most guardian access
+    if (!hasActiveShield && !permissions.can_trigger_emergency) {
+      await this.auditAccess({
+        user_id: userId,
+        accessor_type: 'guardian',
+        access_type: 'denied_no_shield',
+        resource_type: resourceType,
+        resource_id: resourceId,
+        action: action as any,
+        success: false,
+        metadata: { reason: 'Shield not active, guardian cannot trigger' },
+      });
+
+      return {
+        granted: false,
+        reason: 'Emergency shield must be activated first',
+        accessLevel: 'public',
+      };
+    }
+
+    // Check specific resource permissions
+    switch (resourceType) {
+      case 'document': {
+        const docAccess = await this.validateDocumentAccess(
+          userId,
+          resourceId,
+          permissions,
+          hasActiveShield
+        );
+        granted = docAccess.granted;
+        reason = docAccess.reason;
+        restrictions.push(...(docAccess.restrictions || []));
+        break;
+      }
+
+      case 'contact':
+        // Guardians can always access emergency contacts
+        granted = true;
+        reason = 'Guardian contact access';
+        break;
+
+      case 'time_capsule':
+        // Only will executors can access time capsules
+        if (permissions.is_will_executor) {
+          granted = true;
+          reason = 'Will executor time capsule access';
+        } else {
+          granted = false;
+          reason = 'Only will executors can access time capsules';
+        }
+        break;
+
+      case 'guidance':
+        // All active guardians can access guidance entries
+        granted = true;
+        reason = 'Guardian guidance access';
+        break;
+
+      default:
+        granted = false;
+        reason = 'Unknown resource type';
+    }
+
+    // Audit the access attempt
+    await this.auditAccess({
+      user_id: userId,
+      accessor_type: 'guardian',
+      access_type: `guardian_${resourceType}_access`,
+      resource_type: resourceType,
+      resource_id: resourceId,
+      action: action as any,
+      success: granted,
+      metadata: {
+        permissions: permissions,
+        active_shield: hasActiveShield,
+        restrictions: restrictions,
+      },
+    });
+
+    return {
+      granted,
+      reason,
+      accessLevel: granted ? accessLevel : 'public',
+      restrictions: restrictions.length > 0 ? restrictions : undefined,
+    };
+  }
+
+  private async validateDocumentAccess(
+    userId: string,
+    documentId: string,
+    permissions: GuardianPermissions,
+    hasActiveShield: boolean
+  ): Promise<{ granted: boolean; reason: string; restrictions?: string[] }> {
+    const supabase = this.getServiceClient();
+    const restrictions: string[] = [];
+
+    // Get document type to check permissions
+    const { data: document } = await supabase
+      .from('documents')
+      .select('document_type')
+      .eq('id', documentId)
+      .eq('user_id', userId)
+      .single();
+
+    if (!document) {
+      return {
+        granted: false,
+        reason: 'Document not found',
+      };
+    }
+
+    // Check type-specific permissions
+    switch (document.document_type.toLowerCase()) {
+      case 'health':
+      case 'medical':
+        if (!permissions.can_access_health_docs) {
+          return {
+            granted: false,
+            reason: 'No permission to access health documents',
+          };
+        }
+        break;
+
+      case 'financial':
+      case 'bank':
+      case 'investment':
+        if (!permissions.can_access_financial_docs) {
+          return {
+            granted: false,
+            reason: 'No permission to access financial documents',
+          };
+        }
+        break;
+
+      case 'legal':
+      case 'will':
+      case 'testament':
+        if (!permissions.is_will_executor) {
+          return {
+            granted: false,
+            reason: 'Only will executors can access legal documents',
+          };
+        }
+        break;
+
+      case 'general':
+      case 'personal':
+      default:
+        // General access allowed for all guardians if shield is active
+        if (!hasActiveShield) {
+          return {
+            granted: false,
+            reason: 'Emergency shield must be active',
+          };
+        }
+        break;
+    }
+
+    // Add time-based restrictions for sensitive documents
+    if (
+      ['health', 'financial'].includes(document.document_type.toLowerCase())
+    ) {
+      restrictions.push('Access logged and monitored');
+      restrictions.push('Download requires additional verification');
+    }
+
+    return {
+      granted: true,
+      reason: `Guardian access granted for ${document.document_type} document`,
+      restrictions: restrictions.length > 0 ? restrictions : undefined,
+    };
+  }
+
+  private async validateSurvivorAccess(
+    userId: string,
+    resourceType: ResourceType,
+    resourceId: string,
+    action: string,
+    context: AccessContext,
+    hasActiveShield: boolean
+  ): Promise<{
+    accessLevel: AccessLevel;
+    granted: boolean;
+    reason: string;
+    restrictions?: string[];
+  }> {
+    const supabase = this.getServiceClient();
+
+    // Check for valid access request if emergency is not active
+    if (!hasActiveShield && context.accessToken) {
+      const { data: accessRequest } = await supabase
+        .from('survivor_access_requests')
+        .select('*')
+        .eq('access_token', context.accessToken)
+        .eq('status', 'approved')
+        .gte('expires_at', new Date().toISOString())
+        .single();
+
+      if (!accessRequest) {
+        await this.auditAccess({
+          user_id: userId,
+          accessor_type: context.accessorType,
+          access_type: 'denied_invalid_request',
+          resource_type: resourceType,
+          resource_id: resourceId,
+          action: action as any,
+          success: false,
+          metadata: { token: context.accessToken?.substring(0, 8) + '...' },
+        });
+
+        return {
+          granted: false,
+          reason: 'No valid access request found',
+          accessLevel: 'public',
+        };
+      }
+    }
+
+    // Limited access based on resource type
+    const restrictions: string[] = [];
+    let granted = false;
+    let reason = '';
+
+    switch (resourceType) {
+      case 'contact':
+        // Emergency contacts are always accessible
+        granted = true;
+        reason = 'Emergency contact access';
+        break;
+
+      case 'time_capsule': {
+        // Time capsules for emergency delivery
+        const { data: capsule } = await supabase
+          .from('time_capsules')
+          .select('delivery_condition')
+          .eq('id', resourceId)
+          .single();
+
+        if (capsule?.delivery_condition === 'ON_DEATH' && hasActiveShield) {
+          granted = true;
+          reason = 'Emergency time capsule access';
+        } else {
+          granted = false;
+          reason = 'Time capsule not available for emergency access';
+        }
+        break;
+      }
+
+      case 'guidance':
+        // Basic guidance entries available
+        granted = true;
+        reason = 'Survivor guidance access';
+        restrictions.push('Limited to essential information');
+        break;
+
+      case 'document':
+        // Very limited document access
+        granted = hasActiveShield;
+        reason = hasActiveShield
+          ? 'Emergency document access'
+          : 'Documents require active emergency protocol';
+        restrictions.push('Access logged and monitored');
+        break;
+
+      case 'memorial':
+        granted = true;
+        reason = 'Public memorial access';
+        break;
+
+      default:
+        granted = false;
+        reason = 'Resource type not available for survivor access';
+    }
+
+    // Audit the access
+    await this.auditAccess({
+      user_id: userId,
+      accessor_type: context.accessorType,
+      accessor_id: context.accessorId,
+      access_type: `survivor_${resourceType}_access`,
+      resource_type: resourceType,
+      resource_id: resourceId,
+      action: action as any,
+      success: granted,
+      metadata: {
+        active_shield: hasActiveShield,
+        access_token: context.accessToken?.substring(0, 8) + '...',
+        restrictions: restrictions,
+      },
+    });
+
+    return {
+      granted,
+      reason,
+      accessLevel: granted
+        ? hasActiveShield
+          ? 'emergency_activated'
+          : 'public'
+        : 'public',
+      restrictions: restrictions.length > 0 ? restrictions : undefined,
+    };
+  }
+
+  async processAccessRequest(
+    request: Omit<SurvivorAccessRequest, 'token'>,
+    accessToken: string
+  ): Promise<{ error?: string; requestId?: string; success: boolean }> {
+    const supabase = this.getServiceClient();
+
+    try {
+      // Validate the access token (could be emergency activation token or user identifier)
+      let userId: null | string = null;
+
+      // Try to find user by activation token first
+      const { data: activation } = await supabase
+        .from('family_shield_activation_log')
+        .select('user_id')
+        .eq('verification_token', accessToken)
+        .single();
+
+      if (activation) {
+        userId = activation.user_id;
+      } else {
+        // Could be direct user access token - validate format
+        // For now, assume it's a user ID for demo purposes
+        userId = accessToken;
+      }
+
+      if (!userId) {
+        return {
+          success: false,
+          error: 'Invalid access token',
+        };
+      }
+
+      // Create access request
+      const { data: accessRequest, error } = await supabase
+        .from('survivor_access_requests')
+        .insert({
+          user_id: userId,
+          access_token: accessToken,
+          requester_email: request.requester_email!,
+          requester_name: request.requester_name,
+          relationship: request.relationship,
+          purpose: request.purpose!,
+          requested_access_types: request.requested_access_types || [],
+          status: 'pending',
+        })
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      // Notify guardians about the access request
+      await this.notifyGuardiansOfAccessRequest(userId, accessRequest.id);
+
+      // Audit the request
+      await this.auditAccess({
+        user_id: userId,
+        accessor_type: 'survivor',
+        access_type: 'access_request_submitted',
+        resource_type: 'guidance',
+        action: 'create',
+        success: true,
+        metadata: {
+          request_id: accessRequest.id,
+          requester_email: request.requester_email,
+          requested_types: request.requested_access_types,
+        },
+      });
+
+      return {
+        success: true,
+        requestId: accessRequest.id,
+      };
+    } catch (error) {
+      console.error('Error processing access request:', error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Failed to process request',
+      };
+    }
+  }
+
+  private async notifyGuardiansOfAccessRequest(
+    userId: string,
+    requestId: string
+  ): Promise<void> {
+    const supabase = this.getServiceClient();
+
+    // Get active guardians
+    const { data: guardians } = await supabase
+      .from('guardians')
+      .select('id, name, email')
+      .eq('user_id', userId)
+      .eq('is_active', true);
+
+    if (!guardians || guardians.length === 0) {
+      return;
+    }
+
+    // Create notifications for guardians
+    const notifications = guardians.map(guardian => ({
+      guardian_id: guardian.id,
+      user_id: userId,
+      notification_type: 'status_update',
+      title: 'Survivor Access Request',
+      message: `A family member has requested access to memorial resources. Please review the request.`,
+      action_required: true,
+      priority: 'medium',
+      delivery_method: 'email',
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+      metadata: { request_id: requestId },
+    }));
+
+    await supabase.from('guardian_notifications').insert(notifications);
+  }
+
+  async getAccessibleResources(
+    userId: string,
+    context: AccessContext
+  ): Promise<{
+    accessLevel: AccessLevel;
+    contacts: any[];
+    documents: EmergencyDocument[];
+    guidance: any[];
+    timeCapsules: EmergencyTimeCapsule[];
+  }> {
+    const supabase = this.getServiceClient();
+    const accessLevel: AccessLevel =
+      context.accessorType === 'system'
+        ? 'emergency_activated'
+        : context.emergencyActivation
+          ? 'emergency_activated'
+          : context.accessorType === 'guardian'
+            ? 'guardian_verified'
+            : 'public';
+
+    // Get documents based on access level
+    const documents: EmergencyDocument[] = [];
+    if (accessLevel !== 'public') {
+      const { data: docs } = await supabase
+        .from('documents')
+        .select('id, file_name, document_type, updated_at, file_size')
+        .eq('user_id', userId)
+        .order('updated_at', { ascending: false });
+
+      if (docs) {
+        for (const doc of docs) {
+          const accessResult = await this.validateAccess(
+            userId,
+            'document',
+            doc.id,
+            'view',
+            context
+          );
+
+          if (accessResult.granted) {
+            documents.push({
+              id: doc.id,
+              file_name: doc.file_name,
+              document_type: doc.document_type,
+              access_level: doc.document_type.toLowerCase() as any,
+              is_accessible: true,
+              last_updated: doc.updated_at,
+              description: `${doc.document_type} document (${(doc.file_size / 1024).toFixed(1)} KB)`,
+            });
+          }
+        }
+      }
+    }
+
+    // Get contacts (usually accessible to guardians and emergency situations)
+    const { data: guardians } = await supabase
+      .from('guardians')
+      .select('name, email, phone, relationship, emergency_contact_priority')
+      .eq('user_id', userId)
+      .eq('is_active', true)
+      .order('emergency_contact_priority', { ascending: true });
+
+    const contacts = (guardians || []).map(g => ({
+      name: g.name,
+      email: g.email,
+      phone: g.phone,
+      relationship: g.relationship || 'Guardian',
+      priority: g.emergency_contact_priority,
+      is_notified: true,
+    }));
+
+    // Get time capsules if appropriate access level
+    const timeCapsules: EmergencyTimeCapsule[] = [];
+    if (accessLevel === 'emergency_activated') {
+      const { data: capsules } = await supabase
+        .from('time_capsules')
+        .select(
+          'id, message_title, message_preview, delivery_condition, access_token, created_at'
+        )
+        .eq('user_id', userId)
+        .eq('delivery_condition', 'ON_DEATH');
+
+      if (capsules) {
+        timeCapsules.push(
+          ...capsules.map(tc => ({
+            id: tc.id,
+            message_title: tc.message_title,
+            message_preview: tc.message_preview,
+            delivery_condition: tc.delivery_condition as any,
+            access_token: tc.access_token,
+            is_available: true,
+            created_at: tc.created_at,
+          }))
+        );
+      }
+    }
+
+    // Get guidance entries
+    const { data: guidance } = await supabase
+      .from('family_guidance_entries')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('is_completed', true)
+      .order('priority', { ascending: true });
+
+    return {
+      documents,
+      contacts,
+      timeCapsules,
+      guidance: guidance || [],
+      accessLevel,
+    };
+  }
+
+  private async auditAccess(entry: AccessAuditEntry): Promise<void> {
+    const supabase = this.getServiceClient();
+
+    try {
+      await supabase.from('emergency_access_audit').insert({
+        user_id: entry.user_id,
+        accessor_type: entry.accessor_type,
+        accessor_id: entry.accessor_id,
+        access_type: entry.access_type,
+        resource_type: entry.resource_type,
+        resource_id: entry.resource_id,
+        action: entry.action,
+        success: entry.success,
+        ip_address: entry.ip_address,
+        user_agent: entry.user_agent,
+        metadata: entry.metadata,
+      });
+    } catch (error) {
+      // Don't throw on audit failures, just log
+      console.error('Failed to audit access:', error);
+    }
+  }
+
+  async getAccessAuditLog(
+    userId: string,
+    limit: number = 100,
+    offset: number = 0
+  ): Promise<{
+    entries: any[];
+    total: number;
+  }> {
+    const supabase = this.getServiceClient();
+
+    const { data: entries, error } = await supabase
+      .from('emergency_access_audit')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+
+    const { count } = await supabase
+      .from('emergency_access_audit')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId);
+
+    if (error) {
+      throw error;
+    }
+
+    return {
+      entries: entries || [],
+      total: count || 0,
+    };
+  }
+
+  // Additional methods for test compatibility
+  createAccessRequest(requestData: {
+    duration?: number;
+    guardianId: string;
+    reason: string;
+    requestedAccess: string[];
+    urgency: 'critical' | 'high' | 'low' | 'medium';
+  }) {
+    if (!requestData.guardianId) {
+      throw new Error('Invalid guardian ID');
+    }
+
+    const request = {
+      id: `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      guardianId: requestData.guardianId,
+      reason: requestData.reason,
+      urgency: requestData.urgency,
+      requestedAccess: requestData.requestedAccess,
+      duration: requestData.duration,
+      status: 'pending' as const,
+      createdAt: new Date(),
+      approvedAt: null,
+      revokedAt: null,
+    };
+
+    this.requests.set(request.id, request);
+    this.pendingRequests.push(request);
+    return request;
+  }
+
+  updateRequestStatus(
+    requestId: string,
+    status: 'approved' | 'denied' | 'revoked'
+  ) {
+    const request = this.requests.get(requestId);
+    if (!request) {
+      throw new Error(`Request ${requestId} not found`);
+    }
+
+    request.status = status;
+    if (status === 'approved') {
+      request.approvedAt = new Date();
+      // Move from pending to approved
+      this.pendingRequests = this.pendingRequests.filter(
+        r => r.id !== requestId
+      );
+      this.approvedRequests.push(request);
+    } else if (status === 'revoked') {
+      request.revokedAt = new Date();
+      this.approvedRequests = this.approvedRequests.filter(
+        r => r.id !== requestId
+      );
+    }
+
+    this.requests.set(requestId, request);
+  }
+
+  getRequest(requestId: string) {
+    return this.requests.get(requestId) || null;
+  }
+
+  isAccessValid(requestId: string): boolean {
+    const request = this.requests.get(requestId);
+    if (!request || request.status !== 'approved') {
+      return false;
+    }
+
+    if (request.revokedAt) {
+      return false;
+    }
+
+    // Check duration if specified
+    if (request.duration && request.approvedAt) {
+      const expiryTime = new Date(
+        request.approvedAt.getTime() + request.duration
+      );
+      return new Date() < expiryTime;
+    }
+
+    return true;
+  }
+
+  getPendingRequests() {
+    return [...this.pendingRequests];
+  }
+
+  getApprovedRequests() {
+    return [...this.approvedRequests];
+  }
+
+  hasPermission(requestId: string, permission: string): boolean {
+    const request = this.requests.get(requestId);
+    if (!request || !this.isAccessValid(requestId)) {
+      return false;
+    }
+
+    return (
+      request.requestedAccess.includes(permission) ||
+      request.requestedAccess.includes('all')
+    );
+  }
+
+  revokeAccess(requestId: string) {
+    this.updateRequestStatus(requestId, 'revoked');
+  }
+
+  logAccessAttempt(
+    requestId: string,
+    resource: string,
+    action: string,
+    success: boolean,
+    details?: any
+  ) {
+    const logEntry = {
+      requestId,
+      resource,
+      action,
+      success,
+      timestamp: new Date(),
+      details,
+    };
+
+    if (!this.accessLogs.has(requestId)) {
+      this.accessLogs.set(requestId, []);
+    }
+
+    this.accessLogs.get(requestId)!.push(logEntry);
+  }
+
+  getAccessLogs(requestId: string) {
+    return this.accessLogs.get(requestId) || [];
+  }
+}
+
+export default EmergencyAccessControl;

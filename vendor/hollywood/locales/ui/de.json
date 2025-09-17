@@ -1,0 +1,80 @@
+{
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "finish": "Fertigstellen",
+    "continue": "Fortfahren"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "vault": "Tresor",
+    "garden": "Garten",
+    "family": "Familie",
+    "wills": "Testamente",
+    "settings": "Einstellungen",
+    "help": "Hilfe"
+  },
+  "buttons": {
+    "create": "Erstellen",
+    "update": "Aktualisieren",
+    "submit": "Senden",
+    "reset": "Zurücksetzen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren"
+  },
+  "forms": {
+    "required": "Dieses Feld ist erforderlich",
+    "invalid": "Ungültige Eingabe",
+    "tooShort": "Zu kurz",
+    "tooLong": "Zu lang",
+    "invalidEmail": "Ungültige E-Mail-Adresse"
+  },
+  "dashboard": {
+    "header": {
+      "title": "Familienschutz",
+      "titleWithName": "Familienschutz, {{name}}",
+      "subtitle": {
+        "adaptive": "Übersicht über alles, was Ihre Familie schützt",
+        "empathetic": "Ein liebevoller Überblick über Schutz und Fürsorge Ihrer Familie",
+        "pragmatic": "Systemstatus und Familienschutz-Metriken"
+      },
+      "actions": {
+        "secureNewInformation": "Neue Informationen sichern"
+      }
+    },
+    "metrics": {
+      "title": {
+        "adaptive": "Ihr Vermächtnis auf einen Blick",
+        "empathetic": "💫 Der Kreis der Liebe Ihrer Familie",
+        "pragmatic": "📈 Systemleistungsmetriken"
+      },
+      "subtitle": {
+        "empathetic": "Jede Zahl steht für Fürsorge und Schutz"
+      },
+      "documentsProtected": "Geschützte Dokumente",
+      "familyMembers": "Familienmitglieder",
+      "guardians": "Vormund",
+      "daysProtected": "Tage geschützt",
+      "labels": {
+        "active": "Aktiv"
+      }
+    }
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "signUp": "Registrieren",
+    "forgotPassword": "Passwort vergessen?",
+    "resetPassword": "Passwort zurücksetzen"
+  }
+}

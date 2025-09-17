@@ -1,0 +1,23 @@
+{
+  "name": "@hollywood/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "lint:ci": "echo 'No linting configured for shared package'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.2",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "typescript": "^5.9.2"
+  }
+}

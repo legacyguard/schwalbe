@@ -1,0 +1,219 @@
+{
+  "header": {
+    "title": "Legacy Completion Tracking",
+    "subtitle": "Track progress across legacy areas and unlock achievements",
+    "currentStreak": "Current streak",
+    "days": "days",
+    "rewardPoints": "Reward points"
+  },
+  "overallProgress": {
+    "title": "Overall Progress",
+    "subtitle": "Completion across all areas",
+    "tasksCompleted": "tasks completed"
+  },
+  "quickStats": {
+    "areasMastered": "areas mastered",
+    "achievementsEarned": "achievements",
+    "tasksReady": "high-impact tasks",
+    "milestonesPending": "upcoming milestones"
+  },
+  "tabs": {
+    "progress": "Progress",
+    "roadmap": "Roadmap",
+    "goals": "Goals",
+    "achievements": "Achievements",
+    "analytics": "Analytics"
+  },
+  "progress": {
+    "recommendedActions": "Recommended Actions",
+    "completeness": "Completeness",
+    "tasks": "tasks",
+    "requires": "Requires: ",
+    "continue": "Continue",
+    "start": "Start"
+  },
+  "roadmap": {
+    "title": "Legacy Roadmap",
+    "detailedRoadmap": "Detailed roadmap",
+    "simpleView": "Simple view",
+    "complete": "complete"
+  },
+  "goals": {
+    "title": "Goals",
+    "setNewGoal": "Set New Goal",
+    "progress": "Progress",
+    "target": "Target",
+    "active": "Active",
+    "paused": "Paused"
+  },
+  "goalCategories": {
+    "shortterm": "Short-term",
+    "mediumterm": "Medium-term",
+    "longterm": "Long-term"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "total": "total",
+    "earned": "Earned"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "timeInvested": {
+      "label": "Time Invested",
+      "subtitle": "Total time spent this period"
+    },
+    "velocity": {
+      "label": "Velocity",
+      "subtitle": "Tasks per week"
+    },
+    "efficiency": {
+      "label": "Efficiency",
+      "subtitle": "Actual vs. estimated time"
+    },
+    "bestStreak": {
+      "label": "Best Streak",
+      "subtitle": "Most consecutive active days"
+    },
+    "chartPlaceholder": {
+      "title": "Progress chart coming soon",
+      "subtitle": "Advanced analytics will appear here"
+    }
+  },
+  "units": {
+    "percent": "%",
+    "minutes": "m",
+    "hours": "h",
+    "points": "pts"
+  },
+  "priorities": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "critical": "Critical"
+  },
+  "categories": {
+    "essential": "Essential",
+    "important": "Important",
+    "comprehensive": "Comprehensive",
+    "premium": "Premium"
+  },
+  "rarities": {
+    "common": "Common",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary"
+  }
+}
+{
+  "header": {
+    "title": "Legacy Completion Tracking",
+    "subtitle": "Track your progress toward comprehensive family protection",
+    "currentStreak": "Current Streak",
+    "rewardPoints": "Reward Points",
+    "days": "days"
+  },
+  "overallProgress": {
+    "title": "Legacy Completion Score",
+    "subtitle": "Overall progress toward family protection goals",
+    "tasksCompleted": "tasks completed"
+  },
+  "quickStats": {
+    "areasMastered": "areas mastered",
+    "achievementsEarned": "achievements earned",
+    "tasksReady": "tasks ready",
+    "milestonesPending": "milestones pending"
+  },
+  "tabs": {
+    "progress": "Progress",
+    "roadmap": "Roadmap",
+    "goals": "Goals",
+    "achievements": "Achievements",
+    "analytics": "Analytics"
+  },
+  "progress": {
+    "recommendedActions": "Recommended Next Actions",
+    "continue": "Continue",
+    "start": "Start",
+    "completeness": "Completeness",
+    "tasks": "tasks",
+    "requires": "Requires: "
+  },
+  "roadmap": {
+    "title": "Personal Legacy Roadmap",
+    "simpleView": "Simple View",
+    "detailedRoadmap": "Detailed Roadmap",
+    "complete": "complete"
+  },
+  "goals": {
+    "title": "Personal Goals",
+    "setNewGoal": "Set New Goal",
+    "progress": "Progress",
+    "target": "Target",
+    "active": "Active",
+    "paused": "Paused"
+  },
+  "achievements": {
+    "title": "Achievements Earned",
+    "total": "total",
+    "earned": "Earned"
+  },
+  "analytics": {
+    "title": "Progress Analytics",
+    "timeInvested": {
+      "label": "Time Invested",
+      "subtitle": "Total time spent"
+    },
+    "velocity": {
+      "label": "Velocity",
+      "subtitle": "Tasks per week"
+    },
+    "efficiency": {
+      "label": "Efficiency",
+      "subtitle": "Estimated vs actual time"
+    },
+    "bestStreak": {
+      "label": "Best Streak",
+      "subtitle": "Consecutive days"
+    },
+    "chartPlaceholder": {
+      "title": "Progress analytics chart would be implemented here",
+      "subtitle": "Shows completion trends over time"
+    }
+  },
+  "categories": {
+    "comprehensive": "comprehensive",
+    "essential": "essential", 
+    "important": "important",
+    "premium": "premium"
+  },
+  "priorities": {
+    "critical": "critical",
+    "high": "high",
+    "medium": "medium",
+    "low": "low"
+  },
+  "taskStatuses": {
+    "completed": "completed",
+    "inProgress": "in-progress", 
+    "available": "available",
+    "locked": "locked",
+    "needsReview": "needs-review"
+  },
+  "rarities": {
+    "legendary": "legendary",
+    "epic": "epic",
+    "rare": "rare",
+    "common": "common"
+  },
+  "goalCategories": {
+    "shortterm": "short term",
+    "mediumterm": "medium term",
+    "longterm": "long term"
+  },
+  "units": {
+    "hours": "h",
+    "minutes": "min",
+    "points": "points",
+    "percent": "%"
+  }
+}

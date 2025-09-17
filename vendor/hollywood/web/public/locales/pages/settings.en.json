@@ -1,0 +1,99 @@
+{
+  "title": "Settings",
+  "pageTitle": "Settings",
+  "header": {
+    "title": "Settings",
+    "description": "Manage your account preferences and application settings"
+  },
+  "buttons": {
+    "saveChanges": "Save Changes",
+    "saving": "Saving..."
+  },
+  "messages": {
+    "savedSuccessfully": "Settings saved successfully",
+    "saveFailed": "Failed to save settings"
+  },
+  "accountInformation": {
+    "title": "Account Information",
+    "name": "Name",
+    "email": "Email",
+    "userId": "User ID",
+    "memberSince": "Member Since",
+    "notSet": "Not set",
+    "unknown": "Unknown"
+  },
+  "notifications": {
+    "title": "Notification Preferences",
+    "email": {
+      "label": "Email Notifications",
+      "description": "Receive important updates via email"
+    },
+    "push": {
+      "label": "Push Notifications", 
+      "description": "Get instant alerts in your browser"
+    },
+    "reminders": {
+      "label": "Task Reminders",
+      "description": "Receive reminders for important tasks and documents"
+    }
+  },
+  "privacy": {
+    "title": "Privacy & Security",
+    "analytics": {
+      "label": "Share Analytics",
+      "description": "Help improve the app by sharing anonymous usage data"
+    },
+    "autoBackup": {
+      "label": "Automatic Backups",
+      "description": "Automatically backup your data weekly"
+    }
+  },
+  "sofia": {
+    "title": "Sofia's Adaptive Personality",
+    "analysis": "Sofia's Analysis",
+    "communicationStyle": {
+      "label": "Communication Style",
+      "description": "Choose how Sofia communicates with you. She learns from your interactions to provide the best experience.",
+      "options": {
+        "default": {
+          "title": "🎯 Smart Adaptation",
+          "description": "Sofia automatically learns your communication preferences from how you interact with the app"
+        },
+        "empathetic": {
+          "title": "💝 Warm & Supportive",
+          "description": "Sofia focuses on emotions, family connections, and the meaningful aspects of your legacy planning"
+        },
+        "pragmatic": {
+          "title": "⚡ Direct & Efficient",
+          "description": "Sofia communicates with clear steps, facts, and practical guidance to help you complete tasks quickly"
+        }
+      }
+    },
+    "learningMode": {
+      "label": "Learning Mode",
+      "description": "Allow Sofia to continuously learn and adapt to your communication preferences over time"
+    },
+    "confidenceLevel": "Confidence Level:",
+    "confidence": {
+      "high": "High",
+      "medium": "Medium", 
+      "low": "Low"
+    },
+    "hint": "Sofia is still learning your preferences. Consider manually selecting your preferred style above for more accurate communication.",
+    "lastUpdate": "Last style update: {{date}}"
+  },
+  "display": {
+    "title": "Display Preferences",
+    "compactMode": {
+      "label": "Compact Mode",
+      "description": "Show more content with reduced spacing"
+    },
+    "showTips": {
+      "label": "Show Tips",
+      "description": "Display helpful tips and guidance throughout the app"
+    }
+  },
+  "securityCenter": {
+    "title": "Security Center"
+  }
+}

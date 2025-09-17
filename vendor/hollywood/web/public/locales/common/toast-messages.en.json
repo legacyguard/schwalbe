@@ -1,0 +1,40 @@
+{
+  "errors": {
+    "loadFailed": "Failed to load {{resource}}",
+    "saveFailed": "Failed to save {{resource}}. Please try again.",
+    "deleteFailed": "Failed to delete {{resource}}",
+    "sendFailed": "Failed to send {{action}}",
+    "accessFailed": "Failed to access {{resource}}. Please try again.",
+    "testFailed": "{{action}} test failed",
+    "validationRequired": "{{field}} is required",
+    "validationInvalid": "Please enter a valid {{field}}",
+    "networkError": "Network error occurred. Please try again.",
+    "genericError": "An error occurred. Please try again."
+  },
+  "success": {
+    "saved": "{{resource}} saved successfully",
+    "deleted": "{{resource}} deleted successfully", 
+    "sent": "{{action}} sent successfully",
+    "updated": "{{resource}} updated successfully",
+    "created": "{{resource}} created successfully"
+  },
+  "resources": {
+    "timeCapsules": "time capsules",
+    "timeCapsule": "Time Capsule",
+    "guardians": "guardians",
+    "guardian": "guardian",
+    "settings": "settings",
+    "notification": "test notification",
+    "testPreview": "test preview"
+  },
+  "actions": {
+    "cronJob": "Cron job",
+    "emailTest": "Email test",
+    "verificationCode": "verification code"
+  },
+  "fields": {
+    "email": "email address",
+    "name": "name",
+    "verificationCode": "verification code"
+  }
+}

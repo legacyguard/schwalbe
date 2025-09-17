@@ -1,0 +1,138 @@
+{
+  "name": "LegacyGuard - Secure Document Management",
+  "short_name": "LegacyGuard",
+  "description": "Secure document management platform for preserving family legacy and memories",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities", "lifestyle"],
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "icons": [
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-16x16.svg",
+      "sizes": "16x16",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "72x72",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "96x96",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "128x128",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "152x152",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "384x384",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/shield-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Upload Document",
+      "short_name": "Upload",
+      "description": "Quick document upload",
+      "url": "/vault?action=upload",
+      "icons": [{ "src": "/shield-icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "View Analytics",
+      "short_name": "Analytics",
+      "description": "Document insights dashboard",
+      "url": "/analytics",
+      "icons": [{ "src": "/shield-icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Family Protection",
+      "short_name": "Shield",
+      "description": "Family emergency access",
+      "url": "/family-protection",
+      "icons": [{ "src": "/shield-icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "AI Organizer",
+      "short_name": "AI",
+      "description": "Intelligent document organization",
+      "url": "/intelligent-organizer",
+      "icons": [{ "src": "/shield-icon.svg", "sizes": "96x96" }]
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/vault",
+      "accept": {
+        "application/pdf": [".pdf"],
+        "image/*": [".jpg", ".jpeg", ".png", ".gif", ".webp"],
+        "application/msword": [".doc"],
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
+          ".docx"
+        ],
+        "text/plain": [".txt"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/vault",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": ["image/*", "application/pdf", ".doc", ".docx", ".txt"]
+        }
+      ]
+    }
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "related_applications": [],
+  "prefer_related_applications": false
+}

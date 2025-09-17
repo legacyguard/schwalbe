@@ -1,0 +1,99 @@
+{
+  "id": "cz-notarial-cs",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Notarial Will (Czech Republic)",
+    "name_cs": "Notářská závěť (Česká republika)",
+    "description": "A notarial will created before a notary public, providing maximum legal certainty",
+    "description_cs": "Notářská závěť vytvořená před notářem, poskytuje maximální právní jistotu",
+    "lastUpdated": "2024-12-06",
+    "jurisdiction": "Czech Republic",
+    "legalBasis": "§ 1542 Občanský zákoník ČR",
+    "legalReview": {
+      "isApproved": true,
+      "reviewDate": "2024-12-06",
+      "reviewedBy": "Legal AI Assistant"
+    }
+  },
+  "variables": [
+    {
+      "key": "testatorName",
+      "label": "Testator Full Name",
+      "label_cs": "Celé jméno testátora",
+      "type": "text",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "beneficiaries",
+      "label": "Beneficiaries",
+      "label_cs": "Dědici",
+      "type": "array",
+      "required": true,
+      "dataSource": "beneficiary"
+    }
+  ],
+  "sections": [
+    {
+      "id": "notarial_declaration",
+      "title": "Notarial Declaration",
+      "title_cs": "Notářské prohlášení",
+      "order": 1,
+      "required": true,
+      "content": "This will is created before a notary public.",
+      "content_cs": "Tato závěť je vytvořena před notářem.",
+      "legalReference": "§ 1542 Občanský zákoník ČR"
+    }
+  ],
+  "executionInstructions": {
+    "notarial": {
+      "steps": [
+        "Schedule appointment with a notary from Notářská komora ČR",
+        "Prepare necessary documents (ID, asset documentation)",
+        "Appear before notary with valid identification",
+        "Dictate or present will content to notary",
+        "Review and sign the notarized document"
+      ],
+      "steps_cs": [
+        "Domluvte si schůzku s notářem z Notářské komory ČR",
+        "Připravte potřebné dokumenty (občanský průkaz, dokumenty k majetku)",
+        "Dostavte se k notáři s platným průkazem totožnosti",
+        "Nadiktujte nebo předložte obsah závěti notáři",
+        "Zkontrolujte a podepište notářsky ověřený dokument"
+      ],
+      "requirements": [
+        "Must be created before a notary public",
+        "Notary must verify testator's identity and capacity",
+        "No additional witnesses required",
+        "Provides maximum legal certainty"
+      ],
+      "requirements_cs": [
+        "Musí být vytvořena před notářem",
+        "Notář musí ověřit totožnost a způsobilost testátora",
+        "Další svědci nejsou potřeba",
+        "Poskytuje maximální právní jistotu"
+      ]
+    }
+  },
+  "validationRules": [
+    {
+      "type": "legal",
+      "field": "age",
+      "value": 18,
+      "message": "Testator must be at least 18 years old",
+      "message_cs": "Testátor musí být alespoň 18 let starý",
+      "severity": "error",
+      "legalReference": "§ 1542 Občanský zákoník ČR"
+    }
+  ],
+  "legalClauses": [
+    {
+      "id": "notarial_declaration",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "legalBasis": "§ 1542 Občanský zákoník ČR",
+      "content": "This will is created in notarial form before a notary public as permitted under Czech Civil Code.",
+      "content_cs": "Tato závěť je vytvořena v notářské formě před notářem, jak je povoleno podle Občanského zákoníku ČR."
+    }
+  ]
+}

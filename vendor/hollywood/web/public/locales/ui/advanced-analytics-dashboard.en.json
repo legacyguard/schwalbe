@@ -1,0 +1,106 @@
+{
+  "header": {
+    "title": "AI-Powered Analytics Dashboard",
+    "description": "Comprehensive insights into your family's legacy planning progress"
+  },
+  "buttons": {
+    "hideInsights": "Hide Insights",
+    "showInsights": "Show Insights"
+  },
+  "metrics": {
+    "protection": {
+      "title": "Protection",
+      "label": "Security Score"
+    },
+    "completion": {
+      "title": "Completion",
+      "label": "Progress"
+    },
+    "risks": {
+      "title": "Risks",
+      "label": "Active"
+    },
+    "achievements": {
+      "title": "Achievements", 
+      "label": "Earned"
+    },
+    "time": {
+      "title": "Time",
+      "label": "Invested"
+    },
+    "streak": {
+      "title": "Streak",
+      "label": "Days"
+    },
+    "family": {
+      "title": "Family",
+      "label": "Members"
+    },
+    "documents": {
+      "title": "Documents",
+      "label": "Secured"
+    }
+  },
+  "smartInsights": {
+    "title": "AI-Powered Smart Insights",
+    "poweredBy": "Powered by LegacyGuard AI",
+    "urgent": "urgent",
+    "confidence": "Confidence: {{percentage}}%",
+    "insights": {
+      "healthcareDirectives": {
+        "title": "Healthcare Directives Needed",
+        "message": "Your family lacks critical healthcare decision-making documents. This could cause delays in emergency situations.",
+        "action": "Create Healthcare Proxy"
+      },
+      "streakOpportunity": {
+        "title": "Streak Milestone Approaching", 
+        "message": "You're 3 days away from achieving a 10-day completion streak. One quick task today will keep you on track.",
+        "action": "View Quick Tasks"
+      },
+      "familyCollaboration": {
+        "title": "Involve Family Members",
+        "message": "Based on your progress, now would be a good time to invite family members to review and discuss your legacy plan.",
+        "action": "Invite Family"
+      },
+      "achievementUnlocked": {
+        "title": "Milestone Achieved!",
+        "message": "Congratulations! You've completed 65% of your legacy planning journey. Your family is significantly more protected."
+      }
+    }
+  },
+  "tabs": {
+    "overview": "Overview",
+    "protection": "Protection Analytics",
+    "progress": "Progress Tracking"
+  },
+  "overview": {
+    "progressTrends": {
+      "title": "Progress Trends",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "familyProtection": "Family Protection"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "items": {
+        "healthcareProxyCompleted": "Healthcare Proxy completed",
+        "assetInventoryStarted": "Asset inventory started",
+        "achievementUnlocked": "Achievement unlocked"
+      }
+    }
+  },
+  "timeAgo": {
+    "justNow": "Just now",
+    "hoursAgo": "{{hours}}h ago",
+    "daysAgo": "{{days}}d ago",
+    "hoursAgoSingle": "2 hours ago",
+    "yesterday": "Yesterday",
+    "daysAgoThree": "3 days ago"
+  },
+  "priority": {
+    "critical": "critical",
+    "high": "high", 
+    "medium": "medium",
+    "low": "low"
+  }
+}

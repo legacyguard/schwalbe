@@ -1,0 +1,74 @@
+{
+  "header": {
+    "title": "My Guardians",
+    "lead": "Your Circle of Trust. These trusted people can help your family access important information when needed.",
+    "note": "💙 Just like the key you engraved during onboarding, these guardians represent the people you trust most completely - those who understand your heart and will honor your wishes.",
+    "addButton": "Add Guardian",
+    "dialog": {
+      "title": "Add New Guardian",
+      "form": {
+        "name": { "label": "Full Name *", "placeholder": "Enter full name" },
+        "email": { "label": "Email Address *", "placeholder": "guardian@example.com" },
+        "phone": { "label": "Phone Number", "placeholder": "+1 (555) 123-4567" },
+        "relationship": { "label": "Relationship", "placeholder": "Select relationship" },
+        "notes": { "label": "Notes (Optional)", "placeholder": "Any additional information about this guardian..." }
+      },
+      "permissions": {
+        "title": "Family Shield Protocol Permissions",
+        "description": "Configure what this Guardian can access and do in emergency situations.",
+        "canTrigger": { "label": "Can Trigger Emergency Protocol", "desc": "This person can activate the Family Shield Protocol" },
+        "healthAccess": { "label": "Health Information Access", "desc": "Access to medical records and health documents" },
+        "financialAccess": { "label": "Financial Information Access", "desc": "Access to bank accounts and financial documents" },
+        "childGuardian": { "label": "Child Guardian", "desc": "Can care for and make decisions for children" },
+        "willExecutor": { "label": "Will Executor", "desc": "Responsible for executing the last will" },
+        "priority": { "label": "Emergency Contact Priority", "placeholder": "1 = highest priority", "help": "1 = highest priority, higher numbers = lower priority" }
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "adding": "Adding...",
+        "add": "Add Guardian"
+      }
+    }
+  },
+  "load": {
+    "loading": "Loading guardians..."
+  },
+  "empty": {
+    "title": "You don't have any guardians yet",
+    "lead": "A guardian is a trusted person who can help your loved ones when they need it most. Let's add your first guardian to start building your Circle of Trust.",
+    "tip": "🤗 Think of someone who knows your values and would act with the same care you would. This could be a family member, close friend, or trusted advisor who has always been there for you. Your guardians become your family's guides when you cannot be there yourself.",
+    "benefits": {
+      "trusted": "Trusted emergency contacts",
+      "peace": "Peace of mind for family",
+      "available": "Always available help"
+    },
+    "cta": "Add Your First Guardian",
+    "footnote": "Don't worry, you can always add more guardians later and edit their information anytime."
+  },
+  "card": {
+    "priority": "Priority {{priority}}",
+    "shieldPermissions": "Shield Permissions",
+    "badges": {
+      "emergency": "Emergency Trigger",
+      "health": "Health Access",
+      "financial": "Financial Access",
+      "child": "Child Guardian",
+      "executor": "Will Executor",
+      "basicOnly": "Basic Contact Only"
+    },
+    "added": "Added {{date}}"
+  },
+  "info": {
+    "title": "The Trust Behind Your Guardians",
+    "description": "Your guardians represent the deepest level of trust - people who would protect your family's interests just as you would. They're not just emergency contacts; they're the extension of your care and wisdom when your loved ones need guidance most.",
+    "soon": "Coming soon:",
+    "soonFeatures": "Advanced permissions, document sharing, and emergency access features."
+  },
+  "toasts": {
+    "loadFailed": "Failed to load guardians",
+    "validation": "Name and email are required",
+    "added": "Guardian {{name}} was successfully added!",
+    "addFailed": "Failed to add guardian. Please try again."
+  }
+}
+

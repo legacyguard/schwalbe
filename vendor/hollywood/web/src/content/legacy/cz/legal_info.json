@@ -1,0 +1,103 @@
+{
+  "jurisdiction": "Czech Republic",
+  "countryCode": "cz",
+  "languageCode": "en",
+  "currency": "CZK",
+  "willTypes": {
+    "holographic": {
+      "name": "Holographic Will (Vlastnoruční závěť)",
+      "description": "Must be entirely written and signed by your own hand",
+      "requirements": [
+        "Must be written entirely in your own handwriting",
+        "Must be signed with your own signature",
+        "Date is mandatory",
+        "No witnesses required",
+        "Must be in Czech language or translated"
+      ],
+      "advantages": [
+        "Complete privacy and simplicity",
+        "No witnesses needed",
+        "Can be created anywhere, anytime",
+        "Lower cost"
+      ],
+      "disadvantages": [
+        "Higher risk of being contested",
+        "Handwriting authentication may be required",
+        "Risk of loss or damage"
+      ],
+      "legalBasis": "§ 1540 of Czech Civil Code"
+    },
+    "witnessed": {
+      "name": "Witnessed Will (Závěť před svědky)",
+      "description": "Can be typed or written by another person, requires two witnesses",
+      "requirements": [
+        "Must be signed by testator in presence of two witnesses",
+        "Both witnesses must sign simultaneously",
+        "Witnesses must be present at the same time",
+        "Witnesses must be legally capable adults",
+        "Witnesses cannot be beneficiaries or their spouses"
+      ],
+      "advantages": [
+        "Greater legal certainty",
+        "Suitable if you cannot write",
+        "Less likely to be contested",
+        "Professional assistance possible"
+      ],
+      "disadvantages": [
+        "Requires finding suitable witnesses",
+        "Less privacy",
+        "More complex process"
+      ],
+      "legalBasis": "§ 1541 of Czech Civil Code"
+    }
+  },
+  "inheritanceLaw": {
+    "forcedHeirs": {
+      "enabled": true,
+      "description": "Czech law protects certain family members with mandatory inheritance shares",
+      "rules": {
+        "children": {
+          "share": "1/2",
+          "description": "Minor children get half, adult children get quarter of normal share"
+        },
+        "spouse": {
+          "share": "1/4",
+          "description": "Spouse is entitled to quarter of the estate"
+        },
+        "parents": {
+          "share": "1/4",
+          "description": "Parents are entitled if there are no children"
+        }
+      }
+    },
+    "executorRules": {
+      "required": false,
+      "canBeNonResident": true,
+      "mustBeAdult": true,
+      "restrictions": [
+        "Cannot be mentally incapacitated",
+        "Cannot be criminally convicted"
+      ]
+    }
+  },
+  "witnessRequirements": {
+    "minimumAge": 18,
+    "mentalCapacity": true,
+    "cannotBeBeneficiary": true,
+    "cannotBeSpouseOfBeneficiary": true,
+    "simultaneousPresence": true
+  },
+  "documentRequirements": {
+    "language": "Czech (or translated)",
+    "dating": "Mandatory for holographic wills",
+    "notarization": "Not required",
+    "registration": "Not required but recommended"
+  },
+  "revocation": {
+    "methods": [
+      "Creating a new will that explicitly revokes previous ones",
+      "Physical destruction of the will with intent to revoke",
+      "Written revocation statement"
+    ]
+  }
+}

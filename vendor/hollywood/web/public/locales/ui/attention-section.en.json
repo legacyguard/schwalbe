@@ -1,0 +1,55 @@
+{
+  "title": "Requires Attention",
+  "subtitle": "Important updates and recommendations for your family protection",
+  "empty": {
+    "title": "All caught up!",
+    "description": "No urgent items require your attention right now."
+  },
+  "items": {
+    "passportExpiring": {
+      "title": "Your passport expires in {{days}} days",
+      "description": "Consider checking renewal options",
+      "actionText": "View Details"
+    },
+    "guardianPending": {
+      "title": "You invited {{name}} as a guardian", 
+      "description": "They haven't joined your circle of trust yet",
+      "actionText": "Send Reminder"
+    },
+    "sofiaSuggestion": {
+      "title": "Sofia suggests linking {{count}} new documents",
+      "description": "To the \"{{bundle}}\" bundle we can add related documents",
+      "actionText": "View Suggestion"
+    },
+    "documentExpiring": {
+      "title": "{{document}} expires soon",
+      "description": "Update or renew this important document",
+      "actionText": "Take Action"
+    },
+    "backupRecommended": {
+      "title": "Backup recommended",
+      "description": "It's been {{days}} days since your last backup",
+      "actionText": "Create Backup"
+    },
+    "reviewNeeded": {
+      "title": "Professional review available",
+      "description": "Your documents could benefit from legal expert review",
+      "actionText": "Schedule Review"
+    },
+    "securityUpdate": {
+      "title": "Security update available",
+      "description": "New encryption features will enhance your protection",
+      "actionText": "Update Now"
+    }
+  },
+  "priority": {
+    "high": "High Priority",
+    "medium": "Medium Priority",
+    "low": "Low Priority"
+  },
+  "actions": {
+    "dismiss": "Dismiss",
+    "snooze": "Snooze",
+    "viewAll": "View All"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "header": {
+    "aiPowered": "AI-powered matching",
+    "title": "Find the right legal professional",
+    "description": "Smart recommendations based on your needs, budget, and urgency"
+  },
+  "criteria": {
+    "title": "Recommendation Criteria",
+    "advancedFilters": "Advanced Filters",
+    "hideFilters": "Hide Filters",
+    "serviceType": {
+      "label": "Service Type",
+      "consultation": "Consultation",
+      "review": "Document Review",
+      "ongoing": "Ongoing Counsel"
+    },
+    "urgency": {
+      "label": "Urgency",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "experienceLevel": {
+      "label": "Experience Level",
+      "any": "Any",
+      "junior": "Junior",
+      "senior": "Senior",
+      "expert": "Expert"
+    },
+    "specializations": { "label": "Required Specializations" },
+    "documentTypes": { "label": "Document Types" },
+    "budgetRange": { "label": "Hourly Budget Range" },
+    "familyContext": {
+      "label": "Family Context",
+      "complexAssets": "Complex assets",
+      "businessInterests": "Business interests",
+      "minorChildren": "Minor children",
+      "multiState": "Multi-state situation",
+      "internationalAssets": "International assets"
+    }
+  },
+  "specializations": {
+    "estatePlanning": "Estate Planning",
+    "taxLaw": "Tax Law",
+    "businessLaw": "Business Law",
+    "realEstateLaw": "Real Estate Law",
+    "familyLaw": "Family Law",
+    "elderLaw": "Elder Law",
+    "assetProtection": "Asset Protection",
+    "probateLaw": "Probate Law"
+  },
+  "documentTypes": {
+    "lastWillTestament": "Last Will & Testament",
+    "livingTrust": "Living Trust",
+    "powerOfAttorney": "Power of Attorney",
+    "healthcareDirective": "Healthcare Directive",
+    "businessAgreement": "Business Agreement",
+    "realEstateDocuments": "Real Estate Documents",
+    "assetTransfer": "Asset Transfer",
+    "taxPlanning": "Tax Planning"
+  },
+  "availability": {
+    "immediate": "Immediate",
+    "same_day": "Same day",
+    "this_week": "This week",
+    "next_week": "Next week"
+  },
+  "budgetFit": { "perfect": "Perfect", "good": "Good", "stretch": "Stretch" },
+  "serviceTypes": {
+    "consultation": "Consultation",
+    "retainer": "Retainer",
+    "review": "Review"
+  },
+  "loading": {
+    "title": "Finding the best matches",
+    "description": "We are analyzing your criteria and searching verified professionals"
+  },
+  "recommendations": {
+    "title": "{{count}} recommended professionals",
+    "allVerified": "All verified",
+    "matchPercentage": "{{score}}% match",
+    "topPick": "Top pick",
+    "years": "{{years}} years",
+    "reviews": "{{rating}} ({{count}} reviews)",
+    "moreStates": "+{{count}} more",
+    "specializations": "Specializations",
+    "whyMatch": "Why this is a match",
+    "availability": "Availability",
+    "budgetFit": "Budget Fit",
+    "suggestedServices": "Suggested Services",
+    "bookConsultation": "Book Consultation",
+    "requestReview": "Request Review",
+    "viewProfile": "View Profile",
+    "recentReviews": "Recent Reviews",
+    "verified": "Verified"
+  },
+  "noResults": {
+    "title": "No matches found",
+    "description": "Try adjusting filters to broaden your search",
+    "adjustFilters": "Adjust Filters"
+  }
+}
+{
+  "header": {
+    "aiPowered": "AI-Powered Recommendations",
+    "title": "Find Your Perfect Legal Professional",
+    "description": "Our intelligent matching system analyzes your needs and connects you with the most suitable attorneys based on expertise, availability, and client success history."
+  },
+  "criteria": {
+    "title": "Your Legal Needs",
+    "advancedFilters": "Advanced Filters",
+    "hideFilters": "Hide",
+    "serviceType": {
+      "label": "Service Type",
+      "review": "Document Review",
+      "consultation": "Legal Consultation",
+      "ongoing": "Ongoing Representation"
+    },
+    "urgency": {
+      "label": "Urgency Level",
+      "low": "Low - Within 2 weeks",
+      "medium": "Medium - This week",
+      "high": "High - ASAP"
+    },
+    "experienceLevel": {
+      "label": "Experience Level",
+      "any": "Any Experience",
+      "junior": "Junior (1-5 years)",
+      "senior": "Senior (10+ years)",
+      "expert": "Expert (20+ years)"
+    },
+    "specializations": {
+      "label": "Required Specializations"
+    },
+    "documentTypes": {
+      "label": "Document Types"
+    },
+    "budgetRange": {
+      "label": "Budget Range"
+    },
+    "familyContext": {
+      "label": "Family Context",
+      "complexAssets": "Complex Assets (>$1M)",
+      "businessInterests": "Business Interests",
+      "minorChildren": "Minor Children",
+      "multiState": "Multi-State Assets",
+      "internationalAssets": "International Assets"
+    }
+  },
+  "loading": {
+    "title": "Finding Perfect Matches",
+    "description": "Analyzing hundreds of professionals to find your ideal legal counsel..."
+  },
+  "recommendations": {
+    "title": "{{count}} Recommended Professionals",
+    "allVerified": "All Verified & Licensed",
+    "matchPercentage": "{{score}}% match",
+    "topPick": "Top Pick",
+    "years": "{{years}} years",
+    "reviews": "{{rating}} ({{count}} reviews)",
+    "moreStates": "+{{count}} more",
+    "specializations": "Specializations:",
+    "whyMatch": "Why This Match:",
+    "availability": "Availability",
+    "budgetFit": "Budget Fit",
+    "suggestedServices": "Suggested Services:",
+    "bookConsultation": "Book Consultation",
+    "requestReview": "Request Review",
+    "viewProfile": "View Full Profile",
+    "recentReviews": "Recent Client Reviews:",
+    "verified": "Verified"
+  },
+  "budgetFit": {
+    "perfect": "perfect",
+    "good": "good",
+    "stretch": "stretch"
+  },
+  "availability": {
+    "immediate": "immediate",
+    "same_day": "same day",
+    "this_week": "this week",
+    "next_week": "next week"
+  },
+  "noResults": {
+    "title": "No Matches Found",
+    "description": "Try adjusting your criteria or expanding your budget range to see more recommendations.",
+    "adjustFilters": "Adjust Filters"
+  },
+  "trustIndicators": {
+    "verified": {
+      "title": "Verified Professionals",
+      "description": "All attorneys are licensed, verified, and maintain professional liability insurance"
+    },
+    "aiPowered": {
+      "title": "AI-Powered Matching",
+      "description": "Advanced algorithms ensure you're connected with the most suitable legal counsel"
+    },
+    "guarantee": {
+      "title": "Success Guaranteed",
+      "description": "100% satisfaction guarantee with transparent pricing and clear expectations"
+    }
+  },
+  "documentTypes": {
+    "lastWillTestament": "Last Will & Testament",
+    "livingTrust": "Living Trust",
+    "powerOfAttorney": "Power of Attorney",
+    "healthcareDirective": "Healthcare Directive",
+    "businessAgreement": "Business Agreement",
+    "realEstateDocuments": "Real Estate Documents",
+    "assetTransfer": "Asset Transfer",
+    "taxPlanning": "Tax Planning"
+  },
+  "specializations": {
+    "estatePlanning": "Estate Planning",
+    "taxLaw": "Tax Law",
+    "businessLaw": "Business Law",
+    "realEstateLaw": "Real Estate Law",
+    "familyLaw": "Family Law",
+    "elderLaw": "Elder Law",
+    "assetProtection": "Asset Protection",
+    "probateLaw": "Probate Law"
+  },
+  "serviceTypes": {
+    "consultation": "consultation",
+    "retainer": "retainer",
+    "review": "review"
+  }
+}

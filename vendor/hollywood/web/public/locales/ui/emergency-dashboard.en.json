@@ -1,0 +1,112 @@
+{
+  "loading": {
+    "title": "Loading Emergency Dashboard",
+    "description": "Verifying access and loading data..."
+  },
+  "errors": {
+    "invalidToken": "Invalid or expired verification token",
+    "tokenExpired": "Verification token has expired",
+    "loadFailed": "Failed to load emergency dashboard",
+    "accessError": "Access Error",
+    "processingFailed": "Failed to process response",
+    "documentAccessFailed": "Failed to access document"
+  },
+  "header": {
+    "title": "Emergency Guardian Dashboard",
+    "subtitle": "Emergency activation request for {{userName}}"
+  },
+  "status": {
+    "tokenExpires": "Token expires: {{date}}",
+    "pending": "PENDING",
+    "confirmed": "CONFIRMED",
+    "rejected": "REJECTED"
+  },
+  "verification": {
+    "title": "Guardian Verification Required",
+    "activationDetails": {
+      "title": "Activation Details",
+      "trigger": "Trigger:",
+      "requested": "Requested:",
+      "priority": "Your Priority:"
+    },
+    "permissions": {
+      "title": "Your Permissions",
+      "healthDocs": "Health Documents",
+      "financialDocs": "Financial Documents", 
+      "willExecutor": "Will Executor",
+      "childGuardian": "Child Guardian"
+    },
+    "responseNotes": {
+      "label": "Response Notes (Optional)",
+      "placeholder": "Add any notes about your decision or additional context..."
+    },
+    "buttons": {
+      "reject": "Reject Activation",
+      "confirm": "Confirm Activation"
+    },
+    "messages": {
+      "confirmed": "Emergency activation confirmed successfully. The family protection system is now active.",
+      "rejected": "Emergency activation has been rejected. The system will remain in its current state."
+    }
+  },
+  "tabs": {
+    "overview": "Overview",
+    "documents": "Documents", 
+    "contacts": "Contacts",
+    "capsules": "Time Capsules"
+  },
+  "overview": {
+    "userInfo": {
+      "title": "User Information",
+      "name": "Name:",
+      "email": "Email:",
+      "lastActivity": "Last Activity:",
+      "shieldStatus": "Shield Status:"
+    },
+    "quickStats": {
+      "title": "Quick Stats",
+      "availableDocuments": "Available Documents:",
+      "emergencyContacts": "Emergency Contacts:",
+      "timeCapsules": "Time Capsules:",
+      "accessLevel": "Access Level:",
+      "priority": "Priority {{level}}"
+    }
+  },
+  "documents": {
+    "title": "Accessible Documents ({{count}})",
+    "emptyState": "No documents are currently accessible with your permission level.",
+    "updated": "Updated {{date}}",
+    "accessLevels": {
+      "health": "HEALTH",
+      "financial": "FINANCIAL",
+      "legal": "LEGAL",
+      "general": "GENERAL"
+    },
+    "downloadButton": "Download",
+    "accessNotice": "Document access feature will be implemented with decryption system"
+  },
+  "contacts": {
+    "title": "Emergency Contacts ({{count}})",
+    "priority": "Priority {{number}}",
+    "status": {
+      "notified": "Notified",
+      "notNotified": "Not Notified"
+    }
+  },
+  "timeCapsules": {
+    "title": "Available Time Capsules ({{count}})",
+    "emptyState": "No time capsules are currently available for access.",
+    "deliveryConditions": {
+      "onDeath": "Emergency Access",
+      "scheduled": "Scheduled"
+    },
+    "created": "Created: {{date}}",
+    "accessButton": "Access Message"
+  },
+  "buttons": {
+    "returnHome": "Return Home"
+  },
+  "user": {
+    "unknownUser": "Unknown User"
+  }
+}

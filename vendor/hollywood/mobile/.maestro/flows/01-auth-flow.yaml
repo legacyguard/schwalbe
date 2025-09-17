@@ -1,0 +1,51 @@
+appId: com.legacyguard.mobile
+---
+# Authentication Flow Test
+- launchApp:
+    clearState: true
+
+# Take screenshot of initial screen
+- takeScreenshot: '01-launch-screen'
+
+# Test Sign In flow
+- assertVisible:
+    text: 'Login'
+
+- tapOn:
+    text: 'Login'
+
+- inputText: 'test@example.com'
+
+- tapOn:
+    index: 1
+
+- inputText: 'TestPassword123!'
+
+- takeScreenshot: '02-signin-filled'
+
+- tapOn:
+    text: 'Log In'
+
+# Wait for dashboard to load
+- waitForAnimationToEnd
+
+- assertVisible:
+    text: 'Family Shield'
+
+- takeScreenshot: '03-dashboard'
+
+# Test Sign Out
+- tapOn:
+    text: 'Profile'
+
+- scrollUntilVisible:
+    element:
+      text: 'Sign Out'
+
+- tapOn:
+    text: 'Sign Out'
+
+- assertVisible:
+    text: 'Sign in to your account'
+
+- takeScreenshot: '04-signout-complete'

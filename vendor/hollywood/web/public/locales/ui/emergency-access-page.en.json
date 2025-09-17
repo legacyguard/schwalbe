@@ -1,0 +1,73 @@
+{
+  "states": {
+    "loading": {
+      "title": "Verifying Family Shield Access",
+      "description": "Please wait while we securely verify your access token..."
+    },
+    "error": {
+      "title": "Access Denied",
+      "returnButton": "Return to Home"
+    },
+    "verification": {
+      "title": "Additional Verification Required",
+      "description": "Please enter the verification code sent to your registered email.",
+      "codeLabel": "Verification Code",
+      "codePlaceholder": "Enter 6-digit code",
+      "verifyButton": "Verify Access",
+      "verifyingButton": "Verifying..."
+    },
+    "noData": {
+      "title": "No Data Available",
+      "description": "Unable to load emergency access data. Please try again."
+    }
+  },
+  "header": {
+    "title": "Family Shield - Guardian Access",
+    "authorizedAccess": "Authorized access for {{guardianName}} to {{userName}}'s emergency information",
+    "activeBadge": "Family Shield Active"
+  },
+  "accessInfo": {
+    "description": "This emergency access was activated on {{activationDate}} and will expire on {{expirationDate}}. All access is logged for security purposes."
+  },
+  "permissions": {
+    "title": "Your Access Permissions",
+    "healthInfo": "Health Information",
+    "financialInfo": "Financial Information",
+    "childGuardian": "Child Guardian",
+    "willExecutor": "Will Executor"
+  },
+  "survivorManual": {
+    "title": "Family Survivor's Manual",
+    "entriesBadge": "{{count}} entries",
+    "description": "This comprehensive manual contains step-by-step instructions created by {{userName}} to guide the family through various situations. Generated on {{generatedDate}}.",
+    "downloadButton": "Download Complete Manual",
+    "viewOnlineButton": "View Online",
+    "downloadSuccess": "Survivor manual downloaded successfully"
+  },
+  "emergencyContacts": {
+    "title": "Important Contacts",
+    "callButton": "Call",
+    "emailButton": "Email",
+    "emailLabel": "Email: {{email}}",
+    "phoneLabel": "Phone: {{phone}}",
+    "canHelpWith": "Can help with: {{helpTypes}}"
+  },
+  "documents": {
+    "title": "Available Documents",
+    "accessButton": "Access",
+    "noDocuments": "No documents are available for your access level.",
+    "accessingToast": "Accessing {{title}}...",
+    "accessErrorToast": "Failed to access {{title}}. Please try again."
+  },
+  "support": {
+    "title": "You're Not Alone",
+    "message": "This information was carefully prepared by {{userName}} to support you during this difficult time. Remember to take things one step at a time and don't hesitate to reach out for help.",
+    "technicalSupport": "If you need technical support with this system, please contact LegacyGuard support at support@legacyguard.com"
+  },
+  "toastMessages": {
+    "accessGranted": "Welcome, {{guardianName}}. Family Shield access granted.",
+    "invalidCode": "Please enter a valid verification code",
+    "accessFailed": "Failed to verify access token. Please try again or contact support.",
+    "noToken": "No access token provided"
+  }
+}

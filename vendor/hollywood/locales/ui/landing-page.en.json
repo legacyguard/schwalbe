@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "title": "Secure Your Family's Future | Document Management & Legacy Planning",
+    "description": "Transform life's chaos into clarity with LegacyGuard. Securely organize documents, protect your family with AI-powered guidance, and create your lasting legacy. Start free today.",
+    "url": "https://legacyguard.app"
+  },
+  "navigation": {
+    "blog": "Blog",
+    "signIn": "Sign In"
+  },
+  "hero": {
+    "subtitle": "Let's Make it a Legend.",
+    "cta": {
+      "main": "Start Your Journey",
+      "secondary": "Learn More"
+    }
+  },
+  "sections": {
+    "chaos": {
+      "title": "Life's chaos overwhelms your family planning",
+      "subtitle": "In a crisis, this chaos becomes a burden for your loved ones."
+    },
+    "solution": {
+      "title": "Transform chaos into clarity with LegacyGuard",
+      "subtitle": "A gift of peace for your family."
+    },
+    "features": {
+      "documents": {
+        "title": "Secure Documents",
+        "description": "End-to-end encrypted storage for all your important papers"
+      },
+      "ai": {
+        "title": "AI Guardian",
+        "description": "Sofia guides you through estate planning with empathy"
+      },
+      "family": {
+        "title": "Family Shield",
+        "description": "Comprehensive protection for your loved ones"
+      }
+    }
+  },
+  "trust": {
+    "partners": {
+      "clerk": "Secured by Clerk",
+      "supabase": "Powered by Supabase",
+      "vercel": "Deployed on Vercel",
+      "legal": "Legal Partnership",
+      "gdpr": "GDPR Compliant"
+    },
+    "security": {
+      "encryption": "End-to-End Encryption",
+      "zeroKnowledge": "Zero-Knowledge Architecture",
+      "bankLevel": "Bank-Level Security",
+      "legal": "Legal Expert Consultation"
+    }
+  },
+  "footer": {
+    "sections": {
+      "product": "Product",
+      "support": "Support",
+      "legal": "Legal"
+    },
+    "copyright": "© {{year}} LegacyGuard. All rights reserved."
+  }
+}

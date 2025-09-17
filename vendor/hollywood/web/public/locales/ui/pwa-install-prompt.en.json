@@ -1,0 +1,75 @@
+{
+  "title": "Install LegacyGuard",
+  "description": "Get the full app experience",
+  "minimal": {
+    "quickAccess": "Quick access & offline use"
+  },
+  "features": {
+    "workOffline": "Work offline",
+    "fasterLoading": "Faster loading", 
+    "pushNotifications": "Push notifications",
+    "cameraAccess": "Camera access",
+    "enhancedSecurity": "Enhanced security"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "secureContext": "Secure Context"
+  },
+  "buttons": {
+    "install": "Install",
+    "installApp": "Install App",
+    "installNow": "Install Now",
+    "installing": "Installing...",
+    "showInstructions": "Show Instructions",
+    "later": "Later",
+    "gotIt": "Got it",
+    "learnMore": "Learn More"
+  },
+  "alerts": {
+    "benefits": "Installing the app gives you faster access, offline functionality, and push notifications for important updates.",
+    "troubleshooting": "If you don't see install options, try refreshing the page or using a supported browser like Chrome or Safari."
+  },
+  "instructions": {
+    "devices": {
+      "iosSafari": "iOS Safari",
+      "androidChrome": "Android Chrome", 
+      "desktopChrome": "Desktop Chrome",
+      "otherBrowser": "Other Browser"
+    },
+    "title": "Install on {{device}}",
+    "description": "Follow these steps to install LegacyGuard on your device",
+    "steps": {
+      "iosSafari": [
+        "Tap the Share button (square with arrow) at the bottom",
+        "Scroll down and tap \"Add to Home Screen\"",
+        "Tap \"Add\" to confirm installation"
+      ],
+      "androidChrome": [
+        "Tap the three-dot menu in the top right",
+        "Tap \"Add to Home screen\"",
+        "Tap \"Add\" to confirm installation"
+      ],
+      "desktopChrome": [
+        "Click the install icon in the address bar",
+        "Or go to Chrome menu → \"Install LegacyGuard\"",
+        "Click \"Install\" to confirm"
+      ],
+      "otherBrowser": [
+        "Look for an install prompt in your browser",
+        "Check the address bar for an install icon",
+        "Or bookmark this page for quick access"
+      ]
+    },
+    "benefits": {
+      "title": "Benefits of Installing:",
+      "list": [
+        "Faster app startup and navigation",
+        "Works offline for viewing documents", 
+        "Receive important security notifications",
+        "Native app-like experience",
+        "Secure local storage"
+      ]
+    }
+  }
+}

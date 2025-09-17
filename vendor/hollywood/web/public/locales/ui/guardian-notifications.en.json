@@ -1,0 +1,129 @@
+{
+  "title": {
+    "empathetic": "💚 Guardian Message Center",
+    "pragmatic": "🛡️ Guardian Communication Hub",
+    "adaptive": "📢 Guardian Notifications"
+  },
+  "subtitle": {
+    "empathetic": "Send loving messages to your circle of care",
+    "pragmatic": "Emergency notification and response coordination", 
+    "adaptive": "Communicate with your trusted support network"
+  },
+  "buttons": {
+    "send": {
+      "empathetic": "Send with Love",
+      "pragmatic": "Dispatch Notification",
+      "adaptive": "Send Notification"
+    },
+    "refresh": "Refresh",
+    "cancel": "Cancel",
+    "markAsRead": "Mark as Read",
+    "archive": "Archive"
+  },
+  "dialog": {
+    "sendNotification": "Send Notification",
+    "selectGuardians": "Select Guardians",
+    "messageTemplate": "Message Template",
+    "customMessage": "Custom Message (Optional)",
+    "customMessagePlaceholder": "Write a custom message to override the template...",
+    "templatePlaceholder": "Choose a template or write custom message"
+  },
+  "templates": {
+    "wellnessCheck": {
+      "name": "Wellness Check",
+      "title": {
+        "empathetic": "💚 Gentle Check-In Request",
+        "pragmatic": "🛡️ System Status Verification",
+        "adaptive": "🤝 Wellness Check Request"
+      },
+      "message": {
+        "empathetic": "Hello dear friend! I hope this finds you well. Could you please let me know you're okay? Your caring presence means so much to our family. No rush - just when you have a moment to share that you're safe and sound. With love and gratitude. 💚",
+        "pragmatic": "Wellness verification request initiated. Please confirm your status at your earliest convenience. This is part of our family protection protocol. Response required within 48 hours for system continuity.",
+        "adaptive": "Hope you're doing well! We'd appreciate a quick check-in to let us know you're okay. This helps us keep our family protection network strong and connected. Thanks for being such an important part of our support system!"
+      }
+    },
+    "emergencyAlert": {
+      "name": "Emergency Alert",
+      "title": {
+        "empathetic": "💔 Urgent Family Care Needed",
+        "pragmatic": "🚨 EMERGENCY PROTOCOL ACTIVATION",
+        "adaptive": "⚠️ Emergency Support Needed"
+      },
+      "message": {
+        "empathetic": "My dear friend, I need your help. Something may have happened and our family needs the loving support of our trusted circle. Please respond as soon as you can - your caring heart and quick action could make all the difference right now. Thank you for being someone we can count on. 🙏",
+        "pragmatic": "URGENT: Emergency detection system has triggered. Family Shield Protocol requires immediate guardian response. Please access the emergency dashboard immediately to review situation and take appropriate action. Time-sensitive response required.",
+        "adaptive": "This is an emergency notification. We need your immediate help with a family situation. Please respond as soon as possible and access our emergency support system. Your quick response is crucial for our family's wellbeing."
+      }
+    },
+    "activationConfirmation": {
+      "name": "Activation Confirmation",
+      "title": {
+        "empathetic": "💚 Please Confirm: Family Needs Care",
+        "pragmatic": "🔐 VERIFICATION REQUIRED: Activation Pending",
+        "adaptive": "🤝 Confirmation Needed: Emergency Support"
+      },
+      "message": {
+        "empathetic": "Dear guardian, our family protection system needs your loving confirmation. We believe there might be a situation where care is needed. Please take a moment to review and confirm whether our emergency care should be activated. Your thoughtful decision helps protect our loved ones. With trust and appreciation.",
+        "pragmatic": "Guardian verification required for emergency protocol activation. System has detected potential emergency condition. Please review situation data and provide authorization for Family Shield activation within next 24 hours. Your confirmation enables emergency response procedures.",
+        "adaptive": "We need your confirmation before activating emergency support protocols. Please review the situation and let us know if you think we should proceed with emergency measures. Your judgment is valued and important for making the right decision for our family."
+      }
+    },
+    "statusUpdate": {
+      "name": "General Update",
+      "title": {
+        "empathetic": "💫 Loving Update from Your Family",
+        "pragmatic": "📊 System Status Report",
+        "adaptive": "🏠 Family Protection Update"
+      },
+      "message": {
+        "empathetic": "Hello wonderful guardian! Just wanted to share a gentle update about our family's wellbeing and protection. Everything is going smoothly, and we wanted you to know how grateful we are for your continued care and support. Your presence in our lives brings such peace of mind. 💚",
+        "pragmatic": "Family Protection System status update. All systems operational. No action required. This is a scheduled status report to maintain guardian awareness of system health and family security status. Next automated update scheduled in 30 days.",
+        "adaptive": "Hi there! Just sending a quick update on our family protection status. Everything is running smoothly and we wanted to keep you in the loop. Thanks for being such a reliable part of our support network!"
+      }
+    }
+  },
+  "statistics": {
+    "total": "Total",
+    "unread": "Unread",
+    "actionRequired": "Action Required",
+    "delivered": "Delivered"
+  },
+  "filters": {
+    "all": "All Notifications",
+    "unread": "Unread Only",
+    "actionRequired": "Action Required"
+  },
+  "emptyState": {
+    "empathetic": "No messages yet - your guardians are here when you need them",
+    "pragmatic": "No active notifications - system ready for emergency communications",
+    "adaptive": "No notifications yet - stay connected with your guardians"
+  },
+  "notifications": {
+    "badges": {
+      "actionRequired": "Action Required"
+    },
+    "labels": {
+      "to": "To",
+      "expires": "Expires",
+      "at": "at"
+    }
+  },
+  "toast": {
+    "success": {
+      "empathetic": "loving messages sent to your guardians",
+      "pragmatic": "notifications dispatched successfully", 
+      "adaptive": "Sent notifications to"
+    },
+    "archived": "Notification archived",
+    "error": {
+      "sendFailed": "Failed to send notifications. Please try again.",
+      "archiveFailed": "Failed to archive notification",
+      "loadFailed": "Failed to load notifications"
+    }
+  },
+  "customMessageTitle": "Custom Message",
+  "loading": "Loading notifications...",
+  "errors": {
+    "loadNotifications": "Error loading notification data"
+  }
+}

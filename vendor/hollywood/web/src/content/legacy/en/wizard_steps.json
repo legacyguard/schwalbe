@@ -1,0 +1,417 @@
+{
+  "steps": [
+    {
+      "id": "will_type",
+      "title": "Will Type Selection",
+      "description": "Choose the appropriate type of will",
+      "sofiaIntro": "Excellent. Creating a will is an important act of care. You have two main forms to choose from. I'll help you select the right one for you.",
+      "content": {
+        "question": "Which type of will would you like to create?",
+        "helpText": "Both types are valid, but they have different requirements and advantages."
+      }
+    },
+    {
+      "id": "personal_info",
+      "title": "Personal Information",
+      "description": "Your legal details",
+      "fields": [
+        {
+          "id": "fullName",
+          "label": "Full Legal Name",
+          "type": "text",
+          "required": true,
+          "helpText": "Enter your full name as it appears on legal documents"
+        },
+        {
+          "id": "birthDate",
+          "label": "Date of Birth",
+          "type": "date",
+          "required": true,
+          "helpText": "Required for legal identification"
+        },
+        {
+          "id": "birthPlace",
+          "label": "Place of Birth",
+          "type": "text",
+          "required": true,
+          "helpText": "City and country of birth"
+        },
+        {
+          "id": "address",
+          "label": "Current Address",
+          "type": "textarea",
+          "required": true,
+          "helpText": "Your current permanent residence address"
+        },
+        {
+          "id": "citizenship",
+          "label": "Citizenship",
+          "type": "text",
+          "required": true,
+          "helpText": "Your citizenship or nationality"
+        }
+      ]
+    },
+    {
+      "id": "family_status",
+      "title": "Family Status",
+      "description": "Family relationships",
+      "fields": [
+        {
+          "id": "maritalStatus",
+          "label": "Marital Status",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "single", "label": "Single" },
+            { "value": "married", "label": "Married" },
+            { "value": "divorced", "label": "Divorced" },
+            { "value": "widowed", "label": "Widowed" },
+            { "value": "domestic_partnership", "label": "Domestic Partnership" }
+          ]
+        },
+        {
+          "id": "spouseName",
+          "label": "Spouse/Partner Name",
+          "type": "text",
+          "conditional": "maritalStatus === 'married' || maritalStatus === 'domestic_partnership'"
+        },
+        {
+          "id": "children",
+          "label": "Children",
+          "type": "array",
+          "helpText": "List all your children",
+          "fields": [
+            { "id": "name", "label": "Full Name", "type": "text" },
+            { "id": "birthDate", "label": "Date of Birth", "type": "date" },
+            {
+              "id": "isMinor",
+              "label": "Is Minor",
+              "type": "boolean",
+              "computed": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "assets",
+      "title": "Assets and Property",
+      "description": "Inventory of your assets for distribution",
+      "categories": [
+        {
+          "id": "real_estate",
+          "name": "Real Estate",
+          "description": "Properties, land, homes",
+          "fields": [
+            {
+              "id": "type",
+              "label": "Property Type",
+              "type": "select",
+              "options": ["house", "apartment", "land", "commercial", "other"]
+            },
+            {
+              "id": "address",
+              "label": "Property Address",
+              "type": "textarea"
+            },
+            {
+              "id": "estimatedValue",
+              "label": "Estimated Value",
+              "type": "number"
+            },
+            { "id": "ownership", "label": "Ownership Share", "type": "text" }
+          ]
+        },
+        {
+          "id": "bank_accounts",
+          "name": "Bank Accounts",
+          "description": "Savings, checking, investment accounts",
+          "fields": [
+            { "id": "bank", "label": "Bank Name", "type": "text" },
+            {
+              "id": "accountType",
+              "label": "Account Type",
+              "type": "select",
+              "options": ["checking", "savings", "investment", "other"]
+            },
+            {
+              "id": "accountNumber",
+              "label": "Account Number",
+              "type": "text",
+              "helpText": "Last 4 digits for privacy"
+            },
+            {
+              "id": "approximateBalance",
+              "label": "Approximate Balance",
+              "type": "number"
+            }
+          ]
+        },
+        {
+          "id": "vehicles",
+          "name": "Vehicles",
+          "description": "Cars, motorcycles, boats",
+          "fields": [
+            { "id": "type", "label": "Vehicle Type", "type": "text" },
+            { "id": "make", "label": "Make", "type": "text" },
+            { "id": "model", "label": "Model", "type": "text" },
+            { "id": "year", "label": "Year", "type": "number" },
+            { "id": "licensePlate", "label": "License Plate", "type": "text" },
+            {
+              "id": "estimatedValue",
+              "label": "Estimated Value",
+              "type": "number"
+            }
+          ]
+        },
+        {
+          "id": "personal_property",
+          "name": "Personal Property",
+          "description": "Jewelry, art, collectibles, furniture",
+          "fields": [
+            { "id": "description", "label": "Description", "type": "text" },
+            {
+              "id": "estimatedValue",
+              "label": "Estimated Value",
+              "type": "number"
+            },
+            { "id": "location", "label": "Current Location", "type": "text" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beneficiaries",
+      "title": "Beneficiaries and Bequests",
+      "description": "Who will inherit your assets",
+      "fields": [
+        {
+          "id": "beneficiaries",
+          "label": "Beneficiaries",
+          "type": "array",
+          "fields": [
+            { "id": "name", "label": "Full Name", "type": "text" },
+            {
+              "id": "relationship",
+              "label": "Relationship",
+              "type": "select",
+              "options": [
+                "spouse",
+                "child",
+                "parent",
+                "sibling",
+                "grandchild",
+                "friend",
+                "charity",
+                "other"
+              ]
+            },
+            { "id": "address", "label": "Address", "type": "textarea" },
+            {
+              "id": "identification",
+              "label": "Identification",
+              "type": "text",
+              "helpText": "For identification purposes"
+            },
+            {
+              "id": "inheritanceShare",
+              "label": "Share of Inheritance",
+              "type": "select",
+              "options": ["percentage", "specific_assets", "monetary_amount"]
+            },
+            {
+              "id": "percentage",
+              "label": "Percentage",
+              "type": "number",
+              "conditional": "inheritanceShare === 'percentage'"
+            },
+            {
+              "id": "specificAssets",
+              "label": "Specific Assets",
+              "type": "textarea",
+              "conditional": "inheritanceShare === 'specific_assets'"
+            },
+            {
+              "id": "amount",
+              "label": "Amount",
+              "type": "number",
+              "conditional": "inheritanceShare === 'monetary_amount'"
+            },
+            {
+              "id": "conditions",
+              "label": "Conditions",
+              "type": "textarea",
+              "helpText": "Optional conditions for inheritance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "executor",
+      "title": "Executor",
+      "description": "Who will manage your estate",
+      "fields": [
+        {
+          "id": "hasExecutor",
+          "label": "Do you want to appoint an executor?",
+          "type": "boolean",
+          "helpText": "An executor will manage the distribution of your estate"
+        },
+        {
+          "id": "executorName",
+          "label": "Executor Name",
+          "type": "text",
+          "conditional": "hasExecutor === true",
+          "required": true
+        },
+        {
+          "id": "executorAddress",
+          "label": "Executor Address",
+          "type": "textarea",
+          "conditional": "hasExecutor === true"
+        },
+        {
+          "id": "executorPhone",
+          "label": "Executor Phone",
+          "type": "text",
+          "conditional": "hasExecutor === true"
+        },
+        {
+          "id": "executorRelationship",
+          "label": "Relationship to You",
+          "type": "text",
+          "conditional": "hasExecutor === true"
+        },
+        {
+          "id": "backupExecutor",
+          "label": "Backup Executor Name",
+          "type": "text",
+          "helpText": "Optional backup in case primary executor cannot serve"
+        }
+      ]
+    },
+    {
+      "id": "guardianship",
+      "title": "Guardianship",
+      "description": "Guardians for minor children",
+      "conditional": "hasMinorChildren === true",
+      "fields": [
+        {
+          "id": "primaryGuardian",
+          "label": "Primary Guardian",
+          "type": "object",
+          "fields": [
+            { "id": "name", "label": "Full Name", "type": "text" },
+            { "id": "address", "label": "Address", "type": "textarea" },
+            { "id": "relationship", "label": "Relationship", "type": "text" },
+            { "id": "phone", "label": "Phone Number", "type": "text" }
+          ]
+        },
+        {
+          "id": "backupGuardian",
+          "label": "Backup Guardian",
+          "type": "object",
+          "fields": [
+            { "id": "name", "label": "Full Name", "type": "text" },
+            { "id": "address", "label": "Address", "type": "textarea" },
+            { "id": "relationship", "label": "Relationship", "type": "text" },
+            { "id": "phone", "label": "Phone Number", "type": "text" }
+          ]
+        },
+        {
+          "id": "guardianshipInstructions",
+          "label": "Instructions for Guardians",
+          "type": "textarea",
+          "helpText": "Special instructions for raising your children"
+        }
+      ]
+    },
+    {
+      "id": "special_wishes",
+      "title": "Special Wishes and Instructions",
+      "description": "Final wishes and special instructions",
+      "fields": [
+        {
+          "id": "funeralWishes",
+          "label": "Funeral and Burial Wishes",
+          "type": "textarea",
+          "helpText": "Your preferences for funeral, burial, or cremation"
+        },
+        {
+          "id": "organDonation",
+          "label": "Organ Donation",
+          "type": "select",
+          "options": [
+            { "value": "yes", "label": "Yes, I wish to donate organs" },
+            { "value": "no", "label": "No, I do not wish to donate organs" },
+            { "value": "family_decides", "label": "Let my family decide" }
+          ]
+        },
+        {
+          "id": "personalMessages",
+          "label": "Personal Messages",
+          "type": "array",
+          "helpText": "Special messages to loved ones",
+          "fields": [
+            { "id": "recipient", "label": "To", "type": "text" },
+            { "id": "message", "label": "Message", "type": "textarea" }
+          ]
+        },
+        {
+          "id": "charitableBequests",
+          "label": "Charitable Donations",
+          "type": "array",
+          "fields": [
+            { "id": "organization", "label": "Organization", "type": "text" },
+            { "id": "amount", "label": "Amount", "type": "number" },
+            { "id": "purpose", "label": "Purpose", "type": "text" }
+          ]
+        },
+        {
+          "id": "digitalAssets",
+          "label": "Digital Assets and Accounts",
+          "type": "textarea",
+          "helpText": "Instructions for social media, email, digital files, etc."
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "title": "Review and Finalize",
+      "description": "Review your will before generation",
+      "content": {
+        "reviewSections": [
+          "personal_info",
+          "family_status",
+          "assets",
+          "beneficiaries",
+          "executor",
+          "guardianship",
+          "special_wishes"
+        ],
+        "finalChecks": [
+          {
+            "id": "accuracy_confirmation",
+            "label": "I confirm that all information provided is accurate and complete",
+            "type": "checkbox",
+            "required": true
+          },
+          {
+            "id": "legal_capacity_confirmation",
+            "label": "I confirm that I am of legal age and sound mind",
+            "type": "checkbox",
+            "required": true
+          },
+          {
+            "id": "voluntary_confirmation",
+            "label": "I confirm that I am creating this will voluntarily without coercion",
+            "type": "checkbox",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

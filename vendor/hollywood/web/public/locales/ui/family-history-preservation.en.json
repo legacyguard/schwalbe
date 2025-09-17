@@ -1,0 +1,109 @@
+{
+  "header": {
+    "title": "Family History Preservation",
+    "description": "Capture, preserve, and share your family's stories and memories"
+  },
+  "buttons": {
+    "recordAudio": "Record Audio",
+    "recordVideo": "Record Video", 
+    "uploadPhoto": "Upload Photo",
+    "addStory": "Add Story",
+    "stopRecording": "Stop Recording",
+    "cancel": "Cancel",
+    "saveHistoryItem": "Save History Item",
+    "createTimeline": "Create Timeline"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "stories": "Stories", 
+    "media": "Media",
+    "timelines": "Timelines"
+  },
+  "dialogs": {
+    "createHistoryItem": {
+      "title": "Create New History Item"
+    },
+    "createTimeline": {
+      "title": "Create New Timeline"
+    }
+  },
+  "form": {
+    "labels": {
+      "type": "Type",
+      "category": "Category",
+      "title": "Title",
+      "description": "Description", 
+      "storyContent": "Story Content",
+      "importance": "Importance",
+      "dateOfEvent": "Date of Event (Optional)",
+      "timelineName": "Timeline Name",
+      "startYear": "Start Year",
+      "theme": "Theme"
+    },
+    "placeholders": {
+      "title": "Enter a memorable title",
+      "description": "Brief description",
+      "storyContent": "Tell your story...",
+      "timelineName": "e.g., Smith Family Journey",
+      "timelineDescription": "Describe this timeline..."
+    }
+  },
+  "types": {
+    "story": "Story",
+    "photo": "Photo", 
+    "document": "Document",
+    "timelineEvent": "Timeline Event"
+  },
+  "categories": {
+    "childhood": "Childhood",
+    "education": "Education",
+    "career": "Career",
+    "family": "Family",
+    "travel": "Travel",
+    "traditions": "Traditions",
+    "achievements": "Achievements",
+    "challenges": "Challenges",
+    "other": "Other"
+  },
+  "importance": {
+    "low": "Low",
+    "medium": "Medium", 
+    "high": "High",
+    "milestone": "Milestone"
+  },
+  "themes": {
+    "classic": "Classic",
+    "modern": "Modern",
+    "vintage": "Vintage",
+    "elegant": "Elegant"
+  },
+  "privacy": {
+    "private": "Private",
+    "public": "Public"
+  },
+  "stats": {
+    "stories": "Stories",
+    "photos": "Photos",
+    "videos": "Videos", 
+    "milestones": "Milestones"
+  },
+  "overview": {
+    "recentHistoryItems": "Recent History Items"
+  },
+  "timeline": {
+    "familyTimelines": "Family Timelines",
+    "present": "Present",
+    "events": "events",
+    "collaborators": "collaborators"
+  },
+  "recording": {
+    "recording": "Recording {{type}}",
+    "video": "Video",
+    "audio": "Audio",
+    "permissions": "Unable to access camera/microphone. Please check permissions."
+  },
+  "historyItem": {
+    "addTags": "+{{count}}",
+    "addPeople": "+{{count}}"
+  }
+}

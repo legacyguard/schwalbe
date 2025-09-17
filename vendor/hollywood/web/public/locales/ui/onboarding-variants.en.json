@@ -1,0 +1,197 @@
+{
+  "header": {
+    "variant_a_title": "Protect Your Family",
+    "variant_b_title": "Welcome to LegacyGuard",
+    "progress": "{{current}} of {{total}}",
+    "variant_a_subtitle": "Every step brings more security to those you love",
+    "step_description": "Step {{current}}: {{description}}"
+  },
+  "steps": {
+    "control": {
+      "name": {
+        "id": "name",
+        "title": "Tell us your name",
+        "description": "Personal information"
+      },
+      "purpose": {
+        "id": "purpose",
+        "title": "What brings you here?",
+        "description": "Understanding your needs"
+      },
+      "family": {
+        "id": "family",
+        "title": "Family information",
+        "description": "Those you want to protect"
+      },
+      "next_steps": {
+        "id": "next_steps",
+        "title": "Your next steps",
+        "description": "Getting started"
+      }
+    },
+    "emotion_first": {
+      "family_impact": {
+        "id": "family_impact",
+        "title": "Who do you want to protect?",
+        "description": "The people who matter most"
+      },
+      "protection_goals": {
+        "id": "protection_goals",
+        "title": "What would give you peace of mind?",
+        "description": "Your protection priorities"
+      },
+      "personal_info": {
+        "id": "personal_info",
+        "title": "Let's personalize your experience",
+        "description": "Basic information"
+      },
+      "first_action": {
+        "id": "first_action",
+        "title": "Take your first protective step",
+        "description": "Start protecting your family today"
+      }
+    }
+  },
+  "name_step": {
+    "title": "What should we call you?",
+    "label": "Your Name",
+    "placeholder": "Enter your full name",
+    "continue": "Continue",
+    "skip": "Skip"
+  },
+  "purpose_step": {
+    "title": "What brings you to LegacyGuard?",
+    "options": {
+      "organize_documents": "Organize important documents",
+      "create_will": "Create a will or estate plan",
+      "family_access": "Ensure my family can access information",
+      "legal_review": "Get professional legal review",
+      "all_above": "All of the above"
+    },
+    "continue": "Continue",
+    "skip": "Skip"
+  },
+  "family_step": {
+    "title": "Tell us about your family",
+    "family_size_label": "How many family members do you want to protect?",
+    "family_size_options": {
+      "1-2": "1-2 people",
+      "3-4": "3-4 people", 
+      "5-6": "5-6 people",
+      "7+": "7+ people"
+    },
+    "minors_label": "Do you have minor children?",
+    "yes": "Yes",
+    "no": "No",
+    "continue": "Continue",
+    "skip": "Skip"
+  },
+  "next_steps": {
+    "title": "Perfect! Here's what we recommend next",
+    "subtitle": "Based on your information, these steps will give you the most protection",
+    "recommendations": {
+      "upload_documents": {
+        "title": "Upload Important Documents",
+        "description": "Secure your ID, insurance, and financial documents",
+        "time": "5 minutes"
+      },
+      "emergency_contacts": {
+        "title": "Add Emergency Contacts",
+        "description": "Let trusted people access your information if needed",
+        "time": "2 minutes"
+      },
+      "complete_will": {
+        "title": "Complete Will Wizard",
+        "description": "Create a legally sound will with our guided process",
+        "time": "15 minutes"
+      }
+    },
+    "start_button": "Start Protecting My Family"
+  },
+  "family_impact_step": {
+    "title": "Who do you want to protect?",
+    "subtitle": "Your family's security and peace of mind starts with you. Select everyone who matters most to you.",
+    "people": {
+      "spouse": "Spouse/Partner",
+      "children": "Children",
+      "parents": "Parents",
+      "siblings": "Siblings",
+      "extended": "Extended Family"
+    },
+    "confirmation": {
+      "single": "Great choice! We'll help you create a protection plan for your loved one.",
+      "multiple": "Great choice! We'll help you create a protection plan for all {{count}} of your loved ones."
+    },
+    "continue": "Continue Protecting My Family",
+    "skip": "Skip"
+  },
+  "protection_goals_step": {
+    "title": "What would give you peace of mind?",
+    "subtitle": "Select the protection goals that matter most to your family's future.",
+    "goals": {
+      "emergency_access": {
+        "title": "Emergency Access to Information",
+        "description": "Family can quickly find important documents and contacts",
+        "impact": "High"
+      },
+      "financial_security": {
+        "title": "Financial Security",
+        "description": "Clear instructions for accessing accounts and assets",
+        "impact": "High"
+      },
+      "child_care": {
+        "title": "Child Care Instructions",
+        "description": "Guardianship plans and care preferences",
+        "impact": "Critical"
+      },
+      "legal_compliance": {
+        "title": "Legal Compliance",
+        "description": "Documents that will stand up in court",
+        "impact": "High"
+      },
+      "peace_of_mind": {
+        "title": "Peace of Mind",
+        "description": "Know your family is prepared for anything",
+        "impact": "Essential"
+      }
+    },
+    "continue": "Build My Protection Plan",
+    "skip": "Skip"
+  },
+  "personal_info_step": {
+    "title": "Let's personalize your protection plan",
+    "subtitle": "This helps us provide more relevant guidance and legal compliance.",
+    "name_label": "Your Name",
+    "name_placeholder": "Enter your full name",
+    "location_label": "State/Province",
+    "location_placeholder": "e.g., California, Ontario",
+    "location_help": "This ensures your documents comply with local laws",
+    "continue": "Continue",
+    "skip": "Skip"
+  },
+  "first_action_step": {
+    "title": "Take your first protective step",
+    "subtitle": "Every journey begins with a single step. Choose how you'd like to start protecting your family today.",
+    "actions": {
+      "upload_document": {
+        "title": "Upload Your First Document",
+        "description": "Start with ID, insurance, or any important document",
+        "time": "2 minutes",
+        "impact": "Immediate protection for your family"
+      },
+      "add_contact": {
+        "title": "Add Emergency Contact",
+        "description": "Someone who can access your information if needed",
+        "time": "1 minute",
+        "impact": "Peace of mind in emergencies"
+      },
+      "start_will": {
+        "title": "Begin Will Creation",
+        "description": "Start the guided will wizard for comprehensive protection",
+        "time": "5 minutes",
+        "impact": "Complete family legal protection"
+      }
+    },
+    "footer_note": "You can always do the other actions later from your dashboard"
+  }
+}

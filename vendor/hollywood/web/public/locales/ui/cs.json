@@ -1,0 +1,80 @@
+{
+  "common": {
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "delete": "Smazat",
+    "edit": "Upravit",
+    "close": "Zavřít",
+    "loading": "Načítání...",
+    "error": "Chyba",
+    "success": "Úspěch",
+    "confirm": "Potvrdit",
+    "back": "Zpět",
+    "next": "Další",
+    "finish": "Dokončit",
+    "continue": "Pokračovat"
+  },
+  "navigation": {
+    "home": "Domů",
+    "vault": "Trezor",
+    "garden": "Zahrada",
+    "family": "Rodina",
+    "wills": "Závěti",
+    "settings": "Nastavení",
+    "help": "Nápověda"
+  },
+  "buttons": {
+    "create": "Vytvořit",
+    "update": "Aktualizovat",
+    "submit": "Odeslat",
+    "reset": "Resetovat",
+    "search": "Hledat",
+    "filter": "Filtrovat",
+    "sort": "Seřadit"
+  },
+  "forms": {
+    "required": "Toto pole je povinné",
+    "invalid": "Neplatný vstup",
+    "tooShort": "Příliš krátké",
+    "tooLong": "Příliš dlouhé",
+    "invalidEmail": "Neplatná emailová adresa"
+  },
+  "dashboard": {
+    "header": {
+      "title": "Rodinný štít",
+      "titleWithName": "Rodinný štít, {{name}}",
+      "subtitle": {
+        "adaptive": "Přehled všeho, co chrání vaši rodinu",
+        "empathetic": "Láskyplný přehled ochrany a péče o vaši rodinu",
+        "pragmatic": "Stav systému a metriky rodinné ochrany"
+      },
+      "actions": {
+        "secureNewInformation": "Zabezpečit nové informace"
+      }
+    },
+    "metrics": {
+      "title": {
+        "adaptive": "Váš odkaz na první pohled",
+        "empathetic": "💫 Kruh lásky vaší rodiny",
+        "pragmatic": "📈 Metriky výkonu systému"
+      },
+      "subtitle": {
+        "empathetic": "Každé číslo představuje péči a ochranu"
+      },
+      "documentsProtected": "Dokumenty chráněny",
+      "familyMembers": "Členové rodiny",
+      "guardians": "Opatrovníci",
+      "daysProtected": "Dny chráněny",
+      "labels": {
+        "active": "Aktivní"
+      }
+    }
+  },
+  "auth": {
+    "signIn": "Přihlásit se",
+    "signOut": "Odhlásit se",
+    "signUp": "Zaregistrovat se",
+    "forgotPassword": "Zapomenuté heslo?",
+    "resetPassword": "Resetovat heslo"
+  }
+}

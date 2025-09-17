@@ -1,0 +1,132 @@
+@import 'tailwindcss';
+
+/* LegacyGuard Design System - Apple-inspired, calming & trustworthy
+All colors MUST be HSL.
+IMPORTANT: All code changes and codebase must be in English language (except i18n key values).
+*/
+
+@layer base {
+  :root {
+    /* Core Brand Colors */
+    --background: 42 33% 98%; /* #FAF8F5 - warm earthy off-white */
+    --foreground: 30 25% 15%; /* Deep earthy text */
+    --content-background: 0 0% 100%; /* Pure white for cards */
+
+    /* Earthy Sidebar - Dark Brown */
+    --sidebar-primary: 31 63% 14%; /* #3a240d - dark earthy brown */
+    --sidebar-accent: 31 60% 18%; /* Lighter brown for hover */
+    --sidebar-text: 42 33% 98%; /* Crisp white text */
+    --sidebar-muted: 31 40% 60%; /* Lighter brown muted text */
+
+    /* Primary Brand - Earthy Greens */
+    --primary: 95 35% 42%; /* #4A7C59 - main brand green */
+    --primary-foreground: 42 33% 98%;
+    --primary-hover: 95 35% 38%; /* Darker green for hover */
+
+    /* Accent Colors - Complementary Earth Tones */
+    --accent-primary: 95 35% 42%; /* Match primary green */
+    --accent-primary-foreground: 42 33% 98%;
+    --accent-hover: 95 35% 38%; /* Darker green for hover */
+    --accent-secondary: 30 35% 42%; /* #8A5E3B - earthy brown accent */
+    --accent-secondary-foreground: 42 33% 98%;
+
+    /* Status Colors */
+    --success: 142 51% 45%; /* Calming green */
+    --success-foreground: 0 0% 100%;
+    --warning: 45 93% 58%; /* Warm amber */
+    --warning-foreground: 30 25% 15%;
+    --locked: 31 63% 14%; /* #3a240d - dark earthy brown for locked state */
+    --locked-foreground: 42 33% 98%; /* Light warm background color for visibility */
+    --muted-text: 31 63% 14%; /* #3a240d - dark earthy brown for secondary text */
+
+    /* Card System */
+    --card: 0 0% 100%;
+    --card-foreground: 30 25% 15%;
+    --card-border: 30 15% 92%;
+    --card-shadow: 30 25% 15% / 0.08;
+
+    /* Interactive Elements */
+    --border: 30 15% 90%;
+    --input: 30 15% 95%;
+    --ring: 95 35% 42%;
+    --muted: 30 15% 96%;
+    --muted-foreground: 30 15% 55%;
+
+    /* Semantic Tokens */
+    --secondary: 30 15% 96%;
+    --secondary-foreground: 30 25% 15%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 25% 15%;
+
+    /* Additional Colors for Hardcoded Replacements */
+    --logo-primary: 217 91% 60%; /* #646cff - React logo primary */
+    --logo-secondary: 187 95% 53%; /* #61dafb - React logo secondary */
+    --text-muted: 0 0% 53%; /* #888 - Muted text color */
+    --chart-grid: 0 0% 80%; /* #ccc - Chart grid lines */
+    --chart-white: 0 0% 100%; /* #fff - Chart white elements */
+
+    --radius: 12px;
+
+    /* Progress & Status */
+    --progress-bg: 30 15% 92%;
+    --progress-fill: 95 35% 42%;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px hsl(30 25% 15% / 0.1);
+    --shadow-md:
+      0 4px 12px hsl(30 25% 15% / 0.1), 0 2px 4px hsl(30 25% 15% / 0.06);
+    --shadow-lg:
+      0 10px 25px hsl(30 25% 15% / 0.1), 0 4px 10px hsl(30 25% 15% / 0.06);
+
+    /* Typography */
+    --font-heading:
+      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-body:
+      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .dark {
+    /* Dark mode values would go here if needed */
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  /* Custom utility classes */
+  .card-shadow {
+    box-shadow: var(--shadow-md);
+  }
+
+  .pillar-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--card-border));
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Milestone Recognition Toast Styling */
+  .milestone-recognition-toast {
+    border-radius: 12px;
+    animation: slideInFromTop 0.5s ease-out;
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      transform: translateY(-100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

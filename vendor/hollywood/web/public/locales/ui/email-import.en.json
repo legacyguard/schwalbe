@@ -1,0 +1,16 @@
+{
+  "tooltip": {
+    "gmail": "Import from Gmail"
+  },
+  "title": "Import from Gmail",
+  "badge": {
+    "new": "New"
+  },
+  "description": "Automatically find and organize important documents from your email attachments",
+  "button": {
+    "start": "Start Import"
+  },
+  "dialog": {
+    "close": "Close"
+  }
+}

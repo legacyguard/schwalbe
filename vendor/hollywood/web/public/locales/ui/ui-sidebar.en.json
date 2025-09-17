@@ -1,0 +1,12 @@
+{
+  "accessibility": {
+    "toggleSidebar": "Toggle Sidebar",
+    "toggleSidebarScreenReader": "Toggle Sidebar"
+  },
+  "actions": {
+    "toggle": "Toggle Sidebar"
+  },
+  "labels": {
+    "sidebarRail": "Toggle Sidebar"
+  }
+}

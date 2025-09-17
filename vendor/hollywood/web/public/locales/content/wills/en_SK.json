@@ -1,0 +1,138 @@
+{
+  "title": "Last Will and Testament",
+  "jurisdiction": "Slovak Republic",
+  "language": "English",
+  "legalNotice": "This document has been created in accordance with the Civil Code of the Slovak Republic (Act No. 40/1964 Coll. as amended)",
+  "sections": {
+    "testator": {
+      "title": "Testator",
+      "declaration": "I, {{fullName}}, date of birth {{dateOfBirth}}, permanent residence at {{address}}, citizen of {{citizenship}}, hereby make this my testament.",
+      "mentalCapacity": "I declare that I am of sound mind and fully capable of legal acts."
+    },
+    "revocation": {
+      "title": "Revocation of Previous Wills",
+      "text": "I hereby revoke all wills and codicils previously made by me."
+    },
+    "beneficiaries": {
+      "title": "Appointment of Heirs",
+      "introduction": "I appoint the following persons as my heirs:",
+      "designation": "{{name}}, {{relationship}}, shall inherit {{percentage}}% of my estate",
+      "conditionalInheritance": "subject to the condition: {{conditions}}",
+      "substituteHeir": "In the event that {{name}} does not inherit, I appoint as substitute heir:"
+    },
+    "forcedHeirs": {
+      "title": "Forced Heirs",
+      "notice": "According to Section 479 of the Civil Code, forced heirs (descendants) have the right to a compulsory portion.",
+      "minorChildren": "Minor descendants must receive at least their full statutory inheritance share.",
+      "adultChildren": "Adult descendants must receive at least half of their statutory inheritance share.",
+      "disinheritance": "Disinheritance is only possible for statutory reasons listed in Section 469a of the Civil Code."
+    },
+    "specificBequests": {
+      "title": "Legacies",
+      "introduction": "I make the following legacies:",
+      "item": "I bequeath {{description}} to {{recipient}}",
+      "monetary": "I bequeath the sum of {{amount}} EUR to {{recipient}}"
+    },
+    "executor": {
+      "title": "Executor of the Testament",
+      "appointment": "I appoint as executor of my testament: {{name}}, {{relationship}}",
+      "backup": "In the event that {{primaryExecutor}} is unable or unwilling to perform this function, I appoint as substitute executor: {{backupExecutor}}",
+      "powers": "The executor is authorized to perform all acts necessary for the proper settlement of my estate."
+    },
+    "guardianship": {
+      "title": "Guardianship",
+      "appointment": "In the event of my death, I appoint as guardian of my minor children: {{guardianName}}",
+      "backup": "I appoint as substitute guardian: {{backupGuardianName}}",
+      "instructions": "I request that the guardian: {{instructions}}"
+    },
+    "finalWishes": {
+      "title": "Final Wishes",
+      "funeral": "Regarding my funeral, I wish: {{funeralWishes}}",
+      "organDonation": "I consent to the donation of my organs for transplantation purposes.",
+      "other": "Other wishes: {{otherWishes}}"
+    },
+    "residuary": {
+      "title": "Residue of Estate",
+      "text": "All remaining property not specifically bequeathed above shall pass to {{residuaryBeneficiaries}}"
+    },
+    "signature": {
+      "title": "Signature",
+      "date": "In {{city}} on {{date}}",
+      "testatorSignature": "Signature of testator: _______________________",
+      "witnessSection": {
+        "title": "Witnesses",
+        "introduction": "This testament was signed in our presence and we sign it at the testator's request as witnesses:",
+        "witness": "Witness {{number}}: {{name}}, date of birth: {{dateOfBirth}}, address: {{address}}, signature: _______________________"
+      }
+    }
+  },
+  "legalRequirements": {
+    "formTypes": {
+      "holographic": "A holographic testament must be entirely handwritten and signed by the testator.",
+      "allographic": "An allographic testament must be signed by the testator and two witnesses present simultaneously.",
+      "notarial": "A testament in the form of a notarial deed provides the highest legal certainty."
+    },
+    "witnesses": {
+      "requirements": "A witness cannot be an heir, legatee, or person close to them.",
+      "count": "Two witnesses are required for an allographic testament.",
+      "capacity": "Witnesses must have legal capacity and be able to sign."
+    },
+    "capacity": {
+      "age": "A person over 15 years of age may make a testament (with limitations until age 18).",
+      "mental": "The testator must be of sound mind and capable of legal acts when making the testament."
+    }
+  },
+  "validation": {
+    "errors": {
+      "missingForcedHeirs": "Minor descendants must receive their full statutory share",
+      "invalidWitness": "{{name}} cannot be a witness as they are an heir",
+      "missingSignature": "The testament must be signed",
+      "invalidForm": "The testament does not meet formal requirements"
+    },
+    "warnings": {
+      "unclearWording": "The wording may be unclear or ambiguous",
+      "missingExecutor": "It is recommended to appoint an executor",
+      "taxImplications": "Consider tax implications for heirs"
+    }
+  },
+  "commonPhrases": {
+    "beingOfSoundMind": "being of sound mind and memory",
+    "iHerebyDeclare": "I hereby declare",
+    "witnessWhereof": "In witness whereof",
+    "signedSealedDelivered": "Signed, sealed and delivered",
+    "thisIsMyLastWill": "This is my last will and testament",
+    "iRevokeAllPrior": "I revoke all prior wills and codicils",
+    "subjectToCondition": "subject to the condition that",
+    "perStirpes": "per stirpes",
+    "perCapita": "per capita",
+    "ifSurviving": "if surviving me"
+  },
+  "legalTerms": {
+    "testator": "The person making the will",
+    "heir": "Person entitled to inherit under the will",
+    "forcedHeir": "Descendant with mandatory inheritance rights",
+    "legacy": "Specific bequest of property or money",
+    "executor": "Person responsible for administering the estate",
+    "codicil": "Amendment to an existing will",
+    "intestate": "Dying without a valid will",
+    "probate": "Legal process of validating a will",
+    "estate": "All property and assets of the deceased",
+    "beneficiary": "Person who receives benefits under the will"
+  },
+  "specificToSlovakia": {
+    "notarialCentralRegister": "The testament can be registered in the Central Register of Testaments",
+    "jointWill": "Joint wills between spouses are not permitted under Slovak law",
+    "reciprocalWill": "Reciprocal wills must be made as separate documents",
+    "publicNotary": "A public notary can provide legal advice and draft the testament",
+    "inheritanceTax": "Inheritance tax was abolished in Slovakia in 2004",
+    "forcedShare": {
+      "explanation": "The forced share (povinný podiel) protects descendants from complete disinheritance",
+      "calculation": "Minor children: 100% of statutory share, Adult children: 50% of statutory share"
+    },
+    "estateProcedure": {
+      "notary": "Inheritance proceedings are conducted by a notary appointed by the court",
+      "certificate": "The notary issues a certificate of inheritance (osvedčenie o dedičstve)",
+      "timeline": "Proceedings typically take 3-6 months from the date of death"
+    }
+  }
+}

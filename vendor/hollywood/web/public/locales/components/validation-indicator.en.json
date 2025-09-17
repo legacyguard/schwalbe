@@ -1,0 +1,33 @@
+{
+  "title": "Validation Indicator",
+  "subtitle": "Legal compliance validation and status indicators",
+  "levels": {
+    "error": "ERROR",
+    "warning": "WARNING", 
+    "success": "SUCCESS",
+    "info": "INFO"
+  },
+  "status": {
+    "nonCompliant": "Non-Compliant",
+    "partiallyCompliant": "Partially Compliant",
+    "fullyCompliant": "Fully Compliant",
+    "notValidated": "Not Validated"
+  },
+  "labels": {
+    "suggestion": "Suggestion:",
+    "field": "Field: {{field}}",
+    "errorCount": "{{count}} error{{plural}}",
+    "warningCount": "{{count}} warning{{plural}}",
+    "validCount": "{{count}} valid"
+  },
+  "plurals": {
+    "error": {
+      "one": "",
+      "other": "s"
+    },
+    "warning": {
+      "one": "",
+      "other": "s"
+    }
+  }
+}

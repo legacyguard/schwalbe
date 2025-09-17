@@ -1,0 +1,47 @@
+{
+  "title": "Document Vault",
+  "description": "Your secure, encrypted document storage",
+  "sections": {
+    "overview": "Overview",
+    "documents": "Documents",
+    "upload": "Upload New Document"
+  },
+  "metrics": {
+    "totalDocuments": "Total Documents",
+    "encryptedFiles": "Encrypted Files",
+    "storageUsed": "Storage Used",
+    "lastBackup": "Last Backup"
+  },
+  "documentList": {
+    "title": "Your Documents",
+    "empty": {
+      "title": "No documents yet",
+      "description": "Upload your first document to get started",
+      "action": "Upload Document"
+    },
+    "actions": {
+      "download": "Download",
+      "delete": "Delete",
+      "view": "View Details"
+    }
+  },
+  "upload": {
+    "title": "Secure Document Upload",
+    "description": "Your documents are encrypted before leaving your device",
+    "dragDrop": "Choose a file or drag & drop",
+    "supportedFormats": "Supports PDF, DOC, DOCX, JPG, PNG, TXT (max 10MB)",
+    "browseFiles": "Browse Files",
+    "button": "Upload",
+    "processing": "Encrypting...",
+    "security": {
+      "title": "End-to-End Encryption",
+      "description": "Your files are encrypted on your device before upload. Only you can decrypt them with your personal key."
+    }
+  },
+  "toast": {
+    "uploadSuccess": "Document uploaded successfully",
+    "uploadError": "Failed to upload document",
+    "deleteSuccess": "Document deleted successfully",
+    "deleteError": "Failed to delete document"
+  }
+}

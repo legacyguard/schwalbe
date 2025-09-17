@@ -1,0 +1,68 @@
+{
+  "buttons": {
+    "save": "Save",
+    "edit": "Edit"
+  },
+  "profileCompleteness": {
+    "title": "Complete Your Profile",
+    "description": "Your profile is {{percent}}% complete. Complete it to attract more clients."
+  },
+  "stats": {
+    "totalReviews": "Total Reviews",
+    "averageRating": "Average Rating", 
+    "completionRate": "Completion Rate",
+    "averageReviewTime": "Avg. Review Time",
+    "earnings": "Earnings"
+  },
+  "tabs": {
+    "profile": "Profile",
+    "credentials": "Credentials",
+    "reviews": "Reviews",
+    "settings": "Settings"
+  },
+  "personalInfo": {
+    "title": "Personal Information",
+    "labels": {
+      "fullName": "Full Name",
+      "title": "Title",
+      "lawFirm": "Law Firm", 
+      "professionalBio": "Professional Bio",
+      "bio": "Bio"
+    },
+    "experience": "{{years}} years of experience",
+    "hourlyRate": "${{rate}}/hour"
+  },
+  "specializations": {
+    "title": "Specializations",
+    "noSpecializations": "No specializations added yet"
+  },
+  "credentials": {
+    "title": "Professional Credentials",
+    "labels": {
+      "barNumber": "Bar Number",
+      "verificationStatus": "Verification Status",
+      "licensedStates": "Licensed States"
+    },
+    "verification": {
+      "title": "Verification In Progress",
+      "description": "Your credentials are being verified. This process typically takes 3-5 business days."
+    }
+  },
+  "reviews": {
+    "title": "Recent Reviews",
+    "noReviews": "No reviews yet",
+    "requested": "Requested:",
+    "completed": "Completed:"
+  },
+  "partnershipSettings": {
+    "title": "Partnership Settings",
+    "autoAssign": {
+      "title": "Auto-assign Reviews",
+      "description": "Automatically accept suitable review requests"
+    },
+    "labels": {
+      "maxConcurrentReviews": "Max Concurrent Reviews",
+      "minimumReviewFee": "Minimum Review Fee"
+    }
+  }
+}

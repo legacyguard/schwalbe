@@ -1,0 +1,72 @@
+{
+  "title": "Document OCR Testing",
+  "subtitle": "Test document recognition and processing capabilities",
+  "errors": {
+    "selectImageFile": "Please select an image file",
+    "selectFileFirst": "Please select a file first",
+    "processDocumentFailed": "Failed to process document"
+  },
+  "ui": {
+    "selectFile": "Select File",
+    "processDocument": "Process Document",
+    "processing": "Processing...",
+    "results": "Results",
+    "documentType": "Document Type",
+    "confidence": "Confidence",
+    "extractedText": "Extracted Text",
+    "noResults": "No results yet"
+  },
+  "documentTypes": {
+    "birth_certificate": "Birth Certificate",
+    "marriage_certificate": "Marriage Certificate", 
+    "life_insurance": "Life Insurance Policy",
+    "bank_statement": "Bank Statement",
+    "tax_document": "Tax Document",
+    "medical_record": "Medical Record",
+    "property_deed": "Property Deed",
+    "passport": "Passport",
+    "drivers_license": "Driver's License",
+    "utility_bill": "Utility Bill",
+    "financial_statement": "Financial Statement",
+    "will": "Will",
+    "contract": "Contract",
+    "receipt": "Receipt",
+    "other": "Other",
+    "trust": "Trust",
+    "power_of_attorney": "Power of Attorney",
+    "living_will": "Living Will",
+    "divorce_decree": "Divorce Decree",
+    "adoption_papers": "Adoption Papers",
+    "investment_account": "Investment Account",
+    "retirement_account": "Retirement Account",
+    "tax_return": "Tax Return",
+    "loan_document": "Loan Document",
+    "mortgage": "Mortgage",
+    "credit_card_statement": "Credit Card Statement",
+    "prescription": "Prescription",
+    "medical_directive": "Medical Directive",
+    "home_appraisal": "Home Appraisal",
+    "business_license": "Business License",
+    "business_contract": "Business Contract",
+    "business_tax": "Business Tax",
+    "government_benefit": "Government Benefit",
+    "voter_registration": "Voter Registration",
+    "warranty": "Warranty",
+    "manual": "Manual",
+    "correspondence": "Correspondence"
+  },
+  "instructions": {
+    "title": "Instructions",
+    "steps": [
+      "Select an image file containing a document",
+      "Click 'Process Document' to analyze",
+      "Review the extracted information",
+      "Check confidence levels for accuracy"
+    ]
+  },
+  "feedback": {
+    "accuracyGood": "Recognition accuracy looks good",
+    "accuracyPoor": "Recognition accuracy may be poor",
+    "tryAgain": "Try with a clearer image for better results"
+  }
+}

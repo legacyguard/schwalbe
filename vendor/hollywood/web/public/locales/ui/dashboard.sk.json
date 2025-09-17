@@ -1,0 +1,60 @@
+{
+  "header": {
+    "title": "Váš dashboard ochrany rodiny",
+    "titleWithName": "Vitajte späť, {{name}}!",
+    "subtitle": {
+      "adaptive": "Všetko je organizované, zabezpečené a pripravené pre budúcnosť vašej rodiny.",
+      "empathetic": "Sme tu, aby sme vás podporili na každom kroku. Vaša cesta ochrany rodiny pokračuje.",
+      "professional": "Váš komplexný prehľad systému správy rodinného dedičstva.",
+      "technical": "Stav systému: Všetky ochranné opatrenia sú aktívne a monitorované."
+    },
+    "actions": {
+      "secureNewInformation": "Zabezpečiť nové informácie"
+    }
+  },
+  "metrics": {
+    "title": {
+      "adaptive": "Prehľad ochrany",
+      "empathetic": "Bezpečnostná sieť vašej rodiny",
+      "professional": "Metriky správy dedičstva",
+      "technical": "Indikátory výkonnosti systému"
+    },
+    "subtitle": {
+      "empathetic": "Každý krok, ktorý urobíte, buduje silnejší základ pre vašich blízkych"
+    },
+    "documentsProtected": "Chránené dokumenty",
+    "familyMembers": "Členovia rodiny",
+    "guardians": "Opatrovatelia",
+    "daysProtected": "Dni ochrany",
+    "labels": {
+      "active": "Aktívni",
+      "pending": "Čakajúci",
+      "completed": "Dokončené"
+    }
+  },
+  "activity": {
+    "title": "Nedávna aktivita",
+    "viewAll": "Zobraziť všetku aktivitu",
+    "noActivity": "Žiadna nedávna aktivita na zobrazenie"
+  },
+  "sections": {
+    "pathOfSerenity": {
+      "title": "Vaša cesta pokoja",
+      "subtitle": "Sledujte svoju cestu ku komplexnej ochrane rodiny"
+    },
+    "trustScore": {
+      "title": "Skóre ochrany rodiny",
+      "subtitle": "Vaša súčasná úroveň komplexnej ochrany"
+    },
+    "gardenOverview": {
+      "title": "Záhrada dedičstva",
+      "subtitle": "Vaša rastúca zbierka chránených spomienok a dokumentov"
+    }
+  },
+  "quickActions": {
+    "addDocument": "Pridať dokument",
+    "inviteFamily": "Pozvať člena rodiny",
+    "updateWill": "Aktualizovať závet",
+    "reviewSettings": "Skontrolovať nastavenia"
+  }
+}

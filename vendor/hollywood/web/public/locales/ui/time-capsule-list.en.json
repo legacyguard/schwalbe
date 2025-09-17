@@ -1,0 +1,67 @@
+{
+  "sections": {
+    "pendingDelivery": "Pending Delivery ({{count}})",
+    "delivered": "Delivered ({{count}})",
+    "failedDelivery": "Failed Delivery ({{count}})"
+  },
+  "deleteDialog": {
+    "title": "Delete Time Capsule",
+    "description": "Are you sure you want to delete this Time Capsule? This action cannot be undone, and your recorded message will be permanently lost.",
+    "cancel": "Cancel",
+    "confirmButton": "Delete Time Capsule"
+  },
+  "card": {
+    "sealed": "SEALED",
+    "recipient": "For {{name}}",
+    "deliveryConditions": {
+      "scheduledDelivery": "Scheduled Delivery",
+      "familyShieldActivation": "Family Shield Activation",
+      "scheduledDate": "Will be delivered: {{date}}",
+      "activationMessage": "Will be delivered when Family Shield is activated"
+    },
+    "status": {
+      "sealed": "Sealed",
+      "delivered": "Delivered",
+      "failed": "Failed"
+    },
+    "deliveryStatus": {
+      "deliveredOn": "Delivered on {{date}}",
+      "deliveryFailed": "Delivery failed: {{error}}"
+    },
+    "created": "Created {{date}}"
+  },
+  "menu": {
+    "viewDeliveredMessage": "View Delivered Message",
+    "previewRecording": "Preview Recording", 
+    "sendTestPreview": "Send Test Preview",
+    "delete": "Delete"
+  },
+  "delivery": {
+    "scheduled": "Scheduled Delivery",
+    "familyShieldActivation": "Family Shield Activation",
+    "scheduledDescription": "Will be delivered on {{date}}",
+    "familyShieldDescription": "Will be delivered when Family Shield is activated"
+  },
+  "status": {
+    "sealed": "Sealed",
+    "draft": "Draft",
+    "delivered": "Delivered"
+  },
+  "actions": {
+    "testPreview": "Test Preview",
+    "edit": "Edit",
+    "duplicate": "Duplicate", 
+    "delete": "Delete"
+  },
+  "confirmDelete": {
+    "title": "Delete Time Capsule",
+    "description": "Are you sure you want to delete this time capsule? This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "empty": {
+    "title": "No Time Capsules Yet",
+    "description": "Create your first time capsule to send messages to your loved ones.",
+    "action": "Create Time Capsule"
+  }
+}

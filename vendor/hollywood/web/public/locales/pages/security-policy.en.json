@@ -1,0 +1,316 @@
+{
+  "title": "Security Policy",
+  "description": "LegacyGuard Security Policy - Comprehensive overview of our security measures, encryption standards, and data protection practices.",
+  "commitment": {
+    "title": "Our Security Commitment",
+    "content": "At LegacyGuard, security is not just a feature—it's the foundation of everything we do. We understand that you're entrusting us with your most sensitive and personal information, and we've built our platform with bank-level security standards to protect it."
+  },
+  "zeroKnowledge": {
+    "title": "1. Zero-Knowledge Architecture",
+    "introduction": "Our most important security feature is our zero-knowledge architecture. This means:",
+    "features": [
+      {
+        "title": "Client-Side Encryption:",
+        "description": "All encryption and decryption happens on your device, not on our servers"
+      },
+      {
+        "title": "No Access:",
+        "description": "We cannot read, access, or decrypt your documents, even if compelled by law"
+      },
+      {
+        "title": "True Privacy:",
+        "description": "Your data remains private even from LegacyGuard employees and administrators"
+      },
+      {
+        "title": "End-to-End Security:",
+        "description": "Data is encrypted before it leaves your device and remains encrypted in transit and storage"
+      }
+    ]
+  },
+  "encryption": {
+    "title": "2. Encryption Standards",
+    "documentEncryption": {
+      "title": "2.1 Document Encryption",
+      "standards": [
+        {
+          "title": "AES-256-GCM:",
+          "description": "Military-grade encryption for all document content"
+        },
+        {
+          "title": "RSA-4096:",
+          "description": "Asymmetric encryption for key exchange and digital signatures"
+        },
+        {
+          "title": "PBKDF2:",
+          "description": "Password-based key derivation with 100,000+ iterations"
+        },
+        {
+          "title": "Argon2:",
+          "description": "Memory-hard key derivation for additional security"
+        }
+      ]
+    },
+    "keyManagement": {
+      "title": "2.2 Key Management",
+      "practices": [
+        {
+          "title": "Unique Keys:",
+          "description": "Each document gets its own encryption key"
+        },
+        {
+          "title": "Key Derivation:",
+          "description": "Keys are derived from your master password and device-specific factors"
+        },
+        {
+          "title": "Secure Storage:",
+          "description": "Keys are never stored on our servers in plain text"
+        },
+        {
+          "title": "Recovery Keys:",
+          "description": "Secure backup and recovery mechanisms for account access"
+        }
+      ]
+    }
+  },
+  "infrastructure": {
+    "title": "3. Infrastructure Security",
+    "dataCenters": {
+      "title": "3.1 Data Centers",
+      "features": [
+        {
+          "title": "SOC 2 Type II:",
+          "description": "Certified secure data centers with regular audits"
+        },
+        {
+          "title": "EU Location:",
+          "description": "Servers located within the European Union for GDPR compliance"
+        },
+        {
+          "title": "Physical Security:",
+          "description": "24/7 monitoring, biometric access controls, and environmental controls"
+        },
+        {
+          "title": "Redundancy:",
+          "description": "Multiple data centers with automatic failover"
+        }
+      ]
+    },
+    "networkSecurity": {
+      "title": "3.2 Network Security",
+      "measures": [
+        {
+          "title": "TLS 1.3:",
+          "description": "Latest transport layer security for all connections"
+        },
+        {
+          "title": "DDoS Protection:",
+          "description": "Advanced protection against distributed denial of service attacks"
+        },
+        {
+          "title": "WAF:",
+          "description": "Web Application Firewall to block malicious requests"
+        },
+        {
+          "title": "CDN Security:",
+          "description": "Content delivery network with built-in security features"
+        }
+      ]
+    }
+  },
+  "applicationSecurity": {
+    "title": "4. Application Security",
+    "codeSecurity": {
+      "title": "4.1 Code Security",
+      "practices": [
+        {
+          "title": "Security Audits:",
+          "description": "Regular third-party security audits and penetration testing"
+        },
+        {
+          "title": "Dependency Scanning:",
+          "description": "Automated scanning for known vulnerabilities in dependencies"
+        },
+        {
+          "title": "Code Review:",
+          "description": "All code changes reviewed by security-conscious developers"
+        },
+        {
+          "title": "Static Analysis:",
+          "description": "Automated tools to detect potential security issues"
+        }
+      ]
+    },
+    "authenticationAccess": {
+      "title": "4.2 Authentication & Access",
+      "features": [
+        {
+          "title": "Multi-Factor Authentication:",
+          "description": "Support for TOTP, SMS, and hardware security keys"
+        },
+        {
+          "title": "Session Management:",
+          "description": "Secure session handling with automatic timeouts"
+        },
+        {
+          "title": "Brute Force Protection:",
+          "description": "Rate limiting and account lockout mechanisms"
+        },
+        {
+          "title": "Password Requirements:",
+          "description": "Strong password policies and breach detection"
+        }
+      ]
+    }
+  },
+  "dataProtection": {
+    "title": "5. Data Protection",
+    "dataMinimization": {
+      "title": "5.1 Data Minimization",
+      "principles": [
+        {
+          "title": "Minimal Collection:",
+          "description": "We only collect data necessary to provide our services"
+        },
+        {
+          "title": "No Tracking:",
+          "description": "We don't track your browsing behavior or create user profiles"
+        },
+        {
+          "title": "Anonymous Analytics:",
+          "description": "Usage analytics are completely anonymized"
+        },
+        {
+          "title": "No Third-Party Tracking:",
+          "description": "We don't use third-party analytics or tracking services"
+        }
+      ]
+    },
+    "dataRetention": {
+      "title": "5.2 Data Retention",
+      "policies": [
+        {
+          "title": "User Control:",
+          "description": "You control how long your data is retained"
+        },
+        {
+          "title": "Automatic Deletion:",
+          "description": "Inactive accounts are automatically cleaned up"
+        },
+        {
+          "title": "Export Rights:",
+          "description": "You can export your data at any time"
+        },
+        {
+          "title": "Right to Erasure:",
+          "description": "Complete data deletion upon request"
+        }
+      ]
+    }
+  },
+  "incidentResponse": {
+    "title": "6. Incident Response",
+    "introduction": "We have a comprehensive incident response plan that includes:",
+    "measures": [
+      {
+        "title": "24/7 Monitoring:",
+        "description": "Continuous security monitoring and threat detection"
+      },
+      {
+        "title": "Rapid Response:",
+        "description": "Dedicated security team available around the clock"
+      },
+      {
+        "title": "User Notification:",
+        "description": "Prompt notification of any security incidents"
+      },
+      {
+        "title": "Transparency:",
+        "description": "Public disclosure of security incidents and our response"
+      },
+      {
+        "title": "Learning:",
+        "description": "Continuous improvement based on incident analysis"
+      }
+    ]
+  },
+  "compliance": {
+    "title": "7. Compliance & Certifications",
+    "certifications": [
+      {
+        "title": "GDPR:",
+        "description": "Full compliance with European data protection regulations"
+      },
+      {
+        "title": "CCPA:",
+        "description": "Compliance with California Consumer Privacy Act"
+      },
+      {
+        "title": "ISO 27001:",
+        "description": "Information security management system certification"
+      },
+      {
+        "title": "SOC 2:",
+        "description": "Service Organization Control 2 compliance"
+      },
+      {
+        "title": "Regular Audits:",
+        "description": "Annual third-party security and compliance audits"
+      }
+    ]
+  },
+  "userBestPractices": {
+    "title": "8. Security Best Practices for Users",
+    "introduction": "While we provide enterprise-level security, your data security also depends on you:",
+    "practices": [
+      {
+        "title": "Strong Passwords:",
+        "description": "Use unique, complex passwords for your account"
+      },
+      {
+        "title": "Multi-Factor Authentication:",
+        "description": "Enable MFA for additional account protection"
+      },
+      {
+        "title": "Recovery Keys:",
+        "description": "Safely store your account recovery keys"
+      },
+      {
+        "title": "Device Security:",
+        "description": "Keep your devices updated and secure"
+      },
+      {
+        "title": "Phishing Awareness:",
+        "description": "Be cautious of suspicious emails or links"
+      }
+    ]
+  },
+  "securityUpdates": {
+    "title": "9. Security Updates & Maintenance",
+    "introduction": "We continuously improve our security posture through:",
+    "activities": [
+      {
+        "title": "Regular Updates:",
+        "description": "Monthly security updates and patches"
+      },
+      {
+        "title": "Vulnerability Management:",
+        "description": "Proactive identification and remediation of security issues"
+      },
+      {
+        "title": "Security Training:",
+        "description": "Ongoing security training for all employees"
+      },
+      {
+        "title": "Industry Collaboration:",
+        "description": "Participation in security research and information sharing"
+      }
+    ]
+  },
+  "contact": {
+    "title": "10. Contact Our Security Team",
+    "introduction": "If you have security concerns or want to report a security issue:",
+    "securityTeam": "Security Team: security@legacyguard.app",
+    "bugBounty": "Bug Bounty: We welcome security researchers and offer rewards for valid security findings",
+    "responseTime": "Response Time: We aim to respond to all security reports within 24 hours"
+  }
+}

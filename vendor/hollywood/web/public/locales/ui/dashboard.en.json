@@ -1,0 +1,60 @@
+{
+  "header": {
+    "title": "Your Family Protection Dashboard",
+    "titleWithName": "Welcome back, {{name}}!",
+    "subtitle": {
+      "adaptive": "Everything is organized, secure, and ready for your family's future.",
+      "empathetic": "We're here to support you every step of the way. Your family's protection journey continues.",
+      "professional": "Your comprehensive family legacy management system overview.",
+      "technical": "System status: All protective measures active and monitored."
+    },
+    "actions": {
+      "secureNewInformation": "Secure New Information"
+    }
+  },
+  "metrics": {
+    "title": {
+      "adaptive": "Protection Overview",
+      "empathetic": "Your Family's Safety Net",
+      "professional": "Legacy Management Metrics",
+      "technical": "System Performance Indicators"
+    },
+    "subtitle": {
+      "empathetic": "Every step you take builds a stronger foundation for your loved ones"
+    },
+    "documentsProtected": "Documents Protected",
+    "familyMembers": "Family Members",
+    "guardians": "Guardians",
+    "daysProtected": "Days Protected",
+    "labels": {
+      "active": "Active",
+      "pending": "Pending",
+      "completed": "Completed"
+    }
+  },
+  "activity": {
+    "title": "Recent Activity",
+    "viewAll": "View All Activity",
+    "noActivity": "No recent activity to display"
+  },
+  "sections": {
+    "pathOfSerenity": {
+      "title": "Your Path of Serenity",
+      "subtitle": "Track your journey to complete family protection"
+    },
+    "trustScore": {
+      "title": "Family Protection Score",
+      "subtitle": "Your current level of comprehensive protection"
+    },
+    "gardenOverview": {
+      "title": "Legacy Garden",
+      "subtitle": "Your growing collection of protected memories and documents"
+    }
+  },
+  "quickActions": {
+    "addDocument": "Add Document",
+    "inviteFamily": "Invite Family Member",
+    "updateWill": "Update Will",
+    "reviewSettings": "Review Settings"
+  }
+}

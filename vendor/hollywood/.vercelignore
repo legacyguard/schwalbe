@@ -1,0 +1,16 @@
+# Ignore large files
+Tailadmin/
+claude-code-history-viewer/
+*.fig
+.git
+node_modules
+.env*
+.next
+dist
+build
+.turbo
+.cache
+*.log
+.DS_Store
+supabase/.temp
+supabase/.branches

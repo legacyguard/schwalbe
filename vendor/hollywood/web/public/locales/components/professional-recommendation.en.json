@@ -1,0 +1,51 @@
+{
+  "mockData": {
+    "professionals": [
+      {
+        "name": "Sarah Johnson",
+        "professionalTitle": "Estate Planning Attorney",
+        "lawFirmName": "Johnson & Associates",
+        "specializations": ["Estate Planning", "Wills & Trusts", "Tax Law"],
+        "reasonsToRecommend": [
+          "Perfect specialization match",
+          "Extensive experience with complex estates",
+          "Excellent client reviews",
+          "Available this week"
+        ]
+      },
+      {
+        "name": "Michael Chen",
+        "professionalTitle": "Estate Planning Attorney", 
+        "lawFirmName": "Pacific Legal Group",
+        "specializations": ["Estate Planning", "Business Law", "Asset Protection"],
+        "reasonsToRecommend": [
+          "Strong business law expertise",
+          "Local jurisdiction knowledge",
+          "Proven track record with business families"
+        ]
+      }
+    ]
+  },
+  "services": {
+    "willReview": {
+      "name": "Will Review & Consultation",
+      "description": "Comprehensive document review with recommendations"
+    },
+    "estatePlanning": {
+      "name": "Complete Estate Planning",
+      "description": "Full estate planning package including wills, trusts, and tax strategies"
+    }
+  },
+  "ui": {
+    "recommendedProfessionals": "Recommended Professionals",
+    "viewProfile": "View Profile",
+    "scheduleConsultation": "Schedule Consultation",
+    "getQuote": "Get Quote",
+    "reasonsToChoose": "Why We Recommend",
+    "specializations": "Specializations",
+    "availability": "Availability",
+    "rating": "Rating",
+    "experience": "Experience",
+    "location": "Location"
+  }
+}
