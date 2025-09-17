@@ -6,7 +6,7 @@ import { RemindersDashboard } from '../RemindersDashboard';
 // Mock reminderService
 jest.mock('@schwalbe/shared', () => ({
   reminderService: {
-    listReminders: jest.fn(),
+    list: jest.fn(),
   }
 }));
 
@@ -25,7 +25,7 @@ describe('RemindersDashboard', () => {
 
   it('shows empty state when no reminders', async () => {
     // Arrange
-    (reminderService.listReminders as jest.Mock).mockResolvedValue([]);
+    (reminderService.list as jest.Mock).mockResolvedValue([]);
 
     // Act
     const { getByText } = render(<RemindersDashboard />);
@@ -50,7 +50,7 @@ describe('RemindersDashboard', () => {
         date: '2025-12-26T12:00:00Z'
       }
     ];
-    (reminderService.listReminders as jest.Mock).mockResolvedValue(mockReminders);
+    (reminderService.list as jest.Mock).mockResolvedValue(mockReminders);
 
     // Act
     const { getByText } = render(<RemindersDashboard />);
@@ -71,7 +71,7 @@ describe('RemindersDashboard', () => {
         date: '2025-12-25T12:00:00Z'
       }
     ];
-    (reminderService.listReminders as jest.Mock).mockResolvedValue(mockReminders);
+    (reminderService.list as jest.Mock).mockResolvedValue(mockReminders);
 
     // Act
     const { getByText } = render(<RemindersDashboard />);
@@ -87,7 +87,7 @@ describe('RemindersDashboard', () => {
   it('shows error state gracefully', async () => {
     // Arrange
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    (reminderService.listReminders as jest.Mock).mockRejectedValue(new Error('Failed to load'));
+    (reminderService.list as jest.Mock).mockRejectedValue(new Error('Failed to load'));
 
     // Act
     const { getByText } = render(<RemindersDashboard />);

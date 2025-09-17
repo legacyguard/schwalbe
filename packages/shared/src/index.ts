@@ -44,3 +44,7 @@ export { sharingService, SharingService } from './services/sharing/sharing.servi
 
 // Export legal requirements dataset
 export * from './config/legal/requirements';
+
+// Export sharing types
+export type { CreateShareLinkInput, SharePermissions } from './services/sharing/sharing.service';
+export type { ShareLink } from './types/sharing';

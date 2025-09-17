@@ -81,7 +81,7 @@ export function ShareManager({ resourceType, resourceId, resourceTitle, onClose 
   }
 
   const handlePermissionChange = (key: keyof SharePermissions, value: boolean) => {
-    setPermissions(prev => ({ ...prev, [key]: value }))
+    setPermissions((prev: Partial<SharePermissions>) => ({ ...prev, [key]: value }))
   }
 
   return (

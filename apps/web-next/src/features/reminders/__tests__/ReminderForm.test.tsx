@@ -6,7 +6,7 @@ import { ReminderForm } from '../ReminderForm';
 // Mock reminderService
 jest.mock('@schwalbe/shared', () => ({
   reminderService: {
-    createReminder: jest.fn(),
+    create: jest.fn(),
   }
 }));
 
@@ -52,7 +52,7 @@ describe('ReminderForm', () => {
   it('submits form with correct data', async () => {
     // Arrange
     const onSubmit = jest.fn();
-    (reminderService.createReminder as jest.Mock).mockResolvedValue({});
+    (reminderService.create as jest.Mock).mockResolvedValue({});
 
     const { getByLabelText, getByText } = render(
       <ReminderForm onSubmit={onSubmit} />
@@ -68,7 +68,7 @@ describe('ReminderForm', () => {
 
     // Assert
     await waitFor(() => {
-      expect(reminderService.createReminder).toHaveBeenCalledWith({
+      expect(reminderService.create).toHaveBeenCalledWith({
         title: 'Test Reminder',
         date: '2025-12-25T12:00',
         type: 'event',
@@ -85,7 +85,7 @@ describe('ReminderForm', () => {
 
   it('shows loading state during submission', async () => {
     // Arrange
-    (reminderService.createReminder as jest.Mock).mockImplementation(
+    (reminderService.create as jest.Mock).mockImplementation(
       () => new Promise(resolve => setTimeout(resolve, 100))
     );
 

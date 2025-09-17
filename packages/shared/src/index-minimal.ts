@@ -18,3 +18,5 @@ export * from './services/subscription.service';
 
 // Sharing service (exposed for web UI)
 export { sharingService, SharingService } from './services/sharing/sharing.service';
+export type { CreateShareLinkInput, SharePermissions } from './services/sharing/sharing.service';
+export type { ShareLink } from './types/sharing';
