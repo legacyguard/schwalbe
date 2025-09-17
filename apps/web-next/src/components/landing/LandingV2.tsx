@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
+import { useEffect } from "react";
+import { track } from "@/lib/analytics";
+
 export default function LandingV2({ locale }: { locale: string }) {
   const t = useTranslations("landingV2");
 
@@ -20,6 +23,11 @@ export default function LandingV2({ locale }: { locale: string }) {
       })),
     []
   );
+
+  // Page view analytics
+  useEffect(() => {
+    track({ event: "landing_v2_view", locale });
+  }, [locale]);
 
   return (
     <div className="min-h-screen bg-slate-900">
@@ -77,12 +85,14 @@ export default function LandingV2({ locale }: { locale: string }) {
             <Link
               href={`/${locale}/landing-v2`}
               className="inline-flex items-center justify-center rounded-lg bg-slate-700/70 hover:bg-slate-600 text-white px-6 py-3 text-lg font-semibold border border-slate-600"
+              onClick={() => track({ event: "landing_v2_cta_primary_click", locale })}
             >
               {t("hero.ctaPrimary")}
             </Link>
             <a
               href="#features"
               className="inline-flex items-center justify-center rounded-lg bg-slate-800/40 hover:bg-slate-800 text-slate-100 px-6 py-3 text-lg font-medium border border-slate-700"
+              onClick={() => track({ event: "landing_v2_cta_secondary_click", locale })}
             >
               {t("hero.ctaSecondary")}
             </a>
@@ -110,6 +120,11 @@ function SecurityPromiseSection() {
     description: t(`features.${i}.description`),
     icon: ["🛡️", "🔑", "✅", "⏱️"][i],
   }));
+
+  // Section view (security promise) when mounted
+  useEffect(() => {
+    track({ event: "landing_v2_security_promise_view", locale: (useTranslations as any).locale?.() || "en" });
+  }, []);
 
   return (
     <section className="py-20">
@@ -143,6 +158,9 @@ function SecurityPromiseSection() {
 }
 
 function PricingSection({ locale }: { locale: string }) {
+  useEffect(() => {
+    track({ event: "landing_v2_pricing_view", locale });
+  }, [locale]);
   const t = useTranslations("landingV2.pricing");
 
   const tiers = [
