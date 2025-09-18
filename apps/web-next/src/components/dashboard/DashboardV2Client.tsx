@@ -23,8 +23,11 @@ export default function DashboardV2Client() {
   if (!plan) return null;
 
   const intent = plan.nextBestAction?.title || undefined;
-  const qs = intent ? `?intent=${encodeURIComponent(intent)}` : '';
-  const assistantHref = isAssistantEnabled() ? `/${locale}/assistant${qs}` : undefined;
+  const params = new URLSearchParams();
+  if (intent) params.set('intent', intent);
+  params.set('source', 'dashboard');
+  const qs = params.toString();
+  const assistantHref = isAssistantEnabled() ? `/${locale}/assistant${qs ? `?${qs}` : ''}` : undefined;
 
   const trackCtaClick = () => {
     try {

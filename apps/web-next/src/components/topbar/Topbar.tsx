@@ -93,7 +93,7 @@ export function Topbar({ locale }: TopbarProps) {
           <Link href={`/${locale}/support`} className="hover:text-white">Support</Link>
           {isAssistantEnabled() ? (
             <Link
-              href={`/${locale}/assistant`}
+              href={`/${locale}/assistant?source=nav`}
               className="hover:text-white"
               aria-label="Assistant"
               onClick={() => {

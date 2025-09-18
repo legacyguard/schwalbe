@@ -10,6 +10,7 @@ export default function AssistantPanel() {
   const search = useSearchParams();
   const locale = useLocale();
   const [intent, setIntent] = useState<string>('');
+  const [source, setSource] = useState<string>('');
   const [milestones, setMilestones] = useState<Milestone[]>([]);
   const [busy, setBusy] = useState<boolean>(true);
   const t = useTranslations('assistant');
@@ -18,6 +19,8 @@ export default function AssistantPanel() {
     // Prefer query intent if provided
     setBusy(true);
     const q = search?.get('intent');
+    const src = search?.get('source') || '';
+    if (src) setSource(src);
     if (q && q.length > 0) {
       setIntent(q);
       // Seed plan from intent keywords
@@ -57,7 +60,7 @@ export default function AssistantPanel() {
     // Fire an analytics beacon when assistant opens
     try {
       import('@/lib/analytics').then(({ sendAnalytics }) => {
-        sendAnalytics('assistant_open', { intent: intent || undefined, locale });
+        sendAnalytics('assistant_open', { intent: intent || undefined, locale, source: source || undefined });
       }).catch(() => {});
     } catch {}
   }, [intent, locale]);
@@ -71,7 +74,7 @@ export default function AssistantPanel() {
   const handleStart = () => {
     try {
       import('@/lib/analytics').then(({ sendAnalytics }) => {
-        sendAnalytics('assistant_start', { intent: intent || undefined, locale, target: targetHref });
+        sendAnalytics('assistant_start', { intent: intent || undefined, locale, target: targetHref, source: source || undefined });
       }).catch(() => {});
     } catch {}
   };
@@ -112,7 +115,7 @@ export default function AssistantPanel() {
               const onSuggestionClick = () => {
                 try {
                   import('@/lib/analytics').then(({ sendAnalytics }) => {
-                    sendAnalytics('assistant_suggestion_click', { id: m.id, title: m.title, target: href, intent: intent || undefined, locale });
+                    sendAnalytics('assistant_suggestion_click', { id: m.id, title: m.title, target: href, intent: intent || undefined, locale, source: source || undefined });
                   }).catch(() => {});
                 } catch {}
               };
