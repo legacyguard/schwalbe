@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.skip('subscriptions analytics beacons fire (view, open, confirm)', async ({ page }) => {
+test('subscriptions analytics beacons fire (view, open, confirm)', async ({ page }) => {
   const events: any[] = []
   await page.route('**/api/analytics/events', async (route) => {
     const body = JSON.parse(route.request().postData() || '{}')
@@ -16,7 +16,7 @@ test.skip('subscriptions analytics beacons fire (view, open, confirm)', async ({
 
   // Force E2E mode
   await page.addInitScript(() => { (window as any).__forceE2E = true })
-  await page.goto('/en/subscriptions')
+  await page.goto('/en/subscriptions?e2e=1')
   await page.waitForLoadState('domcontentloaded')
 
   // Poll for view event

@@ -17,6 +17,16 @@ import {
 } from 'react-native';
 import { emotionalColors } from '../../theme/colors';
 
+// Conditional accessibility import
+const getAccessibilityProps = async () => {
+  try {
+    const module = await import('../../../config/accessibility');
+    return module.getAccessibilityProps;
+  } catch {
+    return () => ({});
+  }
+};
+
 export interface MobileSofiaFireflyProps {
   isEnabled?: boolean;
   onInteractionStart?: () => void;
@@ -146,7 +156,14 @@ export const MobileSofiaFirefly: React.FC<MobileSofiaFireflyProps> = ({
   }
 
   return (
-    <View style={styles.container} {...panResponder.panHandlers}>
+    <View
+      style={styles.container}
+      {...panResponder.panHandlers}
+      accessibilityLabel="Sofia, your AI assistant"
+      accessibilityHint="Touch and move around the screen to interact with Sofia"
+      accessibilityRole="button"
+      accessible={true}
+    >
       {isActive && (
         <Animated.View
           style={[

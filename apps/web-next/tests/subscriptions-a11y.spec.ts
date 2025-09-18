@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe.skip('subscriptions a11y', () => {
+test.describe('subscriptions a11y', () => {
   for (const locale of ['en','cs','sk'] as const) {
     test(`subscriptions a11y for ${locale}`, async ({ page, baseURL }) => {
       // Mock Supabase endpoints to avoid network/hydration delays
@@ -17,16 +17,20 @@ test.describe.skip('subscriptions a11y', () => {
       await page.route('**://*.supabase.co/**', async (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '{}' }));
 
       await page.addInitScript(() => { (window as any).__forceE2E = true })
-      await page.goto(`${baseURL}/${locale}/subscriptions`)
+      await page.goto(`${baseURL}/${locale}/subscriptions?e2e=1`)
       await page.waitForLoadState('domcontentloaded')
 
-      // Wait until at least one driver or hook is available
-      await page.waitForFunction(() => {
-        const w: any = window as any
-        return !!document.querySelector('[data-testid="open-cancel-dialog"]') ||
-               !!document.querySelector('[data-testid="open-cancel"]') ||
-               typeof w.__openCancelDialog === 'function'
-      }, undefined, { timeout: 20000 })
+      // Wait until at least one driver or hook is available (up to ~30s)
+      for (let i = 0; i < 60; i++) {
+        const ready = await page.evaluate(() => {
+          const w: any = window as any
+          return !!document.querySelector('[data-testid="open-cancel-dialog"]') ||
+                 !!document.querySelector('[data-testid="open-cancel"]') ||
+                 typeof w.__openCancelDialog === 'function'
+        })
+        if (ready) break
+        await page.waitForTimeout(500)
+      }
 
       // Try driver button, fallback to UI trigger or global hook
       const testBtn = page.getByTestId('open-cancel-dialog')
