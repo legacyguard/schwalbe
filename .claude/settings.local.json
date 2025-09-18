@@ -27,7 +27,8 @@
       "Bash(chmod:*)",
       "Bash(npm view:*)",
       "Bash(claude doctor)",
-      "Bash(claude doctor:*)"
+      "Bash(claude doctor:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }
