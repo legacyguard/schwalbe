@@ -3,6 +3,7 @@ import { ScrollView, RefreshControl } from 'react-native';
 import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card, Input } from 'tamagui';
 import { Search, Plus, FileText, Download, Share, Eye, Filter } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 const mockDocuments = [
   {
@@ -46,6 +47,7 @@ const mockDocuments = [
 export default function DocumentsScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const { t } = useTranslation('screens');
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -73,7 +75,7 @@ export default function DocumentsScreen() {
         {/* Header */}
         <XStack alignItems="center" justifyContent="space-between">
           <H1 color="$legacyTextPrimary" fontSize="$heroEmotional" fontWeight="800">
-            Document Garden 📚
+            {t('screens.documents.title')}
           </H1>
           <Button size="$4" backgroundColor="$legacyAccentGold" borderRadius="$3">
             <Plus size={20} color="$legacyBackgroundPrimary" />
@@ -87,7 +89,7 @@ export default function DocumentsScreen() {
             <Input
               flex={1}
               marginLeft="$3"
-              placeholder="Search documents..."
+              placeholder={t('screens.documents.searchPlaceholder')}
               placeholderTextColor="$legacyTextMuted"
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -108,7 +110,7 @@ export default function DocumentsScreen() {
               {mockDocuments.length}
             </Text>
             <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
-              Seeds Planted 🌱
+              {t('screens.documents.stats.seeds')}
             </Text>
           </Card>
           <Card flex={1} padding="$3" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$3">
@@ -116,7 +118,7 @@ export default function DocumentsScreen() {
               53.0 MB
             </Text>
             <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
-              Legacy Preserved ✨
+              {t('screens.documents.stats.preserved')}
             </Text>
           </Card>
         </XStack>
@@ -130,7 +132,7 @@ export default function DocumentsScreen() {
         >
           <YStack space="$3">
             <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-              Your Legacy Collection 💎
+              {t('screens.documents.yourCollection')}
             </H2>
 
             {filteredDocuments.map((document) => (
@@ -197,18 +199,18 @@ export default function DocumentsScreen() {
               <Card padding="$6" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$4" alignItems="center">
                 <FileText size={48} color="$legacyTextMuted" marginBottom="$3" />
                 <Text color="$legacyTextPrimary" fontSize="$5" fontWeight="600" marginBottom="$2">
-                  Your garden awaits the first seed 🌱
+                  {t('screens.documents.empty.title')}
                 </Text>
                 <Text color="$legacyTextMuted" fontSize="$4" textAlign="center">
                   {searchQuery
-                    ? 'No seeds match your search - try different terms'
-                    : 'Plant your first legacy document to begin growing your family\'s protection'}
+                    ? t('screens.documents.empty.subtitleSearchEmpty')
+                    : t('screens.documents.empty.subtitleDefault')}
                 </Text>
                 {!searchQuery && (
                   <Button size="$4" backgroundColor="$legacyAccentGold" borderRadius="$3" marginTop="$4">
                     <XStack alignItems="center" space="$2">
                       <Plus size={16} color="$legacyBackgroundPrimary" />
-                      <Text color="$legacyBackgroundPrimary" fontWeight="600">Plant First Seed</Text>
+                      <Text color="$legacyBackgroundPrimary" fontWeight="600">{t('screens.documents.empty.plantFirstSeed')}</Text>
                     </XStack>
                   </Button>
                 )}

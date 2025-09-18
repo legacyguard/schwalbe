@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { Fingerprint, ArrowLeft } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { useTranslation } from 'react-i18next';
 
 import { useAuthStore } from '@/stores/authStore';
 
@@ -11,6 +12,7 @@ export default function BiometricScreen() {
   const [isSupported, setIsSupported] = useState(false);
   const [biometricType, setBiometricType] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const { t } = useTranslation(['auth', 'common']);
   
   const { signIn } = useAuthStore();
 
@@ -26,41 +28,39 @@ export default function BiometricScreen() {
     setIsSupported(compatible && enrolled);
     
     if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
-      setBiometricType('Face ID');
+      setBiometricType(t('auth.faceId'));
     } else if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
-      setBiometricType('Fingerprint');
+      setBiometricType(t('auth.fingerprint'));
     } else {
-      setBiometricType('Biometric');
+      setBiometricType(t('auth.biometric'));
     }
   };
 
   const handleBiometricAuth = async () => {
     if (!isSupported) {
-      Alert.alert('Error', 'Biometric authentication is not available on this device');
+      Alert.alert(t('common.error'), t('auth.errors.biometricUnavailable'));
       return;
     }
 
     setIsAuthenticating(true);
     try {
       const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: 'Sign in to LegacyGuard',
-        cancelLabel: 'Cancel',
-        fallbackLabel: 'Use password instead',
+        promptMessage: t('auth.biometricPrompt'),
+        cancelLabel: t('common.cancel'),
+        fallbackLabel: t('auth.usePassword'),
       });
 
       if (result.success) {
-        // In a real app, you'd retrieve stored credentials or tokens
-        // For this demo, we'll simulate successful authentication
         router.replace('/(tabs)/home');
       } else {
         if (result.error === 'user_cancel' || result.error === 'user_fallback') {
           router.back();
         } else {
-          Alert.alert('Authentication Failed', 'Please try again or use your password');
+          Alert.alert(t('auth.errors.authFailedTitle'), t('auth.errors.authFailed'));
         }
       }
     } catch (error) {
-      Alert.alert('Error', 'Biometric authentication failed');
+      Alert.alert(t('common.error'), t('auth.errors.biometricFailed'));
     } finally {
       setIsAuthenticating(false);
     }
@@ -78,7 +78,7 @@ export default function BiometricScreen() {
             <ArrowLeft size={24} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>
-            Biometric Sign In
+            {t('auth.biometricTitle')}
           </Text>
         </View>
 
@@ -90,10 +90,10 @@ export default function BiometricScreen() {
 
             <View style={styles.textContainer}>
               <Text style={styles.title}>
-                {biometricType} Sign In
+                {biometricType} {t('auth.signIn')}
               </Text>
               <Text style={styles.subtitle}>
-                Use your {biometricType.toLowerCase()} to securely access your account
+                {t('auth.biometricSubtitle', { method: biometricType.toLowerCase() })}
               </Text>
             </View>
           </View>
@@ -107,26 +107,26 @@ export default function BiometricScreen() {
               <View style={styles.buttonContent}>
                 <Fingerprint size={20} color="white" />
                 <Text style={styles.buttonText}>
-                  {isAuthenticating ? 'Authenticating...' : `Use ${biometricType}`}
+                  {isAuthenticating ? t('auth.authenticating') : `${t('auth.use')} ${biometricType}`}
                 </Text>
               </View>
             </TouchableOpacity>
           ) : (
             <View style={styles.errorContainer}>
               <Text style={styles.errorText}>
-                Biometric authentication is not available
+                {t('auth.errors.biometricUnavailable')}
               </Text>
               <TouchableOpacity
                 style={[styles.button, styles.secondaryButton]}
                 onPress={() => router.back()}
               >
-                <Text style={styles.buttonText}>Use Password Instead</Text>
+                <Text style={styles.buttonText}>{t('auth.usePassword')}</Text>
               </TouchableOpacity>
             </View>
           )}
 
           <Text style={styles.footerText}>
-            Your biometric data is stored securely on your device
+            {t('auth.biometricFooter')}
           </Text>
         </View>
       </View>

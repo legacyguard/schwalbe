@@ -3,12 +3,14 @@ import { ScrollView, RefreshControl } from 'react-native';
 import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card, Switch, Progress } from 'tamagui';
 import { Shield, CheckCircle, AlertTriangle, Settings, Users, Lock, Smartphone } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 export default function ProtectionScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [autoBackup, setAutoBackup] = useState(true);
   const [biometricLock, setBiometricLock] = useState(false);
+  const { t } = useTranslation('screens');
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -72,7 +74,7 @@ export default function ProtectionScreen() {
           {/* Header */}
           <XStack ai="center" jc="space-between">
             <H1 color="$legacyTextPrimary" fontSize="$heroEmotional" fontWeight="800">
-              Family Shield 🚪️
+              {t('screens.protection.title')}
             </H1>
             <Button size="$4" chromeless>
               <Settings size={24} color="$legacyAccentGold" />
@@ -91,10 +93,10 @@ export default function ProtectionScreen() {
               <Shield size={32} color="$legacyAccentGold" />
               <YStack f={1}>
                 <Text color="white" fontSize="$6" fontWeight="700">
-                  Guardian Shield Active ✨
+                  {t('screens.protection.status.activeTitle')}
                 </Text>
                 <Text color="$legacyAccentGoldLight" fontSize="$4" fontWeight="500">
-                  Your family's fortress stands strong and unbreakable
+                  {t('screens.protection.status.activeSubtitle')}
                 </Text>
               </YStack>
             </XStack>
@@ -102,13 +104,13 @@ export default function ProtectionScreen() {
               <Progress.Indicator backgroundColor="$legacyAccentGold" />
             </Progress>
             <Text color="$legacyAccentGoldLight" fontSize="$3" fontWeight="500">
-              85% fortress completion - your vigilance protects those you love
+              {t('screens.protection.status.completion')}
             </Text>
           </Card>
 
           {/* Protection Features */}
           <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-            Protection Arsenal 🏰
+            {t('screens.protection.arsenal')}
           </H2>
           
           {protectionFeatures.map((feature, index) => {
@@ -148,7 +150,7 @@ export default function ProtectionScreen() {
 
           {/* Settings */}
           <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-            Guardian Controls ⚙️
+            {t('screens.protection.controls')}
           </H2>
 
           <Card p="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$4">
@@ -156,10 +158,10 @@ export default function ProtectionScreen() {
               <XStack ai="center" jc="space-between">
                 <YStack f={1}>
                   <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
-                    Guardian Alerts
+                    {t('screens.protection.labels.alerts')}
                   </Text>
                   <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
-                    Stay informed when your family's protection needs attention
+                    {t('screens.protection.labels.alertsDesc')}
                   </Text>
                 </YStack>
                 <Switch
@@ -174,10 +176,10 @@ export default function ProtectionScreen() {
               <XStack ai="center" jc="space-between">
                 <YStack f={1}>
                   <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
-                    Legacy Preservation
+                    {t('screens.protection.labels.preservation')}
                   </Text>
                   <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
-                    Daily safeguarding of your family's precious memories
+                    {t('screens.protection.labels.preservationDesc')}
                   </Text>
                 </YStack>
                 <Switch
@@ -192,10 +194,10 @@ export default function ProtectionScreen() {
               <XStack ai="center" jc="space-between">
                 <YStack f={1}>
                   <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
-                    Personal Vault Lock
+                    {t('screens.protection.labels.vaultLock')}
                   </Text>
                   <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
-                    Your touch becomes the key to your family's treasures
+                    {t('screens.protection.labels.vaultLockDesc')}
                   </Text>
                 </YStack>
                 <Switch
@@ -211,7 +213,7 @@ export default function ProtectionScreen() {
 
           {/* Quick Actions */}
           <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-            Guardian Duties 🛡️
+            {t('screens.protection.controls')}
           </H2>
 
           <YStack space="$3">
@@ -249,10 +251,10 @@ export default function ProtectionScreen() {
               <Shield size={24} color="$legacyAccentGold" />
               <YStack f={1}>
                 <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="700">
-                  Guardian's Wisdom 🌟
+                  {t('screens.protection.wisdom.title')}
                 </Text>
-                <Text color="$legacyTextSecondary" fontSize="$3" fontWeight="500">
-                  Your fingerprint becomes a sacred key - enable biometric lock to ensure only you can access your family's most precious treasures.
+                <Text color="$legacyTextSecondary" fontSize="$3" textAlign="center" lineHeight={18}>
+                  {t('screens.protection.wisdom.tip')}
                 </Text>
               </YStack>
             </XStack>

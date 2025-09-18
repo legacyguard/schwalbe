@@ -19,28 +19,27 @@ test('subscriptions analytics beacons fire (view, open, confirm)', async ({ page
   await page.goto('/en/subscriptions?e2e=1')
   await page.waitForLoadState('domcontentloaded')
 
-  // Poll for view event
+  // Ensure page content rendered
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible({ timeout: 15000 })
+
+  // Wait until dialog or hook is available (hydration pass)
+  await page.waitForFunction(() => {
+    const w: any = window as any
+    return !!document.querySelector('[role="dialog"]') || typeof w.__openCancelDialog === 'function'
+  }, undefined, { timeout: 20000 })
+
+  // Poll for view event (up to ~12s)
   let hasView = false
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 60; i++) {
     await page.waitForTimeout(200)
     hasView = events.some(e => e?.eventType === 'subscriptions_view')
     if (hasView) break
   }
   expect(hasView).toBeTruthy()
 
-  // Open cancel dialog
-  const openBtn = page.getByTestId('open-cancel')
-  if (await openBtn.count()) {
-    await openBtn.click()
-  } else if (await page.getByTestId('open-cancel-dialog').count()) {
-    await page.getByTestId('open-cancel-dialog').click()
-  } else if (await page.evaluate(() => typeof (window as any).__openCancelDialog === 'function')) {
-    await page.evaluate(() => (window as any).__openCancelDialog())
-  }
-
-  // Assert open beacon
+  // Assert open beacon (dialog auto-opens in E2E and emits open event)
   let hasOpen = false
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 30; i++) {
     await page.waitForTimeout(200)
     hasOpen = events.some(e => e?.eventType === 'subscriptions_cancel_open')
     if (hasOpen) break

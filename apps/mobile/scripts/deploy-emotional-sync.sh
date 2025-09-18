@@ -44,13 +44,13 @@ print_status "Starting emotional sync deployment process..."
 
 # Step 1: Check feature flags
 print_status "Checking feature flag configuration..."
-if [ ! -f ".env" ]; then
-    print_warning ".env file not found, creating from .env.example"
-    cp .env.example .env
+if [ ! -f "../../.env" ]; then
+    print_warning ".env file not found in project root, creating from .env.example"
+    cp .env.example ../../.env
 fi
 
 # Verify feature flags are enabled
-if ! grep -q "EXPO_PUBLIC_EMOTIONAL_SYNC_ENABLED=1" .env; then
+if ! grep -q "EXPO_PUBLIC_EMOTIONAL_SYNC_ENABLED=1" ../../.env; then
     print_error "Emotional sync is not enabled in .env file"
     print_status "Please set EXPO_PUBLIC_EMOTIONAL_SYNC_ENABLED=1 in your .env file"
     exit 1
@@ -107,9 +107,9 @@ emotional_components=(
     "src/components/enhanced/EnhancedHomeScreen.tsx"
     "src/config/featureFlags.ts"
     "src/hooks/useHapticFeedback.ts"
-    "temp-emotional-sync/components/sofia-firefly/MobileSofiaFirefly.tsx"
-    "temp-emotional-sync/components/messaging/EmotionalMessages.ts"
-    "temp-emotional-sync/components/achievements/AchievementCelebration.tsx"
+    "src/temp-emotional-sync/components/sofia-firefly/MobileSofiaFirefly.tsx"
+    "src/temp-emotional-sync/components/messaging/EmotionalMessages.ts"
+    "src/temp-emotional-sync/components/achievements/AchievementCelebration.tsx"
 )
 
 for component in "${emotional_components[@]}"; do
@@ -131,7 +131,7 @@ required_vars=(
 )
 
 for var in "${required_vars[@]}"; do
-    if grep -q "^$var=" .env; then
+    if grep -q "^$var=" ../../.env; then
         print_success "✓ $var is configured"
     else
         print_error "✗ $var is missing from .env"

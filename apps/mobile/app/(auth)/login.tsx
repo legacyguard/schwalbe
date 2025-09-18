@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { YStack, XStack, H1, Text, Button, Input, Spinner } from 'tamagui';
 import { Mail, Lock, Eye, EyeOff } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { useAuthStore } from '@/stores/authStore';
 
@@ -12,12 +13,13 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation(['auth', 'common']);
   
   const { signIn } = useAuthStore();
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password');
+      Alert.alert(t('common.error'), t('auth.errors.missingCredentials'));
       return;
     }
 
@@ -27,10 +29,10 @@ export default function LoginScreen() {
       if (success) {
         router.replace('/(tabs)/home');
       } else {
-        Alert.alert('Error', 'Invalid email or password');
+        Alert.alert(t('common.error'), t('auth.errors.invalidCredentials'));
       }
     } catch (error) {
-      Alert.alert('Error', 'Login failed. Please try again.');
+      Alert.alert(t('common.error'), t('auth.errors.loginFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -44,21 +46,21 @@ export default function LoginScreen() {
             LegacyGuard
           </H1>
           <Text color="$gray10" textAlign="center" fontSize="$5">
-            Secure access to your family protection
+            {t('auth.subtitle')}
           </Text>
         </YStack>
 
         <YStack width="100%" maxWidth={400} space="$4">
           <YStack space="$2">
             <Text color="white" fontSize="$4" fontWeight="500">
-              Email
+              {t('auth.email')}
             </Text>
             <XStack alignItems="center" backgroundColor="$gray8" borderRadius="$4" padding="$3">
               <Mail size={20} color="$gray10" />
               <Input
                 flex={1}
                 marginLeft="$3"
-                placeholder="Enter your email"
+                placeholder={t('auth.emailPlaceholder')}
                 placeholderTextColor="$gray10"
                 value={email}
                 onChangeText={setEmail}
@@ -74,7 +76,7 @@ export default function LoginScreen() {
 
           <YStack space="$2">
             <Text color="white" fontSize="$4" fontWeight="500">
-              Password
+              {t('auth.password')}
             </Text>
             <XStack alignItems="center" backgroundColor="$gray8" borderRadius="$4" padding="$3">
               <Lock size={20} color="$gray10" />
@@ -82,7 +84,7 @@ export default function LoginScreen() {
                 flex={1}
                 marginLeft="$3"
                 marginRight="$3"
-                placeholder="Enter your password"
+                placeholder={t('auth.passwordPlaceholder')}
                 placeholderTextColor="$gray10"
                 value={password}
                 onChangeText={setPassword}
@@ -95,6 +97,7 @@ export default function LoginScreen() {
                 size="$3"
                 chromeless
                 onPress={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
               >
                 {showPassword ? (
                   <EyeOff size={20} color="$gray10" />
@@ -115,18 +118,18 @@ export default function LoginScreen() {
             {isLoading ? (
               <XStack alignItems="center" space="$2">
                 <Spinner size="small" color="white" />
-                <Text color="white">Signing in...</Text>
+                <Text color="white">{t('auth.signingIn')}</Text>
               </XStack>
             ) : (
               <Text color="white" fontWeight="600">
-                Sign In
+                {t('auth.signIn')}
               </Text>
             )}
           </Button>
         </YStack>
 
         <Text color="$gray10" fontSize="$3" textAlign="center" marginTop="$6">
-          Secure authentication with biometric support
+          {t('auth.biometricSupport')}
         </Text>
       </YStack>
     </SafeAreaView>

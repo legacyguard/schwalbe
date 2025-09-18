@@ -17,6 +17,7 @@ import {
 } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { useAuthStore } from '@/stores/authStore';
 import { SofiaFirefly } from '../../src/components/SofiaFirefly';
@@ -26,6 +27,7 @@ export default function ProfileScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const { user, signOut } = useAuthStore();
   const { sofiaFireflyHaptic } = useHapticFeedback();
+  const { t } = useTranslation('screens');
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -109,7 +111,7 @@ export default function ProfileScreen() {
           {/* Header */}
           <XStack alignItems="center" justifyContent="space-between">
             <H1 color="$legacyTextPrimary" fontSize="$heroEmotional" fontWeight="800">
-              Guardian Profile 👤
+              {t('screens.profile.title')}
             </H1>
             <SofiaFirefly
               size="small"
@@ -137,12 +139,12 @@ export default function ProfileScreen() {
                    'Guardian'}
                 </Text>
                 <Text color="$legacyTextMuted" fontSize="$4" fontWeight="500">
-                  Family Legacy Protector 🛡️
+                  {t('screens.profile.role')}
                 </Text>
                 <XStack alignItems="center" space="$2">
                   <YStack width={6} height={6} borderRadius="$10" backgroundColor="$legacySuccess" />
                   <Text color="$legacySuccess" fontSize="$3" fontWeight="600">
-                    Guardian Active ✨
+                    {t('screens.profile.statusActive')}
                   </Text>
                 </XStack>
               </YStack>
@@ -151,7 +153,7 @@ export default function ProfileScreen() {
 
           {/* Account Information */}
           <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-            Guardian Credentials 📋
+            {t('screens.profile.credentials')}
           </H2>
           
           {userInfo.map((info, index) => {
@@ -185,7 +187,7 @@ export default function ProfileScreen() {
 
           {/* Menu Items */}
           <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-            Guardian Settings ⚙️
+            {t('screens.profile.settings')}
           </H2>
           
           {menuItems.map((item, index) => {
@@ -230,12 +232,12 @@ export default function ProfileScreen() {
           {/* App Information */}
           <Card padding="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$4">
             <YStack space="$2" alignItems="center">
-              <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
-                LegacyGuard Mobile ✨
-              </Text>
-              <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
-                Version 1.0.0
-              </Text>
+                <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
+                  {t('screens.profile.appInfo.name')}
+                </Text>
+                <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
+                  {t('screens.profile.appInfo.version')}
+                </Text>
               <Text color="$legacyTextSecondary" fontSize="$3" textAlign="center" lineHeight={18}>
                 Protecting your family's legacy with love, security, and peace of mind
               </Text>

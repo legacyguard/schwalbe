@@ -8,6 +8,7 @@ import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/authStore';
 import { SofiaFirefly } from '../../src/components/SofiaFirefly';
 import { useHapticFeedback } from '../../src/hooks/useHapticFeedback';
+import { useTranslation } from 'react-i18next';
 
 // Emotional messaging system
 const getTimeOfDay = () => {
@@ -18,14 +19,8 @@ const getTimeOfDay = () => {
   return 'night';
 };
 
-const getEmotionalWelcome = (timeOfDay: string, userName: string) => {
-  const messages = {
-    morning: `Good morning, ${userName}! Your family is a little safer today because of you.`,
-    afternoon: `Every step you take today, ${userName}, protects your family's tomorrow.`,
-    evening: `Rest easy, ${userName}. You've built a fortress of protection today.`,
-    night: `Good night, ${userName}. Your vigilance keeps your loved ones safe while they sleep.`,
-  };
-  return messages[timeOfDay as keyof typeof messages] || messages.morning;
+const getEmotionalWelcome = (t: (k: string, o?: any) => string, timeOfDay: string, userName: string) => {
+  return t(`screens.home.emotional.${timeOfDay}`, { userName });
 };
 
 export default function HomeScreen() {
@@ -33,14 +28,15 @@ export default function HomeScreen() {
   const [emotionalMessage, setEmotionalMessage] = useState('');
   const { user } = useAuthStore();
   const { sofiaFireflyHaptic, touchHaptic } = useHapticFeedback();
+  const { t } = useTranslation('screens');
 
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guardian';
 
   useEffect(() => {
     const timeOfDay = getTimeOfDay();
-    const message = getEmotionalWelcome(timeOfDay, userName);
+    const message = getEmotionalWelcome(t as any, timeOfDay, userName);
     setEmotionalMessage(message);
-  }, [userName]);
+  }, [userName, t]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -96,8 +92,8 @@ export default function HomeScreen() {
           {/* Header */}
           <XStack alignItems="center" justifyContent="space-between">
             <YStack>
-              <Text color="$legacyTextMuted" fontSize="$4">
-                Your Protection Garden
+          <Text color="$legacyTextMuted" fontSize="$4">
+                {t('screens.home.sectionProtectionGarden')}
               </Text>
               <H1 color="$legacyTextPrimary" fontSize="$heroEmotional" fontWeight="800">
                 {userName}
@@ -131,7 +127,7 @@ export default function HomeScreen() {
               marginBottom="$3"
               fontWeight="600"
             >
-              Plant New Seeds 🌱
+              {t('screens.home.plantSeedsTitle')}
             </H2>
             <XStack space="$3">
               <Button
@@ -144,7 +140,7 @@ export default function HomeScreen() {
                 <XStack alignItems="center" space="$2">
                   <Plus size={16} color="$legacyBackgroundPrimary" />
                   <Text color="$legacyBackgroundPrimary" fontSize="$3" fontWeight="600">
-                    Add Legacy Document
+                    {t('screens.home.addLegacyDoc')}
                   </Text>
                 </XStack>
               </Button>
@@ -158,7 +154,7 @@ export default function HomeScreen() {
                 <XStack alignItems="center" space="$2">
                   <Shield size={16} color="white" />
                   <Text color="white" fontSize="$3" fontWeight="600">
-                    Strengthen Shield
+                    {t('screens.home.strengthenShield')}
                   </Text>
                 </XStack>
               </Button>
@@ -167,7 +163,7 @@ export default function HomeScreen() {
 
           {/* Stats Grid */}
           <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-            Your Protection Garden 🌟
+            {t('screens.home.gardenTitle')}
           </H2>
           <XStack flex={1} space="$3">
             {statsData.slice(0, 2).map((stat, index) => {
@@ -224,7 +220,7 @@ export default function HomeScreen() {
 
           {/* Recent Activity */}
           <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
-            Garden Growth 📈
+            {t('screens.home.gardenGrowth')}
           </H2>
           <Card
             padding="$4"
@@ -270,10 +266,10 @@ export default function HomeScreen() {
               <Shield size={24} color="$legacyAccentGold" />
               <YStack flex={1}>
                 <Text color="white" fontSize="$5" fontWeight="700">
-                  Protection Shield: Active ✨
+                  {t('screens.home.securityStatus.activeTitle')}
                 </Text>
                 <Text color="$legacyAccentGoldLight" fontSize="$3" fontWeight="500">
-                  Your legacy is safe and your family's future is secure
+                  {t('screens.home.securityStatus.activeSubtitle')}
                 </Text>
               </YStack>
             </XStack>

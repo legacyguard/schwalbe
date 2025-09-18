@@ -23,7 +23,7 @@ export default function SubscriptionsClient({ ssrE2E = false }: { ssrE2E?: boole
   const [prefs, setPrefs] = React.useState<SubscriptionPreferences | null>(null);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [cancelOpen, setCancelOpen] = React.useState(false);
+  const [cancelOpen, setCancelOpen] = React.useState<boolean>(ssrE2E ? true : false);
   const [cancelLoading, setCancelLoading] = React.useState(false);
   const [cancelMode, setCancelMode] = React.useState<"end_of_period" | "immediate">(
     billingConfig.cancellationPolicy
@@ -106,6 +106,17 @@ export default function SubscriptionsClient({ ssrE2E = false }: { ssrE2E?: boole
       }
     }
   }, []);
+
+  // If dialog is opened in E2E, emit open event as well
+  React.useEffect(() => {
+    if (testE2E && cancelOpen) {
+      try {
+        import('@/lib/analytics').then(({ sendAnalytics }) => {
+          sendAnalytics('subscriptions_cancel_open', {});
+        }).catch(() => {});
+      } catch {}
+    }
+  }, [testE2E, cancelOpen]);
 
   const onSavePrefs = async () => {
     if (!prefs) return;

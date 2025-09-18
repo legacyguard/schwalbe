@@ -11,3 +11,6 @@ if (typeof global.localStorage === 'undefined') {
     clear: () => mem.clear(),
   };
 }
+
+// Initialize i18n for tests (default to English)
+require('./src/i18n');
