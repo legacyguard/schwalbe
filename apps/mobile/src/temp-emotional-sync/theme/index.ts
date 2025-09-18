@@ -4,4 +4,4 @@
 
 export * from './colors';
 export * from './typography';
-export * from './tamagui-config';
+// tamagui-config.ts removed - themes are now in main tamagui.config.ts

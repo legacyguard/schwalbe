@@ -3,7 +3,7 @@
  * Backward compatible with feature flag controls
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
 import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card } from 'tamagui';
 import { Bell, Plus, FileText, Shield, Users, TrendingUp } from '@tamagui/lucide-icons';
@@ -20,25 +20,39 @@ const getEmotionalFeatures = async () => {
   if (!isFeatureEnabled('emotionalMessages')) return null;
 
   try {
-    const module = await import('../../temp-emotional-sync');
+    const module = await import('../../temp-emotional-sync/components/messaging');
     return {
       EmotionalMessages: module.EmotionalMessages,
-      useEmotionalState: module.useEmotionalState,
-      useSofiaMessages: module.useSofiaMessages,
-      emotionalColors: module.emotionalColors,
+      useEmotionalState: null, // Will be loaded separately if needed
+      useSofiaMessages: null, // Will be loaded separately if needed
+      emotionalColors: null, // Will use Tamagui themes instead
     };
   } catch {
     return null;
   }
 };
 
-export default function EnhancedHomeScreen() {
+const EnhancedHomeScreen = React.memo(function EnhancedHomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [showDailyCheckIn, setShowDailyCheckIn] = useState(false);
-  const [welcomeMessage, setWelcomeMessage] = useState<any>(null);
-  const [emotionalFeatures, setEmotionalFeatures] = useState<any>(null);
+  const [welcomeMessage, setWelcomeMessage] = useState<{
+    title?: string;
+    message: string;
+    emoji?: string;
+    action?: {
+      text: string;
+      route?: string;
+    };
+  } | null>(null);
+  const [emotionalFeatures, setEmotionalFeatures] = useState<{
+    EmotionalMessages: any;
+    useEmotionalState: any;
+    useSofiaMessages: any;
+    emotionalColors: any;
+  } | null>(null);
 
   const { user } = useAuthStore();
+  const checkInTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   // Load emotional features if enabled
   useEffect(() => {
@@ -57,7 +71,7 @@ export default function EnhancedHomeScreen() {
 
           if (lastCheckIn !== today) {
             // Show check-in after a delay
-            setTimeout(() => setShowDailyCheckIn(true), 2000);
+            checkInTimeoutRef.current = setTimeout(() => setShowDailyCheckIn(true), 2000);
           }
         } catch (error) {
           console.warn('Failed to check daily check-in status:', error);
@@ -66,6 +80,13 @@ export default function EnhancedHomeScreen() {
 
       checkLastCheckIn();
     }
+
+    // Cleanup timeout on unmount or dependency change
+    return () => {
+      if (checkInTimeoutRef.current) {
+        clearTimeout(checkInTimeoutRef.current);
+      }
+    };
   }, [emotionalFeatures]);
 
   // Generate welcome message if emotional features are enabled
@@ -78,13 +99,19 @@ export default function EnhancedHomeScreen() {
     }
   }, [emotionalFeatures, user]);
 
-  const onRefresh = async () => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
     // Simulate refresh
     setTimeout(() => setRefreshing(false), 1000);
-  };
+  }, []);
 
-  const handleDailyCheckInComplete = async (response: any) => {
+  const handleDailyCheckInComplete = useCallback(async (response: {
+    mood: 'confident' | 'worried' | 'motivated' | 'overwhelmed' | 'neutral';
+    protectionFeeling: number; // 1-10 scale
+    priorityToday: string;
+    notes?: string;
+    timestamp: Date;
+  }) => {
     console.log('Daily check-in completed:', response);
     try {
       await AsyncStorage.setItem('lastDailyCheckIn', new Date().toDateString());
@@ -92,24 +119,30 @@ export default function EnhancedHomeScreen() {
       console.warn('Failed to save daily check-in status:', error);
     }
     setShowDailyCheckIn(false);
-  };
+  }, []);
 
-  const statsData = [
+  const statsData = useMemo(() => [
     { label: 'Documents Protected', value: '12', icon: FileText, color: '$blue10' },
     { label: 'Active Protections', value: '3', icon: Shield, color: '$green10' },
     { label: 'Family Members', value: '4', icon: Users, color: '$purple10' },
     { label: 'Monthly Activity', value: '+15%', icon: TrendingUp, color: '$orange10' },
-  ];
+  ], []);
 
-  const recentActivity = [
+  const recentActivity = useMemo(() => [
     { title: 'Will document updated', time: '2 hours ago', type: 'document' },
     { title: 'New family member added', time: '1 day ago', type: 'family' },
     { title: 'Protection plan activated', time: '3 days ago', type: 'protection' },
-  ];
+  ], []);
 
-  // Use emotional colors if available, otherwise fallback to default
-  const backgroundColor = emotionalFeatures?.emotionalColors?.backgroundPrimary || '#1e293b';
-  const secondaryBackground = emotionalFeatures?.emotionalColors?.backgroundSecondary || '$gray8';
+  // Use Tamagui theme tokens instead of separate emotional colors
+  const backgroundColor = useMemo(() => 
+    '$backgroundEmotionalPrimary',
+    []
+  );
+  const secondaryBackground = useMemo(() => 
+    '$backgroundEmotionalSecondary',
+    []
+  );
 
   return (
     <EmotionalWrapper enableSofia={true}>
@@ -274,4 +307,6 @@ export default function EnhancedHomeScreen() {
       </SafeAreaView>
     </EmotionalWrapper>
   );
-}
+});
+
+export default EnhancedHomeScreen;

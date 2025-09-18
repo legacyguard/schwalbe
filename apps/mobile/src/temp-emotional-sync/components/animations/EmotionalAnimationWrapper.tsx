@@ -19,7 +19,7 @@ export interface EmotionalAnimationWrapperProps {
   disabled?: boolean;
 }
 
-export const EmotionalAnimationWrapper: React.FC<EmotionalAnimationWrapperProps> = ({
+export const EmotionalAnimationWrapper: React.FC<EmotionalAnimationWrapperProps> = React.memo(({
   children,
   animationType,
   trigger = false,
@@ -34,12 +34,16 @@ export const EmotionalAnimationWrapper: React.FC<EmotionalAnimationWrapperProps>
   const rotateValue = useRef(new Animated.Value(0)).current;
 
   const currentAnimation = useRef<Animated.CompositeAnimation | null>(null);
+  const loopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const startAnimation = () => {
     if (disabled) return;
 
-    // Stop any running animation
+    // Stop any running animation and timeout
     currentAnimation.current?.stop();
+    if (loopTimeoutRef.current) {
+      clearTimeout(loopTimeoutRef.current);
+    }
 
     switch (animationType) {
       case 'successBurst': {
@@ -74,7 +78,7 @@ export const EmotionalAnimationWrapper: React.FC<EmotionalAnimationWrapperProps>
           onAnimationComplete?.();
           if (loop && animationType !== 'guidancePulse') {
             // Restart animation for non-looping types
-            setTimeout(startAnimation, 500);
+            loopTimeoutRef.current = setTimeout(startAnimation, 500);
           }
         }
       });
@@ -96,11 +100,17 @@ export const EmotionalAnimationWrapper: React.FC<EmotionalAnimationWrapperProps>
     // Cleanup on unmount
     return () => {
       currentAnimation.current?.stop();
+      if (loopTimeoutRef.current) {
+        clearTimeout(loopTimeoutRef.current);
+      }
     };
   }, []);
 
-  const getAnimatedStyle = (): any => {
-    const baseStyle: any = {
+  const getAnimatedStyle = () => {
+    const baseStyle: {
+      transform: any[];
+      opacity: any;
+    } = {
       transform: [],
       opacity: opacityValue,
     };
@@ -135,4 +145,4 @@ export const EmotionalAnimationWrapper: React.FC<EmotionalAnimationWrapperProps>
       {children}
     </Animated.View>
   );
-};
+});

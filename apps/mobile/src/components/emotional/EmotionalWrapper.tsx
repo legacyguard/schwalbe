@@ -9,25 +9,25 @@ import { isEmotionalSyncEnabled, isFeatureEnabled } from '../../config/featureFl
 
 // Lazy load emotional sync components only when needed
 const MobileSofiaFirefly = React.lazy(() =>
-  import('../../temp-emotional-sync').then(module => ({
+  import('../../temp-emotional-sync/components/sofia-firefly').then(module => ({
     default: module.MobileSofiaFirefly
   }))
 );
 
 const EmotionalMessageCard = React.lazy(() =>
-  import('../../temp-emotional-sync').then(module => ({
+  import('../../temp-emotional-sync/components/messaging').then(module => ({
     default: module.EmotionalMessageCard
   }))
 );
 
 const AchievementCelebration = React.lazy(() =>
-  import('../../temp-emotional-sync').then(module => ({
+  import('../../temp-emotional-sync/components/achievements').then(module => ({
     default: module.AchievementCelebration
   }))
 );
 
 const DailyCheckIn = React.lazy(() =>
-  import('../../temp-emotional-sync').then(module => ({
+  import('../../temp-emotional-sync/components/personal').then(module => ({
     default: module.DailyCheckIn
   }))
 );
@@ -40,7 +40,7 @@ export interface EmotionalWrapperProps {
   enableDailyCheckIn?: boolean;
 }
 
-export const EmotionalWrapper: React.FC<EmotionalWrapperProps> = ({
+export const EmotionalWrapper: React.FC<EmotionalWrapperProps> = React.memo(({
   children,
   enableSofia = false,
   enableMessages = false,
@@ -65,16 +65,24 @@ export const EmotionalWrapper: React.FC<EmotionalWrapperProps> = ({
       {/* Additional emotional overlays can be added here */}
     </View>
   );
-};
+});
 
 // Conditional emotional message component
 export interface ConditionalEmotionalMessageProps {
-  message: any; // Will be properly typed when imported
+  message: {
+    title?: string;
+    message: string;
+    emoji?: string;
+    action?: {
+      text: string;
+      route?: string;
+    };
+  };
   variant?: 'default' | 'success' | 'comfort' | 'achievement';
   onDismiss?: () => void;
 }
 
-export const ConditionalEmotionalMessage: React.FC<ConditionalEmotionalMessageProps> = (props) => {
+export const ConditionalEmotionalMessage: React.FC<ConditionalEmotionalMessageProps> = React.memo((props) => {
   if (!isFeatureEnabled('emotionalMessages')) {
     return null;
   }
@@ -84,16 +92,23 @@ export const ConditionalEmotionalMessage: React.FC<ConditionalEmotionalMessagePr
       <EmotionalMessageCard {...props} />
     </React.Suspense>
   );
-};
+});
 
 // Conditional achievement celebration
 export interface ConditionalAchievementProps {
-  achievement: any; // Will be properly typed when imported
+  achievement: {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    shareText?: string;
+    unlockedAt: Date;
+  };
   onDismiss: () => void;
   visible: boolean;
 }
 
-export const ConditionalAchievement: React.FC<ConditionalAchievementProps> = (props) => {
+export const ConditionalAchievement: React.FC<ConditionalAchievementProps> = React.memo((props) => {
   if (!isFeatureEnabled('achievements')) {
     return null;
   }
@@ -103,16 +118,22 @@ export const ConditionalAchievement: React.FC<ConditionalAchievementProps> = (pr
       <AchievementCelebration {...props} />
     </React.Suspense>
   );
-};
+});
 
 // Conditional daily check-in
 export interface ConditionalDailyCheckInProps {
-  onComplete: (response: any) => void;
+  onComplete: (response: {
+    mood: 'confident' | 'worried' | 'motivated' | 'overwhelmed' | 'neutral';
+    protectionFeeling: number; // 1-10 scale
+    priorityToday: string;
+    notes?: string;
+    timestamp: Date;
+  }) => void;
   onDismiss?: () => void;
   userName?: string;
 }
 
-export const ConditionalDailyCheckIn: React.FC<ConditionalDailyCheckInProps> = (props) => {
+export const ConditionalDailyCheckIn: React.FC<ConditionalDailyCheckInProps> = React.memo((props) => {
   if (!isFeatureEnabled('dailyCheckIn')) {
     return null;
   }
@@ -122,4 +143,4 @@ export const ConditionalDailyCheckIn: React.FC<ConditionalDailyCheckInProps> = (
       <DailyCheckIn {...props} />
     </React.Suspense>
   );
-};
+});

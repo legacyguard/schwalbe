@@ -72,13 +72,36 @@ export const useHapticFeedback = () => {
     if (options?.disabled) return;
 
     const pattern = hapticPatterns[hapticType];
+    if (!pattern) {
+      console.warn(`Haptic pattern not found for type: ${hapticType}`);
+      return;
+    }
 
     try {
+      // Check if vibration is supported on the platform
+      if (Platform.OS === 'web') {
+        // Web doesn't support vibration in React Native
+        console.log('Haptic feedback not supported on web platform');
+        return;
+      }
+
       // For now, use basic vibration (will enable Expo Haptics when available)
-      if (pattern.pattern && pattern.pattern.length > 1) {
-        Vibration.vibrate(pattern.pattern);
+      if (pattern.pattern && Array.isArray(pattern.pattern) && pattern.pattern.length > 1) {
+        // Pattern vibration is iOS-specific feature
+        if (Platform.OS === 'ios') {
+          Vibration.vibrate(pattern.pattern);
+        } else {
+          // Android doesn't support pattern arrays, use duration instead
+          const totalDuration = pattern.pattern.reduce((sum, val) => sum + val, 0);
+          Vibration.vibrate(Math.min(totalDuration, 1000)); // Cap at 1 second
+        }
       } else {
-        Vibration.vibrate(pattern.duration || 50);
+        const duration = pattern.duration;
+        if (typeof duration === 'number' && duration > 0) {
+          Vibration.vibrate(Math.min(duration, 1000)); // Cap at 1 second for safety
+        } else {
+          Vibration.vibrate(50); // Safe fallback duration
+        }
       }
     } catch (error) {
       console.warn('Haptic feedback failed:', error);
@@ -112,14 +135,16 @@ export const useHapticFeedback = () => {
 
   // Sequence of haptics for complex emotions
   const triggerSequence = useCallback(async (sequence: HapticType[], delay = 100, disabled?: boolean) => {
-    if (disabled) return;
+    if (disabled || !Array.isArray(sequence) || sequence.length === 0) return;
+
+    const validDelay = typeof delay === 'number' && delay >= 0 ? delay : 100;
 
     for (let i = 0; i < sequence.length; i++) {
       const hapticType = sequence[i];
-      if (hapticType) {
+      if (hapticType && typeof hapticType === 'string') {
         await triggerHaptic(hapticType);
         if (i < sequence.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise(resolve => setTimeout(resolve, validDelay));
         }
       }
     }
@@ -127,7 +152,13 @@ export const useHapticFeedback = () => {
 
   // Cancel any ongoing vibrations
   const cancelHaptics = useCallback(() => {
-    Vibration.cancel();
+    try {
+      if (Platform.OS !== 'web') {
+        Vibration.cancel();
+      }
+    } catch (error) {
+      console.warn('Failed to cancel haptic feedback:', error);
+    }
   }, []);
 
   return {

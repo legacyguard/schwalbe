@@ -8,7 +8,12 @@ export default getRequestConfig(async ({ locale }) => {
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as any)) notFound();
 
+  const base = (await import(`../messages/${locale}.json`)).default
+  let extra: Record<string, any> = {}
+  try {
+    extra = (await import(`../messages/${locale}/landingV2.json`)).default
+  } catch {}
   return {
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: { ...base, landingV2: extra },
   };
 });

@@ -9,6 +9,7 @@ import {
   Animated,
   PanResponder,
   Vibration,
+  Platform,
   StyleSheet,
   View,
   PanResponderInstance,
@@ -83,8 +84,14 @@ export const MobileSofiaFirefly: React.FC<MobileSofiaFireflyProps> = ({
       setIsActive(true);
       onInteractionStart?.();
 
-      // Gentle vibration (10ms)
-      Vibration.vibrate(10);
+      // Gentle vibration (10ms) - only on mobile platforms
+      if (Platform.OS !== 'web') {
+        try {
+          Vibration.vibrate(10);
+        } catch (error) {
+          console.warn('Vibration failed:', error);
+        }
+      }
 
       // Update position
       fireflyPosition.setValue({

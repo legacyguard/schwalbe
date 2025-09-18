@@ -18,3 +18,19 @@ require('./src/i18n');
 // Additional RN testing setup
 // Mock timers for animation-heavy components if needed
 jest.useFakeTimers();
+
+// Polyfill matchMedia for libraries that use it (e.g., Tamagui Select)
+if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
+  window.matchMedia = function matchMedia() {
+    return {
+      matches: false,
+      media: '',
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    };
+  };
+}

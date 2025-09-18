@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 
 import { useAuthStore } from '@/stores/authStore';
 import { SofiaFirefly } from '../../src/components/SofiaFirefly';
-import { useHapticFeedback } from '../../src/hooks/useHapticFeedback';
+import { useHapticFeedback } from '../../src/temp-emotional-sync/hooks';
 import { MobileSofiaFirefly } from '../../src/temp-emotional-sync/components/sofia-firefly/MobileSofiaFirefly';
 import { EmotionalMessages } from '../../src/temp-emotional-sync/components/messaging/EmotionalMessages';
 import { AchievementCelebration, Achievement } from '../../src/temp-emotional-sync/components/achievements/AchievementCelebration';
@@ -39,7 +39,7 @@ export default function HomeScreen() {
   const [showAchievement, setShowAchievement] = useState(false);
   const [currentAchievement, setCurrentAchievement] = useState<Achievement | null>(null);
   const { user } = useAuthStore();
-  const { sofiaFireflyHaptic, touchHaptic } = useHapticFeedback();
+  const { triggerEncouragement, triggerSuccess } = useHapticFeedback();
   const { t } = useTranslation('screens');
 
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guardian';
@@ -99,7 +99,7 @@ export default function HomeScreen() {
       {isFeatureEnabled('sofiaFirefly') && (
         <MobileSofiaFirefly
           isEnabled={true}
-          onInteractionStart={() => sofiaFireflyHaptic()}
+          onInteractionStart={() => triggerEncouragement()}
           size={28}
           glowIntensity={0.4}
         />
@@ -145,7 +145,7 @@ export default function HomeScreen() {
                   size="small"
                   message="Sofia's firefly brings hope to your family's journey ✨"
                   onTouch={async () => {
-                    await sofiaFireflyHaptic();
+                    await triggerEncouragement();
                   }}
                 />
               ) : (
@@ -153,7 +153,7 @@ export default function HomeScreen() {
                   size="small"
                   message="Sofia's firefly brings hope to your family's journey ✨"
                   onTouch={async () => {
-                    await sofiaFireflyHaptic();
+                    await triggerEncouragement();
                   }}
                 />
               )}

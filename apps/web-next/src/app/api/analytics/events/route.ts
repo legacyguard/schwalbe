@@ -1,3 +1,19 @@
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json().catch(() => ({}))
+    // In development, just log. In production, wire to Supabase or external sink.
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.log('[analytics] event', body?.eventType, body?.eventData || {})
+    }
+    return NextResponse.json({ ok: true }, { status: 202 })
+  } catch (e) {
+    return NextResponse.json({ ok: false }, { status: 400 })
+  }
+}
+
 import { NextResponse } from 'next/server.js'
 
 export async function POST(request: Request) {

@@ -37,7 +37,10 @@
       "Bash(git push:*)",
       "Bash(gh pr create:*)",
       "Bash(./scripts/deploy-emotional-sync.sh:*)",
-      "Bash(apps/mobile/scripts/deploy-emotional-sync.sh:*)"
+      "Bash(apps/mobile/scripts/deploy-emotional-sync.sh:*)",
+      "Bash(npm ls:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npm audit:*)"
     ],
     "deny": []
   }

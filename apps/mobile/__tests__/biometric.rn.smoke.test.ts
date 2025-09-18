@@ -6,19 +6,17 @@ import Biometric from '../app/(auth)/biometric'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <I18nextProvider i18n={i18n}>
-      <SafeAreaProvider>{children}</SafeAreaProvider>
-    </I18nextProvider>
+  return React.createElement(I18nextProvider as any, { i18n },
+    React.createElement(SafeAreaProvider as any, null, children as any)
   )
 }
 
 describe('RN Biometric screen smoke', () => {
   test('renders heading and primary button text', async () => {
     render(
-      <Providers>
-        <Biometric />
-      </Providers>
+      React.createElement(Providers, null,
+        React.createElement(Biometric)
+      )
     )
     expect(screen.getByText('Biometric Sign In')).toBeTruthy()
   })

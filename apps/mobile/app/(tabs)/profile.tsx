@@ -21,12 +21,12 @@ import { useTranslation } from 'react-i18next';
 
 import { useAuthStore } from '@/stores/authStore';
 import { SofiaFirefly } from '../../src/components/SofiaFirefly';
-import { useHapticFeedback } from '../../src/hooks/useHapticFeedback';
+import { useHapticFeedback } from '../../src/temp-emotional-sync/hooks';
 
 export default function ProfileScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const { user, signOut } = useAuthStore();
-  const { sofiaFireflyHaptic } = useHapticFeedback();
+  const { triggerEncouragement } = useHapticFeedback();
   const { t } = useTranslation('screens');
 
   const onRefresh = async () => {
@@ -117,7 +117,7 @@ export default function ProfileScreen() {
               size="small"
               message="Sofia's light guides your personal journey ✨"
               onTouch={async () => {
-                await sofiaFireflyHaptic();
+                await triggerEncouragement();
               }}
             />
           </XStack>

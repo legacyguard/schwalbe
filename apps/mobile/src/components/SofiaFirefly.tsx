@@ -21,6 +21,8 @@ export const SofiaFirefly: React.FC<SofiaFireflyProps> = ({
   const scaleValue = useRef(new Animated.Value(1)).current;
   const opacityValue = useRef(new Animated.Value(0.7)).current;
   const [showMessage, setShowMessage] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const touchAnimationRef = useRef<Animated.CompositeAnimation | null>(null);
 
   const getSize = () => {
     switch (size) {
@@ -76,9 +78,31 @@ export const SofiaFirefly: React.FC<SofiaFireflyProps> = ({
     }
   }, [isActive, animatedValue, opacityValue]);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (touchAnimationRef.current) {
+        touchAnimationRef.current.stop();
+      }
+    };
+  }, []);
+
   const handlePress = () => {
+    // Clean up previous timeout if exists
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Stop previous touch animation if running
+    if (touchAnimationRef.current) {
+      touchAnimationRef.current.stop();
+    }
+
     // Touch interaction animation
-    Animated.sequence([
+    touchAnimationRef.current = Animated.sequence([
       Animated.timing(scaleValue, {
         toValue: 1.3,
         duration: 200,
@@ -89,11 +113,13 @@ export const SofiaFirefly: React.FC<SofiaFireflyProps> = ({
         duration: 300,
         useNativeDriver: true,
       }),
-    ]).start();
+    ]);
+
+    touchAnimationRef.current.start();
 
     // Show message briefly
     setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 2000);
+    timeoutRef.current = setTimeout(() => setShowMessage(false), 2000);
 
     onTouch?.();
   };

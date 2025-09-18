@@ -33,6 +33,7 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
   const sparkleAnims = useRef(
     Array.from({ length: 8 }, () => new Animated.Value(0))
   ).current;
+  const sparkleAnimationsRef = useRef<Animated.CompositeAnimation[]>([]);
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
@@ -56,8 +57,8 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
       ]).start();
 
       // Sparkle animations with staggered delays
-      sparkleAnims.forEach((anim, index) => {
-        Animated.loop(
+      sparkleAnimationsRef.current = sparkleAnims.map((anim, index) => {
+        const sparkleAnimation = Animated.loop(
           Animated.sequence([
             Animated.delay(index * 200),
             Animated.timing(anim, {
@@ -71,7 +72,9 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
               useNativeDriver: true,
             }),
           ])
-        ).start();
+        );
+        sparkleAnimation.start();
+        return sparkleAnimation;
       });
 
       // Auto-dismiss after 4 seconds
@@ -79,11 +82,32 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
         handleDismiss();
       }, 4000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        // Stop all sparkle animations
+        sparkleAnimationsRef.current.forEach(animation => {
+          animation.stop();
+        });
+        sparkleAnimationsRef.current = [];
+      };
     } else {
       setShowContent(false);
+      // Stop any running sparkle animations when hiding
+      sparkleAnimationsRef.current.forEach(animation => {
+        animation.stop();
+      });
+      sparkleAnimationsRef.current = [];
     }
   }, [visible, achievement]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      sparkleAnimationsRef.current.forEach(animation => {
+        animation.stop();
+      });
+    };
+  }, []);
 
   const handleDismiss = () => {
     Animated.parallel([

@@ -72,7 +72,7 @@ export const useSofiaMessages = () => {
       };
     }
 
-    return EmotionalMessages.getWelcomeMessage(timeOfDay as any);
+    return EmotionalMessages.getWelcomeMessage(timeOfDay as 'morning' | 'afternoon' | 'evening');
   }, []);
 
   // Generate progress-based encouragement

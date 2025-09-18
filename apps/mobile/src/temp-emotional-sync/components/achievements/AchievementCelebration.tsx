@@ -9,7 +9,7 @@ import { Card, YStack, XStack, Text, Button } from 'tamagui';
 import { Share } from '@tamagui/lucide-icons';
 import { EmotionalAnimationWrapper } from '../animations';
 import { emotionalColors } from '../../theme/colors';
-import { useHapticFeedback } from '../../../hooks/useHapticFeedback';
+import { useHapticFeedback } from '../../hooks';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -35,7 +35,7 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
   onShare,
   visible,
 }) => {
-  const { achievementHaptic } = useHapticFeedback();
+  const { triggerAchievement } = useHapticFeedback();
   const particleAnimations = useRef<Animated.Value[]>([]);
   const overlayOpacity = useRef(new Animated.Value(0)).current;
 
@@ -47,7 +47,7 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
   // Trigger celebration when visible
   useEffect(() => {
     if (visible) {
-      achievementHaptic();
+      triggerAchievement();
       startCelebration();
     } else {
       overlayOpacity.setValue(0);
