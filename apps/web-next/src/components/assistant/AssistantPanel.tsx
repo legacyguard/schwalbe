@@ -11,10 +11,12 @@ export default function AssistantPanel() {
   const locale = useLocale();
   const [intent, setIntent] = useState<string>('');
   const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [busy, setBusy] = useState<boolean>(true);
   const t = useTranslations('assistant');
 
   useEffect(() => {
     // Prefer query intent if provided
+    setBusy(true);
     const q = search?.get('intent');
     if (q && q.length > 0) {
       setIntent(q);
@@ -32,6 +34,9 @@ export default function AssistantPanel() {
         ] as Answer[]);
         setMilestones(plan.milestones || []);
       } catch { /* ignore */ }
+      finally {
+        setBusy(false);
+      }
       return;
     }
     // Derive from onboarding state if available
@@ -42,6 +47,8 @@ export default function AssistantPanel() {
       setMilestones(plan.milestones || []);
     } catch {
       // ignore
+    } finally {
+      setBusy(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -84,9 +91,11 @@ export default function AssistantPanel() {
   };
 
   return (
-    <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-6" data-testid="assistant-panel">
-      <div className="text-slate-300 mb-4">
-        {intent ? (
+    <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-6" data-testid="assistant-panel" aria-busy={busy}>
+      <div className="text-slate-300 mb-4" role="status">
+        {busy ? (
+          <span>{t('loading', { default: 'Loading…' })}</span>
+        ) : intent ? (
           <span>{t('readyWithIntent', { intent })}</span>
         ) : (
           <span>{t('ready')}</span>
@@ -147,7 +156,11 @@ export default function AssistantPanel() {
             })}
           </ul>
         </div>
-      ) : null}
+      ) : (
+        !busy ? (
+          <div className="mt-4 text-slate-400">{t('noSuggestions', { default: "You're all set for now." })}</div>
+        ) : null
+      )}
     </div>
   );
 }

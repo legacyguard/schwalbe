@@ -7,5 +7,7 @@
   "suggestions": "Odporúčané ďalšie kroky",
   "go": "Prejsť",
   "ariaStart": "Spustiť odporúčanú akciu",
-  "ariaGoTo": "Prejsť na {title}"
+  "ariaGoTo": "Prejsť na {title}",
+  "loading": "Načítavam…",
+  "noSuggestions": "Všetko je hotové."
 }

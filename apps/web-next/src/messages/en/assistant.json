@@ -7,5 +7,7 @@
   "suggestions": "Suggested next steps",
   "go": "Go",
   "ariaStart": "Start suggested action",
-  "ariaGoTo": "Go to {title}"
+  "ariaGoTo": "Go to {title}",
+  "loading": "Loading…",
+  "noSuggestions": "You're all set for now."
 }
