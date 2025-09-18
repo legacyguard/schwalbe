@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
-import { generatePlan, type Answer, type Plan } from '@schwalbe/onboarding';
+import { generatePlan, type Answer, type Plan, type Milestone } from '@schwalbe/onboarding';
 
 export default function AssistantPanel() {
   const search = useSearchParams();
   const locale = useLocale();
   const [intent, setIntent] = useState<string>('');
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
   const t = useTranslations('assistant');
 
   useEffect(() => {
@@ -16,6 +17,20 @@ export default function AssistantPanel() {
     const q = search?.get('intent');
     if (q && q.length > 0) {
       setIntent(q);
+      // Seed plan from intent keywords
+      try {
+        const lowered = q.toLowerCase();
+        const pri = lowered.includes('organize') || lowered.includes('document')
+          ? 'organization'
+          : lowered.includes('family') || lowered.includes('trusted')
+            ? 'family'
+            : 'safety';
+        const plan = generatePlan([
+          { key: 'priority', value: pri },
+          { key: 'timeAvailable', value: '10m' },
+        ] as Answer[]);
+        setMilestones(plan.milestones || []);
+      } catch { /* ignore */ }
       return;
     }
     // Derive from onboarding state if available
@@ -29,6 +44,7 @@ export default function AssistantPanel() {
       }
       const plan: Plan = generatePlan(answers);
       if (plan.nextBestAction?.title) setIntent(plan.nextBestAction.title);
+      setMilestones(plan.milestones || []);
     } catch {
       // ignore
     }
@@ -91,6 +107,30 @@ export default function AssistantPanel() {
           {t('ctaStart', { default: 'Start now' })}
         </a>
       </div>
+      {milestones?.length ? (
+        <div className="mt-6">
+          <div className="text-slate-200 font-medium mb-2">{t('suggestions', { default: 'Suggested next steps' })}</div>
+          <ul className="space-y-2" data-testid="assistant-suggestions">
+            {milestones.map((m) => {
+              const title = m.title;
+              const href = (() => {
+                const key = (title || '').toLowerCase();
+                if (key.includes('document') || key.includes('vault')) return `/${locale}/documents`;
+                return `/${locale}/support`;
+              })();
+              return (
+                <li key={m.id} className="flex items-center justify-between rounded border border-slate-700 p-3">
+                  <div>
+                    <div className="text-slate-100">{m.title}</div>
+                    <div className="text-slate-400 text-sm">{m.description}</div>
+                  </div>
+                  <a className="text-sky-300 hover:text-sky-200" href={href}>Go</a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 }

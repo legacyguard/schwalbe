@@ -3,5 +3,6 @@
   "subtitle": "Get guidance and clear next steps.",
   "ready": "Assistant is getting ready…",
   "readyWithIntent": "Assistant is getting ready to help with: {intent}",
-  "ctaStart": "Start now"
+  "ctaStart": "Start now",
+  "suggestions": "Suggested next steps"
 }
