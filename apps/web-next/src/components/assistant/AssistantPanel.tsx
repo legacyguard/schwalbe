@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { generatePlan, type Answer, type Plan } from '@schwalbe/onboarding';
 
 export default function AssistantPanel() {
   const search = useSearchParams();
   const locale = useLocale();
   const [intent, setIntent] = useState<string>('');
+  const t = useTranslations('assistant');
 
   useEffect(() => {
     // Prefer query intent if provided
@@ -54,9 +55,9 @@ export default function AssistantPanel() {
     <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-6" data-testid="assistant-panel">
       <div className="text-slate-300">
         {intent ? (
-          <span>Assistant is getting ready to help with: <span className="text-white font-medium">{intent}</span></span>
+          <span>{t('readyWithIntent', { intent })}</span>
         ) : (
-          <span>Assistant is getting ready…</span>
+          <span>{t('ready')}</span>
         )}
       </div>
     </div>
