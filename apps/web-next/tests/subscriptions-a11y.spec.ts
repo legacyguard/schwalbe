@@ -1,16 +1,15 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('subscriptions a11y', () => {
-  test.skip(true, 'Temporarily skipped due to dev server hydration variability; harness ready via __openCancelDialog')
-
+  test.skip(true, 'Temporarily skipped pending further hydration/driver stabilization')
   for (const locale of ['en','cs','sk'] as const) {
     test(`subscriptions a11y for ${locale}`, async ({ page, baseURL }) => {
-      await page.goto(`${baseURL}/${locale}/subscriptions?e2e=1`)
+      await page.goto(`${baseURL}/${locale}/subscriptions`)
 
-      // Use deterministic global hook to open the dialog
-      await page.waitForLoadState('domcontentloaded')
-      await page.waitForFunction(() => typeof (window as any).__openCancelDialog === 'function', undefined, { timeout: 15000 })
-      await page.evaluate(() => (window as any).__openCancelDialog())
+      // Wait for the test driver button (always rendered in e2e via env)
+      const openBtn = page.getByTestId('open-cancel-dialog')
+      await expect(openBtn).toBeVisible({ timeout: 20000 })
+      await openBtn.click()
 
       const dialog = page.getByRole('dialog')
       await expect(dialog).toBeVisible({ timeout: 15000 })

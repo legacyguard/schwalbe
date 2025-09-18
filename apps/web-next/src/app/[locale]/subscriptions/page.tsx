@@ -47,13 +47,7 @@ export default function SubscriptionsPage() {
   }, [load]);
 
   // E2E test driver: enable a small button to open cancel dialog in test mode
-  const [testE2E, setTestE2E] = React.useState(false);
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const e2e = new URLSearchParams(window.location.search).get("e2e") === "1";
-      if (e2e) setTestE2E(true);
-    }
-  }, []);
+  const testE2E = process.env.NEXT_PUBLIC_E2E === "1";
 
   // E2E hook: expose a global function to open cancel dialog deterministically
   React.useEffect(() => {
