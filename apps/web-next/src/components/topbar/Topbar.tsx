@@ -92,7 +92,26 @@ export function Topbar({ locale }: TopbarProps) {
           <Link href={`/${locale}/subscriptions`} className="hover:text-white">Subscriptions</Link>
           <Link href={`/${locale}/support`} className="hover:text-white">Support</Link>
           {isAssistantEnabled() ? (
-            <Link href={`/${locale}/assistant`} className="hover:text-white">Assistant</Link>
+            <Link
+              href={`/${locale}/assistant`}
+              className="hover:text-white"
+              onClick={() => {
+                try {
+                  const payload = {
+                    eventType: 'assistant_nav_click',
+                    eventData: { locale, from: currentPath },
+                  };
+                  if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
+                    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+                    (navigator as any).sendBeacon('/api/analytics/events', blob);
+                  } else if (typeof fetch !== 'undefined') {
+                    fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
+                  }
+                } catch {}
+              }}
+            >
+              Assistant
+            </Link>
           ) : null}
         </nav>
 
