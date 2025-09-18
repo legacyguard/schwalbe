@@ -33,7 +33,7 @@
   - alert [ref=e45]
   - generic [ref=e48] [cursor=pointer]:
     - img [ref=e49] [cursor=pointer]
-    - generic [ref=e51] [cursor=pointer]: 2 errors
+    - generic [ref=e51] [cursor=pointer]: 1 error
     - button "Hide Errors" [ref=e52] [cursor=pointer]:
       - img [ref=e53] [cursor=pointer]
 ```

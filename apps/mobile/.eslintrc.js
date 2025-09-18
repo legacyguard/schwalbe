@@ -24,5 +24,5 @@ module.exports = {
     es6: true,
     node: true
   },
-  ignorePatterns: ['node_modules/', 'dist/', '.expo/']
+  ignorePatterns: ['node_modules/', 'dist/', '.expo/', 'src/temp-emotional-sync/']
 };

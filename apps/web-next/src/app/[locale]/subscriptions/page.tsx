@@ -1,7 +1,11 @@
 import SubscriptionsClient from './SubscriptionsClient'
 
+import { cookies } from 'next/headers'
+
 export default function SubscriptionsPage({ searchParams }: { searchParams?: Record<string, string | string[] | undefined> }) {
-  const ssrE2E = process.env.NEXT_PUBLIC_E2E === '1' || (typeof searchParams?.e2e === 'string' ? searchParams?.e2e === '1' : false)
+  const hasQuery = typeof searchParams?.e2e === 'string' ? searchParams?.e2e === '1' : false
+  const hasCookie = cookies().get('e2e')?.value === '1'
+  const ssrE2E = process.env.NEXT_PUBLIC_E2E === '1' || hasQuery || hasCookie
   return (
     <>
       <div data-testid="ssr-ready" className="sr-only">ready</div>

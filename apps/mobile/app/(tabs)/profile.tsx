@@ -1,26 +1,31 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl, Alert } from 'react-native';
 import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card, Avatar } from 'tamagui';
-import { 
-  User, 
-  Settings, 
-  Bell, 
-  Shield, 
-  HelpCircle, 
-  LogOut, 
+import {
+  User,
+  Settings,
+  Bell,
+  Shield,
+  HelpCircle,
+  LogOut,
   ChevronRight,
   Mail,
   Phone,
-  Calendar
+  Calendar,
+  Heart,
+  Star
 } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 import { useAuthStore } from '@/stores/authStore';
+import { SofiaFirefly } from '../../src/components/SofiaFirefly';
+import { useHapticFeedback } from '../../src/hooks/useHapticFeedback';
 
 export default function ProfileScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const { user, signOut } = useAuthStore();
+  const { sofiaFireflyHaptic } = useHapticFeedback();
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -93,7 +98,7 @@ export default function ProfileScreen() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#1e293b' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#0f172a' }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -102,33 +107,42 @@ export default function ProfileScreen() {
       >
         <YStack padding="$4" space="$4">
           {/* Header */}
-          <H1 color="white" fontSize="$8">
-            Profile
-          </H1>
+          <XStack alignItems="center" justifyContent="space-between">
+            <H1 color="$legacyTextPrimary" fontSize="$heroEmotional" fontWeight="800">
+              Guardian Profile 👤
+            </H1>
+            <SofiaFirefly
+              size="small"
+              message="Sofia's light guides your personal journey ✨"
+              onTouch={async () => {
+                await sofiaFireflyHaptic();
+              }}
+            />
+          </XStack>
 
           {/* User Info Card */}
-          <Card padding="$4" backgroundColor="$gray8">
+          <Card padding="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={1} borderRadius="$4">
             <XStack alignItems="center" space="$4">
-              <Avatar circular size="$8" backgroundColor="$blue10">
+              <Avatar circular size="$8" backgroundColor="$legacyAccentGold">
                 <Avatar.Image src={user?.user_metadata?.avatar_url} />
-                <Avatar.Fallback backgroundColor="$blue10">
-                  <User size={32} color="white" />
+                <Avatar.Fallback backgroundColor="$legacyAccentGold">
+                  <Heart size={32} color="$legacyBackgroundPrimary" />
                 </Avatar.Fallback>
               </Avatar>
 
               <YStack flex={1} space="$2">
-                <Text color="white" fontSize="$6" fontWeight="600">
+                <Text color="$legacyTextPrimary" fontSize="$emotionalLarge" fontWeight="700">
                   {user?.user_metadata?.full_name ||
                    user?.email?.split('@')[0] ||
-                   'User'}
+                   'Guardian'}
                 </Text>
-                <Text color="$gray10" fontSize="$4">
-                  LegacyGuard Member
+                <Text color="$legacyTextMuted" fontSize="$4" fontWeight="500">
+                  Family Legacy Protector 🛡️
                 </Text>
                 <XStack alignItems="center" space="$2">
-                  <YStack width={6} height={6} borderRadius="$10" backgroundColor="$green10" />
-                  <Text color="$green10" fontSize="$3">
-                    Account Active
+                  <YStack width={6} height={6} borderRadius="$10" backgroundColor="$legacySuccess" />
+                  <Text color="$legacySuccess" fontSize="$3" fontWeight="600">
+                    Guardian Active ✨
                   </Text>
                 </XStack>
               </YStack>
@@ -136,8 +150,8 @@ export default function ProfileScreen() {
           </Card>
 
           {/* Account Information */}
-          <H2 color="white" fontSize="$6">
-            Account Information
+          <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
+            Guardian Credentials 📋
           </H2>
           
           {userInfo.map((info, index) => {
@@ -150,7 +164,7 @@ export default function ProfileScreen() {
                     height={40}
                     alignItems="center"
                     justifyContent="center"
-                    backgroundColor="$gray7"
+                    backgroundColor="$legacyBackgroundTertiary"
                     borderRadius="$6"
                   >
                     <IconComponent size={20} color="$gray10" />
@@ -170,8 +184,8 @@ export default function ProfileScreen() {
           })}
 
           {/* Menu Items */}
-          <H2 color="white" fontSize="$6">
-            Settings
+          <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
+            Guardian Settings ⚙️
           </H2>
           
           {menuItems.map((item, index) => {
@@ -214,16 +228,16 @@ export default function ProfileScreen() {
           })}
 
           {/* App Information */}
-          <Card padding="$4" backgroundColor="$gray8">
+          <Card padding="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$4">
             <YStack space="$2" alignItems="center">
-              <Text color="$gray10" fontSize="$3">
-                LegacyGuard Mobile
+              <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
+                LegacyGuard Mobile ✨
               </Text>
-              <Text color="$gray10" fontSize="$3">
+              <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
                 Version 1.0.0
               </Text>
-              <Text color="$gray10" fontSize="$2" textAlign="center">
-                Protecting your family's legacy with secure document management
+              <Text color="$legacyTextSecondary" fontSize="$3" textAlign="center" lineHeight={18}>
+                Protecting your family's legacy with love, security, and peace of mind
               </Text>
             </YStack>
           </Card>
