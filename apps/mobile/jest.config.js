@@ -6,8 +6,11 @@ module.exports = {
   },
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
+    'react-native-url-polyfill/auto': '<rootDir>/__mocks__/react-native-url-polyfill-auto.js',
+    '@react-native-async-storage/async-storage': '<rootDir>/__mocks__/async-storage.js'
   },
+  setupFiles: ['<rootDir>/jest.setup.js'],
   transformIgnorePatterns: [
     '/node_modules/'
   ]
