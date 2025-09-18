@@ -51,14 +51,45 @@ export default function AssistantPanel() {
     } catch {}
   }, [intent, locale]);
 
+  const targetHref = (() => {
+    const key = (intent || '').toLowerCase();
+    if (key.includes('organize') || key.includes('document')) return `/${locale}/documents`;
+    return `/${locale}/support`;
+  })();
+
+  const handleStart = () => {
+    try {
+      const payload = {
+        eventType: 'assistant_start',
+        eventData: { intent: intent || undefined, locale, target: targetHref },
+      };
+      if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
+        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+        (navigator as any).sendBeacon('/api/analytics/events', blob);
+      } else if (typeof fetch !== 'undefined') {
+        fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
+      }
+    } catch {}
+  };
+
   return (
     <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-6" data-testid="assistant-panel">
-      <div className="text-slate-300">
+      <div className="text-slate-300 mb-4">
         {intent ? (
           <span>{t('readyWithIntent', { intent })}</span>
         ) : (
           <span>{t('ready')}</span>
         )}
+      </div>
+      <div>
+        <a
+          href={targetHref}
+          onClick={handleStart}
+          className="inline-flex rounded bg-primary text-white px-4 py-2"
+          data-testid="assistant-cta-start"
+        >
+          {t('ctaStart', { default: 'Start now' })}
+        </a>
       </div>
     </div>
   );
