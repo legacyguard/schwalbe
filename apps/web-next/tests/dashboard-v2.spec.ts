@@ -13,6 +13,6 @@ test('dashboard-v2 loads and shows content', async ({ page }) => {
   const cta = page.getByTestId('dashboard-v2-cta-assistant');
   const exists = await cta.count();
   if (exists > 0) {
-    await expect(cta).toHaveAttribute('href', '/en/assistant');
+    await expect(cta).toHaveAttribute('href', /\/en\/assistant(\?.*)?$/);
   }
 });

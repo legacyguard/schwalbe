@@ -28,7 +28,9 @@ export default function DashboardV2Client() {
 
   if (!plan) return null;
 
-  const assistantHref = isAssistantEnabled() ? `/${locale}/assistant` : undefined;
+  const intent = plan.nextBestAction?.title || undefined;
+  const qs = intent ? `?intent=${encodeURIComponent(intent)}` : '';
+  const assistantHref = isAssistantEnabled() ? `/${locale}/assistant${qs}` : undefined;
 
   const trackCtaClick = () => {
     try {
