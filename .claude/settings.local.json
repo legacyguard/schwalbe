@@ -35,7 +35,9 @@
       "Bash(npm --workspace=@schwalbe/mobile run test)",
       "Bash(npm --workspace=@schwalbe/mobile run build)",
       "Bash(git push:*)",
-      "Bash(gh pr create:*)"
+      "Bash(gh pr create:*)",
+      "Bash(./scripts/deploy-emotional-sync.sh:*)",
+      "Bash(apps/mobile/scripts/deploy-emotional-sync.sh:*)"
     ],
     "deny": []
   }
