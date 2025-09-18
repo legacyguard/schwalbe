@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card, Input } from 'tamagui';
+import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card, Input } from 'tamagui';
 import { Search, Plus, FileText, Download, Share, Eye, Filter } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -69,10 +69,10 @@ export default function DocumentsScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#1e293b' }}>
-      <YStack f={1} p="$4" space="$4">
+      <YStack flex={1} padding="$4" space="$4">
         {/* Header */}
-        <XStack ai="center" jc="space-between">
-          <H1 color="white" size="$8">
+        <XStack alignItems="center" justifyContent="space-between">
+          <H1 color="white" fontSize="$8">
             Documents
           </H1>
           <Button size="$4" theme="blue">
@@ -81,17 +81,17 @@ export default function DocumentsScreen() {
         </XStack>
 
         {/* Search and Filter */}
-        <XStack space="$3" ai="center">
-          <XStack f={1} ai="center" bc="$gray8" br="$4" p="$3">
+        <XStack space="$3" alignItems="center">
+          <XStack flex={1} alignItems="center" backgroundColor="$gray8" borderRadius="$4" padding="$3">
             <Search size={20} color="$gray10" />
             <Input
-              f={1}
-              ml="$3"
+              flex={1}
+              marginLeft="$3"
               placeholder="Search documents..."
               placeholderTextColor="$gray10"
               value={searchQuery}
               onChangeText={setSearchQuery}
-              bc="transparent"
+              backgroundColor="transparent"
               borderWidth={0}
               color="white"
             />
@@ -103,19 +103,19 @@ export default function DocumentsScreen() {
 
         {/* Stats */}
         <XStack space="$3">
-          <Card f={1} p="$3" bc="$gray8">
-            <Text color="white" size="$6" fontWeight="bold">
+          <Card flex={1} padding="$3" backgroundColor="$gray8">
+            <Text color="white" fontSize="$6" fontWeight="bold">
               {mockDocuments.length}
             </Text>
-            <Text color="$gray10" size="$3">
+            <Text color="$gray10" fontSize="$3">
               Total Documents
             </Text>
           </Card>
-          <Card f={1} p="$3" bc="$gray8">
-            <Text color="white" size="$6" fontWeight="bold">
+          <Card flex={1} padding="$3" backgroundColor="$gray8">
+            <Text color="white" fontSize="$6" fontWeight="bold">
               53.0 MB
             </Text>
-            <Text color="$gray10" size="$3">
+            <Text color="$gray10" fontSize="$3">
               Storage Used
             </Text>
           </Card>
@@ -129,50 +129,50 @@ export default function DocumentsScreen() {
           }
         >
           <YStack space="$3">
-            <H2 color="white" size="$6">
+            <H2 color="white" fontSize="$6">
               Your Documents
             </H2>
-            
+
             {filteredDocuments.map((document) => (
-              <Card key={document.id} p="$4" bc="$gray8">
-                <XStack ai="center" space="$3">
+              <Card key={document.id} padding="$4" backgroundColor="$gray8">
+                <XStack alignItems="center" space="$3">
                   <YStack
-                    w={40}
-                    h={40}
-                    ai="center"
-                    jc="center"
-                    bc="$gray7"
-                    br="$3"
+                    width={40}
+                    height={40}
+                    alignItems="center"
+                    justifyContent="center"
+                    backgroundColor="$gray7"
+                    borderRadius="$3"
                   >
-                    <Text size="$5">{document.icon}</Text>
+                    <Text fontSize="$5">{document.icon}</Text>
                   </YStack>
-                  
-                  <YStack f={1} space="$1">
-                    <Text color="white" size="$5" fontWeight="600">
+
+                  <YStack flex={1} space="$1">
+                    <Text color="white" fontSize="$5" fontWeight="600">
                       {document.name}
                     </Text>
-                    <XStack ai="center" space="$2">
-                      <Text color="$gray10" size="$3">
+                    <XStack alignItems="center" space="$2">
+                      <Text color="$gray10" fontSize="$3">
                         {document.type}
                       </Text>
-                      <Text color="$gray10" size="$3">
+                      <Text color="$gray10" fontSize="$3">
                         •
                       </Text>
-                      <Text color="$gray10" size="$3">
+                      <Text color="$gray10" fontSize="$3">
                         {document.size}
                       </Text>
                     </XStack>
-                    <XStack ai="center" space="$2">
+                    <XStack alignItems="center" space="$2">
                       <YStack
-                        w={6}
-                        h={6}
-                        br="$10"
-                        bc={getStatusColor(document.status)}
+                        width={6}
+                        height={6}
+                        borderRadius="$10"
+                        backgroundColor={getStatusColor(document.status)}
                       />
-                      <Text color={getStatusColor(document.status)} size="$3">
+                      <Text color={getStatusColor(document.status)} fontSize="$3">
                         {document.status}
                       </Text>
-                      <Text color="$gray10" size="$3">
+                      <Text color="$gray10" fontSize="$3">
                         • {document.lastModified}
                       </Text>
                     </XStack>
@@ -194,20 +194,20 @@ export default function DocumentsScreen() {
             ))}
 
             {filteredDocuments.length === 0 && (
-              <Card p="$6" bc="$gray8" ai="center">
-                <FileText size={48} color="$gray10" mb="$3" />
-                <Text color="white" size="$5" fontWeight="600" mb="$2">
+              <Card padding="$6" backgroundColor="$gray8" alignItems="center">
+                <FileText size={48} color="$gray10" marginBottom="$3" />
+                <Text color="white" fontSize="$5" fontWeight="600" marginBottom="$2">
                   No documents found
                 </Text>
-                <Text color="$gray10" size="$4" ta="center">
-                  {searchQuery 
+                <Text color="$gray10" fontSize="$4" textAlign="center">
+                  {searchQuery
                     ? 'Try adjusting your search terms'
                     : 'Add your first document to get started'
                   }
                 </Text>
                 {!searchQuery && (
-                  <Button size="$4" theme="blue" mt="$4">
-                    <XStack ai="center" space="$2">
+                  <Button size="$4" theme="blue" marginTop="$4">
+                    <XStack alignItems="center" space="$2">
                       <Plus size={16} color="white" />
                       <Text color="white">Add Document</Text>
                     </XStack>

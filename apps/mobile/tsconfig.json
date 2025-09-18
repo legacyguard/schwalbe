@@ -10,12 +10,16 @@
       ]
     },
     "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "types": [
       "react",
       "react-native"
     ],
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "references": [
     {
@@ -29,7 +33,8 @@
     "src/**/*",
     "app/**/*",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "tamagui.config.ts"
   ],
   "exclude": [
     "node_modules",

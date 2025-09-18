@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl, Alert } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card, Avatar } from 'tamagui';
+import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card, Avatar } from 'tamagui';
 import { 
   User, 
   Settings, 
@@ -100,34 +100,34 @@ export default function ProfileScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <YStack p="$4" space="$4">
+        <YStack padding="$4" space="$4">
           {/* Header */}
-          <H1 color="white" size="$8">
+          <H1 color="white" fontSize="$8">
             Profile
           </H1>
 
           {/* User Info Card */}
-          <Card p="$4" bc="$gray8">
-            <XStack ai="center" space="$4">
-              <Avatar circular size="$8" bc="$blue10">
+          <Card padding="$4" backgroundColor="$gray8">
+            <XStack alignItems="center" space="$4">
+              <Avatar circular size="$8" backgroundColor="$blue10">
                 <Avatar.Image src={user?.user_metadata?.avatar_url} />
-                <Avatar.Fallback bc="$blue10">
+                <Avatar.Fallback backgroundColor="$blue10">
                   <User size={32} color="white" />
                 </Avatar.Fallback>
               </Avatar>
-              
-              <YStack f={1} space="$2">
-                <Text color="white" size="$6" fontWeight="600">
-                  {user?.user_metadata?.full_name || 
-                   user?.email?.split('@')[0] || 
+
+              <YStack flex={1} space="$2">
+                <Text color="white" fontSize="$6" fontWeight="600">
+                  {user?.user_metadata?.full_name ||
+                   user?.email?.split('@')[0] ||
                    'User'}
                 </Text>
-                <Text color="$gray10" size="$4">
+                <Text color="$gray10" fontSize="$4">
                   LegacyGuard Member
                 </Text>
-                <XStack ai="center" space="$2">
-                  <YStack w={6} h={6} br="$10" bc="$green10" />
-                  <Text color="$green10" size="$3">
+                <XStack alignItems="center" space="$2">
+                  <YStack width={6} height={6} borderRadius="$10" backgroundColor="$green10" />
+                  <Text color="$green10" fontSize="$3">
                     Account Active
                   </Text>
                 </XStack>
@@ -136,31 +136,31 @@ export default function ProfileScreen() {
           </Card>
 
           {/* Account Information */}
-          <H2 color="white" size="$6">
+          <H2 color="white" fontSize="$6">
             Account Information
           </H2>
           
           {userInfo.map((info, index) => {
             const IconComponent = info.icon;
             return (
-              <Card key={index} p="$4" bc="$gray8">
-                <XStack ai="center" space="$3">
+              <Card key={index} padding="$4" backgroundColor="$gray8">
+                <XStack alignItems="center" space="$3">
                   <YStack
-                    w={40}
-                    h={40}
-                    ai="center"
-                    jc="center"
-                    bc="$gray7"
-                    br="$6"
+                    width={40}
+                    height={40}
+                    alignItems="center"
+                    justifyContent="center"
+                    backgroundColor="$gray7"
+                    borderRadius="$6"
                   >
                     <IconComponent size={20} color="$gray10" />
                   </YStack>
-                  
-                  <YStack f={1} space="$1">
-                    <Text color="$gray10" size="$3">
+
+                  <YStack flex={1} space="$1">
+                    <Text color="$gray10" fontSize="$3">
                       {info.label}
                     </Text>
-                    <Text color="white" size="$4" fontWeight="500">
+                    <Text color="white" fontSize="$4" fontWeight="500">
                       {info.value}
                     </Text>
                   </YStack>
@@ -170,7 +170,7 @@ export default function ProfileScreen() {
           })}
 
           {/* Menu Items */}
-          <H2 color="white" size="$6">
+          <H2 color="white" fontSize="$6">
             Settings
           </H2>
           
@@ -182,26 +182,26 @@ export default function ProfileScreen() {
                   size="$4"
                   chromeless
                   onPress={item.onPress}
-                  p="$4"
-                  f={1}
+                  padding="$4"
+                  flex={1}
                 >
-                  <XStack ai="center" space="$3" f={1}>
+                  <XStack alignItems="center" space="$3" flex={1}>
                     <YStack
-                      w={40}
-                      h={40}
-                      ai="center"
-                      jc="center"
-                      bc="$gray7"
-                      br="$6"
+                      width={40}
+                      height={40}
+                      alignItems="center"
+                      justifyContent="center"
+                      backgroundColor="$gray7"
+                      borderRadius="$6"
                     >
                       <IconComponent size={20} color="white" />
                     </YStack>
-                    
-                    <YStack f={1} space="$1">
-                      <Text color="white" size="$4" fontWeight="500">
+
+                    <YStack flex={1} space="$1">
+                      <Text color="white" fontSize="$4" fontWeight="500">
                         {item.title}
                       </Text>
-                      <Text color="$gray10" size="$3">
+                      <Text color="$gray10" fontSize="$3">
                         {item.subtitle}
                       </Text>
                     </YStack>
@@ -214,15 +214,15 @@ export default function ProfileScreen() {
           })}
 
           {/* App Information */}
-          <Card p="$4" bc="$gray8">
-            <YStack space="$2" ai="center">
-              <Text color="$gray10" size="$3">
+          <Card padding="$4" backgroundColor="$gray8">
+            <YStack space="$2" alignItems="center">
+              <Text color="$gray10" fontSize="$3">
                 LegacyGuard Mobile
               </Text>
-              <Text color="$gray10" size="$3">
+              <Text color="$gray10" fontSize="$3">
                 Version 1.0.0
               </Text>
-              <Text color="$gray10" size="$2" ta="center">
+              <Text color="$gray10" fontSize="$2" textAlign="center">
                 Protecting your family's legacy with secure document management
               </Text>
             </YStack>
@@ -233,9 +233,9 @@ export default function ProfileScreen() {
             size="$4"
             theme="red"
             onPress={handleSignOut}
-            mb="$6"
+            marginBottom="$6"
           >
-            <XStack ai="center" space="$2">
+            <XStack alignItems="center" space="$2">
               <LogOut size={16} color="white" />
               <Text color="white" fontWeight="600">
                 Sign Out

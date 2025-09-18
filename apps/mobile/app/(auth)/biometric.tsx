@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { YStack, XStack, H1, Text, Button } from 'tamagui';
 import { Fingerprint, ArrowLeft } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -68,81 +67,172 @@ export default function BiometricScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#1e293b' }}>
-      <YStack f={1} p="$4">
-        <XStack ai="center" mb="$6">
-          <Button
-            size="$4"
-            chromeless
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
             onPress={() => router.back()}
-            mr="$3"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <ArrowLeft size={24} color="white" />
-          </Button>
-          <Text color="white" size="$6" fontWeight="600">
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>
             Biometric Sign In
           </Text>
-        </XStack>
+        </View>
 
-        <YStack f={1} ai="center" jc="center" space="$6">
-          <YStack ai="center" space="$4">
-            <YStack 
-              w={120} 
-              h={120} 
-              ai="center" 
-              jc="center" 
-              bc="$gray8" 
-              br="$10"
-            >
-              <Fingerprint size={60} color="$blue10" />
-            </YStack>
+        <View style={styles.mainContent}>
+          <View style={styles.iconContainer}>
+            <View style={styles.iconWrapper}>
+              <Fingerprint size={60} color="#3b82f6" />
+            </View>
 
-            <YStack ai="center" space="$2">
-              <H1 color="white" ta="center" size="$8">
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>
                 {biometricType} Sign In
-              </H1>
-              <Text color="$gray10" ta="center" size="$5" mw={300}>
+              </Text>
+              <Text style={styles.subtitle}>
                 Use your {biometricType.toLowerCase()} to securely access your account
               </Text>
-            </YStack>
-          </YStack>
+            </View>
+          </View>
 
           {isSupported ? (
-            <Button
-              size="$5"
-              theme="blue"
+            <TouchableOpacity
+              style={[styles.button, styles.primaryButton, isAuthenticating && styles.disabledButton]}
               onPress={handleBiometricAuth}
               disabled={isAuthenticating}
-              w="100%"
-              mw={300}
             >
-              <XStack ai="center" space="$2">
+              <View style={styles.buttonContent}>
                 <Fingerprint size={20} color="white" />
-                <Text color="white" fontWeight="600">
+                <Text style={styles.buttonText}>
                   {isAuthenticating ? 'Authenticating...' : `Use ${biometricType}`}
                 </Text>
-              </XStack>
-            </Button>
+              </View>
+            </TouchableOpacity>
           ) : (
-            <YStack ai="center" space="$3">
-              <Text color="$orange10" ta="center" size="$4">
+            <View style={styles.errorContainer}>
+              <Text style={styles.errorText}>
                 Biometric authentication is not available
               </Text>
-              <Button
-                size="$4"
-                theme="gray"
+              <TouchableOpacity
+                style={[styles.button, styles.secondaryButton]}
                 onPress={() => router.back()}
               >
-                <Text color="white">Use Password Instead</Text>
-              </Button>
-            </YStack>
+                <Text style={styles.buttonText}>Use Password Instead</Text>
+              </TouchableOpacity>
+            </View>
           )}
 
-          <Text color="$gray11" ta="center" size="$3" mt="$6">
+          <Text style={styles.footerText}>
             Your biometric data is stored securely on your device
           </Text>
-        </YStack>
-      </YStack>
-    </SafeAreaView>
+        </View>
+      </View>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1e293b',
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  backButton: {
+    marginRight: 12,
+    padding: 8,
+  },
+  headerTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  mainContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  iconWrapper: {
+    width: 120,
+    height: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#374151',
+    borderRadius: 60,
+    marginBottom: 16,
+  },
+  textContainer: {
+    alignItems: 'center',
+  },
+  title: {
+    color: 'white',
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subtitle: {
+    color: '#9ca3af',
+    fontSize: 16,
+    textAlign: 'center',
+    maxWidth: 300,
+  },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    maxWidth: 300,
+    marginBottom: 16,
+  },
+  primaryButton: {
+    backgroundColor: '#3b82f6',
+  },
+  secondaryButton: {
+    backgroundColor: '#6b7280',
+  },
+  disabledButton: {
+    opacity: 0.6,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 8,
+  },
+  errorContainer: {
+    alignItems: 'center',
+  },
+  errorText: {
+    color: '#f97316',
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  footerText: {
+    color: '#6b7280',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 24,
+  },
+});

@@ -4,7 +4,6 @@
     "composite": false,
     "noEmit": true,
     "baseUrl": ".",
-    "types": ["vite/client"],
     "paths": {
       "@/*": ["./src/*"],
       "@/components/ui/button": ["./src/stubs/ui/button"],
@@ -54,7 +53,7 @@
       "path": "../../packages/logic"
     }
   ],
-  "include": ["src/**/*", "vite.config.ts"],
+  "include": ["src/**/*", "vite.config.ts", "vite-env.d.ts"],
   "exclude": [
     "node_modules",
     "dist",

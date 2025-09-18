@@ -38,26 +38,26 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#1e293b' }}>
-      <YStack f={1} ai="center" jc="center" p="$4" space="$4">
-        <YStack ai="center" space="$2" mb="$8">
-          <H1 color="white" ta="center">
+      <YStack flex={1} alignItems="center" justifyContent="center" padding="$4" space="$4">
+        <YStack alignItems="center" space="$2" marginBottom="$8">
+          <H1 color="white" textAlign="center">
             LegacyGuard
           </H1>
-          <Text color="$gray10" ta="center" size="$5">
+          <Text color="$gray10" textAlign="center" fontSize="$5">
             Secure access to your family protection
           </Text>
         </YStack>
 
-        <YStack w="100%" mw={400} space="$4">
+        <YStack width="100%" maxWidth={400} space="$4">
           <YStack space="$2">
-            <Text color="white" size="$4" fontWeight="500">
+            <Text color="white" fontSize="$4" fontWeight="500">
               Email
             </Text>
-            <XStack ai="center" bc="$gray8" br="$4" p="$3">
+            <XStack alignItems="center" backgroundColor="$gray8" borderRadius="$4" padding="$3">
               <Mail size={20} color="$gray10" />
               <Input
-                f={1}
-                ml="$3"
+                flex={1}
+                marginLeft="$3"
                 placeholder="Enter your email"
                 placeholderTextColor="$gray10"
                 value={email}
@@ -65,7 +65,7 @@ export default function LoginScreen() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 autoCorrect={false}
-                bc="transparent"
+                backgroundColor="transparent"
                 borderWidth={0}
                 color="white"
               />
@@ -73,21 +73,21 @@ export default function LoginScreen() {
           </YStack>
 
           <YStack space="$2">
-            <Text color="white" size="$4" fontWeight="500">
+            <Text color="white" fontSize="$4" fontWeight="500">
               Password
             </Text>
-            <XStack ai="center" bc="$gray8" br="$4" p="$3">
+            <XStack alignItems="center" backgroundColor="$gray8" borderRadius="$4" padding="$3">
               <Lock size={20} color="$gray10" />
               <Input
-                f={1}
-                ml="$3"
-                mr="$3"
+                flex={1}
+                marginLeft="$3"
+                marginRight="$3"
                 placeholder="Enter your password"
                 placeholderTextColor="$gray10"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
-                bc="transparent"
+                backgroundColor="transparent"
                 borderWidth={0}
                 color="white"
               />
@@ -110,10 +110,10 @@ export default function LoginScreen() {
             theme="blue"
             onPress={handleLogin}
             disabled={isLoading}
-            mt="$4"
+            marginTop="$4"
           >
             {isLoading ? (
-              <XStack ai="center" space="$2">
+              <XStack alignItems="center" space="$2">
                 <Spinner size="small" color="white" />
                 <Text color="white">Signing in...</Text>
               </XStack>
@@ -125,7 +125,7 @@ export default function LoginScreen() {
           </Button>
         </YStack>
 
-        <Text color="$gray10" size="$3" ta="center" mt="$6">
+        <Text color="$gray10" fontSize="$3" textAlign="center" marginTop="$6">
           Secure authentication with biometric support
         </Text>
       </YStack>
