@@ -44,7 +44,9 @@ const nextConfig = {
   // Transpile packages that need it
   transpilePackages: [
     '@schwalbe/shared',
-    '@schwalbe/logic', 
+    '@schwalbe/logic',
+    '@schwalbe/ai-assistant',
+    '@schwalbe/onboarding',
     'react-native-web',
   ],
 
