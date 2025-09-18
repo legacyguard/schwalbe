@@ -11,6 +11,8 @@ export * from './components/sofia-firefly';
 export * from './components/animations';
 export * from './components/messaging';
 export * from './components/achievements';
+export * from './components/onboarding';
+export * from './components/personal';
 
 // Hook exports
 export * from './hooks';

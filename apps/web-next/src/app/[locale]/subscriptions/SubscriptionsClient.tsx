@@ -13,10 +13,10 @@ import {
   type SubscriptionPreferences,
 } from "@schwalbe/shared";
 
-export default function SubscriptionsClient() {
+export default function SubscriptionsClient({ ssrE2E = false }: { ssrE2E?: boolean }) {
   const t = useTranslations("subscriptions");
   const locale = useLocale();
-  const [testE2E, setTestE2E] = React.useState(process.env.NEXT_PUBLIC_E2E === "1");
+  const [testE2E, setTestE2E] = React.useState(() => ssrE2E || process.env.NEXT_PUBLIC_E2E === "1");
   const supabase = React.useMemo(() => createClientComponentClient(), []);
 
   const [sub, setSub] = React.useState<UserSubscription | null>(null);

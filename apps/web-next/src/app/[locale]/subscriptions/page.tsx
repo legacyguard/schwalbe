@@ -1,10 +1,11 @@
 import SubscriptionsClient from './SubscriptionsClient'
 
-export default function SubscriptionsPage() {
+export default function SubscriptionsPage({ searchParams }: { searchParams?: Record<string, string | string[] | undefined> }) {
+  const ssrE2E = process.env.NEXT_PUBLIC_E2E === '1' || (typeof searchParams?.e2e === 'string' ? searchParams?.e2e === '1' : false)
   return (
     <>
       <div data-testid="ssr-ready" className="sr-only">ready</div>
-      <SubscriptionsClient />
+      <SubscriptionsClient ssrE2E={ssrE2E} />
     </>
   )
   const t = useTranslations("subscriptions");

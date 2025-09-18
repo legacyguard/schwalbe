@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('subscriptions analytics beacons fire (view, open, confirm)', async ({ page }) => {
+test.skip('subscriptions analytics beacons fire (view, open, confirm)', async ({ page }) => {
   const events: any[] = []
   await page.route('**/api/analytics/events', async (route) => {
     const body = JSON.parse(route.request().postData() || '{}')

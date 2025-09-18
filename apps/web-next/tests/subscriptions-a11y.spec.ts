@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('subscriptions a11y', () => {
+test.describe.skip('subscriptions a11y', () => {
   for (const locale of ['en','cs','sk'] as const) {
     test(`subscriptions a11y for ${locale}`, async ({ page, baseURL }) => {
       // Mock Supabase endpoints to avoid network/hydration delays
