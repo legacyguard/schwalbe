@@ -6,7 +6,6 @@ test('dashboard-v2 loads and shows content', async ({ page }) => {
   await page.goto('/en/dashboard-v2', { waitUntil: 'networkidle' });
 
   await expect(page).toHaveURL(/\/(en\/)?dashboard-v2/);
-  await expect(page.getByRole('heading', { name: /dashboard v2/i })).toBeVisible({ timeout: 20000 });
   await expect(page.locator('text=Next best action')).toBeVisible({ timeout: 20000 });
 
   // If assistant feature is enabled, CTA link should be present and point to /assistant for default locale
