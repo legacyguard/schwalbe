@@ -31,6 +31,9 @@ export type { ReminderRule as Reminder } from './services/reminders/reminder.ser
 // Export Subscription service
 export * from './services/subscription.service';
 
+// Export monitoring/analytics
+export { monitoringService } from './services/monitoring.service';
+
 // Export domain + language config
 export * from './config/domains';
 export * from './config/languages';
