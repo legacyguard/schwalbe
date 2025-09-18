@@ -13,9 +13,15 @@ function Providers({ children }: { children: React.ReactNode }) {
 
 describe('RN Login screen smoke', () => {
   test('renders Email and Sign In and allows button press', async () => {
+    // Debug: verify Login import shape
+    // eslint-disable-next-line no-console
+    console.log('Login typeof:', typeof Login, Login && Object.keys(Login))
+
+    const Comp = (Login as any)?.default ?? (Login as any)
+
     render(
       React.createElement(Providers, null,
-        React.createElement(Login)
+        React.createElement(Comp as any)
       )
     )
 

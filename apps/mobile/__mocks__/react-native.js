@@ -1,10 +1,2 @@
-const ReactNative = {
-  StyleSheet: {
-    create: (styles) => styles,
-  },
-  Platform: { OS: 'ios', select: (o) => (o.ios ?? o.default) },
-  // Minimal components to satisfy React Native imports if needed
-  View: 'View',
-  Text: 'Text',
-};
-module.exports = ReactNative;
+// Delegate to React Native's official Jest mock to ensure compatibility with RTL
+module.exports = require('react-native/jest/mock');

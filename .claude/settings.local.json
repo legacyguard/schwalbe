@@ -40,7 +40,9 @@
       "Bash(apps/mobile/scripts/deploy-emotional-sync.sh:*)",
       "Bash(npm ls:*)",
       "Bash(npx eslint:*)",
-      "Bash(npm audit:*)"
+      "Bash(npm audit:*)",
+      "Read(//Users/luborfedak/Documents/Github/hollywood/**)",
+      "Bash(npm list:*)"
     ],
     "deny": []
   }

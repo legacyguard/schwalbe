@@ -13,9 +13,15 @@ function Providers({ children }: { children: React.ReactNode }) {
 
 describe('RN Biometric screen smoke', () => {
   test('renders heading and primary button text', async () => {
+    // Debug: verify Biometric import shape
+    // eslint-disable-next-line no-console
+    console.log('Biometric typeof:', typeof Biometric, Biometric && Object.keys(Biometric))
+
+    const Comp = (Biometric as any)?.default ?? (Biometric as any)
+
     render(
       React.createElement(Providers, null,
-        React.createElement(Biometric)
+        React.createElement(Comp as any)
       )
     )
     expect(screen.getByText('Biometric Sign In')).toBeTruthy()

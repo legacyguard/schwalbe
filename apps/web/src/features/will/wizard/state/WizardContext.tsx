@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react'
-import { logger } from '@schwalbe/shared/lib/logger';
-import { supabase } from '@/lib/supabase'
+import { logger } from '@schwalbe/shared';
+import { supabase } from '../../../../lib/supabase.js'
 import { useNavigate, useLocation } from 'react-router-dom'
-import type { JurisdictionCode, WillForm, WillInput } from '@schwalbe/logic/will/engine'
+import type { JurisdictionCode, WillForm, WillInput } from '@schwalbe/logic'
 
 export type WizardStepKey = 'start' | 'testator' | 'beneficiaries' | 'executor' | 'witnesses' | 'review'
 
@@ -98,8 +98,8 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let timer: number | undefined
     ;(async () => {
-      const { data } = await supabase.auth.getSession()
-      if (data.session) {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
         timer = window.setInterval(() => {
           void saveDraft()
         }, 30000)
@@ -140,20 +140,20 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
         age: state.testator.age,
         address: state.testator.address,
       },
-      beneficiaries: state.beneficiaries.map((b) => ({ id: b.id, name: b.name, relationship: b.relationship })),
+      beneficiaries: state.beneficiaries.map((b: BeneficiaryItem) => ({ id: b.id, name: b.name, relationship: b.relationship })),
       executorName: state.executorName,
       signatures: {
         testatorSigned: !!state.signatures.testatorSigned,
         witnessesSigned: !!state.signatures.witnessesSigned,
       },
-      witnesses: state.witnesses.map((w) => ({ id: w.id, fullName: w.fullName, isBeneficiary: w.isBeneficiary })),
+      witnesses: state.witnesses.map((w: WitnessItem) => ({ id: w.id, fullName: w.fullName, isBeneficiary: w.isBeneficiary })),
     }
   }, [state])
 
   const saveDraft = useCallback(
     async (opts?: { toast?: (msg: string) => void }) => {
-      const { data: auth } = await supabase.auth.getUser()
-      const userId = auth.user?.id
+      const { data: { user } } = await supabase.auth.getUser()
+      const userId = user?.id
       if (!userId) {
         // not signed in - save to local only
         localStorage.setItem('will_wizard_state', JSON.stringify(state))
@@ -178,7 +178,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
       })
 
       if (error) {
-        logger.error('Failed to save draft', { error })
+        logger.error('Failed to save draft', { action: 'draft_save_failed', metadata: { error: error.message } })
         // Fallback to local
         localStorage.setItem('will_wizard_state', JSON.stringify(state))
         if (opts?.toast) opts.toast('Draft saved locally (offline mode)')
@@ -192,8 +192,8 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
 
   const loadDraft = useCallback(
     async (overrideSessionId?: string) => {
-      const { data: auth } = await supabase.auth.getUser()
-      const userId = auth.user?.id
+      const { data: { user } } = await supabase.auth.getUser()
+      const userId = user?.id
       const sid = overrideSessionId ?? sessionId
       if (!userId) return false
 
@@ -205,7 +205,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
         .maybeSingle()
 
       if (error) {
-        logger.error('Failed to load draft', { error })
+        logger.error('Failed to load draft', { action: 'draft_load_failed', metadata: { error: error.message } })
         return false
       }
 

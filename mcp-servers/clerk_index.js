@@ -1,8 +1,8 @@
-// Deprecated: Clerk server entry; kept for reference. Use supabase_index.js instead.
+const { Clerk } = require('@clerk/clerk-sdk-node');
 
-// Initialize Clerk middleware
-const clerk = ClerkExpressRequireAuth({
-  secretKey: process.env.CLERK_SECRET_KEY
+// Initialize Clerk SDK
+const clerk = Clerk({ 
+  secretKey: process.env.CLERK_SECRET_KEY 
 });
 
 // Handle stdin
@@ -65,13 +65,20 @@ async function handleAuth(params, id) {
       throw new Error('No authentication token provided');
     }
 
-    // Here we would validate the token with Clerk
-    // For now, just return a success response
+    // Validate the session token with Clerk
+    const session = await clerk.sessions.verifySession(token);
+    
+    // Get user details
+    const user = await clerk.users.getUser(session.userId);
+    
     sendResponse(id, {
       status: 'success',
-      userId: 'example-user-id',
+      userId: user.id,
       metadata: {
-        sessionId: 'example-session-id'
+        sessionId: session.id,
+        email: user.emailAddresses[0]?.emailAddress,
+        firstName: user.firstName,
+        lastName: user.lastName
       }
     });
   } catch (error) {

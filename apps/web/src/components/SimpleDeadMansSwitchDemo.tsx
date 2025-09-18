@@ -261,12 +261,12 @@ const DeadMansSwitchDemo: React.FC = () => {
   const [personalityMode, setPersonalityMode] = useState<'empathetic' | 'pragmatic' | 'adaptive'>('adaptive');
 
   const handleEmergencyTriggered = (ruleId: string) => {
-    logger.info('Emergency triggered for rule:', ruleId);
+    logger.info('Emergency triggered for rule', { action: 'emergency_triggered', metadata: { ruleId } });
     alert(`Emergency protocol activated for rule: ${ruleId}`);
   };
 
   const handleHealthCheckMissed = (checkId: string) => {
-    logger.info('Health check missed:', checkId);
+    logger.info('Health check missed', { action: 'health_check_missed', metadata: { checkId } });
     alert(`Health check missed: ${checkId}`);
   };
 

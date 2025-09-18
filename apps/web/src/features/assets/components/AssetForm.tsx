@@ -65,7 +65,7 @@ export function AssetForm() {
       }
     } catch (err) {
       // Log and proceed; in unauthenticated environments this allows UI flow during demos/tests
-      logger.error('Asset save failed', err);
+      logger.error('Asset save failed', { action: 'asset_save_failed', metadata: { error: String(err) } });
     } finally {
       navigate('/assets/list');
     }

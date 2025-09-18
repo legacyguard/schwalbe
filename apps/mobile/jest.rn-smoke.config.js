@@ -25,17 +25,17 @@ const rnSmokeProject = {
     'expo-asset': '<rootDir>/__mocks__/expo-asset.js',
     'expo-modules-core': '<rootDir>/__mocks__/expo-modules-core.js',
     'expo-local-authentication': '<rootDir>/__mocks__/expo-local-authentication.js',
-    'react-native': '<rootDir>/__mocks__/react-native.js',
+    // Do NOT mock 'react-native' itself; rely on jest-expo preset
     'react-native-safe-area-context': '<rootDir>/__mocks__/react-native-safe-area-context.js',
     'tamagui': '<rootDir>/__mocks__/tamagui.js',
     '@tamagui/lucide-icons': '<rootDir>/__mocks__/tamagui-lucide-icons.js',
-    'react-test-renderer': '<rootDir>/node_modules/react-test-renderer',
+    '^react-test-renderer$': '<rootDir>/__mocks__/react-test-renderer18.js',
     '^react-test-renderer/(.*)$': '<rootDir>/node_modules/react-test-renderer/$1'
   },
   transformIgnorePatterns: [
     'node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|react-native-.*|@react-native-.*|@tamagui/.*)'
   ],
-  testEnvironment: 'jsdom'
+  testEnvironment: 'node'
 }
 
 module.exports = rnSmokeProject

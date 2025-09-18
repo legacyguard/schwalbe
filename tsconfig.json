@@ -3,8 +3,8 @@
   "references": [
     { "path": "./packages/shared" },
     { "path": "./packages/logic" },
+    { "path": "./packages/ui" },
     { "path": "./apps/web" },
-    { "path": "./apps/web-next" },
     { "path": "./apps/mobile" }
   ],
   "compilerOptions": {

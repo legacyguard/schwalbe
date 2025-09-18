@@ -51,3 +51,9 @@ export * from './config/legal/requirements';
 // Export sharing types
 export type { CreateShareLinkInput, SharePermissions } from './services/sharing/sharing.service';
 export type { ShareLink } from './types/sharing';
+
+// Export unified error handling system
+export * from './types/errors';
+
+// Export authentication store
+export { useAuthStore } from './stores/authStore';

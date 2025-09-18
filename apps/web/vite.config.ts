@@ -96,7 +96,8 @@ export default defineConfig({
       { find: /^@schwalbe\/shared\/config\//, replacement: path.resolve(__dirname, '../../packages/shared/src/config/') },
       { find: /^@schwalbe\/shared\/services\//, replacement: path.resolve(__dirname, '../../packages/shared/src/services/') },
       { find: '@schwalbe/logic', replacement: path.resolve(__dirname, '../../packages/logic/src') },
-      { find: '@schwalbe/shared', replacement: path.resolve(__dirname, '../../packages/shared/src/index-minimal.ts') },
+      { find: /^@schwalbe\/shared\/(.+)$/, replacement: path.resolve(__dirname, '../../packages/shared/src/$1') },
+      { find: '@schwalbe/shared', replacement: path.resolve(__dirname, '../../packages/shared/src/index.ts') },
       // Map UI subpaths to web stubs for build compatibility
       { find: /^@schwalbe\/ui\/(.+)$/, replacement: path.resolve(__dirname, './src/stubs/ui/$1') },
       { find: '@schwalbe/ui', replacement: path.resolve(__dirname, './src/stubs/ui/index') },

@@ -20,3 +20,6 @@ export * from './services/subscription.service';
 export { sharingService, SharingService } from './services/sharing/sharing.service';
 export type { CreateShareLinkInput, SharePermissions } from './services/sharing/sharing.service';
 export type { ShareLink } from './types/sharing';
+
+// Logger (needed for error handling)
+export { logger } from './lib/logger';
