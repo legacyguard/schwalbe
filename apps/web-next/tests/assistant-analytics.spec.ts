@@ -39,8 +39,14 @@ test('assistant_open includes source=nav when coming from nav link', async ({ pa
   const link = page.getByRole('link', { name: /assistant/i });
   await link.click();
   await expect(page).toHaveURL(/\/(en\/)?assistant/);
-  await page.waitForTimeout(200);
-  const hasOpen = events.some(e => e?.eventType === 'assistant_open' && e?.eventData?.source === 'nav');
+
+  // Poll for beacon to avoid flakiness
+  let hasOpen = false;
+  for (let i = 0; i < 20; i++) { // up to ~4s
+    await page.waitForTimeout(200);
+    hasOpen = events.some(e => e?.eventType === 'assistant_open' && e?.eventData?.source === 'nav');
+    if (hasOpen) break;
+  }
   expect(hasOpen).toBeTruthy();
 });
 

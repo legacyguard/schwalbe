@@ -3,5 +3,9 @@
   "subtitle": "Personalized suggestions based on your intent.",
   "next": "Next best action",
   "milestones": "Your milestones",
-  "cta": "Go to action"
+  "cta": "Go to action",
+  "meta": {
+    "title": "Your plan",
+    "description": "Personalized suggestions based on your intent."
+  }
 }

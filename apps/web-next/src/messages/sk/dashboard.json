@@ -3,5 +3,9 @@
   "subtitle": "Personalizované návrhy podľa vašich priorít.",
   "next": "Najbližší krok",
   "milestones": "Vaše míľniky",
-  "cta": "Prejsť na akciu"
+  "cta": "Prejsť na akciu",
+  "meta": {
+    "title": "Váš plán",
+    "description": "Personalizované návrhy podľa vašich priorít."
+  }
 }

@@ -9,5 +9,9 @@
   "ariaStart": "Spustit doporučenou akci",
   "ariaGoTo": "Přejít na {title}",
   "loading": "Načítání…",
-  "noSuggestions": "Vše je hotovo."
+  "noSuggestions": "Vše je hotovo.",
+  "meta": {
+    "title": "Asistent",
+    "description": "Získejte doporučení a jasné další kroky."
+  }
 }

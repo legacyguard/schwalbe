@@ -9,5 +9,9 @@
   "ariaStart": "Start suggested action",
   "ariaGoTo": "Go to {title}",
   "loading": "Loading…",
-  "noSuggestions": "You're all set for now."
+  "noSuggestions": "You're all set for now.",
+  "meta": {
+    "title": "Assistant",
+    "description": "Get guidance and clear next steps."
+  }
 }
