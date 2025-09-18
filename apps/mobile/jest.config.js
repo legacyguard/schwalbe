@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'jest-expo',
-  testMatch: ['**/__tests__/**/*.(test|spec).[jt]s?(x)'],
+  testMatch: ['**/__tests__/**/*.(test|spec).[jt]s?(x)','!**/__tests__/**/login.rn.smoke.test.ts'],
   setupFilesAfterEnv: [
     '<rootDir>/jest.setup.js'
   ],

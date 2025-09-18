@@ -8,6 +8,10 @@ import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/authStore';
 import { SofiaFirefly } from '../../src/components/SofiaFirefly';
 import { useHapticFeedback } from '../../src/hooks/useHapticFeedback';
+import { MobileSofiaFirefly } from '../../src/temp-emotional-sync/components/sofia-firefly/MobileSofiaFirefly';
+import { EmotionalMessages } from '../../src/temp-emotional-sync/components/messaging/EmotionalMessages';
+import { AchievementCelebration, Achievement } from '../../src/temp-emotional-sync/components/achievements/AchievementCelebration';
+import { isFeatureEnabled } from '../../src/config/featureFlags';
 import { useTranslation } from 'react-i18next';
 
 // Emotional messaging system
@@ -20,12 +24,20 @@ const getTimeOfDay = () => {
 };
 
 const getEmotionalWelcome = (t: (k: string, o?: any) => string, timeOfDay: string, userName: string) => {
+  // Use advanced emotional messages if enabled
+  if (isFeatureEnabled('emotionalMessages')) {
+    const timeOfDayType = timeOfDay as 'morning' | 'afternoon' | 'evening' | 'night';
+    return EmotionalMessages.getWelcomeMessage(timeOfDayType, userName).message;
+  }
+
   return t(`screens.home.emotional.${timeOfDay}`, { userName });
 };
 
 export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [emotionalMessage, setEmotionalMessage] = useState('');
+  const [showAchievement, setShowAchievement] = useState(false);
+  const [currentAchievement, setCurrentAchievement] = useState<Achievement | null>(null);
   const { user } = useAuthStore();
   const { sofiaFireflyHaptic, touchHaptic } = useHapticFeedback();
   const { t } = useTranslation('screens');
@@ -45,8 +57,27 @@ export default function HomeScreen() {
       setRefreshing(false);
       // Update emotional message on refresh
       const timeOfDay = getTimeOfDay();
-      setEmotionalMessage(getEmotionalWelcome(timeOfDay, userName));
+      setEmotionalMessage(getEmotionalWelcome(t as any, timeOfDay, userName));
+
+      // Trigger achievement if enabled and random chance
+      if (isFeatureEnabled('achievements') && Math.random() < 0.3) {
+        triggerSampleAchievement();
+      }
     }, 1000);
+  };
+
+  const triggerSampleAchievement = () => {
+    const achievement: Achievement = {
+      id: 'daily_check',
+      title: 'Daily Guardian',
+      description: 'You checked on your family\'s protection today. Your dedication shows real love.',
+      icon: '🛡️',
+      shareText: 'I\'m protecting my family\'s future with LegacyGuard!',
+      unlockedAt: new Date(),
+    };
+
+    setCurrentAchievement(achievement);
+    setShowAchievement(true);
   };
 
   const statsData = [
@@ -64,6 +95,15 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#0f172a' }}>
+      {/* Full-screen Sofia Firefly overlay */}
+      {isFeatureEnabled('sofiaFirefly') && (
+        <MobileSofiaFirefly
+          isEnabled={true}
+          onInteractionStart={() => sofiaFireflyHaptic()}
+          size={28}
+          glowIntensity={0.4}
+        />
+      )}
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -100,13 +140,23 @@ export default function HomeScreen() {
               </H1>
             </YStack>
             <XStack alignItems="center" space="$3">
-              <SofiaFirefly
-                size="small"
-                message="Sofia's firefly brings hope to your family's journey ✨"
-                onTouch={async () => {
-                  await sofiaFireflyHaptic();
-                }}
-              />
+              {isFeatureEnabled('sofiaFirefly') ? (
+                <SofiaFirefly
+                  size="small"
+                  message="Sofia's firefly brings hope to your family's journey ✨"
+                  onTouch={async () => {
+                    await sofiaFireflyHaptic();
+                  }}
+                />
+              ) : (
+                <SofiaFirefly
+                  size="small"
+                  message="Sofia's firefly brings hope to your family's journey ✨"
+                  onTouch={async () => {
+                    await sofiaFireflyHaptic();
+                  }}
+                />
+              )}
               <Button size="$4" chromeless>
                 <Bell size={24} color="$legacyAccentGold" />
               </Button>
@@ -276,6 +326,22 @@ export default function HomeScreen() {
           </Card>
         </YStack>
       </ScrollView>
+
+      {/* Achievement Celebration */}
+      {isFeatureEnabled('achievements') && currentAchievement && (
+        <AchievementCelebration
+          achievement={currentAchievement}
+          visible={showAchievement}
+          onDismiss={() => {
+            setShowAchievement(false);
+            setCurrentAchievement(null);
+          }}
+          onShare={() => {
+            // Handle sharing achievement
+            console.log('Sharing achievement:', currentAchievement.shareText);
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 }
