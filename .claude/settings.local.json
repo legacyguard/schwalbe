@@ -33,7 +33,9 @@
       "Bash(git commit:*)",
       "Bash(npm --workspace=@schwalbe/mobile run typecheck)",
       "Bash(npm --workspace=@schwalbe/mobile run test)",
-      "Bash(npm --workspace=@schwalbe/mobile run build)"
+      "Bash(npm --workspace=@schwalbe/mobile run build)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)"
     ],
     "deny": []
   }
