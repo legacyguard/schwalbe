@@ -1,15 +1,19 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('subscriptions a11y', () => {
-  test.skip(true, 'Temporarily skipped pending hydration timing fix for dialog in dev server')
+  test.skip(true, 'Skipped for now: dialog hydration timing in dev server; tracked to stabilize later')
 
   for (const locale of ['en','cs','sk'] as const) {
     test(`subscriptions a11y for ${locale}`, async ({ page, baseURL }) => {
-      // Open dialog immediately via test flag to avoid flakiness on heading checks
+      // Navigate with flag to open dialog immediately
       await page.goto(`${baseURL}/${locale}/subscriptions?openCancelDialog=1`)
 
+      // Wait for hydration and dialog to appear
+      await page.waitForLoadState('domcontentloaded')
+      await page.waitForSelector('#cancel-dialog-title', { timeout: 15000 })
+
       const dialog = page.getByRole('dialog')
-      await expect(dialog).toBeVisible()
+      await expect(dialog).toBeVisible({ timeout: 15000 })
       await expect(dialog).toHaveAttribute('aria-modal', 'true')
 
       // Check labelling

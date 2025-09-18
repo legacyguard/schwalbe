@@ -3,7 +3,6 @@
 import React from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@/lib/supabase-client";
 import {
   subscriptionService,
@@ -17,14 +16,13 @@ import {
 export default function SubscriptionsPage() {
   const t = useTranslations("subscriptions");
   const locale = useLocale();
-  const searchParams = useSearchParams();
   const supabase = React.useMemo(() => createClientComponentClient(), []);
 
   const [sub, setSub] = React.useState<UserSubscription | null>(null);
   const [prefs, setPrefs] = React.useState<SubscriptionPreferences | null>(null);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [cancelOpen, setCancelOpen] = React.useState(() => searchParams.get("openCancelDialog") === "1");
+  const [cancelOpen, setCancelOpen] = React.useState(false);
   const [cancelLoading, setCancelLoading] = React.useState(false);
   const [cancelMode, setCancelMode] = React.useState<"end_of_period" | "immediate">(
     billingConfig.cancellationPolicy
@@ -48,6 +46,13 @@ export default function SubscriptionsPage() {
     void load();
   }, [load]);
 
+  // Open cancel dialog for tests when query param is set (client-side after hydration)
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const open = new URLSearchParams(window.location.search).get("openCancelDialog") === "1";
+      if (open) setCancelOpen(true);
+    }
+  }, []);
 
   const onSavePrefs = async () => {
     if (!prefs) return;
