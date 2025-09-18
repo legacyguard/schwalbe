@@ -19,12 +19,14 @@ export default getRequestConfig(async () => {
   const onboarding = (await import(`../messages/${locale}/onboarding.json`).catch(() => ({ default: {} as any }))).default as any;
   const assistant = (await import(`../messages/${locale}/assistant.json`).catch(() => ({ default: {} as any }))).default as any;
   const dashboard = (await import(`../messages/${locale}/dashboard.json`).catch(() => ({ default: {} as any }))).default as any;
+  const subscriptions = (await import(`../messages/${locale}/subscriptions.json`).catch(() => ({ default: {} as any }))).default as any;
 
   const messages = {
     ...base,
     onboarding: { ...(base?.onboarding || {}), ...onboarding },
     assistant: { ...(base?.assistant || {}), ...assistant },
     dashboard: { ...(base?.dashboard || {}), ...dashboard },
+    subscriptions: { ...(base?.subscriptions || {}), ...subscriptions },
   } as any;
 
   return {

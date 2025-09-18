@@ -1,5 +1,0 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Helmet } from 'react-helmet-async';
-export const MetaTags = ({ title, description, url, image, type = 'website' }) => {
-    return (_jsxs(Helmet, { children: [_jsx("title", { children: title }), _jsx("meta", { name: "description", content: description }), _jsx("meta", { property: "og:type", content: type }), _jsx("meta", { property: "og:title", content: title }), _jsx("meta", { property: "og:description", content: description }), url && _jsx("meta", { property: "og:url", content: url }), image && _jsx("meta", { property: "og:image", content: image }), _jsx("meta", { property: "twitter:card", content: "summary_large_image" }), _jsx("meta", { property: "twitter:title", content: title }), _jsx("meta", { property: "twitter:description", content: description }), image && _jsx("meta", { property: "twitter:image", content: image }), _jsx("meta", { name: "viewport", content: "width=device-width, initial-scale=1.0" })] }));
-};

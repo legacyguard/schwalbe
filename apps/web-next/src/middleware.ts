@@ -52,6 +52,6 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match all 34 supported language pathnames
-  matcher: ['/', '/(en|bg|hr|cs|da|nl|et|fi|fr|de|el|hu|ga|it|lv|lt|mt|pl|pt|ro|sk|sl|es|sv|no|is|tr|sr|sq|mk|me|bs|ru|uk)/:path*']
+  // Run on all paths except API, Next internals and assets
+  matcher: ['/((?!api|_next|.*\\..*).*)']
 };

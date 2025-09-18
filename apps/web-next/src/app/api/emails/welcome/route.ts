@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server.js'
 import { emailService } from '@schwalbe/shared/lib/resend'
 
 export async function POST(request: Request) {
