@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { generatePlan, type Answer, type Plan } from "@schwalbe/onboarding";
+import { deriveAnswersFromLocalStorage } from "@/lib/onboarding";
 import { isAssistantEnabled } from "@/config/flags";
 
 export default function DashboardV2Client() {
@@ -12,14 +13,7 @@ export default function DashboardV2Client() {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("onb_state_en") || localStorage.getItem("onb_state_sk") || localStorage.getItem("onb_state_cs");
-      let answers: Answer[] = [ { key: 'priority', value: 'safety' }, { key: 'timeAvailable', value: '10m' } ];
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        // naive mapping: if boxItems present -> organization, if trustedName present -> family
-        const pri = parsed?.boxItems ? 'organization' : parsed?.trustedName ? 'family' : 'safety';
-        answers = [ { key: 'priority', value: pri }, { key: 'timeAvailable', value: '10m' } ];
-      }
+      const answers = deriveAnswersFromLocalStorage();
       setPlan(generatePlan(answers));
     } catch {
       setPlan(generatePlan([ { key: 'priority', value: 'safety' }, { key: 'timeAvailable', value: '10m' } ]));

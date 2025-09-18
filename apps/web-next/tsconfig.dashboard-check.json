@@ -14,6 +14,7 @@
     "src/components/dashboard/DashboardV2Client.tsx",
     "src/app/[locale]/assistant/page.tsx",
     "src/components/assistant/AssistantPanel.tsx",
+    "src/lib/onboarding.ts",
     "src/config/flags.dashboard.ts",
     "src/config/flags.ts",
     "../../packages/onboarding/src/index.ts",

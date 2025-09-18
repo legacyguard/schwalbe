@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { generatePlan, type Answer, type Plan, type Milestone } from '@schwalbe/onboarding';
+import { deriveAnswersFromLocalStorage } from '@/lib/onboarding';
 
 export default function AssistantPanel() {
   const search = useSearchParams();
@@ -35,13 +36,7 @@ export default function AssistantPanel() {
     }
     // Derive from onboarding state if available
     try {
-      const raw = localStorage.getItem('onb_state_en') || localStorage.getItem('onb_state_sk') || localStorage.getItem('onb_state_cs');
-      let answers: Answer[] = [ { key: 'priority', value: 'safety' }, { key: 'timeAvailable', value: '10m' } ];
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        const pri = parsed?.boxItems ? 'organization' : parsed?.trustedName ? 'family' : 'safety';
-        answers = [ { key: 'priority', value: pri }, { key: 'timeAvailable', value: '10m' } ];
-      }
+      const answers: Answer[] = deriveAnswersFromLocalStorage();
       const plan: Plan = generatePlan(answers);
       if (plan.nextBestAction?.title) setIntent(plan.nextBestAction.title);
       setMilestones(plan.milestones || []);
