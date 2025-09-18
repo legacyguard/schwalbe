@@ -4,5 +4,8 @@
   "ready": "Assistant is getting ready…",
   "readyWithIntent": "Assistant is getting ready to help with: {intent}",
   "ctaStart": "Start now",
-  "suggestions": "Suggested next steps"
+  "suggestions": "Suggested next steps",
+  "go": "Go",
+  "ariaStart": "Start suggested action",
+  "ariaGoTo": "Go to {title}"
 }

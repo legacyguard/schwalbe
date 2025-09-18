@@ -98,6 +98,7 @@ export default function AssistantPanel() {
           onClick={handleStart}
           className="inline-flex rounded bg-primary text-white px-4 py-2"
           data-testid="assistant-cta-start"
+          aria-label={t('ariaStart', { intent: intent || '', default: 'Start suggested action' })}
         >
           {t('ctaStart', { default: 'Start now' })}
         </a>
@@ -113,13 +114,34 @@ export default function AssistantPanel() {
                 if (key.includes('document') || key.includes('vault')) return `/${locale}/documents`;
                 return `/${locale}/support`;
               })();
+              const onSuggestionClick = () => {
+                try {
+                  const payload = {
+                    eventType: 'assistant_suggestion_click',
+                    eventData: { id: m.id, title: m.title, target: href, intent: intent || undefined, locale },
+                  };
+                  if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
+                    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+                    (navigator as any).sendBeacon('/api/analytics/events', blob);
+                  } else if (typeof fetch !== 'undefined') {
+                    fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
+                  }
+                } catch {}
+              };
               return (
                 <li key={m.id} className="flex items-center justify-between rounded border border-slate-700 p-3">
                   <div>
                     <div className="text-slate-100">{m.title}</div>
                     <div className="text-slate-400 text-sm">{m.description}</div>
                   </div>
-                  <a className="text-sky-300 hover:text-sky-200" href={href}>Go</a>
+                  <a
+                    className="text-sky-300 hover:text-sky-200"
+                    href={href}
+                    onClick={onSuggestionClick}
+                    aria-label={t('ariaGoTo', { title: m.title, default: 'Go to ' + (m.title || 'action') })}
+                  >
+                    {t('go', { default: 'Go' })}
+                  </a>
                 </li>
               );
             })}

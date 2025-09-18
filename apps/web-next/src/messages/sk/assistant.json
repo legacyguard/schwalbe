@@ -4,5 +4,8 @@
   "ready": "Asistent sa pripravuje…",
   "readyWithIntent": "Asistent sa pripravuje pomôcť s: {intent}",
   "ctaStart": "Začať teraz",
-  "suggestions": "Odporúčané ďalšie kroky"
+  "suggestions": "Odporúčané ďalšie kroky",
+  "go": "Prejsť",
+  "ariaStart": "Spustiť odporúčanú akciu",
+  "ariaGoTo": "Prejsť na {title}"
 }
