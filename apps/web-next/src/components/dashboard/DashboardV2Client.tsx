@@ -28,17 +28,8 @@ export default function DashboardV2Client() {
 
   const trackCtaClick = () => {
     try {
-      const payload = {
-        eventType: 'user_action',
-        eventData: { action: 'click', category: 'dashboard_v2', label: 'cta_assistant', locale },
-      };
-      if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
-        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-        (navigator as any).sendBeacon('/api/analytics/events', blob);
-      } else if (typeof fetch !== 'undefined') {
-        // fire-and-forget
-        fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
-      }
+      const { sendAnalytics } = require('@/lib/analytics');
+      sendAnalytics('user_action', { action: 'click', category: 'dashboard_v2', label: 'cta_assistant', locale });
     } catch {}
   };
 

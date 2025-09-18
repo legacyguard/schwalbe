@@ -56,16 +56,9 @@ export default function AssistantPanel() {
   useEffect(() => {
     // Fire an analytics beacon when assistant opens
     try {
-      const payload = {
-        eventType: 'assistant_open',
-        eventData: { intent: intent || undefined, locale },
-      };
-      if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
-        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-        (navigator as any).sendBeacon('/api/analytics/events', blob);
-      } else if (typeof fetch !== 'undefined') {
-        fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
-      }
+      import('@/lib/analytics').then(({ sendAnalytics }) => {
+        sendAnalytics('assistant_open', { intent: intent || undefined, locale });
+      }).catch(() => {});
     } catch {}
   }, [intent, locale]);
 
@@ -77,16 +70,9 @@ export default function AssistantPanel() {
 
   const handleStart = () => {
     try {
-      const payload = {
-        eventType: 'assistant_start',
-        eventData: { intent: intent || undefined, locale, target: targetHref },
-      };
-      if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
-        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-        (navigator as any).sendBeacon('/api/analytics/events', blob);
-      } else if (typeof fetch !== 'undefined') {
-        fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
-      }
+      import('@/lib/analytics').then(({ sendAnalytics }) => {
+        sendAnalytics('assistant_start', { intent: intent || undefined, locale, target: targetHref });
+      }).catch(() => {});
     } catch {}
   };
 
@@ -125,16 +111,9 @@ export default function AssistantPanel() {
               })();
               const onSuggestionClick = () => {
                 try {
-                  const payload = {
-                    eventType: 'assistant_suggestion_click',
-                    eventData: { id: m.id, title: m.title, target: href, intent: intent || undefined, locale },
-                  };
-                  if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
-                    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-                    (navigator as any).sendBeacon('/api/analytics/events', blob);
-                  } else if (typeof fetch !== 'undefined') {
-                    fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
-                  }
+                  import('@/lib/analytics').then(({ sendAnalytics }) => {
+                    sendAnalytics('assistant_suggestion_click', { id: m.id, title: m.title, target: href, intent: intent || undefined, locale });
+                  }).catch(() => {});
                 } catch {}
               };
               return (

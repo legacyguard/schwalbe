@@ -97,16 +97,10 @@ export function Topbar({ locale }: TopbarProps) {
               className="hover:text-white"
               onClick={() => {
                 try {
-                  const payload = {
-                    eventType: 'assistant_nav_click',
-                    eventData: { locale, from: currentPath },
-                  };
-                  if (typeof navigator !== 'undefined' && 'sendBeacon' in navigator) {
-                    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-                    (navigator as any).sendBeacon('/api/analytics/events', blob);
-                  } else if (typeof fetch !== 'undefined') {
-                    fetch('/api/analytics/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
-                  }
+                  // dynamic import to avoid SSR issues
+                  import('@/lib/analytics').then(({ sendAnalytics }) => {
+                    sendAnalytics('assistant_nav_click', { locale, from: currentPath });
+                  }).catch(() => {});
                 } catch {}
               }}
             >
