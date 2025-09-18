@@ -82,6 +82,7 @@
     "ajv": "6.12.6"
   },
   "dependencies": {
+    "@next/eslint-plugin-next": "^15.5.3",
     "resend": "^6.1.0"
   }
 }

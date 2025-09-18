@@ -3,7 +3,9 @@
   "references": [
     { "path": "./packages/shared" },
     { "path": "./packages/logic" },
-    { "path": "./apps/web" }
+    { "path": "./apps/web" },
+    { "path": "./apps/web-next" },
+    { "path": "./apps/mobile" }
   ],
   "compilerOptions": {
     "composite": true,

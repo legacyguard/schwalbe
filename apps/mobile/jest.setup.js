@@ -14,3 +14,7 @@ if (typeof global.localStorage === 'undefined') {
 
 // Initialize i18n for tests (default to English)
 require('./src/i18n');
+
+// Additional RN testing setup
+// Mock timers for animation-heavy components if needed
+jest.useFakeTimers();
