@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { User, Globe, Search, LifeBuoy, ShoppingCart, ChevronDown, X } from "lucide-react";
 import { SearchBox } from "../search/SearchBox";
+import { isAssistantEnabled } from "@/config/flags";
 
 interface TopbarProps {
   locale: string;
@@ -90,6 +91,9 @@ export function Topbar({ locale }: TopbarProps) {
         <nav className="hidden md:flex items-center gap-4 text-sm" aria-label="Primary">
           <Link href={`/${locale}/subscriptions`} className="hover:text-white">Subscriptions</Link>
           <Link href={`/${locale}/support`} className="hover:text-white">Support</Link>
+          {isAssistantEnabled() ? (
+            <Link href={`/${locale}/assistant`} className="hover:text-white">Assistant</Link>
+          ) : null}
         </nav>
 
         {/* Spacer */}
