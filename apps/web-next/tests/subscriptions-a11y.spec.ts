@@ -1,16 +1,16 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('subscriptions a11y', () => {
-  test.skip(true, 'Skipped for now: dialog hydration timing in dev server; tracked to stabilize later')
+  test.skip(true, 'Temporarily skipped due to dev server hydration variability; harness ready via __openCancelDialog')
 
   for (const locale of ['en','cs','sk'] as const) {
     test(`subscriptions a11y for ${locale}`, async ({ page, baseURL }) => {
-      // Navigate with flag to open dialog immediately
-      await page.goto(`${baseURL}/${locale}/subscriptions?openCancelDialog=1`)
+      await page.goto(`${baseURL}/${locale}/subscriptions?e2e=1`)
 
-      // Wait for hydration and dialog to appear
+      // Use deterministic global hook to open the dialog
       await page.waitForLoadState('domcontentloaded')
-      await page.waitForSelector('#cancel-dialog-title', { timeout: 15000 })
+      await page.waitForFunction(() => typeof (window as any).__openCancelDialog === 'function', undefined, { timeout: 15000 })
+      await page.evaluate(() => (window as any).__openCancelDialog())
 
       const dialog = page.getByRole('dialog')
       await expect(dialog).toBeVisible({ timeout: 15000 })

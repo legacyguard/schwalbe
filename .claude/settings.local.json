@@ -24,7 +24,10 @@
       "Bash(mv:*)",
       "Bash(timeout 10s npm run dev:web-next)",
       "Bash(touch:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(npm view:*)",
+      "Bash(claude doctor)",
+      "Bash(claude doctor:*)"
     ],
     "deny": []
   }
