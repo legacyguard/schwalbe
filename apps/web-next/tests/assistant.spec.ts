@@ -12,6 +12,12 @@ test('assistant loads and shows panel', async ({ page }) => {
   await expect(cta).toHaveAttribute('href', '/en/support');
 });
 
+test('assistant shows suggestions list', async ({ page }) => {
+  await page.goto('/en/assistant?intent=Organize%20important%20documents');
+  const list = page.getByTestId('assistant-suggestions');
+  await expect(list).toBeVisible();
+  await expect(list).toContainText(/Set up document vault/i);
+});
 test('assistant cta routes to documents for organize intent', async ({ page }) => {
   await page.goto('/en/assistant?intent=Organize%20important%20documents');
   const cta = page.getByTestId('assistant-cta-start');
