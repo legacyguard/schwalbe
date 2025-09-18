@@ -95,6 +95,7 @@ export function Topbar({ locale }: TopbarProps) {
             <Link
               href={`/${locale}/assistant`}
               className="hover:text-white"
+              aria-label="Assistant"
               onClick={() => {
                 try {
                   // dynamic import to avoid SSR issues
