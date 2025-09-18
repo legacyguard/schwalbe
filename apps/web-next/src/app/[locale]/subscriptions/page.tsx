@@ -187,6 +187,7 @@ export default function SubscriptionsPage() {
                 </Link>
                 {sub?.status === "active" || sub?.status === "trialing" ? (
                   <button
+                    data-testid="open-cancel"
                     className="inline-flex items-center px-3 py-1 rounded bg-red-600 text-white hover:bg-red-500"
                     onClick={() => setCancelOpen(true)}
                   >
@@ -228,10 +229,15 @@ export default function SubscriptionsPage() {
                 </label>
               ) : null}
               <div className="flex justify-end gap-2">
-                <button className="px-3 py-1 rounded bg-slate-700 hover:bg-slate-600" onClick={() => setCancelOpen(false)}>
+                <button
+                  data-testid="keep-subscription"
+                  className="px-3 py-1 rounded bg-slate-700 hover:bg-slate-600"
+                  onClick={() => setCancelOpen(false)}
+                >
                   {t("keepSubscription")}
                 </button>
                 <button
+                  data-testid="confirm-cancel"
                   className="px-3 py-1 rounded bg-red-600 hover:bg-red-500 disabled:opacity-50"
                   disabled={cancelLoading}
                   onClick={onConfirmCancel}
