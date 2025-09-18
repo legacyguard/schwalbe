@@ -60,8 +60,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning data-e2e={process.env.NEXT_PUBLIC_E2E === '1' ? '1' : undefined}>
         <NextIntlClientProvider messages={messages}>
+          <div data-testid="ssr-ready" className="sr-only">ready</div>
           <Topbar locale={locale} />
           {children}
         </NextIntlClientProvider>

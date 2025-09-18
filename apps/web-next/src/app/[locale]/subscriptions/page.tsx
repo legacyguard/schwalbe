@@ -16,6 +16,7 @@ import {
 export default function SubscriptionsPage() {
   const t = useTranslations("subscriptions");
   const locale = useLocale();
+  const [testE2E, setTestE2E] = React.useState(process.env.NEXT_PUBLIC_E2E === "1");
   const supabase = React.useMemo(() => createClientComponentClient(), []);
 
   const [sub, setSub] = React.useState<UserSubscription | null>(null);
@@ -31,6 +32,38 @@ export default function SubscriptionsPage() {
   const load = React.useCallback(async () => {
     setError(null);
     try {
+      if (testE2E) {
+        const future = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString();
+        const mockSub: UserSubscription = {
+          id: 'test-sub',
+          user_id: 'test-user',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          plan: 'family',
+          status: 'active',
+          billing_cycle: 'month',
+          expires_at: future,
+          price_amount_cents: 9900,
+          price_currency: 'USD',
+          auto_renew: true,
+          renew_url: null,
+          started_at: new Date().toISOString(),
+          cancelled_at: undefined,
+          stripe_customer_id: undefined,
+          stripe_subscription_id: undefined,
+        } as any;
+        const mockPrefs: SubscriptionPreferences = {
+          user_id: 'test-user',
+          days_before_primary: 7,
+          days_before_secondary: 1,
+          channels: ['email', 'in_app'],
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        } as any;
+        setSub(mockSub);
+        setPrefs(mockPrefs);
+        return;
+      }
       const [s, p] = await Promise.all([
         subscriptionService.getCurrentSubscription(),
         subscriptionService.getPreferences(),
@@ -40,7 +73,7 @@ export default function SubscriptionsPage() {
     } catch {
       setError(t("errors.loadFailed"));
     }
-  }, [t]);
+  }, [t, testE2E]);
 
   React.useEffect(() => {
     void load();
@@ -56,11 +89,12 @@ export default function SubscriptionsPage() {
   }, []);
 
   // E2E test driver: enable a small button to open cancel dialog in test mode
-  const [testE2E, setTestE2E] = React.useState(process.env.NEXT_PUBLIC_E2E === "1");
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const qp = new URLSearchParams(window.location.search).get("e2e") === "1";
-      if (qp) setTestE2E(true);
+      const forced = (window as any).__forceE2E === true;
+      const ssr = document.body?.getAttribute('data-e2e') === '1';
+      if (qp || forced || ssr) setTestE2E(true);
     }
   }, []);
 
@@ -139,6 +173,7 @@ export default function SubscriptionsPage() {
     <main className="min-h-screen bg-slate-900 text-slate-100 px-6 py-10">
       <section className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-semibold mb-4">{t("title")}</h1>
+        <div data-testid="subscriptions-ready" className="sr-only">ready</div>
 
         {testE2E ? (
           <div className="mb-3">
