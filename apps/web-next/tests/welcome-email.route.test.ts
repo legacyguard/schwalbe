@@ -1,15 +1,26 @@
 /** @jest-environment node */
 import { POST } from '@/app/api/emails/welcome/route'
 
-jest.mock('@schwalbe/shared/lib/resend', () => ({
-  emailService: {
-    sendWelcomeEmail: jest.fn().mockResolvedValue(undefined),
-  },
-}))
+// Mock the email service used by the route handler
+jest.mock('@schwalbe/shared/lib/resend', () => {
+  const sendWelcomeEmail = jest.fn().mockResolvedValue({ id: 'mocked-email-id' })
+  return {
+    emailService: {
+      sendWelcomeEmail,
+    },
+  }
+})
+
+// Only run the suite in Jest environments; avoid Playwright execution
+const isJest = typeof (globalThis as any).jest !== 'undefined'
+const runInJest = (cb: () => void) => {
+  if (isJest) cb()
+}
 
 import { emailService } from '@schwalbe/shared/lib/resend'
 
-describe('POST /api/emails/welcome', () => {
+runInJest(() => {
+  describe('POST /api/emails/welcome', () => {
   it('returns 400 when email is missing', async () => {
     const req = new Request('http://localhost/api/emails/welcome', {
       method: 'POST',
@@ -57,5 +68,6 @@ describe('POST /api/emails/welcome', () => {
     expect(res.status).toBe(500)
     const data = await res.json()
     expect(String(data.error || '')).toContain('fail')
+  })
   })
 })

@@ -6,9 +6,6 @@
 import { Resend } from 'resend';
 import { logger } from './logger';
 
-// Initialize Resend client
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Email configuration
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@legacyguard.app';
 const ALERT_EMAIL = process.env.RESEND_ALERT_EMAIL || 'alerts@legacyguard.app';
@@ -78,7 +75,9 @@ class EmailService {
       const html = this.buildEmailHtml(options.template, options.data);
 
       // Send email via Resend
-      const { data, error } = await resend.emails.send({
+      // Initialize client (guaranteed to have key by now)
+      const client = new Resend(process.env.RESEND_API_KEY as string);
+      const { data, error } = await client.emails.send({
         from: FROM_EMAIL,
         to: Array.isArray(options.to) ? options.to : [options.to],
         subject: options.subject,
