@@ -30,7 +30,9 @@
       "Bash(claude doctor:*)",
       "Bash(git checkout:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npm --workspace=@schwalbe/mobile run typecheck)",
+      "Bash(npm --workspace=@schwalbe/mobile run test)"
     ],
     "deny": []
   }

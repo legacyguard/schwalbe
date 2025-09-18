@@ -100,7 +100,7 @@ export const EmotionalAnimationWrapper: React.FC<EmotionalAnimationWrapperProps>
   }, []);
 
   const getAnimatedStyle = (): any => {
-    const baseStyle = {
+    const baseStyle: any = {
       transform: [],
       opacity: opacityValue,
     };

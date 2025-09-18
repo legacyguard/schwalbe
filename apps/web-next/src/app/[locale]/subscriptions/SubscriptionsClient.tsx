@@ -1,12 +1,19 @@
-import SubscriptionsClient from './SubscriptionsClient'
+"use client";
 
-export default function SubscriptionsPage() {
-  return (
-    <>
-      <div data-testid="ssr-ready" className="sr-only">ready</div>
-      <SubscriptionsClient />
-    </>
-  )
+import React from "react";
+import { useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
+import { createClientComponentClient } from "@/lib/supabase-client";
+import {
+  subscriptionService,
+  billingConfig,
+  daysUntil,
+  isTrialActive,
+  type UserSubscription,
+  type SubscriptionPreferences,
+} from "@schwalbe/shared";
+
+export default function SubscriptionsClient() {
   const t = useTranslations("subscriptions");
   const locale = useLocale();
   const [testE2E, setTestE2E] = React.useState(process.env.NEXT_PUBLIC_E2E === "1");
@@ -21,6 +28,15 @@ export default function SubscriptionsPage() {
   const [cancelMode, setCancelMode] = React.useState<"end_of_period" | "immediate">(
     billingConfig.cancellationPolicy
   );
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const qp = new URLSearchParams(window.location.search).get("e2e") === "1";
+      const forced = (window as any).__forceE2E === true;
+      const ssr = document.body?.getAttribute('data-e2e') === '1';
+      if (qp || forced || ssr) setTestE2E(true);
+    }
+  }, []);
 
   const load = React.useCallback(async () => {
     setError(null);
@@ -81,27 +97,16 @@ export default function SubscriptionsPage() {
     } catch {}
   }, []);
 
-  // E2E test driver: enable a small button to open cancel dialog in test mode
+  // E2E hook for deterministic dialog open
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const qp = new URLSearchParams(window.location.search).get("e2e") === "1";
-      const forced = (window as any).__forceE2E === true;
-      const ssr = document.body?.getAttribute('data-e2e') === '1';
-      if (qp || forced || ssr) setTestE2E(true);
+    if (typeof window !== 'undefined') {
+      (window as any).__openCancelDialog = () => setCancelOpen(true);
+      return () => {
+        try { delete (window as any).__openCancelDialog } catch {}
+      }
     }
   }, []);
 
-  // E2E hook: expose a global function to open cancel dialog deterministically
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      (window as any).__openCancelDialog = () => setCancelOpen(true);
-      return () => {
-        try {
-          delete (window as any).__openCancelDialog;
-        } catch {}
-      };
-    }
-  }, []);
   const onSavePrefs = async () => {
     if (!prefs) return;
     setSaving(true);
@@ -166,7 +171,6 @@ export default function SubscriptionsPage() {
     <main className="min-h-screen bg-slate-900 text-slate-100 px-6 py-10">
       <section className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-semibold mb-4">{t("title")}</h1>
-        <div data-testid="subscriptions-ready" className="sr-only">ready</div>
 
         {testE2E ? (
           <div className="mb-3">
@@ -401,17 +405,6 @@ export default function SubscriptionsPage() {
             <div>{t("loadingPreferences")}</div>
           )}
         </section>
-
-        {testE2E ? (
-          <button
-            type="button"
-            data-testid="open-cancel-dialog"
-            className="fixed bottom-4 left-4 z-50 rounded bg-slate-700 text-white px-3 py-1 text-xs"
-            onClick={() => setCancelOpen(true)}
-          >
-            Open Cancel Dialog (Test)
-          </button>
-        ) : null}
       </section>
     </main>
   );

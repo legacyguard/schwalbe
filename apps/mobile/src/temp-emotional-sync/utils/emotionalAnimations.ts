@@ -234,7 +234,9 @@ export class EmotionalAnimations {
 
   // Helper method to run animation sequence
   static runSequence(sequence: AnimationSequence, callback?: () => void): void {
-    Animated.parallel(sequence.animations).start(callback);
+    if (sequence && sequence.animations) {
+      Animated.parallel(sequence.animations).start(callback);
+    }
   }
 
   // Helper method to create animated value with initial state
@@ -245,7 +247,10 @@ export class EmotionalAnimations {
   // Helper method to reset animation values
   static resetValues(values: { [key: string]: Animated.Value }, initialStates: { [key: string]: number }): void {
     Object.keys(values).forEach(key => {
-      values[key].setValue(initialStates[key] || 0);
+      const value = values[key];
+      if (value) {
+        value.setValue(initialStates[key] || 0);
+      }
     });
   }
 }

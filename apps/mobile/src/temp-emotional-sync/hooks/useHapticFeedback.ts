@@ -5,7 +5,7 @@
 
 import { useCallback } from 'react';
 import { Vibration, Platform } from 'react-native';
-import * as Haptics from 'expo-haptics';
+// import * as Haptics from 'expo-haptics';
 
 export type HapticType = 'encouragement' | 'success' | 'comfort' | 'achievement' | 'guidance' | 'error';
 
@@ -74,45 +74,14 @@ export const useHapticFeedback = () => {
     const pattern = hapticPatterns[hapticType];
 
     try {
-      // Use Expo Haptics for better control (iOS and modern Android)
-      if (Platform.OS === 'ios' || (Platform.OS === 'android' && Platform.Version >= 23)) {
-        switch (pattern.type) {
-          case 'impact':
-            await Haptics.impactAsync(
-              pattern.style === 'light' ? Haptics.ImpactFeedbackStyle.Light :
-              pattern.style === 'medium' ? Haptics.ImpactFeedbackStyle.Medium :
-              Haptics.ImpactFeedbackStyle.Heavy
-            );
-            break;
-
-          case 'notification':
-            await Haptics.notificationAsync(
-              pattern.style === 'light' ? Haptics.NotificationFeedbackType.Warning :
-              pattern.style === 'medium' ? Haptics.NotificationFeedbackType.Success :
-              Haptics.NotificationFeedbackType.Error
-            );
-            break;
-
-          case 'selection':
-            await Haptics.selectionAsync();
-            break;
-        }
-      } else {
-        // Fallback to basic vibration for older devices
-        if (pattern.pattern && pattern.pattern.length > 1) {
-          Vibration.vibrate(pattern.pattern);
-        } else {
-          Vibration.vibrate(pattern.duration || 50);
-        }
-      }
-    } catch (error) {
-      // Fallback to basic vibration if Expo Haptics fails
-      console.warn('Haptic feedback failed, using basic vibration:', error);
+      // For now, use basic vibration (will enable Expo Haptics when available)
       if (pattern.pattern && pattern.pattern.length > 1) {
         Vibration.vibrate(pattern.pattern);
       } else {
         Vibration.vibrate(pattern.duration || 50);
       }
+    } catch (error) {
+      console.warn('Haptic feedback failed:', error);
     }
   }, []);
 
@@ -146,9 +115,12 @@ export const useHapticFeedback = () => {
     if (disabled) return;
 
     for (let i = 0; i < sequence.length; i++) {
-      await triggerHaptic(sequence[i]);
-      if (i < sequence.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, delay));
+      const hapticType = sequence[i];
+      if (hapticType) {
+        await triggerHaptic(hapticType);
+        if (i < sequence.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
       }
     }
   }, [triggerHaptic]);

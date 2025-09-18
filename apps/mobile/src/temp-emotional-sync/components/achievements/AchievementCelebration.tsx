@@ -63,7 +63,7 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
     }).start();
 
     // Start particle burst animation
-    const particleAnimations = particleAnimations.current.map((particle, index) => {
+    const animations = particleAnimations.current.map((particle, index) => {
       return Animated.sequence([
         Animated.delay(index * 50),
         Animated.timing(particle, {
@@ -79,7 +79,7 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
       ]);
     });
 
-    Animated.parallel(particleAnimations).start();
+    Animated.parallel(animations).start();
   };
 
   const handleDismiss = () => {
