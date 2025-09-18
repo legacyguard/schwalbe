@@ -46,6 +46,15 @@ export default function SubscriptionsPage() {
     void load();
   }, [load]);
 
+  // Analytics: page view when subscriptions component is ready
+  React.useEffect(() => {
+    try {
+      import('@/lib/analytics').then(({ sendAnalytics }) => {
+        sendAnalytics('subscriptions_view', {});
+      }).catch(() => {});
+    } catch {}
+  }, []);
+
   // E2E test driver: enable a small button to open cancel dialog in test mode
   const [testE2E, setTestE2E] = React.useState(process.env.NEXT_PUBLIC_E2E === "1");
   React.useEffect(() => {
@@ -76,6 +85,15 @@ export default function SubscriptionsPage() {
         days_before_secondary: prefs.days_before_secondary,
         channels: prefs.channels,
       });
+      try {
+        import('@/lib/analytics').then(({ sendAnalytics }) => {
+          sendAnalytics('subscriptions_save_prefs', {
+            days_before_primary: prefs.days_before_primary,
+            days_before_secondary: prefs.days_before_secondary,
+            channels: prefs.channels,
+          });
+        }).catch(() => {});
+      } catch {}
     } catch {
       setError(t("errors.saveFailed"));
     } finally {
@@ -217,7 +235,14 @@ export default function SubscriptionsPage() {
                   <button
                     data-testid="open-cancel"
                     className="inline-flex items-center px-3 py-1 rounded bg-red-600 text-white hover:bg-red-500"
-                    onClick={() => setCancelOpen(true)}
+                    onClick={() => {
+                      try {
+                        import('@/lib/analytics').then(({ sendAnalytics }) => {
+                          sendAnalytics('subscriptions_cancel_open', {});
+                        }).catch(() => {});
+                      } catch {}
+                      setCancelOpen(true);
+                    }}
                   >
                     {t("cancelSubscription")}
                   </button>
@@ -268,7 +293,14 @@ export default function SubscriptionsPage() {
                   data-testid="confirm-cancel"
                   className="px-3 py-1 rounded bg-red-600 hover:bg-red-500 disabled:opacity-50"
                   disabled={cancelLoading}
-                  onClick={onConfirmCancel}
+                  onClick={async () => {
+                    try {
+                      import('@/lib/analytics').then(({ sendAnalytics }) => {
+                        sendAnalytics('subscriptions_cancel_confirm', { mode: cancelMode });
+                      }).catch(() => {});
+                    } catch {}
+                    await onConfirmCancel();
+                  }}
                 >
                   {cancelLoading ? t("cancelling") : t("confirmCancellationButton")}
                 </button>
