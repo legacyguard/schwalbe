@@ -58,12 +58,14 @@ export default function AssistantPanel() {
 
   useEffect(() => {
     // Fire an analytics beacon when assistant opens
-    try {
-      import('@/lib/analytics').then(({ sendAnalytics }) => {
-        sendAnalytics('assistant_open', { intent: intent || undefined, locale, source: source || undefined });
-      }).catch(() => {});
-    } catch {}
-  }, [intent, locale]);
+    if (!busy) {
+      try {
+        import('@/lib/analytics').then(({ sendAnalytics }) => {
+          sendAnalytics('assistant_open', { intent: intent || undefined, locale, source: source || undefined });
+        }).catch(() => {});
+      } catch {}
+    }
+  }, [intent, locale, source, busy]);
 
   const targetHref = (() => {
     const key = (intent || '').toLowerCase();

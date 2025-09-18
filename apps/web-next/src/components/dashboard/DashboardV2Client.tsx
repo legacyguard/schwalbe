@@ -31,8 +31,9 @@ export default function DashboardV2Client() {
 
   const trackCtaClick = () => {
     try {
-      const { sendAnalytics } = require('@/lib/analytics');
-      sendAnalytics('user_action', { action: 'click', category: 'dashboard_v2', label: 'cta_assistant', locale });
+      import('@/lib/analytics').then(({ sendAnalytics }) => {
+        sendAnalytics('user_action', { action: 'click', category: 'dashboard_v2', label: 'cta_assistant', locale });
+      }).catch(() => {});
     } catch {}
   };
 
