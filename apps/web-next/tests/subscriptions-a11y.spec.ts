@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe.skip('subscriptions a11y', () => {
+test.describe('subscriptions a11y', () => {
   for (const locale of ['en','cs','sk'] as const) {
     test(`subscriptions a11y for ${locale}`, async ({ page, baseURL }) => {
       // Mock Supabase endpoints to avoid network/hydration delays
@@ -18,9 +18,15 @@ test.describe.skip('subscriptions a11y', () => {
 
       await page.addInitScript(() => { (window as any).__forceE2E = true })
       await page.goto(`${baseURL}/${locale}/subscriptions`)
+      await page.waitForLoadState('domcontentloaded')
 
-      // Wait for SSR-ready marker from layout (sr-only)
-      await page.waitForSelector('[data-testid="ssr-ready"]', { timeout: 20000, state: 'attached' })
+      // Wait until at least one driver or hook is available
+      await page.waitForFunction(() => {
+        const w: any = window as any
+        return !!document.querySelector('[data-testid="open-cancel-dialog"]') ||
+               !!document.querySelector('[data-testid="open-cancel"]') ||
+               typeof w.__openCancelDialog === 'function'
+      }, undefined, { timeout: 20000 })
 
       // Try driver button, fallback to UI trigger or global hook
       const testBtn = page.getByTestId('open-cancel-dialog')

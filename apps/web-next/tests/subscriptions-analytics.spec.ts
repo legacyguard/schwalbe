@@ -17,9 +17,7 @@ test('subscriptions analytics beacons fire (view, open, confirm)', async ({ page
   // Force E2E mode
   await page.addInitScript(() => { (window as any).__forceE2E = true })
   await page.goto('/en/subscriptions')
-
-  // Wait for SSR marker
-  await page.waitForSelector('[data-testid="ssr-ready"]', { timeout: 20000, state: 'attached' })
+  await page.waitForLoadState('domcontentloaded')
 
   // Poll for view event
   let hasView = false

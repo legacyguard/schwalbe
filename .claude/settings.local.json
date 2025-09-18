@@ -28,7 +28,9 @@
       "Bash(npm view:*)",
       "Bash(claude doctor)",
       "Bash(claude doctor:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
