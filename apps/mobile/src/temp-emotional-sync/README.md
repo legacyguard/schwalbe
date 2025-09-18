@@ -1,27 +1,27 @@
 # Temp Emotional Sync Components
 
-**Účel:** Oddelený priestor pre vývoj nových emotívnych komponentov pred integráciou
+**Purpose:** Separate space for developing new emotional components before integration
 **Feature Flag:** `EXPO_PUBLIC_EMOTIONAL_SYNC_ENABLED`
 
-## Štruktúra
+## Structure
 
 ```
 temp-emotional-sync/
-├── theme/              # Nové farby, typografia, Tamagui config
-├── components/         # Nové React komponenty
+├── theme/              # New colors, typography, Tamagui config
+├── components/         # New React components
 │   ├── sofia-firefly/  # Touch-based Sofia firefly
-│   ├── animations/     # Emotívne animácie
-│   ├── messaging/      # Emotívny messaging systém
-│   ├── onboarding/     # Prepracovaný onboarding
+│   ├── animations/     # Emotional animations
+│   ├── messaging/      # Emotional messaging system
+│   ├── onboarding/     # Redesigned onboarding
 │   ├── achievements/   # Achievement celebrations
-│   └── haptics/        # Haptic feedback systém
-├── hooks/              # Custom hooks pre emotívne features
-└── utils/              # Utility funkcie
+│   └── haptics/        # Haptic feedback system
+├── hooks/              # Custom hooks for emotional features
+└── utils/              # Utility functions
 ```
 
-## Zásady
+## Principles
 
-- Zachovať spätnú kompatibilitu
-- Používať feature flagy
-- Nezasahovať do packages/ bez nutnosti
-- Dodržať mobile-first approach
+- Maintain backward compatibility
+- Use feature flags
+- Don't touch packages/ unless necessary
+- Follow mobile-first approach
