@@ -2,5 +2,6 @@
   "title": "Asistent",
   "subtitle": "Získejte doporučení a jasné další kroky.",
   "ready": "Asistent se připravuje…",
-  "readyWithIntent": "Asistent se připravuje pomoci s: {intent}"
+  "readyWithIntent": "Asistent se připravuje pomoci s: {intent}",
+  "ctaStart": "Začít nyní"
 }
