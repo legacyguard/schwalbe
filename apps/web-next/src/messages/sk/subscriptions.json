@@ -26,6 +26,10 @@
   "keepSubscription": "Ponechať predplatné",
   "confirmCancellationButton": "Potvrdiť zrušenie",
   "cancelling": "Ruším…",
+  "meta": {
+    "title": "Vaše predplatné",
+    "description": "Správa plánu, obnovy a nastavení pripomienok"
+  },
   "errors": {
     "loadFailed": "Nepodarilo sa načítať predplatné",
     "saveFailed": "Nepodarilo sa uložiť nastavenia",

@@ -3,6 +3,7 @@
 import React from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@/lib/supabase-client";
 import {
   subscriptionService,
@@ -16,13 +17,14 @@ import {
 export default function SubscriptionsPage() {
   const t = useTranslations("subscriptions");
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const supabase = React.useMemo(() => createClientComponentClient(), []);
 
   const [sub, setSub] = React.useState<UserSubscription | null>(null);
   const [prefs, setPrefs] = React.useState<SubscriptionPreferences | null>(null);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [cancelOpen, setCancelOpen] = React.useState(false);
+  const [cancelOpen, setCancelOpen] = React.useState(() => searchParams.get("openCancelDialog") === "1");
   const [cancelLoading, setCancelLoading] = React.useState(false);
   const [cancelMode, setCancelMode] = React.useState<"end_of_period" | "immediate">(
     billingConfig.cancellationPolicy
@@ -45,6 +47,7 @@ export default function SubscriptionsPage() {
   React.useEffect(() => {
     void load();
   }, [load]);
+
 
   const onSavePrefs = async () => {
     if (!prefs) return;
@@ -101,7 +104,11 @@ export default function SubscriptionsPage() {
     <main className="min-h-screen bg-slate-900 text-slate-100 px-6 py-10">
       <section className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-semibold mb-4">{t("title")}</h1>
-        {error ? <div className="text-red-400 mb-3">{error}</div> : null}
+        {error ? (
+          <div role="alert" aria-live="polite" className="text-red-400 mb-3">
+            {error}
+          </div>
+        ) : null}
 
         <section className="mb-6 border border-slate-700 rounded p-4">
           <h2 className="text-xl font-medium mb-2">{t("currentPlan")}</h2>
@@ -186,11 +193,15 @@ export default function SubscriptionsPage() {
           <div
             role="dialog"
             aria-modal="true"
+            aria-labelledby="cancel-dialog-title"
+            aria-describedby="cancel-dialog-desc"
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
           >
             <div className="w-full max-w-md rounded bg-slate-900 border border-slate-700 p-4 text-slate-200">
-              <h3 className="text-lg font-semibold mb-2">{t("confirmCancellation")}</h3>
-              <p className="text-sm mb-4">
+              <h3 id="cancel-dialog-title" className="text-lg font-semibold mb-2">
+                {t("confirmCancellation")}
+              </h3>
+              <p id="cancel-dialog-desc" className="text-sm mb-4">
                 {billingConfig.cancellationPolicy === "end_of_period"
                   ? t("cancelEndOfPeriod")
                   : t("cancelImmediate")}

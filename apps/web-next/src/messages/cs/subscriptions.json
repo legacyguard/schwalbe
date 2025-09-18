@@ -26,6 +26,10 @@
   "keepSubscription": "Zachovat předplatné",
   "confirmCancellationButton": "Potvrdit zrušení",
   "cancelling": "Probíhá rušení…",
+  "meta": {
+    "title": "Vaše předplatné",
+    "description": "Správa plánu, obnovy a nastavení připomenutí"
+  },
   "errors": {
     "loadFailed": "Nepodařilo se načíst předplatné",
     "saveFailed": "Nepodařilo se uložit nastavení",

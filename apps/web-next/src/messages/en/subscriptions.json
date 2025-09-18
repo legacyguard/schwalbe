@@ -26,6 +26,10 @@
   "keepSubscription": "Keep subscription",
   "confirmCancellationButton": "Confirm cancellation",
   "cancelling": "Cancelling…",
+  "meta": {
+    "title": "Your Subscription",
+    "description": "Manage your plan, renewal, and reminder preferences"
+  },
   "errors": {
     "loadFailed": "Failed to load subscription",
     "saveFailed": "Failed to save preferences",

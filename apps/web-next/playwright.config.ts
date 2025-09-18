@@ -20,6 +20,7 @@ export default defineConfig({
     env: {
       NEXT_PUBLIC_ENABLE_DASHBOARD_V2: '1',
       NEXT_PUBLIC_ENABLE_ASSISTANT: '1',
+      NEXT_PUBLIC_TEST_MODE: '1',
       NEXT_PUBLIC_SUPABASE_URL: 'http://localhost:54321',
       NEXT_PUBLIC_SUPABASE_ANON_KEY: 'anon-public-placeholder',
       NEXT_PUBLIC_APP_URL: 'http://localhost:3001',
