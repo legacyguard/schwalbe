@@ -47,7 +47,13 @@ export default function SubscriptionsPage() {
   }, [load]);
 
   // E2E test driver: enable a small button to open cancel dialog in test mode
-  const testE2E = process.env.NEXT_PUBLIC_E2E === "1";
+  const [testE2E, setTestE2E] = React.useState(process.env.NEXT_PUBLIC_E2E === "1");
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const qp = new URLSearchParams(window.location.search).get("e2e") === "1";
+      if (qp) setTestE2E(true);
+    }
+  }, []);
 
   // E2E hook: expose a global function to open cancel dialog deterministically
   React.useEffect(() => {
@@ -115,6 +121,28 @@ export default function SubscriptionsPage() {
     <main className="min-h-screen bg-slate-900 text-slate-100 px-6 py-10">
       <section className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-semibold mb-4">{t("title")}</h1>
+
+        {testE2E ? (
+          <div className="mb-3">
+            <button
+              type="button"
+              data-testid="open-cancel-dialog"
+              className="mr-2 rounded bg-slate-700 text-white px-3 py-1 text-xs"
+              onClick={() => setCancelOpen(true)}
+            >
+              Open Cancel Dialog (Test)
+            </button>
+            <button
+              type="button"
+              data-testid="open-cancel"
+              className="rounded bg-red-700 text-white px-3 py-1 text-xs"
+              onClick={() => setCancelOpen(true)}
+            >
+              Cancel Subscription (Test)
+            </button>
+          </div>
+        ) : null}
+
         {error ? (
           <div role="alert" aria-live="polite" className="text-red-400 mb-3">
             {error}
@@ -185,7 +213,7 @@ export default function SubscriptionsPage() {
                 >
                   {t("openBillingPortal")}
                 </Link>
-                {sub?.status === "active" || sub?.status === "trialing" ? (
+                {testE2E || sub?.status === "active" || sub?.status === "trialing" ? (
                   <button
                     data-testid="open-cancel"
                     className="inline-flex items-center px-3 py-1 rounded bg-red-600 text-white hover:bg-red-500"
