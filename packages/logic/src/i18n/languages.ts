@@ -1,4 +1,4 @@
-// packages/shared/src/config/languages.ts
+// packages/logic/src/i18n/languages.ts
 // Domain → allowed languages mapping and locale utilities for LegacyGuard
 // NOTE: Keep codes in BCP 47 lowercase (e.g., 'cs', 'sk', 'en', 'de', 'uk')
 

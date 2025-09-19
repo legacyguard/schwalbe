@@ -34,10 +34,9 @@ export * from './services/subscription.service';
 // Export monitoring/analytics
 export { monitoringService } from './services/monitoring.service';
 
-// Export domain + language config
-export * from './config/domains';
-export * from './config/languages';
-export { getLanguageLabel, LANGUAGE_LABELS_EN } from './config/languages';
+// Export domain + language config (re-exported from logic to maintain compatibility)
+export * from '@schwalbe/logic/i18n/domains';
+export * from '@schwalbe/logic/i18n/languages';
 
 // Export billing config
 export * from './config/billing';
@@ -45,18 +44,39 @@ export * from './config/billing';
 // Export sharing service
 export { sharingService, SharingService } from './services/sharing/sharing.service';
 
-// Export legal requirements dataset
-export * from './config/legal/requirements';
+// Export legal requirements dataset (aliased to avoid conflicts)
+export {
+  type Jurisdiction as LegalJurisdiction,
+  LEGAL_REQUIREMENTS,
+  getLegalRequirements
+} from './config/legal/requirements';
 
 // Export sharing types
 export type { CreateShareLinkInput, SharePermissions } from './services/sharing/sharing.service';
 export type { ShareLink } from './types/sharing';
 
-// Export unified error handling system
-export * from './types/errors';
+// Export unified error handling system (aliased to avoid conflicts)
+export {
+  AppError,
+  ValidationError as AppValidationError,
+  NetworkError,
+  AuthenticationError,
+  AuthorizationError,
+  NotFoundError,
+  ConflictError,
+  createValidationError
+} from './types/errors';
 
 // Export authentication store
 export { useAuthStore } from './stores/authStore';
 
 // Export logger
 export { logger } from './lib/logger';
+
+// Export will services
+export { willService, WillService } from './services/will.service';
+export { willValidationService, WillValidationService } from './services/willValidation.service';
+export { willGuardianIntegration, WillGuardianIntegrationService } from './services/willGuardianIntegration.service';
+
+// Export will types (keeping will-specific types with their original names)
+export * from './types/will';

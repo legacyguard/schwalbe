@@ -25,8 +25,7 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    node: true,
-    'react-native/react-native': true
+    node: true
   },
   ignorePatterns: ['node_modules/', 'dist/', '.expo/']
 };

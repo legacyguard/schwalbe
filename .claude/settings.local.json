@@ -28,28 +28,25 @@
       "Bash(npm view:*)",
       "Bash(claude doctor)",
       "Bash(claude doctor:*)",
-      "Bash(git checkout:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
       "Bash(npm --workspace=@schwalbe/mobile run typecheck)",
       "Bash(npm --workspace=@schwalbe/mobile run test)",
       "Bash(npm --workspace=@schwalbe/mobile run build)",
-      "Bash(git push:*)",
-      "Bash(gh pr create:*)",
-      "Bash(./scripts/deploy-emotional-sync.sh:*)",
       "Bash(apps/mobile/scripts/deploy-emotional-sync.sh:*)",
       "Bash(npm ls:*)",
       "Bash(npx eslint:*)",
       "Bash(npm audit:*)",
       "Read(//Users/luborfedak/Documents/Github/hollywood/**)",
       "Bash(npm list:*)",
-      "Bash(npm --workspace=@schwalbe/web run build)",
-      "Bash(node:*)",
-      "Bash(npm --workspace=@schwalbe/web run dev)",
       "Bash(npm --workspace=@schwalbe/web run typecheck)",
       "Bash(npm --workspace=@schwalbe/web run lint)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npm --workspace=@schwalbe/logic run typecheck)"
     ],
-    "deny": []
+    "deny": [
+      "Bash(git *:*)",
+      "Bash(gh *:*)",
+      "Bash(./scripts/deploy-emotional-sync.sh:*)",
+      "Bash(apps/mobile/scripts/deploy-emotional-sync.sh:*)"
+    ]
   }
 }

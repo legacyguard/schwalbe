@@ -1,4 +1,4 @@
-// packages/shared/src/config/domains.ts
+// packages/logic/src/i18n/domains.ts
 // Country domain configuration and helpers for LegacyGuard multi-domain setup
 // Supabase-first; used by landing header Country selector
 
