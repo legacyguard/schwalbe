@@ -4,10 +4,12 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Graceful fallback for demo/development without Supabase configuration
+let supabase: any;
+
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('Missing Supabase environment variables. Using demo mode.');
   // Create a mock client for demo purposes
-  export const supabase = {
+  supabase = {
     auth: {
       getSession: () => Promise.resolve({ data: { session: null }, error: null }),
       getUser: () => Promise.resolve({ data: { user: null }, error: null }),
@@ -24,7 +26,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
     })
   } as any;
 } else {
-  export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: true,
       persistSession: true,
@@ -32,3 +34,5 @@ if (!supabaseUrl || !supabaseAnonKey) {
     }
   });
 }
+
+export { supabase };
