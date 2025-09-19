@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build --workspace=@schwalbe/web",
+  "buildCommand": "NODE_OPTIONS=--max-old-space-size=8192 npx turbo run build --filter=@schwalbe/web",
   "outputDirectory": "apps/web/dist",
   "installCommand": "npm ci",
   "framework": "vite",
