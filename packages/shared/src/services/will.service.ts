@@ -69,16 +69,20 @@ export class WillService {
 
       logger.info('Will generated successfully', {
         userId: request.userData.personal.userId,
-        isValid: result.validation.isValid,
-        errorCount: result.validation.errors.length,
-        warningCount: result.validation.warnings.length
+        metadata: {
+          isValid: result.validation.isValid,
+          errorCount: result.validation.errors.length,
+          warningCount: result.validation.warnings.length
+        }
       });
 
       return result;
     } catch (error) {
       logger.error('Failed to generate will', {
         userId: request.userData.personal?.userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }
@@ -118,15 +122,19 @@ export class WillService {
 
       logger.info('Will saved successfully', {
         userId,
-        willId: data.id,
-        status: data.status
+        metadata: {
+          willId: data.id,
+          status: data.status
+        }
       });
 
       return data;
     } catch (error) {
       logger.error('Failed to save will', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }
@@ -151,7 +159,9 @@ export class WillService {
     } catch (error) {
       logger.error('Failed to get user wills', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }
@@ -179,9 +189,11 @@ export class WillService {
       return data;
     } catch (error) {
       logger.error('Failed to get will', {
-        willId,
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          willId,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }
@@ -212,16 +224,20 @@ export class WillService {
       }
 
       logger.info('Will updated successfully', {
-        willId,
-        userId
+        userId,
+        metadata: {
+          willId
+        }
       });
 
       return data;
     } catch (error) {
       logger.error('Failed to update will', {
-        willId,
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          willId,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }
@@ -243,14 +259,18 @@ export class WillService {
       }
 
       logger.info('Will deleted successfully', {
-        willId,
-        userId
+        userId,
+        metadata: {
+          willId
+        }
       });
     } catch (error) {
       logger.error('Failed to delete will', {
-        willId,
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          willId,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }
@@ -278,16 +298,20 @@ export class WillService {
       }
 
       logger.info('Will executed successfully', {
-        willId,
-        userId
+        userId,
+        metadata: {
+          willId
+        }
       });
 
       return data;
     } catch (error) {
       logger.error('Failed to execute will', {
-        willId,
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          willId,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }

@@ -39,8 +39,18 @@ export default function LandingV2() {
   // Reduced motion preference
   const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Check if in demo mode
+  const isDemoMode = !import.meta.env.VITE_SUPABASE_URL;
+
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100">
+      {/* Demo Mode Banner */}
+      {isDemoMode && (
+        <div className="bg-amber-600 text-amber-100 px-4 py-2 text-center text-sm">
+          🚧 Demo Mode - Configure environment variables for full functionality
+        </div>
+      )}
+
       {/* Hero Section */}
       <section data-section="hero" className="px-6 py-20 bg-gradient-to-b from-slate-800 to-slate-900">
         <div className="max-w-4xl mx-auto text-center">

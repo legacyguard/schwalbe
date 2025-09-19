@@ -36,7 +36,9 @@ export class WillValidationService {
     try {
       logger.info('Starting will validation', {
         userId: userData.personal.userId,
-        jurisdiction: jurisdictionConfig.jurisdiction
+        metadata: {
+          jurisdiction: jurisdictionConfig.jurisdiction
+        }
       });
 
       // 1. Personal Information Validation
@@ -121,17 +123,21 @@ export class WillValidationService {
 
       logger.info('Will validation completed', {
         userId: userData.personal.userId,
-        isValid: result.isValid,
-        completenessScore: result.completenessScore,
-        errorCount: result.errors.length,
-        warningCount: result.warnings.length
+        metadata: {
+          isValid: result.isValid,
+          completenessScore: result.completenessScore,
+          errorCount: result.errors.length,
+          warningCount: result.warnings.length
+        }
       });
 
       return result;
     } catch (error) {
       logger.error('Will validation failed', {
         userId: userData.personal?.userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       throw error;
     }

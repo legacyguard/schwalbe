@@ -39,7 +39,9 @@ export class WillGuardianIntegrationService {
     try {
       logger.info('Syncing beneficiaries with guardians', {
         userId,
-        beneficiaryCount: beneficiaries.length
+        metadata: {
+          beneficiaryCount: beneficiaries.length
+        }
       });
 
       const existingGuardians = await this.getGuardians(userId);
@@ -75,7 +77,9 @@ export class WillGuardianIntegrationService {
     } catch (error) {
       logger.error('Error syncing beneficiaries with guardians', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
     }
   }
@@ -90,7 +94,9 @@ export class WillGuardianIntegrationService {
     try {
       logger.info('Syncing executors with guardians', {
         userId,
-        executorCount: executors.length
+        metadata: {
+          executorCount: executors.length
+        }
       });
 
       const existingGuardians = await this.getGuardians(userId);
@@ -131,7 +137,9 @@ export class WillGuardianIntegrationService {
     } catch (error) {
       logger.error('Error syncing executors with guardians', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
     }
   }
@@ -146,7 +154,9 @@ export class WillGuardianIntegrationService {
     try {
       logger.info('Syncing child guardians with guardians', {
         userId,
-        guardianshipCount: guardianships.length
+        metadata: {
+          guardianshipCount: guardianships.length
+        }
       });
 
       const existingGuardians = await this.getGuardians(userId);
@@ -179,7 +189,9 @@ export class WillGuardianIntegrationService {
     } catch (error) {
       logger.error('Error syncing child guardians with guardians', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
     }
   }
@@ -261,7 +273,9 @@ export class WillGuardianIntegrationService {
     } catch (error) {
       logger.error('Error getting guardians for will roles', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       return {
         potentialExecutors: [],
@@ -334,7 +348,9 @@ export class WillGuardianIntegrationService {
     } catch (error) {
       logger.error('Error suggesting will roles', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       return {};
     }
@@ -366,7 +382,9 @@ export class WillGuardianIntegrationService {
     } catch (error) {
       logger.error('Error creating will guidance entry', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
     }
   }
@@ -544,7 +562,9 @@ export class WillGuardianIntegrationService {
     } catch (error) {
       logger.error('Error validating guardian-will compatibility', {
         userId,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        metadata: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
       });
       return {
         isValid: false,

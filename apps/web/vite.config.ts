@@ -79,7 +79,7 @@ const cookieCjsPlugin = () => ({
 
 export default defineConfig({
   // RN stub plugin runs first, then UI stub, then React
-  plugins: [rnStubPlugin(), tamaguiStubPlugin(), cookieCjsPlugin(), uiStubPlugin(), react()],
+  plugins: [rnStubPlugin(), tamaguiStubPlugin(), cookieCjsPlugin(), uiStubPlugin(), react()] as any,
   resolve: {
     conditions: ['browser', 'module', 'production'],
     mainFields: ['browser', 'main', 'module'],

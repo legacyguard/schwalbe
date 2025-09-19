@@ -60,11 +60,13 @@ export {
   AppError,
   ValidationError as AppValidationError,
   NetworkError,
-  AuthenticationError,
-  AuthorizationError,
-  NotFoundError,
-  ConflictError,
-  createValidationError
+  AuthError,
+  BusinessError,
+  createValidationError,
+  createAuthError,
+  createNetworkError,
+  ErrorCode,
+  ErrorSeverity
 } from './types/errors';
 
 // Export authentication store
