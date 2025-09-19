@@ -1,31 +1,13 @@
 {
   "version": 2,
-  "buildCommand": "NODE_OPTIONS=--max-old-space-size=8192 npx turbo run build --filter=@schwalbe/web",
+  "buildCommand": "npm ci && npm run build --workspace=@schwalbe/web",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "npm ci",
-  "framework": "vite",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "nodejs22.x"
-    }
-  },
-  "cron": [
-    { "path": "/api/trigger/check-inactivity", "schedule": "0 */6 * * *" },
-    { "path": "/api/trigger/protocol-inactivity-checker", "schedule": "0 * * * *" }
-  ],
+  "installCommand": "echo 'Skip install - using npm ci in build'",
+  "framework": null,
   "rewrites": [
-    { "source": "/robots.txt", "destination": "/api/robots" }
-  ],
-  "headers": [
     {
       "source": "/(.*)",
-      "headers": [
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
-      ]
+      "destination": "/index.html"
     }
   ]
 }
