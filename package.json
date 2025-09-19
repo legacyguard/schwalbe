@@ -80,7 +80,7 @@
     "@tamagui/*": "1.132.23",
     "@types/react": "~18.3.12",
     "@types/react-native": "~0.73.0",
-    "cookie": "0.6.0",
+    "cookie": "^0.7.0",
     "ajv": "6.12.6"
   },
   "dependencies": {
