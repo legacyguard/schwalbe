@@ -20,6 +20,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "dev:mobile": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev --filter=@schwalbe/mobile",
+    "dev:web": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev --filter=@schwalbe/web",
     "build:mobile": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter=@schwalbe/mobile",
     "build:packages": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter='./packages/*'",
     "test:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test --cache-dir=.turbo",
