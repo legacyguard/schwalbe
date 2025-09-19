@@ -705,7 +705,7 @@ class MonitoringService {
     // Process analytics data
     const summary = {
       totalEvents: data.length,
-      uniqueSessions: new Set(data.map(e => e.session_id)).size,
+      uniqueSessions: new Set(data.map((e: any) => e.session_id)).size,
       eventTypes: {} as Record<string, number>,
       topPages: {} as Record<string, number>,
       devices: {
@@ -715,7 +715,7 @@ class MonitoringService {
       browsers: {} as Record<string, number>,
     };
 
-    data.forEach(event => {
+    data.forEach((event: any) => {
       // Count event types
       summary.eventTypes[event.event_type] =
         (summary.eventTypes[event.event_type] || 0) + 1;

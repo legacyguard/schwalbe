@@ -14,18 +14,30 @@ const supabaseAnonKey =
   process.env['VITE_SUPABASE_ANON_KEY'] || // Add Vite support
   '';
 
-if (!supabaseUrl || !supabaseAnonKey) {
+// Check for placeholder values
+const isPlaceholder = (value: string) =>
+  !value ||
+  value.includes('your-project.supabase.co') ||
+  value.includes('your-anon-key') ||
+  value.includes('placeholder');
+
+const hasValidConfig = supabaseUrl && supabaseAnonKey &&
+  !isPlaceholder(supabaseUrl) && !isPlaceholder(supabaseAnonKey);
+
+if (!hasValidConfig) {
   console.warn(
-    'Missing Supabase environment variables. Database features will not work.',
+    'Missing or placeholder Supabase environment variables. Database features will not work.',
     {
       hasUrl: !!supabaseUrl,
-      hasKey: !!supabaseAnonKey
+      hasKey: !!supabaseAnonKey,
+      urlValid: !isPlaceholder(supabaseUrl),
+      keyValid: !isPlaceholder(supabaseAnonKey)
     }
   );
 }
 
-// Create Supabase client with optimized session handling
-export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+// Create Supabase client with optimized session handling or mock client
+export const supabaseClient = hasValidConfig ? createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
@@ -38,7 +50,22 @@ export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
       'X-Client-Info': 'schwalbe-web',
     },
   },
-});
+}) : {
+  auth: {
+    getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+    getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+    signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Demo mode - authentication disabled' } }),
+    signUp: () => Promise.resolve({ data: null, error: { message: 'Demo mode - authentication disabled' } }),
+    signOut: () => Promise.resolve({ error: null }),
+    onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+  },
+  from: () => ({
+    select: () => ({ data: [], error: null }),
+    insert: () => ({ data: null, error: { message: 'Demo mode - database disabled' } }),
+    update: () => ({ data: null, error: { message: 'Demo mode - database disabled' } }),
+    delete: () => ({ data: null, error: { message: 'Demo mode - database disabled' } })
+  })
+} as any;
 
 // Backward compatibility export
 export const supabase = supabaseClient;
