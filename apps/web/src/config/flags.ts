@@ -13,7 +13,7 @@ export function isOnboardingEnabled(): boolean {
   return parseFlag(import.meta.env.VITE_ENABLE_ONBOARDING);
 }
 
-export function isHollywoodLandingEnabled(): boolean {
+export function isLandingEnabled(): boolean {
   // Enable landing page by default for production deployment
-  return parseFlag(import.meta.env.VITE_ENABLE_HOLLYWOOD_LANDING) || true;
+  return parseFlag(import.meta.env.VITE_ENABLE_LANDING) || true;
 }

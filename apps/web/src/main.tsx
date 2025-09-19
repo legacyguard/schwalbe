@@ -16,7 +16,7 @@ import SupportEN from '@/pages/support/support.en'
 import SupportCS from '@/pages/support/support.cs'
 import SupportSK from '@/pages/support/support.sk'
 import { SupportIndex } from '@/features/support/SupportIndex'
-import { isHollywoodLandingEnabled } from '@/config/flags';
+import { isLandingEnabled } from '@/config/flags';
 import LandingV2 from '@/components/landing/LandingV2';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
@@ -34,7 +34,7 @@ if (rootEl) {
             {/* Public routes */}
             <Route path="/auth/signin" element={<SignIn />} />
             <Route path="/auth/signup" element={<SignUp />} />
-            {isHollywoodLandingEnabled() && (
+            {isLandingEnabled() && (
               <Route path="/landing-v2" element={<LandingV2 />} />
             )}
             <Route path="/will/wizard/*" element={<ProtectedRoute><WillWizardRoutes /></ProtectedRoute>} />
@@ -52,7 +52,7 @@ if (rootEl) {
             <Route
               path="/"
               element={
-                isHollywoodLandingEnabled() ? (
+                isLandingEnabled() ? (
                   <LandingV2 />
                 ) : (
                   <ProtectedRoute>
