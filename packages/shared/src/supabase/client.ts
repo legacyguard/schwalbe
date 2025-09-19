@@ -1,6 +1,5 @@
 
 import { createClient } from '@supabase/supabase-js';
-import { logger } from '../lib/logger';
 
 // Environment variables with fallbacks for different environments
 const supabaseUrl =
@@ -16,13 +15,11 @@ const supabaseAnonKey =
   '';
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  logger.warn(
+  console.warn(
     'Missing Supabase environment variables. Database features will not work.',
     {
-      metadata: {
-        hasUrl: !!supabaseUrl,
-        hasKey: !!supabaseAnonKey
-      }
+      hasUrl: !!supabaseUrl,
+      hasKey: !!supabaseAnonKey
     }
   );
 }

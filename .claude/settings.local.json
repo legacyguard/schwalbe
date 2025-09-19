@@ -42,7 +42,13 @@
       "Bash(npx eslint:*)",
       "Bash(npm audit:*)",
       "Read(//Users/luborfedak/Documents/Github/hollywood/**)",
-      "Bash(npm list:*)"
+      "Bash(npm list:*)",
+      "Bash(npm --workspace=@schwalbe/web run build)",
+      "Bash(node:*)",
+      "Bash(npm --workspace=@schwalbe/web run dev)",
+      "Bash(npm --workspace=@schwalbe/web run typecheck)",
+      "Bash(npm --workspace=@schwalbe/web run lint)",
+      "Bash(npx tsc:*)"
     ],
     "deny": []
   }

@@ -57,3 +57,6 @@ export * from './types/errors';
 
 // Export authentication store
 export { useAuthStore } from './stores/authStore';
+
+// Export logger
+export { logger } from './lib/logger';

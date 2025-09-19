@@ -23,3 +23,6 @@ export type { ShareLink } from './types/sharing';
 
 // Logger (needed for error handling)
 export { logger } from './lib/logger';
+
+// Authentication store (needed for web auth)
+export { useAuthStore } from './stores/authStore';

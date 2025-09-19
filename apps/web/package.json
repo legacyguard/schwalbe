@@ -30,7 +30,7 @@
     "react-helmet-async": "^2.0.5",
     "react-i18next": "^15.7.3",
     "react-native-web": "^0.21.1",
-    "react-router-dom": "6.24.1",
+    "react-router-dom": "6.15.0",
     "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
