@@ -8,21 +8,24 @@ import { StepExecutor } from '../steps/StepExecutor'
 import { StepWitnesses } from '../steps/StepWitnesses'
 import { StepReview } from '../steps/StepReview'
 import { WizardLayout } from '../components/WizardLayout'
+import { WizardErrorBoundary } from '../components/ErrorBoundary'
 
 export function WillWizardRoutes() {
   return (
-    <WizardProvider>
-      <WizardLayout>
-        <Routes>
-          <Route path="start" element={<StepStart />} />
-          <Route path="testator" element={<StepTestator />} />
-          <Route path="beneficiaries" element={<StepBeneficiaries />} />
-          <Route path="executor" element={<StepExecutor />} />
-          <Route path="witnesses" element={<StepWitnesses />} />
-          <Route path="review" element={<StepReview />} />
-          <Route path="*" element={<Navigate to="start" replace />} />
-        </Routes>
-      </WizardLayout>
-    </WizardProvider>
+    <WizardErrorBoundary>
+      <WizardProvider>
+        <WizardLayout>
+          <Routes>
+            <Route path="start" element={<StepStart />} />
+            <Route path="testator" element={<StepTestator />} />
+            <Route path="beneficiaries" element={<StepBeneficiaries />} />
+            <Route path="executor" element={<StepExecutor />} />
+            <Route path="witnesses" element={<StepWitnesses />} />
+            <Route path="review" element={<StepReview />} />
+            <Route path="*" element={<Navigate to="start" replace />} />
+          </Routes>
+        </WizardLayout>
+      </WizardProvider>
+    </WizardErrorBoundary>
   )
 }

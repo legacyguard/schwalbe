@@ -344,6 +344,22 @@ i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
+  // Add pluralization support
+  pluralSeparator: '_',
+  contextSeparator: '_',
+  // Enable debugging in development
+  debug: process.env.NODE_ENV === 'development',
+  // Support for missing key handler
+  missingKeyHandler: (lng, ns, key) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`Missing translation: ${lng}:${ns}:${key}`);
+    }
+  },
+  // RTL language support
+  detection: {
+    order: ['localStorage', 'navigator', 'htmlTag'],
+    caches: ['localStorage'],
+  },
 });
 
 export default i18n;

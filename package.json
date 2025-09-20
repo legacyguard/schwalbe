@@ -51,7 +51,12 @@
     "salt:monitor:alerts": "npx tsx scripts/monitor-salt-health.ts --alerts",
     "observability:dashboard": "npx tsx scripts/observability-dashboard.ts",
     "observability:dashboard:json": "npx tsx scripts/observability-dashboard.ts --json",
-    "observability:dashboard:prod": "npx tsx scripts/observability-dashboard.ts --environment=production"
+    "observability:dashboard:prod": "npx tsx scripts/observability-dashboard.ts --environment=production",
+    "i18n:validate": "npx tsx scripts/i18n-validate.ts",
+    "i18n:coverage": "npx tsx scripts/i18n-validate.ts --coverage-only",
+    "test:coverage": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test:coverage",
+    "test:e2e:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test:e2e:ci",
+    "test:performance": "lighthouse http://localhost:3000 --output=json --output-path=./reports/lighthouse.json"
   },
   "devDependencies": {
     "@swc/helpers": "^0.5.17",
@@ -82,7 +87,7 @@
     "@types/react": "~18.3.12",
     "@types/react-native": "~0.73.0",
     "cookie": "^0.7.0",
-    "ajv": "^8.12.0"
+    "ajv": "^6.12.6"
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.13.23",

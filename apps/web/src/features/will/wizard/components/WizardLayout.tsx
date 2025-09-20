@@ -5,13 +5,22 @@ import { Progress } from './progress/Progress'
 import { Button } from '@/components/ui/button'
 import { useCompliance } from '../hooks/useCompliance'
 import { ComplianceBanner } from './compliance/ComplianceBanner'
+import { StepGuidance } from './StepGuidance'
 
 export function WizardLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation('will/wizard')
-  const { currentStep, goBack, goNext, saveDraft } = useWizard()
+  const {
+    currentStep,
+    goBack,
+    goNext,
+    saveDraft,
+    canProceedToNext,
+    validationErrors,
+    validationWarnings
+  } = useWizard()
   const index = stepsOrder.indexOf(currentStep)
   const canBack = index > 0
-  const canNext = index < stepsOrder.length - 1
+  const canNext = index < stepsOrder.length - 1 && canProceedToNext
 
   const compliance = useCompliance()
 
@@ -29,6 +38,44 @@ export function WizardLayout({ children }: { children: React.ReactNode }) {
         />
         <ComplianceBanner compliance={compliance} />
       </header>
+
+      {/* Validation Feedback */}
+      {(validationErrors.length > 0 || validationWarnings.length > 0) && (
+        <div className="mb-4 space-y-2">
+          {validationErrors.length > 0 && (
+            <div className="bg-red-900/50 border border-red-700 rounded-lg p-3">
+              <h3 className="text-red-300 font-medium text-sm mb-2">Required to continue:</h3>
+              <ul className="text-red-200 text-sm space-y-1">
+                {validationErrors.map((error, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <span className="text-red-400 mt-0.5">•</span>
+                    <span>{error}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {validationWarnings.length > 0 && (
+            <div className="bg-yellow-900/50 border border-yellow-700 rounded-lg p-3">
+              <h3 className="text-yellow-300 font-medium text-sm mb-2">Recommendations:</h3>
+              <ul className="text-yellow-200 text-sm space-y-1">
+                {validationWarnings.map((warning, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <span className="text-yellow-400 mt-0.5">•</span>
+                    <span>{warning}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Step Guidance */}
+      <div className="mb-4">
+        <StepGuidance />
+      </div>
+
       <section className="bg-slate-800 rounded-lg border border-slate-700 p-4" aria-live="polite">
         {children}
       </section>
@@ -44,8 +91,13 @@ export function WizardLayout({ children }: { children: React.ReactNode }) {
               {t('actions.back')}
             </Button>
           )}
-          {canNext && (
-            <Button onClick={goNext} aria-label="Go next">
+          {index < stepsOrder.length - 1 && (
+            <Button
+              onClick={goNext}
+              disabled={!canNext}
+              aria-label="Go next"
+              title={!canProceedToNext ? 'Complete required fields to continue' : undefined}
+            >
               {t('actions.next')}
             </Button>
           )}

@@ -43,8 +43,14 @@ export default [
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-optional-chain': 'error',
+      '@typescript-eslint/no-non-null-assertion': 'error',
+      '@typescript-eslint/prefer-as-const': 'error',
       'prefer-const': 'error',
       'no-var': 'error',
+      'eqeqeq': ['error', 'always'],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
       // Enforce import hygiene across packages/apps (except Next.js app which has its own ESLint)
       'import/order': ['warn', { groups: [['builtin','external','internal','parent','sibling','index']], 'newlines-between': 'always' }],
       'import/no-extraneous-dependencies': ['error', {

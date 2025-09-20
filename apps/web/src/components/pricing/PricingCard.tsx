@@ -1,4 +1,7 @@
 import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 interface PricingCardProps {
   plan: string;
@@ -12,38 +15,30 @@ interface PricingCardProps {
 
 export function PricingCard({ plan, price, period = '', features = [], highlight, ctaLabel = 'Choose Plan', onSelect }: PricingCardProps) {
   return (
-    <div
-      style={{
-        border: '1px solid #e5e7eb',
-        borderRadius: 12,
-        padding: 16,
-        background: highlight ? '#f0f9ff' : '#fff',
-      }}
-    >
-      <div style={{ fontWeight: 700, fontSize: 18 }}>{plan}</div>
-      <div style={{ marginTop: 6, fontSize: 28, fontWeight: 800 }}>
-        {price} <span style={{ fontSize: 14, color: '#6b7280' }}>{period}</span>
-      </div>
-      <ul style={{ marginTop: 12, paddingLeft: 16 }}>
-        {features.map((f, i) => (
-          <li key={i} style={{ marginBottom: 6 }}>{f}</li>
-        ))}
-      </ul>
-      <button
-        type="button"
-        onClick={onSelect}
-        style={{
-          marginTop: 12,
-          padding: '8px 12px',
-          borderRadius: 8,
-          border: '1px solid #0ea5e9',
-          background: '#0ea5e9',
-          color: '#fff',
-          cursor: 'pointer',
-        }}
-      >
-        {ctaLabel}
-      </button>
-    </div>
+    <Card className={cn(
+      "p-4",
+      highlight ? "bg-blue-50 border-blue-200" : "bg-white"
+    )}>
+      <CardHeader className="p-0 pb-3">
+        <h3 className="text-lg font-bold">{plan}</h3>
+        <div className="text-2xl font-extrabold">
+          {price} <span className="text-sm font-normal text-gray-500">{period}</span>
+        </div>
+      </CardHeader>
+      <CardContent className="p-0">
+        <ul className="space-y-1.5 mb-3 pl-4">
+          {features.map((f, i) => (
+            <li key={i} className="text-sm">{f}</li>
+          ))}
+        </ul>
+        <Button
+          onClick={onSelect}
+          className="w-full"
+          variant={highlight ? "default" : "outline"}
+        >
+          {ctaLabel}
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

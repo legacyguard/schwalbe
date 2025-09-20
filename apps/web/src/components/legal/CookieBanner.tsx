@@ -25,7 +25,7 @@ export function CookieBanner() {
     })()
 
     // On auth state changes, ensure consent row exists
-    const { data: sub } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: sub } = supabase.auth.onAuthStateChange(async (event: any, session: any) => {
       if (session?.user) {
         const didCreate = await ensureConsentRow(supabase)
         if (didCreate) {

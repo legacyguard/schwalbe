@@ -123,6 +123,14 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       external: (id: string) => id.includes('@tamagui/react-native-media-driver') || id.includes('@tamagui/animations-react-native'),
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          supabase: ['@supabase/supabase-js'],
+          router: ['react-router-dom'],
+          utils: ['date-fns', 'lodash']
+        }
+      }
     },
     commonjsOptions: {
       include: [/@supabase\/.*/, /node_modules/],

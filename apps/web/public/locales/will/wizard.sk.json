@@ -1,0 +1,31 @@
+{
+  "hints": {
+    "startInfo": "Začnime vytvárať vašu závet. Najprv potrebujeme niektoré základné informácie."
+  },
+  "labels": {
+    "jurisdiction": "Jurisdikcia",
+    "language": "Jazyk",
+    "form": "Typ závetu"
+  },
+  "actions": {
+    "next": "Pokračovať",
+    "back": "Späť",
+    "save": "Uložiť koncept",
+    "preview": "Náhľad"
+  },
+  "options": {
+    "jurisdictions": {
+      "CZ": "Česká republika",
+      "SK": "Slovensko"
+    },
+    "languages": {
+      "en": "Angličtina",
+      "cs": "Čeština",
+      "sk": "Slovenčina"
+    },
+    "forms": {
+      "typed": "Písaný na stroji",
+      "holographic": "Holografický"
+    }
+  }
+}

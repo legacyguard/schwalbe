@@ -20,35 +20,38 @@ import { isLandingEnabled } from '@/config/flags';
 import LandingV2 from '@/components/landing/LandingV2';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
+import { GlobalErrorBoundary, FeatureErrorBoundary } from '@/lib/errorHandling';
 import '@/lib/i18n';
+import './styles.css';
 
 const rootEl = document.getElementById('root');
 if (rootEl) {
   const root = createRoot(rootEl);
   root.render(
     <React.StrictMode>
-      <AuthProvider>
-        <BrowserRouter>
-          <AppShell>
-            <Routes>
+      <GlobalErrorBoundary>
+        <AuthProvider>
+          <BrowserRouter>
+            <AppShell>
+              <Routes>
             {/* Public routes */}
             <Route path="/auth/signin" element={<SignIn />} />
             <Route path="/auth/signup" element={<SignUp />} />
             {isLandingEnabled() && (
               <Route path="/landing-v2" element={<LandingV2 />} />
             )}
-            <Route path="/will/wizard/*" element={<ProtectedRoute><WillWizardRoutes /></ProtectedRoute>} />
-            <Route path="/assets/*" element={<ProtectedRoute><AssetsRoutes /></ProtectedRoute>} />
-            <Route path="/reminders/*" element={<ProtectedRoute><RemindersRoutes /></ProtectedRoute>} />
-            <Route path="/documents/*" element={<ProtectedRoute><DocumentRoutes /></ProtectedRoute>} />
-            <Route path="/share/:shareId" element={<ShareViewer />} />
-            <Route path="/subscriptions/*" element={<ProtectedRoute><SubscriptionsRoutes /></ProtectedRoute>} />
-            <Route path="/account/*" element={<ProtectedRoute><AccountRoutes /></ProtectedRoute>} />
-            <Route path="/legal/*" element={<LegalRoutes />} />
-            <Route path="/support" element={<SupportIndex />} />
-            <Route path="/support.en" element={<SupportEN />} />
-            <Route path="/support.cs" element={<SupportCS />} />
-            <Route path="/support.sk" element={<SupportSK />} />
+            <Route path="/will/wizard/*" element={<ProtectedRoute><FeatureErrorBoundary><WillWizardRoutes /></FeatureErrorBoundary></ProtectedRoute>} />
+            <Route path="/assets/*" element={<ProtectedRoute><FeatureErrorBoundary><AssetsRoutes /></FeatureErrorBoundary></ProtectedRoute>} />
+            <Route path="/reminders/*" element={<ProtectedRoute><FeatureErrorBoundary><RemindersRoutes /></FeatureErrorBoundary></ProtectedRoute>} />
+            <Route path="/documents/*" element={<ProtectedRoute><FeatureErrorBoundary><DocumentRoutes /></FeatureErrorBoundary></ProtectedRoute>} />
+            <Route path="/share/:shareId" element={<FeatureErrorBoundary><ShareViewer /></FeatureErrorBoundary>} />
+            <Route path="/subscriptions/*" element={<ProtectedRoute><FeatureErrorBoundary><SubscriptionsRoutes /></FeatureErrorBoundary></ProtectedRoute>} />
+            <Route path="/account/*" element={<ProtectedRoute><FeatureErrorBoundary><AccountRoutes /></FeatureErrorBoundary></ProtectedRoute>} />
+            <Route path="/legal/*" element={<FeatureErrorBoundary><LegalRoutes /></FeatureErrorBoundary>} />
+            <Route path="/support" element={<FeatureErrorBoundary><SupportIndex /></FeatureErrorBoundary>} />
+            <Route path="/support.en" element={<FeatureErrorBoundary><SupportEN /></FeatureErrorBoundary>} />
+            <Route path="/support.cs" element={<FeatureErrorBoundary><SupportCS /></FeatureErrorBoundary>} />
+            <Route path="/support.sk" element={<FeatureErrorBoundary><SupportSK /></FeatureErrorBoundary>} />
             <Route
               path="/"
               element={
@@ -81,8 +84,9 @@ if (rootEl) {
             <Route path="*" element={<Navigate to="/assets" replace />} />
             </Routes>
           </AppShell>
-        </BrowserRouter>
-      </AuthProvider>
+          </BrowserRouter>
+        </AuthProvider>
+      </GlobalErrorBoundary>
     </React.StrictMode>
   );
 }

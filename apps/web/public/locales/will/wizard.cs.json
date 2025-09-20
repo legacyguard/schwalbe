@@ -1,0 +1,31 @@
+{
+  "hints": {
+    "startInfo": "Začněme vytvářet vaši závěť. Nejprve potřebujeme některé základní informace."
+  },
+  "labels": {
+    "jurisdiction": "Jurisdikce",
+    "language": "Jazyk",
+    "form": "Typ závěti"
+  },
+  "actions": {
+    "next": "Pokračovat",
+    "back": "Zpět",
+    "save": "Uložit koncept",
+    "preview": "Náhled"
+  },
+  "options": {
+    "jurisdictions": {
+      "CZ": "Česká republika",
+      "SK": "Slovensko"
+    },
+    "languages": {
+      "en": "Angličtina",
+      "cs": "Čeština",
+      "sk": "Slovenština"
+    },
+    "forms": {
+      "typed": "Psaná na stroji",
+      "holographic": "Holografická"
+    }
+  }
+}

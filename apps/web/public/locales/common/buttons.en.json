@@ -1,0 +1,21 @@
+{
+  "save": "Save",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "delete": "Delete",
+  "edit": "Edit",
+  "create": "Create",
+  "update": "Update",
+  "close": "Close",
+  "back": "Back",
+  "next": "Next",
+  "continue": "Continue",
+  "finish": "Finish",
+  "confirm": "Confirm",
+  "retry": "Retry",
+  "getStarted": "Get Started",
+  "learnMore": "Learn More",
+  "viewMore": "View More",
+  "showLess": "Show Less",
+  "showMore": "Show More"
+}
