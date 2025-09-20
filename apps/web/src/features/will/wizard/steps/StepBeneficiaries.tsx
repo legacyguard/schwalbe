@@ -1,13 +1,44 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react'
+import React, { useMemo, useState, useEffect, useRef, useCallback, memo } from 'react'
 import { useWizard } from '../state/WizardContext'
 import { useTranslation } from 'react-i18next'
 import { FormField, AccessibleInput, AccessibleButton } from '@/components/ui/AccessibleForm'
 import { useFocusManagement, useAnnouncer } from '@/hooks/useAccessibility'
 
-export function StepBeneficiaries() {
+export const StepBeneficiaries = memo(function StepBeneficiaries() {
   const { state, setState, goNext, validationErrors } = useWizard()
   const { t } = useTranslation('will/wizard')
   const { setFocus } = useFocusManagement()
+
+  // Memoized callback for updating beneficiary data
+  const updateBeneficiary = useCallback((id: string, field: string, value: any) => {
+    setState((s) => ({
+      ...s,
+      beneficiaries: s.beneficiaries.map((x) => (x.id === id ? { ...x, [field]: value } : x))
+    }))
+  }, [setState])
+
+  // Memoized callback for adding beneficiary
+  const addBeneficiary = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      beneficiaries: [
+        ...s.beneficiaries,
+        {
+          id: `beneficiary_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          name: '',
+          relationship: ''
+        }
+      ]
+    }))
+  }, [setState])
+
+  // Memoized callback for removing beneficiary
+  const removeBeneficiary = useCallback((id: string) => {
+    setState((s) => ({
+      ...s,
+      beneficiaries: s.beneficiaries.filter((x) => x.id !== id)
+    }))
+  }, [setState])
   const { announce } = useAnnouncer()
   const [touched, setTouched] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
@@ -41,10 +72,10 @@ export function StepBeneficiaries() {
     announce('Beneficiary added', 'polite')
   }
 
-  function removeRow(id: string) {
-    setState((s) => ({ ...s, beneficiaries: s.beneficiaries.filter((b) => b.id !== id) }))
+  const removeRow = useCallback((id: string) => {
+    removeBeneficiary(id)
     announce('Beneficiary removed', 'polite')
-  }
+  }, [removeBeneficiary, announce])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -117,12 +148,7 @@ export function StepBeneficiaries() {
               >
                 <AccessibleInput
                   value={b.name}
-                  onChange={(e) =>
-                    setState((s) => ({
-                      ...s,
-                      beneficiaries: s.beneficiaries.map((x) => (x.id === b.id ? { ...x, name: e.target.value } : x)),
-                    }))
-                  }
+                  onChange={(e) => updateBeneficiary(b.id, 'name', e.target.value)}
                   aria-label={`Name of beneficiary ${idx + 1}`}
                   placeholder="Enter beneficiary name"
                 />
@@ -134,12 +160,7 @@ export function StepBeneficiaries() {
               >
                 <AccessibleInput
                   value={b.relationship ?? ''}
-                  onChange={(e) =>
-                    setState((s) => ({
-                      ...s,
-                      beneficiaries: s.beneficiaries.map((x) => (x.id === b.id ? { ...x, relationship: e.target.value } : x)),
-                    }))
-                  }
+                  onChange={(e) => updateBeneficiary(b.id, 'relationship', e.target.value)}
                   aria-label={`Relationship of beneficiary ${idx + 1} to testator`}
                   placeholder="Enter relationship"
                 />

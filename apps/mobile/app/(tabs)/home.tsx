@@ -6,9 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 import { useAuthStore } from '@/stores/authStore';
-import { SofiaFirefly } from '../../src/components/SofiaFirefly';
+import { SofiaFirefly } from '../../src/components/sofia-firefly';
 import { useHapticFeedback } from '../../src/temp-emotional-sync/hooks';
-import { MobileSofiaFirefly } from '../../src/temp-emotional-sync/components/sofia-firefly/MobileSofiaFirefly';
 import { EmotionalMessages } from '../../src/temp-emotional-sync/components/messaging/EmotionalMessages';
 import { AchievementCelebration, Achievement } from '../../src/temp-emotional-sync/components/achievements/AchievementCelebration';
 import { isFeatureEnabled } from '../../src/config/featureFlags';
@@ -97,11 +96,17 @@ export default function HomeScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#0f172a' }}>
       {/* Full-screen Sofia Firefly overlay */}
       {isFeatureEnabled('sofiaFirefly') && (
-        <MobileSofiaFirefly
-          isEnabled={true}
-          onInteractionStart={() => triggerEncouragement()}
-          size={28}
+        <SofiaFirefly
+          variant="interactive"
+          size="small"
+          personality="empathetic"
+          context="guiding"
+          onTouch={() => triggerEncouragement()}
           glowIntensity={0.4}
+          enableHaptics={true}
+          enableAdvancedAnimations={true}
+          accessibilityLabel="Sofia, your interactive guide"
+          accessibilityHint="Touch and move Sofia around the screen to interact"
         />
       )}
       <ScrollView
@@ -140,23 +145,19 @@ export default function HomeScreen() {
               </H1>
             </YStack>
             <XStack alignItems="center" space="$3">
-              {isFeatureEnabled('sofiaFirefly') ? (
-                <SofiaFirefly
-                  size="small"
-                  message="Sofia's firefly brings hope to your family's journey ✨"
-                  onTouch={async () => {
-                    await triggerEncouragement();
-                  }}
-                />
-              ) : (
-                <SofiaFirefly
-                  size="small"
-                  message="Sofia's firefly brings hope to your family's journey ✨"
-                  onTouch={async () => {
-                    await triggerEncouragement();
-                  }}
-                />
-              )}
+              <SofiaFirefly
+                size="small"
+                personality="empathetic"
+                context="guiding"
+                message="Sofia's firefly brings hope to your family's journey ✨"
+                onTouch={async () => {
+                  await triggerEncouragement();
+                }}
+                enableHaptics={true}
+                enableAdvancedAnimations={true}
+                accessibilityLabel="Sofia's guiding light"
+                accessibilityHint="Touch to receive Sofia's encouragement"
+              />
               <Button size="$4" chromeless>
                 <Bell size={24} color="$legacyAccentGold" />
               </Button>

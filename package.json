@@ -40,7 +40,7 @@
     "scan:secrets": "bash scripts/scan-secrets.sh",
     "deps:sync": "node scripts/sync-dependencies.js",
     "deps:check": "node scripts/sync-dependencies.js --dry-run",
-    "doc:guard": "npm run typecheck && npm run lint && npm test -- --watch=false",
+    "doc:guard": "npm run typecheck && npm run lint && npm test",
     "doc:feature": "bash scripts/collect_feature_context.sh && (open docs/_autodoc_context.txt || xdg-open docs/_autodoc_context.txt || echo 'Open docs/_autodoc_context.txt')",
     "doc:agent": "bash scripts/agent/run-agent.sh",
     "reindex:search": "npx tsx scripts/reindex-hashed-search.ts",
@@ -87,7 +87,9 @@
     "@types/react": "~18.3.12",
     "@types/react-native": "~0.73.0",
     "cookie": "^0.7.0",
-    "ajv": "^6.12.6"
+    "ajv": "^6.12.6",
+    "semver": ">=7.5.2",
+    "webpack-dev-server": ">=5.2.1"
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.13.23",

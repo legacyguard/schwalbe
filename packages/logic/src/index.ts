@@ -11,6 +11,10 @@ export * from './utils/date';
 export * from './will/engine';
 export * from './will/autoUpdate';
 
+// Will business logic services
+export * from './will/validation.service';
+export * from './will/will.service';
+
 // Output generation modules
 export * from './output';
 

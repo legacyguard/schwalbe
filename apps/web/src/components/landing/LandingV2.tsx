@@ -46,8 +46,7 @@ export default function LandingV2() {
   const isDemoMode = !import.meta.env.VITE_SUPABASE_URL;
 
   return (
-    <PasswordWall 
-      correctPassword="LegacyGuard1+2"
+    <PasswordWall
       onAuthenticated={() => sendAnalytics('landing_password_authenticated')}
     >
       <main className="min-h-screen bg-slate-900 text-slate-100">

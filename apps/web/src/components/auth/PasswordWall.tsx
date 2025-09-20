@@ -3,13 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 interface PasswordWallProps {
   children: React.ReactNode;
-  correctPassword: string;
   onAuthenticated?: () => void;
 }
 
 export const PasswordWall: React.FC<PasswordWallProps> = ({
   children,
-  correctPassword,
   onAuthenticated
 }) => {
   const { t } = useTranslation('common/buttons');
@@ -17,11 +15,22 @@ export const PasswordWall: React.FC<PasswordWallProps> = ({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [attemptCount, setAttemptCount] = useState(0);
 
   // Check if already authenticated (persist across page refreshes)
   useEffect(() => {
     const isAuth = sessionStorage.getItem('landing_authenticated') === 'true';
-    setIsAuthenticated(isAuth);
+    const authTimestamp = sessionStorage.getItem('landing_auth_timestamp');
+    const currentTime = Date.now();
+
+    // Check if authentication is still valid (24 hours)
+    if (isAuth && authTimestamp && (currentTime - parseInt(authTimestamp)) < 24 * 60 * 60 * 1000) {
+      setIsAuthenticated(true);
+    } else {
+      // Clear expired authentication
+      sessionStorage.removeItem('landing_authenticated');
+      sessionStorage.removeItem('landing_auth_timestamp');
+    }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,26 +38,56 @@ export const PasswordWall: React.FC<PasswordWallProps> = ({
     setIsLoading(true);
     setError('');
 
-    // Simulate a small delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    if (password === correctPassword) {
-      setIsAuthenticated(true);
-      sessionStorage.setItem('landing_authenticated', 'true');
-      onAuthenticated?.();
-    } else {
-      setError('Incorrect password. Please try again.');
-      setPassword('');
+    // Rate limiting - max 5 attempts per session
+    if (attemptCount >= 5) {
+      setError('Too many failed attempts. Please refresh the page to try again.');
+      setIsLoading(false);
+      return;
     }
-    
+
+    try {
+      // Call server-side verification API
+      const response = await fetch('/api/verify-landing-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setIsAuthenticated(true);
+          const timestamp = Date.now().toString();
+          sessionStorage.setItem('landing_authenticated', 'true');
+          sessionStorage.setItem('landing_auth_timestamp', timestamp);
+          onAuthenticated?.();
+        } else {
+          setError('Incorrect password. Please try again.');
+          setPassword('');
+          setAttemptCount(prev => prev + 1);
+        }
+      } else {
+        setError('Authentication service unavailable. Please try again later.');
+        setAttemptCount(prev => prev + 1);
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      setError('Authentication failed. Please try again.');
+      setAttemptCount(prev => prev + 1);
+    }
+
     setIsLoading(false);
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     sessionStorage.removeItem('landing_authenticated');
+    sessionStorage.removeItem('landing_auth_timestamp');
     setPassword('');
     setError('');
+    setAttemptCount(0);
   };
 
   if (isAuthenticated) {
