@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState, useCall
 import { logger } from '@schwalbe/shared';
 import { supabase } from '../../../../lib/supabase.js'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useKeyboardNavigation } from '@/hooks/useAccessibility'
 import type { JurisdictionCode, WillForm, WillInput } from '@schwalbe/logic'
 
 export type WizardStepKey = 'start' | 'testator' | 'beneficiaries' | 'executor' | 'witnesses' | 'review'
@@ -144,6 +145,24 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
     const last = parts[parts.length - 1] as WizardStepKey
     return stepsOrder.includes(last) ? last : 'start'
   }, [location.pathname])
+
+  // Keyboard navigation for wizard steps
+  const handleKeyboardNavigation = useCallback(() => {
+    const validation = validateCurrentStep()
+    if (validation.isValid) {
+      goNext()
+    }
+  }, [])
+
+  const handleKeyboardBack = useCallback(() => {
+    goBack()
+  }, [])
+
+  useKeyboardNavigation(
+    handleKeyboardNavigation, // Enter key
+    undefined, // Escape key - could be used for cancel/exit
+    undefined // Arrow keys - could be used for step navigation
+  )
 
   const [state, setState] = useState<WizardState>(() => {
     const local = localStorage.getItem('will_wizard_state')

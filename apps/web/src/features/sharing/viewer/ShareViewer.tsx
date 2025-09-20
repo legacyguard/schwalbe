@@ -183,3 +183,5 @@ export function ShareViewer() {
     </div>
   );
 }
+
+export default ShareViewer;

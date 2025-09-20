@@ -8,3 +8,5 @@ export function SupportIndex() {
   const target = normalized === 'en' || normalized === 'cs' || normalized === 'sk' ? normalized : 'en'
   return <Navigate to={`/support.${target}`} replace />
 }
+
+export default SupportIndex;

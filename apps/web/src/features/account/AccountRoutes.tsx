@@ -15,3 +15,5 @@ export function AccountRoutes() {
     </Routes>
   )
 }
+
+export default AccountRoutes;

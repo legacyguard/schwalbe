@@ -29,3 +29,5 @@ export function WillWizardRoutes() {
     </WizardErrorBoundary>
   )
 }
+
+export default WillWizardRoutes

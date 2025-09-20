@@ -15,3 +15,5 @@ export function AssetsRoutes() {
     </Routes>
   );
 }
+
+export default AssetsRoutes;

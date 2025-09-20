@@ -9,3 +9,5 @@ export function SubscriptionsRoutes() {
     </Routes>
   )
 }
+
+export default SubscriptionsRoutes;

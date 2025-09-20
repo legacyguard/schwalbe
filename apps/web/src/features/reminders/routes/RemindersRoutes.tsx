@@ -13,3 +13,5 @@ export function RemindersRoutes() {
     </Routes>
   )
 }
+
+export default RemindersRoutes;

@@ -1,12 +1,17 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
 import { useWizard } from '../state/WizardContext'
 import { useTranslation } from 'react-i18next'
-import { Input } from '@/components/ui/input'
+import { FormField, AccessibleInput, AccessibleButton } from '@/components/ui/AccessibleForm'
+import { useFocusManagement, useAnnouncer } from '@/hooks/useAccessibility'
 
 export function StepTestator() {
-  const { state, setState, goNext } = useWizard()
+  const { state, setState, goNext, validationErrors } = useWizard()
   const { t } = useTranslation('will/wizard')
+  const { setFocus } = useFocusManagement()
+  const { announce } = useAnnouncer()
   const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const formRef = useRef<HTMLFormElement>(null)
+  const firstFieldRef = useRef<HTMLInputElement>(null)
 
   const errors = useMemo(() => {
     const e: Record<string, string | undefined> = {}
@@ -26,84 +31,125 @@ export function StepTestator() {
 
   const hasErrors = Object.values(errors).some(Boolean)
 
+  // Set focus to first field when component mounts
+  useEffect(() => {
+    if (firstFieldRef.current) {
+      setFocus(firstFieldRef.current)
+    }
+  }, [setFocus])
+
+  // Announce validation errors
+  useEffect(() => {
+    const errorCount = Object.values(errors).filter(Boolean).length
+    if (errorCount > 0 && Object.values(touched).some(Boolean)) {
+      announce(`Form has ${errorCount} error${errorCount > 1 ? 's' : ''}`, 'assertive')
+    }
+  }, [errors, touched, announce])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!hasErrors) {
+      announce('Moving to next step', 'polite')
+      goNext()
+    } else {
+      announce('Please fix the errors before continuing', 'assertive')
+    }
+  }
+
   return (
     <form
-      className="grid gap-4"
-      onSubmit={(e) => {
-        e.preventDefault()
-        if (!hasErrors) goNext()
-      }}
+      ref={formRef}
+      className="space-y-6"
+      onSubmit={handleSubmit}
+      role="form"
+      aria-labelledby="wizard-testator-heading"
+      aria-describedby="testator-description"
+      noValidate
     >
-      <p className="text-slate-300">{t('hints.minAge')}</p>
-
-      <div>
-        <label htmlFor="fullName" className="block mb-1">
-          {t('labels.fullName')}
-        </label>
-        <Input
-          id="fullName"
-          value={state.testator.fullName}
-          onChange={(e) => setState((s) => ({ ...s, testator: { ...s.testator, fullName: e.target.value } }))}
-          onBlur={() => setTouched((x) => ({ ...x, fullName: true }))}
-          aria-invalid={!!errors.fullName && touched.fullName}
-          aria-describedby={errors.fullName && touched.fullName ? 'fullName-error' : undefined}
-        />
-        {errors.fullName && touched.fullName && (
-          <p id="fullName-error" className="text-red-300 text-sm mt-1">
-            {errors.fullName}
-          </p>
-        )}
+      <div className="sr-only">
+        <h2 id="wizard-testator-heading">
+          Will Creation - Testator Information
+        </h2>
+        <p id="testator-description">
+          Please provide information about the person creating the will (testator). All fields are required.
+        </p>
       </div>
 
-      <div>
-        <label htmlFor="age" className="block mb-1">
-          {t('labels.age')}
-        </label>
-        <Input
-          id="age"
+      <div className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-4" role="region" aria-labelledby="testator-hint-heading">
+        <h3 id="testator-hint-heading" className="text-blue-300 font-medium text-sm mb-2">
+          Testator Information
+        </h3>
+        <p className="text-blue-200 text-sm">
+          {t('hints.minAge')}
+        </p>
+      </div>
+
+      <FormField
+        label={t('labels.fullName')}
+        help="Enter the full legal name of the person creating the will"
+        required
+        error={touched.fullName ? errors.fullName : undefined}
+      >
+        <AccessibleInput
+          ref={firstFieldRef}
+          value={state.testator.fullName || ''}
+          onChange={(e) => setState((s) => ({ ...s, testator: { ...s.testator, fullName: e.target.value } }))}
+          onBlur={() => setTouched((x) => ({ ...x, fullName: true }))}
+          aria-label="Full legal name of testator"
+          placeholder="Enter full legal name"
+        />
+      </FormField>
+
+      <FormField
+        label={t('labels.age')}
+        help={`Minimum age required: ${state.form === 'typed' ? '18' : '15'} years for ${state.form} will`}
+        required
+        error={touched.age ? errors.age : undefined}
+      >
+        <AccessibleInput
           type="number"
           min={0}
+          max={120}
           value={state.testator.age ?? ''}
           onChange={(e) => setState((s) => ({ ...s, testator: { ...s.testator, age: Number(e.target.value) } }))}
           onBlur={() => setTouched((x) => ({ ...x, age: true }))}
-          aria-invalid={!!errors.age && touched.age}
-          aria-describedby={errors.age && touched.age ? 'age-error' : undefined}
+          aria-label="Age of testator in years"
+          placeholder="Enter age"
         />
-        {errors.age && touched.age && (
-          <p id="age-error" className="text-red-300 text-sm mt-1">
-            {errors.age}
-          </p>
-        )}
-      </div>
+      </FormField>
 
-      <div>
-        <label htmlFor="address" className="block mb-1">
-          {t('labels.address')}
-        </label>
-        <Input
-          id="address"
+      <FormField
+        label={t('labels.address')}
+        help="Enter the complete residential address of the testator"
+        required
+        error={touched.address ? errors.address : undefined}
+      >
+        <AccessibleInput
           value={state.testator.address ?? ''}
           onChange={(e) => setState((s) => ({ ...s, testator: { ...s.testator, address: e.target.value } }))}
           onBlur={() => setTouched((x) => ({ ...x, address: true }))}
-          aria-invalid={!!errors.address && touched.address}
-          aria-describedby={errors.address && touched.address ? 'address-error' : undefined}
+          aria-label="Residential address of testator"
+          placeholder="Enter complete address"
         />
-        {errors.address && touched.address && (
-          <p id="address-error" className="text-red-300 text-sm mt-1">
-            {errors.address}
-          </p>
-        )}
-      </div>
+      </FormField>
 
-      <div>
-        <button
+      <div className="pt-4">
+        <AccessibleButton
           type="submit"
-          className="bg-sky-600 hover:bg-sky-500 rounded px-4 py-2 disabled:opacity-60"
+          variant="primary"
+          size="md"
           disabled={hasErrors}
-          aria-disabled={hasErrors}
+          aria-describedby={hasErrors ? 'submit-help' : undefined}
         >
           {t('actions.next')}
-        </button>
+        </AccessibleButton>
+
+        {hasErrors && (
+          <p id="submit-help" className="mt-2 text-sm text-red-300">
+            Please complete all required fields to continue
+          </p>
+        )}
       </div>
     </form>
   )

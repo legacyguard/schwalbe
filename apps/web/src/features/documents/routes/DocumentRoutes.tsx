@@ -14,3 +14,5 @@ export function DocumentRoutes() {
     </Routes>
   )
 }
+
+export default DocumentRoutes;
