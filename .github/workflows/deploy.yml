@@ -8,6 +8,12 @@ on:
     types:
       - completed
     branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      rollback_ref:
+        description: 'Git ref to rollback to'
+        required: true
+        type: string
 
 env:
   NODE_VERSION: '20.19.1'
@@ -19,8 +25,10 @@ jobs:
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop' && github.event.workflow_run.conclusion == 'success'
-    environment: staging
+    if: github.ref == 'refs/heads/develop' && (github.event.workflow_run.conclusion == 'success' || github.event_name == 'push')
+    environment:
+      name: staging
+      url: https://schwalbe-staging.vercel.app
 
     steps:
       - name: Checkout code
@@ -58,17 +66,27 @@ jobs:
           curl -f https://schwalbe-staging.vercel.app/health || echo "Health check failed"
 
       - name: Notify staging deployment
+        if: success() && secrets.SLACK_WEBHOOK_URL != ''
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data '{"text":"🚀 Staging deployment successful for Schwalbe"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify staging deployment failure
+        if: failure() && secrets.SLACK_WEBHOOK_URL != ''
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"❌ Staging deployment failed for Schwalbe"}' \
             ${{ secrets.SLACK_WEBHOOK_URL }}
 
   # Deploy to Production
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event.workflow_run.conclusion == 'success'
-    environment: production
+    if: github.ref == 'refs/heads/main' && (github.event.workflow_run.conclusion == 'success' || github.event_name == 'push')
+    environment:
+      name: production
+      url: https://schwalbe.vercel.app
 
     steps:
       - name: Checkout code
@@ -109,9 +127,17 @@ jobs:
           npm run observability:dashboard:prod
 
       - name: Notify production deployment
+        if: success() && secrets.SLACK_WEBHOOK_URL != ''
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data '{"text":"✅ Production deployment successful for Schwalbe - All systems operational"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify production deployment failure
+        if: failure() && secrets.SLACK_WEBHOOK_URL != ''
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"🚨 CRITICAL: Production deployment failed for Schwalbe"}' \
             ${{ secrets.SLACK_WEBHOOK_URL }}
 
   # Performance Monitoring
@@ -138,6 +164,7 @@ jobs:
         run: npm install -g @lhci/cli
 
       - name: Run Lighthouse CI
+        if: secrets.LHCI_GITHUB_APP_TOKEN != ''
         run: lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
@@ -152,13 +179,15 @@ jobs:
     name: Emergency Rollback
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
-    environment: production
+    environment:
+      name: production
+      url: https://schwalbe.vercel.app
 
     steps:
       - name: Checkout previous stable version
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.rollback_ref }}
+          ref: ${{ inputs.rollback_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -185,7 +214,8 @@ jobs:
           working-directory: ./
 
       - name: Notify rollback
+        if: secrets.SLACK_WEBHOOK_URL != ''
         run: |
           curl -X POST -H 'Content-type: application/json' \
-            --data '{"text":"🔄 Emergency rollback completed for Schwalbe to ref: ${{ github.event.inputs.rollback_ref }}"}' \
+            --data '{"text":"🔄 Emergency rollback completed for Schwalbe to ref: ${{ inputs.rollback_ref }}"}' \
             ${{ secrets.SLACK_WEBHOOK_URL }}

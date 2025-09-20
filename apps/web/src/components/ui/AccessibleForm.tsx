@@ -8,6 +8,9 @@ interface FormFieldProps {
   required?: boolean;
   children: React.ReactElement;
   className?: string;
+  labelClassName?: string;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'inline' | 'floating';
 }
 
 export function FormField({
@@ -16,7 +19,10 @@ export function FormField({
   help,
   required = false,
   children,
-  className = ''
+  className = '',
+  labelClassName = '',
+  size = 'md',
+  variant = 'default'
 }: FormFieldProps) {
   const id = useId();
   const { addDescriptor, getDescribedBy, createDescriptorId } = useDescribedBy(id);
@@ -29,18 +35,112 @@ export function FormField({
     if (errorId) addDescriptor(errorId);
   }, [helpId, errorId, addDescriptor]);
 
+  const fieldId = children.props.id || id;
+
   const enhancedChild = React.cloneElement(children, {
-    id: children.props.id || id,
+    id: fieldId,
     'aria-describedby': getDescribedBy(),
     'aria-invalid': error ? 'true' : undefined,
     'aria-required': required ? 'true' : undefined,
   });
 
+  const sizeClasses = {
+    sm: 'space-y-0.5',
+    md: 'space-y-1',
+    lg: 'space-y-2'
+  };
+
+  const labelSizeClasses = {
+    sm: 'text-xs',
+    md: 'text-sm',
+    lg: 'text-base'
+  };
+
+  const helpSizeClasses = {
+    sm: 'text-xs',
+    md: 'text-sm',
+    lg: 'text-sm'
+  };
+
+  if (variant === 'inline') {
+    return (
+      <div className={`flex items-center space-x-3 ${className}`}>
+        <label
+          htmlFor={fieldId}
+          className={`text-sm font-medium text-white whitespace-nowrap ${labelClassName}`}
+        >
+          {label}
+          {required && <span className="text-red-400 ml-1" aria-label="required">*</span>}
+        </label>
+
+        <div className="flex-1">
+          {enhancedChild}
+          {error && (
+            <div
+              id={errorId}
+              className="text-xs text-red-300 flex items-center gap-1 mt-1"
+              role="alert"
+              aria-live="polite"
+            >
+              <span className="text-red-400" aria-hidden="true">⚠</span>
+              <span>{error}</span>
+            </div>
+          )}
+        </div>
+
+        {help && (
+          <div id={helpId} className="text-xs text-slate-400 max-w-xs">
+            {help}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (variant === 'floating') {
+    return (
+      <div className={`relative ${sizeClasses[size]} ${className}`}>
+        {enhancedChild}
+        <label
+          htmlFor={fieldId}
+          className={`absolute left-3 transition-all duration-200 pointer-events-none
+            ${labelSizeClasses[size]} font-medium text-slate-400
+            ${children.props.value || children.props.defaultValue
+              ? '-top-2 bg-slate-900 px-1 text-xs text-slate-300'
+              : 'top-1/2 -translate-y-1/2'
+            } ${labelClassName}`}
+        >
+          {label}
+          {required && <span className="text-red-400 ml-1" aria-label="required">*</span>}
+        </label>
+
+        {help && (
+          <div id={helpId} className={`${helpSizeClasses[size]} text-slate-300`}>
+            {help}
+          </div>
+        )}
+
+        {error && (
+          <div
+            id={errorId}
+            className={`${helpSizeClasses[size]} text-red-300 flex items-start gap-2`}
+            role="alert"
+            aria-live="polite"
+          >
+            <span className="text-red-400 mt-0.5" aria-hidden="true">⚠</span>
+            <span>{error}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Default variant
   return (
-    <div className={`space-y-1 ${className}`}>
+    <div className={`${sizeClasses[size]} ${className}`}>
       <label
-        htmlFor={children.props.id || id}
-        className="block text-sm font-medium text-white"
+        htmlFor={fieldId}
+        className={`block ${labelSizeClasses[size]} font-medium text-white ${labelClassName}`}
       >
         {label}
         {required && <span className="text-red-400 ml-1" aria-label="required">*</span>}
@@ -49,7 +149,7 @@ export function FormField({
       {enhancedChild}
 
       {help && (
-        <div id={helpId} className="text-sm text-slate-300">
+        <div id={helpId} className={`${helpSizeClasses[size]} text-slate-300`}>
           {help}
         </div>
       )}
@@ -57,7 +157,7 @@ export function FormField({
       {error && (
         <div
           id={errorId}
-          className="text-sm text-red-300 flex items-start gap-2"
+          className={`${helpSizeClasses[size]} text-red-300 flex items-start gap-2`}
           role="alert"
           aria-live="polite"
         >
