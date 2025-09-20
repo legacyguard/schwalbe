@@ -169,6 +169,34 @@ process.stdin.on('data', async (chunk) => {
         case 'resources/list':
           handleResourcesList(request.params, request.id);
           break;
+        case 'tools/list':
+          sendResponse(request.id, {
+            tools: [
+              {
+                name: "linear_auth",
+                description: "Authenticate with Linear using an API key",
+                inputSchema: {
+                  type: "object",
+                  properties: {
+                    token: {
+                      type: "string",
+                      description: "Linear API key"
+                    }
+                  },
+                  required: ["token"]
+                }
+              },
+              {
+                name: "linear_user_info",
+                description: "Get current Linear user information",
+                inputSchema: {
+                  type: "object",
+                  properties: {}
+                }
+              }
+            ]
+          });
+          break;
         default:
           sendResponse(request.id, null, {
             code: -32601,

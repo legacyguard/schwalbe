@@ -108,6 +108,34 @@ process.stdin.on('data', async (chunk) => {
       case 'auth':
         await handleAuth(request.params, request.id);
         break;
+      case 'tools/list':
+        sendResponse(request.id, {
+          tools: [
+            {
+              name: "clerk_auth",
+              description: "Authenticate with Clerk using a secret key",
+              inputSchema: {
+                type: "object",
+                properties: {
+                  token: {
+                    type: "string",
+                    description: "Clerk secret key"
+                  }
+                },
+                required: ["token"]
+              }
+            },
+            {
+              name: "clerk_instance_info",
+              description: "Get current Clerk instance information",
+              inputSchema: {
+                type: "object",
+                properties: {}
+              }
+            }
+          ]
+        });
+        break;
       default:
         sendResponse(request.id, null, {
           code: -32601,

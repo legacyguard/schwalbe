@@ -20,7 +20,7 @@ function sendResponse(id, result, error = null) {
     response.result = result;
   }
 
-  console.log(JSON.stringify(response));
+  process.stdout.write(JSON.stringify(response) + '\n');
 }
 
 // Handle initialize request
@@ -171,6 +171,38 @@ process.stdin.on('data', async (chunk) => {
         break;
       case 'migrations.push':
         handleMigrationsPush(request.params, request.id);
+        break;
+      case 'tools/list':
+        sendResponse(request.id, {
+          tools: [
+            {
+              name: "supabase_auth",
+              description: "Authenticate with Supabase using service role key",
+              inputSchema: {
+                type: "object",
+                properties: {
+                  url: {
+                    type: "string",
+                    description: "Supabase URL"
+                  },
+                  serviceKey: {
+                    type: "string",
+                    description: "Supabase service role key"
+                  }
+                },
+                required: ["url", "serviceKey"]
+              }
+            },
+            {
+              name: "supabase_project_info",
+              description: "Get current Supabase project information",
+              inputSchema: {
+                type: "object",
+                properties: {}
+              }
+            }
+          ]
+        });
         break;
       default:
         sendResponse(request.id, null, {

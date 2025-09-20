@@ -176,6 +176,34 @@ process.stdin.on('data', async (chunk) => {
         case 'resources/list':
           handleResourcesList(request.params, request.id);
           break;
+        case 'tools/list':
+          sendResponse(request.id, {
+            tools: [
+              {
+                name: "stripe_auth",
+                description: "Authenticate with Stripe using a secret key",
+                inputSchema: {
+                  type: "object",
+                  properties: {
+                    token: {
+                      type: "string",
+                      description: "Stripe secret key"
+                    }
+                  },
+                  required: ["token"]
+                }
+              },
+              {
+                name: "stripe_account_info",
+                description: "Get current Stripe account information",
+                inputSchema: {
+                  type: "object",
+                  properties: {}
+                }
+              }
+            ]
+          });
+          break;
         default:
           sendResponse(request.id, null, {
             code: -32601,

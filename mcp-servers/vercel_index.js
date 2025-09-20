@@ -54,6 +54,36 @@ function handleResourcesList(params, id) {
   });
 }
 
+// Handle tools list request
+function handleToolsList(params, id) {
+  sendResponse(id, {
+    tools: [
+      {
+        name: "vercel_auth",
+        description: "Authenticate with Vercel using a token",
+        inputSchema: {
+          type: "object",
+          properties: {
+            token: {
+              type: "string",
+              description: "Vercel API token"
+            }
+          },
+          required: ["token"]
+        }
+      },
+      {
+        name: "vercel_user_info",
+        description: "Get current Vercel user information",
+        inputSchema: {
+          type: "object",
+          properties: {}
+        }
+      }
+    ]
+  });
+}
+
 // Fetch user data from Vercel API
 async function fetchVercelUser(token) {
   const response = await fetch(`${VERCEL_API_ENDPOINT}/v2/user`, {
@@ -80,7 +110,8 @@ async function handleAuth(params, id) {
       throw new Error('Unsupported auth method');
     }
 
-    const token = params.token;
+    // Get token from environment variable or params
+    const token = process.env.VERCEL_TOKEN || params.token;
     if (!token) {
       throw new Error('No authentication token provided');
     }
@@ -145,6 +176,9 @@ process.stdin.on('data', async (chunk) => {
           break;
         case 'resources/list':
           handleResourcesList(request.params, request.id);
+          break;
+        case 'tools/list':
+          handleToolsList(request.params, request.id);
           break;
         default:
           sendResponse(request.id, null, {

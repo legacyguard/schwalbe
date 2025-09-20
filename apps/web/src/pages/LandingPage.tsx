@@ -2,11 +2,10 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { MetaTags } from '@/components/common/MetaTags';
-import { Button } from '@/stubs/ui';
-import { Card, CardContent } from '@/stubs/ui';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Icon } from '@/components/ui/icon-library';
-import { TopBar } from '@/components/layout/TopBar';
-import { DunningBanner } from '@/features/billing/DunningBanner';
+import { LegacyGuardLogo } from '@/components/LegacyGuardLogo';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { SecurityPromiseSection } from '@/components/landing/SecurityPromiseSection';
@@ -164,9 +163,62 @@ export function LandingPage() {
         url={t('meta.url')}
       />
 
-      {/* Navigation Header */}
-      <TopBar />
-      <DunningBanner />
+      {/* Navigation Header - Semi-transparent overlay */}
+      <header className='absolute top-0 left-0 right-0 z-50 bg-slate-900/30 backdrop-blur-sm border-b border-slate-700/30'>
+        <div className='container mx-auto px-4 py-4'>
+          <div className='flex items-center justify-between'>
+            <motion.div
+              className='flex items-center gap-3'
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <LegacyGuardLogo />
+              <span className='text-2xl font-bold text-white font-heading'>
+                LegacyGuard
+              </span>
+            </motion.div>
+
+            <div className='flex items-center gap-4'>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Link to='/blog'>
+                  <Button
+                    variant='ghost'
+                    className='text-slate-200 hover:text-white hover:bg-slate-800/50 border-0 text-lg font-medium px-4 py-2'
+                  >
+                    {t('navigation.blog')}
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button
+                  variant='ghost'
+                  onClick={() => navigate('/sign-in')}
+                  className='text-slate-200 hover:text-white hover:bg-slate-800/50 border-0 text-lg font-medium px-4 py-2'
+                >
+                  {t('navigation.signIn')}
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button
+                  onClick={handleGetStarted}
+                  className='bg-slate-700/70 hover:bg-slate-600 text-white border-slate-600 text-lg font-semibold px-6 py-2'
+                >
+                  {t('hero.cta.free')}
+                </Button>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </header>
 
       {/* Hero Section - Full Screen Night Scene */}
       <section

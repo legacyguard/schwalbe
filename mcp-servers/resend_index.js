@@ -143,6 +143,34 @@ process.stdin.on('data', async (chunk) => {
         case 'resources/list':
           handleResourcesList(request.params, request.id);
           break;
+        case 'tools/list':
+          sendResponse(request.id, {
+            tools: [
+              {
+                name: "resend_auth",
+                description: "Authenticate with Resend using an API key",
+                inputSchema: {
+                  type: "object",
+                  properties: {
+                    token: {
+                      type: "string",
+                      description: "Resend API key"
+                    }
+                  },
+                  required: ["token"]
+                }
+              },
+              {
+                name: "resend_domain_info",
+                description: "Get current Resend domain information",
+                inputSchema: {
+                  type: "object",
+                  properties: {}
+                }
+              }
+            ]
+          });
+          break;
         default:
           sendResponse(request.id, null, { code: -32601, message: 'Method not found' });
       }

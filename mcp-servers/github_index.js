@@ -54,7 +54,8 @@ async function handleAuth(params, id) {
       throw new Error('Unsupported auth method');
     }
 
-    const token = params.token;
+    // Get token from environment variable or params
+    const token = process.env.GITHUB_TOKEN || params.token;
     if (!token) {
       throw new Error('No authentication token provided');
     }
@@ -97,10 +98,23 @@ async function handleAuth(params, id) {
   }
 }
 
+// Buffer for incomplete JSON data
+let buffer = '';
+
 // Process incoming JSON-RPC requests
 process.stdin.on('data', async (chunk) => {
   try {
-    const request = JSON.parse(chunk);
+    buffer += chunk;
+    let request;
+    try {
+      request = JSON.parse(buffer);
+      // Reset buffer after successful parse
+      buffer = '';
+    } catch (parseError) {
+      // If it's a syntax error, the chunk might be incomplete
+      // Keep it in buffer and wait for more data
+      return;
+    }
     
     if (request.jsonrpc !== '2.0') {
       throw new Error('Invalid JSON-RPC version');
@@ -116,6 +130,39 @@ process.stdin.on('data', async (chunk) => {
       case 'auth':
         await handleAuth(request.params, request.id);
         break;
+      case 'resources/list':
+        // Return empty resources list
+        sendResponse(request.id, { resources: [] });
+        break;
+      case 'tools/list':
+        // Return available tools
+        sendResponse(request.id, {
+          tools: [
+            {
+              name: "github_auth",
+              description: "Authenticate with GitHub using a token",
+              inputSchema: {
+                type: "object",
+                properties: {
+                  token: {
+                    type: "string",
+                    description: "GitHub personal access token"
+                  }
+                },
+                required: ["token"]
+              }
+            },
+            {
+              name: "github_user_info",
+              description: "Get current GitHub user information",
+              inputSchema: {
+                type: "object",
+                properties: {}
+              }
+            }
+          ]
+        });
+        break;
       default:
         sendResponse(request.id, null, {
           code: -32601,
@@ -123,6 +170,13 @@ process.stdin.on('data', async (chunk) => {
         });
     }
   } catch (error) {
+    if (error instanceof SyntaxError) {
+      // If it's a syntax error, the chunk might be incomplete
+      // Keep it in buffer and wait for more data
+      return;
+    }
+    // For other errors, send error response and clear buffer
+    buffer = '';
     sendResponse(nextRequestId++, null, {
       code: -32700,
       message: error.message

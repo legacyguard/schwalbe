@@ -1,73 +1,51 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface LegacyGuardLogoProps {
   className?: string;
-  size?: 'sm' | 'md' | 'lg';
+  color?: string;
 }
 
-export const LegacyGuardLogo: React.FC<LegacyGuardLogoProps> = ({
-  className = '',
-  size = 'md'
-}) => {
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-12 h-12', 
-    lg: 'w-16 h-16'
-  };
-
+export function LegacyGuardLogo({
+  className = 'w-8 h-8',
+  color = '#facc15', // Yellow-400 color
+}: LegacyGuardLogoProps) {
+  const { t } = useTranslation('ui/legacy-guard-logo');
   return (
-    <motion.div 
-      className={`${sizeClasses[size]} ${className}`}
-      whileHover={{ rotate: 5 }}
-      transition={{ duration: 0.2 }}
-    >
-      {/* Shield shape with gradient */}
+    <div className={className}>
       <svg
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full"
-        aria-hidden="true"
-        focusable="false"
+        viewBox='0 0 256 256'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+        aria-label={t('ariaLabel')}
       >
-        <defs>
-          <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#fbbf24" />
-            <stop offset="100%" stopColor="#f59e0b" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge> 
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        
-        {/* Shield outline */}
-        <path
-          d="M50 10 L20 25 L20 55 C20 75 35 85 50 90 C65 85 80 75 80 55 L80 25 Z"
-          fill="url(#shieldGradient)"
-          stroke="#f59e0b"
-          strokeWidth="2"
-          filter="url(#glow)"
-        />
-        
-        {/* Inner design - tree/legacy symbol */}
-        <path
-          d="M50 25 L50 70 M40 40 L60 40 M35 55 L65 55"
-          stroke="#0f172a"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        
-        {/* Decorative dots */}
-        <circle cx="30" cy="35" r="2" fill="#0f172a" />
-        <circle cx="70" cy="35" r="2" fill="#0f172a" />
-        <circle cx="30" cy="65" r="2" fill="#0f172a" />
-        <circle cx="70" cy="65" r="2" fill="#0f172a" />
+        <g
+          fill='none'
+          stroke={color}
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        >
+          {/* Shield */}
+          <path
+            strokeWidth='14'
+            d='M128 20 48 56v64c0 60 44 100 80 116 36-16 80-56 80-116V56Z'
+          />
+
+          {/* Left side of book */}
+          <path
+            strokeWidth='12'
+            d='M128 96 h-40 a12 12 0 0 0 -12 12 v52 a12 12 0 0 0 12 12 h40 Z'
+          />
+
+          {/* Right side of book */}
+          <path
+            strokeWidth='12'
+            d='M128 96 h40 a12 12 0 0 1 12 12 v52 a12 12 0 0 1 -12 12 h-40 Z'
+          />
+
+          {/* Center - book spine */}
+          <line x1='128' y1='96' x2='128' y2='172' strokeWidth='8' />
+        </g>
       </svg>
-    </motion.div>
+    </div>
   );
-};
+}

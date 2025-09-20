@@ -1,0 +1,12 @@
+{
+  "github": {
+    "command": "node",
+    "args": [
+      "/Users/luborfedak/Documents/Github/schwalbe/mcp-servers/github_index.js"
+    ],
+    "env": {
+      "GITHUB_TOKEN": "{{GITHUB_TOKEN}}"
+    },
+    "working_directory": "/Users/luborfedak/Documents/Github/schwalbe"
+  }
+}
