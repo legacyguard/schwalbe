@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LegacyGuard - Secure Family Legacy Protection</title>
+    <meta name="description" content="Protect your family's future with intelligent document management and AI-powered guidance. Secure, private, and easy to use." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: #1f2937;
+        background: #ffffff;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, #ffffff, #e0e7ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: #3b82f6;
+        color: white;
+        border: 2px solid #3b82f6;
+      }
+
+      .btn-primary:hover {
+        background: #2563eb;
+        border-color: #2563eb;
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .features {
+        padding: 80px 20px;
+        background: #f8fafc;
+      }
+
+      .features h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        color: #1f2937;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .feature-icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #1f2937;
+      }
+
+      .feature-card p {
+        color: #6b7280;
+        line-height: 1.6;
+      }
+
+      .stats {
+        padding: 60px 20px;
+        background: #1f2937;
+        color: white;
+      }
+
+      .stats h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #3b82f6;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 1.125rem;
+        opacity: 0.9;
+      }
+
+      .footer {
+        padding: 40px 20px;
+        background: #111827;
+        color: #9ca3af;
+        text-align: center;
+      }
+
+      .footer p {
+        margin-bottom: 1rem;
+      }
+
+      .status {
+        padding: 20px;
+        background: #ecfdf5;
+        border: 1px solid #d1fae5;
+        border-radius: 8px;
+        margin: 20px auto;
+        max-width: 600px;
+      }
+
+      .status h3 {
+        color: #065f46;
+        margin-bottom: 10px;
+      }
+
+      .status p {
+        color: #047857;
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn {
+          width: 200px;
+        }
+
+        .features h2,
+        .stats h2 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="status">
+      <h3>🚀 Application Status: Ready for Deployment</h3>
+      <p>The LegacyGuard application has been successfully configured for Vercel deployment. The landing page is now live and accessible without authentication.</p>
+    </div>
+
+    <section class="hero">
+      <div>
+        <h1>LegacyGuard</h1>
+        <p>Secure your family's future with intelligent document management and AI-powered guidance. Protect what matters most with peace of mind.</p>
+        <div class="cta-buttons">
+          <a href="#features" class="btn btn-primary">Get Started Free</a>
+          <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2>Why Choose LegacyGuard?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Military-Grade Security</h3>
+          <p>AES-256 encryption and biometric authentication protect your sensitive documents with enterprise-level security.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>AI-Powered Guidance</h3>
+          <p>Sofia, our intelligent AI assistant, provides personalized guidance throughout your legacy protection journey.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌳</div>
+          <h3>Gamified Experience</h3>
+          <p>Grow your legacy tree as you complete protection milestones and unlock achievements that celebrate your progress.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Cross-Platform Access</h3>
+          <p>Access your documents securely from web browsers and mobile devices with seamless synchronization.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3>Family Collaboration</h3>
+          <p>Share access with trusted family members and manage permissions for different document types and emergency scenarios.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h3>Guided Workflows</h3>
+          <p>Step-by-step guidance for complex legal processes like will creation, estate planning, and power of attorney setup.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <h2>Trusted by Families Worldwide</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">10K+</div>
+          <div class="stat-label">Documents Protected</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">5K+</div>
+          <div class="stat-label">Families Secured</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">99.9%</div>
+          <div class="stat-label">Uptime Guarantee</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">AI Support Available</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2024 LegacyGuard. Protecting families, preserving legacies.</p>
+      <p>Built with ❤️ for families who care about their future.</p>
+    </footer>
+  </body>
+</html>

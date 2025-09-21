@@ -1,6 +1,8 @@
 // Template renderer for will drafts (CZ/SK)
 // Simple string interpolation to avoid external deps for MVP.
 import type { JurisdictionCode, WillForm } from '../engine'
+import { renderCzechWill } from './czechTemplate'
+import { renderSlovakWill } from './slovakTemplate'
 
 export interface TemplateContext {
   jurisdiction: JurisdictionCode
@@ -8,9 +10,31 @@ export interface TemplateContext {
   form: WillForm
   testator: string
   address: string
-  beneficiaries: { id: string; name: string; relationship?: string }[]
-  executorName: string
-  witnessNames: string[]
+  testatorBirthDate?: string
+  testatorCity?: string
+  beneficiaries: Array<{
+    id: string
+    name: string
+    relationship?: string
+    share?: {
+      type: 'percentage' | 'amount' | 'specific_asset'
+      value?: number
+      description?: string
+    }
+    conditions?: string
+  }>
+  executorName?: string
+  witnessNames?: string[]
+  guardianship?: Array<{
+    childName?: string
+    primaryGuardian?: { name: string }
+    alternateGuardian?: { name: string }
+    specialInstructions?: string
+  }>
+  funeralWishes?: string
+  organDonation?: boolean
+  petCare?: string
+  digitalAssets?: string
 }
 
 function interpolate(template: string, data: Record<string, string>) {
@@ -26,8 +50,17 @@ function list(items: string[]) {
 }
 
 export function renderTemplate(ctx: TemplateContext): string {
-  // Minimal localized headings and lines per language
-  const L = localizations[ctx.language]
+  // Use comprehensive templates for Czech and Slovak jurisdictions
+  if (ctx.jurisdiction === 'CZ' && ctx.language === 'cs') {
+    return renderCzechWill(ctx)
+  }
+
+  if (ctx.jurisdiction === 'SK' && ctx.language === 'sk') {
+    return renderSlovakWill(ctx)
+  }
+
+  // Fallback to basic template for other jurisdictions/languages
+  const L = localizations[ctx.language] || localizations.en
 
   const header = `${L.title}: ${ctx.testator}`
 
@@ -50,7 +83,7 @@ export function renderTemplate(ctx: TemplateContext): string {
 
   const witnesses = section(
     L.witnessesTitle,
-    ctx.witnessNames.length ? list(ctx.witnessNames) : L.none
+    ctx.witnessNames && ctx.witnessNames.length ? list(ctx.witnessNames) : L.none
   )
 
   const formNote = section(L.formTitle, ctx.form === 'holographic' ? L.formHolographic : L.formTyped)

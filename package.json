@@ -5,8 +5,8 @@
   "type": "module",
   "packageManager": "npm@10.8.2",
   "workspaces": [
-    "apps/web-next",
     "apps/mobile",
+    "apps/web",
     "packages/*"
   ],
   "scripts": {
@@ -19,9 +19,7 @@
     "clean": "turbo run clean && rm -rf .turbo node_modules",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "dev:web-next": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev --filter=@schwalbe/web-next",
     "dev:mobile": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev --filter=@schwalbe/mobile",
-    "build:web-next": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter=@schwalbe/web-next",
     "build:mobile": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter=@schwalbe/mobile",
     "build:packages": "NODE_OPTIONS=--max-old-space-size=8192 turbo run build --filter='./packages/*'",
     "test:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test --cache-dir=.turbo",
@@ -39,6 +37,8 @@
     "test:redirect-env": "npx tsx scripts/test-redirect-env.ts",
     "i18n:ci": "npm run i18n:generate-stubs && npm run i18n:check",
     "scan:secrets": "bash scripts/scan-secrets.sh",
+    "deps:sync": "node scripts/sync-dependencies.js",
+    "deps:check": "node scripts/sync-dependencies.js --dry-run",
     "doc:guard": "npm run typecheck && npm run lint && npm test -- --watch=false",
     "doc:feature": "bash scripts/collect_feature_context.sh && (open docs/_autodoc_context.txt || xdg-open docs/_autodoc_context.txt || echo 'Open docs/_autodoc_context.txt')",
     "doc:agent": "bash scripts/agent/run-agent.sh",
@@ -54,10 +54,10 @@
   },
   "devDependencies": {
     "@swc/helpers": "^0.5.17",
-    "@types/react": "~19.0.10",
-    "@typescript-eslint/eslint-plugin": "^8.42.0",
-    "@typescript-eslint/parser": "^8.42.0",
-    "eslint": "^9.35.0",
+    "@types/react": "~18.3.12",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "prettier": "^3.6.2",
@@ -71,15 +71,23 @@
   "overrides": {
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-test-renderer": "18.3.1",
+    "react-router": "6.15.0",
+    "react-router-dom": "6.15.0",
+    "@remix-run/router": "1.8.0",
     "zustand": "^5.0.8",
     "tamagui": "1.132.23",
     "@tamagui/*": "1.132.23",
+    "@types/react": "~18.3.12",
+    "@types/react-native": "~0.73.0",
     "cookie": "0.6.0",
-    "react-router": "6.26.2",
-    "react-router-dom": "6.26.2",
-    "ajv": "8.12.0"
+    "ajv": "6.12.6"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.13.23",
+    "@next/eslint-plugin-next": "^15.5.3",
+    "react-router": "6.15.0",
+    "react-router-dom": "6.15.0",
     "resend": "^6.1.0"
   }
 }

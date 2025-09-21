@@ -85,3 +85,5 @@ spec-kit/**/.cache/
 spec-kit/**/build/
 spec-kit/**/generated/
 spec-kit/**/out/
+
+.claude/settings.local.json

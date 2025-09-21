@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card, Switch, Progress } from 'tamagui';
+import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card, Switch, Progress } from 'tamagui';
 import { Shield, CheckCircle, AlertTriangle, Settings, Users, Lock, Smartphone } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 export default function ProtectionScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [autoBackup, setAutoBackup] = useState(true);
   const [biometricLock, setBiometricLock] = useState(false);
+  const { t } = useTranslation('screens');
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -61,7 +63,7 @@ export default function ProtectionScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#1e293b' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#0f172a' }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -71,62 +73,68 @@ export default function ProtectionScreen() {
         <YStack p="$4" space="$4">
           {/* Header */}
           <XStack ai="center" jc="space-between">
-            <H1 color="white" size="$8">
-              Protection
+            <H1 color="$legacyTextPrimary" fontSize="$heroEmotional" fontWeight="800">
+              {t('screens.protection.title')}
             </H1>
             <Button size="$4" chromeless>
-              <Settings size={24} color="white" />
+              <Settings size={24} color="$legacyAccentGold" />
             </Button>
           </XStack>
 
           {/* Protection Status */}
-          <Card p="$4" bc="$green8">
+          <Card
+            p="$4"
+            backgroundColor="$legacySuccess"
+            borderColor="$legacyAccentGold"
+            borderWidth={1}
+            borderRadius="$4"
+          >
             <XStack ai="center" space="$3" mb="$3">
-              <Shield size={32} color="$green10" />
+              <Shield size={32} color="$legacyAccentGold" />
               <YStack f={1}>
-                <Text color="white" size="$6" fontWeight="600">
-                  Protection Active
+                <Text color="white" fontSize="$6" fontWeight="700">
+                  {t('screens.protection.status.activeTitle')}
                 </Text>
-                <Text color="$green11" size="$4">
-                  Your family legacy is secure
+                <Text color="$legacyAccentGoldLight" fontSize="$4" fontWeight="500">
+                  {t('screens.protection.status.activeSubtitle')}
                 </Text>
               </YStack>
             </XStack>
-            <Progress value={85} bc="$green7" mb="$2">
-              <Progress.Indicator bc="$green10" />
+            <Progress value={85} backgroundColor="$legacyBackgroundSecondary" mb="$2" borderRadius="$2">
+              <Progress.Indicator backgroundColor="$legacyAccentGold" />
             </Progress>
-            <Text color="$green11" size="$3">
-              85% protection coverage
+            <Text color="$legacyAccentGoldLight" fontSize="$3" fontWeight="500">
+              {t('screens.protection.status.completion')}
             </Text>
           </Card>
 
           {/* Protection Features */}
-          <H2 color="white" size="$6">
-            Security Features
+          <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
+            {t('screens.protection.arsenal')}
           </H2>
           
           {protectionFeatures.map((feature, index) => {
             const IconComponent = feature.icon;
             const StatusIcon = getStatusIcon(feature.status);
             return (
-              <Card key={index} p="$4" bc="$gray8">
+              <Card key={index} p="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$4">
                 <XStack ai="center" space="$3">
                   <YStack
                     w={40}
                     h={40}
                     ai="center"
                     jc="center"
-                    bc="$gray7"
+                    backgroundColor="$legacyBackgroundTertiary"
                     br="$6"
                   >
-                    <IconComponent size={20} color="white" />
+                    <IconComponent size={20} color="$legacyAccentGold" />
                   </YStack>
                   
                   <YStack f={1} space="$1">
-                    <Text color="white" size="$5" fontWeight="600">
+                    <Text color="$legacyTextPrimary" fontSize="$5" fontWeight="600">
                       {feature.title}
                     </Text>
-                    <Text color="$gray10" size="$3">
+                    <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
                       {feature.description}
                     </Text>
                   </YStack>
@@ -141,19 +149,19 @@ export default function ProtectionScreen() {
           })}
 
           {/* Settings */}
-          <H2 color="white" size="$6">
-            Security Settings
+          <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
+            {t('screens.protection.controls')}
           </H2>
 
-          <Card p="$4" bc="$gray8">
+          <Card p="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$4">
             <YStack space="$4">
               <XStack ai="center" jc="space-between">
                 <YStack f={1}>
-                  <Text color="white" size="$4" fontWeight="500">
-                    Push Notifications
+                  <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
+                    {t('screens.protection.labels.alerts')}
                   </Text>
-                  <Text color="$gray10" size="$3">
-                    Get notified about security events
+                  <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
+                    {t('screens.protection.labels.alertsDesc')}
                   </Text>
                 </YStack>
                 <Switch
@@ -167,11 +175,11 @@ export default function ProtectionScreen() {
 
               <XStack ai="center" jc="space-between">
                 <YStack f={1}>
-                  <Text color="white" size="$4" fontWeight="500">
-                    Automatic Backup
+                  <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
+                    {t('screens.protection.labels.preservation')}
                   </Text>
-                  <Text color="$gray10" size="$3">
-                    Daily backup of all documents
+                  <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
+                    {t('screens.protection.labels.preservationDesc')}
                   </Text>
                 </YStack>
                 <Switch
@@ -185,11 +193,11 @@ export default function ProtectionScreen() {
 
               <XStack ai="center" jc="space-between">
                 <YStack f={1}>
-                  <Text color="white" size="$4" fontWeight="500">
-                    Biometric App Lock
+                  <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
+                    {t('screens.protection.labels.vaultLock')}
                   </Text>
-                  <Text color="$gray10" size="$3">
-                    Require biometric to open app
+                  <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
+                    {t('screens.protection.labels.vaultLockDesc')}
                   </Text>
                 </YStack>
                 <Switch
@@ -204,43 +212,49 @@ export default function ProtectionScreen() {
           </Card>
 
           {/* Quick Actions */}
-          <H2 color="white" size="$6">
-            Security Actions
+          <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
+            {t('screens.protection.controls')}
           </H2>
 
           <YStack space="$3">
-            <Button size="$4" theme="blue">
+            <Button size="$4" backgroundColor="$legacyAccentGold" borderRadius="$3">
               <XStack ai="center" space="$2">
-                <Users size={16} color="white" />
-                <Text color="white">Manage Family Access</Text>
+                <Users size={16} color="$legacyBackgroundPrimary" />
+                <Text color="$legacyBackgroundPrimary" fontWeight="600">Manage Family Circle</Text>
               </XStack>
             </Button>
 
-            <Button size="$4" theme="gray">
+            <Button size="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={1} borderRadius="$3">
               <XStack ai="center" space="$2">
-                <Shield size={16} color="white" />
-                <Text color="white">View Security Report</Text>
+                <Shield size={16} color="$legacyAccentGold" />
+                <Text color="$legacyTextPrimary" fontWeight="600">View Protection Report</Text>
               </XStack>
             </Button>
 
-            <Button size="$4" theme="gray">
+            <Button size="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={1} borderRadius="$3">
               <XStack ai="center" space="$2">
-                <Lock size={16} color="white" />
-                <Text color="white">Update Master Password</Text>
+                <Lock size={16} color="$legacyAccentGold" />
+                <Text color="$legacyTextPrimary" fontWeight="600">Update Guardian Key</Text>
               </XStack>
             </Button>
           </YStack>
 
-          {/* Security Tip */}
-          <Card p="$4" bc="$blue8">
+          {/* Guardian Wisdom */}
+          <Card
+            p="$4"
+            backgroundColor="$legacyBackgroundSecondary"
+            borderColor="$legacyAccentGold"
+            borderWidth={1}
+            borderRadius="$4"
+          >
             <XStack ai="center" space="$3">
-              <Shield size={24} color="$blue10" />
+              <Shield size={24} color="$legacyAccentGold" />
               <YStack f={1}>
-                <Text color="white" size="$4" fontWeight="600">
-                  Security Tip
+                <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="700">
+                  {t('screens.protection.wisdom.title')}
                 </Text>
-                <Text color="$blue11" size="$3">
-                  Enable biometric app lock for an extra layer of security when accessing your sensitive documents.
+                <Text color="$legacyTextSecondary" fontSize="$3" textAlign="center" lineHeight={18}>
+                  {t('screens.protection.wisdom.tip')}
                 </Text>
               </YStack>
             </XStack>

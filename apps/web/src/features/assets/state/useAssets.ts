@@ -68,7 +68,7 @@ export function useAssetById(id?: string) {
       const { data, error } = await supabase.from('assets').select('*').eq('id', id).single();
       if (!mounted) return;
       if (error) {
-        logger.error('Failed to load asset', { id, error });
+        logger.error('Failed to load asset', { action: 'load_asset_failed', metadata: { assetId: id, error: error.message } });
         setAsset(null);
       } else setAsset(data as Asset);
       setLoading(false);

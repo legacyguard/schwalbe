@@ -59,14 +59,6 @@ const tamaguiStubPlugin = () => ({
   },
 })
 
-// Simplified router resolution now that we pin react-router-dom to v6
-const routerProdPlugin = () => ({
-  name: 'react-router-prod-bundle',
-  enforce: 'pre' as const,
-  resolveId() { return null },
-  load() { return null }
-})
-
 // Ensure cookie dist ESM is redirected to CJS entry exporting parse/serialize
 const cookieCjsPlugin = () => ({
   name: 'cookie-cjs-redirect',
@@ -87,7 +79,7 @@ const cookieCjsPlugin = () => ({
 
 export default defineConfig({
   // RN stub plugin runs first, then UI stub, then React
-  plugins: [rnStubPlugin(), tamaguiStubPlugin(), routerProdPlugin(), cookieCjsPlugin(), uiStubPlugin(), react()],
+  plugins: [rnStubPlugin(), tamaguiStubPlugin(), cookieCjsPlugin(), uiStubPlugin(), react()] as any,
   resolve: {
     conditions: ['browser', 'module', 'production'],
     mainFields: ['browser', 'main', 'module'],
@@ -96,23 +88,19 @@ export default defineConfig({
       { find: /^@schwalbe\/shared\/config\//, replacement: path.resolve(__dirname, '../../packages/shared/src/config/') },
       { find: /^@schwalbe\/shared\/services\//, replacement: path.resolve(__dirname, '../../packages/shared/src/services/') },
       { find: '@schwalbe/logic', replacement: path.resolve(__dirname, '../../packages/logic/src') },
-      { find: '@schwalbe/shared', replacement: path.resolve(__dirname, '../../packages/shared/src/index-minimal.ts') },
+      { find: /^@schwalbe\/shared\/(.+)$/, replacement: path.resolve(__dirname, '../../packages/shared/src/$1') },
+      { find: '@schwalbe/shared', replacement: path.resolve(__dirname, '../../packages/shared/src/index.ts') },
       // Map UI subpaths to web stubs for build compatibility
       { find: /^@schwalbe\/ui\/(.+)$/, replacement: path.resolve(__dirname, './src/stubs/ui/$1') },
       { find: '@schwalbe/ui', replacement: path.resolve(__dirname, './src/stubs/ui/index') },
       // Alias react-native to react-native-web
       { find: /^react-native$/, replacement: 'react-native-web' },
       { find: /^react-native\/(.*)$/, replacement: 'react-native-web/dist/$1' },
-      // Force production entry points to avoid dev ESM warnings
-      { find: /react-router\/dist\/development\/.+/, replacement: path.resolve(__dirname, '../../node_modules/react-router/dist/index.js') },
-      { find: /react-router-dom\/dist\/development\/.+/, replacement: path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js') },
-      { find: 'react-router/dist/development', replacement: path.resolve(__dirname, '../../node_modules/react-router/dist/index.js') },
-      { find: 'react-router-dom/dist/development', replacement: path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js') },
-      { find: 'react-router', replacement: path.resolve(__dirname, '../../node_modules/react-router/dist/index.js') },
-      { find: 'react-router-dom', replacement: path.resolve(__dirname, '../../node_modules/react-router-dom/dist/index.js') },
       // Ensure cookie exports provide parse/serialize
       { find: /^cookie$/, replacement: path.resolve(__dirname, './src/shims/cookie.ts') },
       { find: /cookie\/dist\/index\.js$/, replacement: path.resolve(__dirname, './src/shims/cookie.ts') },
+      // Fix Supabase postgrest-js ESM/CJS issue
+      { find: '@supabase/postgrest-js', replacement: path.resolve(__dirname, '../../node_modules/@supabase/postgrest-js/dist/cjs/index.js') },
       
     ],
   },
@@ -124,7 +112,7 @@ export default defineConfig({
     host: true,
   },
   optimizeDeps: {
-    include: ['react-native-web'],
+    include: ['react-native-web', '@supabase/supabase-js'],
     exclude: ['react-native','@tamagui/react-native-media-driver','@tamagui/animations-react-native']
   },
   ssr: {
@@ -137,7 +125,7 @@ export default defineConfig({
       external: (id: string) => id.includes('@tamagui/react-native-media-driver') || id.includes('@tamagui/animations-react-native'),
     },
     commonjsOptions: {
-      include: [],
+      include: [/@supabase\/.*/, /node_modules/],
       exclude: [/node_modules\/react-native/]
     }
   },

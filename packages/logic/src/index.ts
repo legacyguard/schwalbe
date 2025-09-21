@@ -16,3 +16,7 @@ export * from './output';
 
 // Sofia AI types
 export * from './sofia/sofia-types';
+
+// i18n utilities
+export * from './i18n/languages';
+export * from './i18n/domains';

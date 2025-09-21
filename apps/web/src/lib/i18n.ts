@@ -4,6 +4,13 @@ import { initReactI18next } from 'react-i18next';
 // Translation resources
 const resources = {
   en: {
+    'landingV2': {
+      heroTitle: 'Protect what matters most',
+      heroSubtitle: 'A modern way to secure your family\'s legacy with care and clarity.',
+      cta: 'Get started',
+      valueTitle: 'Why LegacyGuard?',
+      valueCopy: 'Clear steps, gentle guidance, and privacy-first protection.',
+    },
     'sharing/viewer': {
       metaDescription: 'Secure shared viewer',
       loading: 'Loading…',
@@ -166,6 +173,13 @@ const resources = {
     },
   },
   cs: {
+    'landingV2': {
+      heroTitle: 'Chraňte to nejdůležitější',
+      heroSubtitle: 'Moderní způsob, jak s péčí a jasem chránit rodinné dědictví.',
+      cta: 'Začít',
+      valueTitle: 'Proč LegacyGuard?',
+      valueCopy: 'Jasné kroky, jemné vedení a soukromí na prvním místě.',
+    },
     'subscriptions': {
       title: 'Předplatné',
       currentPlan: 'Aktuální plán',
@@ -238,6 +252,13 @@ const resources = {
     },
   },
   sk: {
+    'landingV2': {
+      heroTitle: 'Chráňte to najdôležitejšie',
+      heroSubtitle: 'Moderný spôsob, ako s láskou a jasom chrániť dedičstvo rodiny.',
+      cta: 'Začať',
+      valueTitle: 'Prečo LegacyGuard?',
+      valueCopy: 'Jasné kroky, jemné vedenie a súkromie na prvom mieste.',
+    },
     'subscriptions': {
       title: 'Predplatné',
       currentPlan: 'Aktuálny plán',

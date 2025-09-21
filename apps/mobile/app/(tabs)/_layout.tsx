@@ -1,7 +1,9 @@
 import { Tabs } from 'expo-router';
 import { Home, FileText, User, Shield } from '@tamagui/lucide-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
+  const { t } = useTranslation('navigation');
   return (
     <Tabs
       screenOptions={{
@@ -24,7 +26,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
+          title: t('home'),
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Home size={size} color={color} />
           ),
@@ -33,7 +35,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="documents"
         options={{
-          title: 'Documents',
+          title: t('documents'),
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <FileText size={size} color={color} />
           ),
@@ -42,7 +44,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="protection"
         options={{
-          title: 'Protection',
+          title: t('protection'),
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Shield size={size} color={color} />
           ),
@@ -51,7 +53,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: t('profile'),
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <User size={size} color={color} />
           ),

@@ -1,26 +1,33 @@
 import { useState } from 'react';
 import { ScrollView, RefreshControl, Alert } from 'react-native';
-import { YStack, XStack, H1, H2, Text, Button, Card, Avatar } from 'tamagui';
-import { 
-  User, 
-  Settings, 
-  Bell, 
-  Shield, 
-  HelpCircle, 
-  LogOut, 
+import { YStack, XStack, H1, H2, Paragraph as Text, Button, Card, Avatar } from 'tamagui';
+import {
+  User,
+  Settings,
+  Bell,
+  Shield,
+  HelpCircle,
+  LogOut,
   ChevronRight,
   Mail,
   Phone,
-  Calendar
+  Calendar,
+  Heart,
+  Star
 } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { useAuthStore } from '@/stores/authStore';
+import { SofiaFirefly } from '../../src/components/SofiaFirefly';
+import { useHapticFeedback } from '../../src/temp-emotional-sync/hooks';
 
 export default function ProfileScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const { user, signOut } = useAuthStore();
+  const { triggerEncouragement } = useHapticFeedback();
+  const { t } = useTranslation('screens');
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -93,42 +100,51 @@ export default function ProfileScreen() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#1e293b' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#0f172a' }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <YStack p="$4" space="$4">
+        <YStack padding="$4" space="$4">
           {/* Header */}
-          <H1 color="white" size="$8">
-            Profile
-          </H1>
+          <XStack alignItems="center" justifyContent="space-between">
+            <H1 color="$legacyTextPrimary" fontSize="$heroEmotional" fontWeight="800">
+              {t('screens.profile.title')}
+            </H1>
+            <SofiaFirefly
+              size="small"
+              message="Sofia's light guides your personal journey ✨"
+              onTouch={async () => {
+                await triggerEncouragement();
+              }}
+            />
+          </XStack>
 
           {/* User Info Card */}
-          <Card p="$4" bc="$gray8">
-            <XStack ai="center" space="$4">
-              <Avatar circular size="$8" bc="$blue10">
+          <Card padding="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={1} borderRadius="$4">
+            <XStack alignItems="center" space="$4">
+              <Avatar circular size="$8" backgroundColor="$legacyAccentGold">
                 <Avatar.Image src={user?.user_metadata?.avatar_url} />
-                <Avatar.Fallback bc="$blue10">
-                  <User size={32} color="white" />
+                <Avatar.Fallback backgroundColor="$legacyAccentGold">
+                  <Heart size={32} color="$legacyBackgroundPrimary" />
                 </Avatar.Fallback>
               </Avatar>
-              
-              <YStack f={1} space="$2">
-                <Text color="white" size="$6" fontWeight="600">
-                  {user?.user_metadata?.full_name || 
-                   user?.email?.split('@')[0] || 
-                   'User'}
+
+              <YStack flex={1} space="$2">
+                <Text color="$legacyTextPrimary" fontSize="$emotionalLarge" fontWeight="700">
+                  {user?.user_metadata?.full_name ||
+                   user?.email?.split('@')[0] ||
+                   'Guardian'}
                 </Text>
-                <Text color="$gray10" size="$4">
-                  LegacyGuard Member
+                <Text color="$legacyTextMuted" fontSize="$4" fontWeight="500">
+                  {t('screens.profile.role')}
                 </Text>
-                <XStack ai="center" space="$2">
-                  <YStack w={6} h={6} br="$10" bc="$green10" />
-                  <Text color="$green10" size="$3">
-                    Account Active
+                <XStack alignItems="center" space="$2">
+                  <YStack width={6} height={6} borderRadius="$10" backgroundColor="$legacySuccess" />
+                  <Text color="$legacySuccess" fontSize="$3" fontWeight="600">
+                    {t('screens.profile.statusActive')}
                   </Text>
                 </XStack>
               </YStack>
@@ -136,31 +152,31 @@ export default function ProfileScreen() {
           </Card>
 
           {/* Account Information */}
-          <H2 color="white" size="$6">
-            Account Information
+          <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
+            {t('screens.profile.credentials')}
           </H2>
           
           {userInfo.map((info, index) => {
             const IconComponent = info.icon;
             return (
-              <Card key={index} p="$4" bc="$gray8">
-                <XStack ai="center" space="$3">
+              <Card key={index} padding="$4" backgroundColor="$gray8">
+                <XStack alignItems="center" space="$3">
                   <YStack
-                    w={40}
-                    h={40}
-                    ai="center"
-                    jc="center"
-                    bc="$gray7"
-                    br="$6"
+                    width={40}
+                    height={40}
+                    alignItems="center"
+                    justifyContent="center"
+                    backgroundColor="$legacyBackgroundTertiary"
+                    borderRadius="$6"
                   >
                     <IconComponent size={20} color="$gray10" />
                   </YStack>
-                  
-                  <YStack f={1} space="$1">
-                    <Text color="$gray10" size="$3">
+
+                  <YStack flex={1} space="$1">
+                    <Text color="$gray10" fontSize="$3">
                       {info.label}
                     </Text>
-                    <Text color="white" size="$4" fontWeight="500">
+                    <Text color="white" fontSize="$4" fontWeight="500">
                       {info.value}
                     </Text>
                   </YStack>
@@ -170,8 +186,8 @@ export default function ProfileScreen() {
           })}
 
           {/* Menu Items */}
-          <H2 color="white" size="$6">
-            Settings
+          <H2 color="$legacyTextPrimary" fontSize="$emotionalMedium" fontWeight="600">
+            {t('screens.profile.settings')}
           </H2>
           
           {menuItems.map((item, index) => {
@@ -182,26 +198,26 @@ export default function ProfileScreen() {
                   size="$4"
                   chromeless
                   onPress={item.onPress}
-                  p="$4"
-                  f={1}
+                  padding="$4"
+                  flex={1}
                 >
-                  <XStack ai="center" space="$3" f={1}>
+                  <XStack alignItems="center" space="$3" flex={1}>
                     <YStack
-                      w={40}
-                      h={40}
-                      ai="center"
-                      jc="center"
-                      bc="$gray7"
-                      br="$6"
+                      width={40}
+                      height={40}
+                      alignItems="center"
+                      justifyContent="center"
+                      backgroundColor="$gray7"
+                      borderRadius="$6"
                     >
                       <IconComponent size={20} color="white" />
                     </YStack>
-                    
-                    <YStack f={1} space="$1">
-                      <Text color="white" size="$4" fontWeight="500">
+
+                    <YStack flex={1} space="$1">
+                      <Text color="white" fontSize="$4" fontWeight="500">
                         {item.title}
                       </Text>
-                      <Text color="$gray10" size="$3">
+                      <Text color="$gray10" fontSize="$3">
                         {item.subtitle}
                       </Text>
                     </YStack>
@@ -214,16 +230,16 @@ export default function ProfileScreen() {
           })}
 
           {/* App Information */}
-          <Card p="$4" bc="$gray8">
-            <YStack space="$2" ai="center">
-              <Text color="$gray10" size="$3">
-                LegacyGuard Mobile
-              </Text>
-              <Text color="$gray10" size="$3">
-                Version 1.0.0
-              </Text>
-              <Text color="$gray10" size="$2" ta="center">
-                Protecting your family's legacy with secure document management
+          <Card padding="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={0.5} borderRadius="$4">
+            <YStack space="$2" alignItems="center">
+                <Text color="$legacyTextPrimary" fontSize="$4" fontWeight="600">
+                  {t('screens.profile.appInfo.name')}
+                </Text>
+                <Text color="$legacyTextMuted" fontSize="$3" fontWeight="500">
+                  {t('screens.profile.appInfo.version')}
+                </Text>
+              <Text color="$legacyTextSecondary" fontSize="$3" textAlign="center" lineHeight={18}>
+                Protecting your family's legacy with love, security, and peace of mind
               </Text>
             </YStack>
           </Card>
@@ -233,9 +249,9 @@ export default function ProfileScreen() {
             size="$4"
             theme="red"
             onPress={handleSignOut}
-            mb="$6"
+            marginBottom="$6"
           >
-            <XStack ai="center" space="$2">
+            <XStack alignItems="center" space="$2">
               <LogOut size={16} color="white" />
               <Text color="white" fontWeight="600">
                 Sign Out

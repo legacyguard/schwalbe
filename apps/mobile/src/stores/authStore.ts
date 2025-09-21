@@ -27,88 +27,104 @@ export const useAuthStore = create<AuthState>()(
         try {
           // Get initial session
           const { data: { session }, error } = await supabase.auth.getSession();
-          
+
           if (error) {
-            console.error('Error getting session:', error);
-            set({ isLoading: false });
+            console.error('Session initialization failed');
+            set(state => ({ ...state, isLoading: false }));
             return;
           }
 
-          if (session) {
-            set({
+          if (session?.user) {
+            set(state => ({
+              ...state,
               session,
               user: session.user,
               isAuthenticated: true,
               isLoading: false,
-            });
+            }));
           } else {
-            set({
+            set(state => ({
+              ...state,
               session: null,
               user: null,
               isAuthenticated: false,
               isLoading: false,
-            });
+            }));
           }
 
           // Listen for auth changes
           supabase.auth.onAuthStateChange((event: string, session: Session | null) => {
-            if (event === 'SIGNED_IN' && session) {
-              set({
-                session,
-                user: session.user,
-                isAuthenticated: true,
-                isLoading: false,
-              });
-            } else if (event === 'SIGNED_OUT') {
-              set({
-                session: null,
-                user: null,
-                isAuthenticated: false,
-                isLoading: false,
-              });
+            try {
+              if (event === 'SIGNED_IN' && session?.user) {
+                set(state => ({
+                  ...state,
+                  session,
+                  user: session.user,
+                  isAuthenticated: true,
+                  isLoading: false,
+                }));
+              } else if (event === 'SIGNED_OUT') {
+                set(state => ({
+                  ...state,
+                  session: null,
+                  user: null,
+                  isAuthenticated: false,
+                  isLoading: false,
+                }));
+              }
+            } catch (error) {
+              console.error('Auth state change failed');
             }
           });
         } catch (error) {
-          console.error('Error initializing auth:', error);
-          set({
+          console.error('Auth initialization failed');
+          set(state => ({
+            ...state,
             session: null,
             user: null,
             isAuthenticated: false,
             isLoading: false,
-          });
+          }));
         }
       },
 
       signIn: async (email: string, password: string) => {
         try {
-          set({ isLoading: true });
-          
+          // Input validation
+          if (!email?.trim() || !password?.trim()) {
+            console.error('Sign in failed: Missing email or password');
+            return false;
+          }
+
+          set(state => ({ ...state, isLoading: true }));
+
           const { data, error } = await supabase.auth.signInWithPassword({
-            email,
+            email: email.trim(),
             password,
           });
 
           if (error) {
-            console.error('Sign in error:', error);
-            set({ isLoading: false });
+            console.error('Sign in failed');
+            set(state => ({ ...state, isLoading: false }));
             return false;
           }
 
-          if (data.session) {
-            set({
+          if (data.session?.user) {
+            set(state => ({
+              ...state,
               session: data.session,
-              user: data.user,
+              user: data.session.user,
               isAuthenticated: true,
               isLoading: false,
-            });
+            }));
             return true;
           }
 
-          set({ isLoading: false });
+          set(state => ({ ...state, isLoading: false }));
           return false;
         } catch (error) {
-          console.error('Sign in error:', error);
-          set({ isLoading: false });
+          console.error('Sign in failed');
+          set(state => ({ ...state, isLoading: false }));
           return false;
         }
       },

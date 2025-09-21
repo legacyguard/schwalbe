@@ -16,7 +16,7 @@ export function RemindersDashboard() {
       const data = await reminderService.list()
       setItems(data)
     } catch (e) {
-      logger.error(e)
+      logger.error('Failed to load reminders', { action: 'reminders_load_failed', metadata: { error: String(e) } })
       toast({ title: 'Failed to load reminders' })
     } finally {
       setLoading(false)

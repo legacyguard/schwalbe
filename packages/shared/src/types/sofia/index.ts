@@ -17,11 +17,11 @@ export type {
   SofiaResponse,
   SofiaCommand,
   CommandResult,
-  
+
   // Memory Types
   ConversationMemory,
   SofiaMemoryState,
-  
+
   // Text Manager Types
   TextCommunicationStyle,
   TextKey,

@@ -149,7 +149,7 @@ export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: 
     }
   } catch (e) {
     // Non-fatal; continue and mark as manual if nothing
-    logger.error('Analysis invocation failed', e)
+    logger.error('Analysis invocation failed', { action: 'document_analysis_failed', metadata: { error: String(e) } })
   }
 
   // 5) Persist analysis to document row
@@ -227,7 +227,7 @@ export async function uploadDocumentAndAnalyze(file: File): Promise<{ document: 
     }
   } catch (e) {
     // Best-effort; errors are logged but do not fail upload
-    logger.error('Failed to create reminder for document', e)
+    logger.error('Failed to create reminder for document', { action: 'reminder_creation_failed', metadata: { error: String(e) } })
   }
 
   return { document: analyzedDoc as any as DocumentRow, analysis }

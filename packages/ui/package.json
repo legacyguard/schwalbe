@@ -36,14 +36,14 @@
     "@tamagui/themes": "1.132.23",
     "@tamagui/toast": "1.132.23",
     "@tamagui/vite-plugin": "1.132.23",
-    "framer-motion": "^12.23.12",
+    "framer-motion": "^11.15.0",
     "lucide-react": "^0.486.0",
     "react-error-boundary": "^6.0.0",
     "tamagui": "1.132.23"
   },
   "peerDependencies": {
-    "react": ">=18.0.0 <20",
-    "react-dom": ">=18.0.0 <20",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-native": ">=0.73.0"
   },
   "peerDependenciesMeta": {

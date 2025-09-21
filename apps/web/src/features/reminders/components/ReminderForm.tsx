@@ -36,7 +36,7 @@ export function ReminderForm() {
       toast({ title: 'Reminder created' })
       navigate('/reminders')
     } catch (e) {
-      logger.error(e)
+      logger.error('Failed to create reminder', { action: 'reminder_form_submit_failed', metadata: { error: String(e) } })
       toast({ title: 'Failed to create reminder' })
     } finally {
       setSaving(false)

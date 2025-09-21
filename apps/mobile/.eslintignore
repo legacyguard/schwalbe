@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.expo/
+*.config.js
+*.config.ts
+webpack.config.js
+metro.config.js
+babel.config.js
+tamagui.config.ts

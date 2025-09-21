@@ -13,9 +13,9 @@ cd ../ui && npm run dev &
 # Wait a bit for packages to build
 sleep 2
 
-# Start the Next.js web app
+# Start the Vite web app
 echo "🚀 Starting web application..."
-cd ../../apps/web-next && npm run dev
+cd ../../apps/web && npm run dev
 
-echo "✅ Web development server is running at http://localhost:3001"
+echo "✅ Web development server is running at http://localhost:3000"
 echo "📱 To run the mobile app separately, use: cd apps/mobile && npm run dev"

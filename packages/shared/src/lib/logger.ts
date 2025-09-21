@@ -4,7 +4,7 @@
  * Ensures no PII is exposed in logs
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { supabaseClient } from '../supabase/client';
 
 // Log levels
 export enum LogLevel {
@@ -30,14 +30,9 @@ class Logger {
 
   private constructor() {
     this.isDevelopment = process.env.NODE_ENV === 'development';
-    
-    // Initialize Supabase client only for production
-    if (!this.isDevelopment && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      this.supabaseClient = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL,
-        process.env.SUPABASE_SERVICE_ROLE_KEY
-      );
-    }
+
+    // Use the shared Supabase client
+    this.supabaseClient = supabaseClient;
   }
 
   public static getInstance(): Logger {
