@@ -1,0 +1,36 @@
+{
+  "brand": "LegacyGuard",
+  "items": {
+    "dashboard": "Dashboard",
+    "vault": "Vault",
+    "documents": "Documents",
+    "intelligentOrganizer": "Intelligent Organizer",
+    "analytics": "Analytics",
+    "collaboration": "Collaboration",
+    "family": "Family",
+    "legacy": "Legacy",
+    "timeCapsule": "Time Capsule",
+    "timeline": "Timeline",
+    "wishes": "Wishes",
+    "familyProtection": "Family Protection",
+    "settings": "Settings"
+  },
+  "tooltips": {
+    "dashboard": "Go to Dashboard",
+    "vault": "Access your Vault",
+    "documents": "Manage your Documents",
+    "intelligentOrganizer": "Organize and find documents easily",
+    "analytics": "Legacy Analytics & Reports",
+    "collaboration": "Share and collaborate with trusted family",
+    "family": "Family overview and members",
+    "legacy": "Your Legacy Projects",
+    "timeCapsule": "Create Time Capsules",
+    "timeline": "Family Timeline",
+    "wishes": "Your Last Wishes",
+    "familyProtection": "Family Protection Center",
+    "settings": "Application Settings"
+  },
+  "user": {
+    "fallback": "User"
+  }
+}

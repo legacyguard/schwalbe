@@ -1,0 +1,68 @@
+{
+  "title": "Will Translation Showcase",
+  "subtitle": "Demonstrating multi-language will creation capabilities",
+  "testScenarios": {
+    "csCZ": {
+      "name": "Czech in Czech Republic",
+      "description": "Native Czech speaker creating will under Czech law"
+    },
+    "skCZ": {
+      "name": "Slovak in Czech Republic", 
+      "description": "Slovak speaker living in Czech Republic"
+    },
+    "enCZ": {
+      "name": "English in Czech Republic",
+      "description": "English speaker creating will under Czech law"
+    },
+    "deCZ": {
+      "name": "German in Czech Republic",
+      "description": "German speaker creating will under Czech law"
+    },
+    "skSK": {
+      "name": "Slovak in Slovakia",
+      "description": "Native Slovak speaker creating will under Slovak law"
+    },
+    "csSK": {
+      "name": "Czech in Slovakia",
+      "description": "Czech speaker living in Slovakia"
+    },
+    "enSK": {
+      "name": "English in Slovakia",
+      "description": "English speaker (expat/international) in Slovakia"
+    },
+    "deSK": {
+      "name": "German in Slovakia", 
+      "description": "German speaker (expat/business) in Slovakia"
+    },
+    "deCZ": {
+      "name": "German in Czech Republic",
+      "description": "German speaker (expat/business) in Czech Republic"
+    },
+    "csSK": {
+      "name": "Czech in Slovakia",
+      "description": "Czech speaker living in Slovakia"
+    },
+    "enCZ": {
+      "name": "English in Czech Republic",
+      "description": "English speaker (expat/international) in Czech Republic"
+    }
+  },
+  "ui": {
+    "testScenario": "Test Scenario",
+    "interface": "Interface",
+    "jurisdiction": "Jurisdiction", 
+    "sampleWill": "Sample Will",
+    "loading": "Loading translation...",
+    "error": "Error loading translation",
+    "viewSample": "View Sample",
+    "downloadPDF": "Download PDF",
+    "availableConfigurations": "Available Configurations",
+    "activeConfiguration": "Active Configuration",
+    "language": "Language",
+    "currency": "Currency",
+    "legalCode": "Legal Code",
+    "systemCapabilities": "System Capabilities",
+    "supportedCombinations": "Supported Combinations",
+    "keyFeatures": "Key Features"
+  }
+}

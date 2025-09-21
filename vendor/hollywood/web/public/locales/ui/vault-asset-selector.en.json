@@ -1,0 +1,32 @@
+{
+  "header": {
+    "title": "Select Assets from Your Vault",
+    "subtitle": "Choose from {{assetType}} in your secure document vault"
+  },
+  "assetTypes": {
+    "realEstate": "Real Estate Properties",
+    "vehicles": "Vehicles",
+    "bankAccounts": "Bank Accounts & Investments",
+    "personalProperty": "Personal Property",
+    "all": "All Assets"
+  },
+  "search": {
+    "placeholder": "Search your assets..."
+  },
+  "loading": {
+    "message": "Loading your assets..."
+  },
+  "empty": {
+    "title": "No Assets Found",
+    "searchMessage": "No assets match your search criteria.",
+    "noAssetsMessage": "No {{assetType}} found in your vault."
+  },
+  "footer": {
+    "selected": "{{count}} asset{{plural}} selected",
+    "selectedPlural": "s",
+    "selectedSingular": "",
+    "cancelButton": "Cancel",
+    "confirmButton": "Add Selected Assets"
+  },
+  "bundlePrefix": "from {{name}}"
+}

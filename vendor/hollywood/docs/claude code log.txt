@@ -1,0 +1,1025 @@
+
+
+⏺ Update(src/components/features/DocumentUploader.tsx)
+
+  ⎿  Updated src/components/features/DocumentUploader.tsx with 1 addition      
+       13    import { textManager } from '@/lib/text-manager';
+       14    import type { UserPreferences} from '@/types/user-preferences';
+       15    import { defaultUserPreferences } from '@/types/user-preferences';
+       16 +  import { useFireflyCelebration } from '@/contexts/FireflyContext';
+       17    
+       18    export const DocumentUploader = () => {
+       19      const [file, setFile] = useState<File | null>(null);
+
+
+⏺ Update(src/components/features/DocumentUploader.tsx)
+
+  ⎿  Updated src/components/features/DocumentUploader.tsx with 1 addition              
+       24      const { user } = useUser();
+       25      const createSupabaseClient = useSupabaseWithClerk();
+       26      const { isUnlocked, encryptFile, showPasswordPrompt } = useEncryption();
+       27 +    const { celebrateUpload } = useFireflyCelebration();
+       28    
+       29      // Load user preferences
+       30      React.useEffect(() => {
+
+
+⏺ Update(src/components/features/DocumentUploader.tsx)
+
+  ⎿  Updated src/components/features/DocumentUploader.tsx with 3 additions                            
+       158          // Emit event to refresh document list
+       159          window.dispatchEvent(new CustomEvent('documentUploaded', { detail: { userId } }));
+       160    
+       161 +        // Celebrate with Sofia firefly
+       162 +        celebrateUpload();
+       163 +  
+       164          // Reset form
+       165          setFile(null);
+       166          const fileInput = document.getElementById('file-input') as HTMLInputElement;
+
+
+⏺ Teraz aktualizujem aj tlačidlo na nahrávanie, aby malo ID pre svetlušku guidance:
+
+
+⏺ Update(src/components/features/DocumentUploader.tsx)
+
+  ⎿  Updated src/components/features/DocumentUploader.tsx with 1 addition
+       208                  disabled={isUploading}
+       209                />
+       210                <Button
+       211 +                id="document-upload-button"
+       212                  onClick={handleUpload}
+       213                  disabled={!file || isUploading}
+       214                  className="min-w-[120px]"
+
+
+⏺ Teraz aktualizujem MilestoneCelebration, aby integrovala svetlušku:
+
+
+⏺ Update(src/components/dashboard/MilestoneCelebration.tsx)
+
+  ⎿  Updated src/components/dashboard/MilestoneCelebration.tsx with 1 addition                        
+       3    import { Icon } from '@/components/ui/icon-library';
+       4    import { getAdaptiveMilestoneText, type SerenityMilestone } from '@/lib/path-of-serenity';
+       5    import { UserPreferences, defaultUserPreferences } from '@/types/user-preferences';
+       6 +  import { useFireflyCelebration } from '@/contexts/FireflyContext';
+       7    
+       8    // Legacy component interface for backward compatibility
+       9    // Now implemented using toast system - no longer renders UI
+
+
+⏺ Teraz upravím showMilestoneRecognition funkciu, aby integrovala svetlušku:
+
+
+⏺ Update(src/components/dashboard/MilestoneCelebration.tsx)
+
+  ⎿  Updated src/components/dashboard/MilestoneCelebration.tsx with 6 additions                 
+       32        }
+       33      }
+       34    
+       35 +    // Trigger firefly celebration
+       36 +    // Note: This is called from outside React component, so we'll use a global event
+       37 +    window.dispatchEvent(new CustomEvent('milestoneUnlocked', { 
+       38 +      detail: { milestone, userId } 
+       39 +    }));
+       40 +  
+       41      // Get adaptive text for the milestone
+       42      const adaptiveCompletedDescription = getAdaptiveMilestoneText(
+       43        milestone,
+
+
+⏺ Teraz vytvorím hook, ktorý bude počúvať tieto globálne udalosti:
+
+
+⏺ Write(src/hooks/useFireflyEvents.ts)
+
+  ⎿  Wrote 52 lines to src/hooks/useFireflyEvents.ts                   
+     import { useEffect } from 'react';
+     import { useFireflyCelebration } from '@/contexts/FireflyContext';
+     import type { SerenityMilestone } from '@/lib/path-of-serenity';
+     interface MilestoneEventDetail {
+       milestone: SerenityMilestone;
+       userId?: string;
+     }
+     interface DocumentEventDetail {
+     … +42 lines (ctrl+r to expand)
+
+
+
+⏺ Teraz aktualizujem SofiaFirefly komponent, aby používal tento hook:
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 2 additions                                           
+       2    import { motion, useAnimation, AnimatePresence } from 'framer-motion';
+       3    import { useAuth } from '@clerk/clerk-react';
+       4    import { CommunicationStyle, UserPreferences, defaultUserPreferences } from '@/types/user-preferences';
+       5 +  import { useFirefly } from '@/contexts/FireflyContext';
+       6 +  import useFireflyEvents from '@/hooks/useFireflyEvents';
+       7    
+       8    interface SofiaFireflyProps {
+       9      mode?: CommunicationStyle;
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 10 additions and 1 removal                        
+       20    
+       21    export const SofiaFirefly: React.FC<SofiaFireflyProps> = ({
+       22      mode,
+       23 -    isVisible = true,
+       23 +    isVisible,
+       24      onInteraction,
+       25      targetElement,
+       26      celebrateEvent,
+       27    }) => {
+       28      const { userId } = useAuth();
+       29 +    const { state, onInteraction: contextInteraction } = useFirefly();
+       30 +    
+       31 +    // Use firefly context state if props not provided
+       32 +    const effectiveIsVisible = isVisible !== undefined ? isVisible : state.isVisible;
+       33 +    const effectiveTargetElement = targetElement || state.targetElement;
+       34 +    const effectiveCelebrateEvent = celebrateEvent || state.celebrateEvent;
+       35 +    
+       36 +    // Set up global event listeners for celebrations
+       37 +    useFireflyEvents();
+       38      const [userPreferences, setUserPreferences] = useState<UserPreferences>(defaultUserPreferences);
+       39      const [position, setPosition] = useState<FireflyPosition>({ x: 0, y: 0 });
+       40      const [isHovering, setIsHovering] = useState(false);
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 1 addition and 1 removal   
+       153    
+       154      // Guide to target element
+       155      const guideToTarget = useCallback(async () => {
+       156 -      if (!targetElement || !containerRef.current) return;
+       156 +      if (!effectiveTargetElement || !containerRef.current) return;
+       157    
+       158        const container = containerRef.current;
+       159        const targetEl = document.querySelector(targetElement) as HTMLElement;
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 1 addition and 1 removal            
+       156        if (!effectiveTargetElement || !containerRef.current) return;
+       157    
+       158        const container = containerRef.current;
+       159 -      const targetEl = document.querySelector(targetElement) as HTMLElement;
+       159 +      const targetEl = document.querySelector(effectiveTargetElement) as HTMLElement;
+       160        if (!targetEl) return;
+       161    
+       162        const containerRect = container.getBoundingClientRect();
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 1 addition and 1 removal                         
+       243          setIsIdle(true);
+       244          startIdleAnimation();
+       245        }, 1000);
+       246 -    }, [targetElement, activeMode, controls, position, updateTrail, startIdleAnimation]);
+       246 +    }, [effectiveTargetElement, activeMode, controls, position, updateTrail, startIdleAnimation]);
+       247    
+       248      // Celebration animation
+       249      const celebrate = useCallback(async () => {
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 1 addition and 1 removal
+       247    
+       248      // Celebration animation
+       249      const celebrate = useCallback(async () => {
+       250 -      if (!isVisible || !celebrateEvent) return;
+       250 +      if (!effectiveIsVisible || !effectiveCelebrateEvent) return;
+       251    
+       252        setIsIdle(false);
+       253    
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 1 addition and 1 removal                                    
+       304          setIsIdle(true);
+       305          startIdleAnimation();
+       306        }, 500);
+       307 -    }, [celebrateEvent, activeMode, controls, isVisible, updateTrail, startIdleAnimation]);
+       307 +    }, [effectiveCelebrateEvent, activeMode, controls, effectiveIsVisible, updateTrail, startIdleAnimation]);
+       308    
+       309      // Handle target element changes
+       310      useEffect(() => {
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 4 additions and 4 removals
+       308    
+       309      // Handle target element changes
+       310      useEffect(() => {
+       311 -      if (targetElement && isVisible) {
+       311 +      if (effectiveTargetElement && effectiveIsVisible) {
+       312          guideToTarget();
+       313        }
+       314 -    }, [targetElement, guideToTarget, isVisible]);
+       314 +    }, [effectiveTargetElement, guideToTarget, effectiveIsVisible]);
+       315    
+       316      // Handle celebration events
+       317      useEffect(() => {
+       318 -      if (celebrateEvent && isVisible) {
+       318 +      if (effectiveCelebrateEvent && effectiveIsVisible) {
+       319          celebrate();
+       320        }
+       321 -    }, [celebrateEvent, celebrate, isVisible]);
+       321 +    }, [effectiveCelebrateEvent, celebrate, effectiveIsVisible]);
+       322    
+       323      // Start idle animation when visible
+       324      useEffect(() => {
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 2 additions and 2 removals
+       322    
+       323      // Start idle animation when visible
+       324      useEffect(() => {
+       325 -      if (isVisible && isIdle) {
+       325 +      if (effectiveIsVisible && isIdle) {
+       326          // Delay to allow position initialization
+       327          const timeout = setTimeout(startIdleAnimation, 100);
+       328          return () => clearTimeout(timeout);
+       329        }
+       330 -    }, [isVisible, isIdle, startIdleAnimation]);
+       330 +    }, [effectiveIsVisible, isIdle, startIdleAnimation]);
+       331    
+       332      // Reset idle timer on user interaction
+       333      useEffect(() => {
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 1 addition and 1 removal
+       337          }
+       338          
+       339          idleTimeoutRef.current = setTimeout(() => {
+       340 -          if (!targetElement && !celebrateEvent) {
+       340 +          if (!effectiveTargetElement && !effectiveCelebrateEvent) {
+       341              setIsIdle(true);
+       342              startIdleAnimation();
+       343            }
+
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Error editing file
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 1 addition and 1 removal
+       359        };
+       360      }, [targetElement, celebrateEvent, startIdleAnimation]);
+       361    
+       362 -    if (!isVisible) return null;
+       362 +    if (!effectiveIsVisible) return null;
+       363    
+       364      return (
+       365        <div
+
+
+⏺ Teraz aktualizujem aj handler kliknutia, aby používal kontextový handler:
+
+
+⏺ Update(src/components/animations/SofiaFirefly.tsx)
+
+  ⎿  Updated src/components/animations/SofiaFirefly.tsx with 8 additions and 2 removals
+       395            }}
+       396            onHoverStart={() => setIsHovering(true)}
+       397            onHoverEnd={() => setIsHovering(false)}
+       398 -          onClick={onInteraction}
+       399 -          onTap={onInteraction}
+       398 +          onClick={() => {
+       399 +            onInteraction?.();
+       400 +            contextInteraction();
+       401 +          }}
+       402 +          onTap={() => {
+       403 +            onInteraction?.();
+       404 +            contextInteraction();
+       405 +          }}
+       406          >
+       407            {/* Firefly glow effect */}
+       408            <motion.div
+
+
+⏺ Teraz skontrolujme kód na chyby:
+
+
+⏺ Bash(npx tsc --noEmit)
+  ⎿  Waiting…
+
+  ⎿  (No content)
+
+
+⏺ Výborně! TypeScript kompiluje bez chýb. Teraz testujem build:
+
+
+⏺ Bash(npm run build)
+  ⎿  Waiting…
+
+  ⎿  > legacyguard@1.0.0 build     
+     > vite build
+     … +21 lines (ctrl+r to expand)
+
+
+⏺ Výborné! Build prebehol úspešne. Teraz aktualizujem todo stav a pokračujem s druhou prioritou:
+
+
+⏺ Update Todos
+
+  ⎿  ☒ Implement Sofia Firefly - Garden Guide with adaptive behavior
+     ☐ Create Box of Certainty seed transformation system
+     ☐ Transform Path of Serenity into growing garden/tree
+     ☐ Implement organic micro-interactions throughout
+     ☐ Validate all code and ensure English implementation
+
+
+⏺ Teraz implementujem Box of Certainty - Semienko záhrady. Začnem vytvorením animovaného semienka, ktoré bude rásť na
+  dashboarde:
+
+
+⏺ Write(src/components/animations/GardenSeed.tsx)
+
+  ⎿  Wrote 266 lines to src/components/animations/GardenSeed.tsx
+     import React, { useState, useEffect } from 'react';
+     import { motion, AnimatePresence } from 'framer-motion';
+     import { useAuth } from '@clerk/clerk-react';
+     interface GardenSeedProps {
+       progress?: number; // 0-100 percentage of completion
+       size?: 'small' | 'medium' | 'large';
+       showPulse?: boolean;
+       onSeedClick?: () => void;
+       className?: string;
+     … +256 lines (ctrl+r to expand)
+
+
+⏺ Teraz vytvorím hook na výpočet pokroku záhrady:
+
+
+⏺ Write(src/hooks/useGardenProgress.ts)
+
+  ⎿  Wrote 217 lines to src/hooks/useGardenProgress.ts                                 
+     import { useState, useEffect } from 'react';
+     import { useAuth } from '@clerk/clerk-react';
+     import { useSupabaseWithClerk } from '@/integrations/supabase/client';
+     import { SerenityMilestone, getSerenityMilestones } from '@/lib/path-of-serenity';
+     export interface GardenProgressData {
+       overallProgress: number; // 0-100 percentage
+       documentsCount: number;
+       guardiansCount: number;
+       completedMilestones: number;
+     … +207 lines (ctrl+r to expand)
+
+
+⏺ Teraz vytvorím komponent pre transformáciu Box of Certainty z onboardingu:
+
+
+⏺ Write(src/components/animations/BoxTransformation.tsx)
+
+  ⎿  Wrote 269 lines to src/components/animations/BoxTransformation.tsx       
+     import React, { useState, useEffect } from 'react';
+     import { motion, AnimatePresence } from 'framer-motion';
+     import { GardenSeed } from './GardenSeed';
+     interface BoxTransformationProps {
+       isVisible: boolean;
+       onComplete?: () => void;
+       seedDestination?: { x: number; y: number }; // Target position for seed
+       duration?: number;
+     }
+     … +259 lines (ctrl+r to expand)
+
+=============================================== Previous Conversation Compacted ===============================================
+⏺ Compact summary (ctrl+r to expand)
+  ⎿  Read src/components/animations/BoxTransformation.tsx (269 lines)
+  ⎿  Read src/hooks/useGardenProgress.ts (217 lines)
+  ⎿  Read src/components/animations/GardenSeed.tsx (266 lines)
+  ⎿  Read dist/assets/wizard_steps-BJH6Bl_r.js (2 lines)
+  ⎿  Read dist/assets/wizard_steps-BvMOed8i.js (2 lines)
+  ⎿  Todo list read (5 items)
+
+⏺ I'll continue with implementing Priority 2: "Create Box of Certainty seed transformation system". Looking at the current
+  state, I need to integrate the BoxTransformation component into the onboarding flow and connect it with the dashboard garden
+  system.
+
+⏺ Update Todos
+  ⎿  ☒ Implement Sofia Firefly - Garden Guide with adaptive behavior
+     ☐ Create Box of Certainty seed transformation system
+     ☐ Transform Path of Serenity into growing garden/tree
+     ☐ Implement organic micro-interactions throughout
+     ☐ Validate all code and ensure English implementation
+
+⏺ Now let me integrate the BoxTransformation into the onboarding flow and connect it with the dashboard. First, let me check
+  the onboarding scenes:
+
+⏺ Search(pattern: "**/onboarding/**/*.tsx")
+  ⎿  Found 6 files (ctrl+r to expand)
+
+⏺ Read(src/pages/onboarding/Scene2Box.tsx)
+  ⎿  Read 199 lines (ctrl+r to expand)
+
+⏺ Read(src/pages/onboarding/Scene4Prepare.tsx)
+  ⎿  Read 289 lines (ctrl+r to expand)
+
+⏺ Now let me check the dashboard to see where I can integrate the garden seed:
+
+⏺ Read(src/pages/Index.tsx)
+  ⎿  Read 16 lines (ctrl+r to expand)
+
+⏺ Read(src/components/DashboardContent.tsx)
+  ⎿  Read 155 lines (ctrl+r to expand)
+
+⏺ Now I need to integrate the BoxTransformation into Scene4Prepare and connect it to the garden system. Let me first modify
+  Scene4Prepare to include the BoxTransformation:
+
+⏺ Update(src/pages/onboarding/Scene4Prepare.tsx)
+  ⎿  Updated src/pages/onboarding/Scene4Prepare.tsx with 1 addition                         
+       3    import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+       4    import { Button } from "@/components/ui/button";
+       5    import { FadeIn } from "@/components/motion/FadeIn";
+       6 +  import { BoxTransformation } from "@/components/animations/BoxTransformation";
+       7    
+       8    interface Scene4PrepareProps {
+       9      onBack: () => void;
+
+⏺ Update(src/pages/onboarding/Scene4Prepare.tsx)
+  ⎿  Updated src/pages/onboarding/Scene4Prepare.tsx with 2 additions                            
+       13    export default function Scene4Prepare({ onBack, onComplete }: Scene4PrepareProps) {
+       14      const [progress, setProgress] = useState(0);
+       15      const [showFirefly, setShowFirefly] = useState(true);
+       16 +    const [showBoxTransformation, setShowBoxTransformation] = useState(true);
+       17 +    const [transformationComplete, setTransformationComplete] = useState(false);
+       18    
+       19      useEffect(() => {
+       20        // Progress animation
+
+⏺ Update(src/pages/onboarding/Scene4Prepare.tsx)
+  ⎿  Updated src/pages/onboarding/Scene4Prepare.tsx with 31 additions and 21 removals      
+       17      const [transformationComplete, setTransformationComplete] = useState(false);
+       18    
+       19      useEffect(() => {
+       20 -      // Progress animation
+       21 -      const progressTimer = setInterval(() => {
+       22 -        setProgress(prev => {
+       23 -          if (prev >= 100) {
+       24 -            clearInterval(progressTimer);
+       25 -            return 100;
+       26 -          }
+       27 -          return prev + 2;
+       28 -        });
+       29 -      }, 32); // ~60fps
+       20 +      // Show box transformation first, then proceed with firefly animation
+       21 +      const transformationTimer = setTimeout(() => {
+       22 +        setShowBoxTransformation(false);
+       23 +        setTransformationComplete(true);
+       24 +        
+       25 +        // Start progress animation after transformation
+       26 +        const progressTimer = setInterval(() => {
+       27 +          setProgress(prev => {
+       28 +            if (prev >= 100) {
+       29 +              clearInterval(progressTimer);
+       30 +              return 100;
+       31 +            }
+       32 +            return prev + 2;
+       33 +          });
+       34 +        }, 32); // ~60fps
+       35    
+       36 -      // Complete onboarding after animation
+       37 -      const completeTimer = setTimeout(() => {
+       38 -        setShowFirefly(false);
+       39 -        setTimeout(() => {
+       40 -          if (onComplete) {
+       41 -            onComplete();
+       42 -          }
+       43 -        }, 500);
+       44 -      }, 3000);
+       36 +        // Complete onboarding after animation
+       37 +        const completeTimer = setTimeout(() => {
+       38 +          setShowFirefly(false);
+       39 +          setTimeout(() => {
+       40 +            if (onComplete) {
+       41 +              onComplete();
+       42 +            }
+       43 +          }, 500);
+       44 +        }, 3000);
+       45    
+       46 +        return () => {
+       47 +          clearInterval(progressTimer);
+       48 +          clearTimeout(completeTimer);
+       49 +        };
+       50 +      }, 4000); // Box transformation duration
+       51 +  
+       52        return () => {
+       53 -        clearInterval(progressTimer);
+       54 -        clearTimeout(completeTimer);
+       53 +        clearTimeout(transformationTimer);
+       54        };
+       55      }, [onComplete]);
+       56    
+
+⏺ Now I need to add the BoxTransformation component to the JSX and handle the transition to the center of the dashboard card:
+
+⏺ Update(src/pages/onboarding/Scene4Prepare.tsx)
+  ⎿  Updated src/pages/onboarding/Scene4Prepare.tsx with 12 additions                                                          
+       54        };
+       55      }, [onComplete]);
+       56    
+       57 +    const handleTransformationComplete = () => {
+       58 +      setTransformationComplete(true);
+       59 +    };
+       60 +  
+       61      return (
+       62        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 
+            to-slate-900">
+       63 +        {/* Box Transformation Animation */}
+       64 +        <BoxTransformation
+       65 +          isVisible={showBoxTransformation}
+       66 +          onComplete={handleTransformationComplete}
+       67 +          seedDestination={{ x: 0, y: -200 }}
+       68 +          duration={4000}
+       69 +        />
+       70 +  
+       71          <FadeIn duration={0.8}>
+       72            <Card className="w-full max-w-2xl text-center border-primary/20 shadow-xl bg-background/95 backdrop-blur">
+       73              <CardHeader>
+
+⏺ Now I need to conditionally show the card content only after transformation completes:
+
+⏺ Update(src/pages/onboarding/Scene4Prepare.tsx)
+  ⎿  Updated src/pages/onboarding/Scene4Prepare.tsx with 4 additions and 2 removals                                            
+       68            duration={4000}
+       69          />
+       70    
+       71 -        <FadeIn duration={0.8}>
+       72 -          <Card className="w-full max-w-2xl text-center border-primary/20 shadow-xl bg-background/95 backdrop-blur">
+       71 +        <AnimatePresence>
+       72 +          {transformationComplete && (
+       73 +            <FadeIn duration={0.8}>
+       74 +              <Card className="w-full max-w-2xl text-center border-primary/20 shadow-xl bg-background/95 
+          + backdrop-blur">
+       75              <CardHeader>
+       76                <motion.div
+       77                  initial={{ opacity: 0, y: -20 }}
+
+⏺ Now I need to close the AnimatePresence at the end:
+
+⏺ Update(src/pages/onboarding/Scene4Prepare.tsx)
+  ⎿  Updated src/pages/onboarding/Scene4Prepare.tsx with 2 additions
+       309              </CardContent>
+       310            </Card>
+       311          </FadeIn>
+       312 +          )}
+       313 +        </AnimatePresence>
+       314        </div>
+       315      );
+       316    }
+
+⏺ Now I need to integrate the garden seed into the dashboard. Let me modify the DashboardContent to include the garden progress
+   visualization:
+
+⏺ Update(src/components/DashboardContent.tsx)
+  ⎿  Updated src/components/DashboardContent.tsx with 2 additions                                 
+       12    import { MetricsGrid } from "@/components/enhanced/MetricCard";
+       13    import { ActivityFeed, useMockActivities } from "@/components/enhanced/ActivityFeed";
+       14    import { RadialProgress } from "@/components/enhanced/RadialProgress";
+       15 +  import { GardenSeed } from "@/components/animations/GardenSeed";
+       16 +  import { useGardenProgress } from "@/hooks/useGardenProgress";
+       17    import { useState } from 'react';
+       18    
+       19    export function DashboardContent() {
+
+⏺ Update(src/components/DashboardContent.tsx)
+  ⎿  Updated src/components/DashboardContent.tsx with 1 addition                                
+       21      const navigate = useNavigate();
+       22      const { needsSetup, isLoading } = useEncryptionReady();
+       23      const mockActivities = useMockActivities();
+       24 +    const { progress: gardenProgress, loading: gardenLoading } = useGardenProgress();
+       25    
+       26      // Mock metrics data - in production, this would come from your API
+       27      const [metrics] = useState([
+
+⏺ Now I'll replace the RadialProgress with the GardenSeed component that reflects actual progress:
+
+⏺ Update(src/components/DashboardContent.tsx)
+  ⎿  Updated src/components/DashboardContent.tsx with 27 additions and 8 removals                                             
+       121            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+       122              {/* Left Column - Path & Overview */}
+       123              <div className="lg:col-span-2 space-y-8">
+       124 -              {/* 1. Section: Path of Serenity with Radial Progress */}
+       124 +              {/* 1. Section: Path of Serenity with Garden Progress */}
+       125                <div>
+       126                  <PathOfSerenity className="w-full" />
+       127 -              <div className="mt-6 flex justify-center">
+       128 -                <RadialProgress
+       129 -                  value={75}
+       130 -                  label="Overall Progress"
+       131 -                  size="lg"
+       132 -                    color="primary"
+       133 -                  />
+       127 +                <div className="mt-6 flex justify-center">
+       128 +                  {!gardenLoading && gardenProgress ? (
+       129 +                    <div className="flex flex-col items-center space-y-4">
+       130 +                      <GardenSeed
+       131 +                        progress={gardenProgress.overallProgress}
+       132 +                        size="large"
+       133 +                        showPulse={true}
+       134 +                        onSeedClick={() => navigate('/legacy')}
+       135 +                      />
+       136 +                      <div className="text-center space-y-1">
+       137 +                        <p className="text-sm font-medium text-foreground">
+       138 +                          Your Garden Progress: {gardenProgress.overallProgress}%
+       139 +                        </p>
+       140 +                        <p className="text-xs text-muted-foreground">
+       141 +                          {gardenProgress.documentsCount} documents • {gardenProgress.guardiansCount} guardians • 
+           + {gardenProgress.completedMilestones} milestones
+       142 +                        </p>
+       143 +                      </div>
+       144 +                    </div>
+       145 +                  ) : (
+       146 +                    <RadialProgress
+       147 +                      value={75}
+       148 +                      label="Loading Garden Progress"
+       149 +                      size="lg"
+       150 +                      color="primary"
+       151 +                    />
+       152 +                  )}
+       153                  </div>
+       154                </div>
+       155    
+
+⏺ Now let me build and test the code to ensure everything compiles correctly:
+
+⏺ Bash(npm run build)
+  ⎿  Error: ✗ Build failed in 2.97s
+     error during build:
+     src/hooks/useGardenProgress.ts (4:28): "getSerenityMilestones" is not exported by "src/lib/path-of-serenity.ts", imported 
+     by "src/hooks/useGardenProgress.ts".
+     file: /Users/luborfedak/Documents/Github/hollywood/src/hooks/useGardenProgress.ts:4:28
+
+     2: import { useAuth } from '@clerk/clerk-react';
+     3: import { useSupabaseWithClerk } from '@/integrations/supabase/client';
+     4: import { SerenityMilestone, getSerenityMilestones } from '@/lib/path-of-serenity';
+                                    ^
+     5: 
+     … +20 lines (ctrl+r to see all)
+
+⏺ I need to check what's available in the path-of-serenity file:
+
+⏺ Read(src/lib/path-of-serenity.ts)
+  ⎿  Read 423 lines (ctrl+r to expand)
+
+⏺ I see the issue. The file has SERENITY_MILESTONES but I need to create a function getSerenityMilestones. Let me add it:
+
+⏺ Update(/Users/luborfedak/Documents/Github/hollywood/src/lib/path-of-serenity.ts)
+  ⎿  Error editing file
+
+⏺ Update(src/lib/path-of-serenity.ts)
+  ⎿  Updated src/lib/path-of-serenity.ts with 12 additions and 5 removals                                                      
+       403    }
+       404    
+       405    /**
+       406 +   * Get all serenity milestones
+       407 +   */
+       408 +  export function getSerenityMilestones(): SerenityMilestone[] {
+       409 +    return SERENITY_MILESTONES;
+       410 +  }
+       411 +  
+       412 +  /**
+       413     * Generate inspirational message based on user's progress
+       414     */
+       415    export function generateSerenityMessage(unlockedMilestones: SerenityMilestone[]): string {
+       416      const unlockedCount = unlockedMilestones.filter(m => m.isUnlocked).length;
+       417    
+       418      if (unlockedCount === 0) {
+       419 -      return "Vítajte na Ceste Pokoja. Každý krok, ktorý urobíte, prinesie vašej rodine väčšiu istotu a pokoj.";
+       419 +      return "Welcome to your Path of Serenity. Every step you take will bring your family greater certainty and 
+     peace.";
+           + peace.";
+       420      } else if (unlockedCount === 1) {
+       421 -      return "Výborne! Urobili ste prvý krok. Vaša rodina už má o niečo väčšiu istotu vďaka vám.";
+       421 +      return "Excellent! You've taken your first step. Your family already has greater certainty thanks to you.";
+       422      } else if (unlockedCount <= 3) {
+       423 -      return `Krásne! Odomkli ste už ${unlockedCount} míľniky pokoja. Vaša rodina sa môže cítiť stále istejšie.`;
+       423 +      return `Beautiful! You've unlocked ${unlockedCount} milestones of peace. Your family can feel increasingly 
+     secure.`;
+           + secure.`;
+       424      } else if (unlockedCount <= 5) {
+       425 -      return `Fantastické! S ${unlockedCount} míľnikmi ste vytvorili skutočne solídny základ istoty pre svoju 
+     rodinu.`;
+           - rodinu.`;
+       425 +      return `Fantastic! With ${unlockedCount} milestones, you've created a truly solid foundation of security for 
+     your family.`;
+           + your family.`;
+       426      } else {
+       427 -      return `Úžasné! ${unlockedCount} míľnikov pokoja - ste skutočným majstrom zabezpečovania pokoja a istoty.`;
+       427 +      return `Amazing! ${unlockedCount} milestones of peace - you are a true master of securing peace and 
+     certainty.`;
+           + certainty.`;
+       428      }
+       429    }
+
+⏺ Now let me try building again:
+
+⏺ Bash(npm run build)
+  ⎿  > legacyguard@1.0.0 build     
+     > vite build
+     … +21 lines (ctrl+r to expand)
+
+⏺ Great! The build is successful. Now let me run the TypeScript check to make sure there are no type errors:
+
+⏺ Bash(npx tsc --noEmit)
+  ⎿  (No content)
+
+⏺ Perfect! Now let me update the todo status and move to the next priority:
+
+⏺ Update Todos
+  ⎿  ☒ Implement Sofia Firefly - Garden Guide with adaptive behavior
+     ☒ Create Box of Certainty seed transformation system
+     ☐ Transform Path of Serenity into growing garden/tree
+     ☐ Implement organic micro-interactions throughout
+     ☐ Validate all code and ensure English implementation
+
+⏺ Excellent! I've successfully completed Priority 2: Box of Certainty seed transformation system. The implementation includes:
+
+  1. Box Transformation Animation: Integrated into Scene4Prepare with a magical transformation sequence
+  2. Garden Seed Visualization: Connected to the dashboard showing real progress with adaptive states
+  3. Progress Calculation: Real-time garden progress based on user activities
+  4. Visual Integration: Seamless transition from onboarding box to dashboard garden
+
+  Now let's move to Priority 3: Transform Path of Serenity into growing garden/tree. Let me examine the current PathOfSerenity
+  component:
+
+⏺ Read(src/components/dashboard/PathOfSerenity.tsx)
+  ⎿  Read 398 lines (ctrl+r to expand)
+
+⏺ I can see the PathOfSerenity component has Slovak/Czech text throughout and uses a traditional path visualization. According
+  to the user's requirements, I need to transform this into a living garden/tree system with English text. Let me create a new
+  garden-themed version:
+
+⏺ Update(src/components/dashboard/PathOfSerenity.tsx)
+  ⎿  Updated src/components/dashboard/PathOfSerenity.tsx with 10 additions and 2 removals                             
+        5    import { Icon } from '@/components/ui/icon-library';
+        6    import { useAuth } from '@clerk/clerk-react';
+        7    import { useSupabaseWithClerk } from '@/integrations/supabase/client';
+        8 +  import { GardenSeed } from '@/components/animations/GardenSeed';
+        9 +  import { useGardenProgress } from '@/hooks/useGardenProgress';
+       10 +  import { useFirefly } from '@/contexts/FireflyContext';
+       11    import type {
+       12      SerenityMilestone,
+       13      FiveMinuteChallenge} from '@/lib/path-of-serenity';
+     ...
+       46      });
+       47      // Track previous milestones to prevent duplicate celebrations
+       48      const [previousMilestones, setPreviousMilestones] = useState<SerenityMilestone[]>(SERENITY_MILESTONES);
+       49 +    
+       50 +    // Garden progress integration
+       51 +    const { progress: gardenProgress } = useGardenProgress();
+       52 +    const { celebrate, guideToElement } = useFirefly();
+       53    
+       54      const { userId } = useAuth();
+       55      const navigate = useNavigate();
+     ...
+       129      const handleChallengeClick = () => {
+       130        if (nextChallenge) {
+       131          navigate(nextChallenge.navigationTarget);
+       132 -        toast.success('Spustili ste novú výzvu! Sofia vás povedie krok za krokom.');
+       132 +        toast.success('Challenge started! Sofia will guide you step by step.');
+       133 +        celebrate('challenge_started', { challenge: nextChallenge.title });
+       134        }
+       135      };
+       136    
+     ...
+       143            <div className="flex items-center justify-center h-64">
+       144              <div className="flex items-center gap-3">
+       145                <Icon name="loader" className="w-6 h-6 animate-spin text-primary" />
+       146 -              <span className="text-lg text-muted-foreground">Načítavanie vašej Cesty Pokoja...</span>
+       146 +              <span className="text-lg text-muted-foreground">Growing your Garden of Legacy...</span>
+       147              </div>
+       148            </div>
+       149          </Card>
+
+⏺ Now let me transform the entire visualization section to be garden-themed:
+
+⏺ Update(src/components/dashboard/PathOfSerenity.tsx)
+  ⎿  Updated src/components/dashboard/PathOfSerenity.tsx with 19 additions and 9 removals                                      
+       162    
+       163      return (
+       164        <div className={`space-y-6 ${className}`}>
+       165 -        {/* Header with Serenity Message */}
+       166 -        <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 
+     border-blue-200/50">
+           - border-blue-200/50">
+       165 +        {/* Header with Garden Message */}
+       166 +        <Card className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 
+     border-green-200/50">
+           + border-green-200/50">
+       167            <CardContent className="p-6">
+       168              <div className="text-center space-y-3">
+       169                <div className="flex items-center justify-center gap-2">
+       170 -                <Icon name="sparkles" className="w-6 h-6 text-blue-600" />
+       171 -                <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+       172 -                  Cesta Pokoja
+       170 +                <Icon name="sparkles" className="w-6 h-6 text-green-600" />
+       171 +                <h2 className="text-2xl font-bold text-green-900 dark:text-green-100">
+       172 +                  Garden of Your Legacy
+       173                  </h2>
+       174 -                <Icon name="sparkles" className="w-6 h-6 text-blue-600" />
+       174 +                <Icon name="sparkles" className="w-6 h-6 text-green-600" />
+       175                </div>
+       176 -              <p className="text-blue-700 dark:text-blue-200 text-lg leading-relaxed max-w-2xl mx-auto">
+       176 +              <p className="text-green-700 dark:text-green-200 text-lg leading-relaxed max-w-2xl mx-auto">
+       177                  {serenityMessage}
+       178                </p>
+       179                {unlockedCount > 0 && (
+       180 -                <div className="flex items-center justify-center gap-2 text-sm text-blue-600">
+       180 +                <div className="flex items-center justify-center gap-2 text-sm text-green-600">
+       181                    <Icon name="check-circle" className="w-4 h-4" />
+       182 -                  <span>Odomknuté míľniky: {unlockedCount} z {milestones.length}</span>
+       182 +                  <span>Milestones achieved: {unlockedCount} of {milestones.length}</span>
+       183                  </div>
+       184                )}
+       185 +              {gardenProgress && (
+       186 +                <div className="flex justify-center mt-4">
+       187 +                  <GardenSeed
+       188 +                    progress={gardenProgress.overallProgress}
+       189 +                    size="medium"
+       190 +                    showPulse={true}
+       191 +                    onSeedClick={() => guideToElement('garden-tree')}
+       192 +                  />
+       193 +                </div>
+       194 +              )}
+       195              </div>
+       196            </CardContent>
+       197          </Card>
+
+⏺ Now let me completely transform the path visualization into a living tree/garden:
+
+⏺ Update(src/components/dashboard/PathOfSerenity.tsx)
+  ⎿  Updated src/components/dashboard/PathOfSerenity.tsx with 97 additions and 25 removals                                     
+       196            </CardContent>
+       197          </Card>
+       198    
+       199 -        {/* The Sacred Path Visualization */}
+       200 -        <Card className="overflow-hidden">
+       199 +        {/* The Growing Garden Tree Visualization */}
+       200 +        <Card className="overflow-hidden" id="garden-tree">
+       201            <CardContent className="p-0">
+       202 -            <div className="relative h-80 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 
+     dark:from-slate-900 dark:via-blue-950 dark:to-indigo-900">
+           - dark:from-slate-900 dark:via-blue-950 dark:to-indigo-900">
+       203 -              {/* Background Pattern */}
+       204 -              <div className="absolute inset-0 opacity-20">
+       205 -                <svg width="100%" height="100%" className="w-full h-full">
+       206 -                  <defs>
+       207 -                    <pattern id="serenityPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+       208 -                      <circle cx="20" cy="20" r="1" fill="currentColor" className="text-blue-300" />
+       209 -                    </pattern>
+       210 -                  </defs>
+       211 -                  <rect width="100%" height="100%" fill="url(#serenityPattern)" />
+       212 -                </svg>
+       202 +            <div className="relative h-96 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-100 
+     dark:from-green-950 dark:via-emerald-950 dark:to-teal-900">
+           + dark:from-green-950 dark:via-emerald-950 dark:to-teal-900">
+       203 +              {/* Ground and sky background */}
+       204 +              <div className="absolute inset-0">
+       205 +                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-amber-100 
+     to-transparent dark:from-amber-900/30 dark:to-transparent"></div>
+           +  dark:from-amber-900/30 dark:to-transparent"></div>
+       206 +                <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-blue-50 to-transparent 
+     dark:from-blue-950/30 dark:to-transparent"></div>
+           + dark:from-blue-950/30 dark:to-transparent"></div>
+       207                </div>
+       208    
+       209 -              {/* Path Line */}
+       209 +              {/* Floating particles/fireflies */}
+       210 +              <div className="absolute inset-0 opacity-30">
+       211 +                {[...Array(8)].map((_, i) => (
+       212 +                  <motion.div
+       213 +                    key={i}
+       214 +                    className="absolute w-2 h-2 bg-yellow-300 rounded-full"
+       215 +                    style={{
+       216 +                      left: `${20 + Math.random() * 60}%`,
+       217 +                      top: `${10 + Math.random() * 40}%`,
+       218 +                    }}
+       219 +                    animate={{
+       220 +                      y: [-10, 10, -10],
+       221 +                      x: [-5, 5, -5],
+       222 +                      opacity: [0.3, 0.8, 0.3],
+       223 +                      scale: [0.8, 1.2, 0.8],
+       224 +                    }}
+       225 +                    transition={{
+       226 +                      duration: 3 + Math.random() * 2,
+       227 +                      repeat: Infinity,
+       228 +                      delay: Math.random() * 2,
+       229 +                      ease: "easeInOut",
+       230 +                    }}
+       231 +                  />
+       232 +                ))}
+       233 +              </div>
+       234 +  
+       235 +              {/* Main Tree Structure */}
+       236                <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
+       237                  <defs>
+       238 -                  <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+       239 -                    <stop offset="0%" stopColor="#93c5fd" />
+       240 -                    <stop offset="50%" stopColor="#3b82f6" />
+       241 -                    <stop offset="100%" stopColor="#6366f1" />
+       238 +                  <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+       239 +                    <stop offset="0%" stopColor="#92400e" />
+       240 +                    <stop offset="50%" stopColor="#a16207" />
+       241 +                    <stop offset="100%" stopColor="#92400e" />
+       242                    </linearGradient>
+       243 +                  <radialGradient id="leavesGradient">
+       244 +                    <stop offset="0%" stopColor="#22c55e" />
+       245 +                    <stop offset="70%" stopColor="#16a34a" />
+       246 +                    <stop offset="100%" stopColor="#15803d" />
+       247 +                  </radialGradient>
+       248                  </defs>
+       249 -                <path
+       250 -                  d="M 60 340 Q 150 280 200 240 T 300 200 T 400 160 T 500 120 T 600 100"
+       251 -                  fill="none"
+       252 -                  stroke="url(#pathGradient)"
+       253 -                  strokeWidth="3"
+       254 -                  strokeDasharray="5,5"
+       255 -                  className="opacity-60"
+       249 +                
+       250 +                {/* Tree trunk */}
+       251 +                <motion.rect
+       252 +                  x="48%"
+       253 +                  y="70%"
+       254 +                  width="4%"
+       255 +                  height={`${Math.min(30, 10 + (unlockedCount * 4))}%`}
+       256 +                  fill="url(#trunkGradient)"
+       257 +                  rx="2"
+       258 +                  initial={{ height: '10%' }}
+       259 +                  animate={{ height: `${Math.min(30, 10 + (unlockedCount * 4))}%` }}
+       260 +                  transition={{ duration: 2, ease: "easeOut" }}
+       261                  />
+       262 +  
+       263 +                {/* Tree branches - grow with progress */}
+       264 +                {unlockedCount >= 2 && (
+       265 +                  <>
+       266 +                    <motion.path
+       267 +                      d="M 50% 75% Q 40% 65% 35% 55%"
+       268 +                      fill="none"
+       269 +                      stroke="url(#trunkGradient)"
+       270 +                      strokeWidth="6"
+       271 +                      initial={{ pathLength: 0 }}
+       272 +                      animate={{ pathLength: 1 }}
+       273 +                      transition={{ duration: 1.5, delay: 0.5 }}
+       274 +                    />
+       275 +                    <motion.path
+       276 +                      d="M 50% 75% Q 60% 65% 65% 55%"
+       277 +                      fill="none"
+       278 +                      stroke="url(#trunkGradient)"
+       279 +                      strokeWidth="6"
+       280 +                      initial={{ pathLength: 0 }}
+       281 +                      animate={{ pathLength: 1 }}
+       282 +                      transition={{ duration: 1.5, delay: 0.7 }}
+       283 +                    />
+       284 +                  </>
+       285 +                )}
+       286 +  
+       287 +                {/* Tree canopy - grows with milestones */}
+       288 +                {unlockedCount >= 1 && (
+       289 +                  <motion.ellipse
+       290 +                    cx="50%"
+       291 +                    cy="50%"
+       292 +                    rx={`${Math.min(25, 8 + (unlockedCount * 2))}%`}
+       293 +                    ry={`${Math.min(20, 6 + (unlockedCount * 1.5))}%`}
+       294 +                    fill="url(#leavesGradient)"
+       295 +                    opacity="0.8"
+       296 +                    initial={{ rx: "5%", ry: "5%" }}
+       297 +                    animate={{ 
+       298 +                      rx: `${Math.min(25, 8 + (unlockedCount * 2))}%`,
+       299 +                      ry: `${Math.min(20, 6 + (unlockedCount * 1.5))}%`
+       300 +                    }}
+       301 +                    transition={{ duration: 2, ease: "easeOut" }}
+       302 +                  />
+       303 +                )}
+       304                </svg>
+       305    
+       306                {/* Milestone Points */}
+  ⎿  5-hour limit reached ∙ resets 12pm
+     /upgrade to increase your usage limit.
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ >                                                                                                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  ⏵⏵ accept edits on (shift+tab to cycle)                                                                                        ◯
+                                                    ✗ Auto-update failed · Try claude doctor or npm i -g @anthropic-ai/claude-code
+
+ *  Restarting the terminal because the connection to the shell process was lost... 
+luborfedak@Macmini hollywood % 

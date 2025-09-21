@@ -1,0 +1,12 @@
+{
+  "previous": "Previous",
+  "next": "Next",
+  "morePages": "More pages",
+  "goToPrevious": "Go to previous page",
+  "goToNext": "Go to next page",
+  "page": "Page",
+  "of": "of",
+  "pageInfo": "Page {{current}} of {{total}}",
+  "itemsPerPage": "Items per page",
+  "showingResults": "Showing {{start}}-{{end}} of {{total}} results"
+}

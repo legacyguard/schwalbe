@@ -1,0 +1,21 @@
+{
+  "title": "Will Creation Service",
+  "description": "Create your legal will with our guided process",
+  "steps": {
+    "personal_info": "Personal Information",
+    "beneficiaries": "Beneficiaries",
+    "assets": "Assets",
+    "guardians": "Guardians",
+    "review": "Review"
+  },
+  "forms": {
+    "full_name": "Full Name",
+    "date_of_birth": "Date of Birth",
+    "address": "Address",
+    "marital_status": "Marital Status"
+  },
+  "legal": {
+    "disclaimer": "This is a legal document template",
+    "requirements": "Please ensure all information is accurate"
+  }
+}

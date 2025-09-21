@@ -1,0 +1,81 @@
+{
+  "title": "Set Up Document Encryption",
+  "description": "Protect your sensitive documents with end-to-end encryption",
+  "steps": {
+    "stepOf": "Step {{current}} of {{total}}",
+    "beforeWeBegin": "Before We Begin",
+    "createPassword": "Create Your Encryption Password",
+    "confirmPassword": "Confirm Your Password"
+  },
+  "security": {
+    "serverSecurity": {
+      "title": "Your encryption password is never sent to our servers",
+      "description": "We use client-side encryption to ensure only you can access your documents"
+    },
+    "passwordRecovery": {
+      "title": "This password cannot be recovered",
+      "description": "If you forget your password, you will lose access to your encrypted documents"
+    },
+    "militaryGrade": {
+      "title": "Military-grade encryption",
+      "description": "We use NaCl (Networking and Cryptography library) for secure encryption"
+    }
+  },
+  "form": {
+    "labels": {
+      "encryptionPassword": "Encryption Password",
+      "confirmEncryptionPassword": "Confirm Encryption Password",
+      "passwordStrength": "Password Strength"
+    },
+    "placeholders": {
+      "enterStrongPassword": "Enter a strong password",
+      "reenterPassword": "Re-enter your password"
+    },
+    "checkbox": {
+      "acknowledge": "I understand that my encryption password cannot be recovered if lost"
+    }
+  },
+  "passwordStrength": {
+    "levels": {
+      "veryWeak": "Very Weak",
+      "weak": "Weak",
+      "fair": "Fair",
+      "good": "Good",
+      "strong": "Strong"
+    },
+    "feedback": {
+      "useAtLeast12Characters": "Use at least 12 characters for better security",
+      "mustBeAtLeast8Characters": "Password must be at least 8 characters",
+      "addLowercaseLetters": "Add lowercase letters",
+      "addUppercaseLetters": "Add uppercase letters",
+      "addNumbers": "Add numbers",
+      "addSpecialCharacters": "Add special characters",
+      "avoidOnlyLetters": "Avoid using only letters",
+      "neverUseOnlyNumbers": "Never use only numbers"
+    }
+  },
+  "validation": {
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordsMatch": "Passwords match",
+    "pleaseAcknowledge": "Please acknowledge the security information",
+      "passwordTooShort": "Password must be at least 8 characters",
+    "pleaseChooseStronger": "Please choose a stronger password",
+    "failedToInitialize": "Failed to initialize encryption. Please try again."
+  },
+  "alerts": {
+    "tip": "Tip: Use a password manager to generate and store a strong, unique password for your encryption.",
+    "differentPassword": "Choose a password you'll remember. It should be different from your login password.",
+    "important": "Important: Remember your encryption password. It cannot be recovered if lost. Consider using a password manager to store it securely."
+  },
+  "buttons": {
+    "next": "Next",
+    "back": "Back",
+    "completeSetup": "Complete Setup",
+    "settingUp": "Setting up...",
+    "continueToDashboard": "Continue to Dashboard"
+  },
+  "success": {
+    "title": "Encryption Setup Complete!",
+    "description": "Your documents are now protected with end-to-end encryption"
+  }
+}

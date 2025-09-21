@@ -1,0 +1,250 @@
+name: Performance Automation
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * 1' # Every Monday at 2 AM
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  performance-optimization:
+    runs-on: ubuntu-latest
+    name: Performance Optimization & Testing
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run Master Performance Automation
+        run: node scripts/auto-optimize.js
+
+      - name: Build optimized application
+        run: npm run build
+
+      - name: Run performance tests
+        run: npm run test:performance
+        continue-on-error: true
+
+      - name: Upload performance reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-reports
+          path: |
+            performance-reports/
+            *.json
+            *.html
+          retention-days: 30
+
+      - name: Comment PR with performance insights
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            // Try to read the master automation report
+            let report = null;
+            try {
+              const reportPath = 'master-automation-report.json';
+              if (fs.existsSync(reportPath)) {
+                report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+              }
+            } catch (error) {
+              console.log('Could not read master automation report:', error.message);
+            }
+
+            // Try to read performance test report
+            let testReport = null;
+            try {
+              const testReportPath = 'performance-reports/performance-test-report.json';
+              if (fs.existsSync(testReportPath)) {
+                testReport = JSON.parse(fs.readFileSync(testReportPath, 'utf8'));
+              }
+            } catch (error) {
+              console.log('Could not read performance test report:', error.message);
+            }
+
+            let comment = '## 🚀 Performance Automation Results\n\n';
+
+            if (report) {
+              comment += `**Master Automation Summary:**\n`;
+              comment += `- Success Rate: ${report.summary.successRate}%\n`;
+              comment += `- Completed: ${report.summary.completed}/${report.summary.totalSteps}\n`;
+              comment += `- Failed: ${report.summary.failed}\n`;
+              comment += `- Warnings: ${report.summary.warnings}\n`;
+              comment += `- Duration: ${Math.round(report.summary.totalDuration / 1000)}s\n\n`;
+              
+              if (report.recommendations.length > 0) {
+                comment += `**Recommendations:**\n`;
+                report.recommendations.forEach(rec => {
+                  comment += `- ${rec}\n`;
+                });
+                comment += '\n';
+              }
+            }
+
+            if (testReport) {
+              comment += `**Performance Test Results:**\n`;
+              comment += `- Average Score: ${testReport.summary.averageScore.toFixed(1)}%\n`;
+              comment += `- Tests Passed: ${testReport.summary.passed}/${testReport.summary.total}\n`;
+              comment += `- Tests Failed: ${testReport.summary.failed}\n\n`;
+              
+              if (testReport.recommendations.length > 0) {
+                comment += `**Test Recommendations:**\n`;
+                testReport.recommendations.forEach(rec => {
+                  comment += `- ${rec}\n`;
+                });
+                comment += '\n';
+              }
+            }
+
+            comment += `**Reports:**\n`;
+            comment += `- [Download Performance Reports](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})\n`;
+            comment += `- Generated on: ${new Date().toISOString()}\n`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Set performance status
+        if: always()
+        run: |
+          if [ -f "master-automation-report.json" ]; then
+            echo "PERFORMANCE_STATUS=completed" >> $GITHUB_ENV
+            echo "Performance automation completed"
+          else
+            echo "PERFORMANCE_STATUS=failed" >> $GITHUB_ENV
+            echo "Performance automation failed"
+          fi
+
+  bundle-analysis:
+    runs-on: ubuntu-latest
+    name: Bundle Analysis
+    needs: performance-optimization
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build application
+        run: npm run build
+
+      - name: Analyze bundle sizes
+        run: node scripts/analyze-bundle.js
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis
+          path: bundle-analysis.json
+          retention-days: 30
+
+      - name: Comment PR with bundle insights
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            try {
+              const bundlePath = 'bundle-analysis.json';
+              if (fs.existsSync(bundlePath)) {
+                const bundleData = JSON.parse(fs.readFileSync(bundlePath, 'utf8'));
+                
+                let comment = '## 📦 Bundle Analysis Results\n\n';
+                comment += `**Bundle Summary:**\n`;
+                comment += `- Total Size: ${(bundleData.totalSize / 1024 / 1024).toFixed(2)} MB\n`;
+                comment += `- Chunks: ${bundleData.chunks.length}\n`;
+                comment += `- Largest Chunk: ${bundleData.largestChunk.name} (${(bundleData.largestChunk.size / 1024).toFixed(2)} KB)\n\n`;
+                
+                if (bundleData.recommendations.length > 0) {
+                  comment += `**Bundle Recommendations:**\n`;
+                  bundleData.recommendations.forEach(rec => {
+                    comment += `- ${rec}\n`;
+                  });
+                }
+                
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: comment
+                });
+              }
+            } catch (error) {
+              console.log('Could not analyze bundle:', error.message);
+            }
+
+  performance-monitoring:
+    runs-on: ubuntu-latest
+    name: Performance Monitoring
+    needs: performance-optimization
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build and start application
+        run: |
+          npm run build
+          npm run preview &
+          sleep 10
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+        continue-on-error: true
+
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: .lighthouseci/
+          retention-days: 30
+
+      - name: Performance regression check
+        run: |
+          echo "Checking for performance regressions..."
+          # This would compare current results with baseline
+          # and fail if significant regressions are detected

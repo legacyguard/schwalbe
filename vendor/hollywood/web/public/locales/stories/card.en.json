@@ -1,0 +1,71 @@
+{
+  "title": "Card Component",
+  "description": "Versatile container used to group related content and actions",
+  "examples": {
+    "default": {
+      "title": "Create New Document",
+      "description": "Start building your legacy today",
+      "content": "Choose from our selection of document templates to get started quickly.",
+      "action": "Get Started"
+    },
+    "document": {
+      "title": "Last Will & Testament",
+      "description": "Updated 2 days ago",
+      "status": "Draft",
+      "created": "Created: March 15, 2024",
+      "modified": "Last modified: March 20, 2024",
+      "actions": {
+        "view": "View",
+        "edit": "Edit"
+      }
+    },
+    "familyMember": {
+      "name": "John Doe",
+      "role": "Primary Beneficiary",
+      "relationship": "Spouse",
+      "inheritance": "Inheritance",
+      "inheritanceValue": "50%",
+      "documents": "Documents",
+      "documentsValue": "3 shared",
+      "emergencyAccess": "Emergency Access",
+      "enabled": "Enabled",
+      "action": "Manage Access"
+    },
+    "stats": {
+      "totalDocuments": "Total Documents",
+      "growth": "+10% from last month"
+    },
+    "feature": {
+      "title": "Bank-Level Security",
+      "description": "Your documents are protected with enterprise-grade encryption",
+      "features": [
+        "256-bit AES encryption",
+        "Zero-knowledge architecture", 
+        "SOC 2 Type II certified"
+      ]
+    },
+    "interactive": {
+      "title": "Family Protection Plan",
+      "description": "Secure your family's future",
+      "content": "Complete package including will creation, guardianship setup, and emergency access management.",
+      "status": "New",
+      "action": "Learn More"
+    },
+    "minimal": {
+      "title": "Minimal Design",
+      "description": "No border, no shadow",
+      "content": "Perfect for nested content or subtle grouping."
+    },
+    "grid": {
+      "documents": "Documents",
+      "familyMembers": "Family Members",
+      "completion": "Completion"
+    }
+  },
+  "documentation": {
+    "components": "Components",
+    "features": "Features",
+    "usage": "Usage",
+    "bestPractices": "Best Practices"
+  }
+}

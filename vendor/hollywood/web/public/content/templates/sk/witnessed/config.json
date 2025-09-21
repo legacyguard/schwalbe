@@ -1,0 +1,338 @@
+{
+  "id": "sk-witnessed-sk",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Witnessed Will (Slovakia)",
+    "name_sk": "Závet pred svedkami (Slovensko)",
+    "description": "A witnessed will that can be typed or written by another person, requiring exactly 2 witnesses as per § 477 of Slovak Civil Code",
+    "description_sk": "Závet pred svedkami, ktorý môže byť napísaný písacím strojom alebo inou osobou, vyžaduje presne 2 svedkov podľa § 477 Občianskeho zákonníka SR",
+    "lastUpdated": "2024-12-06",
+    "jurisdiction": "Slovakia",
+    "legalBasis": "§ 477 Občiansky zákonník SR",
+    "legalReview": {
+      "isApproved": true,
+      "reviewDate": "2024-12-06",
+      "reviewedBy": "Legal AI Assistant"
+    }
+  },
+  "variables": [
+    {
+      "key": "testatorName",
+      "label": "Testator Full Name",
+      "label_sk": "Plné meno testátora",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Ján Novák",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Testator name is required",
+          "message_sk": "Meno testátora je povinné",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "birthDate",
+      "label": "Date of Birth",
+      "label_sk": "Dátum narodenia",
+      "type": "date",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "birthPlace",
+      "label": "Place of Birth",
+      "label_sk": "Miesto narodenia",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Bratislava"
+    },
+    {
+      "key": "personalId",
+      "label": "Personal ID Number",
+      "label_sk": "Rodné číslo",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., 700101/1234",
+      "validation": [
+        {
+          "type": "pattern",
+          "value": "^\\d{6}/\\d{3,4}$",
+          "message": "Slovak personal ID must be in format YYMMDD/XXX or YYMMDD/XXXX",
+          "message_sk": "Rodné číslo musí byť vo formáte RRMMDD/XXX alebo RRMMDD/XXXX",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "address",
+      "label": "Current Address",
+      "label_sk": "Súčasná adresa",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Hlavná 1, 811 01 Bratislava"
+    },
+    {
+      "key": "citizenship",
+      "label": "Citizenship",
+      "label_sk": "Štátna príslušnosť",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "defaultValue": "Slovak",
+      "placeholder": "e.g., Slovak"
+    },
+    {
+      "key": "beneficiaries",
+      "label": "Beneficiaries",
+      "label_sk": "Dedičia",
+      "type": "array",
+      "required": true,
+      "dataSource": "beneficiary",
+      "validation": [
+        {
+          "type": "custom",
+          "condition": "length > 0",
+          "message": "At least one beneficiary must be specified",
+          "message_sk": "Aspoň jeden dedič musí byť špecifikovaný",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "witnesses",
+      "label": "Witnesses",
+      "label_sk": "Svedkovia",
+      "type": "array",
+      "required": true,
+      "dataSource": "witness",
+      "validation": [
+        {
+          "type": "custom",
+          "condition": "length === 2",
+          "message": "Exactly 2 witnesses are required for witnessed will",
+          "message_sk": "Pre závet pred svedkami sú potrební presne 2 svedkovia",
+          "severity": "error"
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "declaration",
+      "title": "Declaration and Revocation",
+      "title_sk": "Vyhlásenie a odvolanie",
+      "order": 1,
+      "required": true,
+      "content": "I declare that I am of sound mind and make this Will voluntarily in presence of witnesses.",
+      "content_sk": "Vyhlasujem, že som duševne zdravý a tento závet robím dobrovoľne v prítomnosti svedkov.",
+      "variables": ["testatorName", "birthDate", "birthPlace", "personalId", "address", "citizenship"],
+      "legalReference": "§ 477 Občiansky zákonník SR"
+    },
+    {
+      "id": "family_status",
+      "title": "Family Status",
+      "title_sk": "Rodinný stav",
+      "order": 2,
+      "required": false,
+      "content": "Information about spouse and children.",
+      "content_sk": "Informácie o manželovi/manželke a deťoch.",
+      "variables": ["spouse", "children"]
+    },
+    {
+      "id": "assets",
+      "title": "Assets and Property",
+      "title_sk": "Majetok a vlastníctvo",
+      "order": 3,
+      "required": false,
+      "content": "Description of assets owned by the testator.",
+      "content_sk": "Opis majetku vlastneného testátorom.",
+      "variables": ["realEstate", "bankAccounts", "vehicles", "personalProperty"]
+    },
+    {
+      "id": "bequests",
+      "title": "Bequests and Distributions",
+      "title_sk": "Odkazy a rozdelenie",
+      "order": 4,
+      "required": true,
+      "content": "Distribution of assets to beneficiaries.",
+      "content_sk": "Rozdelenie majetku dedičom.",
+      "variables": ["beneficiaries", "charitableBequests"],
+      "legalReference": "Forced heirship rules apply per Slovak Civil Code"
+    },
+    {
+      "id": "executor",
+      "title": "Executor",
+      "title_sk": "Vykonávateľ závetu",
+      "order": 5,
+      "required": false,
+      "content": "Appointment of executor.",
+      "content_sk": "Vymenúvanie vykonávateľa závetu.",
+      "variables": ["executorName", "executorAddress", "backupExecutor"]
+    },
+    {
+      "id": "guardianship",
+      "title": "Guardianship",
+      "title_sk": "Opatrovníctvo",
+      "order": 6,
+      "required": false,
+      "conditionalLogic": {
+        "showIf": {
+          "hasMinorChildren": true
+        }
+      },
+      "content": "Appointment of guardians for minor children.",
+      "content_sk": "Vymenúvanie opatrovníkov pre maloletých.",
+      "variables": ["primaryGuardian", "backupGuardian"]
+    },
+    {
+      "id": "special_wishes",
+      "title": "Special Wishes and Instructions",
+      "title_sk": "Osobitné priania a pokyny",
+      "order": 7,
+      "required": false,
+      "content": "Final wishes and special instructions.",
+      "content_sk": "Posledné priania a osobitné pokyny.",
+      "variables": ["funeralWishes", "organDonation", "digitalAssets", "personalMessages"]
+    },
+    {
+      "id": "witness_signatures",
+      "title": "Witness Signatures",
+      "title_sk": "Podpisy svedkov",
+      "order": 8,
+      "required": true,
+      "content": "Signatures of 2 witnesses present simultaneously.",
+      "content_sk": "Podpisy 2 svedkov prítomných súčasne.",
+      "variables": ["witnesses"],
+      "legalReference": "§ 477 Občiansky zákonník SR - witness requirements"
+    }
+  ],
+  "executionInstructions": {
+    "witnessed": {
+      "steps": [
+        "Prepare the will (can be typed or handwritten by anyone)",
+        "Find 2 suitable witnesses (adults, mentally capable, not beneficiaries)",
+        "Sign the will in presence of both witnesses simultaneously",
+        "Both witnesses must sign the will at the same time",
+        "Store the will in a safe place",
+        "Inform trusted person about the location"
+      ],
+      "steps_sk": [
+        "Pripravte závet (môže byť napísaný na písacom stroji alebo rukou kýmkoľvek)",
+        "Nájdite 2 vhodných svedkov (dospelí, duševne spôsobilí, nie dedičia)",
+        "Podpíšte závet v prítomnosti oboch svedkov súčasne",
+        "Obaja svedkovia musia podpísať závet v rovnakom čase",
+        "Uložte závet na bezpečnom mieste",
+        "Informujte dôveryhodnú osobu o mieste uloženia"
+      ],
+      "requirements": [
+        "Must be signed by testator in presence of 2 witnesses",
+        "Both witnesses must sign simultaneously",
+        "Witnesses must be present at the same time",
+        "Witnesses must be legally capable adults",
+        "Witnesses cannot be beneficiaries or their relatives"
+      ],
+      "requirements_sk": [
+        "Musí byť podpísaný testátorom v prítomnosti 2 svedkov",
+        "Obaja svedkovia musia podpísať súčasne",
+        "Svedkovia musia byť prítomní v rovnakom čase",
+        "Svedkovia musia byť právne spôsobilí dospelí",
+        "Svedkovia nemôžu byť dedičia alebo ich príbuzní"
+      ],
+      "warnings": [
+        "Ensure witnesses are not beneficiaries",
+        "Witnesses must be present simultaneously",
+        "Verify witnesses are mentally capable adults",
+        "Keep original document safe"
+      ],
+      "warnings_sk": [
+        "Zabezpečte, aby svedkovia neboli dedičia",
+        "Svedkovia musia byť prítomní súčasne",
+        "Overte, že svedkovia sú duševne spôsobilí dospelí",
+        "Originál dokumentu uchovajte na bezpečnom mieste"
+      ]
+    }
+  },
+  "validationRules": [
+    {
+      "type": "legal",
+      "field": "age",
+      "value": 18,
+      "message": "Testator must be at least 18 years old",
+      "message_sk": "Testátor musí mať aspoň 18 rokov",
+      "severity": "error",
+      "legalReference": "§ 477 Občiansky zákonník SR",
+      "jurisdictionSpecific": true
+    },
+    {
+      "type": "custom",
+      "field": "witnesses",
+      "condition": "length === 2",
+      "message": "Exactly 2 witnesses are required for witnessed will",
+      "message_sk": "Pre závet pred svedkami sú potrební presne 2 svedkovia",
+      "severity": "error",
+      "legalReference": "§ 477 Občiansky zákonník SR"
+    },
+    {
+      "type": "custom",
+      "field": "witnesses",
+      "condition": "noBeneficiaryWitnesses",
+      "message": "Witnesses cannot be beneficiaries or their relatives",
+      "message_sk": "Svedkovia nemôžu byť dedičia alebo ich príbuzní",
+      "severity": "error",
+      "legalReference": "§ 477 Občiansky zákonník SR"
+    },
+    {
+      "type": "custom",
+      "field": "beneficiaries",
+      "condition": "forcedHeirsCompliance",
+      "message": "Distribution must respect forced heirship rules",
+      "message_sk": "Rozdelenie musí rešpektovať pravidlá núteného dedičstva",
+      "severity": "warning",
+      "legalReference": "Forced heirship provisions of Slovak Civil Code"
+    }
+  ],
+  "legalClauses": [
+    {
+      "id": "revocation_clause",
+      "type": "mandatory",
+      "jurisdiction": "SK",
+      "legalBasis": "§ 477 Občiansky zákonník SR",
+      "content": "I hereby revoke all prior Wills and Codicils made by me.",
+      "content_sk": "Týmto odvolávam všetky predchádzajúce závety a dodatky, ktoré som urobil."
+    },
+    {
+      "id": "witnessed_declaration",
+      "type": "mandatory",
+      "jurisdiction": "SK",
+      "legalBasis": "§ 477 Občiansky zákonník SR",
+      "content": "This will is made in the presence of witnesses as permitted under Slovak Civil Code.",
+      "content_sk": "Tento závet je urobený v prítomnosti svedkov, ako je povolené podľa Občianskeho zákonníka SR."
+    },
+    {
+      "id": "witness_attestation",
+      "type": "mandatory",
+      "jurisdiction": "SK",
+      "legalBasis": "§ 477 Občiansky zákonník SR",
+      "content": "We, the undersigned witnesses, attest that the testator signed this will in our simultaneous presence.",
+      "content_sk": "My, nižšie podpísaní svedkovia, potvrdzujeme, že testátor podpísal tento závet v našej súčasnej prítomnosti."
+    },
+    {
+      "id": "forced_heirs_notice",
+      "type": "conditional",
+      "jurisdiction": "SK",
+      "legalBasis": "Občiansky zákonník SR - ustanovenia o nútenom dedičstve",
+      "applicableWhenConditions": {
+        "hasSpouse": true,
+        "hasChildren": true
+      },
+      "content": "This distribution respects the forced heirship rights under Slovak law.",
+      "content_sk": "Toto rozdelenie rešpektuje práva núteného dedičstva podľa slovenského práva."
+    }
+  ]
+}

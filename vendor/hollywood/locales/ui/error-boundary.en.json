@@ -1,0 +1,16 @@
+{
+  "toast": "Something went wrong. We're working on fixing this issue.",
+  "title": "Oops! Something went wrong",
+  "description": "We're sorry, but something unexpected happened. Your data is safe, and we're working to fix this issue. Please try one of the options below.",
+  "actions": {
+    "tryAgain": "Try Again",
+    "goHome": "Go Home",
+    "reloadPage": "Reload Page"
+  },
+  "details": {
+    "dev": "Technical Details (Development)"
+  },
+  "support": {
+    "message": "If this problem persists, please contact our support team."
+  }
+}

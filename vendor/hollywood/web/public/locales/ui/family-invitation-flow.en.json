@@ -1,0 +1,82 @@
+{
+  "steps": {
+    "relationship": {
+      "title": "Choose Relationship",
+      "description": "Who are you inviting?"
+    },
+    "details": {
+      "title": "Contact Details", 
+      "description": "How can we reach them?"
+    },
+    "message": {
+      "title": "Personal Message",
+      "description": "Add a heartfelt note"
+    },
+    "review": {
+      "title": "Review & Send",
+      "description": "Double-check everything"
+    },
+    "sending": {
+      "title": "Sending...",
+      "description": "Preparing invitation"
+    },
+    "complete": {
+      "title": "Invitation Sent!",
+      "description": "Success!"
+    }
+  },
+  "relationshipStep": {
+    "subtitle": "Select the relationship that best describes your connection:",
+    "continue": "Continue"
+  },
+  "detailsStep": {
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter their full name",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "Enter their email",
+    "roleLabel": "Family Role",
+    "rolePlaceholder": "Select their role in the family"
+  },
+  "messageStep": {
+    "subtitle": "We've prepared a personalized message based on your relationship. Feel free to customize it:",
+    "placeholder": "Write a personal message..."
+  },
+  "defaultMessages": {
+    "spouse": "You mean the world to me, and I want to make sure we're both prepared for whatever life brings. Having you as part of our family's protection plan gives me such peace of mind. 💕",
+    "child": "Hey sweetheart! 👋 As your parent, one of my greatest joys is knowing you'll always be taken care of. I'd love for you to be part of our family's legacy protection plan - it's about keeping our family connected and secure, no matter what.",
+    "parent": "Hi Mom/Dad! 💕 I've been thinking about how much you mean to our family, and I want to make sure we're all prepared for the future. Would you join our family protection plan? It would mean so much to have you included.",
+    "sibling": "Hey! 👫 Remember how we always promised to look out for each other? I'm setting up a family protection plan and I'd really love to have you included. It's about keeping our family bond strong and making sure we're all prepared.",
+    "grandparent": "Hey sweetheart! 👋 I want to make sure you have access to important family information when you need it. This is about keeping our family connected and secure.",
+    "grandchild": "Hey! 👫 I'm setting up a family protection plan and I'd really love to have you included. It's about keeping our family bond strong and making sure we're all prepared.",
+    "other_family": "Hey! 👫 I'm setting up a family protection plan and I'd really love to have you included. It's about keeping our family bond strong and making sure we're all prepared.",
+    "friend": "You've always been like family to us. 🤗 I'd love to include you in our emergency contacts because I trust you completely and know you'd be there for us if we ever needed help."
+  },
+  "reviewStep": {
+    "invitingLabel": "Inviting:",
+    "relationshipLabel": "Relationship:",
+    "roleLabel": "Role:",
+    "messageLabel": "Your message:",
+    "sendInvitation": "Send Invitation"
+  },
+  "completeStep": {
+    "success": "Your invitation has been sent successfully!",
+    "description": "{{name}} will receive an email with instructions to join your family protection plan.",
+    "done": "Done",
+    "inviteAnother": "Invite Another"
+  },
+  "navigation": {
+    "back": "Back",
+    "next": "Next"
+  },
+  "errors": {
+    "emailRequired": "Email is required to send an invitation.",
+    "sendFailed": "Failed to send invitation",
+    "loadFailed": "Failed to load relationship data"
+  },
+  "roles": {
+    "family_member": "Family Member",
+    "emergency_contact": "Emergency Contact", 
+    "guardian": "Guardian",
+    "executor": "Executor"
+  }
+}

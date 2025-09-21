@@ -1,0 +1,78 @@
+{
+  "title": "Trust Score",
+  "score": {
+    "outOf": "{{score}} out of {{max}}",
+    "percentage": "{{score}}%"
+  },
+  "levels": {
+    "excellent": {
+      "label": "Excellent",
+      "message": "Your family is exceptionally well protected"
+    },
+    "veryGood": {
+      "label": "Very Good", 
+      "message": "Strong protection with room for minor improvements"
+    },
+    "good": {
+      "label": "Good",
+      "message": "Solid foundation, consider adding professional review"
+    },
+    "needsAttention": {
+      "label": "Needs Attention",
+      "message": "Important gaps in your family protection"
+    },
+    "gettingStarted": {
+      "label": "Getting Started",
+      "message": "Building your family's protection foundation"
+    }
+  },
+  "boosts": {
+    "title": "Quick Improvements",
+    "addEmergencyContacts": {
+      "action": "Add Emergency Contacts",
+      "description": "Help your family access important information",
+      "boost": "+{{points}} points"
+    },
+    "professionalReview": {
+      "action": "Professional Review",
+      "description": "Get your documents reviewed by licensed attorneys",
+      "boost": "+{{points}} points"
+    },
+    "uploadEstateDocuments": {
+      "action": "Upload Estate Documents", 
+      "description": "Secure and organize all your important documents",
+      "boost": "+{{points}} points"
+    },
+    "completeWillWizard": {
+      "action": "Complete Will Wizard",
+      "description": "Create legally sound will with our guided process",
+      "boost": "+{{points}} points"
+    }
+  },
+  "badges": {
+    "urgent": "Urgent",
+    "recommended": "Recommended"
+  },
+  "buttons": {
+    "improveScore": "Improve Score",
+    "viewDetails": "View Details",
+    "getStarted": "Get Started"
+  },
+  "tooltips": {
+    "howCalculated": "How is this calculated?",
+    "calculation": "Your trust score is based on document completeness, professional reviews, family setup, and security measures."
+  },
+  "variants": {
+    "minimal": {
+      "title": "Protection Level"
+    },
+    "detailed": {
+      "title": "Family Trust Score",
+      "subtitle": "Comprehensive protection assessment"
+    },
+    "gamified": {
+      "title": "Protection Achievement",
+      "levelUp": "Level Up Your Protection!"
+    }
+  }
+}

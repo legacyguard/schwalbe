@@ -1,0 +1,173 @@
+{
+  "header": {
+    "badge": "Profesionálne právne posúdenie",
+    "title": "Vyberte si úroveň posúdenia",
+    "description": "Nechajte si dokumenty týkajúce sa plánovania dedičstva posúdiť licencovanými právnikmi prostredníctvom našich stupňovitých úrovní služieb. Každé posúdenie zahŕňa overenie právnej zhody a personalizované odporúčania."
+  },
+  "recommendation": {
+    "title": "Odporúčané pre vašu rodinu",
+    "familyContext": {
+      "members": "{{count}} členov",
+      "minorChildren": "maloletých detí",
+      "complexAssets": "komplexných aktív",
+      "businessInterests": "podnikateľských záujmov"
+    },
+    "description": "Na základe vašej rodinnej situácie ({{familyDescription}}) odporúčame {{tierName}} pre optimálnu ochranu."
+  },
+  "tiers": {
+    "basic": {
+      "name": "Základné posúdenie",
+      "description": "Základné právne posúdenie pre jednoduché dokumenty",
+      "estimatedTime": "2-3 hodiny",
+      "turnaroundTime": "2-3 pracovné dni"
+    },
+    "comprehensive": {
+      "name": "Komplexné posúdenie", 
+      "description": "Dôkladná analýza s podrobnými odporúčaniami",
+      "estimatedTime": "4-6 hodín",
+      "turnaroundTime": "3-5 pracovných dní"
+    },
+    "certified": {
+      "name": "Certifikované posúdenie",
+      "description": "Prémiová služba s právnou certifikáciou a pokračujúcou podporou",
+      "estimatedTime": "6-8 hodín",
+      "turnaroundTime": "5-7 pracovných dní"
+    }
+  },
+  "badges": {
+    "mostPopular": "Najpopulárnejšie",
+    "premium": "Prémium",
+    "recommended": "Odporúčané"
+  },
+  "pricing": {
+    "saveAmount": "Ušetrite ${{amount}}",
+    "limitedTime": "Obmedzená doba"
+  },
+  "features": {
+    "documentStructureReview": {
+      "name": "Posúdenie štruktúry dokumentov",
+      "description": "Kontrola celkového usporiadania a úplnosti dokumentov"
+    },
+    "legalComplianceCheck": {
+      "name": "Kontrola právnej zhody", 
+      "description": "Overenie zhody so štátnymi zákonmi a nariadeniami"
+    },
+    "basicErrorDetection": {
+      "name": "Základná detekcia chýb",
+      "description": "Identifikácia zjavných chýb a nezrovnalostí"
+    },
+    "advancedErrorDetection": {
+      "name": "Pokročilá detekcia chýb",
+      "description": "Hĺbková analýza jemných problémov a zlepšení"
+    },
+    "comprehensiveAnalysis": {
+      "name": "Komplexná analýza",
+      "description": "Úplná právna, daňová a strategická analýza"
+    },
+    "writtenSummary": {
+      "name": "Písomné zhrnutie",
+      "description": "Stručné zhrnutie zistení a odporúčaní"
+    },
+    "detailedWrittenReport": {
+      "name": "Podrobná písomná správa",
+      "description": "Komplexná správa so špecifickými odporúčaniami"
+    },
+    "certifiedLegalOpinion": {
+      "name": "Certifikovaný právny posudok",
+      "description": "Formálny právny posudok s profesionálnou certifikáciou"
+    },
+    "followUpCall": {
+      "name": "Následný hovor",
+      "description": "Jeden 15-minútový následný hovor na prediskutovanie zistení"
+    },
+    "followUpCall30": {
+      "name": "Následný hovor",
+      "description": "Jedna 30-minútová konzultácia na prediskutovanie zistení"
+    },
+    "extendedConsultation": {
+      "name": "Rozšírená konzultácia",
+      "description": "Jedna 60-minútová konzultácia s neobmedzeným následným kontaktom"
+    },
+    "priorityProcessing": {
+      "name": "Prioritné spracovanie",
+      "description": "Urýchlené spracovanie vášho posúdenia pred bežnou frontou"
+    },
+    "priorityProcessingDedicated": {
+      "name": "Prioritné spracovanie", 
+      "description": "Najvyššie prioritné spracovanie s určeným právnikom"
+    }
+  },
+  "includes": {
+    "basic": [
+      "Posúdenie štruktúry a úplnosti dokumentov",
+      "Základné overenie právnej zhody", 
+      "Písomná správa o zisteniach",
+      "E-mailová podpora počas procesu posudzovania"
+    ],
+    "comprehensive": [
+      "Všetko zo Základného posúdenia",
+      "Pokročilá analýza právnej stratégie",
+      "Odporúčania pre daňovú optimalizáciu", 
+      "Posúdenie ochrany rodiny",
+      "30-minútový konzultačný hovor",
+      "Návrhy úprav s odôvodnením"
+    ],
+    "certified": [
+      "Všetko z Komplexného posúdenia",
+      "Formálna právna certifikácia",
+      "Kontrola zhody vo viacerých jurisdikciách",
+      "60-minútová konzultácia + neobmedzený následný kontakt",
+      "Pomoc pri úprave dokumentov",
+      "90-dňové obdobie podpory",
+      "Prístup k núdzovému kontaktu"
+    ]
+  },
+  "bestFor": {
+    "basic": [
+      "Jednoduché testamenty so štandardnými ustanoveniami",
+      "Základné dokumenty plánovania dedičstva", 
+      "Dokumenty s jednoduchou rodinnou situáciou"
+    ],
+    "comprehensive": [
+      "Komplexné rodinné situácie",
+      "Významné aktíva alebo podnikateľské záujmy",
+      "Potreby viacgeneračného plánovania",
+      "Požiadavky na daňovú optimalizáciu"
+    ],
+    "certified": [
+      "Vysoko hodnotné dedičstvá ($1M+)",
+      "Komplexné podnikateľské štruktúry",
+      "Vlastníctvo nehnuteľností vo viacerých štátoch", 
+      "Požiadavky na dodržiavanie regulácií",
+      "Duševný pokoj s formálnou certifikáciou"
+    ]
+  },
+  "sections": {
+    "whatsIncluded": "Čo je zahrnuté",
+    "bestFor": "Najlepšie pre"
+  },
+  "buttons": {
+    "selected": "Vybraté",
+    "chooseThisPlan": "Vybrať tento plán",
+    "showDetailedComparison": "Zobraziť podrobné porovnanie funkcií",
+    "hideDetailedComparison": "Skryť podrobné porovnanie funkcií"
+  },
+  "comparison": {
+    "title": "Porovnanie funkcií",
+    "featureColumn": "Funkcia"
+  },
+  "trustIndicators": {
+    "licensedAttorneys": {
+      "title": "Licencovaní právnici",
+      "description": "Všetky posúdenia vykonávajú licencovaní, overení právnici so špecializáciou na plánovanie dedičstva"
+    },
+    "qualityGuaranteed": {
+      "title": "Garantovaná kvalita", 
+      "description": "100% záruka spokojnosti s neobmedzenými úpravami odporúčaní"
+    },
+    "familyFocused": {
+      "title": "Zamerané na rodinu",
+      "description": "Špecializované na ochranu rodiny s personalizovanými odporúčaniami pre vašu situáciu"
+    }
+  }
+}

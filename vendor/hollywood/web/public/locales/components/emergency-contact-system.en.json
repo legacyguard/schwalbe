@@ -1,0 +1,101 @@
+{
+  "title": "Emergency Contact System", 
+  "subtitle": "Manage trusted contacts who can help protect your family",
+  "personalities": {
+    "empathetic": {
+      "title": "Your Circle of Care",
+      "subtitle": "Your loving network of trusted friends and family",
+      "addButtonText": "Add a Caring Guardian",
+      "description": "Build your circle of care by adding trusted friends and family who can help in times of need"
+    },
+    "pragmatic": {
+      "title": "Emergency Response System",
+      "subtitle": "Structured emergency response and notification system", 
+      "addButtonText": "Add Emergency Contact",
+      "description": "Configure emergency contacts for optimal family protection response"
+    },
+    "adaptive": {
+      "title": "Family Protection Network",
+      "subtitle": "Trusted people who can help protect your family",
+      "addButtonText": "Add Trusted Contact", 
+      "description": "Add people you trust to help protect and support your family when needed"
+    }
+  },
+  "form": {
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "relationship": "Relationship",
+    "priority": "Priority Level",
+    "notes": "Additional Notes",
+    "isGuardian": "Can act as guardian",
+    "canTriggerEmergency": "Can trigger emergency protocols",
+    "helpWith": "Can help with",
+    "notificationPreferences": "Notification Preferences"
+  },
+  "relationships": [
+    "Spouse/Partner",
+    "Parent", 
+    "Child",
+    "Sibling",
+    "Other Family",
+    "Close Friend",
+    "Attorney",
+    "Doctor",
+    "Financial Advisor",
+    "Other Professional"
+  ],
+  "priorities": {
+    "1": "Primary (Level 1)",
+    "2": "Secondary (Level 2)", 
+    "3": "Backup (Level 3)"
+  },
+  "helpOptions": [
+    "Medical decisions",
+    "Financial matters",
+    "Legal issues",
+    "Childcare",
+    "Property management",
+    "Emergency response",
+    "Emotional support",
+    "Documentation access"
+  ],
+  "notifications": {
+    "email": "Email notifications",
+    "sms": "SMS/Text messages", 
+    "push": "Push notifications"
+  },
+  "actions": {
+    "add": "Add Contact",
+    "edit": "Edit Contact",
+    "delete": "Delete Contact",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "testNotification": "Send Test Notification"
+  },
+  "status": {
+    "active": "Active",
+    "pending": "Pending Verification",
+    "inactive": "Inactive"
+  },
+  "messages": {
+    "noContacts": "No emergency contacts added yet",
+    "addFirstContact": "Add your first trusted contact to get started",
+    "contactAdded": "Emergency contact added successfully",
+    "contactUpdated": "Contact information updated",
+    "contactDeleted": "Contact removed from your emergency network",
+    "testNotificationSent": "Test notification sent successfully",
+    "verificationSent": "Verification email sent to contact"
+  },
+  "errors": {
+    "nameRequired": "Full name is required",
+    "emailRequired": "Email address is required",
+    "invalidEmail": "Please enter a valid email address",
+    "relationshipRequired": "Please select a relationship",
+    "priorityRequired": "Please select a priority level",
+    "addFailed": "Failed to add emergency contact",
+    "updateFailed": "Failed to update contact",
+    "deleteFailed": "Failed to remove contact",
+    "notificationFailed": "Failed to send notification"
+  }
+}

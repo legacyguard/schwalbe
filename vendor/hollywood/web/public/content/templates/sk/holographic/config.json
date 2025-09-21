@@ -1,0 +1,294 @@
+{
+  "id": "sk-holographic-sk",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Holographic Will (Slovakia)",
+    "name_sk": "Vlastnoručný závet (Slovensko)",
+    "description": "A holographic will that must be entirely handwritten by the testator, as per § 476 of Slovak Civil Code",
+    "description_sk": "Vlastnoručný závet, ktorý musí byť celý napísaný rukou testátora podľa § 476 Občianskeho zákonníka SR",
+    "lastUpdated": "2024-12-06",
+    "jurisdiction": "Slovakia",
+    "legalBasis": "§ 476 Občiansky zákonník SR",
+    "legalReview": {
+      "isApproved": true,
+      "reviewDate": "2024-12-06",
+      "reviewedBy": "Legal AI Assistant"
+    }
+  },
+  "variables": [
+    {
+      "key": "testatorName",
+      "label": "Testator Full Name",
+      "label_sk": "Plné meno testátora",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Ján Novák",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Testator name is required",
+          "message_sk": "Meno testátora je povinné",
+          "severity": "error"
+        },
+        {
+          "type": "minLength",
+          "value": 2,
+          "message": "Name must be at least 2 characters",
+          "message_sk": "Meno musí mať aspoň 2 znaky",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "birthDate",
+      "label": "Date of Birth",
+      "label_sk": "Dátum narodenia",
+      "type": "date",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "birthPlace",
+      "label": "Place of Birth",
+      "label_sk": "Miesto narodenia",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Bratislava"
+    },
+    {
+      "key": "personalId",
+      "label": "Personal ID Number",
+      "label_sk": "Rodné číslo",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., 700101/1234",
+      "validation": [
+        {
+          "type": "pattern",
+          "value": "^\\d{6}/\\d{3,4}$",
+          "message": "Slovak personal ID must be in format YYMMDD/XXX or YYMMDD/XXXX",
+          "message_sk": "Rodné číslo musí byť vo formáte RRMMDD/XXX alebo RRMMDD/XXXX",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "address",
+      "label": "Current Address",
+      "label_sk": "Súčasná adresa",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Hlavná 1, 811 01 Bratislava"
+    },
+    {
+      "key": "citizenship",
+      "label": "Citizenship",
+      "label_sk": "Štátna príslušnosť",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "defaultValue": "Slovak",
+      "placeholder": "e.g., Slovak"
+    },
+    {
+      "key": "beneficiaries",
+      "label": "Beneficiaries",
+      "label_sk": "Dedičia",
+      "type": "array",
+      "required": true,
+      "dataSource": "beneficiary",
+      "validation": [
+        {
+          "type": "custom",
+          "condition": "length > 0",
+          "message": "At least one beneficiary must be specified",
+          "message_sk": "Aspoň jeden dedič musí byť špecifikovaný",
+          "severity": "error"
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "declaration",
+      "title": "Declaration and Revocation",
+      "title_sk": "Vyhlásenie a odvolanie",
+      "order": 1,
+      "required": true,
+      "content": "I declare that I am of sound mind and make this Will voluntarily.",
+      "content_sk": "Vyhlasujem, že som duševne zdravý a tento závet robím dobrovoľne.",
+      "variables": ["testatorName", "birthDate", "birthPlace", "personalId", "address", "citizenship"],
+      "legalReference": "§ 476 Občiansky zákonník SR"
+    },
+    {
+      "id": "family_status",
+      "title": "Family Status",
+      "title_sk": "Rodinný stav",
+      "order": 2,
+      "required": false,
+      "content": "Information about spouse and children.",
+      "content_sk": "Informácie o manželovi/manželke a deťoch.",
+      "variables": ["spouse", "children"]
+    },
+    {
+      "id": "assets",
+      "title": "Assets and Property",
+      "title_sk": "Majetok a vlastníctvo",
+      "order": 3,
+      "required": false,
+      "content": "Description of assets owned by the testator.",
+      "content_sk": "Opis majetku vlastneného testátorom.",
+      "variables": ["realEstate", "bankAccounts", "vehicles", "personalProperty"]
+    },
+    {
+      "id": "bequests",
+      "title": "Bequests and Distributions",
+      "title_sk": "Odkazy a rozdelenie",
+      "order": 4,
+      "required": true,
+      "content": "Distribution of assets to beneficiaries.",
+      "content_sk": "Rozdelenie majetku dedičom.",
+      "variables": ["beneficiaries", "charitableBequests"],
+      "legalReference": "Forced heirship rules apply per Slovak Civil Code"
+    },
+    {
+      "id": "executor",
+      "title": "Executor",
+      "title_sk": "Vykonávateľ závetu",
+      "order": 5,
+      "required": false,
+      "content": "Appointment of executor.",
+      "content_sk": "Vymenúvanie vykonávateľa závetu.",
+      "variables": ["executorName", "executorAddress", "backupExecutor"]
+    },
+    {
+      "id": "guardianship",
+      "title": "Guardianship",
+      "title_sk": "Opatrovníctvo",
+      "order": 6,
+      "required": false,
+      "conditionalLogic": {
+        "showIf": {
+          "hasMinorChildren": true
+        }
+      },
+      "content": "Appointment of guardians for minor children.",
+      "content_sk": "Vymenúvanie opatrovníkov pre maloletých.",
+      "variables": ["primaryGuardian", "backupGuardian"]
+    },
+    {
+      "id": "special_wishes",
+      "title": "Special Wishes and Instructions",
+      "title_sk": "Osobitné priania a pokyny",
+      "order": 7,
+      "required": false,
+      "content": "Final wishes and special instructions.",
+      "content_sk": "Posledné priania a osobitné pokyny.",
+      "variables": ["funeralWishes", "organDonation", "digitalAssets", "personalMessages"]
+    }
+  ],
+  "executionInstructions": {
+    "holographic": {
+      "steps": [
+        "Write the entire will by hand in your own handwriting",
+        "Sign the will with your full signature",
+        "Date the will (recommended but not mandatory)",
+        "Store the will in a safe place",
+        "Inform trusted person about the location"
+      ],
+      "steps_sk": [
+        "Napíšte celý závet vlastnou rukou vlastným rukopisom",
+        "Podpíšte závet svojím plným podpisom",
+        "Datujte závet (odporúčané, ale nie povinné)",
+        "Uložte závet na bezpečnom mieste",
+        "Informujte dôveryhodnú osobu o mieste uloženia"
+      ],
+      "requirements": [
+        "Must be entirely handwritten by the testator",
+        "Must be signed by the testator",
+        "No witnesses required",
+        "Dating is recommended but not mandatory"
+      ],
+      "requirements_sk": [
+        "Musí byť celý napísaný rukou testátora",
+        "Musí byť podpísaný testátorom",
+        "Svedkovia nie sú potrební",
+        "Dátumovanie je odporúčané, ale nie povinné"
+      ],
+      "warnings": [
+        "Ensure handwriting is legible",
+        "Use permanent ink",
+        "Avoid corrections or erasures",
+        "Keep original document safe"
+      ],
+      "warnings_sk": [
+        "Zabezpečte, aby bol rukopis čitateľný",
+        "Použite trvalý atrament",
+        "Vyhýbajte sa opravám alebo vyškrabávaniu",
+        "Originál dokumentu uchovajte na bezpečnom mieste"
+      ]
+    }
+  },
+  "validationRules": [
+    {
+      "type": "legal",
+      "field": "age",
+      "value": 18,
+      "message": "Testator must be at least 18 years old",
+      "message_sk": "Testátor musí mať aspoň 18 rokov",
+      "severity": "error",
+      "legalReference": "§ 476 Občiansky zákonník SR",
+      "jurisdictionSpecific": true
+    },
+    {
+      "type": "required",
+      "field": "testatorName",
+      "message": "Testator name is required for holographic will",
+      "message_sk": "Meno testátora je povinné pre vlastnoručný závet",
+      "severity": "error"
+    },
+    {
+      "type": "custom",
+      "field": "beneficiaries",
+      "condition": "forcedHeirsCompliance",
+      "message": "Distribution must respect forced heirship rules",
+      "message_sk": "Rozdelenie musí rešpektovať pravidlá núteného dedičstva",
+      "severity": "warning",
+      "legalReference": "Forced heirship provisions of Slovak Civil Code"
+    }
+  ],
+  "legalClauses": [
+    {
+      "id": "revocation_clause",
+      "type": "mandatory",
+      "jurisdiction": "SK",
+      "legalBasis": "§ 476 Občiansky zákonník SR",
+      "content": "I hereby revoke all prior Wills and Codicils made by me.",
+      "content_sk": "Týmto odvolávam všetky predchádzajúce závety a dodatky, ktoré som urobil."
+    },
+    {
+      "id": "holographic_declaration",
+      "type": "mandatory",
+      "jurisdiction": "SK",
+      "legalBasis": "§ 476 Občiansky zákonník SR",
+      "content": "This is a holographic will written entirely in my own hand and signed by me.",
+      "content_sk": "Toto je vlastnoručný závet napísaný celý mojou vlastnou rukou a podpísaný mnou."
+    },
+    {
+      "id": "forced_heirs_notice",
+      "type": "conditional",
+      "jurisdiction": "SK",
+      "legalBasis": "Občiansky zákonník SR - ustanovenia o nútenom dedičstve",
+      "applicableWhenConditions": {
+        "hasSpouse": true,
+        "hasChildren": true
+      },
+      "content": "This distribution respects the forced heirship rights under Slovak law.",
+      "content_sk": "Toto rozdelenie rešpektuje práva núteného dedičstva podľa slovenského práva."
+    }
+  ]
+}

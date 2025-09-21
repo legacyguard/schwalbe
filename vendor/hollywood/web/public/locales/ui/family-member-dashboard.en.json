@@ -1,0 +1,77 @@
+{
+  "protectionOverview": {
+    "title": "Family Protection Overview",
+    "totalMembers": "Family Members",
+    "protectionLevel": "Protection Level",
+    "documentsShared": "Documents Shared",
+    "documentsSharedText": "Across family members",
+    "emergencyReady": "Emergency Ready",
+    "emergencyReady_true": "Ready",
+    "emergencyReady_false": "Setup needed",
+    "activeMembers": "Active Members", 
+    "pendingInvitations": "Pending Invitations",
+    "emergencyContacts": "Emergency Contacts",
+    "completionRate": "{{rate}}% Complete",
+    "activeText": "{{count}} active"
+  },
+  "strengthsCard": {
+    "title": "Protection Strengths",
+    "setupNeeded": "Setup needed"
+  },
+  "recommendationsCard": {
+    "title": "Recommendations"
+  },
+  "membersSection": {
+    "title": "Family Members",
+    "description": "Manage your family circle and their access to important documents",
+    "inviteButton": "Invite Family Member"
+  },
+  "filters": {
+    "all": "All Members",
+    "active": "Active", 
+    "pending": "Pending",
+    "emergency": "Emergency"
+  },
+  "memberCard": {
+    "invited": "Invited {{date}}",
+    "joined": "Joined {{date}}",
+    "lastActive": "Last active {{date}}",
+    "viewProfile": "View Profile",
+    "resendInvite": "Resend Invitation",
+    "editMember": "Edit Member",
+    "removeMember": "Remove Member",
+    "viewActivity": "View Activity"
+  },
+  "status": {
+    "active": "Active",
+    "invited": "Invited",
+    "pending_verification": "Pending Verification",
+    "inactive": "Inactive"
+  },
+  "roles": {
+    "family_member": "Family Member",
+    "emergency_contact": "Emergency Contact",
+    "guardian": "Guardian",
+    "executor": "Executor"
+  },
+  "permissions": {
+    "view_documents": "View Documents",
+    "edit_documents": "Edit Documents", 
+    "manage_family": "Manage Family",
+    "emergency_access": "Emergency Access"
+  },
+  "empty": {
+    "title": "No family members yet",
+    "subtitle": "Start building your family circle by inviting your loved ones.",
+    "cta": "Send Your First Invitation"
+  },
+  "actions": {
+    "resendInvitation": "Resending invitation to join your family legacy"
+  },
+  "toast": {
+    "loadError": "Failed to load family data",
+    "actionError": "Action failed. Please try again.",
+    "resendSuccess": "Invitation sent successfully",
+    "removeSuccess": "Family member removed successfully"
+  }
+}

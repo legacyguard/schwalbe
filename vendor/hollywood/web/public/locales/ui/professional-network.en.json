@@ -1,0 +1,149 @@
+{
+  "header": {
+    "badge": "Verified Professional Network",
+    "title": "Find Your Legal Professional",
+    "description": "Connect with verified, licensed attorneys who specialize in estate planning, family law, and business counsel. All professionals are vetted and client-reviewed."
+  },
+  "search": {
+    "placeholder": "Search by name, specialization, or location...",
+    "results": "{{count}} results",
+    "advancedFilters": "Advanced Filters"
+  },
+  "sorting": {
+    "label": "Sort by:",
+    "options": {
+      "rating": "Rating",
+      "experience": "Experience",
+      "price": "Price",
+      "reviews": "Reviews"
+    }
+  },
+  "filters": {
+    "specializations": "Specializations",
+    "experienceRange": "Experience Range",
+    "hourlyRateRange": "Hourly Rate Range",
+    "minimumRating": "Minimum Rating",
+    "availability": "Availability",
+    "activeFilters": "Active Filters",
+    "clearAll": "Clear All",
+    "resetFilters": "Reset Filters",
+    "experienceYears": "{{count}} years",
+    "rating": {
+      "anyRating": "Any Rating",
+      "fourPlus": "4+ Stars",
+      "fourFivePlus": "4.5+ Stars",
+      "fourEightPlus": "4.8+ Stars"
+    },
+    "availability": {
+      "all": "All",
+      "available": "Available Now",
+      "busy": "Busy but Taking Clients"
+    }
+  },
+  "specializations": [
+    "Estate Planning",
+    "Tax Law",
+    "Business Law",
+    "Real Estate Law",
+    "Family Law",
+    "Elder Law",
+    "Asset Protection",
+    "Probate Law",
+    "Healthcare Directives"
+  ],
+  "professionalCard": {
+    "yearsAbbr": "yrs",
+    "statesCount": "{{count}} state",
+    "statesCountPlural": "{{count}} states",
+    "specializations": "Specializations",
+    "more": "+{{count}} more",
+    "startingFrom": "Starting from:",
+    "perHour": "/hour",
+    "bookCall": "Book Call",
+    "review": "Review",
+    "bookConsultation": "Book Consultation",
+    "requestReview": "Request Review"
+  },
+  "listView": {
+    "yearsExperience": "{{count}} years experience",
+    "respondsIn": "Responds in {{time}}",
+    "noStatesListed": "No states listed"
+  },
+  "availability": {
+    "available": "available",
+    "busy": "busy",
+    "unavailable": "unavailable"
+  },
+  "noResults": {
+    "title": "No Professionals Found",
+    "description": "Try adjusting your search criteria or filters to find more professionals.",
+    "resetButton": "Reset Filters"
+  },
+  "modal": {
+    "title": "Professional Profile",
+    "tabs": {
+      "overview": "Overview",
+      "services": "Services",
+      "reviews": "Reviews",
+      "credentials": "Credentials"
+    },
+    "header": {
+      "yearsExperience": "{{count}} years experience",
+      "respondsIn": "Responds in {{time}}",
+      "verifiedAttorney": "Verified Attorney",
+      "reviews": "{{count}} reviews"
+    },
+    "buttons": {
+      "bookConsultation": "Book Consultation",
+      "requestReview": "Request Review",
+      "sendMessage": "Send Message"
+    },
+    "overview": {
+      "aboutTitle": "About {{name}}",
+      "specializations": "Specializations",
+      "licensedStates": "Licensed States",
+      "languages": "Languages",
+      "achievements": "Achievements"
+    },
+    "services": {
+      "startingFrom": "Starting from",
+      "selectService": "Select Service"
+    },
+    "reviews": {
+      "moreReviewsNote": "More reviews available after initial consultation"
+    },
+    "credentials": {
+      "barInformation": "Bar Information",
+      "barNumber": "Bar Number: {{number}}",
+      "status": "Status: {{status}}",
+      "experience": "Experience",
+      "yearsInPractice": "{{count}} years in practice",
+      "memberSince": "Member since {{year}}",
+      "verifiedProfessional": "Verified Professional",
+      "verificationNote": "This attorney's credentials have been verified and they maintain professional liability insurance."
+    }
+  },
+  "serviceTypes": {
+    "consultation": "consultation",
+    "retainer": "retainer",
+    "review": "review"
+  },
+  "trustFooter": {
+    "title": "Why Choose Our Network?",
+    "description": "Every attorney in our network is personally vetted and client-verified",
+    "features": {
+      "verified": {
+        "title": "100% Verified",
+        "description": "All attorneys are licensed, insured, and background-checked"
+      },
+      "reviewed": {
+        "title": "Client-Reviewed",
+        "description": "Real reviews from real clients, with satisfaction guarantee"
+      },
+      "matched": {
+        "title": "Perfect Matches",
+        "description": "Advanced matching ensures you find the right attorney for your needs"
+      }
+    }
+  }
+}

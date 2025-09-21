@@ -1,0 +1,8 @@
+{
+  "header": {
+    "brand": "LegacyGuard"
+  },
+  "sofia": {
+    "errorFallback": "I apologize, but I encountered an issue processing your request. Please try again."
+  }
+}

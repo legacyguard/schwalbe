@@ -1,0 +1,93 @@
+{
+  "title": "Bezpečný trezor",
+  "header": {
+    "title": "Trezor dokumentov",
+    "subtitle": "Vaša bezpečná digitálna sanktuár pre dôležité dokumenty"
+  },
+  "metrics": {
+    "totalDocuments": "Celkovo dokumentov",
+    "encrypted": "Zašifrované",
+    "ocrProcessed": "OCR spracované",
+    "expiringSoon": "Čoskoro expirujú",
+    "labels": {
+      "secured": "Zabezpečené",
+      "searchable": "Prehľadávateľné",
+      "within90Days": "Do 90 dní"
+    }
+  },
+  "table": {
+    "headers": {
+      "documentName": "Názov dokumentu",
+      "category": "Kategória",
+      "size": "Veľkosť",
+      "uploaded": "Nahraný",
+      "expires": "Expiruje",
+      "ocrStatus": "OCR stav",
+      "actions": "Akcie"
+    },
+    "ocrStatus": {
+      "complete": "Dokončené",
+      "processing": "Spracováva sa",
+      "failed": "Zlyhalo",
+      "none": "-"
+    },
+    "actions": {
+      "view": "Zobraziť",
+      "download": "Stiahnuť",
+      "delete": "Vymazať"
+    }
+  },
+  "upload": {
+    "title": "Nahrať dokumenty",
+    "subtitle": "Presuňte dokumenty alebo kliknite pre výber",
+    "button": "Nahrať nový dokument"
+  },
+  "notifications": {
+    "ocrInfo": {
+      "title": "OCR spracovanie dostupné",
+      "description": "Dokumenty sú automaticky spracovávané pomocou OCR, aby boli prehľadávateľné. Pre veľké súbory to môže trvať niekoľko minút."
+    }
+  },
+  "dialogs": {
+    "delete": {
+      "title": "Vymazať dokument",
+      "description": "Ste si istí, že chcete vymazať tento dokument? Túto akciu nie je možné vrátiť späť.",
+      "cancel": "Zrušiť",
+      "confirm": "Vymazať"
+    }
+  },
+  "categories": {
+    "personal": "Osobné",
+    "financial": "Finančné",
+    "property": "Majetok",
+    "legal": "Právne",
+    "health": "Zdravotné",
+    "insurance": "Poistenie",
+    "education": "Vzdelanie",
+    "other": "Ostatné"
+  },
+  "sampleDocuments": {
+    "birthCertificate": "Rodný list.pdf",
+    "insurancePolicy": "Poistná zmluva 2024.pdf",
+    "propertyDeed": "Výpis z katastra.pdf",
+    "willDraft": "Návrh závetu v3.docx",
+    "medicalRecords": "Zdravotné záznamy 2024.pdf"
+  },
+  "tags": {
+    "identity": "identita",
+    "official": "oficiálne",
+    "health": "zdravie",
+    "annual": "ročné",
+    "realEstate": "nehnuteľnosti",
+    "ownership": "vlastníctvo",
+    "draft": "návrh",
+    "inheritance": "dedičstvo",
+    "medical": "lekárske",
+    "records": "záznamy"
+  },
+  "messages": {
+    "loadError": "Nepodarilo sa načítať dokumenty",
+    "deleteSuccess": "Dokument úspešne vymazaný",
+    "deleteError": "Nepodarilo sa vymazať dokument"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "title": "Document Sharing",
+  "description": "Share documents with family members and manage access permissions",
+  "buttons": {
+    "shareDocument": "Share Document",
+    "share": "Share",
+    "cancel": "Cancel",
+    "viewDetails": "View Details",
+    "revokeAccess": "Revoke Access",
+    "downloadDocument": "Download Document"
+  },
+  "tabs": {
+    "share": "Share Document",
+    "sharedWithMe": "Shared With Me", 
+    "sharedByMe": "Shared By Me"
+  },
+  "labels": {
+    "selectMembers": "Select Family Members",
+    "permissions": "Permissions",
+    "expiration": "Expiration",
+    "message": "Message (optional)",
+    "noExpiration": "No expiration",
+    "canView": "Can view",
+    "canDownload": "Can download",
+    "canComment": "Can comment", 
+    "canEdit": "Can edit",
+    "canReshare": "Can reshare"
+  },
+  "placeholders": {
+    "searchMembers": "Search family members...",
+    "addMessage": "Add a message for recipients...",
+    "documentName": "Document name"
+  },
+  "messages": {
+    "loadError": "Failed to load shared documents",
+    "shareSuccess": "Document shared",
+    "shareSuccessDetails": "Shared with {{count}} member(s)",
+    "shareError": "Failed to share document",
+    "revokeSuccess": "Access revoked successfully",
+    "revokeError": "Failed to revoke access",
+    "noDocumentsSharedWithMe": "No documents have been shared with you yet",
+    "noDocumentsSharedByMe": "You haven't shared any documents yet",
+    "selectMembersRequired": "Please select at least one family member",
+    "loading": "Loading shared documents..."
+  },
+  "status": {
+    "active": "Active",
+    "expired": "Expired", 
+    "revoked": "Revoked",
+    "pending": "Pending"
+  },
+  "accessibility": {
+    "sharedOn": "Shared on {{date}}",
+    "expiresOn": "Expires on {{date}}",
+    "sharedBy": "Shared by {{name}}",
+    "sharedWith": "Shared with {{name}}"
+  }
+}

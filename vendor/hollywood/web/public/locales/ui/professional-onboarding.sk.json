@@ -1,0 +1,185 @@
+{
+  "header": {
+    "title": "Pripojte sa k našej odbornej sieti",
+    "subtitle": "Pomáhajte rodinám chrániť ich dedičstvo a zároveň budujte svoju prax. Pripojte sa k sieti dôveryhodných právnych odborníkov."
+  },
+  "steps": {
+    "personal_information": {
+      "title": "Osobné údaje",
+      "description": "Základné profesijné údaje"
+    },
+    "professional_credentials": {
+      "title": "Profesijné osvedčenia",
+      "description": "Zápis do komory a licencie"
+    },
+    "specializations": {
+      "title": "Špecializácie",
+      "description": "Oblasti právnej expertízy"
+    },
+    "professional_profile": {
+      "title": "Profesijný profil",
+      "description": "Sadzba, životopis a motivácia"
+    }
+  },
+  "step1": {
+    "email": {
+      "label": "E-mailová adresa *",
+      "placeholder": "vas.email@advokatskakomora.sk"
+    },
+    "full_name": {
+      "label": "Celé meno *",
+      "placeholder": "JUDr. Ján Novák"
+    },
+    "professional_title": {
+      "label": "Profesijný titul *",
+      "placeholder": "Advokát, Partner, Senior advokát, atď."
+    },
+    "law_firm_name": {
+      "label": "Advokátska kancelária / Organizácia",
+      "placeholder": "Novák & Partners s.r.o."
+    }
+  },
+  "step2": {
+    "bar_number": {
+      "label": "Číslo registrácie v komore *",
+      "placeholder": "123456",
+      "help": "Číslo registrácie v slovenskej advokátskej komore na overenie"
+    },
+    "licensed_states": {
+      "label": "Licencované štáty *",
+      "help": "Vyberte všetky štáty, v ktorých máte licenciu na výkon právnickej praxe"
+    }
+  },
+  "step3": {
+    "experience_years": {
+      "label": "Roky praxe *",
+      "placeholder": "Vyberte úroveň skúseností",
+      "options": {
+        "1": "1-2 roky",
+        "3": "3-5 rokov",
+        "6": "6-10 rokov",
+        "11": "11-15 rokov", 
+        "16": "16-20 rokov",
+        "21": "20+ rokov"
+      }
+    },
+    "specializations": {
+      "label": "Oblasti špecializácie *",
+      "help": "Vyberte vaše hlavné oblasti právnej expertízy"
+    }
+  },
+  "step4": {
+    "hourly_rate": {
+      "label": "Hodinová sadzba (EUR)",
+      "placeholder": "120",
+      "help": "Voliteľné - pomáha klientom pochopiť vašu fee štruktúru"
+    },
+    "bio": {
+      "label": "Profesijný životopis *",
+      "placeholder": "Stručný prehľad vašej praxe, skúseností a prístupu k obsluhe rodín...",
+      "help": "Toto sa zobrazí potenciálnym klientom"
+    },
+    "motivation": {
+      "label": "Prečo sa pripojiť k LegacyGuard? *",
+      "placeholder": "Čo vás motivuje pomáhať rodinám chrániť ich dedičstvo..."
+    },
+    "referral_source": {
+      "label": "Ako ste sa o nás dozvedeli?",
+      "placeholder": "Vyberte zdroj odporúčania",
+      "options": {
+        "colleague": "Odporúčanie kolegu",
+        "online_search": "Online vyhľadávanie",
+        "legal_publication": "Právnická publikácia",
+        "conference": "Právnická konferencia",
+        "linkedin": "LinkedIn",
+        "other": "Iné"
+      }
+    }
+  },
+  "buttons": {
+    "previous": "Späť",
+    "continue": "Pokračovať",
+    "cancel": "Zrušiť",
+    "submit": "Odoslať žiadosť"
+  },
+  "benefits": {
+    "title": "Prečo sa pripojiť k profesijnej sieti LegacyGuard?",
+    "build_practice": {
+      "title": "Budujte svoju prax",
+      "description": "Spojte sa s rodinami, ktoré oceňují profesijné právne poradenstvo"
+    },
+    "trusted_platform": {
+      "title": "Dôveryhodná platforma",
+      "description": "Bezpečné, profesijné prostredie na kontrolu dokumentov"
+    },
+    "flexible_schedule": {
+      "title": "Flexibilný rozvrh",
+      "description": "Kontrolujte dokumenty podľa svojho rozvrhu a nastavte si svoje sadzby"
+    }
+  },
+  "specializations": {
+    "estate_planning": "Plánovanie dedičstva",
+    "wills_trusts": "Závety a trusty",
+    "probate": "Dedičské právo",
+    "family_law": "Rodinné právo",
+    "elder_law": "Právo seniorov",
+    "tax_law": "Daňové právo",
+    "business_law": "Obchodné právo",
+    "real_estate": "Nehnuteľnosti",
+    "guardianship": "Opatrovníctvo a poručníctvo",
+    "asset_protection": "Ochrana majetku"
+  },
+  "states": {
+    "Alabama": "Alabama",
+    "Alaska": "Aljaška",
+    "Arizona": "Arizona",
+    "Arkansas": "Arkansas",
+    "California": "Kalifornia",
+    "Colorado": "Colorado",
+    "Connecticut": "Connecticut",
+    "Delaware": "Delaware",
+    "Florida": "Florida",
+    "Georgia": "Georgia",
+    "Hawaii": "Havaj",
+    "Idaho": "Idaho",
+    "Illinois": "Illinois",
+    "Indiana": "Indiana",
+    "Iowa": "Iowa",
+    "Kansas": "Kansas",
+    "Kentucky": "Kentucky",
+    "Louisiana": "Louisiana",
+    "Maine": "Maine",
+    "Maryland": "Maryland",
+    "Massachusetts": "Massachusetts",
+    "Michigan": "Michigan",
+    "Minnesota": "Minnesota",
+    "Mississippi": "Mississippi",
+    "Missouri": "Missouri",
+    "Montana": "Montana",
+    "Nebraska": "Nebraska",
+    "Nevada": "Nevada",
+    "New Hampshire": "New Hampshire",
+    "New Jersey": "New Jersey",
+    "New Mexico": "New Mexico",
+    "New York": "New York",
+    "North Carolina": "Severná Karolína",
+    "North Dakota": "Severná Dakota",
+    "Ohio": "Ohio",
+    "Oklahoma": "Oklahoma",
+    "Oregon": "Oregon",
+    "Pennsylvania": "Pennsylvania",
+    "Rhode Island": "Rhode Island",
+    "South Carolina": "Južná Karolína",
+    "South Dakota": "Južná Dakota",
+    "Tennessee": "Tennessee",
+    "Texas": "Texas",
+    "Utah": "Utah",
+    "Vermont": "Vermont",
+    "Virginia": "Virginia",
+    "Washington": "Washington",
+    "West Virginia": "Západná Virginia",
+    "Wisconsin": "Wisconsin",
+    "Wyoming": "Wyoming",
+    "District of Columbia": "District of Columbia"
+  }
+}

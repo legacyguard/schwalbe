@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/components/landing/LandingV2.tsx",
+    "src/app/[locale]/landing-v2/page.tsx",
+    "src/config/flags.ts",
+    "src/lib/analytics.ts",
+    "src/app/api/analytics/events/route.ts",
+    "src/hooks/useOnceInView.ts",
+    "src/hooks/useScrollDepth.ts",
+    "src/messages/en.json",
+    "src/messages/sk.json",
+    "src/messages/cs.json"
+  ],
+  "exclude": []
+}

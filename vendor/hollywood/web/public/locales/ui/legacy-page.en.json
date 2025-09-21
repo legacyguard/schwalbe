@@ -1,0 +1,74 @@
+{
+  "header": {
+    "title": "Legacy Planning",
+    "personalMessage": "{{firstName}}, this is the most personal part of your digital legacy. Create your will, record final wishes, and leave heartfelt messages for those you love most."
+  },
+  "buttons": {
+    "createWillNow": "Create Your Will Now",
+    "startCreatingWill": "Start Creating Your Will",
+    "startWillNow": "Start Your Will Now"
+  },
+  "sections": {
+    "whatsComing": {
+      "title": "What's Coming to Legacy Planning",
+      "subtitle": "We're crafting tools that honor the profound nature of legacy planning with the care it deserves."
+    },
+    "whyItMatters": {
+      "title": "Why Legacy Planning Matters",
+      "content": "{{firstName}}, legacy planning isn't just about legal documents—it's about peace of mind for you and clarity for your loved ones. It's ensuring your voice continues to guide and comfort those you care about, even when you can't be there in person.",
+      "benefits": {
+        "peaceOfMind": {
+          "title": "Peace of Mind",
+          "description": "Know that your wishes will be respected and your family will be cared for."
+        },
+        "familyHarmony": {
+          "title": "Family Harmony",
+          "description": "Clear instructions prevent confusion and conflict during difficult times."
+        },
+        "timeToConnect": {
+          "title": "Time to Connect",
+          "description": "Create meaningful messages that will comfort your loved ones for years to come."
+        }
+      }
+    },
+    "readyToSecure": {
+      "title": "Ready to Secure Your Legacy?",
+      "subtitle": "Take the first step towards peace of mind. Our Digital Will Creator guides you through every step with personalized templates and expert guidance.",
+      "disclaimer": "Free to start • Legal templates included • Save progress anytime"
+    },
+    "legalNotice": {
+      "title": "Important Legal Notice",
+      "content": "While LegacyGuard provides tools and templates to help organize your legacy planning, we strongly recommend consulting with qualified legal and financial professionals to ensure your documents meet all legal requirements in your jurisdiction and properly reflect your intentions."
+    }
+  },
+  "features": {
+    "digitalWillCreator": {
+      "title": "Digital Will Creator",
+      "statusLabel": "Available",
+      "description": "Step-by-step guidance to create a comprehensive will with built-in legal templates and jurisdiction-specific requirements."
+    },
+    "timeCapsuleMessages": {
+      "title": "Time Capsule Messages",
+      "description": "Record video messages, write letters, and create digital time capsules to be delivered on special occasions or milestones."
+    },
+    "healthcareDirectives": {
+      "title": "Healthcare Directives",
+      "description": "Document your medical wishes, power of attorney preferences, and healthcare decisions with easy-to-update templates."
+    },
+    "assetDistribution": {
+      "title": "Asset Distribution",
+      "description": "Organize and distribute your financial assets, personal belongings, and digital accounts with clear instructions for beneficiaries."
+    },
+    "finalWishes": {
+      "title": "Final Wishes",
+      "description": "Record your preferences for funeral arrangements, memorial services, and how you'd like to be remembered by those you love."
+    },
+    "guardianIntegration": {
+      "title": "Guardian Integration",
+      "description": "Seamlessly connect with your trusted guardians to ensure your legacy plans are accessible when they're needed most."
+    }
+  },
+  "toastMessages": {
+    "willCreatedSuccess": "Will created successfully! You can access it from your vault."
+  }
+}

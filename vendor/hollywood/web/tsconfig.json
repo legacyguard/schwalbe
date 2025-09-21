@@ -1,0 +1,55 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    
+    /* Vite specific settings */
+    "useDefineForClassFields": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    
+    /* Stricter type checking for web */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
+    
+    /* Path mapping for web app */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@hollywood/shared": ["../packages/shared/src"],
+      "@hollywood/shared/*": ["../packages/shared/src/*"],
+      "@legacyguard/logic": ["../packages/logic/src"],
+      "@legacyguard/logic/*": ["../packages/logic/src/*"],
+      "@legacyguard/ui": ["../packages/ui/src"],
+      "@legacyguard/ui/*": ["../packages/ui/src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": [
+    "src/stories/**",
+    "**/*.stories.tsx",
+    "**/*.stories.ts",
+    "src/components/ui/carousel.tsx",
+    "src/components/ui/command.tsx",
+    "src/components/ui/drawer.tsx",
+    "node_modules",
+    "dist",
+    ".tsbuildinfo",
+    "lint-results.json",
+    "hardcoded-strings-report.json"
+  ],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "../packages/shared" },
+    { "path": "../packages/logic" },
+    { "path": "../packages/ui" }
+  ]
+}

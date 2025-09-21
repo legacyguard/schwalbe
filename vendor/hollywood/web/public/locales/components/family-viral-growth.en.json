@@ -1,0 +1,56 @@
+{
+  "title": "Family Protection Growth",
+  "subtitle": "Expand your family protection network",
+  "milestones": {
+    "foundation": {
+      "title": "Family Foundation",
+      "description": "Invite your first family member"
+    },
+    "coreCircle": {
+      "title": "Core Family Circle", 
+      "description": "Build your immediate family circle"
+    },
+    "extendedNetwork": {
+      "title": "Extended Protection Network",
+      "description": "Create a comprehensive support network"
+    },
+    "legacyChampions": {
+      "title": "Legacy Champions",
+      "description": "Build the ultimate family protection circle"
+    }
+  },
+  "suggestions": [
+    "Your spouse could help organize family documents together",
+    "Add your adult children so they know where to find everything",
+    "Include trusted siblings for emergency situations",
+    "Consider adding your parents if they're tech-savvy",
+    "Extended family members can provide additional support",
+    "Close family friends often play crucial roles in emergencies"
+  ],
+  "ui": {
+    "inviteFamily": "Invite Family Member",
+    "viewProgress": "View Progress", 
+    "milestone": "Milestone",
+    "membersInvited": "{{count}} members invited",
+    "nextGoal": "Next Goal",
+    "suggestions": "Suggestions",
+    "growthTip": "Growth Tip",
+    "shareWithFamily": "Share with Family",
+    "familyCircleProgress": "Family Circle Progress",
+    "buildNetwork": "Build your family protection network and unlock rewards",
+    "viewAll": "View All",
+    "shareProgress": "Share Progress",
+    "allMilestonesComplete": "All Milestones Complete!",
+    "ultimateCircle": "You've built the ultimate family protection circle",
+    "milestonesUnlocked": "Family Milestones Unlocked!",
+    "familyCircleMilestones": "Family Circle Milestones",
+    "considerAdding": "Consider adding:",
+    "maybeLater": "Maybe Later"
+  },
+  "achievements": {
+    "firstInvite": "First family member invited!",
+    "coreCircleComplete": "Core family circle established!",
+    "networkExpanded": "Family network successfully expanded!",
+    "legacyComplete": "Ultimate family protection achieved!"
+  }
+}

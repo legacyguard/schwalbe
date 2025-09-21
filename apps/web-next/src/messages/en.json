@@ -1,0 +1,69 @@
+{
+  "landingV2": {
+    "hero": {
+      "title": "Protect your family. Organize your legacy. Start with calm.",
+      "subtitle": "Gentle guidance, simple steps, and secure document storage—everything you need for peace of mind.",
+"ctaPrimary": "Start in 7 minutes — it’s free",
+      "ctaSecondary": "See how it works"
+    },
+    "securityPromise": {
+      "title": "Security and privacy first",
+      "subtitle": "Every step designed with empathy, protection, and clear next actions.",
+      "features": [
+        { "title": "Bank-level encryption", "description": "Your data is encrypted at rest and in transit." },
+        { "title": "Access control", "description": "You decide who can view documents and when." },
+        { "title": "Trusted, verified", "description": "Flows built with family-first and legal consistency in mind." },
+        { "title": "Fast start", "description": "Create your first protections within minutes." }
+      ],
+      "learnMore": { "text": "Why is this safe?", "arrow": "→" }
+    },
+    "pricing": {
+      "heading": "A plan for every stage of your journey",
+"subheading": "Start free today and upgrade when you're ready — most families complete the first 3 steps in under 12 minutes.",
+      "tiers": {
+        "free": {
+          "name": "Free",
+          "price": "$0",
+          "description": "Essential features and secure document storage.",
+          "features": [
+            { "title": "Essential vault", "description": "Safely store important files." },
+            { "title": "Gentle reminders", "description": "Nudges to keep you progressing." },
+            { "title": "Mobile app", "description": "Start right from your phone." }
+          ],
+          "cta": "Create account"
+        },
+        "premium": {
+          "name": "Premium",
+          "price": "$9",
+          "period": "month",
+          "description": "Advanced guidance, AI assistant, and family sharing.",
+          "badge": "Most popular",
+          "features": [
+            { "title": "Sofia AI assistant", "description": "Empathetic guidance and checklists." },
+            { "title": "What-if scenarios", "description": "Prepare for key life moments." },
+            { "title": "Smart reminders", "description": "Plan steps and timelines with ease." }
+          ],
+          "cta": "Start Premium"
+        },
+        "family": {
+          "name": "Family",
+          "price": "$19",
+          "period": "month",
+          "description": "For families with multiple members and guardians.",
+          "features": [
+            { "title": "Trusted circle", "description": "Manage access for loved ones and executors." },
+            { "title": "Shared vault", "description": "Secure document sharing across your family." },
+            { "title": "Priority support", "description": "Faster help and guidance." }
+          ],
+          "cta": "Choose Family"
+        }
+      },
+      "trust": {
+        "encryption": "Bank-level encryption",
+        "families": "Trusted by thousands of families",
+        "cancel": "Cancel anytime"
+      },
+      "faq": { "lead": "Have questions?", "link": "Check our FAQ" }
+    }
+  }
+}

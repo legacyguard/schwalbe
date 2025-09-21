@@ -1,0 +1,328 @@
+{
+  "id": "cz-holographic-cs",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Holographic Will (Czech Republic)",
+    "name_cs": "Vlastnoruční závěť (Česká republika)",
+    "description": "A holographic will that must be entirely handwritten by the testator, as per § 1540 of Czech Civil Code",
+    "description_cs": "Vlastnoruční závěť, která musí být celá napsána rukou testátora podle § 1540 Občanského zákoníku ČR",
+    "lastUpdated": "2024-12-06",
+    "jurisdiction": "Czech Republic",
+    "legalBasis": "§ 1540 Občanský zákoník ČR",
+    "legalReview": {
+      "isApproved": true,
+      "reviewDate": "2024-12-06",
+      "reviewedBy": "Legal AI Assistant"
+    }
+  },
+  "variables": [
+    {
+      "key": "testatorName",
+      "label": "Testator Full Name",
+      "label_cs": "Celé jméno testátora",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Jan Novák",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Testator name is required",
+          "message_cs": "Jméno testátora je povinné",
+          "severity": "error"
+        },
+        {
+          "type": "minLength",
+          "value": 2,
+          "message": "Name must be at least 2 characters",
+          "message_cs": "Jméno musí mít alespoň 2 znaky",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "birthDate",
+      "label": "Date of Birth",
+      "label_cs": "Datum narození",
+      "type": "date",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "birthPlace",
+      "label": "Place of Birth",
+      "label_cs": "Místo narození",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Praha"
+    },
+    {
+      "key": "personalId",
+      "label": "Personal ID Number",
+      "label_cs": "Rodné číslo",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., 700101/1234",
+      "validation": [
+        {
+          "type": "pattern",
+          "value": "^\\d{6}/\\d{3,4}$",
+          "message": "Czech personal ID must be in format YYMMDD/XXX or YYMMDD/XXXX",
+          "message_cs": "Rodné číslo musí být ve formátu RRMMDD/XXX nebo RRMMDD/XXXX",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "address",
+      "label": "Current Address",
+      "label_cs": "Současná adresa",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Václavské náměstí 1, 110 00 Praha 1"
+    },
+    {
+      "key": "citizenship",
+      "label": "Citizenship",
+      "label_cs": "Státní občanství",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "defaultValue": "Czech",
+      "placeholder": "e.g., Czech"
+    },
+    {
+      "key": "currentDate",
+      "label": "Date of Will",
+      "label_cs": "Datum závěti",
+      "type": "date",
+      "required": true,
+      "dataSource": "system",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Date is mandatory for Czech holographic wills",
+          "message_cs": "Datum je povinné pro české vlastnoruční závěti",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "beneficiaries",
+      "label": "Beneficiaries",
+      "label_cs": "Dědici",
+      "type": "array",
+      "required": true,
+      "dataSource": "beneficiary",
+      "validation": [
+        {
+          "type": "custom",
+          "condition": "length > 0",
+          "message": "At least one beneficiary must be specified",
+          "message_cs": "Alespoň jeden dědic musí být specifikován",
+          "severity": "error"
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "declaration",
+      "title": "Declaration and Revocation",
+      "title_cs": "Prohlášení a odvolání",
+      "order": 1,
+      "required": true,
+      "content": "I declare that I am of sound mind and make this Will voluntarily.",
+      "content_cs": "Prohlašuji, že jsem duševně zdravý a tuto závěť činím dobrovolně.",
+      "variables": ["testatorName", "birthDate", "birthPlace", "personalId", "address", "citizenship", "currentDate"],
+      "legalReference": "§ 1540 Občanský zákoník ČR"
+    },
+    {
+      "id": "family_status",
+      "title": "Family Status",
+      "title_cs": "Rodinný stav",
+      "order": 2,
+      "required": false,
+      "content": "Information about spouse and children.",
+      "content_cs": "Informace o manželovi/manželce a dětech.",
+      "variables": ["spouse", "children"]
+    },
+    {
+      "id": "assets",
+      "title": "Assets and Property",
+      "title_cs": "Majetek a vlastnictví",
+      "order": 3,
+      "required": false,
+      "content": "Description of assets owned by the testator.",
+      "content_cs": "Popis majetku vlastněného testátorem.",
+      "variables": ["realEstate", "bankAccounts", "vehicles", "personalProperty"]
+    },
+    {
+      "id": "bequests",
+      "title": "Bequests and Distributions",
+      "title_cs": "Odkazy a rozdělení",
+      "order": 4,
+      "required": true,
+      "content": "Distribution of assets to beneficiaries.",
+      "content_cs": "Rozdělení majetku dědicům.",
+      "variables": ["beneficiaries", "charitableBequests"],
+      "legalReference": "Forced heirship rules apply per Czech Civil Code"
+    },
+    {
+      "id": "executor",
+      "title": "Executor",
+      "title_cs": "Vykonavatel závěti",
+      "order": 5,
+      "required": false,
+      "content": "Appointment of executor.",
+      "content_cs": "Jmenování vykonavatele závěti.",
+      "variables": ["executorName", "executorAddress", "backupExecutor"]
+    },
+    {
+      "id": "guardianship",
+      "title": "Guardianship",
+      "title_cs": "Poručenství",
+      "order": 6,
+      "required": false,
+      "conditionalLogic": {
+        "showIf": {
+          "hasMinorChildren": true
+        }
+      },
+      "content": "Appointment of guardians for minor children.",
+      "content_cs": "Jmenování poručníků pro nezletilé děti.",
+      "variables": ["primaryGuardian", "backupGuardian"]
+    },
+    {
+      "id": "special_wishes",
+      "title": "Special Wishes and Instructions",
+      "title_cs": "Zvláštní přání a pokyny",
+      "order": 7,
+      "required": false,
+      "content": "Final wishes and special instructions.",
+      "content_cs": "Poslední přání a zvláštní pokyny.",
+      "variables": ["funeralWishes", "organDonation", "digitalAssets", "personalMessages"]
+    }
+  ],
+  "executionInstructions": {
+    "holographic": {
+      "steps": [
+        "Write the entire will by hand in your own handwriting",
+        "Sign the will with your full signature",
+        "Date the will (mandatory requirement in Czech Republic)",
+        "Store the will in a safe place",
+        "Inform trusted person about the location"
+      ],
+      "steps_cs": [
+        "Napište celou závěť vlastní rukou vlastním rukopisem",
+        "Podepište závěť svým plným podpisem",
+        "Datujte závěť (povinná požadavek v České republice)",
+        "Uložte závěť na bezpečném místě",
+        "Informujte důvěryhodnou osobu o místu uložení"
+      ],
+      "requirements": [
+        "Must be entirely handwritten by the testator",
+        "Must be signed by the testator",
+        "Must be dated (mandatory in Czech Republic)",
+        "No witnesses required"
+      ],
+      "requirements_cs": [
+        "Musí být celá napsána rukou testátora",
+        "Musí být podepsána testátorem",
+        "Musí být datována (povinné v České republice)",
+        "Svědci nejsou potřeba"
+      ],
+      "warnings": [
+        "Ensure handwriting is legible",
+        "Use permanent ink",
+        "Avoid corrections or erasures",
+        "Dating is mandatory - will is invalid without date",
+        "Keep original document safe"
+      ],
+      "warnings_cs": [
+        "Ujistěte se, že je rukopis čitelný",
+        "Použijte trvalý inkoust",
+        "Vyhýbejte se opravám nebo škrtání",
+        "Datování je povinné - závěť bez data je neplatná",
+        "Originál dokumentu uchovejte na bezpečném místě"
+      ]
+    }
+  },
+  "validationRules": [
+    {
+      "type": "legal",
+      "field": "age",
+      "value": 18,
+      "message": "Testator must be at least 18 years old",
+      "message_cs": "Testátor musí být alespoň 18 let starý",
+      "severity": "error",
+      "legalReference": "§ 1540 Občanský zákoník ČR",
+      "jurisdictionSpecific": true
+    },
+    {
+      "type": "required",
+      "field": "currentDate",
+      "message": "Date is mandatory for Czech holographic wills",
+      "message_cs": "Datum je povinné pro české vlastnoruční závěti",
+      "severity": "error",
+      "legalReference": "§ 1540 Občanský zákoník ČR"
+    },
+    {
+      "type": "required",
+      "field": "testatorName",
+      "message": "Testator name is required for holographic will",
+      "message_cs": "Jméno testátora je povinné pro vlastnoruční závěť",
+      "severity": "error"
+    },
+    {
+      "type": "custom",
+      "field": "beneficiaries",
+      "condition": "forcedHeirsCompliance",
+      "message": "Distribution must respect forced heirship rules",
+      "message_cs": "Rozdělení musí respektovat pravidla nucenébodědictví",
+      "severity": "warning",
+      "legalReference": "Forced heirship provisions of Czech Civil Code"
+    }
+  ],
+  "legalClauses": [
+    {
+      "id": "revocation_clause",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "legalBasis": "§ 1540 Občanský zákoník ČR",
+      "content": "I hereby revoke all prior Wills and Codicils made by me.",
+      "content_cs": "Tímto odvolávám všechny předchozí závěti a dodatky, které jsem učinil."
+    },
+    {
+      "id": "holographic_declaration",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "legalBasis": "§ 1540 Občanský zákoník ČR",
+      "content": "This is a holographic will written entirely in my own hand, signed and dated by me.",
+      "content_cs": "Toto je vlastnoruční závěť napsaná celá mou vlastní rukou, podepsaná a datovaná mnou."
+    },
+    {
+      "id": "dating_clause",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "legalBasis": "§ 1540 Občanský zákoník ČR",
+      "content": "This will is dated as required by Czech law for holographic wills.",
+      "content_cs": "Tato závěť je datována podle požadavků českého práva pro vlastnoruční závěti."
+    },
+    {
+      "id": "forced_heirs_notice",
+      "type": "conditional",
+      "jurisdiction": "CZ",
+      "legalBasis": "Občanský zákoník ČR - ustanovení o nuceném dědictví",
+      "applicableWhenConditions": {
+        "hasSpouse": true,
+        "hasChildren": true
+      },
+      "content": "This distribution respects the forced heirship rights under Czech law.",
+      "content_cs": "Toto rozdělení respektuje práva nuceného dědictví podle českého práva."
+    }
+  ]
+}

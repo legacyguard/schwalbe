@@ -1,0 +1,163 @@
+{
+  "title": "Pripojte sa k našej profesionálnej sieti",
+  "subtitle": "Pomôžte rodinám zabezpečiť ich dedičstvo prostredníctvom profesionálneho právneho posúdenia",
+  "steps": {
+    "personal": "Osobné údaje",
+    "credentials": "Profesionálne kvalifikácie", 
+    "expertise": "Oblasti odbornosti",
+    "preferences": "Pracovné preferencie",
+    "review": "Kontrola a odoslanie"
+  },
+  "stepIndicator": "Krok {{current}} z {{total}}",
+  "personal": {
+    "title": "Osobné údaje",
+    "subtitle": "Povedzte nám o sebe a svojom profesionálnom zázemí",
+    "fullName": {
+      "label": "Celé meno",
+      "placeholder": "Ján Novák",
+      "required": "Celé meno je povinné"
+    },
+    "email": {
+      "label": "E-mailová adresa",
+      "placeholder": "jan@kancelaria.sk",
+      "required": "E-mail je povinný"
+    },
+    "professionalTitle": {
+      "label": "Profesionálny titul",
+      "placeholder": "JUDr., advokát",
+      "required": "Profesionálny titul je povinný"
+    },
+    "lawFirmName": {
+      "label": "Názov advokátskej kancelárie",
+      "placeholder": "Advokátska kancelária Novák a partneri"
+    },
+    "bio": {
+      "label": "Profesionálny životopis",
+      "placeholder": "Stručný opis vašej právnej praxe a skúseností..."
+    }
+  },
+  "credentials": {
+    "title": "Profesionálne kvalifikácie",
+    "subtitle": "Overte svoje právne kvalifikácie a skúsenosti",
+    "barNumber": {
+      "label": "Číslo oprávnenia",
+      "placeholder": "123456789",
+      "required": "Číslo oprávnenia je povinné"
+    },
+    "experienceYears": {
+      "label": "Roky praxe",
+      "required": "Počet rokov praxe musí byť aspoň 1"
+    },
+    "licensedStates": {
+      "label": "Licencované štáty",
+      "required": "Aspoň jeden licencovaný štát je povinný"
+    }
+  },
+  "expertise": {
+    "title": "Oblasti odbornosti", 
+    "subtitle": "Vyberte svoje právne špecializácie a oblasti praxe",
+    "required": "Aspoň jedna špecializácia je povinná",
+    "selectedCount": "Vybrané špecializácie ({{count}})"
+  },
+  "specializations": {
+    "estatePlanning": {
+      "name": "Dedičské plánovanie",
+      "description": "Závety, trusty a plánovanie dedičstva"
+    },
+    "probateLaw": {
+      "name": "Dedičské právo", 
+      "description": "Správa majetku a dedičské konanie"
+    },
+    "familyLaw": {
+      "name": "Rodinné právo",
+      "description": "Rozvod, starostlivosť o deti a rodinné záležitosti"
+    },
+    "realEstateLaw": {
+      "name": "Nehnuteľnostné právo",
+      "description": "Transakcie s nehnuteľnosťami a nehnuteľnostné záležitosti"
+    },
+    "businessLaw": {
+      "name": "Obchodné právo",
+      "description": "Korporátne štruktúry a podnikateľské plánovanie"
+    },
+    "taxLaw": {
+      "name": "Daňové právo",
+      "description": "Daňové plánovanie a compliance"
+    },
+    "elderLaw": {
+      "name": "Právo seniorov",
+      "description": "Právne otázky týkajúce sa seniorov"
+    },
+    "assetProtection": {
+      "name": "Ochrana majetku",
+      "description": "Ochrana bohatstva pred veriteľmi"
+    }
+  },
+  "categories": {
+    "estate_planning": "dedičské plánovanie",
+    "family_law": "rodinné právo", 
+    "real_estate": "nehnuteľnosti",
+    "business_law": "obchodné právo",
+    "tax_law": "daňové právo"
+  },
+  "preferences": {
+    "title": "Pracovné preferencie",
+    "subtitle": "Nastavte si svoju dostupnosť a pracovné preferencie",
+    "hourlyRate": {
+      "label": "Hodinová sadzba (USD)",
+      "placeholder": "250",
+      "help": "Voliteľné - nechajte prázdne, ak uprednostňujete projektové oceňovanie"
+    },
+    "referralSource": {
+      "label": "Ako ste sa o nás dozvedeli?",
+      "placeholder": "Profesionálna sieť, Google, atď."
+    },
+    "motivation": {
+      "label": "Prečo sa chcete pripojiť k našej sieti?",
+      "placeholder": "Povedzte nám, čo vás motivuje pomáhať rodinám s plánovaním ich dedičstva..."
+    },
+    "professionalStandards": {
+      "title": "Profesionálne štandardy",
+      "description": "Všetci posudzovateľia musia udržiavať poistenie profesionálnej zodpovednosti a zaviazať sa k našim štandardom kvality a termínom dodania."
+    }
+  },
+  "review": {
+    "title": "Skontrolujte svoju žiadosť",
+    "subtitle": "Prosím, skontrolujte svoje údaje pred odoslaním",
+    "sections": {
+      "personalInformation": "Osobné údaje",
+      "credentials": "Kvalifikácie",
+      "specializations": "Špecializácie"
+    },
+    "fields": {
+      "name": "Meno:",
+      "email": "E-mail:",
+      "title": "Titul:", 
+      "firm": "Kancelária:",
+      "barNumber": "Číslo oprávnenia:",
+      "experience": "Prax:",
+      "experienceYears": "rokov",
+      "licensedStates": "Licencované štáty:"
+    },
+    "nextSteps": {
+      "title": "Ďalšie kroky",
+      "description": "Po odoslaní naš tím preskúma vašu žiadosť do 3-5 pracovných dní. Dostanete e-mail so statusom a ďalšími krokmi."
+    }
+  },
+  "states": [
+    "Alabama", "Aljaška", "Arizona", "Arkansas", "Kalifornia", "Colorado", "Connecticut",
+    "Delaware", "Florida", "Georgia", "Havaj", "Idaho", "Illinois", "Indiana", "Iowa",
+    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+    "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire",
+    "New Jersey", "Nové Mexiko", "New York", "Severná Karolína", "Severná Dakota", "Ohio",
+    "Oklahoma", "Oregon", "Pennsylvánia", "Rhode Island", "Južná Karolína", "Južná Dakota",
+    "Tennessee", "Texas", "Utah", "Vermont", "Virgínia", "Washington", "Západná Virgínia",
+    "Wisconsin", "Wyoming"
+  ],
+  "navigation": {
+    "back": "Späť",
+    "next": "Ďalej",
+    "cancel": "Zrušiť", 
+    "submitApplication": "Odoslať žiadosť"
+  }
+}

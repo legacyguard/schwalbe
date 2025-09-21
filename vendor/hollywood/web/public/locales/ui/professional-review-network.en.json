@@ -1,0 +1,110 @@
+{
+  "header": {
+    "title": "Professional Review Network",
+    "description": "Connect with legal professionals for expert review and validation of your will."
+  },
+  "trust": {
+    "enhance": "Enhance Your Trust Seal",
+    "enhanceDesc": "Get professional review to upgrade your will's trust seal and enhance its legal credibility."
+  },
+  "tabs": {
+    "attorney": "Attorney Review",
+    "planner": "Estate Planning",
+    "notary": "Notary Services"
+  },
+  "attorney": {
+    "title": "Request Attorney Review",
+    "description": "Get professional legal review of your will from qualified attorneys.",
+    "priority": "Review Priority",
+    "priorityOptions": {
+      "standard": "Standard (7 days) - €200-800",
+      "urgent": "Urgent (3 days) - €400-1200",
+      "express": "Express (24 hours) - €800-2000"
+    },
+    "language": "Preferred Language",
+    "budget": "Budget Range (EUR)",
+    "budgetMin": "Min",
+    "budgetMax": "Max",
+    "timeline": "Timeline",
+    "timelineOptions": {
+      "within_week": "Within a week",
+      "within_month": "Within a month",
+      "flexible": "Flexible"
+    },
+    "concerns": "Specific Concerns (comma-separated)",
+    "concernsPlaceholder": "e.g., asset distribution, tax implications, guardianship arrangements",
+    "submit": "Request Attorney Review",
+    "processing": "Processing..."
+  },
+  "planner": {
+    "title": "Estate Planning Consultation",
+    "description": "Get comprehensive estate planning advice from certified planners.",
+    "find": "Get Consultation Offers",
+    "finding": "Finding Planners...",
+    "proposal": "Estate Planning Proposal",
+    "estimatedHours": "Estimated Hours",
+    "totalEstimate": "Total Estimate",
+    "timeline": "Timeline",
+    "keyIssues": "Key Issues Identified",
+    "recommendedServices": "Recommended Services",
+    "priority": {
+      "essential": "essential",
+      "recommended": "recommended",
+      "optional": "optional"
+    },
+    "validUntil": "Valid until:",
+    "acceptProposal": "Accept Proposal"
+  },
+  "notary": {
+    "title": "Find Notary Services",
+    "description": "Connect with certified notaries for will witnessing and document certification. Including integration with brnoadvokati.cz for Czech and Slovak services.",
+    "location": "Location",
+    "locationPlaceholder": "e.g., Brno, Prague, Bratislava",
+    "serviceType": "Service Type",
+    "serviceOptions": {
+      "will_witnessing": "Will Witnessing",
+      "document_certification": "Document Certification",
+      "full_notarization": "Full Notarization"
+    },
+    "language": "Language",
+    "timeframe": "Timeframe",
+    "timeframeOptions": {
+      "within_week": "Within a week",
+      "within_month": "Within a month",
+      "flexible": "Flexible"
+    },
+    "find": "Find Notary Services",
+    "finding": "Finding Notaries...",
+    "availableServices": "Available Services",
+    "availableAppointments": "Available Appointments",
+    "book": "Book",
+    "away": "{{km}} km away"
+  },
+  "professionalCard": {
+    "select": "Select Professional",
+    "ratePerHour": "€{{rate}}/hour"
+  },
+  "status": {
+    "title": "Review Status",
+    "status": "Status:",
+    "estimated": "Estimated Completion:",
+    "priority": "Priority:",
+    "progress": "Review Progress",
+    "percent": "{{value}}%"
+  },
+  "feedback": {
+    "title": "Professional Review Results",
+    "scores": {
+      "legalCompliance": "Legal Compliance",
+      "clarity": "Clarity",
+      "completeness": "Completeness",
+      "recommendations": "Recommendations"
+    },
+    "summary": "Summary",
+    "issues": "Issues to Address",
+    "recommendation": "Recommendation:",
+    "fixTime": "Estimated fix time:",
+    "nextSteps": "Next Steps"
+  }
+}
+

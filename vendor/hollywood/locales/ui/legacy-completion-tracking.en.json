@@ -1,0 +1,71 @@
+{
+  "header": {
+    "title": "Legacy Completion Tracking",
+    "description": "Track your progress toward comprehensive family protection",
+    "currentStreak": "Current Streak",
+    "rewardPoints": "Reward Points"
+  },
+  "completion": {
+    "scoreTitle": "Legacy Completion Score",
+    "scoreSubtitle": "Overall progress toward family protection goals",
+    "tasksCompleted": "{{completed}} / {{total}} tasks completed"
+  },
+  "stats": {
+    "areasMastered": "{{count}} areas mastered",
+    "achievementsEarned": "{{count}} achievements earned",
+    "tasksReady": "{{count}} tasks ready",
+    "milestonesPending": "{{count}} milestones pending"
+  },
+  "tabs": {
+    "progress": "Progress",
+    "roadmap": "Roadmap",
+    "goals": "Goals",
+    "achievements": "Achievements",
+    "analytics": "Analytics"
+  },
+  "nextActions": {
+    "recommended": "Recommended Next Actions",
+    "min": "~{{minutes}}min",
+    "points": "+{{points}} points",
+    "continue": "Continue",
+    "start": "Start"
+  },
+  "legacyArea": {
+    "completeness": "Completeness",
+    "tasks": "{{completed}}/{{total}} tasks",
+    "tasksLabel": "tasks",
+    "requires": "Requires: "
+  },
+  "milestones": {
+    "earned": "Earned {{date}}",
+    "badge": "{{badge}}"
+  },
+  "goals": {
+    "personalGoals": "Personal Goals",
+    "setNewGoal": "Set New Goal",
+    "progress": "Progress",
+    "target": "Target: {{date}}",
+    "targetCompleteness": "{{percent}}%",
+    "active": "Active",
+    "paused": "Paused"
+  },
+  "achievements": {
+    "achievementsEarned": "Achievements Earned",
+    "total": "{{count}} total",
+    "reward": "{{reward}}",
+    "earned": "Earned {{date}}"
+  },
+  "analytics": {
+    "progressAnalytics": "Progress Analytics",
+    "timeInvested": "Time Invested",
+    "totalTimeSpent": "Total time spent",
+    "velocity": "Velocity",
+    "tasksPerWeek": "Tasks per week",
+    "efficiency": "Efficiency",
+    "estimatedVsActual": "Estimated vs actual time",
+    "bestStreak": "Best Streak",
+    "consecutiveDays": "Consecutive days",
+    "progressChartPlaceholder": "Progress analytics chart would be implemented here",
+    "trendsOverTime": "Shows completion trends over time"
+  }
+}

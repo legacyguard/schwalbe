@@ -1,0 +1,185 @@
+{
+  "header": {
+    "title": "Join Our Professional Network",
+    "subtitle": "Help families protect their legacy while building your practice. Join a network of trusted legal professionals."
+  },
+  "steps": {
+    "personal_information": {
+      "title": "Personal Information",
+      "description": "Basic professional details"
+    },
+    "professional_credentials": {
+      "title": "Professional Credentials", 
+      "description": "Bar admission and licensing"
+    },
+    "specializations": {
+      "title": "Specializations",
+      "description": "Areas of legal expertise"
+    },
+    "professional_profile": {
+      "title": "Professional Profile",
+      "description": "Rate, bio, and motivation"
+    }
+  },
+  "step1": {
+    "email": {
+      "label": "Email Address *",
+      "placeholder": "your.email@lawfirm.com"
+    },
+    "full_name": {
+      "label": "Full Name *",
+      "placeholder": "John Smith, Esq."
+    },
+    "professional_title": {
+      "label": "Professional Title *",
+      "placeholder": "Attorney, Partner, Of Counsel, etc."
+    },
+    "law_firm_name": {
+      "label": "Law Firm / Organization",
+      "placeholder": "Smith & Associates LLP"
+    }
+  },
+  "step2": {
+    "bar_number": {
+      "label": "Bar Number *",
+      "placeholder": "123456",
+      "help": "Primary state bar admission number for verification"
+    },
+    "licensed_states": {
+      "label": "Licensed States *",
+      "help": "Select all states where you are licensed to practice law"
+    }
+  },
+  "step3": {
+    "experience_years": {
+      "label": "Years of Experience *",
+      "placeholder": "Select experience level",
+      "options": {
+        "1": "1-2 years",
+        "3": "3-5 years",
+        "6": "6-10 years", 
+        "11": "11-15 years",
+        "16": "16-20 years",
+        "21": "20+ years"
+      }
+    },
+    "specializations": {
+      "label": "Areas of Specialization *",
+      "help": "Select your primary areas of legal expertise"
+    }
+  },
+  "step4": {
+    "hourly_rate": {
+      "label": "Hourly Rate (USD)",
+      "placeholder": "250",
+      "help": "Optional - helps clients understand your fee structure"
+    },
+    "bio": {
+      "label": "Professional Bio *",
+      "placeholder": "Brief overview of your practice, experience, and approach to serving families...",
+      "help": "This will be displayed to potential clients"
+    },
+    "motivation": {
+      "label": "Why join LegacyGuard? *",
+      "placeholder": "What motivates you to help families protect their legacy..."
+    },
+    "referral_source": {
+      "label": "How did you hear about us?",
+      "placeholder": "Select referral source",
+      "options": {
+        "colleague": "Colleague Referral",
+        "online_search": "Online Search",
+        "legal_publication": "Legal Publication",
+        "conference": "Legal Conference",
+        "linkedin": "LinkedIn",
+        "other": "Other"
+      }
+    }
+  },
+  "buttons": {
+    "previous": "Previous",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "submit": "Submit Application"
+  },
+  "benefits": {
+    "title": "Why Join LegacyGuard Professional Network?",
+    "build_practice": {
+      "title": "Build Your Practice",
+      "description": "Connect with families who value professional legal guidance"
+    },
+    "trusted_platform": {
+      "title": "Trusted Platform",
+      "description": "Secure, professional environment for document review"
+    },
+    "flexible_schedule": {
+      "title": "Flexible Schedule",
+      "description": "Review documents on your schedule and set your rates"
+    }
+  },
+  "specializations": {
+    "estate_planning": "Estate Planning",
+    "wills_trusts": "Wills & Trusts",
+    "probate": "Probate Law",
+    "family_law": "Family Law",
+    "elder_law": "Elder Law",
+    "tax_law": "Tax Law",
+    "business_law": "Business Law",
+    "real_estate": "Real Estate Law",
+    "guardianship": "Guardianship & Conservatorship",
+    "asset_protection": "Asset Protection"
+  },
+  "states": {
+    "Alabama": "Alabama",
+    "Alaska": "Alaska",
+    "Arizona": "Arizona",
+    "Arkansas": "Arkansas",
+    "California": "California",
+    "Colorado": "Colorado",
+    "Connecticut": "Connecticut",
+    "Delaware": "Delaware",
+    "Florida": "Florida",
+    "Georgia": "Georgia",
+    "Hawaii": "Hawaii",
+    "Idaho": "Idaho",
+    "Illinois": "Illinois",
+    "Indiana": "Indiana",
+    "Iowa": "Iowa",
+    "Kansas": "Kansas",
+    "Kentucky": "Kentucky",
+    "Louisiana": "Louisiana",
+    "Maine": "Maine",
+    "Maryland": "Maryland",
+    "Massachusetts": "Massachusetts",
+    "Michigan": "Michigan",
+    "Minnesota": "Minnesota",
+    "Mississippi": "Mississippi",
+    "Missouri": "Missouri",
+    "Montana": "Montana",
+    "Nebraska": "Nebraska",
+    "Nevada": "Nevada",
+    "New Hampshire": "New Hampshire",
+    "New Jersey": "New Jersey",
+    "New Mexico": "New Mexico",
+    "New York": "New York",
+    "North Carolina": "North Carolina",
+    "North Dakota": "North Dakota",
+    "Ohio": "Ohio",
+    "Oklahoma": "Oklahoma",
+    "Oregon": "Oregon",
+    "Pennsylvania": "Pennsylvania",
+    "Rhode Island": "Rhode Island",
+    "South Carolina": "South Carolina",
+    "South Dakota": "South Dakota",
+    "Tennessee": "Tennessee",
+    "Texas": "Texas",
+    "Utah": "Utah",
+    "Vermont": "Vermont",
+    "Virginia": "Virginia",
+    "Washington": "Washington",
+    "West Virginia": "West Virginia",
+    "Wisconsin": "Wisconsin",
+    "Wyoming": "Wyoming",
+    "District of Columbia": "District of Columbia"
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "common": {
+    "save": "Uložiť",
+    "cancel": "Zrušiť",
+    "delete": "Vymazať",
+    "edit": "Upraviť",
+    "close": "Zavrieť",
+    "loading": "Načítava sa...",
+    "error": "Chyba",
+    "success": "Úspech",
+    "confirm": "Potvrdiť",
+    "back": "Späť",
+    "next": "Ďalej",
+    "finish": "Dokončiť",
+    "continue": "Pokračovať",
+    "date": "{{date, date}}",
+    "dateShort": "{{date, dateShort}}",
+    "dateLong": "{{date, dateLong}}",
+    "dateRelative": "{{date, dateRelative}}",
+    "currency": "{{amount, currency}}",
+    "fileSize": "{{size, fileSize}}",
+    "number": "{{value, number}}",
+    "percent": "{{value, percent}}"
+  },
+  "navigation": {
+    "home": "Domov",
+    "vault": "Trezor",
+    "garden": "Záhrada",
+    "family": "Rodina",
+    "wills": "Závety",
+    "settings": "Nastavenia",
+    "help": "Pomoc"
+  },
+  "buttons": {
+    "create": "Vytvoriť",
+    "update": "Aktualizovať",
+    "submit": "Odoslať",
+    "reset": "Obnoviť",
+    "search": "Hľadať",
+    "filter": "Filtrovať",
+    "sort": "Zoradiť"
+  },
+  "forms": {
+    "required": "Toto pole je povinné",
+    "invalid": "Neplatný vstup",
+    "tooShort": "Príliš krátke",
+    "tooLong": "Príliš dlhé",
+    "invalidEmail": "Neplatná emailová adresa"
+  },
+  "plurals": {
+    "documentCount_one": "Máte {{count}} dokument",
+    "documentCount_few": "Máte {{count}} dokumenty",
+    "documentCount_many": "Máte {{count}} dokumentov",
+    "documentCount_other": "Máte {{count}} dokumentov",
+    "guardianCount_one": "{{count}} strážca",
+    "guardianCount_few": "{{count}} strážcovia",
+    "guardianCount_many": "{{count}} strážcov",
+    "guardianCount_other": "{{count}} strážcov",
+    "memberCount_one": "{{count}} člen rodiny",
+    "memberCount_few": "{{count}} členovia rodiny",
+    "memberCount_many": "{{count}} členov rodiny",
+    "memberCount_other": "{{count}} členov rodiny",
+    "dayCount_one": "{{count}} deň",
+    "dayCount_few": "{{count}} dni",
+    "dayCount_many": "{{count}} dní",
+    "dayCount_other": "{{count}} dní",
+    "fileCount_one": "{{count}} súbor",
+    "fileCount_few": "{{count}} súbory",
+    "fileCount_many": "{{count}} súborov",
+    "fileCount_other": "{{count}} súborov",
+    "itemCount_one": "{{count}} položka",
+    "itemCount_few": "{{count}} položky",
+    "itemCount_many": "{{count}} položiek",
+    "itemCount_other": "{{count}} položiek",
+    "notificationCount_one": "{{count}} upozornenie",
+    "notificationCount_few": "{{count}} upozornenia",
+    "notificationCount_many": "{{count}} upozornení",
+    "notificationCount_other": "{{count}} upozornení",
+    "yearCount_one": "{{count}} rok",
+    "yearCount_few": "{{count}} roky",
+    "yearCount_many": "{{count}} rokov",
+    "yearCount_other": "{{count}} rokov",
+    "monthCount_one": "{{count}} mesiac",
+    "monthCount_few": "{{count}} mesiace",
+    "monthCount_many": "{{count}} mesiacov",
+    "monthCount_other": "{{count}} mesiacov",
+    "weekCount_one": "{{count}} týždeň",
+    "weekCount_few": "{{count}} týždne",
+    "weekCount_many": "{{count}} týždňov",
+    "weekCount_other": "{{count}} týždňov",
+    "hourCount_one": "{{count}} hodina",
+    "hourCount_few": "{{count}} hodiny",
+    "hourCount_many": "{{count}} hodín",
+    "hourCount_other": "{{count}} hodín",
+    "minuteCount_one": "{{count}} minúta",
+    "minuteCount_few": "{{count}} minúty",
+    "minuteCount_many": "{{count}} minút",
+    "minuteCount_other": "{{count}} minút"
+  },
+  "dashboard": {
+    "header": {
+      "title": "Rodinný Štít",
+      "titleWithName": "Rodinný Štít, {{name}}",
+      "subtitle": {
+        "adaptive": "Prehľad všetkého, čo chráni vašu rodinu",
+        "empathetic": "Láskyplný prehľad ochrany a starostlivosti o vašu rodinu",
+        "pragmatic": "Stav systému a metriky ochrany rodiny"
+      },
+      "actions": {
+        "secureNewInformation": "Zabezpečiť nové informácie"
+      }
+    },
+    "metrics": {
+      "title": {
+        "adaptive": "Váš odkaz na prvý pohľad",
+        "empathetic": "💫 Kruh lásky vašej rodiny",
+        "pragmatic": "📈 Metriky výkonu systému"
+      },
+      "subtitle": {
+        "empathetic": "Každé číslo predstavuje starostlivosť a ochranu"
+      },
+      "documentsProtected": "Chránené dokumenty",
+      "documentsProtectedCount_one": "{{count}} chránený dokument",
+      "documentsProtectedCount_few": "{{count}} chránené dokumenty",
+      "documentsProtectedCount_many": "{{count}} chránených dokumentov",
+      "documentsProtectedCount_other": "{{count}} chránených dokumentov",
+      "familyMembers": "Členovia rodiny",
+      "familyMembersCount_one": "{{count}} člen rodiny",
+      "familyMembersCount_few": "{{count}} členovia rodiny",
+      "familyMembersCount_many": "{{count}} členov rodiny",
+      "familyMembersCount_other": "{{count}} členov rodiny",
+      "guardians": "Strážcovia",
+      "guardiansCount_one": "{{count}} aktívny strážca",
+      "guardiansCount_few": "{{count}} aktívni strážcovia",
+      "guardiansCount_many": "{{count}} aktívnych strážcov",
+      "guardiansCount_other": "{{count}} aktívnych strážcov",
+      "daysProtected": "Dni ochrany",
+      "daysProtectedCount_one": "Chránené {{count}} deň",
+      "daysProtectedCount_few": "Chránené {{count}} dni",
+      "daysProtectedCount_many": "Chránené {{count}} dní",
+      "daysProtectedCount_other": "Chránené {{count}} dní",
+      "labels": {
+        "active": "Aktívne"
+      }
+    },
+    "stats": {
+      "documentsAdded": "{{date, dateRelative}}",
+      "lastActivity": "Posledná aktivita {{date, dateRelative}}",
+      "storageUsed": "Použitých {{size, fileSize}} úložiska",
+      "completionRate": "{{rate, percent}} dokončené"
+    }
+  },
+  "vault": {
+    "title": "Váš trezor",
+    "documentCount_one": "{{count}} dokument",
+    "documentCount_few": "{{count}} dokumenty",
+    "documentCount_many": "{{count}} dokumentov",
+    "documentCount_other": "{{count}} dokumentov",
+    "selectedCount_one": "{{count}} vybraný",
+    "selectedCount_few": "{{count}} vybrané",
+    "selectedCount_many": "{{count}} vybraných",
+    "selectedCount_other": "{{count}} vybraných",
+    "uploadSuccess_one": "{{count}} súbor úspešne nahraný",
+    "uploadSuccess_few": "{{count}} súbory úspešne nahrané",
+    "uploadSuccess_many": "{{count}} súborov úspešne nahraných",
+    "uploadSuccess_other": "{{count}} súborov úspešne nahraných",
+    "deleteConfirm_one": "Naozaj chcete vymazať tento dokument?",
+    "deleteConfirm_few": "Naozaj chcete vymazať {{count}} dokumenty?",
+    "deleteConfirm_many": "Naozaj chcete vymazať {{count}} dokumentov?",
+    "deleteConfirm_other": "Naozaj chcete vymazať {{count}} dokumentov?",
+    "emptyState": {
+      "title": "Váš trezor je prázdny",
+      "description": "Začnite nahraním vášho prvého dokumentu"
+    },
+    "filters": {
+      "all": "Všetky dokumenty",
+      "recent": "Nedávne",
+      "important": "Dôležité",
+      "archived": "Archivované"
+    },
+    "fileInfo": {
+      "size": "Veľkosť: {{size, fileSize}}",
+      "uploaded": "Nahrané {{date, dateRelative}}",
+      "modified": "Upravené {{date, dateRelative}}",
+      "expires": "Vyprší {{date, date}}"
+    }
+  },
+  "guardians": {
+    "title": "Dôveryhodný kruh",
+    "guardianCount_one": "{{count}} strážca",
+    "guardianCount_few": "{{count}} strážcovia",
+    "guardianCount_many": "{{count}} strážcov",
+    "guardianCount_other": "{{count}} strážcov",
+    "activeCount_one": "{{count}} aktívny strážca",
+    "activeCount_few": "{{count}} aktívni strážcovia",
+    "activeCount_many": "{{count}} aktívnych strážcov",
+    "activeCount_other": "{{count}} aktívnych strážcov",
+    "pendingCount_one": "{{count}} čakajúca pozvánka",
+    "pendingCount_few": "{{count}} čakajúce pozvánky",
+    "pendingCount_many": "{{count}} čakajúcich pozvánok",
+    "pendingCount_other": "{{count}} čakajúcich pozvánok",
+    "addGuardian": "Pridať strážcu",
+    "inviteSent": "Pozvánka odoslaná na {{email}}",
+    "lastActive": "Naposledy aktívny {{date, dateRelative}}",
+    "memberSince": "Člen od {{date, date}}"
+  },
+  "will": {
+    "title": "Váš závet",
+    "beneficiaryCount_one": "{{count}} dedič",
+    "beneficiaryCount_few": "{{count}} dedičia",
+    "beneficiaryCount_many": "{{count}} dedičov",
+    "beneficiaryCount_other": "{{count}} dedičov",
+    "assetCount_one": "{{count}} majetok",
+    "assetCount_few": "{{count}} majetky",
+    "assetCount_many": "{{count}} majetkov",
+    "assetCount_other": "{{count}} majetkov",
+    "witnessCount_one": "Vyžaduje sa {{count}} svedok",
+    "witnessCount_few": "Vyžadujú sa {{count}} svedkovia",
+    "witnessCount_many": "Vyžaduje sa {{count}} svedkov",
+    "witnessCount_other": "Vyžaduje sa {{count}} svedkov",
+    "lastUpdated": "Naposledy aktualizované {{date, dateRelative}}",
+    "created": "Vytvorené {{date, dateLong}}",
+    "totalValue": "Celková hodnota: {{amount, currency}}",
+    "distribution": {
+      "equal": "Rovnomerné rozdelenie",
+      "custom": "Vlastné rozdelenie",
+      "percentage": "{{value, percent}} z majetku"
+    }
+  },
+  "notifications": {
+    "newCount_one": "{{count}} nové upozornenie",
+    "newCount_few": "{{count}} nové upozornenia",
+    "newCount_many": "{{count}} nových upozornení",
+    "newCount_other": "{{count}} nových upozornení",
+    "unreadCount_one": "{{count}} neprečítané",
+    "unreadCount_few": "{{count}} neprečítané",
+    "unreadCount_many": "{{count}} neprečítaných",
+    "unreadCount_other": "{{count}} neprečítaných",
+    "markAllRead": "Označiť všetko ako prečítané",
+    "noNotifications": "Žiadne upozornenia",
+    "types": {
+      "document": "Dokument nahraný {{date, dateRelative}}",
+      "guardian": "Strážca prijal pozvánku {{date, dateRelative}}",
+      "will": "Závet aktualizovaný {{date, dateRelative}}",
+      "reminder": "Pripomienka: {{message}}"
+    }
+  },
+  "auth": {
+    "signIn": "Prihlásiť sa",
+    "signOut": "Odhlásiť sa",
+    "signUp": "Registrovať sa",
+    "forgotPassword": "Zabudli ste heslo?",
+    "resetPassword": "Obnoviť heslo",
+    "passwordStrength": {
+      "weak": "Slabé heslo",
+      "medium": "Stredná sila",
+      "strong": "Silné heslo"
+    },
+    "sessionExpires": "Relácia vyprší o {{time, time}}",
+    "lastLogin": "Posledné prihlásenie: {{date, dateRelative}}"
+  },
+  "settings": {
+    "storage": {
+      "used": "Použitých {{used, fileSize}} z {{total, fileSize}}",
+      "fileCount_one": "{{count}} uložený súbor",
+      "fileCount_few": "{{count}} uložené súbory",
+      "fileCount_many": "{{count}} uložených súborov",
+      "fileCount_other": "{{count}} uložených súborov",
+      "upgrade": "Upgradujte pre viac úložiska"
+    },
+    "subscription": {
+      "trial": "Skúšobná verzia končí o {{count}} dní",
+      "trialDays_one": "Zostáva {{count}} deň skúšobnej verzie",
+      "trialDays_few": "Zostávajú {{count}} dni skúšobnej verzie",
+      "trialDays_many": "Zostáva {{count}} dní skúšobnej verzie",
+      "trialDays_other": "Zostáva {{count}} dní skúšobnej verzie",
+      "price": "{{amount, currency}} mesačne",
+      "nextBilling": "Ďalšia fakturácia: {{date, date}}"
+    }
+  },
+  "errors": {
+    "generic": "Niečo sa pokazilo",
+    "network": "Chyba siete. Skontrolujte prosím svoje pripojenie.",
+    "notFound": "Stránka nenájdená",
+    "unauthorized": "Nemáte oprávnenie na prístup k tomuto",
+    "fileSize": "Veľkosť súboru musí byť menšia ako {{size, fileSize}}",
+    "uploadFailed_one": "Nepodarilo sa nahrať {{count}} súbor",
+    "uploadFailed_few": "Nepodarilo sa nahrať {{count}} súbory",
+    "uploadFailed_many": "Nepodarilo sa nahrať {{count}} súborov",
+    "uploadFailed_other": "Nepodarilo sa nahrať {{count}} súborov"
+  },
+  "success": {
+    "saved": "Zmeny úspešne uložené",
+    "deleted": "Úspešne vymazané",
+    "uploaded_one": "{{count}} súbor nahraný",
+    "uploaded_few": "{{count}} súbory nahrané",
+    "uploaded_many": "{{count}} súborov nahraných",
+    "uploaded_other": "{{count}} súborov nahraných",
+    "invited_one": "{{count}} pozvánka odoslaná",
+    "invited_few": "{{count}} pozvánky odoslané",
+    "invited_many": "{{count}} pozvánok odoslaných",
+    "invited_other": "{{count}} pozvánok odoslaných"
+  },
+  "time": {
+    "ago": "pred {{time}}",
+    "in": "o {{time}}",
+    "justNow": "práve teraz",
+    "today": "dnes",
+    "yesterday": "včera",
+    "tomorrow": "zajtra",
+    "thisWeek": "tento týždeň",
+    "lastWeek": "minulý týždeň",
+    "nextWeek": "budúci týždeň",
+    "thisMonth": "tento mesiac",
+    "lastMonth": "minulý mesiac",
+    "nextMonth": "budúci mesiac"
+  }
+}

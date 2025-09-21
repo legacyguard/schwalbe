@@ -1,0 +1,54 @@
+{
+  "title": "Message Title *",
+  "subtitle": "Message Preview (Optional)",
+  "recordingType": {
+    "label": "Recording Type",
+    "audio": "Audio Message", 
+    "video": "Video Message"
+  },
+  "buttons": {
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording", 
+    "recordAgain": "Record Again",
+    "useThisRecording": "Use This Recording",
+    "preview": "Preview"
+  },
+  "permissions": {
+    "grantCamera": "Grant Camera Access",
+    "grantMicrophone": "Grant Microphone Access",
+    "cameraPermission": "Camera Permission Required",
+    "microphonePermission": "Microphone Permission Required",
+    "cameraDescription": "We need access to your camera to record video messages. Please allow camera access in your browser settings.",
+    "microphoneDescription": "We need access to your microphone to record audio messages. Please allow microphone access in your browser settings.",
+    "tryAgain": "Try Again"
+  },
+  "status": {
+    "recording": "Recording...",
+    "stopped": "Recording stopped",
+    "ready": "Ready to record",
+    "processing": "Processing...",
+    "uploading": "Uploading..."
+  },
+  "errors": {
+    "accessDenied": "Camera/microphone access denied",
+    "recordingFailed": "Recording failed. Please try again.",
+    "tooLarge": "Recording is too large. Please record a shorter message.",
+    "uploadFailed": "Failed to upload recording. Please try again.",
+    "browserNotSupported": "Your browser does not support recording. Please use a modern browser.",
+    "deviceError": "Error accessing recording device. Please check your camera/microphone."
+  },
+  "placeholders": {
+    "recordingLength": "{{minutes}}:{{seconds}}",
+    "maxDuration": "Maximum duration: {{maxMinutes}} minutes"
+  },
+  "preview": {
+    "title": "Preview Your Recording",
+    "description": "Review your message before saving",
+    "playbackControls": "Use the controls below to review your recording"
+  },
+  "upload": {
+    "progress": "Uploading... {{percent}}%",
+    "success": "Recording uploaded successfully",
+    "retrying": "Upload failed, retrying..."
+  }
+}

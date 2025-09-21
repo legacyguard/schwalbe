@@ -1,0 +1,176 @@
+{
+  "wizard": {
+    "title": "Rozšírený tvorca testamentu",
+    "subtitle": "Krok {{currentStep}} z {{totalSteps}}: {{stepTitle}}",
+    "backToPlanning": "Späť na plánovanie dedičstva",
+    "draftActive": "Sofia inteligentný koncept aktívny",
+    "draftDescription": "Predvyplnené s právnou validáciou - Skontrolujte a upravte podľa potreby"
+  },
+  "steps": {
+    "personal": {
+      "title": "Osobné údaje",
+      "description": "Vaše údaje"
+    },
+    "beneficiaries": {
+      "title": "Dedičia", 
+      "description": "Kto dedí"
+    },
+    "assets": {
+      "title": "Majetok",
+      "description": "Čo vlastníte"
+    },
+    "executor": {
+      "title": "Vykonávateľ",
+      "description": "Kto spravuje"
+    },
+    "guardianship": {
+      "title": "Opatrovníctvo",
+      "description": "Pre maloletých"
+    },
+    "wishes": {
+      "title": "Posledné priania",
+      "description": "Špeciálne pokyny"
+    },
+    "legal_validation": {
+      "title": "Právna kontrola",
+      "description": "Kontrola súladu"
+    },
+    "sofia_check": {
+      "title": "Sofia kontrola",
+      "description": "AI kontrola"
+    },
+    "review": {
+      "title": "Finálna kontrola",
+      "description": "Potvrdiť a vygenerovať"
+    }
+  },
+  "personal": {
+    "title": "Osobné údaje",
+    "description": "Vaše údaje",
+    "fullName": {
+      "label": "Celé meno",
+      "placeholder": "Zadajte svoje úplné právne meno"
+    },
+    "dateOfBirth": {
+      "label": "Dátum narodenia"
+    },
+    "address": {
+      "label": "Adresa",
+      "placeholder": "Zadajte svoju úplnú adresu"
+    },
+    "citizenship": {
+      "label": "Občianstvo",
+      "placeholder": "napr. slovenské, české, americké"
+    },
+    "jurisdiction": {
+      "label": "Právna jurisdikcia",
+      "placeholder": "Vyberte jurisdikciu"
+    },
+    "maritalStatus": {
+      "label": "Rodinný stav",
+      "placeholder": "Vyberte stav",
+      "single": "Slobodný/á",
+      "married": "Ženatý/vydatá", 
+      "divorced": "Rozvedený/á",
+      "widowed": "Ovdovelý/á"
+    }
+  },
+  "beneficiaries": {
+    "title": "Vaši dedičia",
+    "addBeneficiary": "Pridať dediča",
+    "noBeneficiaries": "Zatiaľ neboli pridaní žiadni dedičia",
+    "clickToStart": "Kliknite na \"Pridať dediča\" pre začatie",
+    "beneficiaryNumber": "Dedič {{number}}",
+    "fields": {
+      "name": {
+        "label": "Meno",
+        "placeholder": "Meno dediča"
+      },
+      "relationship": {
+        "label": "Vzťah"
+      },
+      "percentage": {
+        "label": "Percentuálny podiel dedičstva",
+        "placeholder": "0"
+      },
+      "conditions": {
+        "label": "Špeciálne podmienky (voliteľné)",
+        "placeholder": "napr. ak prežije, ak dosiahne 18 rokov"
+      }
+    },
+    "guidance": {
+      "title": "Právne usmernenie pre {{jurisdiction}}",
+      "forcedHeirs": "Informácie o nevyhnutných dedičoch a dedičských právach"
+    }
+  },
+  "relationships": {
+    "spouse": "Manžel/manželka",
+    "child": "Dieťa",
+    "parent": "Rodič", 
+    "sibling": "Súrodenec",
+    "grandchild": "Vnúča",
+    "friend": "Priateľ",
+    "charity": "Charita/organizácia",
+    "other": "Iný"
+  },
+  "jurisdictions": {
+    "Slovakia": "Slovensko",
+    "Czech-Republic": "Česká republika",
+    "US-General": "Spojené štáty (všeobecne)",
+    "US-California": "Kalifornia, USA",
+    "US-Texas": "Texas, USA",
+    "US-Florida": "Florida, USA",
+    "US-NewYork": "New York, USA",
+    "UK": "Spojené kráľovstvo",
+    "Canada": "Kanada",
+    "Australia": "Austrália"
+  },
+  "legalValidation": {
+    "title": "Kontrola právnej zhody",
+    "description": "Váš testament sa kontroluje podľa {{jurisdiction}} práva",
+    "requirements": {
+      "title": "Právne požiadavky pre {{jurisdiction}}",
+      "forcedHeirs": {
+        "title": "Ochrana nevyhnutných dedičov",
+        "description": "Informácie o požiadavkách na ochranu nevyhnutných dedičov"
+      },
+      "witnesses": {
+        "title": "Požiadavky na svedkov", 
+        "description": "Informácie o požiadavkách na svedkov"
+      },
+      "revocation": {
+        "title": "Odvolanie testamentu",
+        "description": "Informácie o postupoch odvolania testamentu"
+      },
+      "notarization": {
+        "title": "Notárske overenie",
+        "description": "Informácie o požiadavkách na notárske overenie"
+      }
+    }
+  },
+  "navigation": {
+    "back": "Späť",
+    "continue": "Pokračovať",
+    "createWill": "Vytvoriť testament",
+    "changeWillType": "Zmeniť typ testamentu",
+    "stepIndicator": "Krok {{current}} z {{total}}"
+  },
+  "validation": {
+    "errors": "{{count}} chyba",
+    "errors_plural": "{{count}} chýb", 
+    "warnings": "{{count}} upozornenie",
+    "warnings_plural": "{{count}} upozornení",
+    "resolveErrors": "Prosím vyriešte všetky problémy s právnym súladom pred vytvorením testamentu",
+    "resolveStepErrors": "Prosím vyriešte chyby validácie pred pokračovaním"
+  },
+  "common": {
+    "loading": "Načítava sa...",
+    "remove": "Odstrániť",
+    "add": "Pridať",
+    "save": "Uložiť",
+    "cancel": "Zrušiť",
+    "required": "Povinné",
+    "optional": "Voliteľné",
+    "notImplemented": "Krok nie je implementovaný"
+  }
+}

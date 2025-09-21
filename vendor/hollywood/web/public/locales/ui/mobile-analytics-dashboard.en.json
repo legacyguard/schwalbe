@@ -1,0 +1,51 @@
+{
+  "header": {
+    "title": "Family Protection",
+    "subtitle": "Dashboard Overview",
+    "protectionScore": "Protection Score"
+  },
+  "metrics": {
+    "progress": "Progress",
+    "members": "Members", 
+    "documents": "Documents",
+    "dayStreak": "Day Streak",
+    "risksToAddress": "{{count}} risks to address"
+  },
+  "familyProtection": {
+    "title": "Family Protection",
+    "trendUp": "+12%"
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "upload": {
+      "title": "Upload Document",
+      "description": "Add new family document"
+    },
+    "invite": {
+      "title": "Invite Family", 
+      "description": "Add family member"
+    },
+    "review": {
+      "title": "Get Review",
+      "description": "Professional review"
+    },
+    "calendar": {
+      "title": "View Calendar",
+      "description": "Important dates"
+    }
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "viewAll": "View All",
+    "messages": {
+      "willUploaded": "Will document uploaded",
+      "reviewCompleted": "Professional review completed",
+      "milestoneReached": "Family protection milestone reached"
+    },
+    "timeAgo": {
+      "hoursAgo": "{{count}} hours ago",
+      "dayAgo": "{{count}} day ago", 
+      "daysAgo": "{{count}} days ago"
+    }
+  }
+}

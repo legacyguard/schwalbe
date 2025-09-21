@@ -1,0 +1,72 @@
+{
+  "header": {
+    "title": "Your Legacy Protection Journey",
+    "progress": "{{completed}} of {{total}} completed",
+    "description": "Follow this personalized checklist to secure your family's future"
+  },
+  "pillars": {
+    "today": "Today",
+    "tomorrow": "Tomorrow", 
+    "forever": "Forever"
+  },
+  "items": {
+    "setup-vault": {
+      "title": "Setup your secure vault",
+      "description": "Create your encrypted document storage with client-side security."
+    },
+    "upload-documents": {
+      "title": "Upload important documents", 
+      "description": "Add your essential documents like IDs, insurance, and legal papers."
+    },
+    "add-guardians": {
+      "title": "Add trusted guardians",
+      "description": "Invite family members or friends who can access your documents if needed."
+    },
+    "set-permissions": {
+      "title": "Set guardian permissions",
+      "description": "Define what each guardian can access and when they can access it."
+    },
+    "emergency-contacts": {
+      "title": "Add emergency contacts",
+      "description": "Set up emergency contact information for your guardians."
+    },
+    "create-legacy": {
+      "title": "Create legacy messages",
+      "description": "Record video messages and letters for your loved ones."
+    },
+    "schedule-reviews": {
+      "title": "Schedule regular reviews",
+      "description": "Set up reminders to keep your legacy plan updated."
+    },
+    "will-creation": {
+      "title": "Create your will",
+      "description": "Draft your last will and testament with professional guidance."
+    },
+    "beneficiary-setup": {
+      "title": "Set beneficiaries",
+      "description": "Designate who will inherit your assets and access your accounts."
+    },
+    "medical-directives": {
+      "title": "Medical directives",
+      "description": "Create advance healthcare directives and power of attorney documents."
+    }
+  },
+  "status": {
+    "completed": "Completed",
+    "active": "Active",
+    "pending": "Pending",
+    "locked": "Locked"
+  },
+  "actions": {
+    "startNow": "Start Now",
+    "continue": "Continue",
+    "review": "Review",
+    "complete": "Mark Complete"
+  },
+  "milestones": {
+    "quarter": "25% Complete - Great start!",
+    "half": "50% Complete - You're halfway there!",
+    "threeQuarter": "75% Complete - Almost done!",
+    "complete": "100% Complete - Your legacy is protected!"
+  }
+}

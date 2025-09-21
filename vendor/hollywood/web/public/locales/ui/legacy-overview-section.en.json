@@ -1,0 +1,60 @@
+{
+  "title": "Your Protection Overview",
+  "subtitle": "Key areas of your family's legacy protection",
+  "bundles": {
+    "vehicle": {
+      "name": "Vehicle: {{vehicle}}",
+      "primaryEntity": "{{vehicle}} {{year}}"
+    },
+    "property": {
+      "name": "Property: Family Home",
+      "primaryEntity": "{{address}}"
+    },
+    "finances": {
+      "name": "Finances: Accounts & Investments",
+      "primaryEntity": "{{banks}}"
+    },
+    "health": {
+      "name": "Health: Medical Records",
+      "primaryEntity": "{{providers}}"
+    },
+    "legal": {
+      "name": "Legal: Contracts & Documents", 
+      "primaryEntity": "{{documents}}"
+    },
+    "family": {
+      "name": "Family: Members & Guardians",
+      "primaryEntity": "{{members}}"
+    },
+    "education": {
+      "name": "Education: Records & Credentials",
+      "primaryEntity": "{{schools}}"
+    },
+    "business": {
+      "name": "Business: Professional & Assets",
+      "primaryEntity": "{{entities}}"
+    }
+  },
+  "status": {
+    "complete": "Complete",
+    "incomplete": "Incomplete",
+    "inProgress": "In Progress",
+    "needsAttention": "Needs Attention"
+  },
+  "progress": {
+    "documentsCount": "{{count}} documents",
+    "percentComplete": "{{percent}}% complete",
+    "lastUpdated": "Updated {{date}}"
+  },
+  "actions": {
+    "viewBundle": "View Bundle",
+    "addDocuments": "Add Documents",
+    "organize": "Organize",
+    "complete": "Complete Setup"
+  },
+  "empty": {
+    "title": "No bundles created yet",
+    "description": "Start organizing your documents into protection bundles",
+    "action": "Create First Bundle"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "relationships": {
+    "Guardian": "Guardian"
+  },
+  "notifications": {
+    "loadError": "Failed to load notifications.",
+    "saveError": "Failed to save contact.",
+    "testNotificationSuccess": "Test notification sent to {{name}}.",
+    "testNotificationError": "Failed to send test notification.",
+    "deleteSuccess": "Contact deleted.",
+    "deleteError": "Failed to delete contact.",
+    "sectionTitle": "Recent Notifications"
+  },
+  "form": {
+    "dialog": {
+      "editTitle": "Edit Emergency Contact",
+      "addTitle": "Add Contact"
+    },
+    "fields": {
+      "name": { "label": "Full Name", "placeholder": "John Smith" },
+      "relationship": {
+        "label": "Relationship",
+        "placeholder": "Select relationship",
+        "options": {
+          "spouse": "Spouse",
+          "parent": "Parent",
+          "child": "Child",
+          "sibling": "Sibling",
+          "friend": "Friend",
+          "relative": "Relative",
+          "professional": "Professional"
+        }
+      },
+      "email": { "label": "Email", "placeholder": "john@example.com" },
+      "phone": { "label": "Phone", "placeholder": "+1 202 555 0123" },
+      "notes": { "label": "Notes", "placeholder": "Additional context..." }
+    },
+    "buttons": {
+      "addContact": "Add Contact",
+      "updateContact": "Update Contact",
+      "cancel": "Cancel"
+    }
+  },
+  "statistics": {
+    "totalContacts": "Total Contacts",
+    "primary": "Primary",
+    "recentMessages": "Recent Messages"
+  },
+  "contactCard": {
+    "emergencyBadge": "Can trigger emergency"
+  },
+  "personalityModes": {
+    "empathetic": {
+      "canActivateEmergency": "Can activate emergency",
+      "updateSuccessToast": "Contact updated successfully.",
+      "addSuccessToast": "Contact added successfully.",
+      "primaryContactsTitle": "Primary Contacts",
+      "secondaryContactsTitle": "Secondary Contacts"
+    },
+    "pragmatic": {
+      "canActivateEmergency": "Can activate emergency",
+      "updateSuccessToast": "Contact updated successfully.",
+      "addSuccessToast": "Contact added successfully.",
+      "primaryContactsTitle": "Primary Contacts",
+      "secondaryContactsTitle": "Secondary Contacts"
+    },
+    "adaptive": {
+      "canActivateEmergency": "Can activate emergency",
+      "updateSuccessToast": "Contact updated successfully.",
+      "addSuccessToast": "Contact added successfully.",
+      "primaryContactsTitle": "Primary Contacts",
+      "secondaryContactsTitle": "Secondary Contacts",
+      "testNotificationTitle": "Status Update",
+      "testNotificationMessage": "Hello {{name}}, this is a test notification from Family Shield."
+    }
+  }
+}
+{
+  "personalityModes": {
+    "empathetic": {
+      "title": "💚 Circle of Care",
+      "subtitle": "Your loving network of trusted friends and family",
+      "addButtonText": "Add a Caring Guardian",
+      "emptyMessage": "Build your circle of care by adding trusted friends and family who can help in times of need",
+      "primaryContactsTitle": "Primary Caregivers",
+      "secondaryContactsTitle": "Support Circle",
+      "canActivateEmergency": "Can activate family care in emergencies",
+      "testNotificationTitle": "Test of Love - Family Care System",
+      "testNotificationMessage": "Hello {{name}}! This is a gentle test to make sure you can receive messages about your loved one's wellbeing. Everything is fine - just making sure our circle of care works perfectly. ❤️",
+      "updateSuccessToast": "💚 Your trusted contact has been updated with love",
+      "addSuccessToast": "💚 Another loving guardian added to your circle of care"
+    },
+    "pragmatic": {
+      "title": "🛡️ Emergency Contact Network",
+      "subtitle": "Structured emergency response and notification system",
+      "addButtonText": "Add Emergency Contact",
+      "emptyMessage": "Configure emergency contacts for optimal family protection response",
+      "primaryContactsTitle": "Primary Response Team",
+      "secondaryContactsTitle": "Secondary Contacts",
+      "canActivateEmergency": "Emergency activation permissions",
+      "testNotificationTitle": "Emergency System Test",
+      "testNotificationMessage": "System test for {{name}}. Verifying emergency notification delivery capability. No action required - this is a scheduled test of the emergency contact system.",
+      "updateSuccessToast": "🛡️ Emergency contact updated successfully",
+      "addSuccessToast": "🛡️ Emergency contact added to protection network"
+    },
+    "adaptive": {
+      "title": "🤝 Your Support Network",
+      "subtitle": "Trusted people who can help protect your family",
+      "addButtonText": "Add Trusted Contact",
+      "emptyMessage": "Add people you trust to help protect and support your family when needed",
+      "primaryContactsTitle": "Primary Contacts",
+      "secondaryContactsTitle": "Additional Contacts",
+      "canActivateEmergency": "Allow emergency activation",
+      "testNotificationTitle": "Family Protection Test",
+      "testNotificationMessage": "Hi {{name}}! This is a test message from your loved one's Family Protection system. All is well - we're just making sure you'll receive important updates when needed.",
+      "updateSuccessToast": "✅ Contact updated and ready to help",
+      "addSuccessToast": "✅ New emergency contact added"
+    }
+  },
+  "form": {
+    "dialog": {
+      "editTitle": "Edit Contact",
+      "addTitle": "{{buttonText}}"
+    },
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter full name"
+      },
+      "relationship": {
+        "label": "Relationship",
+        "placeholder": "Select relationship",
+        "options": {
+          "spouse": "Spouse/Partner",
+          "parent": "Parent",
+          "child": "Adult Child",
+          "sibling": "Sibling",
+          "friend": "Close Friend",
+          "relative": "Other Relative",
+          "professional": "Professional Contact"
+        }
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter email address"
+      },
+      "phone": {
+        "label": "Phone (Optional)",
+        "placeholder": "Enter phone number"
+      },
+      "notes": {
+        "label": "Notes (Optional)",
+        "placeholder": "Special instructions or notes..."
+      }
+    },
+    "buttons": {
+      "updateContact": "Update Contact",
+      "addContact": "Add Contact",
+      "cancel": "Cancel"
+    }
+  },
+  "statistics": {
+    "totalContacts": "Total Contacts",
+    "primary": "Primary",
+    "recentMessages": "Recent Messages"
+  },
+  "contactCard": {
+    "emergencyBadge": "Emergency",
+    "tooltips": {
+      "sendTestNotification": "Send test notification",
+      "editContact": "Edit contact",
+      "deleteContact": "Delete contact"
+    }
+  },
+  "notifications": {
+    "sectionTitle": "Recent Notifications",
+    "loadError": "Failed to load emergency contacts",
+    "saveError": "Failed to save emergency contact. Please try again.",
+    "testNotificationSuccess": "Test notification sent to {{name}}",
+    "testNotificationError": "Failed to send test notification",
+    "deleteSuccess": "Emergency contact removed",
+    "deleteError": "Failed to remove contact"
+  },
+  "relationships": {
+    "Guardian": "Guardian"
+  },
+  "deliveryStatus": {
+    "delivered": "delivered",
+    "sent": "sent", 
+    "failed": "failed",
+    "pending": "pending"
+  },
+  "priority": {
+    "high": "high",
+    "medium": "medium",
+    "low": "low",
+    "urgent": "urgent"
+  }
+}

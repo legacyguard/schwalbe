@@ -1,0 +1,455 @@
+name: 🚀 Unified Deployment Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      force_deploy:
+        description: 'Force deployment (skip checks)'
+        required: false
+        default: false
+        type: boolean
+
+# Prevent concurrent deployments
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '20.19.1'
+  PNPM_VERSION: '8'
+
+jobs:
+  # ============================================
+  # Pre-deployment Validation & Setup
+  # ============================================
+  validate-and-setup:
+    name: 🔍 Validate & Setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      environment: ${{ steps.determine-env.outputs.environment }}
+      should_deploy: ${{ steps.validate.outputs.should_deploy }}
+      node_version: ${{ steps.setup-node.outputs.node-version }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js (Exact Version)
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Validate Node.js version
+        run: |
+          echo "Node.js version: $(node --version)"
+          NODE_VERSION=$(node --version)
+          if [[ "$NODE_VERSION" != "v20.19.1" ]]; then
+            echo "❌ Wrong Node.js version: $NODE_VERSION"
+            echo "Required: v20.19.1"
+            exit 1
+          fi
+          echo "✅ Node.js version validated: $NODE_VERSION"
+
+      - name: Determine deployment environment
+        id: determine-env
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          else
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate deployment conditions
+        id: validate
+        run: |
+          SHOULD_DEPLOY="false"
+          
+          # Check if force deploy is enabled
+          if [[ "${{ github.event.inputs.force_deploy }}" == "true" ]]; then
+            echo "⚡ Force deployment requested"
+            SHOULD_DEPLOY="true"
+          fi
+          
+          # Check if CI passed (for workflow_run trigger)
+          if [[ "${{ github.event.workflow_run.conclusion }}" == "success" ]]; then
+            echo "✅ CI pipeline passed"
+            SHOULD_DEPLOY="true"
+          fi
+          
+          # Check for manual dispatch
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "🎯 Manual deployment triggered"
+            SHOULD_DEPLOY="true"
+          fi
+          
+          # Check for push to main/develop
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "🚀 Branch deployment: ${{ github.ref }}"
+            SHOULD_DEPLOY="true"
+          fi
+          
+          echo "should_deploy=$SHOULD_DEPLOY" >> $GITHUB_OUTPUT
+          echo "Deployment validation: $SHOULD_DEPLOY"
+
+  # ============================================
+  # Build & Test (Comprehensive)
+  # ============================================
+  build-and-test:
+    name: 🏗️ Build & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: validate-and-setup
+    if: needs.validate-and-setup.outputs.should_deploy == 'true'
+    permissions:
+      contents: read
+      actions: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (Exact Version)
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies with error handling
+        run: |
+          echo "📦 Installing dependencies..."
+          npm ci --legacy-peer-deps --prefer-offline --no-audit --no-fund || {
+            echo "❌ Dependency installation failed"
+            echo "Cleaning cache and retrying..."
+            npm cache clean --force
+            npm ci --legacy-peer-deps
+          }
+          echo "✅ Dependencies installed successfully"
+
+      - name: Validate Tailwind CSS configuration
+        run: |
+          echo "🎨 Validating Tailwind CSS configuration..."
+          if [ ! -f "tailwind.config.js" ]; then
+            echo "❌ Tailwind config not found"
+            exit 1
+          fi
+          echo "✅ Tailwind CSS configuration validated"
+
+      - name: TypeScript type checking
+        run: |
+          echo "🔍 Running TypeScript type checking..."
+          npm run type-check || {
+            echo "❌ TypeScript errors found"
+            exit 1
+          }
+          echo "✅ TypeScript validation passed"
+
+      - name: ESLint validation
+        run: |
+          echo "🔧 Running ESLint validation..."
+          npm run lint:ci || {
+            echo "❌ ESLint errors found"
+            exit 1
+          }
+          echo "✅ ESLint validation passed"
+
+      - name: Build application with comprehensive error handling
+        id: build
+        run: |
+          echo "🔨 Starting build process..."
+          
+          # Create production environment file
+          cat > .env.production << EOF
+          NODE_ENV=production
+          VITE_APP_ENV=production
+          VITE_APP_VERSION=${{ github.sha }}
+          VITE_BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          VITE_COMMIT_SHA=${{ github.sha }}
+          VITE_BRANCH=${{ github.ref_name }}
+          EOF
+          
+          # Build with enhanced error handling
+          npm run build || {
+            echo "❌ Build failed. Analyzing error..."
+            echo "Node version: $(node --version)"
+            echo "NPM version: $(npm --version)"
+            echo "Available memory: $(free -h | grep Mem: | awk '{print $2}')"
+            echo "Disk space: $(df -h . | tail -1 | awk '{print $4}')"
+            echo "Build directory contents:"
+            ls -la web/dist/ 2>/dev/null || echo "No dist directory"
+            exit 1
+          }
+          
+          echo "✅ Build completed successfully"
+          
+          # Validate build artifacts
+          echo "🔍 Validating build artifacts..."
+          if [ ! -d "web/dist" ]; then
+            echo "❌ Build output directory not found"
+            exit 1
+          fi
+          
+          if [ ! -f "web/dist/index.html" ]; then
+            echo "❌ index.html not found in build output"
+            exit 1
+          fi
+          
+          echo "✅ Build artifacts validated"
+          
+          # Show build statistics
+          echo "📊 Build Statistics:"
+          du -sh web/dist/
+          find web/dist -name "*.js" -exec du -h {} \; | sort -hr | head -5
+          find web/dist -name "*.css" -exec du -h {} \; | sort -hr | head -3
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-${{ needs.validate-and-setup.outputs.environment }}
+          path: web/dist/
+          retention-days: 30
+
+  # ============================================
+  # Deployment (Staging)
+  # ============================================
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [validate-and-setup, build-and-test]
+    if: needs.validate-and-setup.outputs.environment == 'staging' && needs.validate-and-setup.outputs.should_deploy == 'true'
+    permissions:
+      contents: read
+      actions: read
+    # environment:
+    #   name: staging
+    #   url: https://staging.legacyguard.app
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-staging
+          path: web/dist/
+
+      - name: Deploy to Vercel (Staging)
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          echo "🚀 Deploying to staging environment..."
+          
+          # Validate Vercel secrets
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "❌ Missing Vercel configuration secrets"
+            echo "Required: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID"
+            exit 1
+          fi
+          
+          # Install Vercel CLI
+          npm install -g vercel@latest
+          
+          # Deploy to staging
+          DEPLOYMENT_URL=$(cd web && vercel deploy --prebuilt --token=$VERCEL_TOKEN | tail -1)
+          
+          echo "✅ Staging deployment completed"
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "Staging URL: $DEPLOYMENT_URL"
+
+      - name: Run staging health checks
+        run: |
+          echo "🏥 Running staging health checks..."
+          STAGING_URL="${{ steps.deploy.outputs.url }}"
+          
+          # Basic health check
+          for i in {1..5}; do
+            if curl -f -s -m 10 "$STAGING_URL" > /dev/null; then
+              echo "✅ Health check passed on attempt $i"
+              break
+            else
+              echo "⚠️ Health check failed on attempt $i, retrying..."
+              sleep 10
+            fi
+          done
+          
+          echo "✅ Staging health checks completed"
+
+  # ============================================
+  # Deployment (Production)
+  # ============================================
+  deploy-production:
+    name: 🚀 Deploy to Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [validate-and-setup, build-and-test]
+    if: needs.validate-and-setup.outputs.environment == 'production' && needs.validate-and-setup.outputs.should_deploy == 'true'
+    permissions:
+      contents: read
+      actions: read
+    # environment:
+    #   name: production
+    #   url: https://app.legacyguard.com
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-production
+          path: web/dist/
+
+      - name: Pre-deployment backup
+        run: |
+          echo "💾 Creating production backup..."
+          # This would backup current production deployment
+          echo "✅ Backup preparation completed"
+
+      - name: Deploy to Vercel (Production)
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          echo "🚀 Deploying to production environment..."
+          
+          # Validate Vercel secrets
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "❌ Missing Vercel configuration secrets"
+            echo "Required: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID"
+            exit 1
+          fi
+          
+          # Install Vercel CLI
+          npm install -g vercel@latest
+          
+          # Deploy to production
+          DEPLOYMENT_URL=$(cd web && vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN | tail -1)
+          
+          echo "✅ Production deployment completed"
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "Production URL: $DEPLOYMENT_URL"
+
+      - name: Run production health checks
+        run: |
+          echo "🏥 Running production health checks..."
+          PRODUCTION_URL="${{ steps.deploy.outputs.url }}"
+          
+          # Comprehensive health checks
+          for i in {1..10}; do
+            if curl -f -s -m 15 "$PRODUCTION_URL" > /dev/null; then
+              echo "✅ Health check passed on attempt $i"
+              break
+            else
+              echo "⚠️ Health check failed on attempt $i, retrying..."
+              sleep 15
+            fi
+          done
+          
+          echo "✅ Production health checks completed"
+
+  # ============================================
+  # Post-Deployment Monitoring
+  # ============================================
+  post-deployment-monitoring:
+    name: 📊 Post-Deployment Monitoring
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [validate-and-setup, deploy-staging, deploy-production]
+    if: always() && (needs.deploy-staging.result == 'success' || needs.deploy-production.result == 'success')
+    
+    steps:
+      - name: Monitor deployment health
+        run: |
+          echo "📊 Monitoring deployment health..."
+          
+          ENVIRONMENT="${{ needs.validate-and-setup.outputs.environment }}"
+          if [[ "$ENVIRONMENT" == "staging" ]]; then
+            URL="https://staging.legacyguard.cz"
+          else
+            URL="https://legacyguard.cz"
+          fi
+          
+          echo "Monitoring $ENVIRONMENT environment: $URL"
+          
+          # Monitor for 5 minutes with health checks
+          for i in {1..10}; do
+            echo "Health check $i/10..."
+            if curl -f -s -m 10 "$URL" > /dev/null; then
+              echo "✅ Health check $i passed"
+            else
+              echo "⚠️ Health check $i failed"
+            fi
+            sleep 30
+          done
+          
+          echo "✅ Deployment monitoring completed"
+
+  # ============================================
+  # Deployment Summary & Notifications
+  # ============================================
+  deployment-summary:
+    name: 📋 Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [validate-and-setup, deploy-staging, deploy-production, post-deployment-monitoring]
+    if: always()
+    
+    steps:
+      - name: Generate deployment summary
+        run: |
+          ENVIRONMENT="${{ needs.validate-and-setup.outputs.environment }}"
+          
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** $ENVIRONMENT" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed at:** $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Job status summary
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Build & Test | ${{ needs.build-and-test.result }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "$ENVIRONMENT" == "staging" ]]; then
+            echo "| Deploy Staging | ${{ needs.deploy-staging.result }}" >> $GITHUB_STEP_SUMMARY
+          elif [[ "$ENVIRONMENT" == "production" ]]; then
+            echo "| Deploy Production | ${{ needs.deploy-production.result }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "| Post-Deployment Monitoring | ${{ needs.post-deployment-monitoring.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ job.status }}" == "success" ]]; then
+            echo "✅ **Deployment completed successfully!**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Deployment failed. Check the logs above for details.**" >> $GITHUB_STEP_SUMMARY
+          fi

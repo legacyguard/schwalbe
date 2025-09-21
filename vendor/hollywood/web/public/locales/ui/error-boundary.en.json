@@ -1,0 +1,16 @@
+{
+  "title": "Something went wrong",
+  "description": "We're sorry, but an unexpected error occurred. Please try one of the options below to continue.",
+  "actions": {
+    "tryAgain": "Try Again",
+    "goHome": "Go Home",
+    "reloadPage": "Reload Page"
+  },
+  "details": {
+    "dev": "Show Error Details (Development)"
+  },
+  "support": {
+    "message": "If this problem persists, please contact our support team."
+  },
+  "toast": "Something went wrong. We're working on fixing this issue."
+}

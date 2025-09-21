@@ -1,0 +1,30 @@
+{
+  "title": "Your Progress Overview",
+  "subtitle": "Track your journey as Guardian of Memories",
+  "cards": {
+    "documentsSecured": {
+      "title": "Documents Secured",
+      "changeThisMonth": "+{{count}} this month",
+      "noRecentUploads": "No recent uploads"
+    },
+    "guardiansAdded": {
+      "title": "Guardians Added", 
+      "setupComplete": "Setup complete",
+      "needsSetup": "Needs setup"
+    },
+    "legacyProgress": {
+      "title": "Legacy Progress",
+      "greatProgress": "Great progress!",
+      "keepGoing": "Keep going!"
+    },
+    "expiringSoon": {
+      "title": "Expiring Soon",
+      "needsAttention": "Needs attention",
+      "allCurrent": "All current"
+    }
+  },
+  "loading": {
+    "title": "Loading your progress...",
+    "subtitle": "Preparing your dashboard statistics"
+  }
+}

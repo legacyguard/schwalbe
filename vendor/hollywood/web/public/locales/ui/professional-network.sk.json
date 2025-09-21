@@ -1,0 +1,149 @@
+{
+  "header": {
+    "badge": "Overená sieť profesionálov",
+    "title": "Nájdite svojho právneho poradcu",
+    "description": "Spojte sa s overenými, licencovanými právnikmi, ktorí sa špecializujú na dedičské právo, rodinné právo a podnikové poradenstvo. Všetci profesionáli sú preverení a hodnotení klientmi."
+  },
+  "search": {
+    "placeholder": "Hľadať podľa mena, špecializácie alebo umiestnenia...",
+    "results": "{{count}} výsledkov",
+    "advancedFilters": "Pokročilé filtre"
+  },
+  "sorting": {
+    "label": "Zoradiť podľa:",
+    "options": {
+      "rating": "Hodnotenie",
+      "experience": "Skúsenosti",
+      "price": "Cena",
+      "reviews": "Recenzie"
+    }
+  },
+  "filters": {
+    "specializations": "Špecializácie",
+    "experienceRange": "Rozsah skúseností",
+    "hourlyRateRange": "Rozsah hodinovej sadzby",
+    "minimumRating": "Minimálne hodnotenie",
+    "availability": "Dostupnosť",
+    "activeFilters": "Aktívne filtre",
+    "clearAll": "Vymazať všetko",
+    "resetFilters": "Resetovať filtre",
+    "experienceYears": "{{count}} rokov",
+    "rating": {
+      "anyRating": "Akékoľvek hodnotenie",
+      "fourPlus": "4+ hviezd",
+      "fourFivePlus": "4,5+ hviezd",
+      "fourEightPlus": "4,8+ hviezd"
+    },
+    "availability": {
+      "all": "Všetko",
+      "available": "Dostupný teraz",
+      "busy": "Zaneprázdnený, ale prijíma klientov"
+    }
+  },
+  "specializations": [
+    "Dedičské právo",
+    "Daňové právo",
+    "Obchodné právo",
+    "Nehnuteľnostné právo",
+    "Rodinné právo",
+    "Právo seniorov",
+    "Ochrana majetku",
+    "Dedičské konanie",
+    "Zdravotné direktívy"
+  ],
+  "professionalCard": {
+    "yearsAbbr": "r.",
+    "statesCount": "{{count}} štát",
+    "statesCountPlural": "{{count}} štátov",
+    "specializations": "Špecializácie",
+    "more": "+{{count}} ďalších",
+    "startingFrom": "Začína od:",
+    "perHour": "/hod",
+    "bookCall": "Rezervovať hovor",
+    "review": "Revízia",
+    "bookConsultation": "Rezervovať konzultáciu",
+    "requestReview": "Požiadať o revíziu"
+  },
+  "listView": {
+    "yearsExperience": "{{count}} rokov skúseností",
+    "respondsIn": "Odpovedá do {{time}}",
+    "noStatesListed": "Žiadne štáty neuvedené"
+  },
+  "availability": {
+    "available": "dostupný",
+    "busy": "zaneprázdnený",
+    "unavailable": "nedostupný"
+  },
+  "noResults": {
+    "title": "Nenašli sa žiadni profesionáli",
+    "description": "Skúste upraviť vaše vyhľadávacie kritériá alebo filtre na nájdenie viacerých profesionálov.",
+    "resetButton": "Resetovať filtre"
+  },
+  "modal": {
+    "title": "Profil profesionála",
+    "tabs": {
+      "overview": "Prehľad",
+      "services": "Služby",
+      "reviews": "Recenzie",
+      "credentials": "Kvalifikácia"
+    },
+    "header": {
+      "yearsExperience": "{{count}} rokov skúseností",
+      "respondsIn": "Odpovedá do {{time}}",
+      "verifiedAttorney": "Overený právnik",
+      "reviews": "{{count}} recenzií"
+    },
+    "buttons": {
+      "bookConsultation": "Rezervovať konzultáciu",
+      "requestReview": "Požiadať o revíziu",
+      "sendMessage": "Poslať správu"
+    },
+    "overview": {
+      "aboutTitle": "O používateľovi {{name}}",
+      "specializations": "Špecializácie",
+      "licensedStates": "Licencované štáty",
+      "languages": "Jazyky",
+      "achievements": "Ocenenia"
+    },
+    "services": {
+      "startingFrom": "Začína od",
+      "selectService": "Vybrať službu"
+    },
+    "reviews": {
+      "moreReviewsNote": "Viac recenzií dostupných po prvej konzultácii"
+    },
+    "credentials": {
+      "barInformation": "Informácie o advokátskej komore",
+      "barNumber": "Číslo advokáta: {{number}}",
+      "status": "Stav: {{status}}",
+      "experience": "Skúsenosti",
+      "yearsInPractice": "{{count}} rokov v praxi",
+      "memberSince": "Člen od roku {{year}}",
+      "verifiedProfessional": "Overený profesionál",
+      "verificationNote": "Kvalifikácia tohto právnika bola overená a udržuje si poistenie profesionálnej zodpovednosti."
+    }
+  },
+  "serviceTypes": {
+    "consultation": "konzultácia",
+    "retainer": "retenér",
+    "review": "revízia"
+  },
+  "trustFooter": {
+    "title": "Prečo si vybrať našu sieť?",
+    "description": "Každý právnik v našej sieti je osobne preverený a overený klientmi",
+    "features": {
+      "verified": {
+        "title": "100% overení",
+        "description": "Všetci právnici sú licencovaní, poistení a preverení"
+      },
+      "reviewed": {
+        "title": "Hodnotení klientmi",
+        "description": "Skutočné recenzie od skutočných klientov, so zárukou spokojnosti"
+      },
+      "matched": {
+        "title": "Dokonalé zhody",
+        "description": "Pokročilé párovanie zabezpečuje, že nájdete správneho právnika pre vaše potreby"
+      }
+    }
+  }
+}

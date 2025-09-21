@@ -1,0 +1,98 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#334155;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="logo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Background Pattern -->
+  <circle cx="240" cy="504" r="120" fill="#3b82f6" opacity="0.1"/>
+  <circle cx="960" cy="126" r="100" fill="#10b981" opacity="0.1"/>
+  <circle cx="480" cy="252" r="80" fill="#8b5cf6" opacity="0.05"/>
+  
+  <!-- Floating Elements -->
+  <text x="120" y="189" font-size="48" fill="#3b82f6" opacity="0.1">📄</text>
+  <text x="1080" y="252" font-size="40" fill="#3b82f6" opacity="0.1">🔒</text>
+  <text x="240" y="504" font-size="36" fill="#3b82f6" opacity="0.1">👨‍👩‍👧‍👦</text>
+  
+  <!-- Logo Container -->
+  <g transform="translate(600, 315)">
+    <!-- Logo Icon -->
+    <rect x="-40" y="-40" width="80" height="80" rx="20" fill="url(#logo)" filter="url(#shadow)"/>
+    <text x="0" y="15" font-size="40" text-anchor="middle" fill="white">🛡️</text>
+    
+    <!-- Logo Text -->
+    <text x="60" y="15" font-size="48" font-weight="800" fill="white" filter="url(#shadow)">LegacyGuard</text>
+  </g>
+  
+  <!-- Tagline -->
+  <text x="600" y="420" font-size="32" font-weight="600" text-anchor="middle" fill="#e2e8f0" filter="url(#shadow)">
+    Your Legacy, Secured. Your Family, Protected.
+  </text>
+  
+  <!-- Features -->
+  <g transform="translate(600, 480)">
+    <g transform="translate(-200, 0)">
+      <text x="0" y="0" font-size="18" font-weight="500" text-anchor="middle" fill="#10b981">✓</text>
+      <text x="20" y="0" font-size="18" font-weight="500" fill="#cbd5e1">AI-Powered Security</text>
+    </g>
+    
+    <g transform="translate(0, 0)">
+      <text x="0" y="0" font-size="18" font-weight="500" text-anchor="middle" fill="#10b981">✓</text>
+      <text x="20" y="0" font-size="18" font-weight="500" fill="#cbd5e1">Family Protection</text>
+    </g>
+    
+    <g transform="translate(200, 0)">
+      <text x="0" y="0" font-size="18" font-weight="500" text-anchor="middle" fill="#10b981">✓</text>
+      <text x="20" y="0" font-size="18" font-weight="500" fill="#cbd5e1">Document Management</text>
+    </g>
+  </g>
+  
+  <!-- Accent Line -->
+  <rect x="0" y="624" width="1200" height="6" fill="url(#accent)"/>
+  
+  <!-- Subtle Grid Pattern -->
+  <g opacity="0.05">
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="126" x2="1200" y2="126" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="252" x2="1200" y2="252" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="378" x2="1200" y2="378" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="504" x2="1200" y2="504" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="630" x2="1200" y2="630" stroke="#ffffff" stroke-width="1"/>
+    
+    <line x1="0" y1="0" x2="0" y2="630" stroke="#ffffff" stroke-width="1"/>
+    <line x1="240" y1="0" x2="240" y2="630" stroke="#ffffff" stroke-width="1"/>
+    <line x1="480" y1="0" x2="480" y2="630" stroke="#ffffff" stroke-width="1"/>
+    <line x1="720" y1="0" x2="720" y2="630" stroke="#ffffff" stroke-width="1"/>
+    <line x1="960" y1="0" x2="960" y2="630" stroke="#ffffff" stroke-width="1"/>
+    <line x1="1200" y1="0" x2="1200" y2="630" stroke="#ffffff" stroke-width="1"/>
+  </g>
+</svg>

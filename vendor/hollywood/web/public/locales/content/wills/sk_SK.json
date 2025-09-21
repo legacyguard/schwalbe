@@ -1,0 +1,98 @@
+{
+  "title": "Závet",
+  "jurisdiction": "Slovenská republika",
+  "language": "Slovenčina",
+  "legalNotice": "Tento dokument bol vytvorený v súlade s Občianskym zákonníkom Slovenskej republiky (zákon č. 40/1964 Zb. v znení neskorších predpisov)",
+  "sections": {
+    "testator": {
+      "title": "Poručiteľ",
+      "declaration": "Ja, {{fullName}}, dátum narodenia {{dateOfBirth}}, trvale bytom {{address}}, občan {{citizenship}}, činím týmto svoj závet.",
+      "mentalCapacity": "Vyhlasujem, že som pri plnej duševnej sile a spôsobilý na právne úkony."
+    },
+    "revocation": {
+      "title": "Odvolanie predchádzajúcich závetov",
+      "text": "Týmto odvolávam všetky svoje skôr urobené závety a dodatky k nim."
+    },
+    "beneficiaries": {
+      "title": "Ustanovenie dedičov",
+      "introduction": "Ustanovujem nasledujúce osoby za svojich dedičov:",
+      "designation": "{{name}}, {{relationship}}, dedí {{percentage}}% mojej pozostalosti",
+      "conditionalInheritance": "s podmienkou: {{conditions}}",
+      "substituteHeir": "Pre prípad, že by {{name}} nededil(a), ustanovujem náhradným dedičom:"
+    },
+    "forcedHeirs": {
+      "title": "Neopominuteľní dedičia",
+      "notice": "Podľa § 479 Občianskeho zákonníka majú neopominuteľní dedičia (potomkovia) právo na povinný podiel.",
+      "minorChildren": "Maloletí potomkovia musia dostať celý (100%) ich dedičský podiel zo zákona.",
+      "adultChildren": "Plnoletí potomkovia musia dostať aspoň toľko, koľko predstavuje polovica ich dedičského podielu zo zákona.",
+      "disinheritance": "Vydedenie je možné len zo zákonných dôvodov uvedených v § 469a Občianskeho zákonníka."
+    },
+    "specificBequests": {
+      "title": "Odkazy",
+      "introduction": "Robím nasledujúce odkazy:",
+      "item": "{{description}} odkazujem {{recipient}}",
+      "monetary": "Sumu {{amount}} € odkazujem {{recipient}}"
+    },
+    "executor": {
+      "title": "Vykonávateľ závetu",
+      "appointment": "Menujem vykonávateľom môjho závetu: {{name}}, {{relationship}}",
+      "backup": "Pre prípad, že by {{primaryExecutor}} nemohol(la) alebo nechcel(a) túto funkciu vykonávať, menujem náhradným vykonávateľom: {{backupExecutor}}",
+      "powers": "Vykonávateľ závetu je oprávnený vykonať všetky úkony potrebné na riadne vysporiadanie mojej pozostalosti."
+    },
+    "guardianship": {
+      "title": "Poručníctvo",
+      "appointment": "Pre prípad mojej smrti menujem poručníkom svojich maloletých detí: {{guardianName}}",
+      "backup": "Náhradným poručníkom menujem: {{backupGuardianName}}",
+      "instructions": "Žiadam poručníka, aby: {{instructions}}"
+    },
+    "finalWishes": {
+      "title": "Posledné priania",
+      "funeral": "Ohľadom môjho pohrebu si prajem: {{funeralWishes}}",
+      "organDonation": "Súhlasím s darovaním svojich orgánov na transplantačné účely.",
+      "other": "Ďalšie priania: {{otherWishes}}"
+    },
+    "residuary": {
+      "title": "Zvyšok pozostalosti",
+      "text": "Všetok zostávajúci majetok, ktorý nie je výslovne odkázaný vyššie, pripadne {{residuaryBeneficiaries}}"
+    },
+    "signature": {
+      "title": "Podpis",
+      "date": "V {{city}} dňa {{date}}",
+      "testatorSignature": "Podpis poručiteľa: _______________________",
+      "witnessSection": {
+        "title": "Svedkovia",
+        "introduction": "Tento závet bol podpísaný v našej prítomnosti a my ho na žiadosť poručiteľa podpisujeme ako svedkovia:",
+        "witness": "Svedok {{number}}: {{name}}, dátum narodenia: {{dateOfBirth}}, adresa: {{address}}, podpis: _______________________"
+      }
+    }
+  },
+  "legalRequirements": {
+    "formTypes": {
+      "holographic": "Holografický závet musí byť celý napísaný vlastnou rukou a podpísaný.",
+      "allographic": "Alografický závet musí byť podpísaný poručiteľom a dvoma svedkami súčasne prítomnými.",
+      "notarial": "Závet vo forme notárskej zápisnice poskytuje najvyššiu právnu istotu."
+    },
+    "witnesses": {
+      "requirements": "Svedkom nemôže byť dedič, odkazovník ani osoba im blízka.",
+      "count": "Vyžadujú sa dvaja svedkovia pre alografický závet.",
+      "capacity": "Svedkovia musia byť spôsobilí na právne úkony a schopní podpísať sa."
+    },
+    "capacity": {
+      "age": "Závet môže urobiť osoba staršia ako 15 rokov (s obmedzením do 18 rokov).",
+      "mental": "Poručiteľ musí byť pri robení závetu pri zmysloch a schopný právne konať."
+    }
+  },
+  "validation": {
+    "errors": {
+      "missingForcedHeirs": "Maloletí potomkovia musia dostať celý svoj zákonný podiel",
+      "invalidWitness": "{{name}} nemôže byť svedkom, pretože je dedičom",
+      "missingSignature": "Závet musí byť podpísaný",
+      "invalidForm": "Závet nespĺňa formálne požiadavky"
+    },
+    "warnings": {
+      "unclearWording": "Formulácia môže byť nejasná alebo dvojznačná",
+      "missingExecutor": "Odporúča sa menovať vykonávateľa závetu",
+      "taxImplications": "Zvážte daňové dôsledky pre dedičov"
+    }
+  }
+}

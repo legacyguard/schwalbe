@@ -1,0 +1,19 @@
+{
+  "title": "Family Protection Services",
+  "description": "Comprehensive family protection and estate planning",
+  "services": {
+    "insurance": "Family Insurance",
+    "estate_planning": "Estate Planning",
+    "trust_setup": "Trust Setup",
+    "guardianship": "Guardianship Services"
+  },
+  "benefits": {
+    "protection": "Financial Protection",
+    "peace_of_mind": "Peace of Mind",
+    "legal_coverage": "Legal Coverage"
+  },
+  "contact": {
+    "consultation": "Book Consultation",
+    "support": "Contact Support"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "triggers": {
+    "familyLimit": {
+      "title": "Potrebujete rodinný plán",
+      "subtitle": "Dosiahli ste limit 2 rodinných členov",
+      "description": "Pridajte neobmedzený počet rodinných členov a odomknite kolaboračné funkcie s naším rodinným plánom.",
+      "benefits": [
+        "Neobmedzené pozvánky pre rodinných členov",
+        "Pokročilé kolaboračné nástroje",
+        "Zdieľaný rodinný kalendár a časová os",
+        "Systém rodinného hlasovania"
+      ]
+    },
+    "professionalReview": {
+      "title": "Získajte profesionálnu kontrolu",
+      "subtitle": "Zabezpečte právnu správnosť vašich dokumentov",
+      "description": "Spojte sa s overenými advokátmi pre profesionálnu kontrolu dokumentov a právne poradenstvo.",
+      "benefits": [
+        "Prístup k overeným právnym profesionálom",
+        "Profesionálna kontrola dokumentov",
+        "Kontrola právnej zhody",
+        "Priame rezervovanie konzultácií"
+      ]
+    },
+    "analyticsLimit": {
+      "title": "Odomknite pokročilé analýzy",
+      "subtitle": "Získajte hlbšie poznatky o ochrane vašej rodiny",
+      "description": "Prémiové analýzy poskytujú odporúčania založené na AI a komplexné hodnotenie rizík.",
+      "benefits": [
+        "Hodnotenie rodinných rizík pomocou AI",
+        "Personalizované odporúčania na zlepšenie",
+        "Pokročilé sledovanie pokroku",
+        "Analýza historických trendov"
+      ]
+    },
+    "timeCapsule": {
+      "title": "Vytvorte časové kapsuly",
+      "subtitle": "Zachovajte spomienky pre budúce generácie",
+      "description": "Prémiová funkcia časovej kapsuly vám umožňuje vytvárať naplánované správy a uchovávať spomienky.",
+      "benefits": [
+        "Neobmedzené vytváranie časových kapsúl",
+        "Video a audio správy",
+        "Systém naplánovaného doručovania",
+        "Viacgeneračné zdieľanie"
+      ]
+    },
+    "prioritySupport": {
+      "title": "Potrebujete prioritnú podporu?",
+      "subtitle": "Získajte rýchlejšiu pomoc, keď ju najviac potrebujete",
+      "description": "Prémiový používatelia majú prioritnú podporu s osobnou asistenciou pre naliehavé rodinné záležitosti.",
+      "benefits": [
+        "Prioritná zákaznícka podpora",
+        "Osobný správca účtu",
+        "Nonstop naliehavá asistencia",
+        "Telefonická a video podpora"
+      ]
+    },
+    "default": {
+      "title": "Prejdite na Premium",
+      "subtitle": "Odomknite všetky funkcie",
+      "description": "Získajte prístup ku všetkým prémiovým funkciám a rozšírenej ochrane rodiny."
+    }
+  },
+  "benefits": {
+    "title": "Čo získate:"
+  },
+  "plans": {
+    "header": {
+      "title": "Vyberte si svoj plán",
+      "subtitle": "Všetky plány obsahujú 14-dňovú bezplatnú skúšku"
+    },
+    "premium": {
+      "name": "Premium",
+      "price": "$9.99",
+      "period": "mesiac",
+      "description": "Ideálny pre jednotlivcov a malé rodiny",
+      "features": [
+        "Až 5 rodinných členov",
+        "Profesionálna kontrola dokumentov",
+        "Pokročilé analýzy a poznatky",
+        "Prioritná podpora",
+        "Tvorba časových kapsúl",
+        "Neobmedzené ukladanie dokumentov"
+      ]
+    },
+    "family": {
+      "name": "Rodinný plán",
+      "price": "$19.99",
+      "period": "mesiac",
+      "description": "Najlepší pre väčšie rodiny s potrebami kolaborácie",
+      "features": [
+        "Neobmedzený počet rodinných členov",
+        "Pokročilé kolaboračné nástroje",
+        "Rodinné hlasovanie",
+        "Zdieľaná rodinná časová os",
+        "Viacgeneračné funkcie",
+        "Všetko z Premium plánu"
+      ]
+    },
+    "professional": {
+      "name": "Profesionálny",
+      "price": "$39.99",
+      "period": "mesiac",
+      "description": "Pre tých, ktorí potrebujú komplexnú právnu podporu",
+      "features": [
+        "Neobmedzené konzultácie s advokátmi",
+        "Monitorovanie právnej zhody",
+        "Osobný právny poradca",
+        "Pokročilé nástroje plánovania dedičstva",
+        "Služba kompletného nastavenia",
+        "Všetko z rodinného plánu"
+      ]
+    },
+    "badges": {
+      "mostPopular": "Najpopulárnejší",
+      "recommended": "Odporúčaný"
+    }
+  },
+  "buttons": {
+    "startFreeTrial": "Začať bezplatnú skúšku",
+    "upgradeNow": "Upgradovať teraz",
+    "close": "Zavrieť"
+  },
+  "footer": {
+    "freeTrial": "14-dňová bezplatná skúška",
+    "cancelAnytime": "Zrušiť kedykoľvek",
+    "moneyBack": "30-dňová záruka vrátenia peňazí",
+    "noCardRequired": "Pre skúšku nie je potrebná kreditná karta"
+  },
+  "featurePrompts": {
+    "professionalReview": {
+      "title": "Profesionálna kontrola",
+      "description": "Nechajte si dokumenty skontrolovať overenými advokátmi",
+      "requiredPlan": "Premium"
+    },
+    "advancedAnalytics": {
+      "title": "Pokročilé analýzy",
+      "description": "Poznatky a hodnotenie rizík pomocou AI",
+      "requiredPlan": "Premium"
+    },
+    "familyCollaboration": {
+      "title": "Rodinná kolaborácia",
+      "description": "Neobmedzený počet rodinných členov a kolaboračné nástroje",
+      "requiredPlan": "Rodina"
+    },
+    "default": {
+      "title": "Prémiová funkcia",
+      "description": "Táto funkcia vyžaduje prémiový plán",
+      "requiredPlan": "Premium"
+    },
+    "requiredSuffix": "Vyžadovaný",
+    "upgradePrefix": "Upgradovať na"
+  }
+}

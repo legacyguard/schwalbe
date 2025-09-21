@@ -1,0 +1,74 @@
+{
+  "nudges": {
+    "first_document_nudge": {
+      "title": "Give Your Family Peace of Mind",
+      "message": "Start with just one important document - it's the first step in protecting those you love most.",
+      "family_benefit": "Your family will know exactly where to find important information when they need it most",
+      "emotional_hook": "Every family deserves security. Yours is no different.",
+      "action_text": "Upload First Document",
+      "time_estimate": "2 minutes"
+    },
+    "family_circle_nudge": {
+      "title": "Who Can Help Your Family?",
+      "message": "You've secured important documents. Now give someone trusted the ability to access them in an emergency.",
+      "family_benefit": "Your family won't be locked out when they need help most urgently",
+      "emotional_hook": "In critical moments, seconds count. Give your family a lifeline.",
+      "action_text": "Add Emergency Contact",
+      "time_estimate": "30 seconds"
+    },
+    "will_completion_nudge": {
+      "title": "Your Family Needs Your Guidance",
+      "message": "Without clear instructions, your loved ones might struggle to honor what you really wanted.",
+      "family_benefit": "Prevents family disputes and ensures your assets go exactly where you intended",
+      "emotional_hook": "Give your family the gift of knowing your wishes with absolute certainty",
+      "action_text": "Complete Your Will",
+      "time_estimate": "15 minutes"
+    },
+    "weekly_encouragement_nudge": {
+      "title": "Keep Building Your Family's Foundation",
+      "message": "It's been a week since your last action. Your family's protection foundation is {{percentage}}% complete.",
+      "family_benefit": "Each document adds another layer of security for your loved ones",
+      "emotional_hook": "Your family is counting on you to finish what you started",
+      "action_text": "Add Another Document",
+      "time_estimate": "3 minutes"
+    },
+    "insurance_gap_nudge": {
+      "title": "Protect Your Family Financially",
+      "message": "Insurance policies ensure your family won't face financial hardship during difficult times.",
+      "family_benefit": "Bills, mortgage, and expenses will be covered - your family can focus on healing",
+      "emotional_hook": "Don't let financial stress add to your family's grief",
+      "action_text": "Add Insurance Documents",
+      "time_estimate": "5 minutes"
+    },
+    "foundation_celebration_nudge": {
+      "title": "You're Building Something Beautiful! 🎉",
+      "message": "Five documents secured! Your family's foundation of protection is taking solid shape.",
+      "family_benefit": "Your family now has access to comprehensive protection across multiple areas",
+      "emotional_hook": "Every document you add is an act of love for your family",
+      "action_text": "Celebrate Your Progress",
+      "time_estimate": "1 minute"
+    },
+    "monthly_checkin_nudge": {
+      "title": "{{months}} Month{{plural}} of Family Protection! 📅",
+      "message": "Your family has enjoyed continuous protection. Time to review and strengthen it further.",
+      "family_benefit": "Regular reviews ensure your family's protection stays current and comprehensive",
+      "emotional_hook": "Your commitment to family protection is admirable - keep it growing",
+      "action_text": "Review Protection",
+      "time_estimate": "10 minutes"
+    }
+  },
+  "ui": {
+    "familyBenefitLabel": "Family Benefit:",
+    "impactLabel": "Impact: {{score}}/100",
+    "noNudges": "No family benefit nudges available at the moment.",
+    "loading": "Loading family guidance..."
+  },
+  "actions": {
+    "upload_document": "Upload Document",
+    "set_emergency_contact": "Add Emergency Contact", 
+    "complete_will": "Complete Will",
+    "celebrate_milestone": "Celebrate Progress",
+    "review_protection": "Review Protection",
+    "add_family": "Add Family Member"
+  }
+}

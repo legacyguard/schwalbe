@@ -1,0 +1,47 @@
+{
+  "title": "Will Creator",
+  "languageSelection": {
+    "title": "Choose your preferred language",
+    "subtitle": "Select the language for your will interface",
+    "description": "This will determine the language used throughout the will creation process."
+  },
+  "jurisdictionSelection": {
+    "title": "Select Your Legal Jurisdiction", 
+    "subtitle": "Choose the legal framework for your will",
+    "description": "Your will must comply with the legal requirements of your chosen jurisdiction."
+  },
+  "confirmation": {
+    "title": "Confirm Your Selection",
+    "subtitle": "Review your language and jurisdiction choices",
+    "language": "Language",
+    "jurisdiction": "Legal Jurisdiction",
+    "legalCompliance": {
+      "title": "Your selection ensures legal compliance", 
+      "description": "Language determines the interface and document language, while Jurisdiction determines which country's legal requirements your will must follow. You can use any language with any supported jurisdiction."
+    }
+  },
+  "buttons": {
+    "continue": "Continue",
+    "back": "Back", 
+    "confirm": "Confirm & Start Creating Will",
+    "changeSelection": "Change Selection"
+  },
+  "languages": {
+    "sk": "Slovak",
+    "cs": "Czech", 
+    "en": "English",
+    "de": "German"
+  },
+  "jurisdictions": {
+    "SK": "Slovakia",
+    "CZ": "Czech Republic"
+  },
+  "steps": {
+    "step1": "Step 1 of 3",
+    "step2": "Step 2 of 3", 
+    "step3": "Step 3 of 3"
+  },
+  "status": {
+    "loading": "Loading..."
+  }
+}

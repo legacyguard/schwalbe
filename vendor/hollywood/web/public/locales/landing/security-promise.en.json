@@ -1,0 +1,26 @@
+{
+  "title": "Our Security Promise to Your Family",
+  "subtitle": "Your sanctuary is sacred. So is your privacy. We've built LegacyGuard on a foundation of world-class security principles to protect what matters most.",
+  "features": [
+    {
+      "title": "Fortress-Level Protection",
+      "description": "Secure your account with the highest level of protection, including biometrics and hardware keys. You decide how strong the lock is."
+    },
+    {
+      "title": "Only You Hold the Key",
+      "description": "Your information is encrypted on your device before it ever reaches us. Not even we can see it. Your privacy is mathematically guaranteed."
+    },
+    {
+      "title": "An Unbreakable Seal of Trust",
+      "description": "Every critical action is recorded in a secure, unchangeable audit log. This creates a verifiable history for ultimate peace of mind."
+    },
+    {
+      "title": "Share with Absolute Control",
+      "description": "When you share information, you are in complete control. Set time limits, track access, and know exactly who sees what, and when."
+    }
+  ],
+  "learnMore": {
+    "text": "Curious about the technical details? Read our full security documentation",
+    "arrow": "→"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "personalities": {
+    "empathetic": {
+      "title": "💚 Your Garden of Love",
+      "subtitle": "Watch your loving protection bloom and grow",
+      "progressLabel": "Love & Protection Growing",
+      "quickActionsTitle": "Suggested Acts of Love"
+    },
+    "pragmatic": {
+      "title": "🛡️ Protection System Status",
+      "subtitle": "Monitor security metrics and system performance",
+      "progressLabel": "System Efficiency",
+      "quickActionsTitle": "Recommended Actions"
+    },
+    "default": {
+      "title": "🌟 Your Legacy Garden",
+      "subtitle": "Track your comprehensive legacy protection journey",
+      "progressLabel": "Legacy Progress",
+      "quickActionsTitle": "Quick Actions"
+    }
+  },
+  "actions": {
+    "documents": {
+      "empathetic": {
+        "label": "Add Precious Documents",
+        "description": "Preserve what matters most"
+      },
+      "default": {
+        "label": "Upload Documents",
+        "description": "Secure important files"
+      }
+    },
+    "guardians": {
+      "empathetic": {
+        "label": "Invite Trusted Friends",
+        "description": "Share the care with loved ones"
+      },
+      "default": {
+        "label": "Add Guardians",
+        "description": "Enhance security redundancy"
+      }
+    },
+    "milestones": {
+      "label": "Complete Milestones",
+      "description": "Achieve your next protection goals"
+    },
+    "settings": {
+      "label": "Garden Settings",
+      "description": "Customize your garden experience"
+    }
+  },
+  "stats": {
+    "documents": "Documents",
+    "guardians": "Guardians",
+    "milestones": "Milestones"
+  },
+  "buttons": {
+    "viewDetails": "View Details",
+    "viewInLegacyGarden": "View in Legacy Garden"
+  },
+  "error": {
+    "title": "Garden Unavailable",
+    "message": "Unable to load your legacy garden. Please try again later."
+  },
+  "modal": {
+    "milestoneAchieved": "Milestone Achieved!"
+  }
+}

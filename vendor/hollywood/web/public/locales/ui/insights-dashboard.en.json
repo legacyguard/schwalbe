@@ -1,0 +1,62 @@
+{
+  "title": "Document Insights",
+  "description": "Analytics and intelligence for your document management",
+  "buttons": {
+    "refresh": "Refresh",
+    "export": "Export",
+    "viewDetails": "View Details"
+  },
+  "metrics": {
+    "totalDocuments": "Total Documents",
+    "storageUsed": "Storage Used",
+    "securityScore": "Security Score",
+    "totalIssues": "Total Issues",
+    "thisMonth": "+{{count}} this month",
+    "growth": "+{{rate}}% growth",
+    "recommendations": "{{count}} recommendations"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "categories": "Categories",
+    "security": "Security",
+    "trends": "Trends"
+  },
+  "labels": {
+    "lastUpdated": "Last updated: {{time}}",
+    "documentCategories": "Document Categories",
+    "securityRecommendations": "Security Recommendations",
+    "usageTrends": "Usage Trends",
+    "complianceStatus": "Compliance Status"
+  },
+  "charts": {
+    "categoryDistribution": "Category Distribution",
+    "documentGrowth": "Document Growth",
+    "storageUsage": "Storage Usage",
+    "securityTrends": "Security Trends"
+  },
+  "severity": {
+    "critical": "Critical",
+    "high": "High", 
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "status": {
+    "compliant": "Compliant",
+    "warning": "Warning",
+    "critical": "Critical",
+    "healthy": "Healthy"
+  },
+  "messages": {
+    "noData": "No data available",
+    "loading": "Loading dashboard data...",
+    "refreshing": "Refreshing...",
+    "exportSuccess": "Data exported successfully",
+    "exportError": "Failed to export data"
+  },
+  "units": {
+    "bytes": "Bytes",
+    "kb": "KB", 
+    "mb": "MB",
+    "gb": "GB"
+  }
+}

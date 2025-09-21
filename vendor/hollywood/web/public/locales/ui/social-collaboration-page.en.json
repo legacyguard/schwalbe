@@ -1,0 +1,161 @@
+{
+  "header": {
+    "title": "Family Collaboration",
+    "description": "Manage your family network and share important documents securely"
+  },
+  "buttons": {
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "viewAllActivity": "View All Activity",
+    "addEmergencyContact": "Add Emergency Contact",
+    "editProtocol": "Edit Protocol",
+    "testProtocol": "Test Protocol",
+    "loadMoreActivity": "Load More Activity"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "family": "Family",
+    "sharing": "Sharing",
+    "emergency": "Emergency",
+    "activity": "Activity"
+  },
+  "overview": {
+    "stats": {
+      "familyMembers": {
+        "title": "Family Members",
+        "pendingInvites": "{{count}} pending invites"
+      },
+      "sharedDocuments": {
+        "title": "Shared Documents",
+        "activeShares": "Active shares"
+      },
+      "emergencyAccess": {
+        "title": "Emergency Access",
+        "status": "Active",
+        "emergencyContacts": "{{count}} emergency contacts"
+      },
+      "recentActivity": {
+        "title": "Recent Activity",
+        "timeframe": "In the last 7 days"
+      }
+    },
+    "quickActions": {
+      "title": "Quick Family Actions",
+      "description": "Common family management tasks",
+      "inviteNewMember": "Invite New Family Member",
+      "shareDocuments": "Share Important Documents",
+      "updateEmergencyContacts": "Update Emergency Contacts"
+    },
+    "familyInsights": {
+      "title": "Family Insights",
+      "description": "Recent collaboration highlights",
+      "allMembersActive": {
+        "title": "All family members active",
+        "description": "Everyone has accessed shared documents recently"
+      },
+      "newDocumentsShared": {
+        "title": "{{count}} new documents shared",
+        "description": "Family members added important files this week"
+      },
+      "emergencyProtocolUpdated": {
+        "title": "Emergency protocol updated",
+        "description": "Review new emergency access settings"
+      }
+    },
+    "recentActivityPreview": {
+      "title": "Recent Family Activity",
+      "description": "Latest collaboration and sharing events"
+    }
+  },
+  "activityTypes": {
+    "sharedDocument": "shared a document",
+    "joinedFamily": "joined the family",
+    "commentedOn": "commented on",
+    "updatedEmergencyContact": "updated emergency contact",
+    "shared": "shared",
+    "joined": "joined",
+    "accessed": "accessed",
+    "invited": "invited",
+    "updated": "updated"
+  },
+  "mockData": {
+    "users": {
+      "sarahJohnson": "Sarah Johnson",
+      "michaelJohnson": "Michael Johnson",
+      "emmaJohnson": "Emma Johnson",
+      "davidJohnson": "David Johnson",
+      "drEmilyRoberts": "Dr. Emily Roberts",
+      "jamesWilson": "James Wilson"
+    },
+    "documents": {
+      "insurancePolicy2024": "Insurance Policy 2024",
+      "theJohnsonFamily": "The Johnson Family",
+      "willAndTestament": "Will and Testament",
+      "emergencyProtocol": "Emergency Protocol",
+      "medicalRecords2024": "Medical Records 2024"
+    },
+    "timeframes": {
+      "hoursAgo": "{{count}} hours ago",
+      "daysAgo": "{{count}} day ago",
+      "multipleDaysAgo": "{{count}} days ago"
+    }
+  },
+  "emergency": {
+    "title": "Emergency Access Management",
+    "description": "Configure emergency protocols and trusted contacts for critical situations",
+    "contacts": {
+      "title": "Emergency Contacts",
+      "verified": "Verified",
+      "priority": "Priority {{number}}",
+      "relationships": {
+        "spouse": "Spouse",
+        "familyDoctor": "Family Doctor",
+        "attorney": "Attorney"
+      }
+    },
+    "protocols": {
+      "title": "Emergency Protocols",
+      "inactivityTrigger": "Inactivity Trigger",
+      "verificationRequired": "Verification Required",
+      "accessLevel": "Access Level",
+      "timeDelay": "Time Delay",
+      "lastTested": "Last tested: {{status}}",
+      "never": "Never",
+      "values": {
+        "thirtyDays": "30 days",
+        "yes": "Yes",
+        "standard": "Standard",
+        "seventyTwoHours": "72 hours"
+      }
+    },
+    "accessibleDocuments": {
+      "title": "Accessible Documents",
+      "description": "Documents available during emergency access",
+      "categories": {
+        "legalDocuments": "Legal Documents ({{count}})",
+        "financialRecords": "Financial Records ({{count}})",
+        "medicalInformation": "Medical Information ({{count}})",
+        "insurancePolicies": "Insurance Policies ({{count}})",
+        "emergencyInstructions": "Emergency Instructions ({{count}})"
+      },
+      "included": "Included"
+    }
+  },
+  "activityFeed": {
+    "title": "Complete Activity Feed",
+    "description": "Comprehensive log of all family collaboration activities",
+    "metadata": {
+      "sharedWith": "Shared with {{count}} member(s)",
+      "role": "Role: {{role}}",
+      "changesMade": "{{count}} changes made",
+      "accessType": "Access type: {{type}}",
+      "relationshipRole": "{{relationship}} - {{role}}"
+    },
+    "types": {
+      "member": "member",
+      "guardian": "guardian",
+      "friend": "friend",
+      "view": "view"
+    }
+  }
+}

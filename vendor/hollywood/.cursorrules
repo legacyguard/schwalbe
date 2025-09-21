@@ -1,0 +1,80 @@
+# Cursor Rules for Hollywood Project
+
+## Project Overview
+
+This is the Hollywood project - a legacy document management and guardianship platform built with React, TypeScript, and Supabase.
+
+## Code Standards
+
+- All code must be in English (except i18n key values)
+- Use TypeScript for type safety
+- Follow React best practices and hooks
+- Use Tailwind CSS for styling with design tokens
+- Maintain consistent code formatting
+
+## Linear.app Integration
+
+Cursor is configured with Linear.app integration for issue tracking and project management.
+
+### Available Linear Commands
+
+- Create, update, and manage Linear issues
+- Search and filter issues by team, status, or assignee
+- Add comments and track issue progress
+- Manage projects and cycles
+- Create and assign labels
+
+### Linear Workspace Access
+
+- View and manage issues across teams
+- Track project progress and deadlines
+- Collaborate with team members on issue resolution
+- Monitor development cycles and sprints
+
+## Development Workflow
+
+1. Use Linear to create and track issues for new features or bugs
+2. Reference Linear issue IDs in commit messages and PR descriptions
+3. Update issue status as work progresses
+4. Use Linear comments for technical discussions and progress updates
+
+## File Structure
+
+- `src/` - Main application source code
+- `src/components/` - Reusable UI components
+- `src/pages/` - Page components and routing
+- `src/hooks/` - Custom React hooks
+- `src/lib/` - Utility functions and configurations
+- `supabase/` - Database migrations and functions
+
+## Styling Guidelines
+
+- Use Tailwind CSS design tokens defined in `tailwind.config.ts`
+- Replace hardcoded hex colors with semantic tokens:
+  - `background` - Main background colors
+  - `primary` - Primary brand colors
+  - `secondary` - Secondary accent colors
+  - `accent` - Highlight and accent colors
+  - `text-main` - Primary text colors
+  - `text-secondary` - Secondary text colors
+
+## Authentication & Security
+
+- Use Clerk for user authentication
+- Implement proper RLS policies in Supabase
+- Follow security best practices for data handling
+- Encrypt sensitive information appropriately
+
+## Database
+
+- Use Supabase for backend services
+- Follow proper migration practices
+- Implement RLS policies for data security
+- Use TypeScript types for database schema
+
+## Testing & Quality
+
+- Write tests for critical functionality
+- Use ESLint for code quality
+- Follow consistent naming conventions
+- Document complex business logic

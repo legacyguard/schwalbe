@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Legacy Planning Blog",
+    "description": "Expert insights and practical guidance on estate planning, family protection, and securing your legacy. Learn from legal professionals and security experts.",
+    "imageUrl": "https://legacyguard.app/blog/legacy-planning-blog.png",
+    "url": "https://legacyguard.app/blog",
+    "keywords": "legacy planning blog, estate planning articles, family protection guides, will creation advice, legal document tips"
+  },
+  "header": {
+    "backToHome": "Back to Home"
+  },
+  "hero": {
+    "badge": "Knowledge Hub",
+    "title": {
+      "line1": "Legacy Planning",
+      "line2": "Insights & Guidance"
+    },
+    "description": "Expert advice on estate planning, family protection, and securing your legacy. Learn from legal professionals and security experts who understand what matters most.",
+    "cta": {
+      "startPlan": "Start Your Legacy Plan",
+      "readLatest": "Read Latest Article"
+    }
+  },
+  "featured": {
+    "title": "Featured Article",
+    "by": "By",
+    "cta": "Read Full Article",
+    "side": {
+      "title": "Expert Legal Guidance",
+      "subtitle": "Professional insights for your family's future"
+    }
+  },
+  "categories": {
+    "title": "Explore by Category",
+    "names": {
+      "estatePlanning": "Estate Planning",
+      "familySecurity": "Family Security",
+      "digitalAssets": "Digital Assets",
+      "legalDocuments": "Legal Documents"
+    },
+    "article": "Article",
+    "articles": "Articles"
+  },
+  "allArticles": {
+    "title": "All Articles",
+    "readMore": "Read More"
+  },
+  "newsletter": {
+    "title": "Stay Informed",
+    "description": "Get the latest insights on legacy planning, family protection, and estate planning delivered to your inbox. Expert advice from legal professionals and security experts.",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "privacy": "We respect your privacy. Unsubscribe at any time."
+  },
+  "cta": {
+    "title": "Ready to Secure Your Legacy?",
+    "description": "Knowledge is power, but action creates security. Start building your family's protection today with LegacyGuard's comprehensive platform.",
+    "primary": "Start Your Free Trial",
+    "secondary": "Learn More About LegacyGuard"
+  }
+}
+

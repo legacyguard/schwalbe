@@ -1,0 +1,39 @@
+{
+  "wizard": {
+    "title": "Create Time Capsule",
+    "progress": "Step {{current}} of {{total}}"
+  },
+  "steps": {
+    "recipient": {
+      "title": "Choose Recipient",
+      "description": "Who will receive this message?"
+    },
+    "delivery": {
+      "title": "Set Delivery", 
+      "description": "When should it be delivered?"
+    },
+    "recording": {
+      "title": "Record Message",
+      "description": "Create your personal message"
+    },
+    "review": {
+      "title": "Review & Seal",
+      "description": "Finalize your Time Capsule"
+    }
+  },
+  "navigation": {
+    "back": "Back",
+    "next": "Next", 
+    "finish": "Create Capsule",
+    "cancel": "Cancel"
+  },
+  "success": {
+    "title": "Time Capsule Created!",
+    "description": "Your message has been sealed and will be delivered as scheduled.",
+    "close": "Close"
+  },
+  "errors": {
+    "createFailed": "Failed to create Time Capsule. Please try again.",
+    "loadFailed": "Failed to load data. Please try again."
+  }
+}

@@ -1,0 +1,174 @@
+name: Preview Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - staging
+      - develop
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    environment:
+      name: Preview
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run tests
+        run: npm run test -- --run
+        continue-on-error: true # Don't block preview on test failures
+
+      - name: Build application
+        run: npm run build:web
+        env:
+          VITE_APP_ENV: preview
+          VITE_PREVIEW_PR: ${{ github.event.pull_request.number }}
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: web
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: web
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(cd web && vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | tail -1)
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "Preview URL: $DEPLOYMENT_URL"
+
+      - name: Add deployment comment to PR
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+          HEAD_REF: ${{ github.head_ref }}
+          COMMIT_SHA: ${{ github.sha }}
+          JOB_STATUS: ${{ job.status }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const deploymentUrl = process.env.PREVIEW_URL;
+            const prNumber = context.payload.pull_request.number;
+            const branch = process.env.HEAD_REF || context.ref;
+            const commitShort = (process.env.COMMIT_SHA || context.sha).substring(0, 7);
+            const testsStatus = (process.env.JOB_STATUS || 'success').toLowerCase();
+
+            const body = `
+            ## 🚀 Preview Deployment Ready!
+
+            **Preview URL**: ${deploymentUrl}
+            **PR**: #${prNumber}
+            **Branch**: \`${branch}\`
+            **Commit**: \`${commitShort}\`
+
+            ### Deployment Details
+            - **Environment**: Preview
+            - **Build Status**: ✅ Success
+            - **Tests**: ${testsStatus === 'success' ? '✅ Passed' : '⚠️ Check required'}
+            - **Deployment Time**: ${new Date().toISOString()}
+
+            ### Preview Features
+            - Isolated environment for this PR
+            - Automatic updates on new commits
+            - Separate database (if configured)
+            - Debug mode enabled
+
+            ### Testing Checklist
+            - [ ] Visual regression testing
+            - [ ] Functionality testing
+            - [ ] Mobile responsiveness
+            - [ ] Performance check
+            - [ ] Accessibility check
+
+            ---
+            *This preview will be automatically deleted when the PR is closed.*
+            `;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Preview Deployment Ready')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: body
+              });
+            }
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            ${{ steps.deploy.outputs.url }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        continue-on-error: true
+
+  cleanup-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Remove preview deployment
+        run: |
+          # List and remove deployments for this PR
+          vercel ls --token=${{ secrets.VERCEL_TOKEN }} | grep "pr-${{ github.event.pull_request.number }}" | awk '{print $1}' | xargs -I {} vercel rm {} --yes --token=${{ secrets.VERCEL_TOKEN }}
+        continue-on-error: true
+
+      - name: Add cleanup comment to PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: '🧹 Preview deployment has been cleaned up.'
+            });

@@ -1,0 +1,91 @@
+appId: com.legacyguard.mobile
+---
+# Main Navigation Flow Test
+- launchApp
+
+# Navigate to Documents
+- tapOn:
+    text: 'Documents Protected'
+
+- assertVisible:
+    text: 'Documents'
+
+- takeScreenshot: '01-documents-screen'
+
+# Test document filtering
+- tapOn:
+    id: 'category-filter'
+
+- tapOn:
+    text: 'Personal'
+
+- waitForAnimationToEnd
+
+- takeScreenshot: '02-documents-filtered'
+
+# Navigate back to dashboard
+- tapOn:
+    text: 'Home'
+
+# Navigate to People/Trusted Circle
+- tapOn:
+    text: 'Family Members'
+
+- assertVisible:
+    text: 'Your Trusted Circle'
+
+- takeScreenshot: '03-people-screen'
+
+# Test search
+- tapOn:
+    id: 'search-input'
+
+- inputText: 'John'
+
+- waitForAnimationToEnd
+
+- takeScreenshot: '04-people-search'
+
+# Clear search
+- clearText
+
+# Navigate to Will Generator
+- tapOn:
+    text: 'Home'
+
+- tapOn:
+    text: 'Create Will'
+
+- assertVisible:
+    text: 'Will Generator'
+
+- takeScreenshot: '05-will-screen'
+
+# Test Will wizard navigation
+- tapOn:
+    text: 'Next'
+
+- waitForAnimationToEnd
+
+- takeScreenshot: '06-will-step2'
+
+- tapOn:
+    text: 'Previous'
+
+# Navigate to Vault
+- tapOn:
+    text: 'Vault'
+
+- assertVisible:
+    text: 'Vault'
+
+- takeScreenshot: '07-vault-screen'
+
+# Navigate to Profile
+- tapOn:
+    text: 'Profile'
+
+- assertVisible:
+    text: 'Profile'
+
+- takeScreenshot: '08-profile-screen'

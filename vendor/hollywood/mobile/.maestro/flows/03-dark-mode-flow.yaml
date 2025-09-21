@@ -1,0 +1,89 @@
+appId: com.legacyguard.mobile
+---
+# Dark Mode Test Flow
+- launchApp
+
+# Navigate to Profile/Settings
+- tapOn:
+    text: 'Profile'
+
+- scrollUntilVisible:
+    element:
+      text: 'Theme'
+
+# Take light mode screenshots
+- takeScreenshot: '01-profile-light'
+
+# Switch to dark mode
+- tapOn:
+    text: 'Theme'
+
+- tapOn:
+    text: 'Dark'
+
+- waitForAnimationToEnd
+
+- takeScreenshot: '02-profile-dark'
+
+# Navigate through screens in dark mode
+- tapOn:
+    text: 'Home'
+
+- takeScreenshot: '03-dashboard-dark'
+
+# Check Documents screen
+- tapOn:
+    text: 'Documents Protected'
+
+- takeScreenshot: '04-documents-dark'
+
+# Check People screen
+- tapOn:
+    text: 'Home'
+
+- tapOn:
+    text: 'Family Members'
+
+- takeScreenshot: '05-people-dark'
+
+# Check Will screen
+- tapOn:
+    text: 'Home'
+
+- tapOn:
+    text: 'Create Will'
+
+- takeScreenshot: '06-will-dark'
+
+# Check Vault screen
+- tapOn:
+    text: 'Vault'
+
+- takeScreenshot: '07-vault-dark'
+
+# Switch back to light mode
+- tapOn:
+    text: 'Profile'
+
+- scrollUntilVisible:
+    element:
+      text: 'Theme'
+
+- tapOn:
+    text: 'Theme'
+
+- tapOn:
+    text: 'Light'
+
+- waitForAnimationToEnd
+
+- takeScreenshot: '08-profile-light-restored'
+
+# Test system theme
+- tapOn:
+    text: 'Theme'
+
+- tapOn:
+    text: 'System'
+
+- takeScreenshot: '09-profile-system-theme'

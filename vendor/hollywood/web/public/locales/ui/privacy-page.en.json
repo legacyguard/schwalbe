@@ -1,0 +1,72 @@
+{
+  "header": {
+    "backToHome": "Back to Home"
+  },
+  "title": "Privacy Policy",
+  "lastUpdated": "Last updated: {{date}}",
+  "sections": {
+    "priority": {
+      "title": "Your Privacy is Our Priority",
+      "content": "At LegacyGuard, we understand that your personal and family information is incredibly sensitive. This Privacy Policy explains how we collect, use, and protect your information when you use our service."
+    },
+    "informationWeCollect": {
+      "title": "Information We Collect",
+      "accountInfo": {
+        "title": "Account Information:",
+        "description": "Email address, name, and authentication data"
+      },
+      "documentData": {
+        "title": "Document Data:",
+        "description": "Files and documents you upload (encrypted on your device)"
+      },
+      "usageData": {
+        "title": "Usage Data:",
+        "description": "How you interact with our service to improve your experience"
+      }
+    },
+    "zeroKnowledgeArchitecture": {
+      "title": "Zero-Knowledge Architecture",
+      "intro": "LegacyGuard uses end-to-end encryption with a zero-knowledge architecture. This means:",
+      "points": [
+        "Your documents are encrypted on your device before being uploaded",
+        "We cannot read, access, or decrypt your personal documents",
+        "Only you have the keys to decrypt your information",
+        "Even if compelled by law enforcement, we cannot provide your decrypted data"
+      ]
+    },
+    "howWeUseInformation": {
+      "title": "How We Use Your Information",
+      "points": [
+        "To provide and maintain our service",
+        "To authenticate your identity",
+        "To send you important service notifications",
+        "To provide customer support when requested"
+      ]
+    },
+    "dataSecurity": {
+      "title": "Data Security",
+      "intro": "We implement industry-leading security measures including:",
+      "points": [
+        "AES-256 encryption for all data",
+        "TLS encryption for all data transmission",
+        "Regular security audits and penetration testing",
+        "Secure data centers with physical and digital protections"
+      ]
+    },
+    "yourRights": {
+      "title": "Your Rights",
+      "intro": "You have the right to:",
+      "points": [
+        "Access your personal information",
+        "Correct inaccurate information",
+        "Delete your account and associated data",
+        "Export your data in a portable format",
+        "Opt-out of non-essential communications"
+      ]
+    },
+    "contactUs": {
+      "title": "Contact Us",
+      "content": "If you have any questions about this Privacy Policy, please contact us at privacy@legacyguard.com"
+    }
+  }
+}

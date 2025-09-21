@@ -1,0 +1,101 @@
+{
+  "faq_security": {
+    "question": "How is my data protected?",
+    "content": "🔒 **Your data is maximally secure:**\n\n• **End-to-End encryption**: All documents are encrypted directly in your browser before upload\n• **Zero-Knowledge**: We cannot see the content of your files\n• **Personal key**: Only you have access to the decryption key\n• **European servers**: Data is stored in compliance with GDPR\n\nYour documents are safer than in a bank! 🏛️",
+    "tags": ["security", "privacy", "encryption"],
+    "category": "security"
+  },
+
+  "technical_security": {
+    "question": "Technical security details",
+    "content": "🛡️ **Technical security of LegacyGuard:**\n\n**Encryption:**\n• AES-256 in GCM mode for files\n• TweetNaCl for keys and metadata\n• Unique nonce for each file\n\n**Infrastructure:**\n• Supabase with Row Level Security\n• Clerk authentication\n• EU servers (GDPR compliant)\n\n**Key Management:**\n• Client-side key generation\n• PBKDF2 key derivation\n• Secure key storage in IndexedDB\n\nYour security is our top priority! 🔐",
+    "tags": ["security", "technical", "encryption", "infrastructure"],
+    "category": "security"
+  },
+
+  "faq_guardians": {
+    "question": "What are guardians?",
+    "content": "👥 **Guardians are your Circle of Trust:**\n\n• **Trusted people** who can help your family in emergencies\n• **Secure access** to your important documents when needed\n• **Peace of mind** knowing your family is protected\n• **Flexible permissions** - you control what each guardian can see\n\nThink of them as digital keys to help your loved ones when you can't. 🔑",
+    "tags": ["guardians", "family", "emergency", "trust"],
+    "category": "guardians"
+  },
+
+  "add_guardian_help": {
+    "question": "How do I add a guardian?",
+    "content": "➕ **Adding a guardian is simple:**\n\n1. **Go to Guardians** section\n2. **Click \"Add Guardian\"**\n3. **Enter their details** (name, email, relationship)\n4. **Set permissions** (what they can access)\n5. **Send invitation** - they'll receive secure access\n\n**Pro tip:** Start with your most trusted family member or friend! 👨‍👩‍👧‍👦",
+    "tags": ["guardians", "howto", "family"],
+    "category": "guardians"
+  },
+
+  "faq_documents": {
+    "question": "What documents should I upload?",
+    "content": "📄 **Essential documents for family protection:**\n\n**Identity & Legal:**\n• Passport, driver's license, birth certificate\n• Marriage certificate, divorce decree\n• Will, power of attorney\n\n**Financial:**\n• Bank account info, insurance policies\n• Investment accounts, retirement plans\n• Mortgage, loan documents\n\n**Medical:**\n• Medical records, prescriptions\n• Health insurance cards\n• Emergency medical contacts\n\n**Digital:**\n• Password manager export\n• Digital asset information\n• Social media account details\n\nStart with what's most important to your family! 📋",
+    "tags": ["documents", "vault", "important", "family"],
+    "category": "documents"
+  },
+
+  "upload_help": {
+    "question": "How do I upload documents?",
+    "content": "⬆️ **Uploading documents is easy:**\n\n1. **Go to your Vault**\n2. **Click \"Add Document\"**\n3. **Drag & drop** or browse for your file\n4. **Add description** (what it is, why it's important)\n5. **Set expiry** (if applicable)\n6. **Save** - it's automatically encrypted!\n\n**Supported formats:** PDF, images (JPG, PNG), Word docs, and more 📁",
+    "tags": ["documents", "upload", "howto", "vault"],
+    "category": "documents"
+  },
+
+  "faq_progress": {
+    "question": "How is my progress calculated?",
+    "content": "📊 **Your progress is based on key milestones:**\n\n**Documents (40%):**\n• Each important document adds ~8%\n• Goal: 5+ essential documents\n\n**Guardians (30%):**\n• Each trusted guardian adds ~15%\n• Goal: 2+ guardians for full coverage\n\n**Legacy Planning (30%):**\n• Will creation, video messages\n• Financial summaries, instructions\n• Personal letters to loved ones\n\nEvery step makes your family more secure! 🛡️",
+    "tags": ["progress", "completion", "milestones"],
+    "category": "progress"
+  },
+
+  "faq_pricing": {
+    "question": "How much does LegacyGuard cost?",
+    "content": "💰 **LegacyGuard Pricing:**\n\n**Free Plan:**\n• Up to 10 documents\n• 2 guardians\n• Basic security\n• Perfect for getting started! 🌱\n\n**Family Plan - $9.99/month:**\n• Unlimited documents\n• Unlimited guardians\n• Premium AI features\n• Advanced legacy tools\n• Priority support 👨‍👩‍👧‍👦\n\n**Business Plan - $29.99/month:**\n• Everything in Family\n• Multi-user management\n• Advanced permissions\n• Audit logs\n• Custom branding 🏢\n\n**Start free** and upgrade when you're ready!",
+    "tags": ["pricing", "plans", "features", "cost"],
+    "category": "pricing"
+  },
+
+  "getting_started": {
+    "question": "How do I get started?",
+    "content": "🚀 **Getting started with LegacyGuard:**\n\n**Step 1: Add your first document** 📄\n• Start with an ID document (passport, license)\n• This establishes your digital identity\n\n**Step 2: Add a trusted guardian** 👥\n• Choose your most trusted family member\n• They'll help your family in emergencies\n\n**Step 3: Build your vault** 🏦\n• Add financial documents\n• Include important contacts\n• Upload medical information\n\n**Step 4: Create your legacy** 💝\n• Write instructions for your family\n• Record personal messages\n• Set up your digital will\n\nTake it one step at a time - I'm here to help! 😊",
+    "tags": ["getting-started", "onboarding", "help", "guide"],
+    "category": "help"
+  },
+
+  "faq_emergency": {
+    "question": "What happens in an emergency?",
+    "content": "🚨 **In an emergency, your guardians can:**\n\n**Access your vault:**\n• View important documents you've shared\n• Get emergency contact information\n• Find medical records and instructions\n\n**Help your family:**\n• Contact insurance companies\n• Access bank account information\n• Find legal documents like your will\n\n**Follow your instructions:**\n• Carry out your wishes\n• Distribute important information\n• Ensure nothing is forgotten\n\n**Your family will know exactly what to do** because you prepared ahead! 🛡️",
+    "tags": ["emergency", "guardians", "family", "access"],
+    "category": "emergency"
+  },
+
+  "faq_bundles": {
+    "question": "What are document bundles?",
+    "content": "📦 **Document bundles organize your files smartly:**\n\n• **Smart grouping** - AI automatically groups related documents\n• **Real-world entities** - Like \"Vehicle: Škoda Octavia\" or \"Property: 123 Main St\"\n• **Easy management** - Find all documents for a specific car, house, or person\n• **Automatic suggestions** - New documents are linked to relevant bundles\n\n**Example bundles:**\n• Vehicle: Honda Civic (insurance, registration, service records)\n• Property: Family Home (deed, insurance, utility bills)\n• Financial: Bank XYZ (statements, contracts, cards)\n\nBundles keep your life organized automatically! 🗂️",
+    "tags": ["bundles", "organization", "ai", "grouping"],
+    "category": "bundles"
+  },
+
+  "bundle_management": {
+    "question": "How do I manage document bundles?",
+    "content": "🗂️ **Managing your document bundles:**\n\n**Automatic Creation:**\n• AI detects related documents during upload\n• Suggests bundle names like \"Vehicle: Your Car Model\"\n• You can accept, modify, or skip the suggestion\n\n**Manual Management:**\n• View all bundles in your Vault\n• Add documents to existing bundles\n• Create new bundles for specific topics\n• Rename bundles as needed\n\n**Smart Features:**\n• Version tracking within bundles\n• Entity recognition (cars, houses, people)\n• Cross-bundle search and filtering\n\nYour documents stay organized effortlessly! ✨",
+    "tags": ["bundles", "management", "organization", "howto"],
+    "category": "bundles"
+  },
+
+  "simple_keywords": {
+    "security": "Your data is protected with end-to-end encryption, zero-knowledge architecture, and European GDPR-compliant servers.",
+    "guardians": "Guardians are trusted people who can help your family access important documents in emergencies.",
+    "documents": "Upload essential documents like ID, passport, insurance, bank info, and medical records to protect your family.",
+    "bundles": "Document bundles automatically group related files by topic like vehicles, properties, or financial accounts using AI.",
+    "pricing": "LegacyGuard offers free and paid plans. Free includes 10 documents and 2 guardians. Family plan is $9.99/month.",
+    "help": "I can help you upload documents, add guardians, create your will, manage bundles, or answer questions about security and features.",
+    "upload": "Go to your Vault and click 'Add Document' to upload files. All documents are automatically encrypted.",
+    "vault": "Your Vault is where all important documents are stored, safely encrypted and accessible only to you and your guardians.",
+    "emergency": "In emergencies, your guardians can access shared documents, get emergency contacts, and follow your instructions to help your family.",
+    "legacy": "Create your digital legacy by writing messages, recording videos, and setting up your will to guide your family.",
+    "will": "LegacyGuard helps you create a basic will through a simple 7-step process focused on protecting your loved ones.",
+    "organization": "AI automatically organizes your documents into smart bundles by vehicle, property, financial accounts, and other entities.",
+    "search": "Find documents quickly by searching bundle names, document types, or content across your entire vault."
+  }
+}

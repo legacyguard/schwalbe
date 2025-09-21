@@ -1,0 +1,338 @@
+{
+  "id": "cz-witnessed-cs",
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Witnessed Will (Czech Republic)",
+    "name_cs": "Závěť před svědky (Česká republika)",
+    "description": "A witnessed will that can be typed or written by another person, requiring exactly 2 witnesses as per § 1541 of Czech Civil Code",
+    "description_cs": "Závěť před svědky, která může být napsána písacím strojem nebo jinou osobou, vyžaduje přesně 2 svědky podle § 1541 Občanského zákoníku ČR",
+    "lastUpdated": "2024-12-06",
+    "jurisdiction": "Czech Republic",
+    "legalBasis": "§ 1541 Občanský zákoník ČR",
+    "legalReview": {
+      "isApproved": true,
+      "reviewDate": "2024-12-06",
+      "reviewedBy": "Legal AI Assistant"
+    }
+  },
+  "variables": [
+    {
+      "key": "testatorName",
+      "label": "Testator Full Name",
+      "label_cs": "Celé jméno testátora",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Jan Novák",
+      "validation": [
+        {
+          "type": "required",
+          "message": "Testator name is required",
+          "message_cs": "Jméno testátora je povinné",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "birthDate",
+      "label": "Date of Birth",
+      "label_cs": "Datum narození",
+      "type": "date",
+      "required": true,
+      "dataSource": "user"
+    },
+    {
+      "key": "birthPlace",
+      "label": "Place of Birth",
+      "label_cs": "Místo narození",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Praha"
+    },
+    {
+      "key": "personalId",
+      "label": "Personal ID Number",
+      "label_cs": "Rodné číslo",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., 700101/1234",
+      "validation": [
+        {
+          "type": "pattern",
+          "value": "^\\d{6}/\\d{3,4}$",
+          "message": "Czech personal ID must be in format YYMMDD/XXX or YYMMDD/XXXX",
+          "message_cs": "Rodné číslo musí být ve formátu RRMMDD/XXX nebo RRMMDD/XXXX",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "address",
+      "label": "Current Address",
+      "label_cs": "Současná adresa",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "placeholder": "e.g., Václavské náměstí 1, 110 00 Praha 1"
+    },
+    {
+      "key": "citizenship",
+      "label": "Citizenship",
+      "label_cs": "Státní občanství",
+      "type": "text",
+      "required": true,
+      "dataSource": "user",
+      "defaultValue": "Czech",
+      "placeholder": "e.g., Czech"
+    },
+    {
+      "key": "beneficiaries",
+      "label": "Beneficiaries",
+      "label_cs": "Dědici",
+      "type": "array",
+      "required": true,
+      "dataSource": "beneficiary",
+      "validation": [
+        {
+          "type": "custom",
+          "condition": "length > 0",
+          "message": "At least one beneficiary must be specified",
+          "message_cs": "Alespoň jeden dědic musí být specifikován",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "key": "witnesses",
+      "label": "Witnesses",
+      "label_cs": "Svědci",
+      "type": "array",
+      "required": true,
+      "dataSource": "witness",
+      "validation": [
+        {
+          "type": "custom",
+          "condition": "length === 2",
+          "message": "Exactly 2 witnesses are required for witnessed will",
+          "message_cs": "Pro závěť před svědky jsou potřeba přesně 2 svědci",
+          "severity": "error"
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "declaration",
+      "title": "Declaration and Revocation",
+      "title_cs": "Prohlášení a odvolání",
+      "order": 1,
+      "required": true,
+      "content": "I declare that I am of sound mind and make this Will voluntarily in presence of witnesses.",
+      "content_cs": "Prohlašuji, že jsem duševně zdravý a tuto závěť činím dobrovolně v přítomnosti svědků.",
+      "variables": ["testatorName", "birthDate", "birthPlace", "personalId", "address", "citizenship"],
+      "legalReference": "§ 1541 Občanský zákoník ČR"
+    },
+    {
+      "id": "family_status",
+      "title": "Family Status",
+      "title_cs": "Rodinný stav",
+      "order": 2,
+      "required": false,
+      "content": "Information about spouse and children.",
+      "content_cs": "Informace o manželovi/manželce a dětech.",
+      "variables": ["spouse", "children"]
+    },
+    {
+      "id": "assets",
+      "title": "Assets and Property",
+      "title_cs": "Majetek a vlastnictví",
+      "order": 3,
+      "required": false,
+      "content": "Description of assets owned by the testator.",
+      "content_cs": "Popis majetku vlastněného testátorem.",
+      "variables": ["realEstate", "bankAccounts", "vehicles", "personalProperty"]
+    },
+    {
+      "id": "bequests",
+      "title": "Bequests and Distributions",
+      "title_cs": "Odkazy a rozdělení",
+      "order": 4,
+      "required": true,
+      "content": "Distribution of assets to beneficiaries.",
+      "content_cs": "Rozdělení majetku dědicům.",
+      "variables": ["beneficiaries", "charitableBequests"],
+      "legalReference": "Forced heirship rules apply per Czech Civil Code"
+    },
+    {
+      "id": "executor",
+      "title": "Executor",
+      "title_cs": "Vykonavatel závěti",
+      "order": 5,
+      "required": false,
+      "content": "Appointment of executor.",
+      "content_cs": "Jmenování vykonavatele závěti.",
+      "variables": ["executorName", "executorAddress", "backupExecutor"]
+    },
+    {
+      "id": "guardianship",
+      "title": "Guardianship",
+      "title_cs": "Poručenství",
+      "order": 6,
+      "required": false,
+      "conditionalLogic": {
+        "showIf": {
+          "hasMinorChildren": true
+        }
+      },
+      "content": "Appointment of guardians for minor children.",
+      "content_cs": "Jmenování poručníků pro nezletilé děti.",
+      "variables": ["primaryGuardian", "backupGuardian"]
+    },
+    {
+      "id": "special_wishes",
+      "title": "Special Wishes and Instructions",
+      "title_cs": "Zvláštní přání a pokyny",
+      "order": 7,
+      "required": false,
+      "content": "Final wishes and special instructions.",
+      "content_cs": "Poslední přání a zvláštní pokyny.",
+      "variables": ["funeralWishes", "organDonation", "digitalAssets", "personalMessages"]
+    },
+    {
+      "id": "witness_signatures",
+      "title": "Witness Signatures",
+      "title_cs": "Podpisy svědků",
+      "order": 8,
+      "required": true,
+      "content": "Signatures of 2 witnesses present simultaneously.",
+      "content_cs": "Podpisy 2 svědků přítomných současně.",
+      "variables": ["witnesses"],
+      "legalReference": "§ 1541 Občanský zákoník ČR - witness requirements"
+    }
+  ],
+  "executionInstructions": {
+    "witnessed": {
+      "steps": [
+        "Prepare the will (can be typed or handwritten by anyone)",
+        "Find 2 suitable witnesses (adults, mentally capable, not beneficiaries or their spouses)",
+        "Sign the will in presence of both witnesses simultaneously",
+        "Both witnesses must sign the will at the same time",
+        "Store the will in a safe place",
+        "Inform trusted person about the location"
+      ],
+      "steps_cs": [
+        "Připravte závěť (může být napsána strojem nebo rukou kýmkoli)",
+        "Najděte 2 vhodné svědky (dospělí, duševně způsobilí, ne dědici ani jejich manželé)",
+        "Podepište závěť v přítomnosti obou svědků současně",
+        "Oba svědci musí podepsat závěť ve stejnou dobu",
+        "Uložte závěť na bezpečném místě",
+        "Informujte důvěryhodnou osobu o místu uložení"
+      ],
+      "requirements": [
+        "Must be signed by testator in presence of 2 witnesses",
+        "Both witnesses must sign simultaneously",
+        "Witnesses must be present at the same time",
+        "Witnesses must be legally capable adults",
+        "Witnesses cannot be beneficiaries or their spouses"
+      ],
+      "requirements_cs": [
+        "Musí být podepsána testátorem v přítomnosti 2 svědků",
+        "Oba svědci musí podepsat současně",
+        "Svědci musí být přítomni ve stejnou dobu",
+        "Svědci musí být právně způsobilí dospělí",
+        "Svědci nemohou být dědici ani jejich manželé"
+      ],
+      "warnings": [
+        "Ensure witnesses are not beneficiaries or their spouses",
+        "Witnesses must be present simultaneously",
+        "Verify witnesses are mentally capable adults",
+        "Keep original document safe"
+      ],
+      "warnings_cs": [
+        "Ujistěte se, že svědci nejsou dědici ani jejich manželé",
+        "Svědci musí být přítomni současně",
+        "Ověřte, že svědci jsou duševně způsobilí dospělí",
+        "Originál dokumentu uchovejte na bezpečném místě"
+      ]
+    }
+  },
+  "validationRules": [
+    {
+      "type": "legal",
+      "field": "age",
+      "value": 18,
+      "message": "Testator must be at least 18 years old",
+      "message_cs": "Testátor musí být alespoň 18 let starý",
+      "severity": "error",
+      "legalReference": "§ 1541 Občanský zákoník ČR",
+      "jurisdictionSpecific": true
+    },
+    {
+      "type": "custom",
+      "field": "witnesses",
+      "condition": "length === 2",
+      "message": "Exactly 2 witnesses are required for witnessed will",
+      "message_cs": "Pro závěť před svědky jsou potřeba přesně 2 svědci",
+      "severity": "error",
+      "legalReference": "§ 1541 Občanský zákoník ČR"
+    },
+    {
+      "type": "custom",
+      "field": "witnesses",
+      "condition": "noBeneficiaryOrSpouseWitnesses",
+      "message": "Witnesses cannot be beneficiaries or their spouses",
+      "message_cs": "Svědci nemohou být dědici ani jejich manželé",
+      "severity": "error",
+      "legalReference": "§ 1541 Občanský zákoník ČR"
+    },
+    {
+      "type": "custom",
+      "field": "beneficiaries",
+      "condition": "forcedHeirsCompliance",
+      "message": "Distribution must respect forced heirship rules",
+      "message_cs": "Rozdělení musí respektovat pravidla nuceného dědictví",
+      "severity": "warning",
+      "legalReference": "Forced heirship provisions of Czech Civil Code"
+    }
+  ],
+  "legalClauses": [
+    {
+      "id": "revocation_clause",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "legalBasis": "§ 1541 Občanský zákoník ČR",
+      "content": "I hereby revoke all prior Wills and Codicils made by me.",
+      "content_cs": "Tímto odvolávám všechny předchozí závěti a dodatky, které jsem učinil."
+    },
+    {
+      "id": "witnessed_declaration",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "legalBasis": "§ 1541 Občanský zákoník ČR",
+      "content": "This will is made in the presence of witnesses as permitted under Czech Civil Code.",
+      "content_cs": "Tato závěť je učiněna v přítomnosti svědků, jak je povoleno podle Občanského zákoníku ČR."
+    },
+    {
+      "id": "witness_attestation",
+      "type": "mandatory",
+      "jurisdiction": "CZ",
+      "legalBasis": "§ 1541 Občanský zákoník ČR",
+      "content": "We, the undersigned witnesses, attest that the testator signed this will in our simultaneous presence and that neither of us is a beneficiary or spouse of a beneficiary.",
+      "content_cs": "My, níže podepsaní svědci, potvrzujeme, že testátor podepsal tuto závěť v naší současné přítomnosti a že žádný z nás není dědicem ani manželem dědice."
+    },
+    {
+      "id": "forced_heirs_notice",
+      "type": "conditional",
+      "jurisdiction": "CZ",
+      "legalBasis": "Občanský zákoník ČR - ustanovení o nuceném dědictví",
+      "applicableWhenConditions": {
+        "hasSpouse": true,
+        "hasChildren": true
+      },
+      "content": "This distribution respects the forced heirship rights under Czech law.",
+      "content_cs": "Toto rozdělení respektuje práva nuceného dědictví podle českého práva."
+    }
+  ]
+}

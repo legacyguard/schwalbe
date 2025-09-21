@@ -1,0 +1,138 @@
+{
+  "title": "Privacy Policy",
+  "description": "LegacyGuard Privacy Policy - How we collect, use, and protect your personal information on our secure platform.",
+  "commitment": {
+    "title": "Our Commitment to Your Privacy",
+    "content": "Your trust is the foundation of our service. This Privacy Policy explains what information we collect, how we use it, and most importantly, how we protect it. Our guiding principle is data minimization—we only collect what is necessary to provide the service."
+  },
+  "informationWeCollect": {
+    "title": "1. Information We Collect",
+    "accountInfo": {
+      "title": "1.1 Account Information",
+      "items": [
+        "Email address (for account creation and communication)",
+        "Full name (for account identification)",
+        "Profile photo (optional)",
+        "Authentication information (managed by Clerk)"
+      ]
+    },
+    "encryptedContent": {
+      "title": "1.2 Encrypted Content", 
+      "items": [
+        "Documents you upload (stored in encrypted form)",
+        "Personal information you enter (encrypted before storage)",
+        "Will and legacy planning data (encrypted)",
+        "Guardian and family member information (encrypted)"
+      ]
+    },
+    "usageData": {
+      "title": "1.3 Usage Data",
+      "items": [
+        "Login frequency and session duration",
+        "Feature usage patterns (anonymized)",
+        "Technical logs for security and performance",
+        "Error reports and crash data"
+      ]
+    }
+  },
+  "howWeUse": {
+    "title": "2. How We Use Your Information",
+    "items": [
+      {
+        "title": "To Provide and Maintain the Service:",
+        "description": "To manage your account, provide customer support, and operate the platform."
+      },
+      {
+        "title": "To Improve the Service:",
+        "description": "To understand how our users interact with LegacyGuard so we can make it better, more intuitive, and more secure."
+      },
+      {
+        "title": "To Communicate with You:",
+        "description": "To send you important service announcements, security alerts, and (with your consent) product updates."
+      }
+    ]
+  },
+  "dataSecurity": {
+    "title": "3. Data Security (Our Zero-Knowledge Promise)",
+    "introduction": "We have architected our system so that your privacy is protected by cryptography, not just by our policy.",
+    "items": [
+      {
+        "title": "End-to-End Encryption:",
+        "description": "Your sensitive data is encrypted on your device and decrypted on your device. It is never in a readable format on our servers."
+      },
+      {
+        "title": "Data Storage:",
+        "description": "We use secure, GDPR-compliant cloud infrastructure (Supabase) with servers located within the European Union."
+      }
+    ]
+  },
+  "dataSharing": {
+    "title": "4. Data Sharing and Third Parties",
+    "introduction": "We do not sell, trade, or rent your personal identification information to others. We may share data with trusted third-party service providers who assist us in operating our Service, under strict data protection agreements. These include:",
+    "providers": [
+      {
+        "name": "Clerk:",
+        "purpose": "For user authentication."
+      },
+      {
+        "name": "Supabase:",
+        "purpose": "For database and encrypted file storage."
+      },
+      {
+        "name": "Vercel:",
+        "purpose": "For hosting our application."
+      },
+      {
+        "name": "Resend:",
+        "purpose": "For sending transactional emails."
+      },
+      {
+        "name": "AI Services:",
+        "purpose": "For AI-powered document analysis (only the content of a single document is sent for analysis and is not stored by them long-term)."
+      }
+    ]
+  },
+  "dataRights": {
+    "title": "5. Your Data Rights (GDPR)",
+    "introduction": "As a user in the EU, you have the right to:",
+    "rights": [
+      {
+        "title": "Access:",
+        "description": "Request a copy of the personal data we hold about you."
+      },
+      {
+        "title": "Rectification:",
+        "description": "Request correction of inaccurate or incomplete data."
+      },
+      {
+        "title": "Erasure (\"Right to be Forgotten\"):",
+        "description": "Request the deletion of your account and all associated data."
+      },
+      {
+        "title": "Portability:",
+        "description": "Request your data in a machine-readable format."
+      }
+    ],
+    "exerciseRights": "You can exercise these rights through your account settings or by contacting us at privacy@legacyguard.app."
+  },
+  "zeroKnowledge": {
+    "title": "6. Zero-Knowledge Architecture",
+    "introduction": "LegacyGuard operates on a zero-knowledge architecture, which means:",
+    "items": [
+      "All your documents and personal data are encrypted on your device before being transmitted to our servers",
+      "We do not have access to your encryption keys and cannot decrypt your data",
+      "Even LegacyGuard employees cannot view your private information",
+      "Your data remains private and secure, even from us"
+    ]
+  },
+  "policyChanges": {
+    "title": "7. Changes to This Policy",
+    "content": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and, if the changes are significant, by sending you an email notification."
+  },
+  "contact": {
+    "title": "8. Contact Information",
+    "introduction": "If you have any questions about this Privacy Policy or our data practices, please contact us at:",
+    "email": "Email: privacy@legacyguard.app",
+    "dpo": "Data Protection Officer: dpo@legacyguard.app"
+  }
+}

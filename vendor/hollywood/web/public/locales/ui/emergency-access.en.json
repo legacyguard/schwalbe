@@ -1,0 +1,49 @@
+{
+  "errors": {
+    "verificationFailed": "Verification failed",
+    "noAccessData": "No access data returned"
+  },
+  "mockData": {
+    "guardianName": "Jane Smith",
+    "userName": "John Smith",
+    "documentTitle1": "Last Will and Testament",
+    "documentTitle2": "Bank Account Information",
+    "doctorName": "Dr. Sarah Johnson",
+    "doctorRelationship": "Family Doctor",
+    "doctorHelp": ["Health information", "Medical records"],
+    "advisorName": "Michael Chen",
+    "advisorRelationship": "Financial Advisor",
+    "advisorHelp": ["Financial matters", "Investment accounts"]
+  },
+  "ui": {
+    "pageTitle": "Emergency Access",
+    "verifying": "Verifying emergency access...",
+    "accessGranted": "Emergency Access Granted",
+    "documentsSection": "Important Documents",
+    "contactsSection": "Key Contacts",
+    "instructionsSection": "Emergency Instructions",
+    "downloadDocument": "Download",
+    "contactPerson": "Contact",
+    "loading": "Loading...",
+    "accessDenied": "Access Denied"
+  },
+  "verification": {
+    "enterCode": "Enter the emergency access code provided by the guardian",
+    "verifyButton": "Verify Access",
+    "codeLabel": "Emergency Access Code"
+  },
+  "sections": {
+    "documents": {
+      "title": "Critical Documents",
+      "description": "Important legal and financial documents"
+    },
+    "contacts": {
+      "title": "Emergency Contacts", 
+      "description": "People who can provide immediate assistance"
+    },
+    "instructions": {
+      "title": "Special Instructions",
+      "description": "Important notes and guidance for emergency situations"
+    }
+  }
+}

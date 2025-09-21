@@ -1,0 +1,253 @@
+{
+  "header": {
+    "title": "Riadenie Projektov Rodinného Dedičstva",
+    "subtitle": "Organizujte a spravujte projekty plánovania rodinného dedičstva"
+  },
+  "navigation": {
+    "newProject": "Nový Projekt",
+    "close": "Zavrieť",
+    "cancel": "Zrušiť"
+  },
+  "filters": {
+    "filterByStatus": "Filtrovať podľa stavu",
+    "allProjects": "Všetky Projekty",
+    "planning": "Plánovanie",
+    "active": "Aktívne",
+    "completed": "Dokončené",
+    "onHold": "Pozastavené",
+    "archived": "Archivované",
+    "on-hold": "Pozastavené"
+  },
+  "projectCreation": {
+    "title": "Vytvoriť Nový Projekt Dedičstva",
+    "createCustomProject": "Vytvoriť Vlastný Projekt"
+  },
+  "projectDetails": {
+    "projectProgress": "Pokrok Projektu",
+    "started": "Začaté",
+    "due": "Termín",
+    "members": "členov",
+    "tasks": "Úlohy",
+    "milestones": "Míľniky",
+    "team": "Tím",
+    "resources": "Zdroje"
+  },
+  "taskManagement": {
+    "addTask": "Pridať Úlohu",
+    "createNewTask": "Vytvoriť Novú Úlohu",
+    "taskTitle": "Názov úlohy",
+    "taskDescription": "Popis úlohy",
+    "assignee": "Priradený",
+    "priority": "Priorita",
+    "estimatedHours": "Odhadované hodiny",
+    "createTask": "Vytvoriť Úlohu",
+    "comments": "komentárov",
+    "progress": "Pokrok"
+  },
+  "milestones": {
+    "addMilestone": "Pridať Míľnik",
+    "completed": "Dokončené:"
+  },
+  "team": {
+    "teamMembers": "Členovia Tímu",
+    "addMember": "Pridať Člena",
+    "expertise": "Odbornosť:"
+  },
+  "resources": {
+    "projectResources": "Zdroje Projektu",
+    "addResource": "Pridať Zdroj",
+    "noResourcesTitle": "Zatiaľ neboli pridané žiadne zdroje",
+    "noResourcesSubtitle": "Pridajte šablóny, dokumenty alebo užitočné odkazy"
+  },
+  "projectList": {
+    "progress": "Pokrok"
+  },
+  "emptyState": {
+    "noProjectsTitle": "Neboli Nájdené Žiadne Projekty",
+    "noProjectsFilterMessage": "Skúste upraviť filtre pre zobrazenie viacerých projektov",
+    "noProjectsCreateMessage": "Vytvorte svoj prvý projekt dedičstva a začnite organizovať rodinné plánovanie",
+    "createFirstProject": "Vytvoriť Prvý Projekt"
+  },
+  "priorities": {
+    "low": "Nízka",
+    "medium": "Stredná",
+    "high": "Vysoká",
+    "critical": "Kritická"
+  },
+  "statuses": {
+    "todo": "na vykonanie",
+    "inProgress": "prebieha",
+    "review": "na kontrolu",
+    "completed": "dokončené",
+    "blocked": "zablokované"
+  },
+  "viewModes": {
+    "kanban": "Kanban",
+    "list": "Zoznam",
+    "calendar": "Kalendár"
+  },
+  "templates": {
+    "comprehensiveWill": {
+      "name": "Komplexné Vytvorenie Testamentu",
+      "description": "Úplné vytvorenie testamentu s právnou kontrolou a rodinnou konzultáciou",
+      "estimatedDuration": "4-6 týždňov",
+      "tasks": {
+        "gatherInfo": {
+          "title": "Zhromaždiť osobné informácie a majetok",
+          "description": "Zostavte všetky potrebné osobné a finančné informácie"
+        },
+        "defineBeneficiaries": {
+          "title": "Definovať dedičov a želania dedičstva",
+          "description": "Jasně definujte kto dostane čo a za akých podmienok"
+        },
+        "draftWill": {
+          "title": "Navrhnúť prvotný dokument testamentu",
+          "description": "Vytvorte prvý návrh pomocou právnych šablón"
+        },
+        "familyReview": {
+          "title": "Rodinná kontrola a spätná väzba",
+          "description": "Zdieľajte návrh s rodinou pre vstup a diskusiu"
+        },
+        "legalReview": {
+          "title": "Profesionálna právna kontrola",
+          "description": "Nechajte advokáta skontrolovať a overiť testament"
+        },
+        "finalizeWill": {
+          "title": "Dokončiť a vykonať testament",
+          "description": "Dokončite finálny proces podpisovania a osvedčovania"
+        }
+      },
+      "milestones": {
+        "infoComplete": {
+          "title": "Zbieranie Informácií Dokončené",
+          "description": "Všetky osobné a majetkové informácie boli zhromaždené",
+          "rewards": "Základ pre testament je solídny"
+        },
+        "firstDraft": {
+          "title": "Prvý Návrh Dokončený",
+          "description": "Prvotný dokument testamentu je pripravený na kontrolu",
+          "rewards": "Veľký míľnik - testament naberá tvar"
+        },
+        "willExecuted": {
+          "title": "Testament Právne Vykonaný",
+          "description": "Testament je podpísaný, osvedčený a právne platný",
+          "rewards": "Ochrana rodiny je teraz právne zabezpečená"
+        }
+      }
+    },
+    "emergencyPlanning": {
+      "name": "Rodinné Núdzové Plánovanie",
+      "description": "Komplexná príprava na núdzové situácie a plánovanie odozvy",
+      "estimatedDuration": "2-3 týždne",
+      "tasks": {
+        "contactDatabase": {
+          "title": "Vytvoriť databázu núdzových kontaktov",
+          "description": "Zostavte všetky dôležité informácie o núdzových kontaktoch"
+        },
+        "procedures": {
+          "title": "Vyvinúť núdzové postupy",
+          "description": "Vytvorte postupné núdzové reakcie"
+        },
+        "emergencyKits": {
+          "title": "Pripraviť núdzové súpravy",
+          "description": "Zostavte fyzické núdzové súpravy pre každú domácnosť"
+        }
+      },
+      "milestones": {
+        "contactsEstablished": {
+          "title": "Núdzové Kontakty Vytvorené",
+          "description": "Všetci členovia rodiny majú prístup k núdzovým kontaktom",
+          "rewards": "Rýchly prístup k pomoci v núdzových situáciách"
+        },
+        "planComplete": {
+          "title": "Núdzový Plán Dokončený",
+          "description": "Komplexný núdzový plán je dokončený",
+          "rewards": "Rodina je pripravená na akúkoľvek núdzovú situáciu"
+        }
+      }
+    },
+    "familyHistory": {
+      "name": "Dokumentácia Rodinnej Histórie",
+      "description": "Zachovajte rodinnú históriu prostredníctvom príbehov, fotografií a nahrávok",
+      "estimatedDuration": "8-12 týždňov",
+      "tasks": {
+        "interviews": {
+          "title": "Rozhovory so staršími členmi rodiny",
+          "description": "Nahrávajte príbehy a spomienky od starších členov rodiny"
+        },
+        "digitizePhotos": {
+          "title": "Digitalizovať rodinné fotografie",
+          "description": "Naskenujte a zorganizujte historické rodinné fotografie"
+        },
+        "familyTree": {
+          "title": "Vytvoriť rodokmeň",
+          "description": "Zostrojte komplexnú rodinnú genealógiu"
+        }
+      },
+      "milestones": {
+        "interviewsComplete": {
+          "title": "Rozhovory so Staršími Dokončené",
+          "description": "Všetky dostupné rozhovory so staršími boli nahrané",
+          "rewards": "Vzácne spomienky sú navždy zachované"
+        },
+        "archiveComplete": {
+          "title": "Rodinný Archív Dokončený",
+          "description": "Úplný digitálny archív rodinnej histórie je pripravený",
+          "rewards": "Rodinné dedičstvo je zdokumentované pre budúce generácie"
+        }
+      }
+    }
+  },
+  "categories": {
+    "will-creation": "Tvorba Testamentu",
+    "emergency-planning": "Núdzové Plánovanie",
+    "family-history": "Rodinná História",
+    "asset-management": "Správa Majetku",
+    "document-organization": "Organizácia Dokumentov",
+    "trust-setup": "Nastavenie Trustu",
+    "custom": "Vlastné"
+  },
+  "roles": {
+    "viewer": "Pozorovateľ",
+    "contributor": "Prispievateľ",
+    "reviewer": "Kontrolór",
+    "project-manager": "Projektový Manažér"
+  },
+  "availability": {
+    "full-time": "Plný Úväzok",
+    "part-time": "Čiastočný Úväzok",
+    "limited": "Obmedzené",
+    "unavailable": "Nedostupné"
+  },
+  "tags": {
+    "information-gathering": "Zbieranie Informácií",
+    "assets": "Majetok",
+    "beneficiaries": "Dedičia",
+    "inheritance": "Dedičstvo",
+    "drafting": "Návrh",
+    "legal": "Právne",
+    "family-review": "Rodinná Kontrola",
+    "feedback": "Spätná Väzba",
+    "legal-review": "Právna Kontrola",
+    "attorney": "Advokát",
+    "execution": "Vykonanie",
+    "signing": "Podpisovanie",
+    "contacts": "Kontakty",
+    "emergency": "Núdzové",
+    "procedures": "Postupy",
+    "response": "Odozva",
+    "emergency-kit": "Núdzová Súprava",
+    "supplies": "Zásoby",
+    "interviews": "Rozhovory",
+    "stories": "Príbehy",
+    "memories": "Spomienky",
+    "photos": "Fotografie",
+    "digitization": "Digitalizácia",
+    "genealogy": "Genealógia",
+    "family-tree": "Rodokmeň"
+  },
+  "misc": {
+    "you": "Vy",
+    "newTask": "Nová Úloha"
+  }
+}

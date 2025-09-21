@@ -1,0 +1,88 @@
+{
+  "errors": {
+    "loadFailed": "Failed to load wills",
+    "deleteFailed": "Failed to delete will", 
+    "regenerateFailed": "Failed to regenerate will",
+    "verificationFailed": "Verification failed"
+  },
+  "holographicWill": {
+    "requirements": {
+      "do": [
+        "Write entire will by hand",
+        "Sign with full name",
+        "Date the document"
+      ],
+      "mustBe": [
+        "Must be handwritten",
+        "Must be signed", 
+        "Must be dated"
+      ],
+      "doNot": [
+        "Do not use typed text",
+        "Ensure handwriting is legible"
+      ]
+    }
+  },
+  "actions": {
+    "regenerateWill": "Regenerate Will",
+    "deleteWill": "Delete Will",
+    "downloadPdf": "Download PDF",
+    "viewDocument": "View Document"
+  },
+  "status": {
+    "active": "Active",
+    "draft": "Draft",
+    "archived": "Archived",
+    "processing": "Processing"
+  },
+  "confirmations": {
+    "deleteTitle": "Delete Will",
+    "deleteMessage": "Are you sure you want to delete this will? This action cannot be undone.",
+    "regenerateTitle": "Regenerate Will", 
+    "regenerateMessage": "This will create a new version of your will. Continue?"
+  },
+  "ui": {
+    "pageTitle": "My Wills",
+    "pageSubtitle": "Create and manage your legal will documents with Sofia's AI assistance",
+    "createNewWill": "Create New Will",
+    "loadingMessage": "Loading your wills...",
+    "emptyStateTitle": "No wills created yet",
+    "emptyStateDescription": "Create your first will with Sofia's intelligent assistance. The process takes about 15-30 minutes.",
+    "createFirstWill": "Create Your First Will",
+    "beneficiariesLabel": "Beneficiaries:",
+    "moreLabel": "+{{count}} more",
+    "validationIssues": "{{count}} validation issue{{plural}} found. Regenerate your will to fix these issues.",
+    "aiSuggestions": "Sofia has {{count}} suggestion{{plural}} to improve your will.",
+    "updatedLabel": "Updated: {{date}}"
+  },
+  "completeness": {
+    "complete": "Complete",
+    "good": "Good", 
+    "needsWork": "Needs Work",
+    "incomplete": "Incomplete"
+  },
+  "statusLabels": {
+    "draft": "Draft",
+    "inProgress": "In Progress",
+    "underReview": "Under Review",
+    "completed": "Completed", 
+    "notarized": "Notarized",
+    "witnessed": "Witnessed",
+    "archived": "Archived"
+  },
+  "help": {
+    "title": "Need Help?",
+    "creating": {
+      "title": "Creating Your Will",
+      "description": "Sofia guides you through the process step-by-step with AI assistance."
+    },
+    "compliance": {
+      "title": "Legal Compliance", 
+      "description": "All templates are designed to comply with local inheritance laws."
+    },
+    "review": {
+      "title": "Professional Review",
+      "description": "Consider having your will reviewed by a qualified attorney in your jurisdiction."
+    }
+  }
+}
