@@ -1,11 +1,18 @@
 import React from 'react'
 import { getDocument, updateDocument } from '../api/documentApi'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLocation } from 'react-router-dom'
+import DocumentIntelligence from '@/components/documents/DocumentIntelligence'
+import { ShareManager } from '@/features/sharing/manager/ShareManager'
+import { reminderService, type ReminderRule } from '@schwalbe/shared'
 
 export function DocumentDetail() {
   const { id } = useParams()
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const showUploadedAffirm = params.get('affirm') === 'uploaded'
   const [doc, setDoc] = React.useState<any | null>(null)
   const [loading, setLoading] = React.useState(true)
+  const [showShare, setShowShare] = React.useState(false)
 
   React.useEffect(() => {
     let mounted = true
@@ -44,6 +51,44 @@ const [saving, setSaving] = React.useState(false)
       }
       const updated = await updateDocument(doc.id, patch)
       setDoc(updated)
+
+      // (MVP) Create/update expiration reminder if applicable
+      if (patch.expiration_date) {
+        try {
+          const exp = patch.expiration_date as string
+          const expDate = new Date(`${exp}T09:00:00.000Z`)
+          let scheduled = new Date(expDate)
+          scheduled.setUTCDate(scheduled.getUTCDate() - 30)
+          const now = new Date()
+          if (scheduled < now) {
+            scheduled = new Date(expDate)
+            scheduled.setUTCDate(scheduled.getUTCDate() - 7)
+          }
+          if (scheduled < now) {
+            scheduled = new Date(now.getTime() + 60 * 60 * 1000)
+          }
+          const titleR = `Document expiring: ${updated.title || updated.file_name}`
+          const description = `This document is expected to expire on ${exp}. Please review and renew if needed.`
+          const rule: Omit<ReminderRule, 'id' | 'created_at' | 'updated_at'> = {
+            user_id: updated.user_id,
+            title: titleR,
+            description,
+            scheduled_at: scheduled.toISOString(),
+            recurrence_rule: null,
+            recurrence_end_at: null,
+            channels: ['email', 'in_app'],
+            priority: 'high',
+            status: 'active',
+            next_execution_at: scheduled.toISOString(),
+            last_executed_at: null,
+            execution_count: 0,
+            max_executions: 1,
+          }
+          await reminderService.create(rule as any)
+        } catch {
+          // best effort; ignore errors
+        }
+      }
     } finally {
       setSaving(false)
     }
@@ -53,6 +98,11 @@ const [saving, setSaving] = React.useState(false)
     <div className="max-w-4xl mx-auto p-6 text-white">
       <div className="mb-4"><Link to="/documents" className="underline text-sky-300">← Back to Documents</Link></div>
       <h1 className="text-2xl font-semibold mb-1">{title}</h1>
+      {showUploadedAffirm && (
+        <div className="mt-3">
+          <SofiaAffirmation type='document_uploaded' />
+        </div>
+      )}
       <div className="text-slate-300 mb-4">{doc.category || 'Uncategorized'} • Uploaded {new Date(doc.created_at).toLocaleString()}</div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-2 space-y-4">
@@ -68,6 +118,22 @@ const [saving, setSaving] = React.useState(false)
             {Array.isArray(doc.ai_suggested_tags) && doc.ai_suggested_tags.length > 0 ? (
               <div className="text-sm text-slate-300">Tags: {doc.ai_suggested_tags.join(', ')}</div>
             ) : null}
+          </div>
+
+          {/* AI Intelligence: categorization, recommendations, insights */}
+          <div className="border border-slate-700 rounded p-3">
+            <div className="font-medium mb-2">Intelligence</div>
+            <DocumentIntelligence
+              documents={[{
+                id: String(doc.id),
+                name: doc.title || doc.file_name,
+                type: doc.file_type || 'application/octet-stream',
+                size: doc.file_size || 0,
+                uploadDate: new Date(doc.created_at),
+                content: doc.ai_extracted_text || doc.ocr_text || '',
+                status: doc.processing_status || 'completed'
+              }]}
+            />
           </div>
         </div>
         <div className="space-y-4">
@@ -94,6 +160,26 @@ const [saving, setSaving] = React.useState(false)
           <div className="border border-slate-700 rounded p-3">
             <div className="font-medium mb-2">Status</div>
             <div className="text-sm text-slate-300 capitalize">{doc.processing_status}</div>
+          </div>
+
+          <div className="border border-slate-700 rounded p-3">
+            <div className="font-medium mb-2">Share</div>
+            <button
+              className="px-3 py-2 rounded bg-sky-600 hover:bg-sky-700"
+              onClick={() => setShowShare(true)}
+            >
+              Create Share Link
+            </button>
+            {showShare && (
+              <div className="mt-3">
+                <ShareManager
+                  resourceType="document"
+                  resourceId={String(doc.id)}
+                  resourceTitle={title}
+                  onClose={() => setShowShare(false)}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

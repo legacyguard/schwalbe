@@ -7,6 +7,7 @@ import { ComplianceBanner } from './compliance/ComplianceBanner'
 import { StepGuidance } from './StepGuidance'
 
 import { Button } from '@/components/ui/button'
+import SofiaAffirmation from '@/components/sofia-ai/SofiaAffirmation'
 
 export const WizardLayout = memo(function WizardLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation('will/wizard')
@@ -17,7 +18,9 @@ export const WizardLayout = memo(function WizardLayout({ children }: { children:
     saveDraft,
     canProceedToNext,
     validationErrors,
-    validationWarnings
+    validationWarnings,
+    toEngineInput,
+    state
   } = useWizard()
   const index = useMemo(() => stepsOrder.indexOf(currentStep), [currentStep])
   const canBack = index > 0
@@ -31,9 +34,33 @@ export const WizardLayout = memo(function WizardLayout({ children }: { children:
     warnings: compliance.stepIssues[step]?.warnings.length ?? 0,
   })), [compliance.stepIssues])
 
+  const [showSavedAffirmation, setShowSavedAffirmation] = React.useState(false)
+
   const handleSaveDraft = useCallback(async () => {
     await saveDraft()
+    setShowSavedAffirmation(true)
   }, [saveDraft])
+
+  const [submitting, setSubmitting] = React.useState(false)
+
+  async function handleGenerateWill() {
+    try {
+      setSubmitting(true)
+      const input = toEngineInput()
+      const beneficiaryCount = input.beneficiaries.length
+      const witnessCount = (input.witnesses || []).length
+      const summary = `Jurisdiction: ${input.jurisdiction}, Form: ${input.form}, Beneficiaries: ${beneficiaryCount}, Witnesses: ${witnessCount}`
+      const { supabase } = await import('@/lib/supabase')
+      const { data: { user } } = await supabase.auth.getUser()
+      const email = user?.email || ''
+      const { emailService } = await import('@schwalbe/shared/services/email.service')
+      await emailService.sendWillReadyForReview(email, { title: 'Will Draft Ready', summary })
+    } catch (err) {
+      console.error('Failed to finalize will draft', err)
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <div className="mx-auto max-w-3xl text-white p-4">
@@ -48,6 +75,13 @@ export const WizardLayout = memo(function WizardLayout({ children }: { children:
         />
         <ComplianceBanner compliance={compliance} />
       </header>
+
+      {/* Gentle Sofia affirmation after saving draft */}
+      {showSavedAffirmation && (
+        <div className="mb-4">
+          <SofiaAffirmation type='will_saved' onClose={() => setShowSavedAffirmation(false)} />
+        </div>
+      )}
 
       {/* Validation Feedback */}
       {(validationErrors.length > 0 || validationWarnings.length > 0) && (
@@ -149,6 +183,17 @@ export const WizardLayout = memo(function WizardLayout({ children }: { children:
             >
               {t('actions.next')}
               <span aria-hidden="true"> →</span>
+            </Button>
+          )}
+          {index === stepsOrder.length - 1 && canProceedToNext && (
+            <Button
+              variant="default"
+              className="bg-green-600 hover:bg-green-700"
+              onClick={handleGenerateWill}
+              disabled={submitting}
+              aria-busy={submitting}
+            >
+              {submitting ? 'Generating…' : t('actions.generateWill', 'Generate Will')}
             </Button>
           )}
           {!canProceedToNext && (

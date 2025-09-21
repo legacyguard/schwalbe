@@ -160,16 +160,42 @@ export default function EmergencyNotificationEngine({
       context: 'trust'
     });
 
-    // Simulate notification sending
+    // Send email alerts to primary recipients (no PII in logs)
+    (async () => {
+      try {
+        const { emailService } = await import('@schwalbe/shared/services/email.service');
+        await Promise.all(
+          notification.recipients
+            .filter(r => r.preferredMethod === 'email' || r.preferredMethod === 'all')
+            .map(r => r.email ? emailService.sendEmergencyAlert(r.email, { severity: notification.severity, message: notification.message }) : Promise.resolve(true))
+        );
+      } catch (_) {
+        // swallow errors to avoid breaking UI
+      }
+    })();
+
+    // Simulate notification sending and schedule escalation
     setTimeout(() => {
       setActiveNotifications(prev =>
         prev.map(n => n.id === notification.id ? { ...n, status: 'sent' as const } : n)
       );
+      scheduleEscalation(notification.id, notification.escalationLevel + 1);
     }, 2000);
   }, [selectedSeverity, emergencyMessage, emergencyContacts, onTriggerEmergency, learnFromInteraction]);
 
   const handleTestNotification = useCallback((contactId: string, method: string) => {
     onTestNotification?.(contactId, method);
+
+    // Send real test email if applicable (privacy-safe)
+    (async () => {
+      try {
+        const target = emergencyContacts.find(c => c.id === contactId);
+        if (target && (method === 'email' || method === 'all') && target.email) {
+          const { emailService } = await import('@schwalbe/shared/services/email.service');
+          await emailService.sendEmergencyAlert(target.email, { severity: 'low', message: 'Test Emergency Notification' });
+        }
+      } catch (_) {}
+    })();
 
     // Show test notification
     const testNotification: EmergencyNotification = {
@@ -213,6 +239,32 @@ export default function EmergencyNotificationEngine({
       default: return 'text-gray-600 bg-gray-100';
     }
   };
+
+  // Schedule escalation to secondary/backup recipients if not acknowledged
+  function scheduleEscalation(notificationId: string, nextLevel: number) {
+    const escalationDelayMs = (protocols.find(p => p.id === 'health_check')?.escalationTimeMinutes || 60) * 60 * 1000;
+    setTimeout(async () => {
+      setActiveNotifications(prev => {
+        const n = prev.find(x => x.id === notificationId);
+        if (!n || n.status !== 'sent' || n.escalationLevel >= n.maxEscalationLevel) return prev;
+        const targetRole = n.escalationLevel === 0 ? 'secondary' : 'backup';
+        const extraRecipients = emergencyContacts.filter(c => c.role === targetRole);
+        if (extraRecipients.length === 0) return prev;
+        // fire emails
+        (async () => {
+          try {
+            const { emailService } = await import('@schwalbe/shared/services/email.service');
+            await Promise.all(
+              extraRecipients
+                .filter(r => r.preferredMethod === 'email' || r.preferredMethod === 'all')
+                .map(r => r.email ? emailService.sendEmergencyAlert(r.email, { severity: n.severity, message: n.message + ' (Escalation)' }) : Promise.resolve(true))
+            );
+          } catch (_) {}
+        })();
+        return prev.map(x => x.id === n.id ? { ...x, escalationLevel: nextLevel } : x);
+      });
+    }, escalationDelayMs);
+  }
 
   const getSystemStatusColor = () => {
     switch (systemStatus) {

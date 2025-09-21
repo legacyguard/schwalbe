@@ -20,6 +20,7 @@ import {
 } from '@/components/sofia-firefly/SofiaFireflyPersonality';
 import { LiquidMotion } from '@/components/animations/LiquidMotion';
 import SofiaFirefly from '@/components/sofia-firefly/SofiaFirefly';
+import OnboardingSofiaPanel from '@/components/onboarding/OnboardingSofiaPanel';
 
 interface Scene2BoxProps {
   initialItems?: string;
@@ -185,6 +186,12 @@ export default function Scene2Box({
                 />
               </motion.div>
             </motion.div>
+
+            {/* Sofia guidance panel */}
+            <div className="mt-4">
+              {/* Lightweight Sofia panel for onboarding step 2 */}
+              <OnboardingSofiaPanel step={2} boxItems={items} />
+            </div>
 
             {/* 3D Box visualization with liquid effects and gesture interactions */}
             <LiquidMotion.ScaleIn delay={0.8}>

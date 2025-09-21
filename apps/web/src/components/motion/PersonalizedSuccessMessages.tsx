@@ -18,9 +18,11 @@ import { useEmotionalState } from '../../hooks/useEmotionalState';
 import { useUserPreferences } from '../../hooks/useUserPreferences';
 import { SofiaMessageGenerator } from '../../utils/SofiaMessageGenerator';
 import { PersonalizedSuccessAnalytics } from '../../utils/PersonalizedSuccessAnalytics';
+import { UserAchievement, PersonalizedSuccessMessage, SuccessFollowUpAction, SuccessMessageAnalytics } from '../../types/success-messages';
 
-// TypeScript interfaces for comprehensive type safety
-export interface UserAchievement {
+// Local TypeScript interfaces for component-specific needs
+// Note: Shared types available from '../../types/success-messages'
+interface LocalUserAchievement {
   id: string;
   type: 'milestone' | 'completion' | 'improvement' | 'discovery' | 'mastery' | 'contribution' | 'breakthrough';
   category: 'document' | 'family' | 'security' | 'planning' | 'organization' | 'collaboration' | 'learning';
@@ -52,7 +54,7 @@ export interface SuccessMessageTemplate {
   culturalAdaptation?: Record<string, string>; // language/cultural variants
 }
 
-export interface SuccessFollowUpAction {
+interface LocalSuccessFollowUpAction {
   id: string;
   type: 'suggestion' | 'encouragement' | 'next_step' | 'celebration' | 'sharing' | 'reflection';
   label: string;
@@ -63,7 +65,7 @@ export interface SuccessFollowUpAction {
   contextual: boolean; // whether to show based on context
 }
 
-export interface PersonalizedSuccessMessage {
+interface LocalPersonalizedSuccessMessage {
   id: string;
   achievement: UserAchievement;
   template: SuccessMessageTemplate;
@@ -93,7 +95,7 @@ export interface CelebrationStep {
   easing: string;
 }
 
-export interface SuccessMessageAnalytics {
+interface LocalSuccessMessageAnalytics {
   messageId: string;
   achievementId: string;
   userId: string;

@@ -254,6 +254,42 @@ The ${this.appName} Team
 }
 
   /**
+   * Notify user that their will draft is ready for review
+   */
+  async sendWillReadyForReview(
+    email: string,
+    data: { title: string; summary: string }
+  ): Promise<boolean> {
+    if (!email) return true;
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #4f46e5; color: white; padding: 24px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9f9f9; padding: 24px; border-radius: 0 0 10px 10px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h2>${data.title}</h2>
+            </div>
+            <div class="content">
+              <p>Your will draft is ready for review.</p>
+              <p><strong>Summary:</strong> ${data.summary}</p>
+              <p>You can review and finalize it in your dashboard.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+    return this.sendEmail({ to: email, subject: `${this.appName}: Your will draft is ready`, html, text: data.summary });
+  }
+
+  /**
    * Send subscription expiry reminder
    */
   async sendSubscriptionExpiryReminder(
@@ -420,6 +456,40 @@ The ${this.appName} Team
       html,
       text: `Payment failed for ${data.planName} plan. Please update your payment method at: ${data.updatePaymentUrl}`,
     });
+  }
+
+  /**
+   * Send emergency alert email (MVP placeholder via Resend Edge Function)
+   */
+  async sendEmergencyAlert(
+    email: string,
+    data: { severity: 'low' | 'medium' | 'high' | 'critical'; message: string }
+  ): Promise<boolean> {
+    if (!email) return true; // No-op if email missing to avoid PII issues in logs
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: ${data.severity === 'critical' ? '#DC2626' : data.severity === 'high' ? '#F97316' : data.severity === 'medium' ? '#EAB308' : '#3B82F6'}; color: white; padding: 24px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9f9f9; padding: 24px; border-radius: 0 0 10px 10px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h2>Emergency Alert (${data.severity.toUpperCase()})</h2>
+            </div>
+            <div class="content">
+              <p>${data.message}</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+    return this.sendEmail({ to: email, subject: `Emergency Alert (${data.severity})`, html, text: data.message });
   }
 
   /**

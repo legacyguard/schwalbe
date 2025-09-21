@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { supabaseClient } from '@schwalbe/shared';
 import type { User, Session } from '@supabase/supabase-js';
+import { logger } from '@schwalbe/shared/lib/logger';
 
 interface AuthState {
   user: User | null;
@@ -30,7 +31,7 @@ export const useAuthStore = create<AuthState>()(
           const { data: { session }, error } = await supabaseClient.auth.getSession();
 
           if (error) {
-            console.error('Session initialization failed:', error);
+            logger.error('Session initialization failed', { metadata: { error: error.message } });
             set({ isLoading: false });
             return;
           }
@@ -76,12 +77,12 @@ export const useAuthStore = create<AuthState>()(
                   isLoading: false,
                 });
               }
-            } catch (error) {
-              console.error('Auth state change failed:', error);
+            } catch (error: any) {
+              logger.error('Auth state change failed', { metadata: { error: error?.message || String(error) } });
             }
           });
-        } catch (error) {
-          console.error('Auth initialization failed:', error);
+        } catch (error: any) {
+          logger.error('Auth initialization failed', { metadata: { error: error?.message || String(error) } });
           set({
             session: null,
             user: null,
@@ -95,7 +96,7 @@ export const useAuthStore = create<AuthState>()(
         try {
           // Input validation
           if (!email?.trim() || !password?.trim()) {
-            console.error('Sign in failed: Missing email or password');
+            logger.warn('Sign in attempt missing credentials');
             return false;
           }
 
@@ -107,7 +108,7 @@ export const useAuthStore = create<AuthState>()(
           });
 
           if (error) {
-            console.error('Sign in failed:', error.message);
+            logger.error('Sign in failed', { metadata: { error: error.message } });
             set({ isLoading: false });
             return false;
           }
@@ -124,8 +125,8 @@ export const useAuthStore = create<AuthState>()(
 
           set({ isLoading: false });
           return false;
-        } catch (error) {
-          console.error('Sign in failed:', error);
+        } catch (error: any) {
+          logger.error('Sign in failed', { metadata: { error: error?.message || String(error) } });
           set({ isLoading: false });
           return false;
         }
@@ -134,7 +135,7 @@ export const useAuthStore = create<AuthState>()(
       signUp: async (email: string, password: string, options?: { name?: string }) => {
         try {
           if (!email?.trim() || !password?.trim()) {
-            console.error('Sign up failed: Missing email or password');
+            logger.warn('Sign up attempt missing credentials');
             return false;
           }
 
@@ -151,7 +152,7 @@ export const useAuthStore = create<AuthState>()(
           });
 
           if (error) {
-            console.error('Sign up failed:', error.message);
+            logger.error('Sign up failed', { metadata: { error: error.message } });
             set({ isLoading: false });
             return false;
           }
@@ -169,8 +170,8 @@ export const useAuthStore = create<AuthState>()(
           // Account created but needs email confirmation
           set({ isLoading: false });
           return true;
-        } catch (error) {
-          console.error('Sign up failed:', error);
+        } catch (error: any) {
+          logger.error('Sign up failed', { metadata: { error: error?.message || String(error) } });
           set({ isLoading: false });
           return false;
         }
@@ -185,15 +186,15 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: false,
             isLoading: false,
           });
-        } catch (error) {
-          console.error('Sign out error:', error);
+        } catch (error: any) {
+          logger.error('Sign out error', { metadata: { error: error?.message || String(error) } });
         }
       },
 
       resetPassword: async (email: string) => {
         try {
           if (!email?.trim()) {
-            console.error('Password reset failed: Missing email');
+            logger.warn('Password reset missing email');
             return false;
           }
 
@@ -205,13 +206,13 @@ export const useAuthStore = create<AuthState>()(
           );
 
           if (error) {
-            console.error('Password reset failed:', error.message);
+            logger.error('Password reset failed', { metadata: { error: error.message } });
             return false;
           }
 
           return true;
-        } catch (error) {
-          console.error('Password reset failed:', error);
+        } catch (error: any) {
+          logger.error('Password reset failed', { metadata: { error: error?.message || String(error) } });
           return false;
         }
       },

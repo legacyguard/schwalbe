@@ -24,6 +24,7 @@ export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
     };
   }, []);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [resumeStep, setResumeStep] = useState<number | null>(null);
   const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true);
 
   useEffect(() => {
@@ -31,26 +32,47 @@ export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
       return;
     }
 
-    // Check if user has completed onboarding
-    const hasCompletedOnboarding = (user?.user_metadata as any)?.onboardingCompleted;
+    (async () => {
+      // 1) Check remote progress first (best-effort)
+      try {
+        const { OnboardingService } = await import('@schwalbe/shared/services/onboarding/onboarding.service');
+        const progress = await OnboardingService.fetchProgressRemote();
+        if (progress && progress.completedAt) {
+          setShowOnboarding(false);
+          setIsCheckingOnboarding(false);
+          return;
+        }
+        if (progress && typeof progress.completedSteps === 'number' && progress.completedSteps > 0) {
+          const next = Math.min(progress.completedSteps + 1, 6);
+          setResumeStep(next);
+          setShowOnboarding(true);
+          setIsCheckingOnboarding(false);
+          return;
+        }
+      } catch {
+        // ignore errors
+      }
 
-    if (hasCompletedOnboarding) {
-      setShowOnboarding(false);
+      // 2) Fallback to user metadata
+      const hasCompletedOnboarding = (user?.user_metadata as any)?.onboardingCompleted;
+      if (hasCompletedOnboarding) {
+        setShowOnboarding(false);
+        setIsCheckingOnboarding(false);
+        return;
+      }
+
+      // 3) New user heuristic (created within the last 2 minutes)
+      const createdAt = new Date(user?.created_at || new Date());
+      const now = new Date();
+      const timeDifference = now.getTime() - createdAt.getTime();
+      const isNewUser = timeDifference < 2 * 60 * 1000; // 2 minutes
+
+      if (isNewUser) {
+        setShowOnboarding(true);
+      }
+
       setIsCheckingOnboarding(false);
-      return;
-    }
-
-    // Check if this is a new user (created within the last 2 minutes)
-    const createdAt = new Date(user?.created_at || new Date());
-    const now = new Date();
-    const timeDifference = now.getTime() - createdAt.getTime();
-    const isNewUser = timeDifference < 2 * 60 * 1000; // 2 minutes
-
-    if (isNewUser) {
-      setShowOnboarding(true);
-    }
-
-    setIsCheckingOnboarding(false);
+    })();
   }, [isLoaded, user]);
 
   const handleOnboardingComplete = async () => {
@@ -87,7 +109,7 @@ export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
 
   // Show onboarding for new users
   if (showOnboarding) {
-    return <OnboardingWithCompletion onComplete={handleOnboardingComplete} />;
+    return <OnboardingWithCompletion onComplete={handleOnboardingComplete} resumeStep={resumeStep ?? undefined} />;
   }
 
   // Show normal app content
@@ -95,6 +117,6 @@ export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
 }
 
 // Wrapper component that passes the completion handler to the onboarding flow
-function OnboardingWithCompletion({ onComplete }: { onComplete: () => void }) {
-  return <Onboarding onComplete={onComplete} />;
+function OnboardingWithCompletion({ onComplete, resumeStep }: { onComplete: () => void; resumeStep?: number }) {
+  return <Onboarding onComplete={onComplete} resumeStep={resumeStep} />;
 }

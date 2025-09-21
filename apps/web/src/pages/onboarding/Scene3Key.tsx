@@ -19,6 +19,7 @@ import {
 } from '@/components/sofia-firefly/SofiaFireflyPersonality';
 import { LiquidMotion } from '@/components/animations/LiquidMotion';
 import SofiaFirefly from '@/components/sofia-firefly/SofiaFirefly';
+import OnboardingSofiaPanel from '@/components/onboarding/OnboardingSofiaPanel';
 
 interface Scene3KeyProps {
   initialTrustedName?: string;
@@ -353,6 +354,11 @@ export default function Scene3Key({
                 </motion.div>
               </LiquidMotion.ScaleIn>
             )}
+
+            {/* Sofia guidance panel */}
+            <div className="mt-4">
+              <OnboardingSofiaPanel step={5} trustedName={name} />
+            </div>
 
             {/* Contextual Sofia guidance */}
             <LiquidMotion.ScaleIn delay={1.5}>

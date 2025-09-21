@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SofiaAffirmation from '@/components/sofia-ai/SofiaAffirmation';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -72,6 +73,7 @@ export default function GuardianManagement({
     emergencyPriority: 1
   });
   const [isInteracting, setIsInteracting] = useState(false);
+  const [showGuardianAffirmation, setShowGuardianAffirmation] = useState(false);
 
   // Initialize Sofia personality for guardian guidance
   const { personality, adaptToContext, learnFromInteraction } = useSofiaPersonality(PersonalityPresets.trustBuilder);
@@ -102,6 +104,7 @@ export default function GuardianManagement({
     });
     setShowAddForm(false);
     setIsInteracting(true);
+    setShowGuardianAffirmation(true);
 
     learnFromInteraction({
       type: 'click',
@@ -149,6 +152,14 @@ export default function GuardianManagement({
     <PersonalityAwareAnimation personality={personality} context="trust">
       <div className="w-full space-y-6">
         {/* Guardian Overview */}
+        {showGuardianAffirmation && (
+          <div className="mb-4">
+            <SofiaAffirmation
+              type="guardian_added"
+              onClose={() => setShowGuardianAffirmation(false)}
+            />
+          </div>
+        )}
         <LiquidMotion.ScaleIn delay={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card className="bg-gradient-to-r from-green-500/10 to-emerald-500/5 border-green-500/20">
@@ -463,10 +474,10 @@ export default function GuardianManagement({
               />
               <p className="text-green-600 text-sm font-medium">
                 ✨ Sofia: "{activeGuardians === 0
-                  ? 'Start by adding your most trusted family member as a guardian. They\'ll help protect your family\'s future.'
+                  ? 'If it feels right, you might start by adding someone you trust as a guardian. You can always change this later.'
                   : activeGuardians < 2
-                    ? 'Consider adding a second guardian for extra security. It\'s wise to have backup protection.'
-                    : 'Excellent! Your guardian network provides strong protection for your family\'s security.'}"
+                    ? 'When you’re ready, you could add a second trusted person as a backup. It’s okay to take your time.'
+                    : 'You have support in place. If you prefer, you can review permissions or simply continue at your own pace.'}"
               </p>
             </div>
           </motion.div>

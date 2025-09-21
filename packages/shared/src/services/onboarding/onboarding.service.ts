@@ -8,6 +8,7 @@ import { logger } from '../../lib/logger';
 export interface OnboardingData {
   boxItems: string;
   trustedName: string;
+  familyContext?: any;
   completedAt?: string;
   completedSteps: number;
   totalTimeSpent?: number;
@@ -21,6 +22,8 @@ export interface OnboardingStep {
   completedAt?: string;
   timeSpent?: number;
 }
+
+import { supabaseClient as supabase } from '../../supabase/client';
 
 export class OnboardingService {
   private static STORAGE_KEY = 'schwalbe_onboarding';
@@ -55,11 +58,63 @@ export class OnboardingService {
       });
     }
 
-    return {
+return {
       boxItems: '',
       trustedName: '',
+      familyContext: undefined,
       completedSteps: 0,
     };
+  }
+
+  /**
+   * Attempt to persist progress to Supabase (best-effort)
+   */
+  static async saveProgressRemote(data: Partial<OnboardingData>): Promise<void> {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      const userId = user?.id;
+      if (!userId) return;
+      const payload: any = {
+        user_id: userId,
+        box_items: data.boxItems ?? null,
+        trusted_name: data.trustedName ?? null,
+        family_context: data.familyContext ?? null,
+        completed_steps: data.completedSteps ?? null,
+        completed_at: data.completedAt ?? null,
+        total_time_spent: data.totalTimeSpent ?? null,
+        updated_at: new Date().toISOString(),
+      };
+      await supabase.from('onboarding_progress').upsert(payload, { onConflict: 'user_id' });
+    } catch {
+      // Ignore missing table or any remote errors silently
+    }
+  }
+
+  /**
+   * Fetch onboarding progress from Supabase (best-effort)
+   */
+  static async fetchProgressRemote(): Promise<Partial<OnboardingData> | null> {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      const userId = user?.id;
+      if (!userId) return null;
+      const { data, error } = await supabase
+        .from('onboarding_progress')
+        .select('box_items, trusted_name, family_context, completed_steps, completed_at, total_time_spent')
+        .eq('user_id', userId)
+        .maybeSingle();
+      if (error || !data) return null;
+      return {
+        boxItems: (data as any).box_items ?? '',
+        trustedName: (data as any).trusted_name ?? '',
+        familyContext: (data as any).family_context ?? undefined,
+        completedSteps: (data as any).completed_steps ?? 0,
+        completedAt: (data as any).completed_at ?? undefined,
+        totalTimeSpent: (data as any).total_time_spent ?? undefined,
+      };
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -73,6 +128,8 @@ export class OnboardingService {
     };
 
     this.saveProgress(completedData);
+    // Best-effort remote persist
+    void this.saveProgressRemote(completedData);
   }
 
   /**

@@ -11,7 +11,7 @@
  * - Accessibility compliance tracking
  */
 
-import { UserAchievement, PersonalizedSuccessMessage, SuccessMessageAnalytics, SuccessFollowUpAction } from '../components/motion/PersonalizedSuccessMessages';
+import { UserAchievement, PersonalizedSuccessMessage, SuccessMessageAnalytics, SuccessFollowUpAction } from '../types/success-messages';
 
 export interface SuccessMessageEvent {
   id: string;

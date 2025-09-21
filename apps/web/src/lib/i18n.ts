@@ -137,6 +137,23 @@ const resources = {
       noResults: 'No results',
       resultsAria: 'Search results'
     },
+    'dashboard': {
+      'sofiaGuidance': {
+        'title': 'Sofia’s Guidance',
+        'lead': 'If today is not the day to decide, that’s okay. When it feels right, you might consider one small step:',
+        'actions': {
+          'inviteTrusted': 'Invite a trusted person',
+          'beginWill': 'Begin a simple will',
+          'addDocument': 'Add one important document'
+        }
+      },
+      'reminders': {
+        'title': 'Gentle Reminders',
+        'addEmergencyContact': 'When you feel ready, add an emergency contact.',
+        'addImportantDocument': 'Add one important document (for example, a passport or ID card).',
+        'startWillAddBeneficiary': 'Start your will and jot down a beneficiary.'
+      }
+    },
     'will/wizard': {
       title: 'Guided Will Creation',
       steps: {

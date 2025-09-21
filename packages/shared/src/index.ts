@@ -86,6 +86,9 @@ export * from './utils/mobile-web-bridge';
 // Export API caching utilities
 export * from './utils/api-cache';
 
+// Export onboarding service
+export { OnboardingService } from './services/onboarding/onboarding.service';
+
 // Export will services
 export { willService, WillService } from './services/will.service';
 // Will validation service moved to @schwalbe/logic package

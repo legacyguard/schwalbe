@@ -1,4 +1,12 @@
 // Premium Micro-interactions & Motion Components
+
+// Re-export shared types to prevent circular dependencies
+export {
+  type UserAchievement,
+  type PersonalizedSuccessMessage,
+  type SuccessFollowUpAction,
+  type SuccessMessageAnalytics,
+} from '../../types/success-messages';
 export { LiquidMorph } from './LiquidMorph';
 export { ParticleSystem, AmbientParticles, CelebrationParticles, MagicalParticles, SoothingParticles } from './ParticleSystem';
 export { default as MagneticHover } from './MagneticHover';
@@ -410,12 +418,8 @@ export {
 } from '../../types/ErrorPrevention';
 export {
   default as PersonalizedSuccessMessages,
-  type UserAchievement,
   type SuccessMessageTemplate,
-  type SuccessFollowUpAction,
-  type PersonalizedSuccessMessage,
   type CelebrationStep,
-  type SuccessMessageAnalytics,
   type SuccessAccessibilityFeatures,
   type PersonalizedSuccessMessagesProps,
 } from './PersonalizedSuccessMessages';

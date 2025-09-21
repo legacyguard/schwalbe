@@ -18,8 +18,10 @@ import {
 } from '@/components/sofia-firefly/SofiaFireflyPersonality';
 import { LiquidMotion } from '@/components/animations/LiquidMotion';
 import SofiaFirefly from '@/components/sofia-firefly/SofiaFirefly';
+import { useTranslation } from 'react-i18next';
 import FamilyTreeVisualization from '@/components/family/FamilyTreeVisualization';
 import GuardianManagement from '@/components/family/GuardianManagement';
+import { AssetsSummaryCards } from '@/features/assets/components/AssetsSummaryCards';
 
 interface DashboardProps {
   onNavigate?: (section: string) => void;
@@ -27,6 +29,7 @@ interface DashboardProps {
 
 export default function Dashboard({ onNavigate }: DashboardProps) {
   const [protectionScore, setProtectionScore] = useState(0);
+  const { t } = useTranslation();
   const [showFamilyTree, setShowFamilyTree] = useState(true);
   const [showGuardianManagement, setShowGuardianManagement] = useState(false);
   const [activeSection, setActiveSection] = useState<'overview' | 'family' | 'guardians' | 'documents'>('family');
@@ -88,7 +91,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               }}
               style={{ backgroundSize: '200% 200%' }}
             >
-              🛡️ Rodinný Štít
+              🛡️ Family Shield
             </motion.h1>
             <motion.p
               className='text-muted-foreground text-lg max-w-2xl mx-auto'
@@ -162,6 +165,28 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                     <span>Basic Protection</span>
                     <span>Complete Coverage</span>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </FadeIn>
+
+          {/* Sofia’s Guidance - gentle, supportive suggestions */
+          <FadeIn duration={0.8}>
+            <Card className='mb-8 border-emerald-500/20 bg-emerald-900/10'>
+              <CardHeader>
+                <CardTitle className='flex items-center gap-2'>
+                  <span>🕊️</span>
+                  {t('dashboard.sofiaGuidance.title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className='text-emerald-200 mb-4'>
+                  {t('dashboard.sofiaGuidance.lead')}
+                </p>
+                <div className='flex flex-wrap gap-2'>
+                  <Button aria-label={t('dashboard.sofiaGuidance.actions.inviteTrusted')} variant='outline' onClick={() => setActiveSection('guardians')}>{t('dashboard.sofiaGuidance.actions.inviteTrusted')}</Button>
+                  <Button aria-label={t('dashboard.sofiaGuidance.actions.beginWill')} variant='outline' onClick={() => onNavigate ? onNavigate('will') : (window.location.href = '/will/wizard/start')}>{t('dashboard.sofiaGuidance.actions.beginWill')}</Button>
+                  <Button aria-label={t('dashboard.sofiaGuidance.actions.addDocument')} variant='outline' onClick={() => setActiveSection('documents')}>{t('dashboard.sofiaGuidance.actions.addDocument')}</Button>
                 </div>
               </CardContent>
             </Card>
@@ -376,6 +401,77 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                 </CardContent>
               </Card>
             </PersonalityHoverEffect>
+          </div>
+
+          {/* Assets Overview */}
+          <div className='mt-6'>
+            <AssetsSummaryCards />
+          </div>
+
+          {/* Path of Peace & Current Challenges */}
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-6'>
+            {/* Path of Peace */}
+            <Card className='border-primary/20 shadow bg-background/95'>
+              <CardHeader>
+                <CardTitle className='flex items-center gap-2'>
+                  <span>🛤️</span>
+                  Path of Peace
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className='space-y-4'>
+                  <div className='flex items-center justify-between text-sm'>
+                    <span>Foundation Stone of Security</span>
+                    <span className='text-green-400'>Completed</span>
+                  </div>
+                  <div className='flex items-center justify-between text-sm'>
+                    <span>Circle of Trust</span>
+                    <span className='text-yellow-400'>In progress</span>
+                  </div>
+                  <div className='flex items-center justify-between text-sm'>
+                    <span>Life Documents</span>
+                    <span className='text-slate-400'>Next</span>
+                  </div>
+                  <div className='w-full bg-muted rounded-full h-2 mt-2'>
+                    <motion.div
+                      className='bg-gradient-to-r from-primary to-primary/70 h-2 rounded-full'
+                      initial={{ width: 0 }}
+                      animate={{ width: '45%' }}
+                      transition={{ duration: 1.2, ease: 'easeOut' }}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Gentle Reminders */}
+            <Card className='border-primary/20 shadow bg-background/95'>
+              <CardHeader>
+                <CardTitle className='flex items-center gap-2'>
+                  <span>🕊️</span>
+                  {t('dashboard.reminders.title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className='space-y-3 text-sm'>
+                  <li className='flex items-start gap-2'>
+                    <span className='mt-0.5'>•</span>
+                    {t('dashboard.reminders.addEmergencyContact')}
+                  </li>
+                  <li className='flex items-start gap-2'>
+                    <span className='mt-0.5'>•</span>
+                    {t('dashboard.reminders.addImportantDocument')}
+                  </li>
+                  <li className='flex items-start gap-2'>
+                    <span className='mt-0.5'>•</span>
+                    {t('dashboard.reminders.startWillAddBeneficiary')}
+                  </li>
+                </ul>
+                <div className='mt-4'>
+                  <Button variant='outline' size='sm'>View all</Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Family Tree Section */}

@@ -286,6 +286,19 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
         return
       }
 
+      // Best-effort: append immutable version snapshot
+      try {
+        await supabase.from('will_draft_versions').insert({
+          user_id: userId,
+          session_id: sessionId,
+          step_number: getStepIndex(currentStep) + 1,
+          total_steps: stepsOrder.length,
+          draft_data: state,
+        })
+      } catch (e: any) {
+        logger.error('Failed to append draft version', { action: 'draft_version_append_failed', metadata: { error: e?.message || 'unknown' } })
+      }
+
       if (opts?.toast) opts.toast('Draft saved')
     },
     [currentStep, sessionId, state]

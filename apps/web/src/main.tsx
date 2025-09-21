@@ -11,6 +11,9 @@ import LandingV2 from '@/components/landing/LandingV2';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
 import { CriticalErrorBoundary, PageErrorBoundary, FeatureErrorBoundary } from '@/components/error/ErrorBoundary';
+import { OnboardingWrapper } from '@/components/onboarding/OnboardingWrapper';
+import Dashboard from '@/pages/Dashboard';
+import Onboarding from '@/pages/onboarding/Onboarding';
 import '@/lib/i18n';
 import './styles.css';
 
@@ -27,6 +30,7 @@ const SupportIndex = lazy(() => import('@/features/support/SupportIndex'));
 const SupportEN = lazy(() => import('@/pages/support/support.en'));
 const SupportCS = lazy(() => import('@/pages/support/support.cs'));
 const SupportSK = lazy(() => import('@/pages/support/support.sk'));
+const EmergencyCenter = lazy(() => import('@/pages/EmergencyCenter'));
 
 const rootEl = document.getElementById('root');
 if (rootEl) {
@@ -36,14 +40,23 @@ if (rootEl) {
       <CriticalErrorBoundary>
         <AuthProvider>
           <BrowserRouter>
-            <AppShell>
-              <Routes>
+            <OnboardingWrapper>
+              <AppShell>
+                <Routes>
             {/* Public routes */}
             <Route path="/auth/signin" element={<SignIn />} />
             <Route path="/auth/signup" element={<SignUp />} />
             {isLandingEnabled() && (
               <Route path="/landing-v2" element={<LandingV2 />} />
             )}
+            <Route path="/onboarding" element={<Onboarding onComplete={() => window.location.assign('/dashboard')} />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <PageErrorBoundary>
+                  <Dashboard />
+                </PageErrorBoundary>
+              </ProtectedRoute>
+            } />
             <Route path="/will/wizard/*" element={
               <ProtectedRoute>
                 <PageErrorBoundary>
@@ -94,6 +107,15 @@ if (rootEl) {
                     <SubscriptionsRoutes />
                   </Suspense>
                 </PageErrorBoundary>
+              </ProtectedRoute>
+            } />
+            <Route path="/emergency" element={
+              <ProtectedRoute>
+                <FeatureErrorBoundary>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <EmergencyCenter />
+                  </Suspense>
+                </FeatureErrorBoundary>
               </ProtectedRoute>
             } />
             <Route path="/account/*" element={
@@ -147,24 +169,7 @@ if (rootEl) {
                   <LandingV2 />
                 ) : (
                   <ProtectedRoute>
-                    <div className="text-white p-6">
-                      <h1 className="text-2xl font-semibold mb-4">Schwalbe App</h1>
-                      <p className="mb-4">Welcome. Use the links below to explore features.</p>
-                      <div className="flex gap-4">
-                        <Link aria-label="Start Will Wizard" className="underline text-sky-300" to="/will/wizard/start">
-                          Start Will Wizard
-                        </Link>
-                        <Link aria-label="Open Asset Dashboard" className="underline text-emerald-300" to="/assets">
-                          Asset Dashboard
-                        </Link>
-                        <Link aria-label="Open Documents" className="underline text-indigo-300" to="/documents">
-                          Documents
-                        </Link>
-                        <Link aria-label="Open Subscriptions" className="underline text-pink-300" to="/subscriptions">
-                          Subscriptions
-                        </Link>
-                      </div>
-                    </div>
+                    <Navigate to="/dashboard" replace />
                   </ProtectedRoute>
                 )
               }
@@ -172,6 +177,7 @@ if (rootEl) {
             <Route path="*" element={<Navigate to="/assets" replace />} />
             </Routes>
           </AppShell>
+          </OnboardingWrapper>
           </BrowserRouter>
         </AuthProvider>
       </CriticalErrorBoundary>

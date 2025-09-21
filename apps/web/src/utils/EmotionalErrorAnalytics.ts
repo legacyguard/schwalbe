@@ -14,7 +14,7 @@
  * - Historical trend analysis and optimization suggestions
  */
 
-import { EmotionalErrorResponse, EmotionalError, EmotionalStrategy } from '../components/motion/EmotionalErrorHandling';
+import { EmotionalErrorResponse, EmotionalError, EmotionalStrategy } from '../types/error-handling';
 
 // TypeScript interfaces for comprehensive type safety
 export interface EmotionalResponseAnalytics {

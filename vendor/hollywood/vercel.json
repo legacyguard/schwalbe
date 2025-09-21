@@ -8,7 +8,10 @@
     "www.legacyguard.cz",
     "app.legacyguard.cz",
     "api.legacyguard.cz",
-    "staging.legacyguard.cz"
+    "staging.legacyguard.cz",
+    "legacyguard.sk",
+    "www.legacyguard.sk",
+    "app.legacyguard.sk"
   ],
   "cleanUrls": false,
   "trailingSlash": false,
@@ -120,6 +123,17 @@
         }
       ],
       "destination": "https://legacyguard.cz/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.legacyguard.sk"
+        }
+      ],
+      "destination": "https://legacyguard.sk/$1",
       "permanent": true
     }
   ],

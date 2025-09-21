@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { BoxTransformation } from '@/components/animations/BoxTransformation';
+import SofiaAffirmation from '@/components/sofia-ai/SofiaAffirmation';
 import {
   PersonalityAwareAnimation,
   ContextAwareAnimation,
@@ -54,15 +55,15 @@ export default function Scene4Prepare({
         });
       }, 32); // ~60fps
 
-      // Complete onboarding after animation
+      // Complete onboarding after animation with short celebration
       const completeTimer = setTimeout(() => {
         setShowFirefly(false);
         setTimeout(() => {
           if (onComplete) {
             onComplete();
           }
-        }, 500);
-      }, 3000);
+        }, 900);
+      }, 3200);
 
       return () => {
         clearInterval(progressTimer);
@@ -118,6 +119,11 @@ export default function Scene4Prepare({
                 </motion.div>
               </CardHeader>
               <CardContent>
+            {/* Gentle Sofia affirmation instead of confetti */}
+            <div className='mt-6'>
+              <SofiaAffirmation type='onboarding_completed' />
+            </div>
+            </>
                 <motion.p
                   className='text-muted-foreground mb-8 text-lg leading-relaxed'
                   initial={{ opacity: 0 }}
@@ -215,8 +221,8 @@ export default function Scene4Prepare({
                                 stopOpacity='0.3'
                               />
                             </linearGradient>
-                          </defs>
-                        </svg>
+                  </defs>
+                </svg>
 
                         {/* Sparkle effects along the trail */}
                         {[...Array(12)].map((_, i) => (

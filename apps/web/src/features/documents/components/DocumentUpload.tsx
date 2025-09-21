@@ -4,12 +4,21 @@ import { uploadDocumentAndAnalyze } from '../api/documentApi'
 import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
+import {
+  getUploadConfiguration,
+  isFileTypeAllowed,
+  isFileSizeAllowed,
+  getFileSizeLimitMessage,
+  getAllowedFileTypesMessage,
+  getFeatureLimitationMessage
+} from '@/config/documentFeatures'
 
 export function DocumentUpload() {
   const [files, setFiles] = React.useState<FileList | null>(null)
   const [uploading, setUploading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const navigate = useNavigate()
+  const uploadConfig = getUploadConfiguration()
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiles(e.target.files)
@@ -22,28 +31,56 @@ export function DocumentUpload() {
 
   const onUpload = async () => {
     if (!files || files.length === 0) return
+
+    const file = files.item(0)
+    if (!file) {
+      setError('No file selected.')
+      return
+    }
+
+    // Validate file type
+    if (!isFileTypeAllowed(file.type)) {
+      setError(`File type not supported. ${getAllowedFileTypesMessage()}`)
+      return
+    }
+
+    // Validate file size
+    if (!isFileSizeAllowed(file.size)) {
+      setError(`File too large. ${getFileSizeLimitMessage()}`)
+      return
+    }
+
+    // Check if analysis features are enabled
+    if (!uploadConfig.enableAnalysis) {
+      setError(getFeatureLimitationMessage('documentAnalysis'))
+      return
+    }
+
     setUploading(true)
     setError(null)
     try {
-      const file = files.item(0)
-      if (!file) {
-        setError('No file selected.')
-        return
-      }
-
-      // Gate OCR for paid plans only
-const { subscriptionService } = await import('@schwalbe/shared')
-      const canOCR = await subscriptionService.hasEntitlement('ocr')
-      if (!canOCR) {
-        setError('OCR is available on paid plans. Please upgrade to continue.')
-        return
+      // Gate OCR for paid plans only if OCR is enabled
+      if (uploadConfig.enableOCR) {
+        const { subscriptionService } = await import('@schwalbe/shared')
+        const canOCR = await subscriptionService.hasEntitlement('ocr')
+        if (!canOCR) {
+          setError('OCR is available on paid plans. Please upgrade to continue.')
+          return
+        }
       }
 
       const { document } = await uploadDocumentAndAnalyze(file)
-      navigate(`/documents/${document.id}`)
+      navigate(`/documents/${document.id}?affirm=uploaded`)
     } catch (e: any) {
-      // eslint-disable-next-line no-console
-      logger.error(e)
+      logger.error('Document upload failed', {
+        action: 'document_upload_failed',
+        metadata: {
+          error: e instanceof Error ? e.message : String(e),
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type
+        }
+      })
       setError('Upload failed. Please try again.')
     } finally {
       setUploading(false)
@@ -58,9 +95,14 @@ const { subscriptionService } = await import('@schwalbe/shared')
         onDragOver={(e) => e.preventDefault()}
         onDrop={onDrop}
       >
-        <p className="mb-2">Drag and drop a PDF or image here</p>
-        <p className="text-sm text-slate-300 mb-4">Supported: PDF, JPG, PNG, TIFF</p>
-        <input type="file" accept="application/pdf,image/*" onChange={onFileChange} />
+        <p className="mb-2">Drag and drop a document here</p>
+        <p className="text-sm text-slate-300 mb-4">{getAllowedFileTypesMessage()}</p>
+        <p className="text-xs text-slate-400 mb-4">{getFileSizeLimitMessage()}</p>
+        <input
+          type="file"
+          accept={uploadConfig.allowedTypes.join(',')}
+          onChange={onFileChange}
+        />
       </div>
       {files && files.length > 0 ? (
         (() => { const f = files?.item(0); return f ? (
@@ -69,8 +111,11 @@ const { subscriptionService } = await import('@schwalbe/shared')
       ) : null}
       {error ? <div className="mt-3 text-red-400 text-sm" role="alert">{error}</div> : null}
       <div className="mt-6 flex gap-3">
-        <Button onClick={onUpload} disabled={uploading || !files}>
-          {uploading ? 'Uploading…' : 'Upload & Analyze (Paid)'}
+        <Button onClick={onUpload} disabled={uploading || !files || !uploadConfig.enableAnalysis}>
+          {uploading ? 'Uploading…' : uploadConfig.enableAnalysis
+            ? (uploadConfig.enableOCR ? 'Upload & Analyze (AI+OCR)' : 'Upload & Analyze (AI)')
+            : 'Upload Only'
+          }
         </Button>
         <Button onClick={() => navigate('/documents')}>Cancel</Button>
         <Button
