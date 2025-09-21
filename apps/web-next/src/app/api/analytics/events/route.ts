@@ -1,18 +1,23 @@
-import { NextResponse } from 'next/server.js'
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export const runtime = "edge";
+
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json().catch(() => ({}));
-    const eventType = typeof body?.eventType === 'string' ? body.eventType : 'unknown';
-    const eventData = typeof body?.eventData === 'object' && body?.eventData !== null ? body.eventData : {};
-
-    // Minimal validation and acceptance; actual persistence is handled in backend pipelines
-    if (!eventType || eventType.length > 100) {
-      return NextResponse.json({ error: 'Invalid event type' }, { status: 400 });
+    const contentType = req.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      return NextResponse.json({ ok: false, error: "invalid_content_type" }, { status: 415 });
     }
+    const body = await req.json();
+    const event = String(body?.event || "").slice(0, 64);
+    const locale = String(body?.locale || "en").slice(0, 8);
+    const meta = body?.meta && typeof body.meta === "object" ? body.meta : {};
+    if (!event) return NextResponse.json({ ok: false, error: "missing_event" }, { status: 400 });
 
-    return NextResponse.json({ ok: true }, { status: 202 });
-  } catch {
-    return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    console.log("analytics:event", { event, locale, meta, ts: new Date().toISOString(), ua: req.headers.get("user-agent") || undefined });
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("analytics:error", err);
+    return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 }

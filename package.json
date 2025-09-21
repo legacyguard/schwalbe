@@ -7,7 +7,7 @@
   "workspaces": [
     "apps/mobile",
     "packages/*",
-    "packages/ai-assistant"
+    "packages/onboarding"
   ],
   "scripts": {
     "dev": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev",

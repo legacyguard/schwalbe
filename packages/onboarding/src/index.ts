@@ -1,63 +1,58 @@
-// Minimal onboarding planner used by Dashboard V2
-export type Answer = { key: 'priority' | 'timeAvailable'; value: string };
+// Onboarding package skeleton: domain types and a minimal plan generator.
+// Code in English; UI copy in next-intl JSONs.
 
-export type Action = {
+export type Persona =
+  | 'starter'
+  | 'planner'
+  | 'guardian';
+
+export type Answer = {
+  key: 'familyStatus' | 'priority' | 'timeAvailable';
+  value: string;
+};
+
+export type Milestone = {
+  id: string;
   title: string;
   description: string;
   estimateMinutes: number;
 };
 
-export type Milestone = Action & { id: string };
-
 export type Plan = {
-  nextBestAction?: Action;
+  persona: Persona;
   milestones: Milestone[];
+  nextBestAction: Milestone | null;
 };
 
+export function inferPersona(answers: Answer[]): Persona {
+  const priority = answers.find(a => a.key === 'priority')?.value || 'safety';
+  if (priority === 'organization') return 'planner';
+  if (priority === 'family') return 'guardian';
+  return 'starter';
+}
+
 export function generatePlan(answers: Answer[]): Plan {
-  const priority = (answers.find(a => a.key === 'priority')?.value || 'safety').toLowerCase();
-  const time = (answers.find(a => a.key === 'timeAvailable')?.value || '10m').toLowerCase();
+  const persona = inferPersona(answers);
+  const milestones: Milestone[] = [];
 
-  const quick = (min: number) => Math.min(min, time.includes('m') ? parseInt(time) || min : min);
-
-  if (priority.startsWith('org')) {
-    return {
-      nextBestAction: {
-        title: 'Organize important documents',
-        description: 'Upload and tag your key documents so your family can find them fast.',
-        estimateMinutes: quick(10),
-      },
-      milestones: [
-        { id: 'doc-vault', title: 'Set up document vault', description: 'Create folders for IDs, insurance, and wills', estimateMinutes: quick(8) },
-        { id: 'share', title: 'Share with trusted contact', description: 'Add one family member as a viewer', estimateMinutes: quick(5) },
-      ],
-    };
+  // Minimal rules based on persona
+  if (persona === 'starter') {
+    milestones.push(
+      { id: 'vault-basics', title: 'Secure your first documents', description: 'Add ID, insurance, and a key contact.', estimateMinutes: 8 },
+      { id: 'guardian-add', title: 'Add a trusted guardian', description: 'Invite someone you trust as a guardian.', estimateMinutes: 6 },
+    );
+  } else if (persona === 'planner') {
+    milestones.push(
+      { id: 'organize-categories', title: 'Organize your categories', description: 'Create categories for documents and assets.', estimateMinutes: 10 },
+      { id: 'checklist', title: 'Build your gentle checklist', description: 'Set reminders and next steps.', estimateMinutes: 7 },
+    );
+  } else {
+    milestones.push(
+      { id: 'family-contacts', title: 'Set up family contacts', description: 'Add spouse and children contacts.', estimateMinutes: 7 },
+      { id: 'emergency-access', title: 'Prepare emergency access', description: 'Define how your family can access in emergencies.', estimateMinutes: 9 },
+    );
   }
 
-  if (priority.startsWith('fam')) {
-    return {
-      nextBestAction: {
-        title: 'Add a trusted contact',
-        description: 'Designate someone who can access essentials in an emergency.',
-        estimateMinutes: quick(5),
-      },
-      milestones: [
-        { id: 'guardian', title: 'Set guardianship preferences', description: 'Choose primary and backup guardians', estimateMinutes: quick(12) },
-        { id: 'notify', title: 'Set emergency notifications', description: 'Configure who gets notified and when', estimateMinutes: quick(6) },
-      ],
-    };
-  }
-
-  // default: safety
-  return {
-    nextBestAction: {
-      title: 'Enable emergency access',
-      description: 'Turn on emergency mode so first responders can reach critical info.',
-      estimateMinutes: quick(3),
-    },
-    milestones: [
-      { id: 'ice', title: 'Add ICE card', description: 'Add In-Case-of-Emergency details to your profile', estimateMinutes: quick(4) },
-      { id: 'backup', title: 'Backup recovery key', description: 'Store your recovery key in a safe place', estimateMinutes: quick(3) },
-    ],
-  };
+  const nextBestAction = milestones[0] ?? null;
+  return { persona, milestones, nextBestAction };
 }

@@ -1,0 +1,13 @@
+{
+  "title": "Poznejme se v pár jemných krocích",
+  "subtitle": "Z vašich odpovědí vytvoříme jednoduchý, klidný plán — vaším tempem.",
+  "plan": {
+    "heading": "Váš startovací plán",
+    "description": "Tyto milníky vám pomohou začít s jistotou."
+  },
+  "cta": { "start": "Začít nyní", "later": "Možná později" },
+  "scene1": { "skip": "Přeskočit úvod", "title": "Vítejte v klidném začátku", "subtitle": "Jemná cesta k ochraně toho, na čem záleží.", "cta": "Začít", "foot": "Vše můžete později upravit." },
+  "scene2": { "skip": "Přeskočit úvod", "title": "Truhla jistoty", "lead": "Představte si jedinou truhlu... Co byste do ní vložili?", "hint": "Je to o lásce, ne o logistice.", "ph": "Klíče od domu, dopis pro dceru, ...", "back": "← Zpět", "clear": "Vyčistit", "continue": "Pokračovat →" },
+  "scene3": { "skip": "Přeskočit úvod", "title": "Klíč důvěry", "lead": "Komu byste svěřili klíč k této truhle?", "hint": "Zvolte někoho, kdo zná vaše srdce.", "ph": "např. Martina, Jan, Máma...", "back": "← Zpět", "continue": "Pokračovat →" },
+  "scene4": { "title": "Připravuji vaši cestu", "lead": "Děkuji. Připravuji Cestu klidu.", "back": "← Zpět", "done": "Dokončit" }
+}
