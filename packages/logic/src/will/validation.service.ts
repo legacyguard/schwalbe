@@ -377,13 +377,19 @@ export class WillValidationService {
 
     // Can always go back to previous steps
     for (let i = 0; i < currentIndex; i++) {
-      allowedSteps.push(stepOrder[i])
+      const step = stepOrder[i]
+      if (step) {
+        allowedSteps.push(step)
+      }
     }
 
     // Can go forward if current step is valid
-    const currentValidation = this.validateStepTransition(currentStep, stepOrder[currentIndex + 1], formData)
-    if (currentValidation.isValid && currentIndex < stepOrder.length - 1) {
-      allowedSteps.push(stepOrder[currentIndex + 1])
+    const nextStep = stepOrder[currentIndex + 1]
+    if (nextStep) {
+      const currentValidation = this.validateStepTransition(currentStep, nextStep, formData)
+      if (currentValidation.isValid && currentIndex < stepOrder.length - 1) {
+        allowedSteps.push(nextStep)
+      }
     }
 
     return allowedSteps

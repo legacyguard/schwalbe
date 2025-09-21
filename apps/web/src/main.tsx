@@ -9,7 +9,7 @@ import { isLandingEnabled } from '@/config/flags';
 import LandingV2 from '@/components/landing/LandingV2';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
-import { GlobalErrorBoundary, FeatureErrorBoundary } from '@/lib/errorHandling';
+import { CriticalErrorBoundary, PageErrorBoundary } from '@/components/error/ErrorBoundary';
 import '@/lib/i18n';
 import './styles.css';
 
@@ -32,7 +32,7 @@ if (rootEl) {
   const root = createRoot(rootEl);
   root.render(
     <React.StrictMode>
-      <GlobalErrorBoundary>
+      <CriticalErrorBoundary>
         <AuthProvider>
           <BrowserRouter>
             <AppShell>
@@ -45,38 +45,38 @@ if (rootEl) {
             )}
             <Route path="/will/wizard/*" element={
               <ProtectedRoute>
-                <FeatureErrorBoundary>
+                <PageErrorBoundary>
                   <Suspense fallback={<LoadingSpinner />}>
                     <WillWizardRoutes />
                   </Suspense>
-                </FeatureErrorBoundary>
+                </PageErrorBoundary>
               </ProtectedRoute>
             } />
             <Route path="/assets/*" element={
               <ProtectedRoute>
-                <FeatureErrorBoundary>
+                <PageErrorBoundary>
                   <Suspense fallback={<LoadingSpinner />}>
                     <AssetsRoutes />
                   </Suspense>
-                </FeatureErrorBoundary>
+                </PageErrorBoundary>
               </ProtectedRoute>
             } />
             <Route path="/reminders/*" element={
               <ProtectedRoute>
-                <FeatureErrorBoundary>
+                <PageErrorBoundary>
                   <Suspense fallback={<LoadingSpinner />}>
                     <RemindersRoutes />
                   </Suspense>
-                </FeatureErrorBoundary>
+                </PageErrorBoundary>
               </ProtectedRoute>
             } />
             <Route path="/documents/*" element={
               <ProtectedRoute>
-                <FeatureErrorBoundary>
+                <PageErrorBoundary>
                   <Suspense fallback={<LoadingSpinner />}>
                     <DocumentRoutes />
                   </Suspense>
-                </FeatureErrorBoundary>
+                </PageErrorBoundary>
               </ProtectedRoute>
             } />
             <Route path="/share/:shareId" element={
@@ -88,20 +88,20 @@ if (rootEl) {
             } />
             <Route path="/subscriptions/*" element={
               <ProtectedRoute>
-                <FeatureErrorBoundary>
+                <PageErrorBoundary>
                   <Suspense fallback={<LoadingSpinner />}>
                     <SubscriptionsRoutes />
                   </Suspense>
-                </FeatureErrorBoundary>
+                </PageErrorBoundary>
               </ProtectedRoute>
             } />
             <Route path="/account/*" element={
               <ProtectedRoute>
-                <FeatureErrorBoundary>
+                <PageErrorBoundary>
                   <Suspense fallback={<LoadingSpinner />}>
                     <AccountRoutes />
                   </Suspense>
-                </FeatureErrorBoundary>
+                </PageErrorBoundary>
               </ProtectedRoute>
             } />
             <Route path="/legal/*" element={
@@ -173,7 +173,7 @@ if (rootEl) {
           </AppShell>
           </BrowserRouter>
         </AuthProvider>
-      </GlobalErrorBoundary>
+      </CriticalErrorBoundary>
     </React.StrictMode>
   );
 }

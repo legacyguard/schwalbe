@@ -8,7 +8,7 @@ export type ValidationRule<T = any> = {
 
 export type FormErrors<T> = Partial<Record<keyof T, string>>;
 
-export interface ValidationConfig<T> {
+export type ValidationConfig<T> = {
   [K in keyof T]?: ValidationRule<T[K]>[];
 }
 

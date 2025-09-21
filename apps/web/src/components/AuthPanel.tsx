@@ -31,7 +31,7 @@ export const AuthPanel: React.FC = () => {
           <Button onClick={handleSignIn} variant="outline">
             Sign in with Google
           </Button>
-          <Button onClick={handleSignOut} variant="destructive">
+          <Button onClick={handleSignOut} variant="danger">
             Sign out
           </Button>
         </div>

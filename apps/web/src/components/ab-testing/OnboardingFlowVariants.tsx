@@ -13,12 +13,7 @@ import {
   Shield,
   Users,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Progress, Badge } from '@/components/ui';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -49,7 +44,7 @@ export function ABTestOnboardingFlow({
 
   // Track onboarding start
   useEffect(() => {
-    logger.info('Onboarding started with variant:', variant);
+    logger.info('Onboarding started with variant', { metadata: { variant } });
   }, [variant]);
 
   const handleStepComplete = (stepData: Record<string, unknown>) => {

@@ -97,6 +97,7 @@ export const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
         animation.stop();
       });
       sparkleAnimationsRef.current = [];
+      return undefined;
     }
   }, [visible, achievement]);
 

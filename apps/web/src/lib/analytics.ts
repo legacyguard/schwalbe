@@ -1,7 +1,7 @@
 // Analytics tracking utility for landing page events
 
 export interface AnalyticsEvent {
-  eventType: 'landing_view' | 'landing_section_view' | 'landing_cta_click';
+  eventType: 'landing_view' | 'landing_section_view' | 'landing_cta_click' | 'landing_password_authenticated';
   eventData?: Record<string, any>;
 }
 

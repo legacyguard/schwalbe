@@ -3,7 +3,7 @@
  * Comprehensive directory of verified legal professionals
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
@@ -45,9 +45,10 @@ import { Slider } from '@schwalbe/ui/slider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@schwalbe/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
 import { cn } from '@schwalbe/lib/utils';
+import { professionalService, type ProfessionalProfile as ServiceProfessionalProfile } from '@/services/professional.service';
 import type { ProfessionalReviewer } from '@schwalbe/types/professional';
 
-interface ProfessionalProfile extends ProfessionalReviewer {
+interface ProfessionalProfile extends ServiceProfessionalProfile {
   achievements?: string[];
   availability: 'available' | 'busy' | 'unavailable';
   featuredReview?: {
@@ -57,7 +58,6 @@ interface ProfessionalProfile extends ProfessionalReviewer {
     rating: number;
   };
   languages?: string[];
-  rating: number;
   responseTime: string;
   reviewCount: number;
   services: Array<{
@@ -87,188 +87,6 @@ interface ProfessionalNetworkDirectoryProps {
   onSelectProfessional: (professional: ProfessionalProfile) => void;
 }
 
-const SAMPLE_PROFESSIONALS: ProfessionalProfile[] = [
-  {
-    id: '1',
-    userId: 'user1',
-    email: 'sarah.johnson@law.com',
-    full_name: 'Sarah Johnson',
-    fullName: 'Sarah Johnson',
-    professional_title: 'Senior Attorney',
-    law_firm_name: 'Johnson & Associates',
-    bar_number: '123456',
-    licensed_states: ['California', 'Nevada'],
-    type: 'attorney',
-    licenseNumber: '123456',
-    jurisdiction: 'California',
-    specializations: [
-      { id: '1', name: 'Estate Planning', category: 'estate_planning' },
-      { id: '2', name: 'Tax Law', category: 'tax_law' },
-      { id: '3', name: 'Asset Protection', category: 'estate_planning' },
-    ],
-    experience: 15,
-    experience_years: 15,
-    verified: true,
-    onboardingStatus: 'approved',
-    createdAt: '2024-01-01',
-    created_at: '2024-01-01',
-    updatedAt: '2024-01-01',
-    rating: 4.9,
-    reviewCount: 127,
-    responseTime: '< 2 hours',
-    availability: 'available',
-    featuredReview: {
-      rating: 5,
-      comment:
-        'Sarah provided exceptional guidance through our complex estate planning process. Her attention to detail and proactive communication made the entire experience smooth and reassuring.',
-      clientName: 'Michael R.',
-      date: '2024-01-10',
-    },
-    services: [
-      {
-        type: 'consultation',
-        description: 'Initial estate planning consultation',
-        startingPrice: 300,
-      },
-      {
-        type: 'review',
-        description: 'Comprehensive document review',
-        startingPrice: 750,
-      },
-      {
-        type: 'retainer',
-        description: 'Ongoing legal counsel',
-        startingPrice: 2500,
-      },
-    ],
-    achievements: [
-      'Top 10 Estate Attorneys 2023',
-      'Client Choice Award',
-      '15+ Years Experience',
-    ],
-    languages: ['English', 'Spanish'],
-  },
-  {
-    id: '2',
-    userId: 'user2',
-    email: 'michael.chen@legaleagle.com',
-    full_name: 'Michael Chen',
-    fullName: 'Michael Chen',
-    professional_title: 'Senior Partner',
-    law_firm_name: 'LegalEagle Partners',
-    bar_number: '789012',
-    licensed_states: ['New York', 'New Jersey', 'Connecticut'],
-    type: 'attorney',
-    licenseNumber: '789012',
-    jurisdiction: 'New York',
-    specializations: [
-      { id: '4', name: 'Business Law', category: 'business_law' },
-      { id: '5', name: 'Real Estate Law', category: 'real_estate' },
-      { id: '6', name: 'Family Law', category: 'family_law' },
-    ],
-    experience: 22,
-    experience_years: 22,
-    verified: true,
-    onboardingStatus: 'approved',
-    createdAt: '2024-01-01',
-    created_at: '2024-01-01',
-    updatedAt: '2024-01-01',
-    rating: 4.8,
-    reviewCount: 89,
-    responseTime: '< 4 hours',
-    availability: 'busy',
-    featuredReview: {
-      rating: 5,
-      comment:
-        'Michael helped us restructure our business for optimal tax efficiency and succession planning. His expertise saved us thousands and provided peace of mind.',
-      clientName: 'Jennifer L.',
-      date: '2024-01-08',
-    },
-    services: [
-      {
-        type: 'consultation',
-        description: 'Business succession consultation',
-        startingPrice: 400,
-      },
-      {
-        type: 'review',
-        description: 'Business agreement review',
-        startingPrice: 1200,
-      },
-      {
-        type: 'retainer',
-        description: 'Corporate counsel retainer',
-        startingPrice: 5000,
-      },
-    ],
-    achievements: [
-      'Super Lawyers 2020-2024',
-      'Business Journal Top Attorney',
-      'Harvard Law Review',
-    ],
-    languages: ['English', 'Mandarin'],
-  },
-  {
-    id: '3',
-    userId: 'user3',
-    email: 'emily.rodriguez@elderlaw.com',
-    full_name: 'Emily Rodriguez',
-    fullName: 'Emily Rodriguez',
-    professional_title: 'Elder Law Attorney',
-    law_firm_name: 'Rodriguez Elder Law',
-    bar_number: '345678',
-    licensed_states: ['Florida', 'Georgia'],
-    type: 'attorney',
-    licenseNumber: '345678',
-    jurisdiction: 'Florida',
-    specializations: [
-      { id: '7', name: 'Elder Law', category: 'estate_planning' },
-      { id: '8', name: 'Probate Law', category: 'estate_planning' },
-      { id: '9', name: 'Healthcare Directives', category: 'estate_planning' },
-    ],
-    experience: 12,
-    experience_years: 12,
-    verified: true,
-    onboardingStatus: 'approved',
-    createdAt: '2024-01-01',
-    created_at: '2024-01-01',
-    updatedAt: '2024-01-01',
-    rating: 4.9,
-    reviewCount: 156,
-    responseTime: '< 1 hour',
-    availability: 'available',
-    featuredReview: {
-      rating: 5,
-      comment:
-        'Emily guided our family through a difficult time with incredible compassion and expertise. She made complex legal matters understandable and manageable.',
-      clientName: 'Robert K.',
-      date: '2024-01-12',
-    },
-    services: [
-      {
-        type: 'consultation',
-        description: 'Elder care planning session',
-        startingPrice: 250,
-      },
-      {
-        type: 'review',
-        description: 'Healthcare directive review',
-        startingPrice: 400,
-      },
-      {
-        type: 'retainer',
-        description: 'Family legal support',
-        startingPrice: 1500,
-      },
-    ],
-    achievements: [
-      'Elder Law Specialist Certification',
-      'Community Service Award',
-      'Client Advocate 2023',
-    ],
-    languages: ['English', 'Spanish', 'Portuguese'],
-  },
-];
 
 export function ProfessionalNetworkDirectory({
   onSelectProfessional: _onSelectProfessional,
@@ -278,7 +96,14 @@ export function ProfessionalNetworkDirectory({
 }: ProfessionalNetworkDirectoryProps) {
   const { t } = useTranslation('ui/professional-network');
   const SPECIALIZATIONS = t('specializations', { returnObjects: true }) as string[];
-  const [professionals] = useState<ProfessionalProfile[]>(SAMPLE_PROFESSIONALS);
+
+  const [professionals, setProfessionals] = useState<ProfessionalProfile[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageLimit = 20;
   const [filters, setFilters] = useState<DirectoryFilters>({
     search: '',
     specializations: [],
@@ -292,34 +117,147 @@ export function ProfessionalNetworkDirectory({
     sortOrder: 'desc',
   });
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [searchDebounceTimer, setSearchDebounceTimer] = useState<NodeJS.Timeout | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [selectedProfessional, setSelectedProfessional] =
     useState<null | ProfessionalProfile>(null);
 
+  // Convert API response to component format
+  const transformProfessional = useCallback((prof: ServiceProfessionalProfile): ProfessionalProfile => {
+    return {
+      ...prof,
+      reviewCount: prof.reviews_count || 0,
+      responseTime: prof.response_time_hours ? `< ${prof.response_time_hours} hours` : '< 24 hours',
+      availability: (prof.availability_status as 'available' | 'busy' | 'away') || 'available',
+      services: [
+        {
+          type: 'consultation',
+          description: 'Professional consultation',
+          startingPrice: prof.hourly_rate || 300,
+        },
+        {
+          type: 'review',
+          description: 'Document review service',
+          startingPrice: (prof.hourly_rate || 300) * 2,
+        },
+        {
+          type: 'retainer',
+          description: 'Ongoing legal counsel',
+          startingPrice: (prof.hourly_rate || 300) * 8,
+        },
+      ],
+      // Mock additional fields that aren't in the API yet
+      achievements: prof.experience_years >= 15 ? ['Senior Professional', `${prof.experience_years}+ Years Experience`] : undefined,
+      languages: ['English'], // Default to English
+    };
+  }, []);
+
+  // Load professionals from API
+  const loadProfessionals = useCallback(async (
+    searchQuery = '',
+    additionalFilters = {},
+    page = 1,
+    append = false
+  ) => {
+    try {
+      if (!append) {
+        setIsLoading(true);
+        setError(null);
+      }
+
+      const apiFilters = {
+        type: filters.specializations.length > 0 ? 'attorney' : undefined,
+        minRating: filters.ratingMin > 0 ? filters.ratingMin : undefined,
+        maxHourlyRate: filters.priceRange[1] < 1000 ? filters.priceRange[1] : undefined,
+        availability: filters.availability !== 'all' ? filters.availability : undefined,
+        verified: true,
+        ...additionalFilters,
+      };
+
+      let result;
+      if (searchQuery.trim()) {
+        result = await professionalService.searchProfessionals(
+          searchQuery,
+          apiFilters,
+          page,
+          pageLimit
+        );
+      } else {
+        result = await professionalService.getProfessionals(
+          apiFilters,
+          page,
+          pageLimit
+        );
+      }
+
+      const transformedProfessionals = result.professionals.map(transformProfessional);
+
+      if (append) {
+        setProfessionals(prev => [...prev, ...transformedProfessionals]);
+      } else {
+        setProfessionals(transformedProfessionals);
+      }
+
+      setTotalCount(result.totalCount);
+      setHasMore(result.hasMore);
+      setCurrentPage(page);
+    } catch (err) {
+      console.error('Failed to load professionals:', err);
+      setError('Failed to load professionals. Please try again.');
+      if (!append) {
+        setProfessionals([]);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [filters, transformProfessional]);
+
+  // Debounced search
+  const debouncedSearch = useCallback((searchQuery: string) => {
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+    }
+
+    const timer = setTimeout(() => {
+      loadProfessionals(searchQuery, {}, 1, false);
+    }, 300);
+
+    setSearchDebounceTimer(timer);
+  }, [loadProfessionals, searchDebounceTimer]);
+
+  // Initial load
+  useEffect(() => {
+    loadProfessionals();
+  }, []);
+
+  // Handle filter changes
+  useEffect(() => {
+    loadProfessionals(filters.search, {}, 1, false);
+  }, [
+    filters.specializations,
+    filters.ratingMin,
+    filters.priceRange,
+    filters.availability,
+  ]);
+
+  // Handle search changes
+  useEffect(() => {
+    debouncedSearch(filters.search);
+  }, [filters.search]);
+
+  // Cleanup debounce timer
+  useEffect(() => {
+    return () => {
+      if (searchDebounceTimer) {
+        clearTimeout(searchDebounceTimer);
+      }
+    };
+  }, [searchDebounceTimer]);
+
+  // Client-side filtering for local filters not handled by API
   const filteredAndSortedProfessionals = professionals
     .filter(prof => {
-      // Search filter
-      if (filters.search) {
-        const search = filters.search.toLowerCase();
-        if (
-          !prof.full_name.toLowerCase().includes(search) &&
-          !prof.professional_title?.toLowerCase().includes(search) &&
-          !prof.law_firm_name?.toLowerCase().includes(search) &&
-          !prof.specializations.some(s => s.name.toLowerCase().includes(search))
-        ) {
-          return false;
-        }
-      }
-
-      // Specialization filter
-      if (filters.specializations.length > 0) {
-        const profSpecs = prof.specializations.map(s => s.name);
-        if (!filters.specializations.some(spec => profSpecs.includes(spec))) {
-          return false;
-        }
-      }
-
-      // State filter
+      // State filter (client-side)
       if (filters.states.length > 0) {
         if (
           !filters.states.some(state => prof.licensed_states?.includes(state))
@@ -328,7 +266,7 @@ export function ProfessionalNetworkDirectory({
         }
       }
 
-      // Experience range
+      // Experience range (client-side)
       if (
         prof.experience_years < filters.experienceRange[0] ||
         prof.experience_years > filters.experienceRange[1]
@@ -336,29 +274,7 @@ export function ProfessionalNetworkDirectory({
         return false;
       }
 
-      // Rating filter
-      if (prof.rating < filters.ratingMin) {
-        return false;
-      }
-
-      // Price range
-      if (
-        prof.hourly_rate &&
-        (prof.hourly_rate < filters.priceRange[0] ||
-          prof.hourly_rate > filters.priceRange[1])
-      ) {
-        return false;
-      }
-
-      // Availability filter
-      if (
-        filters.availability !== 'all' &&
-        prof.availability !== filters.availability
-      ) {
-        return false;
-      }
-
-      // Language filter
+      // Language filter (client-side)
       if (filters.languages.length > 0) {
         if (!filters.languages.some(lang => prof.languages?.includes(lang))) {
           return false;
@@ -373,20 +289,20 @@ export function ProfessionalNetworkDirectory({
 
       switch (filters.sortBy) {
         case 'rating':
-          aValue = a.rating;
-          bValue = b.rating;
+          aValue = a.rating || 0;
+          bValue = b.rating || 0;
           break;
         case 'experience':
-          aValue = a.experience_years;
-          bValue = b.experience_years;
+          aValue = a.experience_years || 0;
+          bValue = b.experience_years || 0;
           break;
         case 'price':
           aValue = a.hourly_rate || 0;
           bValue = b.hourly_rate || 0;
           break;
         case 'reviews':
-          aValue = a.reviewCount;
-          bValue = b.reviewCount;
+          aValue = a.reviewCount || 0;
+          bValue = b.reviewCount || 0;
           break;
         default:
           return 0;
@@ -861,7 +777,10 @@ export function ProfessionalNetworkDirectory({
 
               <div className='flex items-center gap-2'>
                 <span className='text-sm text-muted-foreground'>
-                  {t('search.results', { count: filteredAndSortedProfessionals.length })}
+                  {isLoading
+                    ? 'Loading...'
+                    : `${filteredAndSortedProfessionals.length} of ${totalCount} professionals`
+                  }
                 </span>
 
                 <Separator orientation='vertical' className='h-6' />
@@ -1078,8 +997,49 @@ export function ProfessionalNetworkDirectory({
         </CardContent>
       </Card>
 
+      {/* Loading State */}
+      {isLoading && professionals.length === 0 && (
+        <Card>
+          <CardContent className='p-12 text-center'>
+            <div className='w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse'>
+              <Search className='h-8 w-8 text-blue-400' />
+            </div>
+            <h3 className='text-lg font-semibold mb-2'>
+              Loading Professionals
+            </h3>
+            <p className='text-muted-foreground'>
+              Finding the best legal professionals for you...
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <Card>
+          <CardContent className='p-12 text-center'>
+            <div className='w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+              <Search className='h-8 w-8 text-red-400' />
+            </div>
+            <h3 className='text-lg font-semibold mb-2 text-red-600'>
+              Error Loading Professionals
+            </h3>
+            <p className='text-muted-foreground mb-4'>
+              {error}
+            </p>
+            <Button
+              variant='outline'
+              onClick={() => loadProfessionals(filters.search, {}, 1, false)}
+            >
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Results */}
-      <div className='space-y-4'>
+      {!isLoading && !error && (
+        <div className='space-y-4'>
         {viewMode === 'grid' ? (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             {filteredAndSortedProfessionals.map(renderProfessionalCard)}
@@ -1108,7 +1068,21 @@ export function ProfessionalNetworkDirectory({
             </CardContent>
           </Card>
         )}
+
+        {/* Load More Button */}
+        {hasMore && !isLoading && (
+          <div className='text-center pt-6'>
+            <Button
+              variant='outline'
+              onClick={() => loadProfessionals(filters.search, {}, currentPage + 1, true)}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Loading...' : 'Load More Professionals'}
+            </Button>
+          </div>
+        )}
       </div>
+      )}
 
       {/* Professional Detail Modal */}
       <Dialog

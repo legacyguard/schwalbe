@@ -8,11 +8,11 @@ import { StepExecutor } from '../steps/StepExecutor'
 import { StepWitnesses } from '../steps/StepWitnesses'
 import { StepReview } from '../steps/StepReview'
 import { WizardLayout } from '../components/WizardLayout'
-import { WizardErrorBoundary } from '../components/ErrorBoundary'
+import { ComponentErrorBoundary } from '@/components/error/ErrorBoundary'
 
 export function WillWizardRoutes() {
   return (
-    <WizardErrorBoundary>
+    <ComponentErrorBoundary>
       <WizardProvider>
         <WizardLayout>
           <Routes>
@@ -26,7 +26,7 @@ export function WillWizardRoutes() {
           </Routes>
         </WizardLayout>
       </WizardProvider>
-    </WizardErrorBoundary>
+    </ComponentErrorBoundary>
   )
 }
 

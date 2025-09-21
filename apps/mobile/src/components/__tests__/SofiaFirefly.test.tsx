@@ -2,6 +2,8 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { SofiaFirefly } from '../sofia-firefly';
 
+import { describe, it, expect, jest } from '@jest/globals';
+
 describe('SofiaFirefly Component', () => {
   it('renders with default props', () => {
     const { getByLabelText } = render(<SofiaFirefly />);

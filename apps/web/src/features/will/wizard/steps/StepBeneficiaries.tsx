@@ -207,4 +207,4 @@ export const StepBeneficiaries = memo(function StepBeneficiaries() {
       </div>
     </form>
   )
-}
+})

@@ -88,7 +88,7 @@ export * from './utils/api-cache';
 
 // Export will services
 export { willService, WillService } from './services/will.service';
-export { willValidationService, WillValidationService } from './services/willValidation.service';
+// Will validation service moved to @schwalbe/logic package
 export { willGuardianIntegration, WillGuardianIntegrationService } from './services/willGuardianIntegration.service';
 
 // Export will types (keeping will-specific types with their original names)

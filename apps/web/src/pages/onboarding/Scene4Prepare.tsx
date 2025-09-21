@@ -4,6 +4,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { BoxTransformation } from '@/components/animations/BoxTransformation';
+import {
+  PersonalityAwareAnimation,
+  ContextAwareAnimation,
+  EmotionalAnimation,
+  PersonalityHoverEffect,
+  PersonalityAnimationUtils
+} from '@/components/animations/PersonalityAwareAnimations';
+import {
+  useSofiaPersonality,
+  PersonalityPresets
+} from '@/components/sofia-firefly/SofiaFireflyPersonality';
+import { LiquidMotion } from '@/components/animations/LiquidMotion';
+import SofiaFirefly from '@/components/sofia-firefly/SofiaFirefly';
 
 interface Scene4PrepareProps {
   onBack: () => void;
@@ -18,6 +31,10 @@ export default function Scene4Prepare({
   const [showFirefly, setShowFirefly] = useState(true);
   const [showBoxTransformation, setShowBoxTransformation] = useState(true);
   const [transformationComplete, setTransformationComplete] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
+
+  // Initialize Sofia personality for journey guidance
+  const { personality, adaptToContext, learnFromInteraction } = useSofiaPersonality(PersonalityPresets.newUser);
 
   useEffect(() => {
     // Show box transformation first, then proceed with firefly animation
@@ -61,8 +78,21 @@ export default function Scene4Prepare({
     setTransformationComplete(true);
   };
 
+  // Track user interactions for personality learning
+  useEffect(() => {
+    if (isInteracting) {
+      learnFromInteraction({
+        type: 'click',
+        duration: 500,
+        context: 'helping'
+      });
+      adaptToContext('helping');
+    }
+  }, [isInteracting, learnFromInteraction, adaptToContext]);
+
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'>
+    <PersonalityAwareAnimation personality={personality} context="helping">
+      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'>
       {/* Box Transformation Animation */}
       <BoxTransformation
         isVisible={showBoxTransformation}
@@ -340,5 +370,6 @@ export default function Scene4Prepare({
         )}
       </AnimatePresence>
     </div>
+    </PersonalityAwareAnimation>
   );
 }

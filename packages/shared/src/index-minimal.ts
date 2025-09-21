@@ -31,7 +31,7 @@ export { useAuthStore } from './stores/authStore';
 
 // Will services (needed for will functionality)
 export { willService } from './services/will.service';
-export { willValidationService } from './services/willValidation.service';
+// Will validation service moved to @schwalbe/logic package
 export { willGuardianIntegration } from './services/willGuardianIntegration.service';
 
 // Will types (needed for will functionality)

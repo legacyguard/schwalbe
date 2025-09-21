@@ -1,16 +1,19 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { MetaTags } from '@/components/common/MetaTags';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Icon } from '@/components/ui/icon-library';
-import { LegacyGuardLogo } from '@/components/LegacyGuardLogo';
+import { MetaTags } from '../components/common/MetaTags';
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
+import { Icon } from '../components/ui/icon-library';
+import { LegacyGuardLogo } from '../components/LegacyGuardLogo';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
-import { SecurityPromiseSection } from '@/components/landing/SecurityPromiseSection';
-import { PricingSection } from '@/components/landing/PricingSection';
-import { RedirectGuard } from '@/lib/utils/redirect-guard';
+import { supabase } from '../lib/supabase';
+import { SecurityPromiseSection } from '../components/landing/SecurityPromiseSection';
+import { PricingSection } from '../components/landing/PricingSection';
+import { RedirectGuard } from '../lib/utils/redirect-guard';
+import { SofiaFirefly } from '../components/sofia-firefly/SofiaFirefly';
+import { LiquidMotion } from '../components/animations/LiquidMotion';
+import { SpringPhysics } from '../components/animations/SpringPhysics';
 
 export function LandingPage() {
   const { t } = useTranslation('ui/landing-page');
@@ -90,11 +93,16 @@ export function LandingPage() {
     []
   );
 
-  // Mouse tracking for firefly
+  // Enhanced mouse tracking with spring physics
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const fireflyX = useTransform(mouseX, value => value - 12); // Offset to center firefly
-  const fireflyY = useTransform(mouseY, value => value - 12);
+  const springX = useSpring(mouseX, { stiffness: 300, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 300, damping: 30 });
+  const fireflyX = useTransform(springX, value => value - 12);
+  const fireflyY = useTransform(springY, value => value - 12);
+
+  // Sofia personality state
+  const [sofiaContext, setSofiaContext] = useState<'idle' | 'guiding' | 'celebrating' | 'helping' | 'waiting' | 'learning' | 'supporting' | 'encouraging'>('idle');
 
   // Redirect authenticated users to dashboard with onboarding check
   React.useEffect(() => {
@@ -149,10 +157,17 @@ export function LandingPage() {
 
   const handleCTAHover = () => {
     setIsFireflyOnButton(true);
+    setSofiaContext('celebrating');
   };
 
   const handleCTALeave = () => {
     setIsFireflyOnButton(false);
+    setSofiaContext('idle');
+  };
+
+  const handleSofiaInteraction = () => {
+    setSofiaContext('guiding');
+    setTimeout(() => setSofiaContext('idle'), 3000);
   };
 
   return (
@@ -179,10 +194,7 @@ export function LandingPage() {
             </motion.div>
 
             <div className='flex items-center gap-4'>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              <LiquidMotion.Morph variant="button-hover">
                 <Link to='/blog'>
                   <Button
                     variant='ghost'
@@ -191,11 +203,9 @@ export function LandingPage() {
                     {t('navigation.blog')}
                   </Button>
                 </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              </LiquidMotion.Morph>
+
+              <LiquidMotion.Morph variant="button-hover">
                 <Button
                   variant='ghost'
                   onClick={() => navigate('/sign-in')}
@@ -203,18 +213,16 @@ export function LandingPage() {
                 >
                   {t('navigation.signIn')}
                 </Button>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              </LiquidMotion.Morph>
+
+              <LiquidMotion.Morph variant="button-hover">
                 <Button
                   onClick={handleGetStarted}
                   className='bg-slate-700/70 hover:bg-slate-600 text-white border-slate-600 text-lg font-semibold px-6 py-2'
                 >
                   {t('hero.cta.free')}
                 </Button>
-              </motion.div>
+              </LiquidMotion.Morph>
             </div>
           </div>
         </div>
@@ -283,109 +291,138 @@ export function LandingPage() {
           </svg>
         </div>
 
-        {/* Interactive Sofia Firefly */}
+        {/* Enhanced Sofia Firefly with Liquid Motion */}
         <motion.div
-          className='fixed pointer-events-none z-40'
+          className='fixed pointer-events-auto z-40'
           style={{ x: fireflyX, y: fireflyY }}
         >
-          {/* Firefly Glow */}
-          <motion.div
-            className='absolute inset-0 rounded-full'
-            animate={{
-              boxShadow: [
-                '0 0 20px rgba(255, 255, 0, 0.4)',
-                '0 0 30px rgba(255, 255, 0, 0.6)',
-                '0 0 20px rgba(255, 255, 0, 0.4)',
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-
-          {/* Firefly Body */}
-          <motion.div
-            className='w-6 h-6 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full shadow-lg'
-            animate={{ scale: [1, 1.1, 1] }}
-            style={{ filter: 'brightness(1.3)' }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-
-          {/* Wings */}
-          <motion.div
-            className='absolute -top-1 -left-1 w-3 h-3'
-            animate={{ rotate: [0, 15, -15, 0], opacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 0.3, repeat: Infinity, ease: 'easeInOut' }}
+          <LiquidMotion.ContextualMorph
+            context="neutral"
+            intensity="subtle"
           >
-            <div className='w-full h-full bg-gradient-to-br from-blue-200/60 to-purple-200/60 rounded-full blur-sm' />
-          </motion.div>
-
-          <motion.div
-            className='absolute -top-1 -right-1 w-3 h-3'
-            animate={{ rotate: [0, -15, 15, 0], opacity: [0.3, 0.7, 0.3] }}
-            transition={{
-              duration: 0.3,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 0.15,
-            }}
-          >
-            <div className='w-full h-full bg-gradient-to-br from-blue-200/60 to-purple-200/60 rounded-full blur-sm' />
-          </motion.div>
+            <SofiaFirefly
+              size="large"
+              variant="floating"
+              personality="empathetic"
+              context={sofiaContext}
+              onTouch={handleSofiaInteraction}
+              enableAdvancedAnimations={true}
+              enableHaptics={true}
+              glowIntensity={0.4}
+              className="cursor-pointer"
+            />
+          </LiquidMotion.ContextualMorph>
         </motion.div>
 
         {/* Main Content */}
         <div className='relative z-30 text-center text-white max-w-4xl mx-auto px-4'>
-          <motion.h1
-            className='text-6xl lg:text-8xl font-bold mb-8 leading-tight'
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
-          >
-            {t('hero.title')}
-            <br />
-            <span className='text-yellow-400'>{t('hero.subtitle')}</span>
-          </motion.h1>
+          <LiquidMotion.FadeIn direction="up" distance={30} delay={0.5}>
+            <motion.h1
+              className='text-6xl lg:text-8xl font-bold mb-8 leading-tight'
+              animate={{
+                textShadow: [
+                  '0 0 20px rgba(255, 255, 255, 0.5)',
+                  '0 0 30px rgba(255, 255, 255, 0.8)',
+                  '0 0 20px rgba(255, 255, 255, 0.5)',
+                ]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}
+            >
+              {t('hero.title')}
+              <br />
+              <span className='text-yellow-400'>{t('hero.subtitle')}</span>
+            </motion.h1>
+          </LiquidMotion.FadeIn>
 
-          <motion.p
-            className='text-xl lg:text-2xl text-slate-300 mb-16 max-w-3xl mx-auto leading-relaxed'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-          >
-            {t('hero.description')}
-          </motion.p>
+          <LiquidMotion.FadeIn direction="up" distance={20} delay={1}>
+            <motion.p
+              className='text-xl lg:text-2xl text-slate-300 mb-16 max-w-3xl mx-auto leading-relaxed'
+              animate={{
+                y: [0, -2, 0],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 2
+              }}
+            >
+              {t('hero.description')}
+            </motion.p>
+          </LiquidMotion.FadeIn>
+
+          {/* Contextual Sofia Message */}
+          <LiquidMotion.ScaleIn delay={1.5}>
+            <motion.div
+              className='bg-slate-800/80 backdrop-blur-sm border border-yellow-400/30 rounded-lg px-6 py-4 max-w-md mx-auto mb-8'
+              animate={{
+                boxShadow: [
+                  '0 0 20px rgba(251, 191, 36, 0.1)',
+                  '0 0 30px rgba(251, 191, 36, 0.2)',
+                  '0 0 20px rgba(251, 191, 36, 0.1)',
+                ]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}
+            >
+              <p className='text-yellow-400 text-lg font-medium text-center'>
+                ✨ Sofia: "I'm here to guide you through this journey with care and wisdom"
+              </p>
+            </motion.div>
+          </LiquidMotion.ScaleIn>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 1.5 }}
           >
-            <Button
-              ref={ctaButtonRef}
-              size='lg'
-              onClick={handleGetStarted}
-              onMouseEnter={handleCTAHover}
-              onMouseLeave={handleCTALeave}
-              className='bg-yellow-500 hover:bg-yellow-400 text-slate-900 text-xl px-12 py-6 rounded-full shadow-2xl hover:shadow-yellow-500/25 transition-all duration-300 font-semibold relative overflow-hidden'
-            >
-              <motion.div
-                className='absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-300'
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '0%' }}
-                transition={{ duration: 0.3 }}
-              />
-              <span className='relative z-10'>{t('hero.cta.main')}</span>
-
-              {/* Firefly Landing Spot */}
-              {isFireflyOnButton && (
+            <LiquidMotion.Morph variant="button-hover">
+              <Button
+                ref={ctaButtonRef}
+                size='lg'
+                onClick={handleGetStarted}
+                onMouseEnter={handleCTAHover}
+                onMouseLeave={handleCTALeave}
+                className='bg-yellow-500 hover:bg-yellow-400 text-slate-900 text-xl px-12 py-6 rounded-full shadow-2xl hover:shadow-yellow-500/25 transition-all duration-300 font-semibold relative overflow-hidden group'
+              >
                 <motion.div
-                  className='absolute top-2 right-4 w-2 h-2 bg-yellow-300 rounded-full z-20'
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  className='absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-300'
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '0%' }}
+                  transition={{ duration: 0.3 }}
                 />
-              )}
-            </Button>
+                <span className='relative z-10'>{t('hero.cta.main')}</span>
+
+                {/* Enhanced Firefly Landing with Liquid Motion */}
+                {isFireflyOnButton && (
+                  <LiquidMotion.ScaleIn className='absolute top-2 right-4 z-20'>
+                    <motion.div
+                      className='w-3 h-3 bg-yellow-300 rounded-full shadow-lg'
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        boxShadow: [
+                          '0 0 5px rgba(255, 255, 0, 0.6)',
+                          '0 0 10px rgba(255, 255, 0, 0.8)',
+                          '0 0 5px rgba(255, 255, 0, 0.6)',
+                        ]
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: 'easeInOut'
+                      }}
+                    />
+                  </LiquidMotion.ScaleIn>
+                )}
+              </Button>
+            </LiquidMotion.Morph>
           </motion.div>
         </div>
       </section>
@@ -1298,15 +1335,29 @@ export function LandingPage() {
 
           {/* Final Message */}
           <div className='relative z-10 text-center text-white max-w-2xl mx-auto px-4 mt-32'>
-            <motion.h2
-              className='text-5xl lg:text-6xl font-bold mb-8 leading-tight'
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
-              viewport={{ once: true }}
-            >
-              {t('cta.final.title')}
-            </motion.h2>
+            <LiquidMotion.FadeIn direction="up" distance={30} delay={1}>
+              <motion.h2
+                className='text-5xl lg:text-6xl font-bold mb-8 leading-tight'
+                animate={{
+                  background: [
+                    'linear-gradient(45deg, #ffffff, #fbbf24)',
+                    'linear-gradient(45deg, #fbbf24, #f59e0b)',
+                    'linear-gradient(45deg, #f59e0b, #ffffff)',
+                    'linear-gradient(45deg, #ffffff, #fbbf24)',
+                  ],
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }}
+              >
+                {t('cta.final.title')}
+              </motion.h2>
+            </LiquidMotion.FadeIn>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -1314,21 +1365,60 @@ export function LandingPage() {
               transition={{ duration: 0.8, delay: 1.5 }}
               viewport={{ once: true }}
             >
-              <Button
-                size='lg'
-                onClick={handleGetStarted}
-                className='bg-yellow-500 hover:bg-yellow-400 text-slate-900 text-xl px-16 py-8 rounded-full shadow-2xl hover:shadow-yellow-500/25 transition-all duration-300 font-bold relative overflow-hidden group'
-              >
+              {/* Sofia's encouraging message */}
+              <LiquidMotion.ScaleIn delay={2}>
                 <motion.div
-                  className='absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-300'
-                  initial={{ scale: 0 }}
-                  whileHover={{ scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <span className='relative z-10 group-hover:scale-105 transition-transform duration-200'>
-                  {t('cta.final.button')}
-                </span>
-              </Button>
+                  className='bg-slate-800/90 backdrop-blur-sm border border-yellow-400/40 rounded-lg px-6 py-4 max-w-lg mx-auto mb-6'
+                  animate={{
+                    boxShadow: [
+                      '0 0 15px rgba(251, 191, 36, 0.15)',
+                      '0 0 25px rgba(251, 191, 36, 0.25)',
+                      '0 0 15px rgba(251, 191, 36, 0.15)',
+                    ]
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut'
+                  }}
+                >
+                  <p className='text-yellow-400 text-lg font-medium text-center'>
+                    🌟 Sofia: "Your legacy journey begins with courage. I'm here to light the way."
+                  </p>
+                </motion.div>
+              </LiquidMotion.ScaleIn>
+              <LiquidMotion.Morph variant="button-hover">
+                <Button
+                  size='lg'
+                  onClick={handleGetStarted}
+                  className='bg-yellow-500 hover:bg-yellow-400 text-slate-900 text-xl px-16 py-8 rounded-full shadow-2xl hover:shadow-yellow-500/25 transition-all duration-300 font-bold relative overflow-hidden group'
+                >
+                  <motion.div
+                    className='absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-300'
+                    initial={{ scale: 0 }}
+                    whileHover={{ scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <span className='relative z-10 group-hover:scale-105 transition-transform duration-200'>
+                    {t('cta.final.button')}
+                  </span>
+
+                  {/* Liquid ripple effect */}
+                  <motion.div
+                    className='absolute inset-0 rounded-full bg-yellow-300/30'
+                    initial={{ scale: 0, opacity: 1 }}
+                    animate={{
+                      scale: [0, 2, 0],
+                      opacity: [1, 0, 0]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: 'easeOut'
+                    }}
+                  />
+                </Button>
+              </LiquidMotion.Morph>
             </motion.div>
           </div>
         </section>

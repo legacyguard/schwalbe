@@ -334,6 +334,7 @@ export const SofiaFirefly: React.FC<SofiaFireflyProps> = ({
         animations?.pulse?.stop();
       };
     }
+    return undefined;
   }, [isActive, enableAdvancedAnimations, startFloatingAnimation]);
 
   // Cleanup on unmount
