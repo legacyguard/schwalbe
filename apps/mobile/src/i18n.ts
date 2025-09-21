@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-// Minimal namespaces aligned with web-next
+// Minimal namespaces for mobile app
 // - navigation: tab titles and common nav items
 // - auth: login/biometric labels and errors
 // - common: generic labels (error, cancel, etc.)

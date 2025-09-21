@@ -7,7 +7,7 @@
  */
 
 export const emotionalColors = {
-  // Primary - Night sky theme (matching web-next)
+  // Primary - Night sky theme
   backgroundPrimary: '#0f172a',    // Deep slate (from-slate-900)
   backgroundSecondary: '#1e293b',  // Starry night (via-slate-800)
   backgroundTertiary: '#334155',   // Lighter slate (to-slate-700)

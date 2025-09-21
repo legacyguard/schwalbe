@@ -222,7 +222,7 @@ function ensureDirectoryExists(dirPath: string) {
 }
 
 function generateLanguageFiles() {
-  const localesDir = path.join(__dirname, '../apps/web-next/public/locales');
+  const localesDir = path.join(__dirname, '../apps/web/public/locales');
   
   console.log('🌍 Generating language files for 34 languages...\n');
   
@@ -259,7 +259,7 @@ function generateLanguageFiles() {
 }
 
 function updateMiddleware() {
-  const middlewarePath = path.join(__dirname, '../apps/web-next/src/middleware.ts');
+  const middlewarePath = path.join(__dirname, '../apps/web/src/middleware.ts');
   
   if (!fs.existsSync(middlewarePath)) {
     console.log('⚠️  Middleware file not found, skipping update');
@@ -286,7 +286,7 @@ function updateMiddleware() {
 }
 
 function createI18nConfig() {
-  const configPath = path.join(__dirname, '../apps/web-next/src/i18n-config.ts');
+  const configPath = path.join(__dirname, '../apps/web/src/i18n-config.ts');
   
   const configContent = `/**
  * i18n configuration for all 34 supported languages

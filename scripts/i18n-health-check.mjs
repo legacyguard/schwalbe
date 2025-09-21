@@ -74,10 +74,8 @@ const DOMAIN_LANGUAGES = {
 
 // Translation file paths for different applications
 const TRANSLATION_PATHS = [
-  // Web application (current)
+  // Web application
   { app: 'web', path: 'apps/web/public/locales', pattern: '{lang}/{namespace}.json' },
-  // Web Next.js application
-  { app: 'web-next', path: 'apps/web-next/messages', pattern: '{lang}.json' },
   // Mobile application
   { app: 'mobile', path: 'apps/mobile/locales', pattern: '{lang}/{namespace}.json' },
   // Shared UI components

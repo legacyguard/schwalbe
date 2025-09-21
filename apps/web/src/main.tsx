@@ -9,7 +9,7 @@ import { isLandingEnabled } from '@/config/flags';
 import LandingV2 from '@/components/landing/LandingV2';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
-import { CriticalErrorBoundary, PageErrorBoundary } from '@/components/error/ErrorBoundary';
+import { CriticalErrorBoundary, PageErrorBoundary, FeatureErrorBoundary } from '@/components/error/ErrorBoundary';
 import '@/lib/i18n';
 import './styles.css';
 
