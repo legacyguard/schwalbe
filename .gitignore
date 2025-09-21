@@ -87,3 +87,4 @@ spec-kit/**/generated/
 spec-kit/**/out/
 
 .claude/settings.local.json
+.env.local
