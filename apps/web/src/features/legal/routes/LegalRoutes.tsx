@@ -37,3 +37,5 @@ export function LegalRoutes() {
     </Routes>
   )
 }
+
+export default LegalRoutes;

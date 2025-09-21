@@ -91,7 +91,7 @@ export function CountryMenu() {
                         <span className="ml-2 text-[10px] uppercase text-slate-300">current</span>
                       ) : null}
                     </span>
-                    <span className="text-xs text-slate-400">{c.host}</span>
+                    <span className="text-xs text-slate-400 uppercase font-mono">{c.code}</span>
                   </button>
                 </li>
               )

@@ -1,0 +1,299 @@
+/**
+ * Accessibility-focused CSS styles
+ * Ensures WCAG AA compliance for color contrast and focus management
+ */
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Focus management and visibility */
+.focus-visible:focus,
+.focus\:ring-2:focus,
+*:focus-visible {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+/* Skip links for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  /* Increase border contrast */
+  .border-slate-600 {
+    border-color: #000 !important;
+  }
+
+  .border-slate-700 {
+    border-color: #333 !important;
+  }
+
+  /* Improve text contrast */
+  .text-slate-300 {
+    color: #fff !important;
+  }
+
+  .text-slate-400 {
+    color: #ccc !important;
+  }
+
+  /* Make focus indicators more prominent */
+  *:focus {
+    outline: 3px solid #ffff00 !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Color contrast improvements */
+.text-blue-200 {
+  color: #bfdbfe !important; /* Improved contrast ratio */
+}
+
+.text-blue-300 {
+  color: #93c5fd !important; /* Improved contrast ratio */
+}
+
+.text-yellow-200 {
+  color: #fef3c7 !important; /* Improved contrast ratio */
+}
+
+.text-yellow-300 {
+  color: #fcd34d !important; /* Improved contrast ratio */
+}
+
+.text-red-200 {
+  color: #fecaca !important; /* Improved contrast ratio */
+}
+
+.text-red-300 {
+  color: #fca5a5 !important; /* Improved contrast ratio */
+}
+
+.text-green-100 {
+  color: #dcfce7 !important; /* Improved contrast ratio */
+}
+
+/* Button contrast improvements */
+.bg-blue-600 {
+  background-color: #1d4ed8 !important; /* Higher contrast blue */
+}
+
+.bg-blue-700 {
+  background-color: #1e40af !important; /* Higher contrast blue hover */
+}
+
+.bg-slate-600 {
+  background-color: #374151 !important; /* Higher contrast gray */
+}
+
+.bg-slate-700 {
+  background-color: #1f2937 !important; /* Higher contrast gray hover */
+}
+
+/* Error and warning state improvements */
+.bg-red-900\/50 {
+  background-color: rgba(127, 29, 29, 0.7) !important; /* Better contrast for error states */
+}
+
+.bg-yellow-900\/50 {
+  background-color: rgba(120, 113, 108, 0.7) !important; /* Better contrast for warning states */
+}
+
+.border-red-700 {
+  border-color: #b91c1c !important; /* Higher contrast red border */
+}
+
+.border-yellow-700 {
+  border-color: #a16207 !important; /* Higher contrast yellow border */
+}
+
+/* Interactive element states */
+.hover\:border-slate-500:hover {
+  border-color: #6b7280 !important; /* Better hover contrast */
+}
+
+.focus\:ring-blue-500:focus {
+  --tw-ring-color: #3b82f6 !important; /* Ensure focus ring is visible */
+  box-shadow: 0 0 0 2px var(--tw-ring-color) !important;
+}
+
+/* Ensure minimum touch target size (44px x 44px) */
+button,
+.btn,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 1rem;
+}
+
+/* Select and input improvements */
+select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+  min-height: 44px;
+  font-size: 16px; /* Prevents zoom on iOS */
+}
+
+/* Progress bar accessibility */
+[role="progressbar"] {
+  min-height: 8px; /* Ensure progress bars are visible */
+}
+
+/* List accessibility */
+[role="list"] {
+  list-style: none;
+  padding: 0;
+}
+
+[role="listitem"] {
+  margin-bottom: 0.25rem;
+}
+
+/* Status indicators */
+[role="status"],
+[role="alert"] {
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+/* Navigation accessibility */
+nav[role="navigation"] {
+  /* Ensure navigation is clearly defined */
+}
+
+/* Form accessibility */
+form[role="form"] {
+  /* Ensure forms are properly structured */
+}
+
+fieldset {
+  border: 1px solid #6b7280;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+legend {
+  font-weight: 600;
+  padding: 0 0.5rem;
+}
+
+/* Label improvements */
+label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+/* Required field indicators */
+.required::after,
+[aria-required="true"] + label::after {
+  content: " *";
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* Error message styling */
+[role="alert"] {
+  border-left: 4px solid #dc2626;
+  background-color: rgba(127, 29, 29, 0.1);
+  color: #fecaca;
+}
+
+/* Help text styling */
+.help-text,
+[id$="-help"] {
+  font-size: 0.875rem;
+  color: #d1d5db;
+  margin-top: 0.25rem;
+}
+
+/* Loading states */
+[aria-busy="true"] {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+/* Dark mode accessibility improvements */
+@media (prefers-color-scheme: dark) {
+  /* Ensure sufficient contrast in dark mode */
+  body {
+    background-color: #0f172a;
+    color: #f8fafc;
+  }
+
+  /* Improve form control contrast in dark mode */
+  input, select, textarea {
+    background-color: #1e293b;
+    border-color: #475569;
+    color: #f8fafc;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #3b82f6;
+    background-color: #1e293b;
+  }
+}
+
+/* Print styles for accessibility */
+@media print {
+  .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: 0 !important;
+  }
+
+  /* Show hidden content that might be important for printed version */
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+}

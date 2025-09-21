@@ -17,3 +17,17 @@ export function isLandingEnabled(): boolean {
   // Enable landing page by default for production deployment
   return parseFlag(import.meta.env.VITE_ENABLE_LANDING) || true;
 }
+
+export function isFeatureEnabled(feature: string): boolean {
+  // Generic feature flag function - can be extended to check specific features
+  switch (feature) {
+    case 'sofiaFirefly':
+      return parseFlag(import.meta.env.VITE_ENABLE_SOFIA_FIREFLY) || true;
+    case 'emotionalMessages':
+      return parseFlag(import.meta.env.VITE_ENABLE_EMOTIONAL_MESSAGES) || true;
+    case 'achievements':
+      return parseFlag(import.meta.env.VITE_ENABLE_ACHIEVEMENTS) || true;
+    default:
+      return true; // Enable features by default in development
+  }
+}

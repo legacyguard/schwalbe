@@ -1,54 +1,54 @@
 {
   "meta": {
-    "title": "Secure Your Family's Future | Document Management & Legacy Planning",
-    "description": "Transform life's chaos into clarity with LegacyGuard. Securely organize documents, protect your family with AI-powered guidance, and create your lasting legacy. Start free today.",
+    "title": "Zabezpečte budúcnosť svojej rodiny | Správa dokumentov a plánovanie dedičstva",
+    "description": "Premeňte životný chaos na jasnosť s LegacyGuard. Bezpečne organizujte dokumenty, chráňte svoju rodinu s pomocou AI a vytvorte svoje trvalé dedičstvo. Začnite zadarmo už dnes.",
     "url": "https://legacyguard.app"
   },
-  "navigation": { "blog": "Blog", "signIn": "Sign In" },
+  "navigation": { "blog": "Blog", "signIn": "Prihlásiť sa" },
   "hero": {
-    "title": "Life's Chaos → Organized Clarity",
-    "subtitle": "Let's Make it a Legend.",
-    "description": "Transform overwhelming documents and life's complexities into a beautifully organized legacy that protects your family's future.",
-    "cta": { "main": "Start Your Journey", "secondary": "Learn More", "free": "Get Started Free" }
+    "title": "Životný chaos → Organizovaná jasnosť",
+    "subtitle": "Spravme z toho legendu.",
+    "description": "Premeňte ohromujúce množstvo dokumentov a životné zložitosti na krásne organizované dedičstvo, ktoré ochráni budúcnosť vašej rodiny.",
+    "cta": { "main": "Začnite svoju cestu", "secondary": "Dozvedieť sa viac", "free": "Začať zadarmo" }
   },
   "problem": {
-    "title": "Life's chaos overwhelms your family planning",
-    "description": "Important documents scattered everywhere. Passwords forgotten. Family unaware of your wishes.",
-    "highlight": "In a crisis, this chaos becomes a burden for your loved ones."
+    "title": "Životný chaos zahltáva vaše rodinné plánovanie",
+    "description": "Dôležité dokumenty rozptýlené všade. Zabudnuté heslá. Rodina nevie o vašich prianiach.",
+    "highlight": "V kríze sa tento chaos stáva bremenom pre vašich blízkych."
   },
   "promise": {
-    "title": "Transform chaos into clarity",
-    "description": "A gift of peace for your family.",
-    "highlight": "Everything organized, protected, and ready when it matters most."
+    "title": "Premeňte chaos na jasnosť",
+    "description": "Dar pokoja pre vašu rodinu.",
+    "highlight": "Všetko organizované, chránené a pripravené, keď na tom najviac záleží."
   },
   "features": {
-    "title": "Your Journey to Peace of Mind",
-    "subtitle": "Three simple acts that transform chaos into lasting clarity",
-    "act1": { "title": "Act 1: Organize Your Present", "description": "Transform scattered documents into a secure, organized digital vault with AI-powered categorization and insights." },
-    "act2": { "title": "Act 2: Protect Your Family", "description": "Set up comprehensive emergency protocols and family shields to ensure your loved ones are never left in the dark." },
-    "act3": { "title": "Act 3: Define Your Legacy", "description": "Create time capsules, record personal messages, and build a living legacy that grows with your family's story." }
+    "title": "Vaša cesta k duševnému pokoju",
+    "subtitle": "Tri jednoduché kroky, ktoré premenia chaos na trvalú jasnosť",
+    "act1": { "title": "Krok 1: Organizujte svoju súčasnosť", "description": "Premeňte rozptýlené dokumenty na bezpečný, organizovaný digitálny trezor s AI kategorizáciou a prehľadmi." },
+    "act2": { "title": "Krok 2: Chráňte svoju rodinu", "description": "Nastavte komplexné núdzové protokoly a rodinné štíty, aby vaši blízki nikdy nezostali v tme." },
+    "act3": { "title": "Krok 3: Definujte svoje dedičstvo", "description": "Vytvorte časové kapsuly, nahrajte osobné správy a postavte živé dedičstvo, ktoré porastie s príbehom vašej rodiny." }
   },
   "howItWorks": {
-    "title": "How It Works",
-    "subtitle": "Three simple steps to transform your family's future",
+    "title": "Ako to funguje",
+    "subtitle": "Tri jednoduché kroky k transformácii budúcnosti vašej rodiny",
     "steps": {
-      "act1": { "title": "Organize & Secure", "description": "Upload documents, get AI insights, create your digital vault" },
-      "act2": { "title": "Protect & Plan", "description": "Set up emergency protocols, invite guardians, create your will" },
-      "act3": { "title": "Legacy & Love", "description": "Record messages, plan time capsules, build your living legacy" }
+      "act1": { "title": "Organizuj a zabezpeč", "description": "Nahrajte dokumenty, získajte AI pozorovanania, vytvorte svoj digitálny trezor" },
+      "act2": { "title": "Chráň a plánuj", "description": "Nastavte núdzové protokoly, pozvite opatrovníkov, vytvorte svoj závet" },
+      "act3": { "title": "Dedičstvo a láska", "description": "Nahrajte správy, naplánujte časové kapsuly, postavte svoje živé dedičstvo" }
     }
   },
-  "values": { "title": "Our Sacred Promises", "subtitle": "The principles that guide every decision we make" },
+  "values": { "title": "Naše sväté sľuby", "subtitle": "Princípy, ktoré riadia každé naše rozhodnutie" },
   "trust": {
-    "title": "Trusted by Families Worldwide",
-    "subtitle": "Built with enterprise-grade security and backed by industry leaders",
-    "poweredBy": { "clerk": "Secured by Clerk", "supabase": "Powered by Supabase", "vercel": "Deployed on Vercel", "legal": "Legal Partnership", "gdpr": "GDPR Compliant" },
-    "indicators": { "endToEndEncryption": "End-to-End Encryption", "zeroKnowledge": "Zero-Knowledge Architecture", "bankLevelSecurity": "Bank-Level Security", "legalExpertConsultation": "Legal Expert Consultation" }
+    "title": "Dôverujú nám rodiny po celom svete",
+    "subtitle": "Postavené s podnikovou bezpečnosťou a podporované priemyselnými lídrami",
+    "poweredBy": { "clerk": "Zabezpečené Clerk", "supabase": "Poháňané Supabase", "vercel": "Nasadené na Vercel", "legal": "Právne partnerstvo", "gdpr": "GDPR kompatibilné" },
+    "indicators": { "endToEndEncryption": "End-to-End šifrovanie", "zeroKnowledge": "Zero-Knowledge architektúra", "bankLevelSecurity": "Banková úroveň bezpečnosti", "legalExpertConsultation": "Konzultácie s právnymi expertmi" }
   },
-  "cta": { "final": { "title": "Your Legacy Awaits", "button": "Begin Your Journey" } },
+  "cta": { "final": { "title": "Vaše dedičstvo čaká", "button": "Začnite svoju cestu" } },
   "footer": {
-    "tagline": "Transforming life's chaos into lasting clarity, one family at a time.",
-    "sections": { "product": "Product", "support": "Support", "legal": "Legal" },
-    "links": { "features": "Features", "security": "Security", "pricing": "Pricing", "helpCenter": "Help Center", "contactUs": "Contact Us", "userGuides": "User Guides", "privacyPolicy": "Privacy Policy", "termsOfService": "Terms of Service", "securityPolicy": "Security Policy" },
-    "copyright": "All rights reserved."
+    "tagline": "Premieňame životný chaos na trvalú jasnosť, jednu rodinu po druhej.",
+    "sections": { "product": "Produkt", "support": "Podpora", "legal": "Právne" },
+    "links": { "features": "Funkcie", "security": "Bezpečnosť", "pricing": "Ceny", "helpCenter": "Centrum pomoci", "contactUs": "Kontaktujte nás", "userGuides": "Používateľské príručky", "privacyPolicy": "Zásady ochrany osobných údajov", "termsOfService": "Podmienky služby", "securityPolicy": "Bezpečnostné zásady" },
+    "copyright": "Všetky práva vyhradené."
   }
 }

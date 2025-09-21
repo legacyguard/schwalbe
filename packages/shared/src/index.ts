@@ -66,7 +66,12 @@ export {
   createAuthError,
   createNetworkError,
   ErrorCode,
-  ErrorSeverity
+  ErrorSeverity,
+  isAppError,
+  getErrorMessage,
+  getErrorCode,
+  shouldRetry,
+  getRetryDelay
 } from './types/errors';
 
 // Export authentication store
@@ -75,9 +80,15 @@ export { useAuthStore } from './stores/authStore';
 // Export logger
 export { logger } from './lib/logger';
 
+// Export mobile-web bridge utilities
+export * from './utils/mobile-web-bridge';
+
+// Export API caching utilities
+export * from './utils/api-cache';
+
 // Export will services
 export { willService, WillService } from './services/will.service';
-export { willValidationService, WillValidationService } from './services/willValidation.service';
+// Will validation service moved to @schwalbe/logic package
 export { willGuardianIntegration, WillGuardianIntegrationService } from './services/willGuardianIntegration.service';
 
 // Export will types (keeping will-specific types with their original names)

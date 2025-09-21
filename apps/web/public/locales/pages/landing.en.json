@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "title": "Secure Your Family's Future | Document Management & Legacy Planning",
+    "description": "Transform life's chaos into clarity with LegacyGuard. Securely organize documents, protect your family with AI-powered guidance, and create your lasting legacy. Start free today."
+  },
+  "demo": {
+    "banner": "🚧 Demo Mode - Configure environment variables for full functionality"
+  },
+  "hero": {
+    "title": "Life's Chaos → Organized Clarity",
+    "subtitle": "Let's Make it a Legend.",
+    "description": "Transform overwhelming documents and life's complexities into a beautifully organized legacy that protects your family's future.",
+    "cta": {
+      "main": "Start Your Journey",
+      "secondary": "Learn More",
+      "free": "Get Started Free"
+    }
+  },
+  "problem": {
+    "title": "Life's chaos overwhelms your family planning",
+    "description": "Important documents scattered everywhere. Passwords forgotten. Family unaware of your wishes.",
+    "highlight": "In a crisis, this chaos becomes a burden for your loved ones."
+  },
+  "promise": {
+    "title": "Transform chaos into clarity",
+    "description": "A gift of peace for your family.",
+    "highlight": "Everything organized, protected, and ready when it matters most."
+  },
+  "features": {
+    "title": "Everything You Need for Peace of Mind",
+    "security": {
+      "title": "Military-Grade Security",
+      "description": "Your sensitive information protected with bank-level encryption and zero-knowledge architecture."
+    },
+    "ai": {
+      "title": "AI-Powered Guidance",
+      "description": "Smart recommendations and gentle nudges to ensure nothing important is missed."
+    },
+    "legacy": {
+      "title": "Legacy Planning Made Simple",
+      "description": "Step-by-step guidance for wills, trusts, and estate planning that actually makes sense."
+    }
+  },
+  "value": {
+    "title": "Protect Your Family's Future",
+    "description": "From wills and estate planning to emergency contacts and digital assets, LegacyGuard provides comprehensive protection with gentle, step-by-step guidance.",
+    "features": {
+      "documents": {
+        "title": "Document Management",
+        "description": "Securely store and organize all important family documents"
+      },
+      "access": {
+        "title": "Family Access Control",
+        "description": "Manage who can access documents in emergencies"
+      },
+      "platform": {
+        "title": "Cross-Platform",
+        "description": "Access your documents from web and mobile devices"
+      },
+      "guided": {
+        "title": "Guided Workflows",
+        "description": "Step-by-step guidance for complex legal processes"
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to Secure Your Legacy?",
+    "description": "Join thousands of families who trust LegacyGuard to protect their most important documents.",
+    "button": "Start Free Trial",
+    "disclaimer": "No credit card required • 14-day free trial"
+  },
+  "footer": {
+    "copyright": "© 2024 LegacyGuard. Protecting families, preserving legacies."
+  }
+}

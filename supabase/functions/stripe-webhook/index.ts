@@ -234,8 +234,24 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   const signature = req.headers.get('stripe-signature')
-  if (!signature || !STRIPE_WEBHOOK_SECRET) {
+
+  // Critical security check - ensure webhook secret is configured
+  if (!STRIPE_WEBHOOK_SECRET) {
+    log('error', 'webhook_secret_not_configured', {})
+    return jsonResponse({ error: 'service_unavailable' }, 503)
+  }
+
+  if (!signature) {
+    log('warn', 'webhook_missing_signature', {
+      headers: Object.fromEntries(req.headers.entries())
+    })
     return jsonResponse({ error: 'missing_signature' }, 400)
+  }
+
+  // Validate signature format
+  if (!signature.includes('t=') || !signature.includes('v1=')) {
+    log('warn', 'webhook_invalid_signature_format', { signature: signature.substring(0, 20) })
+    return jsonResponse({ error: 'invalid_signature_format' }, 400)
   }
 
   // Read raw body to verify signature
@@ -243,9 +259,29 @@ serve(async (req) => {
 
   let event: Stripe.Event
   try {
+    // Construct event with default tolerance (5 minutes)
     event = stripe.webhooks.constructEvent(body, signature, STRIPE_WEBHOOK_SECRET)
+
+    // Additional timestamp validation for replay attack prevention
+    const webhookTimestamp = event.created
+    const currentTimestamp = Math.floor(Date.now() / 1000)
+    const maxAge = 10 * 60 // 10 minutes in seconds
+
+    if (currentTimestamp - webhookTimestamp > maxAge) {
+      log('warn', 'webhook_too_old', {
+        event_id: event.id,
+        webhook_timestamp: webhookTimestamp,
+        current_timestamp: currentTimestamp,
+        age_seconds: currentTimestamp - webhookTimestamp
+      })
+      return jsonResponse({ error: 'webhook_too_old' }, 400)
+    }
+
   } catch (err: any) {
-    log('warn', 'invalid_signature', { reason: String(err?.message ?? err) })
+    log('warn', 'invalid_signature', {
+      reason: String(err?.message ?? err),
+      error_type: err?.constructor?.name
+    })
     return jsonResponse({ error: 'invalid_signature' }, 400)
   }
 

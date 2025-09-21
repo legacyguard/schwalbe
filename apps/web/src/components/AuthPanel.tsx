@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
 const supabaseAnon = import.meta.env?.VITE_SUPABASE_ANON_KEY || '';
@@ -17,14 +19,24 @@ export const AuthPanel: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: 12, border: '1px solid #eee', borderRadius: 8, background: '#fff' }}>
-      <h3>Authentication</h3>
-      <p style={{ fontSize: 12, color: '#555' }}>Connect your account to enable Family Shield.</p>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button onClick={handleSignIn}>Sign in with Google</button>
-        <button onClick={handleSignOut}>Sign out</button>
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Authentication</CardTitle>
+        <CardDescription>
+          Connect your account to enable Family Shield.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex gap-2">
+          <Button onClick={handleSignIn} variant="outline">
+            Sign in with Google
+          </Button>
+          <Button onClick={handleSignOut} variant="danger">
+            Sign out
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

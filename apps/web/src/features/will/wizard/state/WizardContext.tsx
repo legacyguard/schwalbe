@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState, useCall
 import { logger } from '@schwalbe/shared';
 import { supabase } from '../../../../lib/supabase.js'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useKeyboardNavigation } from '@/hooks/useAccessibility'
 import type { JurisdictionCode, WillForm, WillInput } from '@schwalbe/logic'
 
 export type WizardStepKey = 'start' | 'testator' | 'beneficiaries' | 'executor' | 'witnesses' | 'review'
@@ -49,6 +50,68 @@ export const stepsOrder: WizardStepKey[] = [
   'review',
 ]
 
+export interface ValidationResult {
+  isValid: boolean
+  errors: string[]
+  warnings?: string[]
+}
+
+export const validateStepTransition = (currentStep: WizardStepKey, nextStep: WizardStepKey, state: WizardState): ValidationResult => {
+  const validations = {
+    start: () => ({
+      isValid: Boolean(state.jurisdiction && state.form),
+      errors: [
+        ...(!state.jurisdiction ? ['Jurisdiction is required'] : []),
+        ...(!state.form ? ['Will form is required'] : [])
+      ]
+    }),
+    testator: () => {
+      const errors: string[] = []
+      if (!state.testator.fullName?.trim()) errors.push('Full name is required')
+      if (!state.testator.address?.trim()) errors.push('Address is required')
+      if (!state.testator.age || state.testator.age < (state.form === 'holographic' ? 15 : 18)) {
+        errors.push(`Age must be at least ${state.form === 'holographic' ? 15 : 18} for ${state.form} will`)
+      }
+      return { isValid: errors.length === 0, errors }
+    },
+    beneficiaries: () => ({
+      isValid: state.beneficiaries.length > 0,
+      errors: state.beneficiaries.length === 0 ? ['At least one beneficiary is required'] : []
+    }),
+    executor: () => ({
+      isValid: true,
+      errors: [],
+      warnings: !state.executorName?.trim() ? ['Consider naming an executor to manage your estate'] : []
+    }),
+    witnesses: () => {
+      const errors: string[] = []
+      const requiredWitnesses = state.form === 'holographic' ? 0 : 2
+
+      if (state.form === 'typed') {
+        if (!state.signatures.testatorSigned) errors.push('Testator signature confirmation is required')
+        if (!state.signatures.witnessesSigned) errors.push('Witness signatures confirmation is required')
+        if (state.witnesses.length < requiredWitnesses) {
+          errors.push(`At least ${requiredWitnesses} witnesses are required for typed will`)
+        }
+
+        // Check for witness-beneficiary conflicts
+        const beneficiaryNames = state.beneficiaries.map(b => b.name.toLowerCase().trim())
+        const conflictingWitnesses = state.witnesses.filter(w =>
+          beneficiaryNames.includes(w.fullName.toLowerCase().trim())
+        )
+        if (conflictingWitnesses.length > 0) {
+          errors.push('Witnesses cannot be beneficiaries')
+        }
+      }
+
+      return { isValid: errors.length === 0, errors }
+    },
+    review: () => ({ isValid: true, errors: [] })
+  }
+
+  return validations[currentStep]()
+}
+
 interface WizardContextValue {
   state: WizardState
   setState: React.Dispatch<React.SetStateAction<WizardState>>
@@ -60,6 +123,10 @@ interface WizardContextValue {
   saveDraft: (opts?: { toast?: (msg: string) => void }) => Promise<void>
   loadDraft: (sessionId?: string) => Promise<boolean>
   toEngineInput: () => WillInput
+  validateCurrentStep: () => ValidationResult
+  canProceedToNext: boolean
+  validationErrors: string[]
+  validationWarnings: string[]
 }
 
 const WizardContext = createContext<WizardContextValue | null>(null)
@@ -78,6 +145,24 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
     const last = parts[parts.length - 1] as WizardStepKey
     return stepsOrder.includes(last) ? last : 'start'
   }, [location.pathname])
+
+  // Keyboard navigation for wizard steps
+  const handleKeyboardNavigation = useCallback(() => {
+    const validation = validateCurrentStep()
+    if (validation.isValid) {
+      goNext()
+    }
+  }, [])
+
+  const handleKeyboardBack = useCallback(() => {
+    goBack()
+  }, [])
+
+  useKeyboardNavigation(
+    handleKeyboardNavigation, // Enter key
+    undefined, // Escape key - could be used for cancel/exit
+    undefined // Arrow keys - could be used for step navigation
+  )
 
   const [state, setState] = useState<WizardState>(() => {
     const local = localStorage.getItem('will_wizard_state')
@@ -117,11 +202,26 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
     [navigate, sessionId]
   )
 
+  const validateCurrentStep = useCallback((): ValidationResult => {
+    const nextStepIndex = getStepIndex(currentStep) + 1
+    const nextStep = stepsOrder[nextStepIndex]
+    if (!nextStep) return { isValid: true, errors: [] }
+
+    return validateStepTransition(currentStep, nextStep, state)
+  }, [currentStep, state])
+
+  const validation = validateCurrentStep()
+
   const goNext = useCallback(() => {
+    const validation = validateCurrentStep()
+    if (!validation.isValid) {
+      return
+    }
+
     const idx = getStepIndex(currentStep)
     const next = stepsOrder[idx + 1]
     if (next) goTo(next)
-  }, [currentStep, goTo])
+  }, [currentStep, goTo, validateCurrentStep])
 
   const goBack = useCallback(() => {
     const idx = getStepIndex(currentStep)
@@ -240,6 +340,10 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
     saveDraft,
     loadDraft,
     toEngineInput,
+    validateCurrentStep,
+    canProceedToNext: validation.isValid,
+    validationErrors: validation.errors,
+    validationWarnings: validation.warnings || [],
   }
 
   return <WizardContext.Provider value={value}>{children}</WizardContext.Provider>

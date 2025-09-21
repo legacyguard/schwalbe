@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Zabezpečte budoucnost své rodiny | Správa dokumentů a plánování dědictví",
+    "description": "Proměňte životní chaos v jasnost s LegacyGuard. Bezpečně organizujte dokumenty, chraňte svou rodinu s pomocí AI a vytvořte své trvalé dědictví. Začněte zdarma již dnes."
+  },
+  "hero": {
+    "title": "Životní chaos → Organizovaná jasnost",
+    "subtitle": "Udělejme z toho legendu.",
+    "description": "Proměňte drtivé množství dokumentů a životní složitosti v krásně organizované dědictví, které ochrání budoucnost vaší rodiny.",
+    "cta": {
+      "main": "Začněte svou cestu",
+      "secondary": "Dozvědět se více",
+      "free": "Začít zdarma"
+    }
+  },
+  "problem": {
+    "title": "Životní chaos zahlcuje vaše rodinné plánování",
+    "description": "Důležité dokumenty rozptýlené všude. Zapomenutá hesla. Rodina neví o vašich přáních.",
+    "highlight": "V krizi se tento chaos stává břemenem pro vaše blízké."
+  },
+  "promise": {
+    "title": "Proměňte chaos v jasnost",
+    "description": "Dar klidu pro vaši rodinu.",
+    "highlight": "Vše organizované, chráněné a připravené, když na tom nejvíce záleží."
+  },
+  "features": {
+    "title": "Vše, co potřebujete pro klid duše",
+    "security": {
+      "title": "Zabezpečení vojenské úrovně",
+      "description": "Vaše citlivé informace chráněné šifrováním bankovní úrovně a architekturou zero-knowledge."
+    },
+    "ai": {
+      "title": "Vedení poháněné AI",
+      "description": "Chytrá doporučení a jemné pokyny, aby vám nic důležitého neuniklo."
+    },
+    "legacy": {
+      "title": "Plánování dědictví jednoduše",
+      "description": "Průvodce krok za krokem pro závěti, trusty a plánování majetku, které skutečně dává smysl."
+    }
+  }
+}

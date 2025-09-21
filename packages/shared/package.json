@@ -43,7 +43,7 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@schwalbe/logic": "workspace:*",
+    "@schwalbe/logic": "*",
     "@supabase/supabase-js": "^2.57.4",
     "tweetnacl": "^1.0.3",
     "tweetnacl-util": "^0.15.1",

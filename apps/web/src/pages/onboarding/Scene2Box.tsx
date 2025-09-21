@@ -1,9 +1,24 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+// Force TypeScript to re-check imports
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/motion/FadeIn';
+import Box3D from '@/components/onboarding/Box3D';
+import {
+  PersonalityAwareAnimation,
+  ContextAwareAnimation,
+  EmotionalAnimation,
+  PersonalityHoverEffect,
+  PersonalityAnimationUtils
+} from '@/components/animations/PersonalityAwareAnimations';
+import {
+  useSofiaPersonality,
+  PersonalityPresets
+} from '@/components/sofia-firefly/SofiaFireflyPersonality';
+import { LiquidMotion } from '@/components/animations/LiquidMotion';
+import SofiaFirefly from '@/components/sofia-firefly/SofiaFirefly';
 
 interface Scene2BoxProps {
   initialItems?: string;
@@ -20,6 +35,11 @@ export default function Scene2Box({
 }: Scene2BoxProps) {
   const [items, setItems] = useState(initialItems);
   const [words, setWords] = useState<string[]>([]);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const [boxScale, setBoxScale] = useState(1);
+
+  // Initialize Sofia personality for interactive experience
+  const { personality, adaptToContext, learnFromInteraction } = useSofiaPersonality(PersonalityPresets.newUser);
 
   useEffect(() => setItems(initialItems), [initialItems]);
 
@@ -32,23 +52,70 @@ export default function Scene2Box({
     setWords(newWords);
   }, [items]);
 
-  return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 relative'>
-      {/* Skip button in top right corner */}
-      {onSkip && (
-        <motion.button
-          onClick={onSkip}
-          className='absolute top-6 right-6 text-sm text-muted-foreground hover:text-foreground transition-colors z-10 bg-background/80 backdrop-blur px-3 py-1 rounded-full border border-border/50 hover:border-border'
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-          whileHover={{ scale: 1.05 }}
-        >
-          Skip introduction
-        </motion.button>
-      )}
+  // Track user interactions for personality learning
+  useEffect(() => {
+    if (isInteracting) {
+      learnFromInteraction({
+        type: 'click',
+        duration: 500,
+        context: 'helping'
+      });
+      adaptToContext('helping');
+    }
+  }, [isInteracting, learnFromInteraction, adaptToContext]);
 
-      <FadeIn duration={0.8}>
+  // Handle pinch-to-zoom gesture
+  useEffect(() => {
+    const handleWheel = (e: Event) => {
+      const wheelEvent = e as WheelEvent;
+      if (wheelEvent.ctrlKey) {
+        wheelEvent.preventDefault();
+        const delta = wheelEvent.deltaY > 0 ? -0.1 : 0.1;
+        setBoxScale(prev => Math.max(0.5, Math.min(2, prev + delta)));
+        setIsInteracting(true);
+      }
+    };
+
+    const boxElement = document.querySelector('[data-box-container]');
+    if (boxElement) {
+      boxElement.addEventListener('wheel', handleWheel as EventListener, { passive: false });
+      return () => boxElement.removeEventListener('wheel', handleWheel as EventListener);
+    }
+    
+    // Return undefined when no element is found (no cleanup needed)
+    return undefined;
+  }, []);
+
+  // Reset scale on new content
+  useEffect(() => {
+    if (words.length === 0) {
+      setBoxScale(1);
+    }
+  }, [words.length]);
+
+  return (
+    <PersonalityAwareAnimation personality={personality} context="helping">
+      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 relative'>
+        {/* Skip button in top right corner with personality-aware animation */}
+        {onSkip && (
+          <PersonalityHoverEffect personality={personality}>
+            <motion.button
+              onClick={() => {
+                setIsInteracting(true);
+                onSkip();
+              }}
+              className='absolute top-6 right-6 text-sm text-muted-foreground hover:text-foreground transition-colors z-10 bg-background/80 backdrop-blur px-3 py-1 rounded-full border border-border/50 hover:border-border'
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, duration: 0.5 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              Skip introduction
+            </motion.button>
+          </PersonalityHoverEffect>
+        )}
+
+        <FadeIn duration={0.8}>
         <Card className='w-full max-w-3xl border-primary/20 shadow-xl'>
           <CardHeader>
             <motion.div
@@ -81,76 +148,124 @@ export default function Scene2Box({
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <Textarea
-                value={items}
-                onChange={e => setItems(e.target.value)}
-                className='mb-6 min-h-32 text-base leading-relaxed border-primary/20 focus:border-primary/50 bg-background/50'
-                placeholder="Write anything: house keys, banking hint, letter for my daughter, grandpa's watch, photo from our wedding, recipe for mom's cookies..."
-                rows={6}
-              />
+              <motion.div
+                className="relative mb-6"
+                whileFocus={{ scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <Textarea
+                  value={items}
+                  onChange={e => setItems(e.target.value)}
+                  className='min-h-32 text-base leading-relaxed border-primary/20 focus:border-primary/50 bg-background/50 focus:bg-background/70 transition-all duration-300 resize-none'
+                  placeholder="Write anything: house keys, banking hint, letter for my daughter, grandpa's watch, photo from our wedding, recipe for mom's cookies..."
+                  rows={6}
+                />
+
+                {/* Liquid border effect */}
+                <motion.div
+                  className="absolute inset-0 border-2 border-primary/30 rounded-md pointer-events-none"
+                  animate={{
+                    borderImageSource: [
+                      'linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.3), transparent)',
+                      'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent)',
+                      'linear-gradient(135deg, transparent, rgba(59, 130, 246, 0.3), transparent)',
+                      'linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.4), transparent)',
+                      'linear-gradient(225deg, transparent, rgba(59, 130, 246, 0.3), transparent)',
+                      'linear-gradient(270deg, transparent, rgba(59, 130, 246, 0.5), transparent)',
+                      'linear-gradient(315deg, transparent, rgba(59, 130, 246, 0.3), transparent)',
+                      'linear-gradient(360deg, transparent, rgba(59, 130, 246, 0.4), transparent)',
+                    ]
+                  }}
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+              </motion.div>
             </motion.div>
 
-            {/* Enhanced animated box visualization */}
-            <motion.div
-              className='relative h-40 mb-6 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-background overflow-hidden'
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-            >
-              {/* Box interior */}
-              <div className='absolute inset-0 bg-gradient-to-br from-amber-50/20 to-amber-100/10 dark:from-amber-900/10 dark:to-amber-800/5' />
+            {/* 3D Box visualization with liquid effects and gesture interactions */}
+            <LiquidMotion.ScaleIn delay={0.8}>
+              <motion.div
+                className="mb-6 relative cursor-grab active:cursor-grabbing"
+                data-box-container
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                drag
+                dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+                dragElastic={0.1}
+                whileDrag={{ scale: 1.05, rotate: 2 }}
+                onDragStart={() => setIsInteracting(true)}
+              >
+                <motion.div
+                  animate={{
+                    rotateY: [0, 5, -5, 0],
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  style={{ scale: boxScale }}
+                >
+                  <Box3D
+                    items={words}
+                    className="transition-all duration-500 hover:shadow-2xl"
+                  />
+                </motion.div>
 
-              {/* Box lid shadow */}
-              <div className='absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-primary/20 to-transparent' />
+                {/* Liquid glow effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-lg blur-xl"
+                  animate={{
+                    opacity: [0.3, 0.6, 0.3],
+                    scale: [1, 1.05, 1],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
 
-              {/* Floating words animation */}
-              <div className='absolute inset-4 flex flex-wrap items-center justify-center gap-2'>
-                {words.map((word, index) => (
-                  <motion.div
-                    key={`${word}-${index}`}
-                    className='px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20'
-                    initial={{
-                      opacity: 0,
-                      scale: 0.8,
-                      y: 20,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      y: [0, -5, 0],
-                    }}
-                    transition={{
-                      delay: 0.1 * index + 1,
-                      duration: 0.6,
-                      y: {
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: Math.random() * 2,
-                      },
-                    }}
-                  >
-                    {word}
-                  </motion.div>
-                ))}
-              </div>
+                {/* Gesture hints */}
+                <motion.div
+                  className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-background/90 backdrop-blur-sm border border-primary/20 rounded-full px-3 py-1 text-xs text-primary"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: words.length > 0 ? 0.7 : 0, y: words.length > 0 ? 0 : -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <span className="flex items-center gap-1">
+                    <motion.span
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      👆
+                    </motion.span>
+                    Drag to explore
+                  </span>
+                </motion.div>
 
-              {/* Gentle glow effect */}
-              <div className='absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent pointer-events-none' />
-
-              {/* Empty state message */}
-              {words.length === 0 && (
-                <div className='absolute inset-0 flex items-center justify-center'>
-                  <motion.p
-                    className='text-muted-foreground/60 text-sm italic'
-                    animate={{ opacity: [0.4, 0.8, 0.4] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    Your treasures will appear here...
-                  </motion.p>
-                </div>
-              )}
-            </motion.div>
+                {/* Pinch gesture hint */}
+                <motion.div
+                  className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-background/90 backdrop-blur-sm border border-primary/20 rounded-full px-3 py-1 text-xs text-primary"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: boxScale !== 1 ? 0.7 : 0, y: boxScale !== 1 ? 0 : 10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <span className="flex items-center gap-1">
+                    <motion.span
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      🔍
+                    </motion.span>
+                    Pinch to zoom
+                  </span>
+                </motion.div>
+              </motion.div>
+            </LiquidMotion.ScaleIn>
 
             <motion.div
               className='flex gap-3 justify-between'
@@ -158,28 +273,56 @@ export default function Scene2Box({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.6 }}
             >
-              <Button
-                variant='outline'
-                onClick={onBack}
-                className='border-primary/20 hover:border-primary/40'
-              >
-                ← Back
-              </Button>
+              <LiquidMotion.ScaleIn delay={1.1}>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant='outline'
+                    onClick={onBack}
+                    className='border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300'
+                  >
+                    ← Back
+                  </Button>
+                </motion.div>
+              </LiquidMotion.ScaleIn>
+
               <div className='flex gap-3'>
-                <Button
-                  variant='outline'
-                  onClick={() => setItems('')}
-                  className='border-muted hover:border-muted-foreground/40'
-                >
-                  Clear
-                </Button>
-                <Button
-                  onClick={() => onNext(items)}
-                  disabled={!items.trim()}
-                  className='bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300'
-                >
-                  Continue →
-                </Button>
+                <LiquidMotion.ScaleIn delay={1.2}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Button
+                      variant='outline'
+                      onClick={() => setItems('')}
+                      className='border-muted hover:border-muted-foreground/40 hover:bg-muted/5 transition-all duration-300'
+                    >
+                      Clear
+                    </Button>
+                  </motion.div>
+                </LiquidMotion.ScaleIn>
+
+                <LiquidMotion.ScaleIn delay={1.3}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Button
+                      onClick={() => onNext(items)}
+                      disabled={!items.trim()}
+                      className='bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed'
+                    >
+                      <motion.span
+                        animate={{ x: items.trim() ? [0, 2, 0] : 0 }}
+                        transition={{ duration: 0.6, repeat: items.trim() ? Infinity : 0 }}
+                      >
+                        Continue →
+                      </motion.span>
+                    </Button>
+                  </motion.div>
+                </LiquidMotion.ScaleIn>
               </div>
             </motion.div>
 
@@ -195,9 +338,110 @@ export default function Scene2Box({
                 Take your time, there's no rush
               </p>
             </motion.div>
+
+            {/* Contextual Sofia guidance */}
+            <LiquidMotion.ScaleIn delay={1.5}>
+              <motion.div
+                className='mt-6 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-xl px-4 py-3 max-w-lg mx-auto'
+                animate={{
+                  boxShadow: [
+                    '0 0 15px rgba(59, 130, 246, 0.1)',
+                    '0 0 25px rgba(59, 130, 246, 0.15)',
+                    '0 0 15px rgba(59, 130, 246, 0.1)',
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }}
+              >
+                <div className='flex items-center gap-3'>
+                  <motion.div
+                    className='w-2 h-2 bg-primary rounded-full'
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <p className='text-primary text-sm font-medium'>
+                    ✨ Sofia: "{items.trim()
+                      ? `Beautiful! Every word you write becomes part of their story.`
+                      : `Start with anything - a memory, a wish, a piece of advice...`}"
+                  </p>
+                </div>
+              </motion.div>
+            </LiquidMotion.ScaleIn>
           </CardContent>
         </Card>
       </FadeIn>
+
+      {/* Floating Sofia Firefly */}
+      <LiquidMotion.ScaleIn delay={2}>
+        <motion.div
+          className='fixed bottom-6 right-6 z-50'
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 2, duration: 0.6, type: "spring" }}
+          whileHover={{ scale: 1.1 }}
+        >
+          <motion.div
+            className='bg-background/90 backdrop-blur-md border border-primary/20 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300'
+            animate={{
+              boxShadow: [
+                '0 4px 20px rgba(59, 130, 246, 0.15)',
+                '0 8px 30px rgba(59, 130, 246, 0.25)',
+                '0 4px 20px rgba(59, 130, 246, 0.15)',
+              ]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          >
+            <motion.div
+              className='w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center'
+              animate={{
+                background: [
+                  'linear-gradient(45deg, #3b82f6, #1d4ed8)',
+                  'linear-gradient(90deg, #3b82f6, #2563eb)',
+                  'linear-gradient(135deg, #3b82f6, #1e40af)',
+                  'linear-gradient(180deg, #3b82f6, #1d4ed8)',
+                  'linear-gradient(225deg, #3b82f6, #2563eb)',
+                  'linear-gradient(270deg, #3b82f6, #1e40af)',
+                  'linear-gradient(315deg, #3b82f6, #1d4ed8)',
+                  'linear-gradient(360deg, #3b82f6, #2563eb)',
+                ]
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              <span className='text-primary-foreground text-lg'>✨</span>
+            </motion.div>
+
+            {/* Sofia tooltip */}
+            <motion.div
+              className='absolute bottom-full right-0 mb-2 bg-background/95 backdrop-blur-sm border border-primary/20 rounded-lg px-3 py-2 text-sm text-primary max-w-xs'
+              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              animate={{ opacity: 0, y: 10, scale: 0.9 }}
+              whileHover={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <p className='font-medium'>Sofia is here to help</p>
+              <p className='text-xs text-muted-foreground mt-1'>
+                {items.trim()
+                  ? "Your words are creating something beautiful"
+                  : "Start writing and I'll guide you through"
+                }
+              </p>
+              <div className='absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-background/95'></div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </LiquidMotion.ScaleIn>
     </div>
-  );
+  </PersonalityAwareAnimation>
+);
 }

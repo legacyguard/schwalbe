@@ -1,0 +1,274 @@
+/* Import accessibility styles */
+@import './styles/accessibility.css';
+
+/* Import liquid design system */
+@import './styles/liquid-design.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS variables for animations and transitions */
+:root {
+  --animation-duration: 0.3s;
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Fluid Typography System */
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --font-size-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+  --font-size-4xl: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);
+  --font-size-5xl: clamp(3rem, 2.5rem + 2.5vw, 4rem);
+
+  /* Fluid Spacing System */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0_5: clamp(0.125rem, 0.1rem + 0.125vw, 0.25rem);
+  --space-1: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);
+  --space-1_5: clamp(0.375rem, 0.3rem + 0.375vw, 0.75rem);
+  --space-2: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);
+  --space-2_5: clamp(0.625rem, 0.5rem + 0.625vw, 1.25rem);
+  --space-3: clamp(0.75rem, 0.6rem + 0.75vw, 1.5rem);
+  --space-3_5: clamp(0.875rem, 0.7rem + 0.875vw, 1.75rem);
+  --space-4: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --space-5: clamp(1.25rem, 1rem + 1.25vw, 2.5rem);
+  --space-6: clamp(1.5rem, 1.2rem + 1.5vw, 3rem);
+  --space-7: clamp(1.75rem, 1.4rem + 1.75vw, 3.5rem);
+  --space-8: clamp(2rem, 1.6rem + 2vw, 4rem);
+  --space-9: clamp(2.25rem, 1.8rem + 2.25vw, 4.5rem);
+  --space-10: clamp(2.5rem, 2rem + 2.5vw, 5rem);
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom component classes */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-primary-blue-600 hover:bg-primary-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue-400 font-semibold transition-all duration-200 text-white;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg border border-slate-600 hover:border-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 font-semibold transition-all duration-200 text-slate-300 hover:text-white;
+  }
+  
+  .card {
+    @apply p-6 rounded-lg bg-slate-800 border border-slate-700 shadow-lg;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-blue-500 focus:border-transparent transition-all duration-200;
+  }
+}
+
+/* Animation utilities */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-bounce-gentle {
+    animation: bounceGentle 2s infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s infinite;
+  }
+
+  /* Fluid Typography Utilities */
+  .text-fluid-xs { font-size: var(--font-size-xs); }
+  .text-fluid-sm { font-size: var(--font-size-sm); }
+  .text-fluid-base { font-size: var(--font-size-base); }
+  .text-fluid-lg { font-size: var(--font-size-lg); }
+  .text-fluid-xl { font-size: var(--font-size-xl); }
+  .text-fluid-2xl { font-size: var(--font-size-2xl); }
+  .text-fluid-3xl { font-size: var(--font-size-3xl); }
+  .text-fluid-4xl { font-size: var(--font-size-4xl); }
+  .text-fluid-5xl { font-size: var(--font-size-5xl); }
+
+  /* Fluid Spacing Utilities */
+  .space-fluid-0 { margin: var(--space-0); }
+  .space-fluid-0_5 { margin: var(--space-0_5); }
+  .space-fluid-1 { margin: var(--space-1); }
+  .space-fluid-1_5 { margin: var(--space-1_5); }
+  .space-fluid-2 { margin: var(--space-2); }
+  .space-fluid-2_5 { margin: var(--space-2_5); }
+  .space-fluid-3 { margin: var(--space-3); }
+  .space-fluid-3_5 { margin: var(--space-3_5); }
+  .space-fluid-4 { margin: var(--space-4); }
+  .space-fluid-5 { margin: var(--space-5); }
+  .space-fluid-6 { margin: var(--space-6); }
+  .space-fluid-7 { margin: var(--space-7); }
+  .space-fluid-8 { margin: var(--space-8); }
+  .space-fluid-9 { margin: var(--space-9); }
+  .space-fluid-10 { margin: var(--space-10); }
+
+  .p-fluid-0 { padding: var(--space-0); }
+  .p-fluid-0_5 { padding: var(--space-0_5); }
+  .p-fluid-1 { padding: var(--space-1); }
+  .p-fluid-1_5 { padding: var(--space-1_5); }
+  .p-fluid-2 { padding: var(--space-2); }
+  .p-fluid-2_5 { padding: var(--space-2_5); }
+  .p-fluid-3 { padding: var(--space-3); }
+  .p-fluid-3_5 { padding: var(--space-3_5); }
+  .p-fluid-4 { padding: var(--space-4); }
+  .p-fluid-5 { padding: var(--space-5); }
+  .p-fluid-6 { padding: var(--space-6); }
+  .p-fluid-7 { padding: var(--space-7); }
+  .p-fluid-8 { padding: var(--space-8); }
+  .p-fluid-9 { padding: var(--space-9); }
+  .p-fluid-10 { padding: var(--space-10); }
+
+  .m-fluid-0 { margin: var(--space-0); }
+  .m-fluid-0_5 { margin: var(--space-0_5); }
+  .m-fluid-1 { margin: var(--space-1); }
+  .m-fluid-1_5 { margin: var(--space-1_5); }
+  .m-fluid-2 { margin: var(--space-2); }
+  .m-fluid-2_5 { margin: var(--space-2_5); }
+  .m-fluid-3 { margin: var(--space-3); }
+  .m-fluid-3_5 { margin: var(--space-3_5); }
+  .m-fluid-4 { margin: var(--space-4); }
+  .m-fluid-5 { margin: var(--space-5); }
+  .m-fluid-6 { margin: var(--space-6); }
+  .m-fluid-7 { margin: var(--space-7); }
+  .m-fluid-8 { margin: var(--space-8); }
+  .m-fluid-9 { margin: var(--space-9); }
+  .m-fluid-10 { margin: var(--space-10); }
+
+  /* Liquid Animation Utilities */
+  .animate-liquid {
+    transition: all var(--duration-normal) var(--ease-liquid);
+  }
+
+  .animate-spring {
+    transition: all var(--duration-normal) var(--spring-default);
+  }
+
+  .animate-gesture {
+    transition: transform var(--duration-fast) var(--spring-gesture);
+  }
+
+  .animate-emotion-comforting {
+    transition: all var(--duration-slow) var(--ease-liquid);
+    transform: var(--emotion-comforting-scale);
+  }
+
+  .animate-emotion-celebratory {
+    transition: all var(--duration-normal) var(--ease-bounce);
+    transform: var(--emotion-celebratory-scale);
+  }
+
+  .animate-emotion-urgent {
+    transition: all var(--duration-fast) var(--ease-in-out);
+    transform: var(--emotion-urgent-scale);
+  }
+
+  /* Morphing State Utilities */
+  .morph-card-hover {
+    transform: var(--card-morphing-hover);
+  }
+
+  .morph-card-active {
+    transform: var(--card-morphing-active);
+  }
+
+  .morph-button-hover {
+    transform: var(--button-morphing-hover);
+  }
+
+  .morph-button-active {
+    transform: var(--button-morphing-active);
+  }
+
+  .morph-input-focus {
+    transform: var(--input-morphing-focus);
+  }
+
+  .morph-modal-enter {
+    transform: var(--modal-morphing-enter);
+  }
+
+  .morph-modal-exit {
+    transform: var(--modal-morphing-exit);
+  }
+}
+
+/* Gradient backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.gradient-dark {
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+}
+
+/* Glass morphism effect */
+.glass {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.2s ease-in-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Focus styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue-500;
+}
+
+/* Text gradients */
+.text-gradient {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}

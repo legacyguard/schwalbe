@@ -22,6 +22,9 @@
     "composite": true,
     "incremental": true,
     "jsx": "react-jsx",
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
     "plugins": [
       {
         "name": "next"

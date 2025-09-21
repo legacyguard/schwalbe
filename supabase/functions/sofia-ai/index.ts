@@ -2,6 +2,13 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import OpenAI from 'https://esm.sh/openai@4.28.0'
+import { validateInput, endpointSchemas, validationErrorResponse, RateLimiter, rateLimitErrorResponse } from '../_shared/validation.ts'
+
+// Rate limiting for AI queries (max 10 requests per minute per IP)
+const rateLimiter = new RateLimiter({
+  windowMs: 60 * 1000, // 1 minute
+  maxRequests: 10
+})
 
 function getCorsHeaders(origin: string) {
   // Allow localhost development and production domains
@@ -77,33 +84,63 @@ serve(async (req) => {
     const supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
 
     // Get the request body
+    // Rate limiting check
+    const rateLimitResult = rateLimiter.check(req)
+    if (!rateLimitResult.allowed) {
+      return rateLimitErrorResponse(rateLimitResult.resetTime!)
+    }
+
     const body = await req.json()
-    
+
+    // Basic structure validation
     if (!body || typeof body !== 'object') {
       return new Response(
         JSON.stringify({ error: 'Invalid request body' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
       )
     }
 
     const { action, data } = body
-    
-    if (!action) {
+
+    if (!action || typeof action !== 'string') {
       return new Response(
-        JSON.stringify({ error: 'Action is required' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        JSON.stringify({ error: 'Action is required and must be a string' }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    // Validate action type
+    const allowedActions = ['chat', 'analyze', 'suggest']
+    if (!allowedActions.includes(action)) {
+      return new Response(
+        JSON.stringify({
+          error: 'Invalid action',
+          allowed_actions: allowedActions
+        }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
       )
     }
 
     switch (action) {
+      case 'chat':
       case 'generate_response': {
-        if (!data?.message || !data?.context) {
+        // Validate input data using our schema
+        const validation = await validateInput(endpointSchemas.aiQuery)(data)
+        if (!validation.success) {
+          return validationErrorResponse(validation.errors!)
+        }
+
+        const validatedData = validation.data!
+        if (!validatedData.message || !validatedData.context) {
           return new Response(
             JSON.stringify({ error: 'Message and context are required' }),
             { 
@@ -113,7 +150,8 @@ serve(async (req) => {
           )
         }
 
-        const { message, context, conversationHistory = [] } = data
+        const { message, context, session_id } = validatedData
+        const conversationHistory = [] // Will be loaded from database based on session_id if provided
         
         // Initialize OpenAI client
         const openaiApiKey = Deno.env.get('OPENAI_API_KEY')
