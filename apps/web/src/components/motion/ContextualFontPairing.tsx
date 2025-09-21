@@ -374,6 +374,7 @@ export const ContextualFontPairing: React.FC<ContextualFontPairingProps> = ({
       const timer = setTimeout(() => setIsTransitioning(false), 500);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [pairing, tone, currentPairing, onPairingChange]);
 
   const getTransitionVariants = () => {

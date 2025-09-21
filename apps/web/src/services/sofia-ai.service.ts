@@ -168,7 +168,7 @@ class SofiaAIService {
       const result: DocumentAnalysisResult = {
         id: `analysis_${documentId}_${Date.now()}`,
         documentId,
-        analysisType: analysisTypes[0], // Primary analysis type
+        analysisType: analysisTypes[0] || 'categorization', // Primary analysis type
         confidence: 0.85 + Math.random() * 0.1,
         results: await this.performAnalysis(content, analysisTypes),
         metadata: {
@@ -446,7 +446,7 @@ class SofiaAIService {
     const primaryCategory = categories[Math.floor(Math.random() * categories.length)];
 
     return {
-      primary: primaryCategory,
+      primary: primaryCategory || 'personal',
       secondary: primaryCategory === 'legal' ? 'estate_planning' : undefined,
       confidence: 0.85 + Math.random() * 0.1
     };
@@ -519,7 +519,7 @@ class SofiaAIService {
     userMessage: string
   ): Promise<ConversationMessage> {
     // Simulate Sofia's intelligent response generation
-    const responses = {
+    const responses: Record<string, string[]> = {
       nurturing: [
         "I understand your concerns about family protection. Let me help you create a comprehensive plan that gives you peace of mind.",
         "Your family's safety is important, and I'm here to guide you through each step of building a strong protection network.",
@@ -529,6 +529,16 @@ class SofiaAIService {
         "Based on your current setup, I recommend focusing on completing your emergency contact verification and guardian assignments.",
         "Your family protection score indicates several areas for improvement. Let's prioritize the most critical items first.",
         "I've analyzed your current documentation and can suggest specific steps to enhance your family's legal protection."
+      ],
+      encouraging: [
+        "You're doing great with your family protection planning! Let's tackle the next steps together.",
+        "Every step you take makes your family more secure - you should be proud of this progress!",
+        "You're well on your way to creating an excellent protection plan for your loved ones."
+      ],
+      analytical: [
+        "Based on data analysis, your protection coverage is at 67%. Here are the optimal next steps.",
+        "Risk assessment indicates these priority areas need immediate attention for complete family protection.",
+        "Statistical analysis suggests focusing on documentation completion will yield the highest security improvement."
       ]
     };
 

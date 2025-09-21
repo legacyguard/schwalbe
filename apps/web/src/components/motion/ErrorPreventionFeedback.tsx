@@ -386,14 +386,17 @@ class RecoverySequenceOrchestrator {
   }
 
   private getFallbackMessage(context: ErrorContext): string {
-    const fallbackMessages = {
+    const fallbackMessages: Record<ErrorContext['type'], string> = {
       'validation': 'There seems to be an issue with the information provided. Let me help you fix this.',
       'network': 'We\'re having trouble connecting. Let me help you resolve this connection issue.',
       'permission': 'We need permission to access this feature. Let me guide you through the process.',
       'data': 'There\'s an issue with the data. Let me help you resolve this.',
       'user_input': 'I see there might be an issue with your input. Let me help you correct this.',
       'system': 'A system error occurred. Let me help you work around this issue.',
-      'timeout': 'The request timed out. Let me help you try again or find an alternative approach.'
+      'timeout': 'The request timed out. Let me help you try again or find an alternative approach.',
+      'authentication': 'Authentication is required. Let me help you sign in securely.',
+      'authorization': 'You don\'t have permission for this action. Let me help you find an alternative.',
+      'configuration': 'There\'s a configuration issue. Let me help you adjust the settings.'
     };
 
     return fallbackMessages[context.type] || 'An error occurred. Let me help you resolve this.';

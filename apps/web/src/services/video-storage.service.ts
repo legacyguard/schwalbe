@@ -280,7 +280,7 @@ class VideoStorageService {
       // Step 1: Compress video
       videoFile.processingStatus = 'compressing';
       const compressedBlob = await this.compressVideo(videoFile);
-      videoFile.compressedBlob = compressedBlob;
+      videoFile.compressedBlob = compressedBlob || undefined;
 
       // Update metadata
       if (compressedBlob) {
@@ -676,7 +676,7 @@ class VideoStorageService {
       views: logs.filter(log => log.action === 'view').length,
       downloads: logs.filter(log => log.action === 'download').length,
       shares: logs.filter(log => log.action === 'share').length,
-      lastAccessed: logs.length > 0 ? logs[logs.length - 1].timestamp : undefined,
+      lastAccessed: logs.length > 0 ? logs[logs.length - 1]?.timestamp : undefined,
       accessHistory: logs.slice(-10) // Last 10 access logs
     };
   }

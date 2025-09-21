@@ -163,7 +163,8 @@ class PaymentService {
 
       if (result.status === 'succeeded') {
         // Notify Sofia AI of successful payment for experience personalization
-        await this.sofiaAI.logInteraction({
+        // TODO: Implement logInteraction method in SofiaAIService
+        console.log('Payment succeeded:', {
           type: 'payment_succeeded',
           context: 'professional_services',
           metadata: {
@@ -275,11 +276,8 @@ class PaymentService {
       const plans: SubscriptionPlan[] = await response.json();
 
       // Use Sofia AI to recommend plans based on user profile
-      const recommendations = await this.sofiaAI.generateRecommendations({
-        type: 'subscription_plan',
-        context: 'professional_services',
-        availableOptions: plans
-      });
+      // TODO: Implement getRecommendations method with correct parameters
+      const recommendations: any[] = []; // Stub for now
 
       // Mark recommended plans
       return plans.map(plan => ({
@@ -367,7 +365,8 @@ class PaymentService {
       const subscription = await response.json();
 
       // Notify Sofia AI of subscription for experience customization
-      await this.sofiaAI.logInteraction({
+      // TODO: Implement logInteraction method in SofiaAIService
+      console.log({
         type: 'subscription_created',
         context: 'professional_services',
         metadata: {
@@ -399,7 +398,8 @@ class PaymentService {
       }
 
       // Log cancellation for Sofia AI to understand user journey
-      await this.sofiaAI.logInteraction({
+      // TODO: Implement logInteraction method in SofiaAIService
+      console.log({
         type: 'subscription_cancelled',
         context: 'professional_services',
         metadata: { subscriptionId, reason }
@@ -466,7 +466,8 @@ class PaymentService {
       const result: RefundResult = await response.json();
 
       // Log refund for Sofia AI to understand service quality
-      await this.sofiaAI.logInteraction({
+      // TODO: Implement logInteraction method in SofiaAIService
+      console.log({
         type: 'refund_requested',
         context: 'professional_services',
         metadata: {
@@ -561,7 +562,9 @@ class PaymentService {
       const analytics = await response.json();
 
       // Enhance analytics with Sofia AI insights
-      const insights = await this.sofiaAI.analyzeUserBehavior({
+      // TODO: Implement analyzeUserBehavior method in SofiaAIService
+      const insights = { insights: [] }; // Stub for now
+      console.log('User behavior analysis:', {
         paymentHistory: analytics,
         context: 'professional_services'
       });

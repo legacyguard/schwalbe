@@ -187,7 +187,6 @@ export interface RecoverySequence {
 
 // Enhanced ErrorContext for Progressive Error Recovery
 export interface ProgressiveErrorContext extends ErrorContext {
-  userIntent: 'create' | 'read' | 'update' | 'delete' | 'navigate' | 'search' | 'upload' | 'download' | 'share' | 'configure';
   previousErrors?: string[];
   errorCount?: number;
   timeSinceLastError?: number;
