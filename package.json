@@ -6,8 +6,8 @@
   "packageManager": "npm@10.8.2",
   "workspaces": [
     "apps/mobile",
-    "apps/web",
-    "packages/*"
+    "packages/*",
+    "packages/ai-assistant"
   ],
   "scripts": {
     "dev": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev",

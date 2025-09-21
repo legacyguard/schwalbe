@@ -1,8 +1,7 @@
 {
-  "title": "Assistant",
-  "subtitle": "Get guidance and clear next steps.",
-  "ready": "Assistant is getting ready…",
-  "readyWithIntent": "Assistant is getting ready to help with: {intent}",
-  "ctaStart": "Start now",
-  "suggestions": "Suggested next steps"
+  "title": "Your calm assistant",
+  "subtitle": "Ask anything — I’ll guide you gently, step by step.",
+  "empty": "No messages yet. Say hello!",
+  "ph": "Type your message...",
+  "send": "Send"
 }

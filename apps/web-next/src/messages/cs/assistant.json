@@ -1,8 +1,7 @@
 {
-  "title": "Asistent",
-  "subtitle": "Získejte doporučení a jasné další kroky.",
-  "ready": "Asistent se připravuje…",
-  "readyWithIntent": "Asistent se připravuje pomoci s: {intent}",
-  "ctaStart": "Začít nyní",
-  "suggestions": "Doporučené další kroky"
+  "title": "Váš pokojný asistent",
+  "subtitle": "Ptejte se na cokoliv — jemně vás provedu krok za krokem.",
+  "empty": "Zatím žádné zprávy. Pozdravte!",
+  "ph": "Napište zprávu...",
+  "send": "Odeslat"
 }
