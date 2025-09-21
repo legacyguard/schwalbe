@@ -5,6 +5,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { logger } from '@schwalbe/shared/lib/logger';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -142,7 +144,10 @@ export default function DocumentIntelligence({
       });
       setRecommendations(recs);
     } catch (error) {
-      console.error('Failed to load recommendations:', error);
+      logger.error('Failed to load recommendations', {
+        action: 'load_recommendations_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   };
 
@@ -169,7 +174,14 @@ export default function DocumentIntelligence({
       });
 
     } catch (error) {
-      console.error('Document analysis failed:', error);
+      logger.error('Document analysis failed', {
+        action: 'document_analysis_failed',
+        metadata: {
+          documentId,
+          analysisTypes,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
     } finally {
       setIsAnalyzing(false);
     }
@@ -195,7 +207,13 @@ export default function DocumentIntelligence({
       });
 
     } catch (error) {
-      console.error('Document search failed:', error);
+      logger.error('Document search failed', {
+        action: 'document_search_failed',
+        metadata: {
+          query: searchQuery,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
     }
   };
 

@@ -1,11 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { logger } from '@schwalbe/shared/lib/logger';
+import { Search, Loader2 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Search, Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import i18n from '@/lib/i18n'
-import { useNavigate } from 'react-router-dom'
+
 
 // Privacy note: Do NOT log raw search terms. All queries are sent to an Edge Function
 // that hashes tokens server-side with a server-only salt. No plaintext terms are stored.

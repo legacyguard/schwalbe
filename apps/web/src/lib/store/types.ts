@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@supabase/supabase-js'
+
 import type { WizardState, WizardStepKey } from '@/features/will/wizard/state/WizardContext'
 import type { Asset } from '@/features/assets/state/useAssets'
 

@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -162,7 +163,7 @@ export default function FamilyInvitationSystem({
 
     setIsSubmitting(true);
     try {
-      const permissions = defaultPermissions[formData.role];
+      const permissions = defaultPermissions[formData.role] || [];
       await onSendInvitation?.({
         ...formData,
         permissions,
@@ -387,7 +388,7 @@ export default function FamilyInvitationSystem({
                                 <div className="mt-2 text-xs">
                                   <strong>Permissions:</strong>
                                   <div className="text-muted-foreground">
-                                    {defaultPermissions[role.value].length} included
+                                    {defaultPermissions[role.value]?.length || 0} included
                                   </div>
                                 </div>
                               </div>

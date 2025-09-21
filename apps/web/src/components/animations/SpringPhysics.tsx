@@ -8,6 +8,7 @@
 import React, { ReactNode } from 'react';
 import { animated, useSpring, useTransition, useSprings } from '@react-spring/web';
 import { usePerformanceAwareAnimation } from './AnimationProvider';
+
 import { ANIMATION_CONFIG, animationUtils } from '@/config/animations';
 
 // Types

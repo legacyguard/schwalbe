@@ -5,15 +5,16 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { LiquidMotion } from '@/components/animations/LiquidMotion';
 import { PersonalityAwareAnimation } from '@/components/animations/PersonalityAwareAnimations';
 import {
-  useSofiaPersonality,
-  PersonalityPresets
+  useSofiaPersonality
 } from '@/components/sofia-firefly/SofiaFireflyPersonality';
+import { personalityPresets } from '@/components/sofia-firefly/PersonalityPresets';
 
 interface QueryAnalysis {
   query: string;
@@ -132,7 +133,7 @@ export default function NaturalLanguageProcessor({
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Initialize Sofia personality for NLP processing
-  const { personality, adaptToContext, learnFromInteraction } = useSofiaPersonality(PersonalityPresets.analyticalUser);
+  const { personality, adaptToContext, learnFromInteraction } = useSofiaPersonality(personalityPresets.analytical);
 
   useEffect(() => {
     adaptToContext('analyzing');

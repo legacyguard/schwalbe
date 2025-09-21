@@ -1,0 +1,1 @@
+export { SofiaChat } from './SofiaChat';

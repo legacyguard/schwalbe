@@ -32,7 +32,9 @@ export function buildPatch(
   for (const c of changes.assets) {
     if (c.kind === 'added' && (!c.after || c.after.status !== 'archived')) {
       assetsAdded++;
-      ops.push({ op: 'push', path: 'assets.personal_property', value: sanitizeAsset(c.after!) });
+      if (c.after) {
+        ops.push({ op: 'push', path: 'assets.personal_property', value: sanitizeAsset(c.after) });
+      }
     }
     if (c.kind === 'removed' || (c.after && c.after.status === 'archived')) {
       assetsRemoved++;
@@ -41,7 +43,9 @@ export function buildPatch(
     }
     if (c.kind === 'modified') {
       // Update value/recipient fields in place via set with id-keyed path (requires client-side resolver)
-      ops.push({ op: 'set', path: `assetsUpdates.${c.id}`, value: diffObject(c.before!, c.after!) });
+      if (c.before && c.after) {
+        ops.push({ op: 'set', path: `assetsUpdates.${c.id}`, value: diffObject(c.before, c.after) });
+      }
     }
   }
 
@@ -49,10 +53,12 @@ export function buildPatch(
   for (const c of changes.beneficiaries) {
     if (c.kind === 'added') {
       beneficiariesAdded++;
-      const safe = sanitizeBeneficiary(c.after!);
-      // If percentage is missing, do not auto-assign; leave to approval UI
-      safe.percentage = undefined;
-      ops.push({ op: 'push', path: 'beneficiaries', value: safe });
+      if (c.after) {
+        const safe = sanitizeBeneficiary(c.after);
+        // If percentage is missing, do not auto-assign; leave to approval UI
+        (safe as any).percentage = undefined;
+        ops.push({ op: 'push', path: 'beneficiaries', value: safe });
+      }
     }
     if (c.kind === 'removed') {
       beneficiariesRemoved++;
@@ -61,10 +67,12 @@ export function buildPatch(
     }
     if (c.kind === 'modified') {
       // Update only non-dispositive fields automatically (contact info)
-      const delta = diffObject(c.before!, c.after!);
-      const safeDelta = filterKeys(delta, ['contact', 'relationship', 'name']);
-      if (Object.keys(safeDelta).length) {
-        ops.push({ op: 'set', path: `beneficiariesUpdates.${c.id}`, value: safeDelta });
+      if (c.before && c.after) {
+        const delta = diffObject(c.before, c.after);
+        const safeDelta = filterKeys(delta, ['contact', 'relationship', 'name']);
+        if (Object.keys(safeDelta).length) {
+          ops.push({ op: 'set', path: `beneficiariesUpdates.${c.id}`, value: safeDelta });
+        }
       }
     }
   }

@@ -1,7 +1,11 @@
 // Stub implementation for FeedbackAnalytics
+import { logger } from '@schwalbe/shared/lib/logger';
 export class FeedbackAnalytics {
   trackAdaptation(sequenceId: string, adaptations: string[]): void {
-    console.log(`Feedback adaptation: ${sequenceId}`, { adaptations });
+    logger.info('Feedback adaptation tracked', {
+      action: 'feedback_adaptation',
+      metadata: { sequenceId, adaptations }
+    });
   }
 
   trackStageComplete(
@@ -10,6 +14,9 @@ export class FeedbackAnalytics {
     result: 'success' | 'skip' | 'fail',
     emotionalState: string
   ): void {
-    console.log(`Stage completed: ${sequenceId}/${stageId}`, { result, emotionalState });
+    logger.info('Stage completion tracked', {
+      action: 'stage_completion',
+      metadata: { sequenceId, stageId, result, emotionalState }
+    });
   }
 }

@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,9 +13,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { LiquidMotion } from '@/components/animations/LiquidMotion';
 import { PersonalityAwareAnimation } from '@/components/animations/PersonalityAwareAnimations';
 import {
-  useSofiaPersonality,
-  PersonalityPresets
+  useSofiaPersonality
 } from '@/components/sofia-firefly/SofiaFireflyPersonality';
+import { personalityPresets } from '@/components/sofia-firefly/PersonalityPresets';
 import { sofiaAIService, ConversationMessage, ConversationContext } from '@/services/sofia-ai.service';
 
 interface SofiaConversationSystemProps {
@@ -108,9 +109,9 @@ export default function SofiaConversationSystem({
   // Initialize Sofia personality
   const { personality: sofiaPersonality, adaptToContext, learnFromInteraction } = useSofiaPersonality(
     personality === 'nurturing' ? PersonalityPresets.nurturingUser :
-    personality === 'professional' ? PersonalityPresets.professionalUser :
-    personality === 'encouraging' ? PersonalityPresets.encouragingUser :
-    PersonalityPresets.analyticalUser
+    personality === 'professional' ? personalityPresets.professional :
+    personality === 'encouraging' ? personalityPresets.supportive :
+    personalityPresets.analytical
   );
 
   useEffect(() => {

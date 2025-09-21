@@ -43,10 +43,12 @@ import {
 import { Checkbox } from '@schwalbe/ui/checkbox';
 import { Slider } from '@schwalbe/ui/slider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@schwalbe/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
 import { cn } from '@schwalbe/lib/utils';
-import { professionalService, type ProfessionalProfile as ServiceProfessionalProfile } from '@/services/professional.service';
 import type { ProfessionalReviewer } from '@schwalbe/types/professional';
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
+import { professionalService, type ProfessionalProfile as ServiceProfessionalProfile } from '@/services/professional.service';
+
 
 interface ProfessionalProfile extends ServiceProfessionalProfile {
   achievements?: string[];
@@ -128,7 +130,7 @@ export function ProfessionalNetworkDirectory({
       ...prof,
       reviewCount: prof.reviews_count || 0,
       responseTime: prof.response_time_hours ? `< ${prof.response_time_hours} hours` : '< 24 hours',
-      availability: (prof.availability_status as 'available' | 'busy' | 'away') || 'available',
+      availability: prof.availability_status === 'away' ? 'unavailable' : (prof.availability_status as 'available' | 'busy' | 'unavailable') || 'available',
       services: [
         {
           type: 'consultation',
@@ -147,7 +149,7 @@ export function ProfessionalNetworkDirectory({
         },
       ],
       // Mock additional fields that aren't in the API yet
-      achievements: prof.experience_years >= 15 ? ['Senior Professional', `${prof.experience_years}+ Years Experience`] : undefined,
+      achievements: (prof.experience_years || 0) >= 15 ? ['Senior Professional', `${prof.experience_years || 0}+ Years Experience`] : undefined,
       languages: ['English'], // Default to English
     };
   }, []);
@@ -268,8 +270,8 @@ export function ProfessionalNetworkDirectory({
 
       // Experience range (client-side)
       if (
-        prof.experience_years < filters.experienceRange[0] ||
-        prof.experience_years > filters.experienceRange[1]
+        (prof.experience_years || 0) < filters.experienceRange[0] ||
+        (prof.experience_years || 0) > filters.experienceRange[1]
       ) {
         return false;
       }
@@ -440,14 +442,14 @@ export function ProfessionalNetworkDirectory({
               {t('professionalCard.specializations')}
             </Label>
             <div className='flex flex-wrap gap-1'>
-              {professional.specializations.slice(0, 3).map(spec => (
+              {professional.specializations?.slice(0, 3).map(spec => (
                 <Badge key={spec.id} variant='secondary' className='text-xs'>
                   {spec.name}
                 </Badge>
               ))}
-              {professional.specializations.length > 3 && (
+              {(professional.specializations?.length || 0) > 3 && (
                 <Badge variant='outline' className='text-xs'>
-                  {t('professionalCard.more', { count: professional.specializations.length - 3 })}
+                  {t('professionalCard.more', { count: (professional.specializations?.length || 0) - 3 })}
                 </Badge>
               )}
             </div>
@@ -593,7 +595,7 @@ export function ProfessionalNetworkDirectory({
                   )}
 
                   <div className='flex flex-wrap gap-1 mb-3'>
-                    {professional.specializations.map(spec => (
+                    {professional.specializations?.map(spec => (
                       <Badge
                         key={spec.id}
                         variant='secondary'
@@ -866,10 +868,6 @@ export function ProfessionalNetworkDirectory({
                               experienceRange: value as [number, number],
                             }))
                           }
-                          max={30}
-                          min={0}
-                          step={1}
-                          className='w-full'
                         />
                         <div className='flex justify-between text-sm text-muted-foreground mt-1'>
                           <span>{t('filters.experienceYears', { count: filters.experienceRange[0] })}</span>
@@ -889,10 +887,6 @@ export function ProfessionalNetworkDirectory({
                               priceRange: value as [number, number],
                             }))
                           }
-                          max={1000}
-                          min={100}
-                          step={25}
-                          className='w-full'
                         />
                         <div className='flex justify-between text-sm text-muted-foreground mt-1'>
                           <span>${filters.priceRange[0]}</span>
@@ -1212,7 +1206,7 @@ export function ProfessionalNetworkDirectory({
                             {t('modal.overview.specializations')}
                           </Label>
                           <div className='flex flex-wrap gap-2'>
-                            {selectedProfessional.specializations.map(spec => (
+                            {selectedProfessional.specializations?.map(spec => (
                               <Badge key={spec.id} variant='secondary'>
                                 {spec.name}
                               </Badge>

@@ -3,6 +3,8 @@
  * Handles AI-powered document analysis, conversation management, and intelligent recommendations
  */
 
+import { logger } from '@schwalbe/shared/lib/logger';
+
 interface DocumentAnalysisResult {
   id: string;
   documentId: string;
@@ -182,7 +184,14 @@ class SofiaAIService {
       this.cache.set(cacheKey, result);
       return result;
     } catch (error) {
-      console.error('Document analysis failed:', error);
+      logger.error('Document analysis failed', {
+        action: 'document_analysis_failed',
+        metadata: {
+          documentId,
+          analysisTypes,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
       throw new Error('Failed to analyze document');
     }
   }
@@ -265,7 +274,14 @@ class SofiaAIService {
         return priorityOrder[b.priority] - priorityOrder[a.priority];
       });
     } catch (error) {
-      console.error('Failed to generate recommendations:', error);
+      logger.error('Failed to generate recommendations', {
+        action: 'generate_recommendations_failed',
+        userId,
+        metadata: {
+          error: error instanceof Error ? error.message : String(error),
+          context
+        }
+      });
       return [];
     }
   }
@@ -326,7 +342,15 @@ class SofiaAIService {
 
       return sofiaResponse;
     } catch (error) {
-      console.error('Conversation failed:', error);
+      logger.error('Conversation failed', {
+        action: 'conversation_failed',
+        userId,
+        metadata: {
+          sessionId: context?.sessionId,
+          message: message.substring(0, 100),
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
       throw new Error('Failed to process conversation');
     }
   }
@@ -361,7 +385,13 @@ class SofiaAIService {
         }
       };
     } catch (error) {
-      console.error('Document intelligence extraction failed:', error);
+      logger.error('Document intelligence extraction failed', {
+        action: 'document_intelligence_failed',
+        metadata: {
+          contentLength: content.length,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
       throw new Error('Failed to extract document intelligence');
     }
   }
@@ -404,7 +434,15 @@ class SofiaAIService {
 
       return results.sort((a, b) => b.relevanceScore - a.relevanceScore);
     } catch (error) {
-      console.error('Document search failed:', error);
+      logger.error('Document search failed', {
+        action: 'document_search_failed',
+        metadata: {
+          query,
+          documentCount: documentIds.length,
+          options,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
       return [];
     }
   }

@@ -57,7 +57,7 @@ export function ProfessionalDirectory({ className }: ProfessionalDirectoryProps)
 
   // Filter and sort professionals based on current filters
   const filteredProfessionals = useMemo(() => {
-    let filtered = mockProfessionals.filter((prof) => {
+    const filtered = mockProfessionals.filter((prof) => {
       // Search filter
       if (filters.search && !prof.name.toLowerCase().includes(filters.search.toLowerCase()) &&
           !prof.firm.toLowerCase().includes(filters.search.toLowerCase()) &&

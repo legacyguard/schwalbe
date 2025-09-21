@@ -13,8 +13,9 @@ import {
   Shield,
   Users,
 } from 'lucide-react';
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Progress, Badge } from '@/components/ui';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Progress, Badge } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 interface OnboardingFlowProps {

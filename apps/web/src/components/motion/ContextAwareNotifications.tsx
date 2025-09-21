@@ -171,7 +171,7 @@ class NotificationPositioningEngine {
     const { userActivity, currentTask, emotionalState } = context;
 
     // Base position from preferences
-    let position = { ...preferences.preferredPosition };
+    const position = { ...preferences.preferredPosition };
 
     // Adjust based on current task
     if (currentTask === 'creating' || currentTask === 'planning') {

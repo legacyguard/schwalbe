@@ -7,9 +7,10 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
-import { supabase } from '@/lib/supabase'
 import { logger } from '@schwalbe/shared'
-import { willValidationService, willService, type WillFormData } from '@schwalbe/logic'
+import { WillValidationService, willBusinessService, WillFormData } from '@schwalbe/logic'
+
+import { supabase } from '@/lib/supabase'
 
 export type WizardStepKey = 'testator' | 'beneficiaries' | 'executors' | 'witnesses' | 'guardians' | 'assets' | 'review'
 
@@ -130,7 +131,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
           state.sessionId = newSessionId
           state.isDirty = false
         })
-        logger.info('Wizard session initialized', { sessionId: newSessionId })
+        logger.info('Wizard session initialized', { metadata: { sessionId: newSessionId } })
       },
 
       setUserId: (userId: string) => {
@@ -147,9 +148,11 @@ export const useWillWizardStore = create<WillWizardStore>()(
         const validation = state.validateCurrentStep()
         if (!validation.isValid) {
           logger.warn('Cannot navigate: current step validation failed', {
-            currentStep: state.currentStep,
-            targetStep: step,
-            errors: validation.errors
+            metadata: {
+              currentStep: state.currentStep,
+              targetStep: step,
+              errors: validation.errors
+            }
           })
           return false
         }
@@ -176,13 +179,13 @@ export const useWillWizardStore = create<WillWizardStore>()(
       getNextStep: (): WizardStepKey | null => {
         const steps: WizardStepKey[] = ['testator', 'beneficiaries', 'executors', 'witnesses', 'guardians', 'assets', 'review']
         const currentIndex = steps.indexOf(get().currentStep)
-        return currentIndex < steps.length - 1 ? steps[currentIndex + 1] : null
+        return currentIndex < steps.length - 1 ? steps[currentIndex + 1] ?? null : null
       },
 
       getPreviousStep: (): WizardStepKey | null => {
         const steps: WizardStepKey[] = ['testator', 'beneficiaries', 'executors', 'witnesses', 'guardians', 'assets', 'review']
         const currentIndex = steps.indexOf(get().currentStep)
-        return currentIndex > 0 ? steps[currentIndex - 1] : null
+        return currentIndex > 0 ? steps[currentIndex - 1] ?? null : null
       },
 
       // Form data management
@@ -212,7 +215,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
       // Validation
       validateCurrentStep: (): ValidationResult => {
         const state = get()
-        const validation = willValidationService.validateStepTransition(
+        const validation = new WillValidationService().validateStepTransition(
           state.currentStep,
           state.currentStep,
           state.formData
@@ -237,7 +240,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
 
       validateAllSteps: (): ValidationResult => {
         const state = get()
-        const validation = willValidationService.validateCompleteWill(state.formData)
+        const validation = new WillValidationService().validateCompleteWill(state.formData)
 
         set((state) => {
           // Clear all validation errors first
@@ -247,7 +250,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
           // Set validation results per step
           const steps: WizardStepKey[] = ['testator', 'beneficiaries', 'executors', 'witnesses', 'guardians', 'assets']
           steps.forEach(step => {
-            const stepValidation = willValidationService.validateStepTransition(step, step, state.formData)
+            const stepValidation = new WillValidationService().validateStepTransition(step, step, state.formData)
             if (stepValidation.errors.length > 0) {
               state.validationErrors[step] = stepValidation.errors
             }
@@ -288,9 +291,9 @@ export const useWillWizardStore = create<WillWizardStore>()(
             currentStep: state.currentStep
           }
 
-          const prepared = willService.prepareDraftForSave(saveCommand)
+          const prepared = willBusinessService.prepareDraftForSave(saveCommand)
           if (!prepared.isValid) {
-            logger.error('Draft preparation failed', { errors: prepared.errors })
+            logger.error('Draft preparation failed', { metadata: { errors: prepared.errors } })
             return false
           }
 
@@ -301,7 +304,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
             })
 
           if (error) {
-            logger.error('Failed to save will draft', { error })
+            logger.error('Failed to save will draft', { metadata: { error } })
             return false
           }
 
@@ -311,11 +314,11 @@ export const useWillWizardStore = create<WillWizardStore>()(
             state.isSaving = false
           })
 
-          logger.info('Will draft saved successfully', { sessionId: state.sessionId })
+          logger.info('Will draft saved successfully', { metadata: { sessionId: state.sessionId } })
           return true
 
         } catch (error) {
-          logger.error('Exception saving will draft', { error })
+          logger.error('Exception saving will draft', { metadata: { error } })
           set((state) => {
             state.isSaving = false
           })
@@ -336,7 +339,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
             .single()
 
           if (error) {
-            logger.error('Failed to load will draft', { error, sessionId })
+            logger.error('Failed to load will draft', { metadata: { error, sessionId } })
             return false
           }
 
@@ -350,14 +353,14 @@ export const useWillWizardStore = create<WillWizardStore>()(
               state.isLoading = false
             })
 
-            logger.info('Will draft loaded successfully', { sessionId })
+            logger.info('Will draft loaded successfully', { metadata: { sessionId } })
             return true
           }
 
           return false
 
         } catch (error) {
-          logger.error('Exception loading will draft', { error })
+          logger.error('Exception loading will draft', { metadata: { error } })
           set((state) => {
             state.isLoading = false
           })
@@ -379,7 +382,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
             .eq('session_id', state.sessionId)
 
           if (error) {
-            logger.error('Failed to delete will draft', { error })
+            logger.error('Failed to delete will draft', { metadata: { error } })
             return false
           }
 
@@ -387,7 +390,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
           return true
 
         } catch (error) {
-          logger.error('Exception deleting will draft', { error })
+          logger.error('Exception deleting will draft', { metadata: { error } })
           return false
         }
       },
@@ -431,7 +434,7 @@ export const useWillWizardStore = create<WillWizardStore>()(
 
       getCompletionPercentage: (): number => {
         const state = get()
-        return willValidationService.getCompletionPercentage(state.formData)
+        return new WillValidationService().getCompletionPercentage(state.formData)
       },
 
       // Reset

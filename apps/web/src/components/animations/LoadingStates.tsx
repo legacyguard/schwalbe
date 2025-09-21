@@ -6,9 +6,10 @@
  */
 
 import React, { ReactNode } from 'react';
-import { animated, useSpring, useTransition } from '@react-spring/web';
+import { animated, useSpring } from '@react-spring/web';
 import { usePerformanceAwareAnimation } from './AnimationProvider';
-import { ANIMATION_CONFIG, animationUtils } from '@/config/animations';
+
+import { animationUtils } from '@/config/animations';
 
 // Types
 interface LoadingStateProps {

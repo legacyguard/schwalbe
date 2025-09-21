@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { logger } from '@schwalbe/shared/lib/logger';
 
 interface PasswordWallProps {
   children: React.ReactNode;
@@ -73,7 +74,13 @@ export const PasswordWall: React.FC<PasswordWallProps> = ({
         setAttemptCount(prev => prev + 1);
       }
     } catch (error) {
-      console.error('Authentication error:', error);
+      logger.error('Authentication error', {
+        action: 'password_wall_authentication_failed',
+        metadata: {
+          attemptCount: attemptCount + 1,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
       setError('Authentication failed. Please try again.');
       setAttemptCount(prev => prev + 1);
     }

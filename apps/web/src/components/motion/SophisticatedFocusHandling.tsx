@@ -286,7 +286,7 @@ class SophisticatedFocusEngine {
     const userPrefs = this.userPreferences.get('focus_preferences');
     const accessibilityPrefs = this.userPreferences.get('accessibility_features');
 
-    let adaptedStrategy = { ...strategy };
+    const adaptedStrategy = { ...strategy };
 
     // Adapt based on user preferences
     if (userPrefs.autoFocus) {

@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { logger } from '@schwalbe/shared/lib/logger';
 import {
   Award,
   Calendar,
@@ -31,6 +32,8 @@ import {
   Users,
   Zap,
 } from 'lucide-react';
+import { cn } from '@schwalbe/lib/utils';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/stubs/ui';
 import { Button } from '@/stubs/ui';
 import { Input } from '@/stubs/ui';
@@ -48,7 +51,6 @@ import {
 import { Checkbox } from '@/stubs/ui';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/stubs/ui';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
-import { cn } from '@schwalbe/lib/utils';
 import { professionalService, type ProfessionalProfile as ServiceProfessionalProfile } from '@/services/professional.service';
 
 // Import Sofia AI components
@@ -216,7 +218,16 @@ export function ProfessionalServices({
       setHasMore(result.hasMore);
       setCurrentPage(page);
     } catch (err) {
-      console.error('Failed to load professionals:', err);
+      logger.error('Failed to load professionals', {
+        action: 'load_professionals_failed',
+        metadata: {
+          searchQuery,
+          additionalFilters,
+          page,
+          append,
+          error: err instanceof Error ? err.message : String(err)
+        }
+      });
       setError('Failed to load professionals. Please try again.');
       if (!append) {
         setProfessionals([]);

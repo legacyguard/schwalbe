@@ -3,6 +3,7 @@ import { logger } from '@schwalbe/shared/lib/logger';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Check, Shield, Star, Users } from 'lucide-react';
+
 import { Button } from '@/stubs/ui';
 import { cn } from '@/lib/utils';
 

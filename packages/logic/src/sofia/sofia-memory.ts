@@ -320,5 +320,9 @@ export function getSofiaMemory(userId: string): SofiaMemoryService {
   if (!memoryInstances.has(userId)) {
     memoryInstances.set(userId, new SofiaMemoryService(userId));
   }
-  return memoryInstances.get(userId)!;
+  const instance = memoryInstances.get(userId);
+  if (!instance) {
+    throw new Error(`Failed to create SofiaMemoryService for user ${userId}`);
+  }
+  return instance;
 }

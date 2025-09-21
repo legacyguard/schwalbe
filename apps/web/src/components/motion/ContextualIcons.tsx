@@ -527,7 +527,7 @@ const ContextualIcons: React.FC<ContextualIconsProps> = ({
     const currentIconConfig = getCurrentIcon();
     let bestIcon = currentIcon;
     let bestReason = 'default';
-    let contextualEffects: string[] = [];
+    const contextualEffects: string[] = [];
 
     // Check content type first (most specific)
     if (contentContext.type && contextMapping.content.type[contentContext.type]) {

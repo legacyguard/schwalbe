@@ -3,6 +3,8 @@
  * Handles video processing, compression, storage, and retrieval with advanced optimization
  */
 
+import { logger } from '@schwalbe/shared/lib/logger';
+
 interface VideoFile {
   id: string;
   originalBlob: Blob;
@@ -199,7 +201,10 @@ class VideoStorageService {
       const blob = new Blob([workerCode], { type: 'application/javascript' });
       this.compressionWorker = new Worker(URL.createObjectURL(blob));
     } catch (error) {
-      console.warn('Video compression worker not available:', error);
+      logger.warn('Video compression worker not available', {
+        action: 'compression_worker_init_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 
@@ -214,7 +219,10 @@ class VideoStorageService {
         this.quotaUsed = estimate.usage || 0;
       }
     } catch (error) {
-      console.warn('Could not load storage quota:', error);
+      logger.warn('Could not load storage quota', {
+        action: 'storage_quota_load_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
     }
   }
 
@@ -334,7 +342,10 @@ class VideoStorageService {
 
         if (type === 'progress') {
           videoFile.uploadProgress = progress * 0.7; // Compression is 70% of total progress
-          console.log(`Compression progress: ${progress}% - ${step}`);
+          logger.debug('Compression progress', {
+            action: 'video_compression_progress',
+            metadata: { videoId: videoFile.id, progress, step }
+          });
         } else if (type === 'completed') {
           clearTimeout(timeout);
 
@@ -555,7 +566,13 @@ class VideoStorageService {
 
       return true;
     } catch (error) {
-      console.error('Failed to delete video:', error);
+      logger.error('Failed to delete video', {
+        action: 'video_deletion_failed',
+        metadata: {
+          videoId,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
       return false;
     }
   }
@@ -575,7 +592,10 @@ class VideoStorageService {
       };
     } else if (videoFile.storageLocation.startsWith('http')) {
       // In a real implementation, make API call to delete from cloud/CDN
-      console.log(`Would delete from cloud: ${videoFile.storageLocation}`);
+      logger.info('Cloud storage deletion requested', {
+        action: 'cloud_storage_deletion',
+        metadata: { location: videoFile.storageLocation }
+      });
     }
   }
 

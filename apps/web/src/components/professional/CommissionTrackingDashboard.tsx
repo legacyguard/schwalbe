@@ -46,8 +46,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@schwalbe/ui/dropdown-menu';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
 import { cn } from '@schwalbe/lib/utils';
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
 
 interface CommissionRecord {
   clientId: string;
@@ -755,7 +756,7 @@ export function CommissionTrackingDashboard({
 
                     <div className='space-y-2'>
                       <Label>Payment Schedule</Label>
-                      <Select defaultValue='monthly'>
+                      <Select value='monthly'>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>

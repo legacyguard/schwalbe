@@ -122,6 +122,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    chunkSizeWarningLimit: 300, // Warn for chunks larger than 300KB
     rollupOptions: {
       external: (id: string) => id.includes('@tamagui/react-native-media-driver') || id.includes('@tamagui/animations-react-native'),
       output: {
@@ -133,11 +134,74 @@ export default defineConfig({
           }
           return '[name]-[hash][extname]';
         },
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          supabase: ['@supabase/supabase-js'],
-          router: ['react-router-dom'],
-          utils: ['date-fns', 'lodash']
+        manualChunks: (id: string) => {
+          // Vendor libraries
+          if (id.includes('node_modules')) {
+            // React ecosystem
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react';
+            }
+            // Animation libraries
+            if (id.includes('framer-motion') || id.includes('@react-spring') || id.includes('@react-three')) {
+              return 'vendor-animation';
+            }
+            // UI libraries
+            if (id.includes('lucide-react') || id.includes('@radix-ui')) {
+              return 'vendor-ui';
+            }
+            // Supabase
+            if (id.includes('@supabase')) {
+              return 'vendor-supabase';
+            }
+            // Router
+            if (id.includes('react-router')) {
+              return 'vendor-router';
+            }
+            // Date and utility libraries
+            if (id.includes('date-fns') || id.includes('lodash') || id.includes('clsx') || id.includes('class-variance-authority')) {
+              return 'vendor-utils';
+            }
+            // i18n libraries
+            if (id.includes('i18next') || id.includes('react-i18next')) {
+              return 'vendor-i18n';
+            }
+            // Other vendor libraries
+            return 'vendor-misc';
+          }
+
+          // Application code chunking
+          // Sofia AI and personality system
+          if (id.includes('/sofia-') || id.includes('/components/sofia-') || id.includes('personality')) {
+            return 'app-sofia';
+          }
+          // Professional and legal features
+          if (id.includes('/professional/') || id.includes('/legal/')) {
+            return 'app-professional';
+          }
+          // Will wizard
+          if (id.includes('/will/')) {
+            return 'app-will';
+          }
+          // Video and family features
+          if (id.includes('/video/') || id.includes('/family/') || id.includes('/emergency/')) {
+            return 'app-family';
+          }
+          // Documents
+          if (id.includes('/documents/')) {
+            return 'app-documents';
+          }
+          // Analytics and motion components
+          if (id.includes('/motion/') || id.includes('/animations/') || id.includes('Analytics')) {
+            return 'app-motion';
+          }
+          // Shared utilities and hooks
+          if (id.includes('/utils/') || id.includes('/hooks/') || id.includes('/lib/')) {
+            return 'app-shared';
+          }
+          // Services
+          if (id.includes('/services/')) {
+            return 'app-services';
+          }
         }
       }
     },

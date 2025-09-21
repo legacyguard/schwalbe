@@ -1,6 +1,7 @@
-import { supabase } from '@/lib/supabase'
 import { logger } from '@schwalbe/shared/lib/logger';
 import { reminderService, type ReminderRule } from '@schwalbe/shared'
+
+import { supabase } from '@/lib/supabase'
 
 export type DocumentRow = {
   id: string

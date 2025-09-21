@@ -2,8 +2,9 @@ import React, { createContext, useContext, useEffect, useMemo, useState, useCall
 import { logger } from '@schwalbe/shared';
 import { supabase } from '../../../../lib/supabase.js'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useKeyboardNavigation } from '@/hooks/useAccessibility'
 import type { JurisdictionCode, WillForm, WillInput } from '@schwalbe/logic'
+
+import { useKeyboardNavigation } from '@/hooks/useAccessibility'
 
 export type WizardStepKey = 'start' | 'testator' | 'beneficiaries' | 'executor' | 'witnesses' | 'review'
 

@@ -220,7 +220,7 @@ export class WillService {
   /**
    * Generate step-by-step guidance for will creation
    */
-  getStepGuidance(step: string, formData: WillFormData): {
+  getStepGuidance(step: string, _formData: WillFormData): {
     title: string
     description: string
     tips: string[]

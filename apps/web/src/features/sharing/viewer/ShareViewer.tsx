@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { sharingService } from '@schwalbe/shared';
-import { MetaTags } from '@/components/common/MetaTags';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+
+import { MetaTags } from '@/components/common/MetaTags';
 
 export function ShareViewer() {
   const { shareId } = useParams<{ shareId: string }>();

@@ -1,6 +1,5 @@
 // Simple redirect guard to prevent redirect loops
 import { buildCountryUrl, getEnabledDomains, isProduction } from '@schwalbe/shared'
-
 import { logger } from '@schwalbe/shared/lib/logger';
 export interface RedirectSimulationTarget {
   code: string

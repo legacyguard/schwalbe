@@ -1,4 +1,5 @@
 import { sofiaAIService } from './sofia-ai.service';
+import { logger } from '@schwalbe/shared/lib/logger';
 
 export interface PaymentMethod {
   id: string;
@@ -103,10 +104,11 @@ class PaymentService {
     try {
       // Log payment initiation for analytics
       // TODO: Implement logInteraction method in SofiaAIService
-      console.log('Payment initiated:', {
-        type: 'payment_initiated',
-        context: 'professional_services',
+      logger.info('Payment initiated', {
+        action: 'payment_initiated',
         metadata: {
+          type: 'payment_initiated',
+          context: 'professional_services',
           amount: request.amount,
           currency: request.currency,
           consultationId: request.consultationId
@@ -130,16 +132,22 @@ class PaymentService {
 
       // Provide Sofia AI context about payment for future recommendations
       // TODO: Implement updateContext method in SofiaAIService
-      console.log('Payment context update:', {
-        paymentHistory: {
-          lastPayment: result,
-          professionalServicesUsage: true
+      logger.info('Payment context update', {
+        action: 'payment_context_update',
+        metadata: {
+          paymentHistory: {
+            lastPayment: result,
+            professionalServicesUsage: true
+          }
         }
       });
 
       return result;
     } catch (error) {
-      console.error('Payment initialization error:', error);
+      logger.error('Payment initialization error', {
+        action: 'payment_initialization_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to initialize payment. Please try again.');
     }
   }
@@ -164,10 +172,11 @@ class PaymentService {
       if (result.status === 'succeeded') {
         // Notify Sofia AI of successful payment for experience personalization
         // TODO: Implement logInteraction method in SofiaAIService
-        console.log('Payment succeeded:', {
-          type: 'payment_succeeded',
-          context: 'professional_services',
+        logger.info('Payment succeeded', {
+          action: 'payment_succeeded',
           metadata: {
+            type: 'payment_succeeded',
+            context: 'professional_services',
             paymentId: result.id,
             amount: result.amount,
             consultationBooked: !!result.paymentMethod
@@ -177,7 +186,10 @@ class PaymentService {
 
       return result;
     } catch (error) {
-      console.error('Payment confirmation error:', error);
+      logger.error('Payment confirmation error', {
+        action: 'payment_confirmation_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to confirm payment. Please try again.');
     }
   }
@@ -196,7 +208,10 @@ class PaymentService {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching payment methods:', error);
+      logger.error('Error fetching payment methods', {
+        action: 'fetch_payment_methods_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return [];
     }
   }
@@ -218,7 +233,10 @@ class PaymentService {
 
       return await response.json();
     } catch (error) {
-      console.error('Error adding payment method:', error);
+      logger.error('Error adding payment method', {
+        action: 'add_payment_method_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to add payment method. Please check your card details.');
     }
   }
@@ -236,7 +254,10 @@ class PaymentService {
         throw new Error('Failed to remove payment method');
       }
     } catch (error) {
-      console.error('Error removing payment method:', error);
+      logger.error('Error removing payment method', {
+        action: 'remove_payment_method_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to remove payment method. Please try again.');
     }
   }
@@ -256,7 +277,10 @@ class PaymentService {
         throw new Error('Failed to set default payment method');
       }
     } catch (error) {
-      console.error('Error setting default payment method:', error);
+      logger.error('Error setting default payment method', {
+        action: 'set_default_payment_method_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to set default payment method. Please try again.');
     }
   }
@@ -285,7 +309,10 @@ class PaymentService {
         recommended: recommendations.some((rec: any) => rec.planId === plan.id)
       }));
     } catch (error) {
-      console.error('Error fetching subscription plans:', error);
+      logger.error('Error fetching subscription plans', {
+        action: 'fetch_subscription_plans_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return this.getDefaultSubscriptionPlans();
     }
   }
@@ -366,10 +393,11 @@ class PaymentService {
 
       // Notify Sofia AI of subscription for experience customization
       // TODO: Implement logInteraction method in SofiaAIService
-      console.log({
-        type: 'subscription_created',
-        context: 'professional_services',
+      logger.info('Subscription created', {
+        action: 'subscription_created',
         metadata: {
+          type: 'subscription_created',
+          context: 'professional_services',
           planId,
           subscriptionId: subscription.id
         }
@@ -377,7 +405,10 @@ class PaymentService {
 
       return subscription;
     } catch (error) {
-      console.error('Error creating subscription:', error);
+      logger.error('Error creating subscription', {
+        action: 'create_subscription_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to create subscription. Please try again.');
     }
   }
@@ -399,13 +430,20 @@ class PaymentService {
 
       // Log cancellation for Sofia AI to understand user journey
       // TODO: Implement logInteraction method in SofiaAIService
-      console.log({
-        type: 'subscription_cancelled',
-        context: 'professional_services',
-        metadata: { subscriptionId, reason }
+      logger.info('Subscription cancelled', {
+        action: 'subscription_cancelled',
+        metadata: {
+          type: 'subscription_cancelled',
+          context: 'professional_services',
+          subscriptionId,
+          reason
+        }
       });
     } catch (error) {
-      console.error('Error canceling subscription:', error);
+      logger.error('Error canceling subscription', {
+        action: 'cancel_subscription_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to cancel subscription. Please contact support.');
     }
   }
@@ -424,7 +462,10 @@ class PaymentService {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching invoices:', error);
+      logger.error('Error fetching invoices', {
+        action: 'fetch_invoices_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return [];
     }
   }
@@ -443,7 +484,10 @@ class PaymentService {
 
       return await response.blob();
     } catch (error) {
-      console.error('Error downloading invoice:', error);
+      logger.error('Error downloading invoice', {
+        action: 'download_invoice_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to download invoice. Please try again.');
     }
   }
@@ -467,10 +511,11 @@ class PaymentService {
 
       // Log refund for Sofia AI to understand service quality
       // TODO: Implement logInteraction method in SofiaAIService
-      console.log({
-        type: 'refund_requested',
-        context: 'professional_services',
+      logger.info('Refund requested', {
+        action: 'refund_requested',
         metadata: {
+          type: 'refund_requested',
+          context: 'professional_services',
           paymentId: refundRequest.paymentId,
           reason: refundRequest.reason,
           amount: refundRequest.amount
@@ -479,7 +524,10 @@ class PaymentService {
 
       return result;
     } catch (error) {
-      console.error('Error processing refund:', error);
+      logger.error('Error processing refund', {
+        action: 'process_refund_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to process refund. Please contact support.');
     }
   }
@@ -512,7 +560,10 @@ class PaymentService {
 
       return true;
     } catch (error) {
-      console.error('Payment method validation error:', error);
+      logger.error('Payment method validation error', {
+        action: 'validate_payment_method_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return false;
     }
   }
@@ -564,9 +615,12 @@ class PaymentService {
       // Enhance analytics with Sofia AI insights
       // TODO: Implement analyzeUserBehavior method in SofiaAIService
       const insights = { insights: [] }; // Stub for now
-      console.log('User behavior analysis:', {
-        paymentHistory: analytics,
-        context: 'professional_services'
+      logger.info('User behavior analysis', {
+        action: 'user_behavior_analysis',
+        metadata: {
+          paymentHistory: analytics,
+          context: 'professional_services'
+        }
       });
 
       return {
@@ -574,7 +628,10 @@ class PaymentService {
         aiInsights: insights
       };
     } catch (error) {
-      console.error('Error fetching payment analytics:', error);
+      logger.error('Error fetching payment analytics', {
+        action: 'fetch_payment_analytics_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return null;
     }
   }
@@ -607,7 +664,10 @@ class PaymentService {
       // Round to nearest dollar
       return Math.round(basePrice);
     } catch (error) {
-      console.error('Error calculating consultation price:', error);
+      logger.error('Error calculating consultation price', {
+        action: 'calculate_consultation_price_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return 0;
     }
   }
@@ -626,7 +686,10 @@ class PaymentService {
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching payment history:', error);
+      logger.error('Error fetching payment history', {
+        action: 'fetch_payment_history_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       return [];
     }
   }
@@ -648,7 +711,10 @@ class PaymentService {
 
       return await response.json();
     } catch (error) {
-      console.error('Error setting up payment method:', error);
+      logger.error('Error setting up payment method', {
+        action: 'setup_payment_method_failed',
+        metadata: { error: error instanceof Error ? error.message : String(error) }
+      });
       throw new Error('Failed to setup payment method. Please try again.');
     }
   }

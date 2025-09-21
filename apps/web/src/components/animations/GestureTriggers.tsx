@@ -8,8 +8,9 @@
 import React, { ReactNode, useCallback, useRef } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
-import { useAnimation, usePerformanceAwareAnimation } from './AnimationProvider';
-import { ANIMATION_CONFIG, animationUtils } from '@/config/animations';
+import { usePerformanceAwareAnimation } from './AnimationProvider';
+
+import { animationUtils } from '@/config/animations';
 
 // Types
 interface GestureTriggerProps {

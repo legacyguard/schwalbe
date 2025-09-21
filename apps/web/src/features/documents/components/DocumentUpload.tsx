@@ -1,8 +1,9 @@
 import React from 'react'
 import { logger } from '@schwalbe/shared/lib/logger';
-import { Button } from '@/components/ui/button'
 import { uploadDocumentAndAnalyze } from '../api/documentApi'
 import { useNavigate } from 'react-router-dom'
+
+import { Button } from '@/components/ui/button'
 
 export function DocumentUpload() {
   const [files, setFiles] = React.useState<FileList | null>(null)

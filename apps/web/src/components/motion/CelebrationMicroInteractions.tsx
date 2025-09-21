@@ -77,24 +77,24 @@ class CelebrationOrchestrator {
     const { type, significance, userEmotionalState, userExpertise } = context;
 
     // Base sequence selection
-    let baseSequence = this.getBaseSequence(type, significance);
+    const baseSequence = this.getBaseSequence(type, significance);
 
     // Adapt intensity based on emotional state
-    let adaptedIntensity = this.adaptIntensityForEmotionalState(
+    const adaptedIntensity = this.adaptIntensityForEmotionalState(
       baseSequence.layers[0]?.intensity || 'moderate',
       userEmotionalState,
       significance
     );
 
     // Adapt layers based on user expertise
-    let adaptedLayers = this.adaptLayersForExpertise(
+    const adaptedLayers = this.adaptLayersForExpertise(
       baseSequence.layers,
       userExpertise,
       significance
     );
 
     // Adjust timing based on context
-    let timing = this.calculateOptimalTiming(adaptedLayers, context);
+    const timing = this.calculateOptimalTiming(adaptedLayers, context);
 
     // Create adapted sequence
     const adaptedSequence: CelebrationSequence = {

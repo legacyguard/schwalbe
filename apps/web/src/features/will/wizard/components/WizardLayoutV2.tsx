@@ -5,12 +5,13 @@
 
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
 import { useWizardStore } from '../hooks/useWizardStore'
 import { useCompliance } from '../hooks/useCompliance'
 import { ComplianceBanner } from './compliance/ComplianceBanner'
 import { StepGuidance } from './StepGuidance'
 import { Progress } from './progress/Progress'
+
+import { Button } from '@/components/ui/button'
 
 export function WizardLayoutV2({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation('will/wizard')

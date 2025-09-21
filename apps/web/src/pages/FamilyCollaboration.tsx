@@ -39,6 +39,8 @@ import {
   Activity,
   AlertTriangle,
 } from 'lucide-react'
+import { cn } from '@schwalbe/lib/utils'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/stubs/ui'
 import { Button } from '@/stubs/ui'
 import { Input } from '@/stubs/ui'
@@ -50,7 +52,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/stubs/ui'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/stubs/ui'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui'
-import { cn } from '@schwalbe/lib/utils'
 
 // Import Sofia AI components
 import { SofiaFirefly } from '@/components/sofia-firefly/SofiaFirefly'

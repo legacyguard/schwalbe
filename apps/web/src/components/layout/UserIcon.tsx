@@ -1,6 +1,7 @@
 import React from 'react'
-import { Button } from '@/components/ui/button'
 import { User } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
 
 // Stub for future user/account menu
 export function UserIcon() {

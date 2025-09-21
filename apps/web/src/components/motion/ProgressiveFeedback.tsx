@@ -90,7 +90,7 @@ class FeedbackProgressionEngine {
     // Adapt sequence based on emotional state
     let adaptedStages = [...stages];
     let timingAdjustments: number[] = stages.map(s => s.duration);
-    let adaptations: string[] = [];
+    const adaptations: string[] = [];
 
     if (emotionalState === 'anxious') {
       // Add reassurance stages for anxious users

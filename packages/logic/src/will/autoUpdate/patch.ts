@@ -70,13 +70,16 @@ function splitPath(path: string): string[] {
 
 function setPath(obj: any, path: string, value: unknown): { parent: any; key: string; prev: unknown } {
   const parts = splitPath(path);
+  if (parts.length === 0) throw new Error('Invalid path');
   let curr = obj;
   for (let i = 0; i < parts.length - 1; i++) {
-    const p = parts[i]!;
+    const p = parts[i];
+    if (p === undefined) throw new Error('Invalid path segment');
     if (typeof curr[p] !== 'object' || curr[p] === null) curr[p] = {};
     curr = curr[p];
   }
-  const key = parts[parts.length - 1]!;
+  const key = parts[parts.length - 1];
+  if (key === undefined) throw new Error('Invalid path key');
   const prev = curr[key];
   curr[key] = value;
   return { parent: curr, key, prev };
@@ -84,13 +87,16 @@ function setPath(obj: any, path: string, value: unknown): { parent: any; key: st
 
 function unsetPath(obj: any, path: string): { prev: unknown } {
   const parts = splitPath(path);
+  if (parts.length === 0) return { prev: undefined };
   let curr = obj;
   for (let i = 0; i < parts.length - 1; i++) {
-    const p = parts[i]!;
+    const p = parts[i];
+    if (p === undefined) return { prev: undefined };
     if (typeof curr[p] !== 'object' || curr[p] === null) return { prev: undefined };
     curr = curr[p];
   }
-  const key = parts[parts.length - 1]!;
+  const key = parts[parts.length - 1];
+  if (key === undefined) return { prev: undefined };
   const prev = curr[key];
   delete curr[key];
   return { prev };
@@ -98,9 +104,11 @@ function unsetPath(obj: any, path: string): { prev: unknown } {
 
 function ensureArrayAt(obj: any, path: string): any[] {
   const parts = splitPath(path);
+  if (parts.length === 0) throw new Error('Invalid path');
   let curr = obj;
   for (let i = 0; i < parts.length; i++) {
-    const p = parts[i]!;
+    const p = parts[i];
+    if (p === undefined) throw new Error('Invalid path segment');
     if (curr[p] === undefined) curr[p] = i === parts.length - 1 ? [] : {};
     curr = curr[p];
   }

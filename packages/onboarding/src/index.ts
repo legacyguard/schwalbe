@@ -1,58 +1,103 @@
-// Onboarding package skeleton: domain types and a minimal plan generator.
-// Code in English; UI copy in next-intl JSONs.
+import { QuestionnaireResponse, Plan, Persona, Milestone, OnboardingProgress } from './types';
+import { ONBOARDING_FLOW, generatePersona, generateMilestones } from './utils/questionnaire';
 
-export type Persona =
-  | 'starter'
-  | 'planner'
-  | 'guardian';
+export { ONBOARDING_FLOW };
 
-export type Answer = {
-  key: 'familyStatus' | 'priority' | 'timeAvailable';
-  value: string;
-};
+export function generatePlan(responses: QuestionnaireResponse): Plan {
+  const persona = generatePersona(responses);
+  const milestones = generateMilestones(persona);
 
-export type Milestone = {
-  id: string;
-  title: string;
-  description: string;
-  estimateMinutes: number;
-};
+  // Find the highest priority incomplete milestone as next best action
+  const nextBestAction = milestones
+    .filter(m => !m.completed)
+    .sort((a, b) => {
+      // Sort by priority first, then by estimated time
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
+      if (priorityDiff !== 0) return priorityDiff;
+      return a.estimatedMinutes - b.estimatedMinutes;
+    })[0] || milestones[0];
 
-export type Plan = {
-  persona: Persona;
-  milestones: Milestone[];
-  nextBestAction: Milestone | null;
-};
+  const completionPercentage = Math.round(
+    (milestones.filter(m => m.completed).length / milestones.length) * 100
+  );
 
-export function inferPersona(answers: Answer[]): Persona {
-  const priority = answers.find(a => a.key === 'priority')?.value || 'safety';
-  if (priority === 'organization') return 'planner';
-  if (priority === 'family') return 'guardian';
-  return 'starter';
+  return {
+    id: `plan_${Date.now()}`,
+    persona,
+    milestones,
+    nextBestAction,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    completionPercentage
+  };
 }
 
-export function generatePlan(answers: Answer[]): Plan {
-  const persona = inferPersona(answers);
-  const milestones: Milestone[] = [];
+export function calculateProgress(responses: QuestionnaireResponse): OnboardingProgress {
+  const answeredQuestions = responses.answers.length;
+  const totalQuestions = ONBOARDING_FLOW.steps.reduce((sum, step) => sum + step.questions.length, 0);
 
-  // Minimal rules based on persona
-  if (persona === 'starter') {
-    milestones.push(
-      { id: 'vault-basics', title: 'Secure your first documents', description: 'Add ID, insurance, and a key contact.', estimateMinutes: 8 },
-      { id: 'guardian-add', title: 'Add a trusted guardian', description: 'Invite someone you trust as a guardian.', estimateMinutes: 6 },
-    );
-  } else if (persona === 'planner') {
-    milestones.push(
-      { id: 'organize-categories', title: 'Organize your categories', description: 'Create categories for documents and assets.', estimateMinutes: 10 },
-      { id: 'checklist', title: 'Build your gentle checklist', description: 'Set reminders and next steps.', estimateMinutes: 7 },
-    );
-  } else {
-    milestones.push(
-      { id: 'family-contacts', title: 'Set up family contacts', description: 'Add spouse and children contacts.', estimateMinutes: 7 },
-      { id: 'emergency-access', title: 'Prepare emergency access', description: 'Define how your family can access in emergencies.', estimateMinutes: 9 },
-    );
+  return {
+    currentStep: Math.min(ONBOARDING_FLOW.steps.length, Math.ceil((answeredQuestions / totalQuestions) * ONBOARDING_FLOW.steps.length)),
+    totalSteps: ONBOARDING_FLOW.steps.length,
+    completedSteps: [], // This would be tracked separately in a real app
+    responses,
+    persona: answeredQuestions > 0 ? generatePersona(responses) : undefined
+  };
+}
+
+export function validateQuestionnaireResponse(responses: QuestionnaireResponse): { isValid: boolean; errors: string[] } {
+  const errors: string[] = [];
+
+  if (!responses.sessionId) {
+    errors.push('Session ID is required');
   }
 
-  const nextBestAction = milestones[0] ?? null;
-  return { persona, milestones, nextBestAction };
+  if (!responses.completedAt) {
+    errors.push('Completion timestamp is required');
+  }
+
+  if (!responses.answers || responses.answers.length === 0) {
+    errors.push('At least one answer is required');
+  }
+
+  // Validate each answer
+  responses.answers.forEach((answer, index) => {
+    if (!answer.questionId) {
+      errors.push(`Answer ${index + 1}: Question ID is required`);
+    }
+
+    // Find the question to validate against
+    const question = ONBOARDING_FLOW.steps
+      .flatMap(step => step.questions)
+      .find(q => q.id === answer.questionId);
+
+    if (!question) {
+      errors.push(`Answer ${index + 1}: Invalid question ID`);
+      return;
+    }
+
+    if (question.required && (answer.answer === null || answer.answer === undefined || answer.answer === '')) {
+      errors.push(`Question "${question.question}" is required`);
+    }
+
+    // Type-specific validation
+    if (question.type === 'scale' && typeof answer.answer === 'number') {
+      const { min, max } = question.validation || {};
+      if (min !== undefined && answer.answer < min) {
+        errors.push(`Answer for "${question.question}" must be at least ${min}`);
+      }
+      if (max !== undefined && answer.answer > max) {
+        errors.push(`Answer for "${question.question}" must be at most ${max}`);
+      }
+    }
+  });
+
+  return {
+    isValid: errors.length === 0,
+    errors
+  };
 }
+
+// Re-export types for convenience
+export type { QuestionnaireResponse, Plan, Persona, Milestone, OnboardingProgress };

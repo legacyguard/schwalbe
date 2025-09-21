@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PersonalityAwareAnimation } from '../animations/PersonalityAwareAnimations';
-import { PersonalityPresets } from '../sofia-firefly/PersonalityPresets';
+import { personalityPresets } from '../sofia-firefly/PersonalityPresets';
 
 interface VideoAnalytics {
   duration: number;

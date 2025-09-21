@@ -11,6 +11,7 @@ import type {
   AssetsStateSlice,
   StateValidationRule
 } from './types'
+
 import type { WizardState } from '@/features/will/wizard/state/WizardContext'
 
 // Validation Schemas
@@ -244,7 +245,7 @@ export class StateValidator {
     state: T,
     errors: Record<string, string[]>
   ): { fixed: T; remainingErrors: Record<string, string[]> } {
-    let fixed = { ...state }
+    const fixed = { ...state }
     const remainingErrors: Record<string, string[]> = {}
 
     for (const [field, fieldErrors] of Object.entries(errors)) {

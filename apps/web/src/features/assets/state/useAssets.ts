@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { logger } from '@schwalbe/shared/lib/logger';
+
 import { supabase } from '@/lib/supabase';
 
 export type AssetCategory = 'property' | 'vehicle' | 'financial' | 'business' | 'personal';

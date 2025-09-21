@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { supabase } from '@/lib/supabase'
 
 // Minimal inline i18n for EN/CZ/SK

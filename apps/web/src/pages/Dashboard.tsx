@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { logger } from '@schwalbe/shared/lib/logger';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/motion/FadeIn';
@@ -177,19 +179,31 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               >
                 <FamilyTreeVisualization
                   onAddMember={() => {
-                    console.log('Add family member');
+                    logger.info('Add family member requested', {
+                      action: 'add_family_member',
+                      metadata: { section: 'family' }
+                    });
                     setIsInteracting(true);
                   }}
                   onEditMember={(id) => {
-                    console.log('Edit member:', id);
+                    logger.info('Edit family member requested', {
+                      action: 'edit_family_member',
+                      metadata: { memberId: id, section: 'family' }
+                    });
                     setIsInteracting(true);
                   }}
                   onSetEmergencyContact={(id) => {
-                    console.log('Set emergency contact:', id);
+                    logger.info('Set emergency contact requested', {
+                      action: 'set_emergency_contact',
+                      metadata: { contactId: id, section: 'family' }
+                    });
                     setIsInteracting(true);
                   }}
                   onSetGuardian={(id) => {
-                    console.log('Set guardian:', id);
+                    logger.info('Set guardian requested', {
+                      action: 'set_guardian',
+                      metadata: { guardianId: id, section: 'family' }
+                    });
                     setIsInteracting(true);
                   }}
                 />
@@ -206,23 +220,38 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               >
                 <GuardianManagement
                   onAddGuardian={(guardian) => {
-                    console.log('Add guardian:', guardian);
+                    logger.info('Add guardian requested', {
+                      action: 'add_guardian',
+                      metadata: { guardianData: guardian, section: 'guardians' }
+                    });
                     setIsInteracting(true);
                   }}
                   onUpdateGuardian={(id, updates) => {
-                    console.log('Update guardian:', id, updates);
+                    logger.info('Update guardian requested', {
+                      action: 'update_guardian',
+                      metadata: { guardianId: id, updates, section: 'guardians' }
+                    });
                     setIsInteracting(true);
                   }}
                   onRemoveGuardian={(id) => {
-                    console.log('Remove guardian:', id);
+                    logger.info('Remove guardian requested', {
+                      action: 'remove_guardian',
+                      metadata: { guardianId: id, section: 'guardians' }
+                    });
                     setIsInteracting(true);
                   }}
                   onSendInvitation={(id) => {
-                    console.log('Send invitation:', id);
+                    logger.info('Send invitation requested', {
+                      action: 'send_invitation',
+                      metadata: { guardianId: id, section: 'guardians' }
+                    });
                     setIsInteracting(true);
                   }}
                   onActivateEmergency={(id) => {
-                    console.log('Activate emergency:', id);
+                    logger.info('Activate emergency requested', {
+                      action: 'activate_emergency',
+                      metadata: { emergencyId: id, section: 'guardians' }
+                    });
                     setIsInteracting(true);
                   }}
                 />

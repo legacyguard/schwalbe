@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X, AlertTriangle, AlertCircle, Info, CheckCircle, RefreshCw } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import { AppError, ErrorSeverity } from '@/lib/error-handling'
 import { useErrorQueue } from '@/hooks/useErrorHandler'

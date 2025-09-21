@@ -13,7 +13,13 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json',
+        project: (filePath) => {
+          // Use tsconfig.eslint.json for packages/logic to include test files
+          if (filePath.includes('packages/logic')) {
+            return './packages/logic/tsconfig.eslint.json';
+          }
+          return './tsconfig.json';
+        },
         ecmaFeatures: {
           jsx: true
         }
@@ -74,7 +80,7 @@ export default [
       '@typescript-eslint/no-empty-object-type': 'off'
     }
   },
-  // Test files: provide Jest globals
+  // Test files: provide Jest globals and disable problematic rules
   {
     files: ['**/*.test.{js,jsx,ts,tsx}', '**/__tests__/**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
@@ -89,6 +95,9 @@ export default [
         afterAll: 'readonly',
         jest: 'readonly'
       }
+    },
+    rules: {
+      'import/no-extraneous-dependencies': 'off'
     }
   },
   prettier

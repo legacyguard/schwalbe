@@ -4,12 +4,14 @@ export type ProfessionalReviewer = {
   full_name: string
   professional_title?: string
   law_firm_name?: string
+  jurisdiction?: string
   languages?: string[]
   licensed_states?: string[]
   experience_years?: number
   hourly_rate?: number
   profile_image_url?: string
   bio?: string
+  profile_verified?: boolean
   verification_status?: 'pending' | 'under_review' | 'verified' | 'rejected'
   created_at?: string
 }

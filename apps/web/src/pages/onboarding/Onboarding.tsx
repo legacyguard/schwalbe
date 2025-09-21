@@ -1,10 +1,11 @@
 
 import { useState } from 'react';
-import { usePageTitle } from '@/hooks/usePageTitle';
 import Scene1Promise from './Scene1Promise';
 import Scene2Box from './Scene2Box';
 import Scene3Key from './Scene3Key';
 import Scene4Prepare from './Scene4Prepare';
+
+import { usePageTitle } from '@/hooks/usePageTitle';
 import AIProcessingAnimation from '@/components/onboarding/AIProcessingAnimation';
 
 interface OnboardingProps {

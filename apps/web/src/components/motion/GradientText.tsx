@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
+
 import { cn } from '@/lib/utils';
 
 export type GradientDirection =

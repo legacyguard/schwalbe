@@ -1,14 +1,24 @@
 // Stub implementation for CelebrationAnalytics
+import { logger } from '@schwalbe/shared/lib/logger';
 export class CelebrationAnalytics {
   trackCelebrationStart(celebrationId: string, context: any): void {
-    console.log(`Celebration started: ${celebrationId}`, { context });
+    logger.info('Celebration started', {
+      action: 'celebration_start',
+      metadata: { celebrationId, context }
+    });
   }
 
   trackInteraction(celebrationId: string, interactionType: string): void {
-    console.log(`Celebration interaction: ${celebrationId}`, { interactionType });
+    logger.info('Celebration interaction', {
+      action: 'celebration_interaction',
+      metadata: { celebrationId, interactionType }
+    });
   }
 
   trackLayerComplete(celebrationId: string, layerId: string, duration: number): void {
-    console.log(`Celebration layer completed: ${celebrationId}/${layerId}`, { duration });
+    logger.info('Celebration layer completed', {
+      action: 'celebration_layer_complete',
+      metadata: { celebrationId, layerId, duration }
+    });
   }
 }

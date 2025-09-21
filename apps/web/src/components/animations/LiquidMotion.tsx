@@ -5,10 +5,11 @@
  * with performance optimization and accessibility support.
  */
 
-import React, { ReactNode, useMemo } from 'react';
-import { animated, useSpring, useTransition, useSprings } from '@react-spring/web';
+import React, { ReactNode } from 'react';
+import { animated, useSpring, useSprings } from '@react-spring/web';
 import { useGesture } from '@use-gesture/react';
-import { useAnimation, usePerformanceAwareAnimation } from './AnimationProvider';
+import { usePerformanceAwareAnimation } from './AnimationProvider';
+
 import { ANIMATION_CONFIG, animationUtils } from '@/config/animations';
 
 // Types
@@ -51,7 +52,7 @@ export function FadeIn({
   children,
   className = '',
   delay = 0,
-  duration = ANIMATION_CONFIG.DURATIONS.normal,
+  duration: _duration = ANIMATION_CONFIG.DURATIONS.normal,
   disabled = false,
   direction = 'up',
   distance = 20
@@ -89,7 +90,7 @@ export function SlideIn({
   children,
   className = '',
   delay = 0,
-  duration = ANIMATION_CONFIG.DURATIONS.normal,
+  duration: _duration = ANIMATION_CONFIG.DURATIONS.normal,
   disabled = false,
   direction,
   distance = 50
@@ -127,7 +128,7 @@ export function ScaleIn({
   children,
   className = '',
   delay = 0,
-  duration = ANIMATION_CONFIG.DURATIONS.normal,
+  duration: _duration = ANIMATION_CONFIG.DURATIONS.normal,
   disabled = false,
   scale = 0.8
 }: ScaleInProps) {
@@ -157,7 +158,7 @@ export function Morph({
   children,
   className = '',
   delay = 0,
-  duration = ANIMATION_CONFIG.DURATIONS.normal,
+  duration: _duration = ANIMATION_CONFIG.DURATIONS.normal,
   disabled = false,
   variant
 }: MorphProps) {
@@ -215,7 +216,7 @@ export function Stagger({
   children,
   className = '',
   delay = 0,
-  duration = ANIMATION_CONFIG.DURATIONS.normal,
+  duration: _duration = ANIMATION_CONFIG.DURATIONS.normal,
   disabled = false,
   stagger = ANIMATION_CONFIG.STAGGERS.medium,
   childDelay = 0
@@ -314,8 +315,8 @@ interface PerformanceOptimizedProps extends LiquidMotionProps {
 export function PerformanceOptimized({
   children,
   className = '',
-  threshold = 0.1,
-  rootMargin = '50px'
+  threshold: _threshold = 0.1,
+  rootMargin: _rootMargin = '50px'
 }: PerformanceOptimizedProps) {
   const { reducedMotion } = usePerformanceAwareAnimation();
 

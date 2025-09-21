@@ -94,7 +94,7 @@ export const ValidationError: React.FC<ValidationErrorProps> = ({
 
   return React.createElement(ErrorMessage, {
     error: errorMessage,
-    'data-field': field,
+    ['data-field']: field,
     ...props
   });
 };

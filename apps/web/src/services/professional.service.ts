@@ -3,8 +3,9 @@
  * Replaces hardcoded mock data with proper API integration
  */
 
-import { supabase } from '@/lib/supabase'
 import { logger } from '@schwalbe/shared'
+
+import { supabase } from '@/lib/supabase'
 import { apiClient, handleApiResponse } from '@/lib/api-client'
 import { errorHandler, NetworkError, ValidationError, ServerError } from '@/lib/error-handling'
 

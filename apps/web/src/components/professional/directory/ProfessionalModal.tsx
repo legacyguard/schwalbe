@@ -16,13 +16,14 @@ import {
   Target,
   X,
 } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
 import { Button } from '@schwalbe/ui/button';
 import { Badge } from '@schwalbe/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@schwalbe/ui/avatar';
 import { Separator } from '@schwalbe/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@schwalbe/ui/tabs';
 import type { ProfessionalProfile } from './ProfessionalCard';
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/stubs/ui';
 
 interface ProfessionalModalProps {
   professional: ProfessionalProfile;
@@ -52,7 +53,7 @@ export function ProfessionalModal({
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <Avatar className="h-20 w-20">
-                <AvatarImage src={professional.avatar} alt={professional.name} />
+                <AvatarImage src={professional.avatar} />
                 <AvatarFallback className="text-xl">
                   {professional.name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>

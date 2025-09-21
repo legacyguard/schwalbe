@@ -4,10 +4,12 @@
  */
 
 import React, { Component, ErrorInfo, ReactNode } from 'react'
+import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react'
 import { errorHandler, AppError, ErrorSeverity } from '@/lib/error-handling'
+import { logger } from '@schwalbe/shared/lib/logger'
 
 interface Props {
   children: ReactNode
@@ -106,7 +108,12 @@ export class ErrorBoundary extends Component<Props, State> {
       await navigator.clipboard.writeText(JSON.stringify(errorReport, null, 2))
       // Could show a toast notification here
     } catch (err) {
-      console.error('Failed to copy error report:', err)
+      // Use both logger and console.error as fallback for critical error reporting scenarios
+      logger.error('Failed to copy error report', {
+        action: 'copy_error_report_failed',
+        metadata: { error: err instanceof Error ? err.message : String(err) }
+      })
+      console.error('Failed to copy error report:', err) // Keep as fallback
     }
   }
 
@@ -272,4 +279,8 @@ export const ComponentErrorBoundary: React.FC<Omit<Props, 'level'>> = (props) =>
 
 export const CriticalErrorBoundary: React.FC<Omit<Props, 'level'>> = (props) => (
   <ErrorBoundary {...props} level="critical" showErrorDetails />
+)
+
+export const FeatureErrorBoundary: React.FC<Omit<Props, 'level'>> = (props) => (
+  <ErrorBoundary {...props} level="component" />
 )

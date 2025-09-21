@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWizard } from '../state/WizardContext';
+
 import { useFocusManagement, useAnnouncer } from '@/hooks/useAccessibility';
 import { useCombinedValidation, validationRules } from '@/hooks/useValidation';
 import { FormField } from '@/components/ui/AccessibleForm';

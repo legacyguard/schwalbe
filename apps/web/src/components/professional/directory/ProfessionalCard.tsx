@@ -76,7 +76,7 @@ export function ProfessionalCard({
               {/* Avatar and Basic Info */}
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src={professional.avatar} alt={professional.name} />
+                  <AvatarImage src={professional.avatar} />
                   <AvatarFallback>
                     {professional.name.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
@@ -184,7 +184,7 @@ export function ProfessionalCard({
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <Avatar className="h-12 w-12">
-                <AvatarImage src={professional.avatar} alt={professional.name} />
+                <AvatarImage src={professional.avatar} />
                 <AvatarFallback>
                   {professional.name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>

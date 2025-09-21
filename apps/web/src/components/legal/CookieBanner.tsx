@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+
 import { getConsentVersionTag } from '@/lib/legal'
 import { supabase } from '@/lib/supabase'
 import { ensureConsentRow, markDeviceConsentAccepted, hasDeviceAccepted } from '@/features/legal/consent.service'

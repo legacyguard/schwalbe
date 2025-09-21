@@ -5,12 +5,10 @@
  * to create emotionally intelligent, contextually aware animation responses.
  */
 
-import React, { ReactNode, useMemo, useCallback } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import { usePerformanceAwareAnimation } from './AnimationProvider';
-import { ANIMATION_CONFIG, animationUtils } from '@/config/animations';
 import {
-  useSofiaPersonality,
   PersonalityState,
   PersonalityMode,
   ContextType,
@@ -19,6 +17,8 @@ import {
   shouldUseCelebratory,
   shouldUseComforting
 } from '../sofia-firefly/SofiaFireflyPersonality';
+
+import { animationUtils } from '@/config/animations';
 
 // Types for personality-aware animations
 interface PersonalityAwareAnimationProps {

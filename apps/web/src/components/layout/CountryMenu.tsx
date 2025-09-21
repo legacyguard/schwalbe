@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { ChevronDown, Globe } from 'lucide-react'
 import {
   COUNTRY_DOMAINS,
@@ -8,6 +7,8 @@ import {
   DEFAULT_COUNTRY,
 } from '@schwalbe/shared'
 import { getDomainByHost } from '@schwalbe/shared'
+
+import { Button } from '@/components/ui/button'
 import { getCurrentHost } from '@/lib/locale'
 import { redirectToCountryOrSimulate, type RedirectSimulationTarget } from '@/lib/utils/redirect-guard'
 import { RedirectSimulationModal } from '@/components/modals/RedirectSimulationModal'

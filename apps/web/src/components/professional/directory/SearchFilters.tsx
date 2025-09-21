@@ -182,10 +182,6 @@ export function SearchFilters({
                 onValueChange={(value) =>
                   onFiltersChange({ experience: value as [number, number] })
                 }
-                max={50}
-                min={0}
-                step={1}
-                className="w-full"
               />
               <div className="flex justify-between text-sm text-gray-500 mt-1">
                 <span>{filters.experience[0]} years</span>
@@ -201,10 +197,6 @@ export function SearchFilters({
               <Slider
                 value={[filters.rating]}
                 onValueChange={(value) => onFiltersChange({ rating: value[0] })}
-                max={5}
-                min={0}
-                step={0.5}
-                className="w-full"
               />
               <div className="text-sm text-gray-500 mt-1">
                 {filters.rating} stars and above

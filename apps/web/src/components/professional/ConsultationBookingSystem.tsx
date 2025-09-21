@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PersonalityAwareAnimation } from '../animations/PersonalityAwareAnimations';
-import { PersonalityPresets } from '../sofia-firefly/PersonalityPresets';
+import { personalityPresets } from '../sofia-firefly/PersonalityPresets';
 
 interface TimeSlot {
   id: string;
@@ -195,8 +195,8 @@ export const ConsultationBookingSystem: React.FC = () => {
   const calculateEndTime = (startTime: string, duration: number): string => {
     const [hours, minutes] = startTime.split(':').map(Number);
     const start = new Date();
-    start.setHours(hours, minutes, 0, 0);
-    start.setMinutes(start.getMinutes() + duration);
+    start.setHours(hours || 0, minutes || 0, 0, 0);
+    start.setMinutes(start.getMinutes() + (duration || 0));
     return `${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`;
   };
 
@@ -266,7 +266,10 @@ export const ConsultationBookingSystem: React.FC = () => {
     const steps: typeof currentStep[] = ['attorney', 'time', 'details', 'payment', 'confirmation'];
     const currentIndex = steps.indexOf(currentStep);
     if (currentIndex < steps.length - 1) {
-      setCurrentStep(steps[currentIndex + 1]);
+      const nextStep = steps[currentIndex + 1];
+      if (nextStep) {
+        setCurrentStep(nextStep);
+      }
     }
   };
 
@@ -274,7 +277,10 @@ export const ConsultationBookingSystem: React.FC = () => {
     const steps: typeof currentStep[] = ['attorney', 'time', 'details', 'payment', 'confirmation'];
     const currentIndex = steps.indexOf(currentStep);
     if (currentIndex > 0) {
-      setCurrentStep(steps[currentIndex - 1]);
+      const prevStep = steps[currentIndex - 1];
+      if (prevStep) {
+        setCurrentStep(prevStep);
+      }
     }
   };
 
@@ -728,7 +734,7 @@ export const ConsultationBookingSystem: React.FC = () => {
   };
 
   return (
-    <PersonalityAwareAnimation preset={PersonalityPresets.supportiveAgent}>
+    <PersonalityAwareAnimation personality={personalityPresets.supportive}>
       <div className="max-w-4xl mx-auto p-6">
         {currentStep !== 'confirmation' && (
           <div className="mb-8">

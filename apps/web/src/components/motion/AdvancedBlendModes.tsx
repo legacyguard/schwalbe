@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
 
 interface AdvancedBlendModesProps {
@@ -42,12 +42,11 @@ const AdvancedBlendModes: React.FC<AdvancedBlendModesProps> = ({
   onBlendChange,
 }) => {
   const [currentBlendMode, setCurrentBlendMode] = useState(blendMode);
-  const [currentIntensity, setCurrentIntensity] = useState(intensity);
+  const [_currentIntensity, _setCurrentIntensity] = useState(intensity);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
   const shouldReduceMotion = useReducedMotion();
 
   // Mouse position tracking for interactive effects
@@ -79,7 +78,7 @@ const AdvancedBlendModes: React.FC<AdvancedBlendModesProps> = ({
   const intensityConfig = intensityConfigs[intensity];
   const animationDuration = speedConfigs[animationSpeed];
 
-  // Predefined blend mode presets
+  /* Predefined blend mode presets (for future use)
   const blendPresets: Record<string, BlendPreset> = {
     cinematic: {
       name: 'Cinematic Drama',
@@ -152,6 +151,7 @@ const AdvancedBlendModes: React.FC<AdvancedBlendModesProps> = ({
       effects: ['luminosity', 'blur', 'desaturate'],
     },
   };
+  */
 
   // Generate advanced blend effect
   const generateBlendEffect = (): BlendEffect => {

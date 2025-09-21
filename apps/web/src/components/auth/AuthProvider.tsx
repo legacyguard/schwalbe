@@ -1,5 +1,6 @@
 import { useEffect, ReactNode } from 'react';
 import { useAuthStore } from '@schwalbe/shared';
+import { logger } from '@schwalbe/shared/lib/logger';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -27,7 +28,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         await initialize();
       } catch (error) {
         if (isMounted) {
-          console.error('Auth initialization failed:', error);
+          logger.error('Auth initialization failed', {
+            action: 'auth_initialization_failed',
+            metadata: { error: error instanceof Error ? error.message : String(error) }
+          });
         }
       }
     };

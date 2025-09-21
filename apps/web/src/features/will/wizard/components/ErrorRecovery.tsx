@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
 import { useWizard, InitialWizardState } from '../state/WizardContext'
+
+import { Button } from '@/components/ui/button'
 
 interface ErrorRecoveryProps {
   error?: Error

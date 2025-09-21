@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { logger } from '@schwalbe/shared/lib/logger';
+
 import { supabase } from '@/lib/supabase';
 import Onboarding from '@/pages/onboarding/Onboarding';
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { sendAnalytics } from '@/lib/analytics';
 import { PasswordWall } from '@/components/auth/PasswordWall';
 

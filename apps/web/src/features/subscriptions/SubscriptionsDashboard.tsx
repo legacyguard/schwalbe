@@ -1,8 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { subscriptionService, type UserSubscription, type SubscriptionPreferences } from '@schwalbe/shared'
-import { supabase } from '@/lib/supabase'
 import { billingConfig, daysUntil, isTrialActive } from '@schwalbe/shared'
+
+import { supabase } from '@/lib/supabase'
 
 export function SubscriptionsDashboard() {
   const { t } = useTranslation('subscriptions')

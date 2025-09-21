@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from 'react'
-import { LegacyGuardLogo } from '@/components/LegacyGuardLogo'
-import { Button } from '@/components/ui/button'
 import { ChevronDown, Languages } from 'lucide-react'
-import i18n from '@/lib/i18n'
-import { getAllowedLanguagesForCurrentHost, safeSetLocalStorage } from '@/lib/locale'
 import { getLanguageLabel, normalizeLocale, type LocaleCode } from '@schwalbe/shared'
 import { CountryMenu } from './CountryMenu'
 import { SearchBox } from './SearchBox'
 import { UserIcon } from './UserIcon'
+
+import { getAllowedLanguagesForCurrentHost, safeSetLocalStorage } from '@/lib/locale'
+import i18n from '@/lib/i18n'
+import { Button } from '@/components/ui/button'
+import { LegacyGuardLogo } from '@/components/LegacyGuardLogo'
 
 
 function LanguageSwitcher() {

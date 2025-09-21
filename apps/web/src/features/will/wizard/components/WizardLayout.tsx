@@ -2,10 +2,11 @@ import React, { memo, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWizard, stepsOrder } from '../state/WizardContext'
 import { Progress } from './progress/Progress'
-import { Button } from '@/components/ui/button'
 import { useCompliance } from '../hooks/useCompliance'
 import { ComplianceBanner } from './compliance/ComplianceBanner'
 import { StepGuidance } from './StepGuidance'
+
+import { Button } from '@/components/ui/button'
 
 export const WizardLayout = memo(function WizardLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation('will/wizard')

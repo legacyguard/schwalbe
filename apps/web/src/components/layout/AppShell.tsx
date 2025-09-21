@@ -1,5 +1,6 @@
 import React from 'react'
 import { TopBar } from './TopBar'
+
 import { InAppReminderBanner } from '@/features/reminders/components/InAppReminderBanner'
 import { CookieBanner } from '@/components/legal/CookieBanner'
 import { Footer } from '@/components/layout/Footer'

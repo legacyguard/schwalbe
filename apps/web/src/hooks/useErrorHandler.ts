@@ -3,6 +3,8 @@
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { logger } from '@schwalbe/shared/lib/logger'
+
 import {
   errorHandler,
   AppError,
@@ -361,7 +363,15 @@ export function useErrorBoundaryFallback() {
         body: JSON.stringify(error.toJSON())
       })
     } catch (reportingError) {
-      console.error('Failed to report error:', reportingError)
+      // Use both logger and console.error as fallback for critical error reporting scenarios
+      logger.error('Failed to report error', {
+        action: 'error_reporting_failed',
+        metadata: {
+          originalError: error.toJSON(),
+          reportingError: reportingError instanceof Error ? reportingError.message : String(reportingError)
+        }
+      })
+      console.error('Failed to report error:', reportingError) // Keep as fallback
     }
   }, [])
 

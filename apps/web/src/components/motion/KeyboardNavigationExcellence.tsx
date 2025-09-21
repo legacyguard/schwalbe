@@ -436,7 +436,7 @@ class KeyboardNavigationEngine {
   private adaptFocusIndicator(indicator: FocusIndicator, context: FocusContext): FocusIndicator {
     const userPrefs = this.userPreferences.get('focus_management');
 
-    let adaptedIndicator = { ...indicator };
+    const adaptedIndicator = { ...indicator };
 
     // Adapt based on user preferences
     if (!userPrefs.visualIndicators) {

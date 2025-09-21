@@ -3,11 +3,11 @@ import { YStack, XStack, Text, Button, Card, Input, TextArea, Progress, Avatar }
 import { ChevronLeft, ChevronRight, FileText, Users, Heart, Shield, Sparkles, CheckCircle } from '@tamagui/lucide-icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSpring, animated } from '@react-spring/web';
-
 import { SofiaFirefly } from '../components/sofia-firefly/SofiaFirefly';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { isFeatureEnabled } from '../config/flags';
 import { useTranslation } from 'react-i18next';
+
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
 interface WillStep {
   id: string;

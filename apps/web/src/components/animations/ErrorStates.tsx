@@ -6,9 +6,10 @@
  */
 
 import React, { ReactNode } from 'react';
-import { animated, useSpring, useSpringValue } from '@react-spring/web';
+import { animated, useSpring } from '@react-spring/web';
 import { usePerformanceAwareAnimation } from './AnimationProvider';
-import { ANIMATION_CONFIG, animationUtils } from '@/config/animations';
+
+import { animationUtils } from '@/config/animations';
 
 // Types
 interface ErrorStateProps {
@@ -34,7 +35,7 @@ interface ContextualErrorProps extends ErrorStateProps {
 // Shake Error Component
 export function ShakeError({
   className = '',
-  type = 'shake',
+  type: _type = 'shake',
   severity = 'error',
   message,
   title,

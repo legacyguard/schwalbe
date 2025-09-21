@@ -5,9 +5,8 @@
   "type": "module",
   "packageManager": "npm@10.8.2",
   "workspaces": [
-    "apps/mobile",
-    "packages/*",
-    "packages/onboarding"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "dev": "NODE_OPTIONS=--max-old-space-size=8192 turbo run dev",

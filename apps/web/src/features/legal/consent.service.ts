@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+
 import { LEGAL_VERSIONS } from '@/lib/legal'
 
 const COOKIE_NAME = 'lg.cookie-consent'

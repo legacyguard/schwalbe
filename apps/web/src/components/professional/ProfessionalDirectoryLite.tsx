@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import type { ProfessionalReviewer } from '@/types/professional';
 import { motion, useReducedMotion } from 'framer-motion';
+
+import type { ProfessionalReviewer } from '@/types/professional';
 
 // Minimal sample data (no external deps)
 const SAMPLE_PROFESSIONALS: ProfessionalReviewer[] = [

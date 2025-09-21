@@ -10,15 +10,16 @@
  * - Predictive analytics for error likelihood
  */
 
-import { 
-  ErrorContext, 
-  PreventionStrategy, 
+import {
+  ErrorContext,
+  PreventionStrategy,
   ErrorPreventionSequence,
   PreventionAnalyticsEvent,
   PreventionMetrics,
   RecoveryAnalytics,
   PredictiveAnalytics
 } from '../types/ErrorPrevention';
+import { logger } from '@schwalbe/shared/lib/logger';
 
 // Interfaces are now imported from shared types file
 
@@ -402,7 +403,15 @@ export class ErrorPreventionAnalytics {
         body: JSON.stringify(event),
       });
     } catch (error) {
-      console.warn('Failed to send analytics event:', error);
+      logger.warn('Failed to send analytics event', {
+        action: 'analytics_send_failed',
+        metadata: {
+          endpoint: this.analyticsEndpoint,
+          eventId: event.id,
+          eventType: event.type,
+          error: error instanceof Error ? error.message : String(error)
+        }
+      });
     }
   }
 

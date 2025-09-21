@@ -6,7 +6,6 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { logger, useAuthStore } from '@schwalbe/shared'
-import { supabase } from '@/lib/supabase'
 import {
   type AppStateSlice,
   type WizardStateSlice,
@@ -20,6 +19,8 @@ import {
   defaultPreferencesState
 } from './types'
 import { stateValidator, tabSync, persistWithEnhancements, devtools } from './middleware'
+
+import { supabase } from '@/lib/supabase'
 import type { WizardState, WizardStepKey } from '@/features/will/wizard/state/WizardContext'
 import type { Asset } from '@/features/assets/state/useAssets'
 
