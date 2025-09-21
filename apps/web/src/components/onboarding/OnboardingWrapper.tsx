@@ -13,7 +13,7 @@ export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
 
   useEffect(() => {
     let mounted = true;
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(({ data }: { data: any }) => {
       if (!mounted) return;
       setUser(data.user);
       setIsLoaded(true);
@@ -66,7 +66,7 @@ export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
 
       setShowOnboarding(false);
     } catch (error) {
-      logger.error('Failed to update onboarding status: ', error);
+      logger.error('Failed to update onboarding status: ', error as any);
       // Even if metadata update fails, don't show onboarding again this session
       setShowOnboarding(false);
     }
