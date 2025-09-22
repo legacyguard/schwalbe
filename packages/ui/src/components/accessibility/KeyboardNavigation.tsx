@@ -420,6 +420,7 @@ export function KeyboardDropdown({
       document.addEventListener('keydown', handleKeyDown)
       return () => document.removeEventListener('keydown', handleKeyDown)
     }
+    return () => {}
   }, [isOpen, items.length])
 
   return (

@@ -16,22 +16,23 @@ max_rows = 1000
 
 [auth]
 enabled = true
-# The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
-# in emails.
-site_url = "http://localhost:3000"
+# The base URL of the production app (keep localhost in allowed redirects for development).
+site_url = "https://app.legaczguard.com"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
+  "https://app.legaczguard.com/auth/callback",
+  "https://app.legaczguard.com/api/auth/callback",
+  "https://app.legaczguard.com/account",
   "http://localhost:3000/auth/callback",
-  "https://localhost:3000/auth/callback"
-  # add other routes (e.g., /auth/callback/redirect) as needed
+  "http://localhost:3000/api/auth/callback"
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604800 (1 week).
-jwt_expiry = 3600
+jwt_expiry = 86400
 # If disabled, the refresh token will never expire.
 enable_refresh_token_rotation = true
 # Allows refresh tokens to be reused after expiry, up to the specified interval in seconds.
 # Requires enable_refresh_token_rotation = true.
-refresh_token_reuse_interval = 10
+refresh_token_reuse_interval = 30
 # Allow/disallow new user signups to your project.
 enable_signup = true
 
@@ -40,21 +41,21 @@ enable_signup = true
 enable_signup = true
 # If enabled, a user will be required to confirm any email change on both the old, and new email addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
-# If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+# Require email confirmation outside of development.
+enable_confirmations = true
 
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
 enable_signup = true
 # If enabled, users need to confirm their phone number before signing in.
-enable_confirmations = false
+enable_confirmations = true
 # Template for sending SMS messages.
-template = "Your code is {{ .Code }}"
+template = "Your LegaczGuard verification code is {{ .Code }}"
 
 [auth.external.apple]
-enabled = false
-client_id = ""
-secret = ""
+enabled = true
+client_id = "{{ env "SUPABASE_APPLE_CLIENT_ID" }}"
+secret = "{{ env "SUPABASE_APPLE_CLIENT_SECRET" }}"
 # Overrides the default auth redirectUrl.
 redirect_uri = ""
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
@@ -82,14 +83,14 @@ client_id = ""
 secret = ""
 
 [auth.external.facebook]
-enabled = false
-client_id = ""
-secret = ""
+enabled = true
+client_id = "{{ env "SUPABASE_FACEBOOK_CLIENT_ID" }}"
+secret = "{{ env "SUPABASE_FACEBOOK_CLIENT_SECRET" }}"
 
 [auth.external.github]
-enabled = false
-client_id = ""
-secret = ""
+enabled = true
+client_id = "{{ env "SUPABASE_GITHUB_CLIENT_ID" }}"
+secret = "{{ env "SUPABASE_GITHUB_CLIENT_SECRET" }}"
 
 [auth.external.gitlab]
 enabled = false
@@ -102,9 +103,9 @@ redirect_uri = ""
 url = ""
 
 [auth.external.google]
-enabled = false
-client_id = ""
-secret = ""
+enabled = true
+client_id = "{{ env "SUPABASE_GOOGLE_CLIENT_ID" }}"
+secret = "{{ env "SUPABASE_GOOGLE_CLIENT_SECRET" }}"
 
 [auth.external.keycloak]
 enabled = false
@@ -117,9 +118,9 @@ redirect_uri = ""
 url = ""
 
 [auth.external.linkedin]
-enabled = false
-client_id = ""
-secret = ""
+enabled = true
+client_id = "{{ env "SUPABASE_LINKEDIN_CLIENT_ID" }}"
+secret = "{{ env "SUPABASE_LINKEDIN_CLIENT_SECRET" }}"
 
 [auth.external.notion]
 enabled = false
@@ -195,8 +196,12 @@ port = 54326
 
 [storage]
 enabled = true
-# The maximum file size allowed (e.g. "5MB", "500KB").
-file_size_limit = "50MiB"
+# The maximum file size allowed for uploads.
+file_size_limit = "200MiB"
+# Disable object size validation for resumable uploads. Accepts "true"/"false". Default "false".
+skip_size_validations = false
+# Cache control headers for public buckets.
+default_cache_control = "max-age=86400, public"
 
 [realtime]
 enabled = true

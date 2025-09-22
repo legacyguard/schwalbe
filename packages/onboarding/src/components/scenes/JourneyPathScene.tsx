@@ -4,13 +4,13 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { MapPin, TreePine, Home, Heart, Star, Mountain, Flower, ArrowRight, Compass } from 'lucide-react'
 import { cn } from '@schwalbe/shared'
 
 interface JourneyPathSceneProps {
   userName: string
-  personalizedKey: any
+  personalizedKey: unknown
   onComplete: (journeyData: JourneyData) => void
   className?: string
 }
@@ -34,7 +34,7 @@ interface PathMilestone {
 
 export function JourneyPathScene({
   userName,
-  personalizedKey,
+  personalizedKey: _personalizedKey,
   onComplete,
   className
 }: JourneyPathSceneProps) {
@@ -43,12 +43,10 @@ export function JourneyPathScene({
   const [revealedMilestones, setRevealedMilestones] = useState<number>(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const { scrollYProgress } = useScroll({
+  useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   })
-
-  const pathProgress = useTransform(scrollYProgress, [0, 1], [0, 100])
 
   // Journey milestones
   const milestones: PathMilestone[] = [

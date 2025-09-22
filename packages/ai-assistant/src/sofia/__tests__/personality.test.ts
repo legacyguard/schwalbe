@@ -7,11 +7,11 @@
 const describe = (name: string, fn: () => void) => fn()
 const it = (name: string, fn: () => void) => fn()
 const expect = (actual: any) => ({
-  toBe: (expected: any) => {
+  toBe: (expected: unknown) => {
     if (actual !== expected) throw new Error(`Expected ${expected}, got ${actual}`)
   },
-  toContain: (expected: any) => {
-    if (!actual.includes(expected)) throw new Error(`Expected to contain ${expected}`)
+  toContain: (expected: string) => {
+    if (typeof actual !== 'string' || !actual.includes(expected)) throw new Error(`Expected to contain ${expected}`)
   },
   toBeTruthy: () => {
     if (!actual) throw new Error(`Expected truthy value`)
@@ -22,7 +22,9 @@ const expect = (actual: any) => ({
   not: {
     toThrow: () => {
       try {
-        actual()
+        if (typeof actual === 'function') {
+          actual()
+        }
         // Function did not throw, which is what we expect
       } catch (e) {
         throw new Error(`Expected function not to throw`)
@@ -31,7 +33,7 @@ const expect = (actual: any) => ({
   }
 })
 const beforeEach = (fn: () => void) => fn()
-import { SofiaPersonalityEngine, UserContext, EmotionalState } from '../personality'
+import { SofiaPersonalityEngine, UserContext } from '../personality'
 
 describe('SofiaPersonalityEngine', () => {
   let engine: SofiaPersonalityEngine

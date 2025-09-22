@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { OnboardingQuestionnaire, OnboardingPlan, Plan } from '@schwalbe/onboarding';
-import { usePageTitle } from '@/hooks/usePageTitle';
+import * as OnboardingKit from '@schwalbe/onboarding';
+import type { Plan, QuestionnaireResponse } from '@schwalbe/onboarding';
+
+const { OnboardingQuestionnaire, OnboardingPlan, generatePlan } = OnboardingKit;
 import { useTranslation } from 'react-i18next';
 
 interface QuestionnaireProps {
@@ -9,11 +11,16 @@ interface QuestionnaireProps {
 }
 
 export default function Questionnaire({ onComplete, onCancel }: QuestionnaireProps) {
-  usePageTitle('Onboarding Questionnaire');
   const { t } = useTranslation();
   const [plan, setPlan] = useState<Plan | null>(null);
 
-  const handleQuestionnaireComplete = (generatedPlan: Plan) => {
+  // Create a simple translation function that matches the expected interface
+  const simpleT = (key: string, defaultValue?: string): string => {
+    return t(key, defaultValue || key);
+  };
+
+  const handleQuestionnaireComplete = (responses: QuestionnaireResponse) => {
+    const generatedPlan = generatePlan(responses);
     setPlan(generatedPlan);
   };
 
@@ -33,7 +40,7 @@ export default function Questionnaire({ onComplete, onCancel }: QuestionnairePro
         plan={plan}
         onStart={handlePlanStart}
         onRestart={handlePlanRestart}
-        t={t}
+        t={simpleT}
       />
     );
   }
@@ -42,7 +49,7 @@ export default function Questionnaire({ onComplete, onCancel }: QuestionnairePro
     <OnboardingQuestionnaire
       onComplete={handleQuestionnaireComplete}
       onCancel={onCancel}
-      t={t}
+      t={simpleT}
     />
   );
 }

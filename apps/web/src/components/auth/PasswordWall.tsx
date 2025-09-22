@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { logger } from '@schwalbe/shared/lib/logger';
 
 interface PasswordWallProps {
@@ -11,7 +10,6 @@ export const PasswordWall: React.FC<PasswordWallProps> = ({
   children,
   onAuthenticated
 }) => {
-  const { t } = useTranslation('common/buttons');
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');

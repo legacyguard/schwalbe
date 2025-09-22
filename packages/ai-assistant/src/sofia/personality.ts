@@ -158,7 +158,6 @@ export class SofiaPersonalityEngine {
     this.userHistory.set(userId, currentContext)
 
     const emotionalState = this.assessEmotionalState(currentContext)
-    const tone = this.determineTone(emotionalState)
 
     switch (intent) {
       case 'welcome':
@@ -178,9 +177,8 @@ export class SofiaPersonalityEngine {
     }
   }
 
-  public shouldShowSuggestion(userId: string, currentContext: UserContext): boolean {
+  public shouldShowSuggestion(_userId: string, currentContext: UserContext): boolean {
     const emotionalState = this.assessEmotionalState(currentContext)
-    const previousContext = this.userHistory.get(userId)
 
     // Don't overwhelm nervous users
     if (emotionalState.confidence === 'nervous' && currentContext.timeInApp < 300000) {
@@ -258,7 +256,7 @@ export class SofiaPersonalityEngine {
     return { formality, encouragement, pace }
   }
 
-  private generateWelcomeMessage(context: UserContext, state: EmotionalState): string {
+  private generateWelcomeMessage(context: UserContext, _state: EmotionalState): string {
     if (context.documentsCount === 0) {
       return SOFIA_CORE_PERSONALITY.welcomeMessages.firstTime
     }
@@ -270,7 +268,7 @@ export class SofiaPersonalityEngine {
     return SOFIA_CORE_PERSONALITY.welcomeMessages.returning
   }
 
-  private generateSuggestion(context: UserContext, state: EmotionalState): string {
+  private generateSuggestion(context: UserContext, _state: EmotionalState): string {
     // Quick wins logic
     if (context.documentsCount === 0) {
       return SOFIA_CORE_PERSONALITY.quickWins.firstDocument.message
@@ -340,7 +338,7 @@ export class SofiaPersonalityEngine {
     return "Máte už pekne rozpracované všetky základné kategórie!"
   }
 
-  private generateGuidance(context: UserContext, state: EmotionalState): string {
+  private generateGuidance(_context: UserContext, state: EmotionalState): string {
     if (state.confidence === 'nervous') {
       return "Pamätajte - nemusíte urobiť všetko naraz. Každý malý krok má význam."
     }

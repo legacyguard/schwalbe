@@ -1,1 +1,0 @@
-export const Separator: React.FC<{ orientation?: 'horizontal' | 'vertical'; className?: string }> = () => null

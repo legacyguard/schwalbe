@@ -2,6 +2,7 @@
 // Emergency system types and services
 
 export { EmergencyService } from './services/emergency.service';
+export * from './services/email.service';
 export * from './types/emergency';
 export * from './supabase/client';
 

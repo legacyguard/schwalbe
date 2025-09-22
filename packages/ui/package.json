@@ -24,7 +24,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@loadable/component": "^5.16.4",
     "@schwalbe/logic": "*",
+    "@schwalbe/shared": "*",
     "@tamagui/animations-react-native": "1.132.23",
     "@tamagui/babel-plugin": "1.132.23",
     "@tamagui/config": "1.132.23",

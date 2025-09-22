@@ -99,5 +99,8 @@ export function validateQuestionnaireResponse(responses: QuestionnaireResponse):
   };
 }
 
+// Re-export components for convenience
+export { OnboardingQuestionnaire, OnboardingPlan, UserStateDetection, AdaptiveOnboardingFlow } from './components';
+
 // Re-export types for convenience
 export type { QuestionnaireResponse, Plan, Persona, Milestone, OnboardingProgress };

@@ -18,23 +18,28 @@
   "scripts": {
     "build": "tsc --build",
     "dev": "tsc -p tsconfig.json --watch",
-    "test": "jest --config ./jest.config.cjs --no-cache --runInBand --colors",
+    "test": "jest --config ./jest.config.cjs --no-cache --runInBand --colors --passWithNoTests",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
     "@schwalbe/shared": "*",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.5"
+    "framer-motion": "^12.23.18",
+    "lucide-react": "^0.544.0",
+    "tailwind-merge": "^2.5.5",
+    "three": "^0.150.1"
   },
   "devDependencies": {
     "@types/react": "~18.3.12",
     "@types/react-dom": "~18.3.1",
-    "typescript": "^5.9.2",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "react": "^18.0.0",

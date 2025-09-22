@@ -32,7 +32,7 @@ export function SofiaIntroductionScene({
 
     const timers = timeline.map(({ phase, delay }) =>
       setTimeout(() => {
-        setCurrentPhase(phase as any)
+        setCurrentPhase(phase as typeof currentPhase)
         if (phase === 'arrival') setShowFireflies(true)
         if (phase === 'introduction') setShowSofia(true)
       }, delay)

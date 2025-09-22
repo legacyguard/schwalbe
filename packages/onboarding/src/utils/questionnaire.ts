@@ -1,4 +1,4 @@
-import { Question, QuestionnaireStep, OnboardingFlow, QuestionnaireResponse, Persona } from '../types';
+import { QuestionnaireStep, OnboardingFlow, QuestionnaireResponse, Persona } from '../types';
 
 export const QUESTIONNAIRE_STEPS: QuestionnaireStep[] = [
   {
@@ -261,14 +261,14 @@ export function generatePersona(responses: QuestionnaireResponse): Persona {
 
   // Ensure required fields
   return {
-    id: persona.id!,
-    name: persona.name!,
-    description: persona.description!,
-    characteristics: persona.characteristics || [],
-    priorities: persona.priorities || [],
-    riskTolerance: persona.riskTolerance!,
-    familyStatus: persona.familyStatus!,
-    digitalLiteracy: persona.digitalLiteracy!
+    id: persona.id ?? `persona_${Date.now()}`,
+    name: persona.name ?? 'Personalized Plan',
+    description: persona.description ?? 'Customized based on your responses',
+    characteristics: persona.characteristics ?? [],
+    priorities: persona.priorities ?? [],
+    riskTolerance: persona.riskTolerance ?? 'medium',
+    familyStatus: persona.familyStatus ?? 'single',
+    digitalLiteracy: persona.digitalLiteracy ?? 'intermediate'
   };
 }
 

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { QuestionnaireResponse, OnboardingProgress, ONBOARDING_FLOW } from '../index';
-import type { QuestionnaireAnswer } from '../types';
 
 interface OnboardingQuestionnaireProps {
   onComplete: (responses: QuestionnaireResponse) => void;
@@ -30,7 +29,7 @@ export function OnboardingQuestionnaire({
     responses
   };
 
-  const handleAnswer = useCallback((questionId: string, answer: any) => {
+  const handleAnswer = useCallback((questionId: string, answer: string | string[] | number) => {
     setResponses(prev => ({
       ...prev,
       answers: prev.answers.filter(a => a.questionId !== questionId).concat({

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { QuestionnaireResponse, OnboardingProgress, Plan } from '../types';
+import { QuestionnaireResponse, Plan } from '../types';
 import { UserStateDetection } from './UserStateDetection';
 import { OnboardingQuestionnaire } from './OnboardingQuestionnaire';
 import { generatePlan } from '../index';
@@ -31,13 +31,6 @@ interface AdaptiveOnboardingFlowProps {
   autoSave?: boolean;
   t?: (key: string, defaultValue?: string) => string;
 }
-
-const SCENE_COMPONENTS = {
-  'scene-1': 'SofiaIntroductionScene',
-  'scene-2': 'TrustBoxScene',
-  'scene-3': 'KeyGravingScene',
-  'scene-4': 'JourneyPathScene'
-};
 
 export function AdaptiveOnboardingFlow({
   onComplete,
@@ -181,7 +174,7 @@ export function AdaptiveOnboardingFlow({
     }));
   };
 
-  const handleSceneComplete = (sceneId: string, sceneData?: any) => {
+  const handleSceneComplete = (sceneId: string, _sceneData?: unknown) => {
     const currentSceneNumber = parseInt(sceneId.split('-')[1]);
     const nextPhase = currentSceneNumber < 4 ? `scene-${currentSceneNumber + 1}` as OnboardingState['phase'] : 'completed';
 

@@ -88,7 +88,7 @@ export function AccessibleHeading({
   return (
     <Tag
       id={id}
-      className={`${defaultStyles[Tag]} ${className}`}
+      className={`${defaultStyles[Tag as keyof typeof defaultStyles]} ${className}`}
     >
       {children}
     </Tag>

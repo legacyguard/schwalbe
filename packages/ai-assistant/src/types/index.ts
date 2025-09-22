@@ -10,7 +10,7 @@ export interface UserContext {
     digitalLiteracy: string;
   };
   completedMilestones?: string[];
-  preferences?: Record<string, any>;
+  preferences?: Record<string, unknown>;
 }
 
 export interface ChatMessage {
@@ -29,7 +29,7 @@ export interface Action {
   id: string;
   type: 'navigate' | 'complete_milestone' | 'show_info' | 'ask_question';
   label: string;
-  payload?: any;
+  payload?: unknown;
   priority?: 'high' | 'medium' | 'low';
 }
 

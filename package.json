@@ -84,8 +84,6 @@
     "react-router-dom": "6.15.0",
     "@remix-run/router": "1.8.0",
     "zustand": "^5.0.8",
-    "tamagui": "1.132.23",
-    "@tamagui/*": "1.132.23",
     "@types/react": "~18.3.12",
     "@types/react-native": "~0.73.0",
     "cookie": "^0.7.0",

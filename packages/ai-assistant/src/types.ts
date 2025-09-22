@@ -6,7 +6,7 @@ export interface ActionButton {
   icon: string;
   category: 'ui_action' | 'ai_query' | 'navigation';
   cost: 'free' | 'low_cost' | 'high_cost';
-  payload?: any;
+  payload?: Record<string, unknown>;
 }
 
 export interface SofiaContext {

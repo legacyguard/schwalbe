@@ -1,9 +1,24 @@
 {
   "version": 2,
-  "buildCommand": "npm ci && npm run build --workspace=@schwalbe/web",
+  "buildCommand": "npm run build:safe --workspace=@schwalbe/web",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "echo 'Skip install - using npm ci in build'",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev --workspace=@schwalbe/web",
   "framework": null,
+  "env": {
+    "VITE_SUPABASE_URL": "@legaczguard-supabase-url",
+    "VITE_SUPABASE_ANON_KEY": "@legaczguard-supabase-anon-key",
+    "VITE_STRIPE_PUBLISHABLE_KEY": "@legaczguard-stripe-publishable-key",
+    "VITE_API_URL": "@legaczguard-api-url",
+    "VITE_SOFIA_AI_BASE_URL": "@legaczguard-sofia-ai-url",
+    "VITE_SOFIA_AI_API_KEY": "@legaczguard-sofia-ai-key",
+    "VITE_SENTRY_DSN": "@legaczguard-sentry-dsn",
+    "VITE_GA_TRACKING_ID": "@legaczguard-ga-id",
+    "VITE_ENABLE_HOLLYWOOD_LANDING": "0",
+    "VITE_ENABLE_DASHBOARD_V2": "1",
+    "VITE_ENABLE_ASSISTANT": "1",
+    "VITE_ENABLE_ONBOARDING": "1"
+  },
   "headers": [
     {
       "source": "/(.*)",
@@ -21,8 +36,12 @@
           "value": "1; mode=block"
         },
         {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        },
+        {
           "key": "Strict-Transport-Security",
-          "value": "max-age=31536000; includeSubDomains"
+          "value": "max-age=31536000; includeSubDomains; preload"
         },
         {
           "key": "Referrer-Policy",
@@ -30,15 +49,16 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.supabase.io https://*.supabase.co https://js.stripe.com https://api.stripe.com https://api.videostorage.example.com; frame-src 'self' https://js.stripe.com; object-src 'none'; base-uri 'self'; form-action 'self'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://api.supabase.io https://api.stripe.com https://js.stripe.com https://hooks.stripe.com https://telemetry.legaczguard.com https://api.legaczguard.com; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
         }
       ]
     }
   ],
   "rewrites": [
     {
-      "source": "/((?!favicon\\.ico|assets/).*)",
+      "source": "/((?!api/|favicon\\.ico|assets/).*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "trailingSlash": false
 }

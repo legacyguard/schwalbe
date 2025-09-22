@@ -11,7 +11,7 @@ export class SimplePersonalityService {
   };
 
   adaptPersonality(context: UserContext): PersonalityConfig {
-    let personality = { ...this.basePersonality };
+    const personality = { ...this.basePersonality };
 
     // Adapt based on user context
     if (context.persona) {
@@ -78,14 +78,14 @@ export class SimplePersonalityService {
         actions = this.getKnowledgeActions(relevantKnowledge, context);
         confidence = 0.85;
       } else {
-        response = this.getFallbackResponse(personality);
+        response = this.getFallbackResponse();
         confidence = 0.6;
       }
     }
     // Progress questions
     else if (message.includes('progress') || message.includes('status') || message.includes('done')) {
       response = this.getProgressResponse(context, personality);
-      actions = this.getProgressActions(context);
+      actions = this.getProgressActions();
       confidence = 0.9;
     }
     // Next steps
@@ -96,7 +96,7 @@ export class SimplePersonalityService {
     }
     // Default response
     else {
-      response = this.getDefaultResponse(userMessage, personality, context);
+      response = this.getDefaultResponse();
       confidence = 0.7;
     }
 
@@ -127,7 +127,7 @@ export class SimplePersonalityService {
     return greeting;
   }
 
-  private getHelpResponse(personality: PersonalityConfig, context: UserContext): string {
+  private getHelpResponse(_personality: PersonalityConfig, context: UserContext): string {
     return `I'm here to help you with every aspect of legacy planning. I can:
 
 • Guide you through creating your will and legal documents
@@ -214,7 +214,7 @@ ${context.onboardingCompleted ? 'Since you\'ve completed your assessment, I can 
     return `${encouragement} You've completed ${completedCount} milestone${completedCount !== 1 ? 's' : ''}. Let's see what you should focus on next.`;
   }
 
-  private getProgressActions(context: UserContext): Action[] {
+  private getProgressActions(): Action[] {
     return [{
       id: 'view_detailed_progress',
       type: 'navigate',
@@ -260,7 +260,7 @@ ${context.onboardingCompleted ? 'Since you\'ve completed your assessment, I can 
     return actions;
   }
 
-  private getDefaultResponse(userMessage: string, personality: PersonalityConfig, context: UserContext): string {
+  private getDefaultResponse(): string {
     const responses = [
       "I'd be happy to help you with that. Could you tell me a bit more about what you're looking for?",
       "That's an interesting question! Let me see how I can best assist you with your legacy planning.",
@@ -270,7 +270,7 @@ ${context.onboardingCompleted ? 'Since you\'ve completed your assessment, I can 
     return responses[Math.floor(Math.random() * responses.length)];
   }
 
-  private getFallbackResponse(personality: PersonalityConfig): string {
+  private getFallbackResponse(): string {
     return "I don't have specific information about that topic yet, but I'm learning more every day! For now, I recommend starting with the basics of will creation and asset inventory. Would you like me to guide you through those?";
   }
 

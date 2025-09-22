@@ -6,52 +6,17 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/components/ui": ["./src/stubs/ui/index"],
-      "@/components/ui/*": ["./src/stubs/ui/*"],
-      "@schwalbe/ui": ["./src/stubs/ui/index"],
-      "@schwalbe/ui/*": ["./src/stubs/ui/*"],
-      "@schwalbe/lib/*": ["./src/stubs/lib/*"],
-      "@schwalbe/ui/button": ["./src/stubs/ui/button"],
-      "@schwalbe/ui/card": ["./src/stubs/ui/card"],
-      "@schwalbe/ui/input": ["./src/stubs/ui/input"],
-      "@schwalbe/ui/badge": ["./src/stubs/ui/badge"],
-      "@schwalbe/ui/label": ["./src/stubs/ui/label"],
-      "@schwalbe/ui/progress": ["./src/stubs/ui/progress"],
-      "@schwalbe/ui/select": ["./src/stubs/ui/select"],
-      "@schwalbe/ui/checkbox": ["./src/stubs/ui/checkbox"],
-      "@schwalbe/ui/slider": ["./src/stubs/ui/slider"],
-      "@schwalbe/ui/tabs": ["./src/stubs/ui/tabs"],
-      "@schwalbe/ui/avatar": ["./src/stubs/ui/avatar"],
-      "@schwalbe/ui/separator": ["./src/stubs/ui/separator"],
-      "@schwalbe/ui/dropdown-menu": ["./src/stubs/ui/dropdown-menu"],
-      "@schwalbe/ui/dialog": ["./src/stubs/ui/dialog"],
-      "@schwalbe/ui/textarea": ["./src/stubs/ui/textarea"],
-      "@/components/ui/AccessibleForm": ["./src/stubs/ui/AccessibleForm"],
-      "@/components/ui/ErrorMessage": ["./src/stubs/ui/ErrorMessage"],
-      "@/components/ui/LoadingSpinner": ["./src/stubs/ui/LoadingSpinner"],
-      "@/components/ui/Button": ["./src/stubs/ui/button"],
-      "@schwalbe/types/*": ["./src/stubs/types/*"],
+      "@/components/ui": ["./src/components/ui/index"],
+      "@/components/ui/*": ["./src/components/ui/*"],
       "@schwalbe/shared": ["../../packages/shared/src/index-minimal.ts"],
       "@schwalbe/shared/*": ["../../packages/shared/src/*"],
-      "@schwalbe/shared/config/*": ["../../packages/shared/src/config/*"],
-      "@schwalbe/shared/services/*": ["../../packages/shared/src/services/*"],
       "@schwalbe/logic/*": ["../../packages/logic/src/*"]
     }
   },
   "references": [
-    {
-      "path": "../../packages/shared"
-    },
-    {
-      "path": "../../packages/logic"
-    }
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/logic" }
   ],
   "include": ["src/**/*", "vite.config.ts", "vite-env.d.ts"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/__tests__/**/*",
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx"
-  ]
+  "exclude": ["node_modules", "dist", "src/__tests__/**/*", "src/**/*.test.ts", "src/**/*.test.tsx"]
 }

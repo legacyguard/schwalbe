@@ -4,7 +4,7 @@
  */
 
 import OpenAI from 'openai'
-import { SofiaPersonalityEngine, UserContext, EmotionalState } from './personality'
+import { SofiaPersonalityEngine, UserContext, EmotionalState, QuickWinOpportunity } from './personality'
 
 export interface SofiaConversationContext {
   userId: string
@@ -118,7 +118,7 @@ export class SofiaOpenAIIntegration {
   private buildSystemPrompt(
     userContext: UserContext,
     emotionalState: EmotionalState,
-    quickWin: any
+    quickWin: QuickWinOpportunity | null
   ): string {
     const basePersonality = `
 Som Sofia, svetluška a váš sprievodca digitálnym odkazom. Môj účel je pomôcť vám bezpečne uchovať vaše najdôležitejšie dokumenty a spomienky.
@@ -203,7 +203,7 @@ PRAVIDLÁ ODPOVEDE:
     return filtered
   }
 
-  private detectResponseIntent(response: string, quickWin: any): string {
+  private detectResponseIntent(response: string, quickWin: QuickWinOpportunity | null): string {
     if (quickWin) return 'quick_win'
     if (response.includes('Gratuluj') || response.includes('Skvelé')) return 'celebration'
     if (response.includes('navrhujem') || response.includes('skúsme')) return 'suggestion'
@@ -211,7 +211,7 @@ PRAVIDLÁ ODPOVEDE:
     return 'guidance'
   }
 
-  private generateSuggestedActions(userContext: UserContext, intent: string): string[] {
+  private generateSuggestedActions(userContext: UserContext, _intent: string): string[] {
     const actions: string[] = []
 
     if (userContext.documentsCount === 0) {

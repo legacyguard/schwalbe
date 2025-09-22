@@ -64,7 +64,7 @@ export function OnboardingProgress({
     }
   }
 
-  const getStepIcon = (step: OnboardingStep, index: number) => {
+  const getStepIcon = (step: OnboardingStep, _index: number) => {
     if (step.status === 'completed') {
       return <CheckCircle className="w-5 h-5 text-green-400" />
     } else if (step.status === 'current') {
@@ -89,7 +89,7 @@ export function OnboardingProgress({
     return (
       <div className={cn("flex items-center gap-3", className)}>
         <div className="flex gap-2">
-          {steps.map((step, index) => (
+          {steps.map((step) => (
             <div
               key={step.id}
               className={cn(
@@ -117,7 +117,7 @@ export function OnboardingProgress({
         </div>
 
         <div className="space-y-3">
-          {steps.map((step, index) => (
+          {steps.map((step) => (
             <div
               key={step.id}
               className={cn(
@@ -127,7 +127,7 @@ export function OnboardingProgress({
               )}
             >
               <div className="flex-shrink-0">
-                {getStepIcon(step, index)}
+                {getStepIcon(step, 0)}
               </div>
 
               <div className="flex-1 min-w-0">

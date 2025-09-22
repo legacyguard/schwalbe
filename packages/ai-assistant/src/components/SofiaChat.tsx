@@ -32,7 +32,7 @@ export function SofiaChat({ sessionId, onAction, className = '', t = (key, defau
     setIsLoading(true);
 
     try {
-      const response = await chatService.sendMessage(userMessage, sessionId);
+      await chatService.sendMessage(userMessage, sessionId);
       const updatedHistory = await chatService.getConversationHistory(sessionId);
       setMessages(updatedHistory);
     } catch (error) {

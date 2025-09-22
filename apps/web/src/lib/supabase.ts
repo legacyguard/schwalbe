@@ -1,39 +1,59 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { config } from '@/lib/env';
 
-// Graceful fallback for demo/development without Supabase configuration
-let supabase: any;
+type AuthStub = {
+  getUser: () => Promise<{ data: { user: null }; error: null }>;
+  signInWithPassword: () => Promise<{ data: null; error: { message: string } }>;
+  signInWithOAuth: () => Promise<{ data: null; error: { message: string } }>;
+  signUp: () => Promise<{ data: null; error: { message: string } }>;
+  resetPasswordForEmail: () => Promise<{ error: { message: string } }>;
+  signOut: () => Promise<{ error: null }>;
+  onAuthStateChange: () => { data: { subscription: { unsubscribe: () => void } } };
+};
 
-if (!config.supabase.url || !config.supabase.anonKey) {
-  if (config.isProd) {
-    throw new Error('Missing required Supabase environment variables in production. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
-  }
-  console.warn('Missing Supabase environment variables. Using demo mode.');
-  // Create a mock client for demo purposes
-  supabase = {
+type SupabaseStub = {
+  auth: AuthStub;
+  from: () => {
+    select: () => Promise<{ data: unknown[]; error: null }>;
+    insert: () => Promise<{ data: null; error: { message: string } }>;
+    update: () => Promise<{ data: null; error: { message: string } }>;
+    delete: () => Promise<{ data: null; error: { message: string } }>;
+  };
+};
+
+function createStubClient(): SupabaseStub {
+  return {
     auth: {
-      getSession: () => Promise.resolve({ data: { session: null }, error: null }),
-      getUser: () => Promise.resolve({ data: { user: null }, error: null }),
-      signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Demo mode - authentication disabled' } }),
-      signUp: () => Promise.resolve({ data: null, error: { message: 'Demo mode - authentication disabled' } }),
-      signOut: () => Promise.resolve({ error: null }),
+      getUser: async () => ({ data: { user: null }, error: null }),
+      signInWithPassword: async () => ({ data: null, error: { message: 'Authentication disabled in demo mode.' } }),
+      signInWithOAuth: async () => ({ data: null, error: { message: 'OAuth authentication disabled in demo mode.' } }),
+      signUp: async () => ({ data: null, error: { message: 'Sign up disabled in demo mode.' } }),
+      resetPasswordForEmail: async () => ({ error: { message: 'Password reset disabled in demo mode.' } }),
+      signOut: async () => ({ error: null }),
       onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
     },
     from: () => ({
-      select: () => ({ data: [], error: null }),
-      insert: () => ({ data: null, error: { message: 'Demo mode - database disabled' } }),
-      update: () => ({ data: null, error: { message: 'Demo mode - database disabled' } }),
-      delete: () => ({ data: null, error: { message: 'Demo mode - database disabled' } })
+      select: async () => ({ data: [], error: null }),
+      insert: async () => ({ data: null, error: { message: 'Database write disabled in demo mode.' } }),
+      update: async () => ({ data: null, error: { message: 'Database write disabled in demo mode.' } }),
+      delete: async () => ({ data: null, error: { message: 'Database write disabled in demo mode.' } })
     })
-  } as any;
-} else {
-  supabase = createClient(config.supabase.url, config.supabase.anonKey, {
+  };
+}
+
+let client: SupabaseClient | SupabaseStub;
+
+if (config.supabase.url && config.supabase.anonKey) {
+  client = createClient(config.supabase.url, config.supabase.anonKey, {
     auth: {
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: true
+      detectSessionInUrl: false
     }
   });
+} else {
+  client = createStubClient();
 }
 
-export { supabase };
+// Export a consistent interface for the rest of the app.
+export const supabase = client;

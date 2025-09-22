@@ -28,7 +28,7 @@ function TrustBox({
 }) {
   const boxRef = useRef<THREE.Mesh>(null)
   const lidRef = useRef<THREE.Mesh>(null)
-  const { camera } = useThree()
+  useThree()
 
   useFrame((state) => {
     if (boxRef.current) {

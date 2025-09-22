@@ -7,10 +7,7 @@ import {
   SofiaPersonalityEngine,
   UserContext,
   EmotionalState,
-  SOFIA_CORE_PERSONALITY,
-  CommunicationTone,
-  QuickWinOpportunity,
-  LegalMilestone
+  SOFIA_CORE_PERSONALITY
 } from '../../sofia/personality';
 
 describe('SofiaPersonalityEngine', () => {
@@ -59,7 +56,8 @@ describe('SofiaPersonalityEngine', () => {
       };
 
       // Access private method through type assertion for testing
-      const emotionalState = (engine as any).assessEmotionalState(context);
+      // @ts-expect-error - testing private method
+      const emotionalState = engine.assessEmotionalState(context);
       expect(emotionalState.confidence).toBe('nervous');
       expect(emotionalState.motivation).toBe('low');
       expect(emotionalState.urgency).toBe('gentle');
@@ -73,7 +71,8 @@ describe('SofiaPersonalityEngine', () => {
         completedTasks: ['personal_info']
       };
 
-      const emotionalState = (engine as any).assessEmotionalState(context);
+      // @ts-expect-error - testing private method
+      const emotionalState = engine.assessEmotionalState(context);
       expect(emotionalState.confidence).toBe('cautious');
       expect(emotionalState.motivation).toBe('moderate');
     });
@@ -86,7 +85,8 @@ describe('SofiaPersonalityEngine', () => {
         completedTasks: ['personal_info', 'assets']
       };
 
-      const emotionalState = (engine as any).assessEmotionalState(context);
+      // @ts-expect-error - testing private method
+      const emotionalState = engine.assessEmotionalState(context);
       expect(emotionalState.confidence).toBe('comfortable');
       expect(emotionalState.motivation).toBe('moderate');
     });
@@ -99,7 +99,8 @@ describe('SofiaPersonalityEngine', () => {
         completedTasks: ['personal_info', 'assets', 'family_info']
       };
 
-      const emotionalState = (engine as any).assessEmotionalState(context);
+      // @ts-expect-error - testing private method
+      const emotionalState = engine.assessEmotionalState(context);
       expect(emotionalState.confidence).toBe('confident');
       expect(emotionalState.motivation).toBe('high');
     });
@@ -113,7 +114,8 @@ describe('SofiaPersonalityEngine', () => {
         lifeSituation: 'parent'
       };
 
-      const emotionalState = (engine as any).assessEmotionalState(context);
+      // @ts-expect-error - testing private method
+      const emotionalState = engine.assessEmotionalState(context);
       expect(emotionalState.urgency).toBe('moderate');
     });
 
@@ -125,7 +127,8 @@ describe('SofiaPersonalityEngine', () => {
         completedTasks: ['personal_info', 'assets', 'family_info', 'insurance']
       };
 
-      const emotionalState = (engine as any).assessEmotionalState(context);
+      // @ts-expect-error - testing private method
+      const emotionalState = engine.assessEmotionalState(context);
       expect(emotionalState.confidence).toBe('confident');
       expect(emotionalState.motivation).toBe('high');
     });
@@ -139,7 +142,8 @@ describe('SofiaPersonalityEngine', () => {
         urgency: 'gentle'
       };
 
-      const tone = (engine as any).determineTone(nervousState);
+      // @ts-expect-error - testing private method
+      const tone = engine.determineTone(nervousState);
       expect(tone.formality).toBe('friendly');
       expect(tone.encouragement).toBe('enthusiastic');
       expect(tone.pace).toBe('slow');
@@ -152,7 +156,8 @@ describe('SofiaPersonalityEngine', () => {
         urgency: 'none'
       };
 
-      const tone = (engine as any).determineTone(confidentState);
+      // @ts-expect-error - testing private method
+      const tone = engine.determineTone(confidentState);
       expect(tone.formality).toBe('casual');
       expect(tone.encouragement).toBe('moderate');
       expect(tone.pace).toBe('normal');
@@ -165,7 +170,8 @@ describe('SofiaPersonalityEngine', () => {
         urgency: 'none'
       };
 
-      const tone = (engine as any).determineTone(lowMotivationState);
+      // @ts-expect-error - testing private method
+      const tone = engine.determineTone(lowMotivationState);
       expect(tone.encouragement).toBe('enthusiastic');
     });
   });
@@ -181,9 +187,9 @@ describe('SofiaPersonalityEngine', () => {
 
       const quickWin = engine.detectQuickWinOpportunity(context);
       expect(quickWin).toBeTruthy();
-      expect(quickWin!.type).toBe('first_document');
-      expect(quickWin!.message).toContain('Skvelé');
-      expect(quickWin!.message).toContain('prvý kameň');
+      expect(quickWin?.type).toBe('first_document');
+      expect(quickWin?.message).toContain('Skvelé');
+      expect(quickWin?.message).toContain('prvý kameň');
     });
 
     it('should detect milestone achievements for 5 documents', () => {
@@ -196,9 +202,9 @@ describe('SofiaPersonalityEngine', () => {
 
       const quickWin = engine.detectQuickWinOpportunity(context);
       expect(quickWin).toBeTruthy();
-      expect(quickWin!.type).toBe('milestone_achievement');
-      expect(quickWin!.message).toContain('5 zabezpečených dokumentov');
-      expect(quickWin!.message).toContain('Úžasné');
+      expect(quickWin?.type).toBe('milestone_achievement');
+      expect(quickWin?.message).toContain('5 zabezpečených dokumentov');
+      expect(quickWin?.message).toContain('Úžasné');
     });
 
     it('should detect milestone achievements for 10 documents', () => {
@@ -211,8 +217,8 @@ describe('SofiaPersonalityEngine', () => {
 
       const quickWin = engine.detectQuickWinOpportunity(context);
       expect(quickWin).toBeTruthy();
-      expect(quickWin!.type).toBe('milestone_achievement');
-      expect(quickWin!.message).toContain('10 zabezpečených dokumentov');
+      expect(quickWin?.type).toBe('milestone_achievement');
+      expect(quickWin?.message).toContain('10 zabezpečených dokumentov');
     });
 
     it('should detect milestone achievements for higher counts', () => {
@@ -225,8 +231,8 @@ describe('SofiaPersonalityEngine', () => {
 
       const quickWin = engine.detectQuickWinOpportunity(context);
       expect(quickWin).toBeTruthy();
-      expect(quickWin!.type).toBe('milestone_achievement');
-      expect(quickWin!.message).toContain('20 zabezpečených dokumentov');
+      expect(quickWin?.type).toBe('milestone_achievement');
+      expect(quickWin?.message).toContain('20 zabezpečených dokumentov');
     });
 
     it('should not detect opportunities for non-milestone document counts', () => {
@@ -263,7 +269,7 @@ describe('SofiaPersonalityEngine', () => {
 
       const quickWin = engine.detectQuickWinOpportunity(context);
       expect(quickWin).toBeTruthy();
-      expect(quickWin!.nextSuggestion).toContain('Možno');
+      expect(quickWin?.nextSuggestion).toContain('Možno');
       // With mocked Math.random = 0.5, it should consistently pick a specific category
     });
   });
@@ -279,9 +285,9 @@ describe('SofiaPersonalityEngine', () => {
 
       const milestone = engine.detectLegalMilestone(context);
       expect(milestone).toBeTruthy();
-      expect(milestone!.type).toBe('will_ready');
-      expect(milestone!.readinessScore).toBe(0.8);
-      expect(milestone!.missingElements).toContain('insurance_info');
+      expect(milestone?.type).toBe('will_ready');
+      expect(milestone?.readinessScore).toBe(0.8);
+      expect(milestone?.missingElements).toContain('insurance_info');
     });
 
     it('should detect will readiness with all information including insurance', () => {
@@ -294,9 +300,9 @@ describe('SofiaPersonalityEngine', () => {
 
       const milestone = engine.detectLegalMilestone(context);
       expect(milestone).toBeTruthy();
-      expect(milestone!.type).toBe('will_ready');
-      expect(milestone!.readinessScore).toBe(0.8);
-      expect(milestone!.missingElements).toHaveLength(0);
+      expect(milestone?.type).toBe('will_ready');
+      expect(milestone?.readinessScore).toBe(0.8);
+      expect(milestone?.missingElements).toHaveLength(0);
     });
 
     it('should not detect will readiness without personal info', () => {
@@ -345,7 +351,7 @@ describe('SofiaPersonalityEngine', () => {
 
       const milestone = engine.detectLegalMilestone(context);
       expect(milestone).toBeTruthy();
-      expect(milestone!.missingElements).toEqual(['insurance_info']);
+      expect(milestone?.missingElements).toEqual(['insurance_info']);
     });
   });
 
@@ -681,7 +687,8 @@ describe('SofiaPersonalityEngine', () => {
       expect(shouldShow).toBe(true);
 
       // Verify context was stored by accessing private property
-      const userHistory = (engine as any).userHistory;
+      // @ts-expect-error - testing private property
+      const userHistory = engine.userHistory;
       expect(userHistory.get('user1')).toEqual(context2);
     });
 
@@ -703,7 +710,8 @@ describe('SofiaPersonalityEngine', () => {
       engine.generateResponse('user1', context1, 'welcome');
       engine.generateResponse('user2', context2, 'welcome');
 
-      const userHistory = (engine as any).userHistory;
+      // @ts-expect-error - testing private property
+      const userHistory = engine.userHistory;
       expect(userHistory.get('user1')).toEqual(context1);
       expect(userHistory.get('user2')).toEqual(context2);
       expect(userHistory.size).toBe(2);
@@ -719,7 +727,8 @@ describe('SofiaPersonalityEngine', () => {
         completedTasks: ['personal_info', 'assets']
       };
 
-      const suggestion = (engine as any).generateNextCategoryeSuggestion(context);
+      // @ts-expect-error - testing private method
+      const suggestion = engine.generateNextCategoryeSuggestion(context);
       expect(suggestion).toContain('Možno');
       expect(suggestion).toContain('kategóriou');
       // With mocked Math.random = 0.5, should consistently pick middle category
@@ -739,7 +748,8 @@ describe('SofiaPersonalityEngine', () => {
         ]
       };
 
-      const suggestion = (engine as any).generateNextCategoryeSuggestion(context);
+      // @ts-expect-error - testing private method
+      const suggestion = engine.generateNextCategoryeSuggestion(context);
       expect(suggestion).toContain('všetky základné kategórie');
     });
 
@@ -751,7 +761,8 @@ describe('SofiaPersonalityEngine', () => {
         completedTasks: ['health_documents', 'financial_documents']
       };
 
-      const suggestion = (engine as any).generateNextCategoryeSuggestion(context);
+      // @ts-expect-error - testing private method
+      const suggestion = engine.generateNextCategoryeSuggestion(context);
       expect(suggestion).toContain('Možno');
       expect(suggestion).toContain('kategóriou');
     });
@@ -842,7 +853,7 @@ describe('SofiaPersonalityEngine', () => {
         completedTasks: ['personal_info']
       };
 
-      const response = engine.generateResponse('user1', context, 'invalid_intent' as any);
+      const response = engine.generateResponse('user1', context, 'invalid_intent' as 'welcome');
       expect(response).toBe(SOFIA_CORE_PERSONALITY.welcomeMessages.firstTime);
     });
 
@@ -850,7 +861,7 @@ describe('SofiaPersonalityEngine', () => {
       const context: UserContext = {
         documentsCount: 3,
         timeInApp: 300000,
-        lastActivity: null as any,
+        lastActivity: null,
         completedTasks: ['personal_info']
       };
 
@@ -968,7 +979,8 @@ describe('SofiaPersonalityEngine', () => {
         engine.generateResponse(`user${i}`, context, 'welcome');
       }
 
-      const userHistory = (engine as any).userHistory;
+      // @ts-expect-error - testing private property
+      const userHistory = engine.userHistory;
       expect(userHistory.size).toBe(1000);
 
       // Memory should not grow excessively (basic check)

@@ -1,7 +1,7 @@
 export interface QuestionnaireAnswer {
   questionId: string;
   answer: string | string[] | number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface QuestionnaireResponse {

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { QuestionnaireResponse, OnboardingProgress } from '../types';
+import { QuestionnaireResponse } from '../types';
 import type { QuestionnaireAnswer } from '../types';
 
 interface UserState {
@@ -155,7 +155,7 @@ export function UserStateDetection({
   const currentQuestion = USER_STATE_QUESTIONS[currentQuestionIndex];
   const progress = Math.round(((currentQuestionIndex + 1) / USER_STATE_QUESTIONS.length) * 100);
 
-  const handleAnswer = useCallback((questionId: string, answer: any) => {
+  const handleAnswer = useCallback((questionId: string, answer: string | string[] | number) => {
     // Update user state
     const stateUpdate: Partial<UserState> = {};
     switch (questionId) {

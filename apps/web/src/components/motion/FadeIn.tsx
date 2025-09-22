@@ -1,46 +1,39 @@
-'use client';
-
-import { motion, type Variants } from 'framer-motion';
 import React from 'react';
 
-interface FadeInProps {
+type Intrinsic = keyof JSX.IntrinsicElements;
+
+type FadeInProps<T extends Intrinsic = 'div'> = {
+  as?: T;
   children: React.ReactNode;
   className?: string;
-  delay?: number;
   duration?: number;
-}
+  delay?: number;
+} & Omit<React.ComponentPropsWithoutRef<T>, 'children' | 'className'>;
 
-const fadeInAnimation: Variants = {
-  initial: {
-    opacity: 0,
-    y: 10,
-  },
-  animate: (custom: { delay: number; duration: number }) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: custom.duration,
-      delay: custom.delay,
-      ease: 'easeInOut',
-    },
-  }),
-};
+export function FadeIn<T extends Intrinsic = 'div'>(props: FadeInProps<T>) {
+  const { as, children, className, duration = 0.4, delay = 0, ...rest } = props;
+  const Component = (as ?? 'div') as Intrinsic;
+  const [visible, setVisible] = React.useState(false);
 
-export const FadeIn = ({
-  children,
-  duration = 0.5,
-  delay = 0,
-  className,
-}: FadeInProps) => {
+  React.useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const style: React.CSSProperties = {
+    opacity: visible ? 1 : 0,
+    transform: visible ? 'none' : 'translateY(8px)',
+    transition: `opacity ${duration}s ease, transform ${duration}s ease`,
+    transitionDelay: delay ? `${delay}s` : undefined
+  };
+
   return (
-    <motion.div
+    <Component
+      {...(rest as Record<string, unknown>)}
       className={className}
-      variants={fadeInAnimation}
-      initial='initial'
-      animate='animate'
-      custom={{ duration, delay }}
+      style={style}
     >
       {children}
-    </motion.div>
+    </Component>
   );
-};
+}

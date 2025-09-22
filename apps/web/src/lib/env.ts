@@ -1,75 +1,72 @@
-import { z } from 'zod'
-
-// Environment variables schema with validation
-const envSchema = z.object({
+export const env = {
   // Supabase
-  VITE_SUPABASE_URL: z.string().url('VITE_SUPABASE_URL must be a valid URL'),
-  VITE_SUPABASE_ANON_KEY: z.string().min(1, 'VITE_SUPABASE_ANON_KEY is required'),
+  VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL ?? '',
+  VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY ?? '',
 
   // Stripe
-  VITE_STRIPE_PUBLISHABLE_KEY: z.string().min(1, 'VITE_STRIPE_PUBLISHABLE_KEY is required'),
+  VITE_STRIPE_PUBLISHABLE_KEY: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ?? '',
 
-  // API
-  VITE_API_URL: z.string().url('VITE_API_URL must be a valid URL'),
+  // Application
+  VITE_API_URL: import.meta.env.VITE_API_URL ?? '',
 
-  // Sofia AI
-  VITE_SOFIA_AI_BASE_URL: z.string().url('VITE_SOFIA_AI_BASE_URL must be a valid URL'),
+  // Sofia AI Assistant
+  VITE_SOFIA_AI_BASE_URL: import.meta.env.VITE_SOFIA_AI_BASE_URL ?? '',
+  VITE_SOFIA_AI_API_KEY: import.meta.env.VITE_SOFIA_AI_API_KEY ?? '',
 
-  // Feature flags (default to false for safety)
-  VITE_ENABLE_HOLLYWOOD_LANDING: z.string().transform(val => val === '1' || val === 'true').optional().default('false'),
-  VITE_ENABLE_DASHBOARD_V2: z.string().transform(val => val === '1' || val === 'true').optional().default('false'),
-  VITE_ENABLE_ASSISTANT: z.string().transform(val => val === '1' || val === 'true').optional().default('false'),
+  // Google Analytics
+  VITE_GA_TRACKING_ID: import.meta.env.VITE_GA_TRACKING_ID ?? '',
 
-  // Optional services
-  VITE_SENTRY_DSN: z.string().url().optional(),
-  VITE_GA_TRACKING_ID: z.string().optional(),
-})
+  // Feature Flags
+  VITE_ENABLE_HOLLYWOOD_LANDING: import.meta.env.VITE_ENABLE_HOLLYWOOD_LANDING ?? '0',
+  VITE_ENABLE_DASHBOARD_V2: import.meta.env.VITE_ENABLE_DASHBOARD_V2 ?? '1',
+  VITE_ENABLE_ASSISTANT: import.meta.env.VITE_ENABLE_ASSISTANT ?? '1',
+  VITE_ENABLE_ONBOARDING: import.meta.env.VITE_ENABLE_ONBOARDING ?? '1'
+};
 
-// Parse and validate environment variables
-let validatedEnv: z.infer<typeof envSchema>
+export const isDevelopment = import.meta.env.DEV;
+export const isProduction = import.meta.env.PROD;
 
-try {
-  validatedEnv = envSchema.parse(import.meta.env)
-} catch (error) {
-  if (import.meta.env.DEV) {
-    console.warn('Environment validation failed, using defaults for development:', error)
-    // Provide development defaults
-    validatedEnv = {
-      VITE_SUPABASE_URL: 'http://localhost:54321',
-      VITE_SUPABASE_ANON_KEY: 'anon-public-placeholder',
-      VITE_STRIPE_PUBLISHABLE_KEY: 'pk_test_placeholder',
-      VITE_API_URL: 'http://localhost:3000',
-      VITE_SOFIA_AI_BASE_URL: 'http://localhost:3000',
-      VITE_ENABLE_HOLLYWOOD_LANDING: false,
-      VITE_ENABLE_DASHBOARD_V2: false,
-      VITE_ENABLE_ASSISTANT: false,
-    }
-  } else {
-    // In production, fail fast
-    console.error('Environment validation failed:', error)
-    throw new Error('Invalid environment configuration. Check your environment variables.')
-  }
-}
-
-export const env = validatedEnv
-
-// Helper functions for common checks
-export const isDevelopment = import.meta.env.DEV
-export const isProduction = import.meta.env.PROD
-
-// Feature flags with safe defaults
-export const featureFlags = {
-  hollywoodLanding: env.VITE_ENABLE_HOLLYWOOD_LANDING,
-  dashboardV2: env.VITE_ENABLE_DASHBOARD_V2,
-  assistant: env.VITE_ENABLE_ASSISTANT,
-}
-
-// Legacy feature flags object for backward compatibility
+// Feature flags as booleans
 export const features = {
-  assistant: env.VITE_ENABLE_ASSISTANT,
-  onboarding: true, // Always enabled for now
-  landing: env.VITE_ENABLE_HOLLYWOOD_LANDING,
-  sofiaFirefly: true, // Core feature
-  emotionalMessages: true, // Core feature
-  achievements: true, // Core feature
+  landing: env.VITE_ENABLE_HOLLYWOOD_LANDING === '1',
+  dashboardV2: env.VITE_ENABLE_DASHBOARD_V2 === '1',
+  assistant: env.VITE_ENABLE_ASSISTANT === '1',
+  onboarding: env.VITE_ENABLE_ONBOARDING === '1'
+};
+
+// Configuration object
+export const config = {
+  supabase: {
+    url: env.VITE_SUPABASE_URL,
+    anonKey: env.VITE_SUPABASE_ANON_KEY
+  },
+  stripe: {
+    publishableKey: env.VITE_STRIPE_PUBLISHABLE_KEY
+  },
+  api: {
+    baseUrl: env.VITE_API_URL
+  },
+  sofia: {
+    baseUrl: env.VITE_SOFIA_AI_BASE_URL,
+    apiKey: env.VITE_SOFIA_AI_API_KEY
+  },
+  analytics: {
+    gaTrackingId: env.VITE_GA_TRACKING_ID
+  },
+  locale: 'en-US'
+};
+
+// Environment validation
+export function validateEnvironment(): { isValid: boolean; missing: string[] } {
+  const required = [
+    'VITE_SUPABASE_URL',
+    'VITE_SUPABASE_ANON_KEY'
+  ];
+
+  const missing = required.filter(key => !env[key as keyof typeof env]);
+
+  return {
+    isValid: missing.length === 0,
+    missing
+  };
 }
