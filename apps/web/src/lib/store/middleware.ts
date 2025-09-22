@@ -3,6 +3,8 @@
  * Provides validation, synchronization, and enhanced persistence
  */
 
+import { config } from '@/lib/env';
+
 import { StateCreator, StoreMutatorIdentifier } from 'zustand'
 import { logger } from '@schwalbe/shared'
 import type { StateValidationRule, StateSyncEvent } from './types'
@@ -277,6 +279,6 @@ export const persistWithEnhancements = persistWithEnhancementsImpl as unknown as
 
 // Devtools Enhancement
 export const devtools = <T>(name: string) =>
-  process.env.NODE_ENV === 'development'
+  config.isDev
     ? (f: StateCreator<T, [], [], T>) => f
     : (f: StateCreator<T, [], [], T>) => f

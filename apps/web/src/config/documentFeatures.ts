@@ -38,17 +38,19 @@ export const DEFAULT_DOCUMENT_FEATURES: DocumentFeatureFlags = {
 /**
  * Get document feature configuration from environment variables
  */
+import { config } from '@/lib/env';
+
 export function getDocumentFeatures(): DocumentFeatureFlags {
   return {
-    documentAnalysis: import.meta.env.VITE_ENABLE_DOCUMENT_ANALYSIS === 'true',
-    ocrEnabled: import.meta.env.VITE_ENABLE_OCR !== 'false', // Enabled by default
-    aiAnalysis: import.meta.env.VITE_ENABLE_AI_ANALYSIS !== 'false', // Enabled by default
-    bundleIntelligence: import.meta.env.VITE_ENABLE_BUNDLE_INTELLIGENCE === 'true',
-    documentVersioning: import.meta.env.VITE_ENABLE_DOCUMENT_VERSIONING === 'true',
-    autoReminders: import.meta.env.VITE_ENABLE_AUTO_REMINDERS !== 'false', // Enabled by default
-    maxFileSizeMB: parseInt(import.meta.env.VITE_MAX_FILE_SIZE_MB || '50'),
-    allowedFileTypes: import.meta.env.VITE_ALLOWED_FILE_TYPES?.split(',') || DEFAULT_DOCUMENT_FEATURES.allowedFileTypes,
-    enableCaching: import.meta.env.VITE_ENABLE_DOCUMENT_CACHING !== 'false', // Enabled by default
+    documentAnalysis: config.features.documentAnalysis,
+    ocrEnabled: config.features.ocr,
+    aiAnalysis: config.features.aiAnalysis,
+    bundleIntelligence: config.features.bundleIntelligence,
+    documentVersioning: config.features.documentVersioning,
+    autoReminders: config.features.autoReminders,
+    maxFileSizeMB: config.documents.maxFileSizeMB,
+    allowedFileTypes: config.documents.allowedFileTypes,
+    enableCaching: config.features.documentCaching,
   };
 }
 

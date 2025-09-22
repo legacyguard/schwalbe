@@ -5,9 +5,43 @@
 
 export interface SofiaPersonality {
   empathy: EmotionalIntelligence
-  proactivity: SmartSuggestions
-  trustBuilding: PrivacyRespect
-  storytelling: NarrativeGuidance
+  proactivity: ProactiveSystem
+  trustBuilding: TrustBuilding
+  storytelling: StorytellingGuide
+}
+
+export interface ProactiveSystem {
+  detectOpportunities: (context: UserContext) => QuickWinOpportunity[]
+  suggestNextActions: (context: UserContext) => string[]
+  trackProgress: (userId: string, context: UserContext) => void
+}
+
+export interface TrustBuilding {
+  respectPrivacy: boolean
+  transparentCommunication: boolean
+  secureDataHandling: boolean
+  userControl: boolean
+}
+
+export interface StorytellingGuide {
+  guidedPrompts: string[]
+  emotionalTones: string[]
+  suggestionTypes: string[]
+}
+
+export interface Achievement {
+  id: string
+  title: string
+  description: string
+  unlockedAt: Date
+  category: 'document' | 'milestone' | 'legal' | 'engagement'
+}
+
+export interface CelebrationMessage {
+  message: string
+  intensity: 'subtle' | 'moderate' | 'enthusiastic'
+  duration: number
+  animation?: string
 }
 
 export interface EmotionalIntelligence {
@@ -35,6 +69,19 @@ export interface CommunicationTone {
   formality: 'casual' | 'friendly' | 'professional'
   encouragement: 'subtle' | 'moderate' | 'enthusiastic'
   pace: 'slow' | 'normal' | 'quick'
+}
+
+export interface QuickWinOpportunity {
+  type: 'first_document' | 'milestone_achievement' | 'category_completion'
+  message: string
+  nextSuggestion: string
+}
+
+export interface LegalMilestone {
+  type: 'will_ready' | 'insurance_needed' | 'guardian_setup'
+  readinessScore: number
+  message: string
+  missingElements: string[]
 }
 
 export const SOFIA_CORE_PERSONALITY = {
@@ -105,8 +152,11 @@ export class SofiaPersonalityEngine {
   public generateResponse(
     userId: string,
     currentContext: UserContext,
-    intent: 'welcome' | 'suggestion' | 'celebration' | 'guidance'
+    intent: 'welcome' | 'suggestion' | 'celebration' | 'guidance' | 'quick_win' | 'legal_milestone'
   ): string {
+    // Store user context for future reference
+    this.userHistory.set(userId, currentContext)
+
     const emotionalState = this.assessEmotionalState(currentContext)
     const tone = this.determineTone(emotionalState)
 
@@ -119,9 +169,71 @@ export class SofiaPersonalityEngine {
         return this.generateCelebration(currentContext)
       case 'guidance':
         return this.generateGuidance(currentContext, emotionalState)
+      case 'quick_win':
+        return this.generateQuickWinMessage(currentContext)
+      case 'legal_milestone':
+        return this.generateLegalMilestoneMessage(currentContext)
       default:
         return SOFIA_CORE_PERSONALITY.welcomeMessages.firstTime
     }
+  }
+
+  public shouldShowSuggestion(userId: string, currentContext: UserContext): boolean {
+    const emotionalState = this.assessEmotionalState(currentContext)
+    const previousContext = this.userHistory.get(userId)
+
+    // Don't overwhelm nervous users
+    if (emotionalState.confidence === 'nervous' && currentContext.timeInApp < 300000) {
+      return false
+    }
+
+    // Show suggestions for users with some progress but not too frequently
+    if (currentContext.documentsCount > 0 && currentContext.timeInApp > 60000) {
+      return true
+    }
+
+    return false
+  }
+
+  public detectQuickWinOpportunity(currentContext: UserContext): QuickWinOpportunity | null {
+    // First document uploaded
+    if (currentContext.documentsCount === 1) {
+      return {
+        type: 'first_document',
+        message: SOFIA_CORE_PERSONALITY.quickWins.firstDocument.celebration,
+        nextSuggestion: 'Možno by sme mohli pridať ešte jeden dokument? Každý ďalší robí váš odkaz silnejším.'
+      }
+    }
+
+    // Milestone achievements
+    const milestones = [5, 10, 20, 50]
+    if (milestones.includes(currentContext.documentsCount)) {
+      return {
+        type: 'milestone_achievement',
+        message: `Úžasné! Dosiahli ste ${currentContext.documentsCount} zabezpečených dokumentov. To je skutočný pokrok!`,
+        nextSuggestion: this.generateNextCategoryeSuggestion(currentContext)
+      }
+    }
+
+    return null
+  }
+
+  public detectLegalMilestone(currentContext: UserContext): LegalMilestone | null {
+    const hasPersonalInfo = currentContext.completedTasks.includes('personal_info')
+    const hasAssets = currentContext.completedTasks.includes('assets')
+    const hasFamily = currentContext.completedTasks.includes('family_info')
+    const hasInsurance = currentContext.completedTasks.includes('insurance')
+
+    if (hasPersonalInfo && hasAssets && hasFamily) {
+      return {
+        type: 'will_ready',
+        readinessScore: 0.8,
+        message: SOFIA_CORE_PERSONALITY.legalMilestones.willReadiness.softApproach,
+        missingElements: hasInsurance ? [] : ['insurance_info']
+      }
+    }
+
+    return null
   }
 
   private assessEmotionalState(context: UserContext): EmotionalState {
@@ -190,6 +302,42 @@ export class SofiaPersonalityEngine {
     }
 
     return "Skvelá práca! Každý krok nás približuje k vášmu dokončenému odkazu."
+  }
+
+  private generateQuickWinMessage(currentContext: UserContext): string {
+    const quickWin = this.detectQuickWinOpportunity(currentContext)
+    if (quickWin) {
+      return quickWin.message + ' ' + quickWin.nextSuggestion
+    }
+    return "Skvelé! Váš pokrok je viditeľný. Čo by sme mohli pridať ďalej?"
+  }
+
+  private generateLegalMilestoneMessage(currentContext: UserContext): string {
+    const milestone = this.detectLegalMilestone(currentContext)
+    if (milestone) {
+      return milestone.message
+    }
+    return "Keď budete mať viac informácií, môžeme sa pozrieť na právne dokumenty ako je závet."
+  }
+
+  private generateNextCategoryeSuggestion(currentContext: UserContext): string {
+    const categories = [
+      { name: 'Zdravie', task: 'health_documents' },
+      { name: 'Financie', task: 'financial_documents' },
+      { name: 'Bývanie', task: 'housing_documents' },
+      { name: 'Vzdelanie', task: 'education_documents' },
+      { name: 'Práca', task: 'work_documents' }
+    ]
+
+    const completedCategories = currentContext.completedTasks
+    const availableCategories = categories.filter(cat => !completedCategories.includes(cat.task))
+
+    if (availableCategories.length > 0) {
+      const suggested = availableCategories[Math.floor(Math.random() * availableCategories.length)]
+      return `Možno by sme mohli pokračovať s kategóriou ${suggested.name}?`
+    }
+
+    return "Máte už pekne rozpracované všetky základné kategórie!"
   }
 
   private generateGuidance(context: UserContext, state: EmotionalState): string {

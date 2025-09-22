@@ -1,0 +1,179 @@
+{
+  "main": {
+    "id": "b8cc3e80b0da4430",
+    "type": "split",
+    "children": [
+      {
+        "id": "9e665d710c919fd7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d09811df3c6832cf",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "300197582d5f1ab8",
+    "type": "split",
+    "children": [
+      {
+        "id": "0f72ce23f075c3f8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "dbc7a47aba9dcc33",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Průzkumník souborů"
+            }
+          },
+          {
+            "id": "adb4bc8e223645a8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Hledat"
+            }
+          },
+          {
+            "id": "de46813b6ee349e8",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Záložky"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "04f4bf52a77ebe21",
+    "type": "split",
+    "children": [
+      {
+        "id": "bb92067cd93bd490",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b676f91d4908b4f1",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Zpětné odkazy"
+            }
+          },
+          {
+            "id": "fc0b2d4f15a294e5",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Odchozí odkazy"
+            }
+          },
+          {
+            "id": "358ddcc59cbaa69d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "1ba4803bd084e0c3",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Bez názvu.base",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Přehled Bez názvu"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Otevřít rychlé přepínání": false,
+      "canvas:Vytvořit nový canvas": false,
+      "daily-notes:Otevřít dnešní poznámku": false,
+      "templates:Vložit šablonu": false,
+      "command-palette:Otevřít paletu příkazů": false,
+      "markdown-importer:Otevřít importér Markdown formátu": false,
+      "zk-prefixer:Create new unique note": false,
+      "random-note:Otevřít náhodnou poznámku": false,
+      "audio-recorder:Spustit/zastavit nahrávání": false,
+      "workspaces:Manage workspace layouts": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "dbc7a47aba9dcc33",
+  "lastOpenFiles": [
+    "Bez názvu.base",
+    "03-Features/Will Creation/Backup Reminders.md",
+    "03-Features/Document Management/Sharing Implementation.md",
+    "03-Features/Document Management/Document OCR Quickstart.md",
+    "00-Index & Navigation/Knowledge Map.md",
+    "00-Index & Navigation/Home.md"
+  ]
+}

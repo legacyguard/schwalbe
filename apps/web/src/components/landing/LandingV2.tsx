@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { sendAnalytics } from '@/lib/analytics';
 import { PasswordWall } from '@/components/auth/PasswordWall';
+import { config } from '@/lib/env';
 
 export default function LandingV2() {
   const { t } = useTranslation('pages/landing');
@@ -44,7 +45,7 @@ export default function LandingV2() {
   const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Check if in demo mode
-  const isDemoMode = !import.meta.env.VITE_SUPABASE_URL;
+  const isDemoMode = !config.supabase.url;
 
   return (
     <PasswordWall

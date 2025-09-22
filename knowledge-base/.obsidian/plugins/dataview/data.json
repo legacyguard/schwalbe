@@ -1,0 +1,9 @@
+{
+  "refreshEnabled": true,
+  "refreshInterval": 2500,
+  "enableDataviewJs": true,
+  "enableInlineDataview": true,
+  "enableInlineDataviewInFrontmatter": true,
+  "prettyRenderInlineFields": true,
+  "schemaVersion": 1
+}

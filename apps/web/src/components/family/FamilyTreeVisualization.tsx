@@ -14,11 +14,14 @@ import {
   useSofiaPersonality,
   PersonalityPresets
 } from '@/components/sofia-firefly/SofiaFireflyPersonality';
+import { FamilyService, type FamilyMember as FamilyMemberType } from '@/services/familyService';
+import { logger } from '@schwalbe/shared/src/lib/logger';
 
-interface FamilyMember {
+// Use the type from FamilyService, but keep local interface for component compatibility
+interface FamilyMemberDisplay {
   id: string;
   name: string;
-  relationship: 'self' | 'spouse' | 'child' | 'parent' | 'sibling' | 'guardian';
+  relationship: 'self' | 'spouse' | 'child' | 'parent' | 'sibling' | 'guardian' | 'friend' | 'other';
   protectionStatus: 'protected' | 'partial' | 'unprotected' | 'pending';
   avatar?: string;
   isEmergencyContact: boolean;
@@ -27,35 +30,138 @@ interface FamilyMember {
 }
 
 interface FamilyTreeProps {
-  familyMembers?: FamilyMember[];
+  familyMembers?: FamilyMemberDisplay[];
   onAddMember?: () => void;
   onEditMember?: (memberId: string) => void;
   onSetEmergencyContact?: (memberId: string) => void;
   onSetGuardian?: (memberId: string) => void;
 }
 
-const defaultFamilyMembers: FamilyMember[] = [
-  {
-    id: 'self',
-    name: 'You',
-    relationship: 'self',
-    protectionStatus: 'partial',
-    isEmergencyContact: false,
-    isGuardian: false,
-    lastActivity: new Date()
-  }
-];
+// Transform Supabase data to display format
+const transformFamilyMember = (member: FamilyMemberType): FamilyMemberDisplay => ({
+  id: member.id,
+  name: member.name,
+  relationship: member.relationship,
+  protectionStatus: member.protection_status,
+  avatar: member.avatar_url,
+  isEmergencyContact: member.is_emergency_contact,
+  isGuardian: member.is_guardian,
+  lastActivity: member.last_activity_at ? new Date(member.last_activity_at) : undefined
+});
 
 export default function FamilyTreeVisualization({
-  familyMembers = defaultFamilyMembers,
+  familyMembers: propFamilyMembers,
   onAddMember,
   onEditMember,
   onSetEmergencyContact,
   onSetGuardian
 }: FamilyTreeProps) {
+  // State for family members from Supabase
+  const [familyMembers, setFamilyMembers] = useState<FamilyMemberDisplay[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedMember, setSelectedMember] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
+
+  // Load family members from Supabase
+  useEffect(() => {
+    loadFamilyMembers();
+  }, []);
+
+  const loadFamilyMembers = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // Use prop data if provided, otherwise fetch from Supabase
+      if (propFamilyMembers) {
+        setFamilyMembers(propFamilyMembers);
+        setIsLoading(false);
+        return;
+      }
+
+      const members = await FamilyService.getFamilyMembers();
+      const displayMembers = members.map(transformFamilyMember);
+
+      setFamilyMembers(displayMembers);
+
+      // If no family members exist, initialize with current user
+      if (displayMembers.length === 0) {
+        await initializeFamily();
+      }
+
+      logger.info('Loaded family members', { metadata: { count: displayMembers.length } });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load family members';
+      setError(errorMessage);
+      logger.error('Failed to load family members', { metadata: { error: errorMessage } });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const initializeFamily = async () => {
+    try {
+      const selfMember = await FamilyService.initializeUserFamily('Ja'); // "Me" in Slovak
+      const displayMember = transformFamilyMember(selfMember);
+      setFamilyMembers([displayMember]);
+    } catch (err) {
+      logger.error('Failed to initialize family', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
+
+  const handleAddMember = async (memberData: Omit<FamilyMemberType, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => {
+    try {
+      const newMember = await FamilyService.addFamilyMember(memberData);
+      const displayMember = transformFamilyMember(newMember);
+      setFamilyMembers(prev => [...prev, displayMember]);
+      setShowAddForm(false);
+
+      if (onAddMember) onAddMember();
+    } catch (err) {
+      logger.error('Failed to add family member', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
+
+  const handleUpdateMember = async (memberId: string, updates: Partial<FamilyMemberType>) => {
+    try {
+      const updatedMember = await FamilyService.updateFamilyMember(memberId, updates);
+      const displayMember = transformFamilyMember(updatedMember);
+      setFamilyMembers(prev => prev.map(m => m.id === memberId ? displayMember : m));
+
+      if (onEditMember) onEditMember(memberId);
+    } catch (err) {
+      logger.error('Failed to update family member', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
+
+  const handleDeleteMember = async (memberId: string) => {
+    try {
+      await FamilyService.deleteFamilyMember(memberId);
+      setFamilyMembers(prev => prev.filter(m => m.id !== memberId));
+    } catch (err) {
+      logger.error('Failed to delete family member', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
+
+  const handleSetEmergencyContact = async (memberId: string, isEmergencyContact: boolean) => {
+    try {
+      await handleUpdateMember(memberId, { is_emergency_contact: isEmergencyContact });
+      if (onSetEmergencyContact) onSetEmergencyContact(memberId);
+    } catch (err) {
+      logger.error('Failed to set emergency contact', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
+
+  const handleSetGuardian = async (memberId: string, isGuardian: boolean) => {
+    try {
+      await handleUpdateMember(memberId, { is_guardian: isGuardian });
+      if (onSetGuardian) onSetGuardian(memberId);
+    } catch (err) {
+      logger.error('Failed to set guardian', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
 
   // Initialize Sofia personality for family guidance
   const { personality, adaptToContext, learnFromInteraction } = useSofiaPersonality(PersonalityPresets.nurturingUser);
@@ -125,6 +231,36 @@ export default function FamilyTreeVisualization({
   };
 
   const protectionScore = calculateFamilyProtectionScore();
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="w-full flex items-center justify-center min-h-[400px]">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-gray-600">Načítavam rodinnú štruktúru...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="w-full flex items-center justify-center min-h-[400px]">
+        <Card className="max-w-md">
+          <CardContent className="p-6 text-center space-y-4">
+            <div className="text-red-500 text-4xl">⚠️</div>
+            <h3 className="font-semibold">Chyba pri načítaní</h3>
+            <p className="text-gray-600">{error}</p>
+            <Button onClick={loadFamilyMembers} variant="outline">
+              Skúsiť znovu
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <PersonalityAwareAnimation personality={personality} context="guiding">

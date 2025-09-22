@@ -2,6 +2,8 @@
  * Accessibility testing and validation utilities
  */
 
+import { config } from '@/lib/env';
+
 export interface AccessibilityCheckResult {
   passes: string[];
   warnings: string[];
@@ -242,7 +244,7 @@ export function generateFormAccessibilityReport(formElement: HTMLFormElement): A
  * Debug accessibility in development mode
  */
 export function debugAccessibility() {
-  if (process.env.NODE_ENV !== 'development') return;
+  if (!config.isDev) return;
 
   console.group('🔍 Accessibility Debug Information');
 
@@ -269,7 +271,7 @@ export function debugAccessibility() {
 }
 
 // Auto-run in development
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+if (typeof window !== 'undefined' && config.isDev) {
   // Run after DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', debugAccessibility);

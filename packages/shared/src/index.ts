@@ -96,3 +96,6 @@ export { willGuardianIntegration, WillGuardianIntegrationService } from './servi
 
 // Export will types (keeping will-specific types with their original names)
 export * from './types/will';
+
+// Export utility functions
+export { cn } from './utils/cn';

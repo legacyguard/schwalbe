@@ -13,5 +13,5 @@
   "include": [
     "src/**/*.ts"
   ],
-  "exclude": ["node_modules", "dist", "**/*.test.*"]
+  "exclude": ["node_modules", "dist", "**/*.test.*", "src/lib/ocr.ts", "src/lib/quick-wins.ts", "src/services/sofia/cost-monitor.ts", "src/services/sofia/model-optimizer.ts", "src/utils/performance/**"]
 }

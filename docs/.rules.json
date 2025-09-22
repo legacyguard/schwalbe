@@ -1,0 +1,163 @@
+[
+  {
+    "name": "category-00-meta",
+    "directories": ["00-meta"],
+    "category": "00-meta",
+    "lifecycle": "longterm",
+    "tags": ["meta"]
+  },
+  {
+    "name": "category-10-strategy",
+    "directories": ["10-strategy"],
+    "category": "10-strategy",
+    "lifecycle": "longterm",
+    "tags": ["strategy"]
+  },
+  {
+    "name": "category-20-roadmaps",
+    "directories": ["20-roadmaps"],
+    "category": "20-roadmaps",
+    "lifecycle": "longterm",
+    "tags": ["roadmap"]
+  },
+  {
+    "name": "category-30-product",
+    "directories": ["30-product"],
+    "category": "30-product",
+    "lifecycle": "longterm",
+    "tags": []
+  },
+  {
+    "name": "category-40-platform",
+    "directories": ["40-platform"],
+    "category": "40-platform",
+    "lifecycle": "longterm",
+    "tags": ["platform"]
+  },
+  {
+    "name": "category-50-ops",
+    "directories": ["50-ops"],
+    "category": "50-ops",
+    "lifecycle": "longterm",
+    "tags": ["ops"]
+  },
+  {
+    "name": "category-60-status",
+    "directories": ["60-status"],
+    "category": "60-status",
+    "lifecycle": "status",
+    "tags": ["status"]
+  },
+  {
+    "name": "category-90-archive",
+    "directories": ["90-archive"],
+    "category": "90-archive",
+    "lifecycle": "archive",
+    "tags": ["archive"]
+  },
+  {
+    "name": "status-folder",
+    "path_contains": ["status/"],
+    "category": "60-status",
+    "lifecycle": "status",
+    "tags": ["status"]
+  },
+  {
+    "name": "status-keywords",
+    "name_contains": ["implementation-progress", "implementation-summary", "implementation-todo", "implementation-gaps", "phase-"],
+    "category": "60-status",
+    "lifecycle": "status",
+    "tags": ["status"]
+  },
+  {
+    "name": "archive-hollywood",
+    "path_contains": ["hollywood"],
+    "category": "90-archive",
+    "lifecycle": "archive",
+    "tags": ["legacy"]
+  },
+  {
+    "name": "archive-legacy-status",
+    "name_contains": ["archive"],
+    "category": "90-archive",
+    "lifecycle": "archive",
+    "tags": ["archive"]
+  },
+  {
+    "name": "will-documents",
+    "directories": ["will"],
+    "category": "30-product",
+    "lifecycle": "longterm",
+    "tags": ["will"]
+  },
+  {
+    "name": "stripe",
+    "path_contains": ["stripe"],
+    "category": "40-platform",
+    "lifecycle": "longterm",
+    "tags": ["stripe", "payments"]
+  },
+  {
+    "name": "api-and-integrations",
+    "directories": ["api", "observability", "platform"],
+    "category": "40-platform",
+    "lifecycle": "longterm",
+    "tags": ["platform"]
+  },
+  {
+    "name": "ops-runbooks",
+    "directories": ["ops", "runbooks", "security", "qa", "release", "deployment", "ci"],
+    "category": "50-ops",
+    "lifecycle": "longterm",
+    "tags": ["ops"]
+  },
+  {
+    "name": "strategy-highlevel",
+    "name_contains": ["strategy", "business", "plan"],
+    "category": "10-strategy",
+    "lifecycle": "longterm",
+    "tags": ["strategy"]
+  },
+  {
+    "name": "roadmaps",
+    "name_contains": ["roadmap", "phase-"],
+    "category": "20-roadmaps",
+    "lifecycle": "longterm",
+    "tags": ["roadmap"]
+  },
+  {
+    "name": "adr",
+    "directories": ["adr"],
+    "category": "10-strategy",
+    "lifecycle": "longterm",
+    "tags": ["adr"]
+  },
+  {
+    "name": "feature-folders",
+    "directories": ["feature", "feature_specs", "features"],
+    "category": "30-product",
+    "lifecycle": "longterm",
+    "tags": ["feature"]
+  },
+  {
+    "name": "i18n",
+    "directories": ["i18n"],
+    "category": "30-product",
+    "lifecycle": "longterm",
+    "tags": ["i18n"]
+  },
+  {
+    "name": "observability",
+    "directories": ["observability"],
+    "category": "50-ops",
+    "lifecycle": "longterm",
+    "tags": ["observability"]
+  },
+  {
+    "name": "default",
+    "path_contains": [],
+    "category": "30-product",
+    "lifecycle": "longterm",
+    "tags": []
+  }
+]

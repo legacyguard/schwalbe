@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
+import { config } from '@/lib/env';
 
 interface MagneticHoverProps {
   children: React.ReactNode;
@@ -306,7 +307,7 @@ const MagneticHover: React.FC<MagneticHoverProps> = ({
         {children}
 
         {/* Magnetic field visualization (dev mode) */}
-        {process.env.NODE_ENV === 'development' && isActive && !shouldReduceMotion && (
+        {config.isDev && isActive && !shouldReduceMotion && (
           <motion.div
             className="absolute inset-0 rounded-inherit pointer-events-none"
             style={{
@@ -398,7 +399,7 @@ const MagneticHover: React.FC<MagneticHoverProps> = ({
         )}
 
         {/* Accessibility indicator */}
-        {process.env.NODE_ENV === 'development' && (
+        {config.isDev && (
           <div className="absolute -top-6 left-0 text-xs bg-purple-500 text-white px-2 py-1 rounded">
             Magnetic • {strength.toFixed(2)} • {range}px
           </div>

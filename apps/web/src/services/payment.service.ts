@@ -1,5 +1,6 @@
 import { sofiaAIService } from './sofia-ai.service';
 import { logger } from '@schwalbe/shared/lib/logger';
+import { config } from '@/lib/env';
 
 export interface PaymentMethod {
   id: string;
@@ -95,8 +96,8 @@ class PaymentService {
   private sofiaAI: typeof sofiaAIService;
 
   constructor() {
-    this.apiKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '';
-    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+    this.apiKey = config.stripe.publishableKey;
+    this.baseUrl = config.stripe.apiUrl;
     this.sofiaAI = sofiaAIService;
   }
 

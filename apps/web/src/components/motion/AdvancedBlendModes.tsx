@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
+import { config } from '@/lib/env';
 
 interface AdvancedBlendModesProps {
   children?: React.ReactNode;
@@ -438,7 +439,7 @@ const AdvancedBlendModes: React.FC<AdvancedBlendModesProps> = ({
       )}
 
       {/* Blend mode indicator */}
-      {process.env.NODE_ENV === 'development' && (
+      {config.isDev && (
         <div className="absolute top-2 right-2 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded">
           {currentBlendMode} • {intensity}
         </div>

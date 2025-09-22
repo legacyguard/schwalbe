@@ -12,6 +12,18 @@ export interface OnboardingData {
   completedAt?: string;
   completedSteps: number;
   totalTimeSpent?: number;
+  userState?: {
+    lifeSituation: string;
+    confidenceLevel: number;
+    goalType: string;
+    pace: string;
+    communicationStyle: string;
+  };
+  questionnaireResponses?: any;
+  currentPhase?: string;
+  canResume?: boolean;
+  hasSkipped?: boolean;
+  lastActivityAt?: string;
 }
 
 export interface OnboardingStep {
@@ -82,6 +94,12 @@ return {
         completed_steps: data.completedSteps ?? null,
         completed_at: data.completedAt ?? null,
         total_time_spent: data.totalTimeSpent ?? null,
+        user_state: data.userState ?? null,
+        questionnaire_responses: data.questionnaireResponses ?? null,
+        current_phase: data.currentPhase ?? null,
+        can_resume: data.canResume ?? null,
+        has_skipped: data.hasSkipped ?? null,
+        last_activity_at: data.lastActivityAt ?? null,
         updated_at: new Date().toISOString(),
       };
       await supabase.from('onboarding_progress').upsert(payload, { onConflict: 'user_id' });
@@ -100,7 +118,7 @@ return {
       if (!userId) return null;
       const { data, error } = await supabase
         .from('onboarding_progress')
-        .select('box_items, trusted_name, family_context, completed_steps, completed_at, total_time_spent')
+        .select('*')
         .eq('user_id', userId)
         .maybeSingle();
       if (error || !data) return null;
@@ -111,6 +129,12 @@ return {
         completedSteps: (data as any).completed_steps ?? 0,
         completedAt: (data as any).completed_at ?? undefined,
         totalTimeSpent: (data as any).total_time_spent ?? undefined,
+        userState: (data as any).user_state ?? undefined,
+        questionnaireResponses: (data as any).questionnaire_responses ?? undefined,
+        currentPhase: (data as any).current_phase ?? undefined,
+        canResume: (data as any).can_resume ?? undefined,
+        hasSkipped: (data as any).has_skipped ?? undefined,
+        lastActivityAt: (data as any).last_activity_at ?? undefined,
       };
     } catch {
       return null;
@@ -195,7 +219,7 @@ return {
     totalTimeSpent?: number;
   } {
     const progress = this.getProgress();
-    
+
     return {
       isCompleted: this.isCompleted(),
       completionPercentage: this.getCompletionPercentage(),
@@ -204,5 +228,110 @@ return {
       completedAt: progress.completedAt,
       totalTimeSpent: progress.totalTimeSpent,
     };
+  }
+
+  /**
+   * Save user state from detection phase
+   */
+  static saveUserState(userState: any): void {
+    const progress = this.getProgress();
+    this.saveProgress({
+      ...progress,
+      userState,
+      currentPhase: 'user-state-completed',
+      canResume: true,
+      lastActivityAt: new Date().toISOString()
+    });
+  }
+
+  /**
+   * Save questionnaire responses
+   */
+  static saveQuestionnaireResponses(responses: any): void {
+    const progress = this.getProgress();
+    this.saveProgress({
+      ...progress,
+      questionnaireResponses: responses,
+      currentPhase: 'questionnaire-completed',
+      lastActivityAt: new Date().toISOString()
+    });
+  }
+
+  /**
+   * Update current phase
+   */
+  static updateCurrentPhase(phase: string): void {
+    const progress = this.getProgress();
+    this.saveProgress({
+      ...progress,
+      currentPhase: phase,
+      lastActivityAt: new Date().toISOString()
+    });
+  }
+
+  /**
+   * Check if user can resume onboarding
+   */
+  static canResumeOnboarding(): boolean {
+    const progress = this.getProgress();
+    return !!(progress.canResume && progress.currentPhase && !this.isCompleted());
+  }
+
+  /**
+   * Get resume information
+   */
+  static getResumeInfo(): {
+    canResume: boolean;
+    currentPhase?: string;
+    completedSteps: number;
+    lastActivityAt?: string;
+    timeAgo?: string;
+  } {
+    const progress = this.getProgress();
+    const canResume = this.canResumeOnboarding();
+
+    let timeAgo: string | undefined;
+    if (progress.lastActivityAt) {
+      const lastActivity = new Date(progress.lastActivityAt);
+      const now = new Date();
+      const diffHours = Math.floor((now.getTime() - lastActivity.getTime()) / (1000 * 60 * 60));
+
+      if (diffHours < 1) {
+        timeAgo = 'pred chvíľou';
+      } else if (diffHours < 24) {
+        timeAgo = `pred ${diffHours} hodinami`;
+      } else {
+        const diffDays = Math.floor(diffHours / 24);
+        timeAgo = `pred ${diffDays} dňami`;
+      }
+    }
+
+    return {
+      canResume,
+      currentPhase: progress.currentPhase,
+      completedSteps: progress.completedSteps,
+      lastActivityAt: progress.lastActivityAt,
+      timeAgo
+    };
+  }
+
+  /**
+   * Reset onboarding to allow restart
+   */
+  static resetOnboarding(): void {
+    this.clearProgress();
+  }
+
+  /**
+   * Mark skip action
+   */
+  static markSkipped(phase: string): void {
+    const progress = this.getProgress();
+    this.saveProgress({
+      ...progress,
+      hasSkipped: true,
+      currentPhase: `${phase}-skipped`,
+      lastActivityAt: new Date().toISOString()
+    });
   }
 }

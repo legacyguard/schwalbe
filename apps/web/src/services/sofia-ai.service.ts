@@ -3,6 +3,8 @@
  * Handles AI-powered document analysis, conversation management, and intelligent recommendations
  */
 
+import { config } from '@/lib/env';
+
 import { logger } from '@schwalbe/shared/lib/logger';
 
 interface DocumentAnalysisResult {
@@ -145,8 +147,8 @@ class SofiaAIService {
   private conversationContexts: Map<string, ConversationContext> = new Map();
 
   constructor() {
-    this.baseUrl = process.env.SOFIA_AI_BASE_URL || 'http://localhost:8000/api/v1';
-    this.apiKey = process.env.SOFIA_AI_API_KEY || 'development-key';
+    this.baseUrl = config.sofiaAI.baseUrl;
+    this.apiKey = config.sofiaAI.apiKey;
   }
 
   /**

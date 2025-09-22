@@ -1,0 +1,307 @@
+# Production Environment Configuration
+# Schwalbe LegacyGuard Application
+
+production:
+  # Application Configuration
+  app:
+    name: "Schwalbe LegacyGuard"
+    version: "1.0.0"
+    environment: "production"
+    debug: false
+    log_level: "error"
+    timezone: "Europe/Bratislava"
+    locale: "sk-SK"
+
+  # Domain Configuration
+  domains:
+    primary: "app.schwalbe.sk"
+    www: "www.schwalbe.sk"
+    api: "api.schwalbe.sk"
+    cdn: "cdn.schwalbe.sk"
+    docs: "docs.schwalbe.sk"
+    status: "status.schwalbe.sk"
+
+  # Database Configuration
+  database:
+    # Supabase Production
+    provider: "supabase"
+    url: "${SUPABASE_URL}"
+    anon_key: "${SUPABASE_ANON_KEY}"
+    service_role_key: "${SUPABASE_SERVICE_ROLE_KEY}"
+
+    # Connection Pool Settings
+    pool:
+      min: 5
+      max: 20
+      idle_timeout: 30000
+      connection_timeout: 5000
+      statement_timeout: 60000
+
+    # Backup Configuration
+    backup:
+      enabled: true
+      schedule: "0 3 * * *"  # Daily at 3 AM
+      retention_days: 30
+      encryption: true
+
+  # Storage Configuration
+  storage:
+    # Supabase Storage
+    provider: "supabase"
+    bucket_documents: "documents-production"
+    bucket_thumbnails: "thumbnails-production"
+    bucket_exports: "exports-production"
+
+    # CDN Configuration
+    cdn:
+      provider: "vercel"
+      domain: "cdn.schwalbe.sk"
+      cache_control: "public, max-age=31536000"
+
+  # Authentication Configuration
+  auth:
+    # Supabase Auth
+    provider: "supabase"
+    jwt_secret: "${SUPABASE_JWT_SECRET}"
+
+    # Session Configuration
+    session:
+      duration: 86400  # 24 hours
+      refresh_threshold: 3600  # 1 hour
+      secure_cookies: true
+      same_site: "strict"
+
+    # OAuth Providers
+    oauth:
+      google:
+        enabled: true
+        client_id: "${GOOGLE_OAUTH_CLIENT_ID}"
+        client_secret: "${GOOGLE_OAUTH_CLIENT_SECRET}"
+      apple:
+        enabled: true
+        client_id: "${APPLE_OAUTH_CLIENT_ID}"
+        client_secret: "${APPLE_OAUTH_CLIENT_SECRET}"
+
+  # AI Services Configuration
+  ai:
+    # OpenAI for Sofia
+    openai:
+      api_key: "${OPENAI_API_KEY}"
+      model: "gpt-4"
+      max_tokens: 1000
+      temperature: 0.7
+      timeout: 30000
+
+    # OCR Services
+    ocr:
+      primary: "tesseract"
+      fallback: "google_vision"
+      google_vision_key: "${GOOGLE_VISION_API_KEY}"
+
+  # Email Services
+  email:
+    # Resend for transactional emails
+    provider: "resend"
+    api_key: "${RESEND_API_KEY}"
+    from_address: "noreply@schwalbe.sk"
+    from_name: "Schwalbe LegacyGuard"
+
+    # Email Templates
+    templates:
+      welcome: "welcome-sk"
+      password_reset: "password-reset-sk"
+      document_processed: "document-processed-sk"
+      time_capsule_delivery: "time-capsule-delivery-sk"
+
+  # Analytics Configuration
+  analytics:
+    # Privacy-compliant analytics
+    provider: "plausible"
+    domain: "app.schwalbe.sk"
+    api_key: "${PLAUSIBLE_API_KEY}"
+
+    # Internal analytics
+    internal:
+      enabled: true
+      retention_days: 730  # 2 years
+      anonymization: true
+
+  # Monitoring Configuration
+  monitoring:
+    # Error Tracking
+    sentry:
+      dsn: "${SENTRY_DSN}"
+      environment: "production"
+      release: "${VERCEL_GIT_COMMIT_SHA}"
+      sample_rate: 0.1  # 10% sampling in production
+
+    # Application Performance Monitoring
+    apm:
+      provider: "vercel"
+      enabled: true
+
+    # Uptime Monitoring
+    uptime:
+      provider: "uptimerobot"
+      api_key: "${UPTIMEROBOT_API_KEY}"
+
+  # Security Configuration
+  security:
+    # Encryption
+    encryption:
+      algorithm: "AES-256-GCM"
+      key_rotation_days: 90
+
+    # Rate Limiting
+    rate_limiting:
+      enabled: true
+      redis_url: "${UPSTASH_REDIS_URL}"
+
+      # Per-endpoint limits
+      limits:
+        api_default: "100/hour"
+        auth_login: "5/minute"
+        document_upload: "20/hour"
+        sofia_chat: "50/hour"
+
+    # CORS Configuration
+    cors:
+      origin: ["https://app.schwalbe.sk", "https://www.schwalbe.sk"]
+      credentials: true
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+
+  # Content Security Policy
+  csp:
+    default_src: "'self'"
+    script_src: "'self' 'unsafe-inline' https://vercel.live"
+    style_src: "'self' 'unsafe-inline' https://fonts.googleapis.com"
+    font_src: "'self' https://fonts.gstatic.com"
+    img_src: "'self' data: https://*.supabase.co https://cdn.schwalbe.sk"
+    connect_src: "'self' https://*.supabase.co https://api.openai.com"
+    frame_src: "'none'"
+    object_src: "'none'"
+
+  # Performance Configuration
+  performance:
+    # Caching
+    cache:
+      redis_url: "${UPSTASH_REDIS_URL}"
+      default_ttl: 300  # 5 minutes
+
+      # Cache policies
+      policies:
+        static_assets: 31536000  # 1 year
+        api_responses: 300  # 5 minutes
+        user_data: 900  # 15 minutes
+
+    # CDN Configuration
+    cdn:
+      provider: "vercel"
+      regions: ["fra1", "arn1", "iad1"]
+
+  # Backup Configuration
+  backup:
+    # Database Backups
+    database:
+      provider: "supabase"
+      schedule: "0 3 * * *"  # Daily at 3 AM
+      retention_days: 30
+      encryption: true
+
+    # File Backups
+    files:
+      provider: "supabase"
+      schedule: "0 4 * * *"  # Daily at 4 AM
+      retention_days: 90
+      compression: true
+
+  # Compliance Configuration
+  compliance:
+    # GDPR
+    gdpr:
+      enabled: true
+      data_retention_days: 1825  # 5 years
+      cookie_consent: true
+      privacy_policy_url: "https://schwalbe.sk/privacy"
+
+    # Data Processing
+    data_processing:
+      encryption_at_rest: true
+      encryption_in_transit: true
+      pseudonymization: true
+      audit_logging: true
+
+  # Feature Flags
+  features:
+    sofia_ai: true
+    document_ocr: true
+    time_capsules: true
+    will_generator: true
+    family_sharing: true
+    advanced_analytics: true
+    mobile_app: false  # Not yet available
+
+  # Third-party Integrations
+  integrations:
+    # Payment Processing (future)
+    stripe:
+      enabled: false
+      public_key: "${STRIPE_PUBLIC_KEY}"
+      secret_key: "${STRIPE_SECRET_KEY}"
+
+    # Legal Services Integration (future)
+    legal_services:
+      enabled: false
+      provider: "custom"
+
+  # Logging Configuration
+  logging:
+    level: "error"
+    format: "json"
+
+    # Log destinations
+    destinations:
+      - type: "console"
+        enabled: true
+      - type: "file"
+        enabled: false
+      - type: "sentry"
+        enabled: true
+
+    # Log retention
+    retention:
+      error_logs: 90  # days
+      access_logs: 30  # days
+      audit_logs: 365  # days
+
+  # Health Checks
+  health_checks:
+    enabled: true
+    interval: 300  # 5 minutes
+
+    # Endpoints to check
+    endpoints:
+      - path: "/api/health"
+        timeout: 5000
+      - path: "/api/health/database"
+        timeout: 10000
+      - path: "/api/health/storage"
+        timeout: 10000
+
+  # Deployment Configuration
+  deployment:
+    strategy: "rolling"
+    max_unavailable: 0
+    max_surge: 1
+
+    # Pre-deployment checks
+    pre_checks:
+      - "database_migration"
+      - "health_check"
+      - "security_scan"
+
+    # Post-deployment tasks
+    post_tasks:
+      - "cache_warm_up"
+      - "smoke_tests"
+      - "monitoring_verification"

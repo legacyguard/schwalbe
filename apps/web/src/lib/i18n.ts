@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { config } from '@/lib/env';
 
 // Translation resources
 const resources = {
@@ -632,10 +633,10 @@ i18n.use(initReactI18next).init({
   pluralSeparator: '_',
   contextSeparator: '_',
   // Enable debugging in development
-  debug: process.env.NODE_ENV === 'development',
+  debug: config.isDev,
   // Support for missing key handler
   missingKeyHandler: (lng, ns, key) => {
-    if (process.env.NODE_ENV === 'development') {
+    if (config.isDev) {
       console.warn(`Missing translation: ${lng}:${ns}:${key}`);
     }
   },

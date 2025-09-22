@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc --build",
     "dev": "tsc -p tsconfig.json --watch",
     "test": "jest --config ./jest.config.cjs --no-cache --runInBand --colors",
     "lint": "eslint src/",
@@ -24,7 +24,11 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@schwalbe/shared": "*",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.5"
+  },
   "devDependencies": {
     "@types/react": "~18.3.12",
     "@types/react-dom": "~18.3.1",

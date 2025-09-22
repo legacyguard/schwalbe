@@ -3,6 +3,8 @@
  * Initializes and manages the centralized application state
  */
 
+import { config } from '@/lib/env';
+
 import React, { useEffect, useState } from 'react'
 import { useAuthStore } from '@schwalbe/shared'
 import { useAppStore } from './index'
@@ -204,7 +206,7 @@ export function useStoreStatus() {
 export function useStoreDebug() {
   const store = useAppStore()
 
-  if (process.env.NODE_ENV !== 'development') {
+  if (!config.isDev) {
     return null
   }
 

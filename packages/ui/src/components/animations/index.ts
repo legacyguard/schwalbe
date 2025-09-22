@@ -40,6 +40,25 @@ export {
   AchievementBadge,
 } from './MilestoneAnimations';
 
+// Peaceful Transitions
+export {
+  PeacefulPageTransition,
+  FloatingElement,
+  BreathingContainer,
+  GentleWaveBackground,
+  FadeSlideTransition,
+  StaggeredReveal,
+  MorphingShape,
+  ParallaxContainer,
+} from './PeacefulTransitions';
+
+// Emotional States and Feedback
+export {
+  EmotionalStateNotification,
+  EmotionalToast,
+  InlineEmotionalState,
+} from './EmotionalStates';
+
 // Firefly Context and State Management
 export {
   FireflyProvider,

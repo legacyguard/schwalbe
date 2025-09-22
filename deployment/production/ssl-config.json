@@ -1,0 +1,196 @@
+{
+  "ssl_configuration": {
+    "provider": "vercel",
+    "auto_ssl": true,
+    "domains": [
+      {
+        "domain": "app.schwalbe.sk",
+        "type": "primary",
+        "certificate_authority": "letsencrypt",
+        "auto_renewal": true,
+        "hsts": {
+          "enabled": true,
+          "max_age": 31536000,
+          "include_subdomains": true,
+          "preload": true
+        }
+      },
+      {
+        "domain": "www.schwalbe.sk",
+        "type": "redirect",
+        "redirect_to": "app.schwalbe.sk",
+        "certificate_authority": "letsencrypt",
+        "auto_renewal": true
+      },
+      {
+        "domain": "api.schwalbe.sk",
+        "type": "api",
+        "certificate_authority": "letsencrypt",
+        "auto_renewal": true,
+        "hsts": {
+          "enabled": true,
+          "max_age": 31536000,
+          "include_subdomains": false,
+          "preload": true
+        }
+      },
+      {
+        "domain": "cdn.schwalbe.sk",
+        "type": "cdn",
+        "certificate_authority": "letsencrypt",
+        "auto_renewal": true,
+        "hsts": {
+          "enabled": true,
+          "max_age": 31536000,
+          "include_subdomains": false,
+          "preload": false
+        }
+      }
+    ],
+    "security_headers": {
+      "strict_transport_security": {
+        "enabled": true,
+        "max_age": 31536000,
+        "include_subdomains": true,
+        "preload": true
+      },
+      "content_security_policy": {
+        "enabled": true,
+        "policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://vercel.live; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://cdn.schwalbe.sk; connect-src 'self' https://*.supabase.co https://api.openai.com; frame-src 'none'; object-src 'none'"
+      },
+      "x_content_type_options": {
+        "enabled": true,
+        "value": "nosniff"
+      },
+      "x_frame_options": {
+        "enabled": true,
+        "value": "DENY"
+      },
+      "x_xss_protection": {
+        "enabled": true,
+        "value": "1; mode=block"
+      },
+      "referrer_policy": {
+        "enabled": true,
+        "value": "strict-origin-when-cross-origin"
+      },
+      "permissions_policy": {
+        "enabled": true,
+        "value": "camera=(), microphone=(), geolocation=(), payment=()"
+      }
+    },
+    "tls_configuration": {
+      "min_version": "1.2",
+      "preferred_version": "1.3",
+      "cipher_suites": [
+        "TLS_AES_256_GCM_SHA384",
+        "TLS_CHACHA20_POLY1305_SHA256",
+        "TLS_AES_128_GCM_SHA256",
+        "ECDHE-RSA-AES128-GCM-SHA256",
+        "ECDHE-RSA-AES256-GCM-SHA384",
+        "ECDHE-RSA-CHACHA20-POLY1305"
+      ],
+      "protocols": ["h2", "http/1.1"],
+      "compression": false,
+      "session_resumption": true
+    },
+    "certificate_monitoring": {
+      "enabled": true,
+      "expiry_warning_days": 30,
+      "notification_email": "admin@schwalbe.sk",
+      "check_interval_hours": 24
+    },
+    "redirect_rules": [
+      {
+        "source": "http://app.schwalbe.sk/*",
+        "destination": "https://app.schwalbe.sk/$1",
+        "permanent": true
+      },
+      {
+        "source": "http://www.schwalbe.sk/*",
+        "destination": "https://app.schwalbe.sk/$1",
+        "permanent": true
+      },
+      {
+        "source": "https://www.schwalbe.sk/*",
+        "destination": "https://app.schwalbe.sk/$1",
+        "permanent": true
+      }
+    ],
+    "ocsp_stapling": {
+      "enabled": true,
+      "cache_time": 86400
+    },
+    "security_testing": {
+      "ssl_labs": {
+        "enabled": true,
+        "target_grade": "A+",
+        "check_frequency": "weekly"
+      },
+      "certificate_transparency": {
+        "enabled": true,
+        "monitoring": true
+      }
+    }
+  },
+  "backup_certificates": {
+    "enabled": false,
+    "provider": "custom",
+    "storage_location": "encrypted_vault"
+  },
+  "dns_configuration": {
+    "provider": "cloudflare",
+    "records": [
+      {
+        "type": "A",
+        "name": "app.schwalbe.sk",
+        "value": "76.76.19.19",
+        "ttl": 300
+      },
+      {
+        "type": "CNAME",
+        "name": "www.schwalbe.sk",
+        "value": "app.schwalbe.sk",
+        "ttl": 300
+      },
+      {
+        "type": "CNAME",
+        "name": "api.schwalbe.sk",
+        "value": "app.schwalbe.sk",
+        "ttl": 300
+      },
+      {
+        "type": "CNAME",
+        "name": "cdn.schwalbe.sk",
+        "value": "app.schwalbe.sk",
+        "ttl": 3600
+      },
+      {
+        "type": "TXT",
+        "name": "_dmarc.schwalbe.sk",
+        "value": "v=DMARC1; p=reject; rua=mailto:dmarc@schwalbe.sk",
+        "ttl": 3600
+      },
+      {
+        "type": "TXT",
+        "name": "schwalbe.sk",
+        "value": "v=spf1 include:_spf.google.com ~all",
+        "ttl": 3600
+      }
+    ],
+    "caa_records": [
+      {
+        "type": "CAA",
+        "name": "schwalbe.sk",
+        "value": "0 issue \"letsencrypt.org\"",
+        "ttl": 3600
+      },
+      {
+        "type": "CAA",
+        "name": "schwalbe.sk",
+        "value": "0 issuewild \"letsencrypt.org\"",
+        "ttl": 3600
+      }
+    ]
+  }
+}

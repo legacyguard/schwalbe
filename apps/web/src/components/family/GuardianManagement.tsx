@@ -17,52 +17,94 @@ import {
   useSofiaPersonality,
   PersonalityPresets
 } from '@/components/sofia-firefly/SofiaFireflyPersonality';
+import { FamilyService, type Guardian as GuardianType, type FamilyMember } from '@/services/familyService';
+import { logger } from '@schwalbe/shared/src/lib/logger';
 
-interface Guardian {
+// Use GuardianType from service, but keep local interface for component compatibility
+interface GuardianDisplay {
   id: string;
   name: string;
   email: string;
   phone: string;
   relationship: string;
-  permissions: GuardianPermission[];
-  status: 'pending' | 'accepted' | 'active' | 'inactive';
+  permissions: GuardianPermissionDisplay[];
+  status: 'pending' | 'invited' | 'accepted' | 'active' | 'inactive' | 'declined';
   emergencyPriority: number;
   lastContactDate?: Date;
   invitationSent?: Date;
+  trustLevel: number;
+  canAccessDocuments: boolean;
+  canEmergencyActivate: boolean;
+  canManageFamily: boolean;
+  canViewFinances: boolean;
+  canMakeMedicalDecisions: boolean;
 }
 
-interface GuardianPermission {
+interface GuardianPermissionDisplay {
   id: string;
-  type: 'document_access' | 'emergency_activation' | 'family_management' | 'financial_overview' | 'medical_decisions';
+  type: 'document_access' | 'emergency_activation' | 'family_management' | 'financial_overview' | 'medical_decisions' | 'communication' | 'legal_actions';
   granted: boolean;
   grantedDate?: Date;
 }
 
 interface GuardianManagementProps {
-  guardians?: Guardian[];
-  onAddGuardian?: (guardian: Omit<Guardian, 'id'>) => void;
-  onUpdateGuardian?: (id: string, updates: Partial<Guardian>) => void;
+  guardians?: GuardianDisplay[];
+  onAddGuardian?: (guardian: Omit<GuardianDisplay, 'id'>) => void;
+  onUpdateGuardian?: (id: string, updates: Partial<GuardianDisplay>) => void;
   onRemoveGuardian?: (id: string) => void;
   onSendInvitation?: (guardianId: string) => void;
   onActivateEmergency?: (guardianId: string) => void;
 }
 
-const defaultPermissions: Omit<GuardianPermission, 'granted' | 'grantedDate'>[] = [
+// Transform Supabase data to display format
+const transformGuardian = (guardian: GuardianType): GuardianDisplay => ({
+  id: guardian.id,
+  name: guardian.family_member?.name || 'Unknown',
+  email: guardian.family_member?.email || '',
+  phone: guardian.family_member?.phone || '',
+  relationship: guardian.family_member?.relationship || 'other',
+  permissions: guardian.permissions.map(p => ({
+    id: p.id,
+    type: p.permission_type,
+    granted: p.granted,
+    grantedDate: p.granted_at ? new Date(p.granted_at) : undefined
+  })),
+  status: guardian.status,
+  emergencyPriority: guardian.emergency_priority,
+  lastContactDate: guardian.last_contact_at ? new Date(guardian.last_contact_at) : undefined,
+  invitationSent: guardian.invitation_sent_at ? new Date(guardian.invitation_sent_at) : undefined,
+  trustLevel: guardian.trust_level,
+  canAccessDocuments: guardian.can_access_documents,
+  canEmergencyActivate: guardian.can_emergency_activate,
+  canManageFamily: guardian.can_manage_family,
+  canViewFinances: guardian.can_view_finances,
+  canMakeMedicalDecisions: guardian.can_make_medical_decisions
+});
+
+const defaultPermissions: Omit<GuardianPermissionDisplay, 'granted' | 'grantedDate'>[] = [
   { id: 'document_access', type: 'document_access' },
   { id: 'emergency_activation', type: 'emergency_activation' },
   { id: 'family_management', type: 'family_management' },
   { id: 'financial_overview', type: 'financial_overview' },
-  { id: 'medical_decisions', type: 'medical_decisions' }
+  { id: 'medical_decisions', type: 'medical_decisions' },
+  { id: 'communication', type: 'communication' },
+  { id: 'legal_actions', type: 'legal_actions' }
 ];
 
 export default function GuardianManagement({
-  guardians = [],
+  guardians: propGuardians,
   onAddGuardian,
   onUpdateGuardian,
   onRemoveGuardian,
   onSendInvitation,
   onActivateEmergency
 }: GuardianManagementProps) {
+  // State for guardians from Supabase
+  const [guardians, setGuardians] = useState<GuardianDisplay[]>([]);
+  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedGuardian, setSelectedGuardian] = useState<string | null>(null);
   const [newGuardian, setNewGuardian] = useState({
@@ -70,10 +112,129 @@ export default function GuardianManagement({
     email: '',
     phone: '',
     relationship: '',
-    emergencyPriority: 1
+    emergencyPriority: 1,
+    familyMemberId: ''
   });
   const [isInteracting, setIsInteracting] = useState(false);
   const [showGuardianAffirmation, setShowGuardianAffirmation] = useState(false);
+
+  // Load guardians and family members from Supabase
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // Use prop data if provided, otherwise fetch from Supabase
+      if (propGuardians) {
+        setGuardians(propGuardians);
+        setIsLoading(false);
+        return;
+      }
+
+      // Load both guardians and family members
+      const [guardianData, familyData] = await Promise.all([
+        FamilyService.getGuardians(),
+        FamilyService.getFamilyMembers()
+      ]);
+
+      const displayGuardians = guardianData.map(transformGuardian);
+      setGuardians(displayGuardians);
+      setFamilyMembers(familyData);
+
+      logger.info('Loaded guardians and family members', {
+        metadata: { guardians: displayGuardians.length, family: familyData.length }
+      });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load guardians';
+      setError(errorMessage);
+      logger.error('Failed to load guardians', { metadata: { error: errorMessage } });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddGuardian = async () => {
+    try {
+      if (!newGuardian.familyMemberId) {
+        // Create new family member first
+        const familyMember = await FamilyService.addFamilyMember({
+          name: newGuardian.name,
+          email: newGuardian.email,
+          phone: newGuardian.phone,
+          relationship: newGuardian.relationship as any,
+          protection_status: 'pending',
+          is_emergency_contact: false,
+          is_guardian: true
+        });
+
+        // Create guardian
+        const guardian = await FamilyService.addGuardian({
+          family_member_id: familyMember.id,
+          permissions: [],
+          status: 'pending',
+          emergency_priority: newGuardian.emergencyPriority,
+          can_access_documents: false,
+          can_emergency_activate: false,
+          can_manage_family: false,
+          can_view_finances: false,
+          can_make_medical_decisions: false,
+          trust_level: 1
+        });
+
+        const displayGuardian = transformGuardian(guardian);
+        setGuardians(prev => [...prev, displayGuardian]);
+      } else {
+        // Use existing family member
+        const guardian = await FamilyService.addGuardian({
+          family_member_id: newGuardian.familyMemberId,
+          permissions: [],
+          status: 'pending',
+          emergency_priority: newGuardian.emergencyPriority,
+          can_access_documents: false,
+          can_emergency_activate: false,
+          can_manage_family: false,
+          can_view_finances: false,
+          can_make_medical_decisions: false,
+          trust_level: 1
+        });
+
+        const displayGuardian = transformGuardian(guardian);
+        setGuardians(prev => [...prev, displayGuardian]);
+      }
+
+      // Reset form
+      setNewGuardian({
+        name: '',
+        email: '',
+        phone: '',
+        relationship: '',
+        emergencyPriority: 1,
+        familyMemberId: ''
+      });
+      setShowAddForm(false);
+      setShowGuardianAffirmation(true);
+
+      if (onAddGuardian) onAddGuardian({} as any);
+    } catch (err) {
+      logger.error('Failed to add guardian', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
+
+  const handleUpdatePermissions = async (guardianId: string, permissions: Partial<GuardianType>) => {
+    try {
+      const updatedGuardian = await FamilyService.updateGuardianPermissions(guardianId, permissions);
+      const displayGuardian = transformGuardian(updatedGuardian);
+      setGuardians(prev => prev.map(g => g.id === guardianId ? displayGuardian : g));
+
+      if (onUpdateGuardian) onUpdateGuardian(guardianId, {} as any);
+    } catch (err) {
+      logger.error('Failed to update guardian permissions', { metadata: { error: err instanceof Error ? err.message : String(err) } });
+    }
+  };
 
   // Initialize Sofia personality for guardian guidance
   const { personality, adaptToContext, learnFromInteraction } = useSofiaPersonality(PersonalityPresets.trustBuilder);
@@ -113,40 +274,78 @@ export default function GuardianManagement({
     });
   };
 
-  const getPermissionLabel = (type: GuardianPermission['type']) => {
+  const getPermissionLabel = (type: GuardianPermissionDisplay['type']) => {
     switch (type) {
       case 'document_access':
-        return '📄 Document Access';
+        return '📄 Prístup k dokumentom';
       case 'emergency_activation':
-        return '🚨 Emergency Activation';
+        return '🚨 Núdzová aktivácia';
       case 'family_management':
-        return '👨‍👩‍👧‍👦 Family Management';
+        return '👨‍👩‍👧‍👦 Správa rodiny';
       case 'financial_overview':
-        return '💰 Financial Overview';
+        return '💰 Finančný prehľad';
       case 'medical_decisions':
-        return '🏥 Medical Decisions';
+        return '🏥 Zdravotné rozhodnutia';
+      case 'communication':
+        return '💬 Komunikácia';
+      case 'legal_actions':
+        return '⚖️ Právne kroky';
       default:
         return type;
     }
   };
 
-  const getStatusColor = (status: Guardian['status']) => {
+  const getStatusColor = (status: GuardianDisplay['status']) => {
     switch (status) {
       case 'active':
         return 'text-green-600 bg-green-100';
       case 'accepted':
         return 'text-blue-600 bg-blue-100';
+      case 'invited':
+        return 'text-purple-600 bg-purple-100';
       case 'pending':
         return 'text-yellow-600 bg-yellow-100';
       case 'inactive':
         return 'text-gray-600 bg-gray-100';
+      case 'declined':
+        return 'text-red-600 bg-red-100';
       default:
         return 'text-gray-600 bg-gray-100';
     }
   };
 
   const activeGuardians = guardians.filter(g => g.status === 'active').length;
-  const pendingInvitations = guardians.filter(g => g.status === 'pending').length;
+  const pendingInvitations = guardians.filter(g => g.status === 'pending' || g.status === 'invited').length;
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="w-full flex items-center justify-center min-h-[400px]">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-gray-600">Načítavam správu strážcov...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="w-full flex items-center justify-center min-h-[400px]">
+        <Card className="max-w-md">
+          <CardContent className="p-6 text-center space-y-4">
+            <div className="text-red-500 text-4xl">⚠️</div>
+            <h3 className="font-semibold">Chyba pri načítaní strážcov</h3>
+            <p className="text-gray-600">{error}</p>
+            <Button onClick={loadData} variant="outline">
+              Skúsiť znovu
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <PersonalityAwareAnimation personality={personality} context="trust">

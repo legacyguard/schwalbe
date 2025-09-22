@@ -3,6 +3,8 @@
  * Handles video processing, compression, storage, and retrieval with advanced optimization
  */
 
+import { config } from '@/lib/env';
+
 import { logger } from '@schwalbe/shared/lib/logger';
 
 interface VideoFile {
@@ -122,10 +124,10 @@ class VideoStorageService {
       type: 'cloud',
       endpoint: 'https://api.videostorage.example.com',
       credentials: {
-        accessKey: process.env.VIDEO_STORAGE_ACCESS_KEY,
-        secretKey: process.env.VIDEO_STORAGE_SECRET_KEY,
-        region: process.env.VIDEO_STORAGE_REGION || 'us-east-1',
-        bucket: process.env.VIDEO_STORAGE_BUCKET || 'legacyguard-videos'
+        accessKey: config.videoStorage.accessKey,
+        secretKey: config.videoStorage.secretKey,
+        region: config.videoStorage.region,
+        bucket: config.videoStorage.bucket
       },
       features: {
         streaming: true,

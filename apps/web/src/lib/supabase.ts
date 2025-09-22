@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+import { config } from '@/lib/env';
 
 // Graceful fallback for demo/development without Supabase configuration
 let supabase: any;
 
-if (!supabaseUrl || !supabaseAnonKey) {
+if (!config.supabase.url || !config.supabase.anonKey) {
+  if (config.isProd) {
+    throw new Error('Missing required Supabase environment variables in production. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+  }
   console.warn('Missing Supabase environment variables. Using demo mode.');
   // Create a mock client for demo purposes
   supabase = {
@@ -26,7 +27,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
     })
   } as any;
 } else {
-  supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  supabase = createClient(config.supabase.url, config.supabase.anonKey, {
     auth: {
       autoRefreshToken: true,
       persistSession: true,

@@ -1,0 +1,161 @@
+{
+  "version": 2,
+  "name": "schwalbe-production",
+  "alias": ["app.schwalbe.sk", "www.schwalbe.sk"],
+  "regions": ["fra1", "arn1"],
+  "framework": "nextjs",
+  "buildCommand": "npm run build:production",
+  "outputDirectory": ".next",
+  "installCommand": "npm ci --production=false",
+  "devCommand": "npm run dev",
+  "builds": [
+    {
+      "src": "packages/web/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/health",
+      "dest": "/api/health"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/api/robots"
+    },
+    {
+      "src": "/sitemap.xml",
+      "dest": "/api/sitemap"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/legacy-guard",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/app",
+      "destination": "/dashboard",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/docs/:path*",
+      "destination": "https://docs.schwalbe.sk/:path*"
+    },
+    {
+      "source": "/help/:path*",
+      "destination": "/support/:path*"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1",
+    "VERCEL_ENV": "production"
+  },
+  "functions": {
+    "packages/web/pages/api/**/*.ts": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    },
+    "packages/web/pages/api/upload/**/*.ts": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 60
+    },
+    "packages/web/pages/api/ocr/**/*.ts": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 120,
+      "memory": 1024
+    },
+    "packages/web/pages/api/sofia/**/*.ts": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 45,
+      "memory": 512
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/cleanup",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/backup",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/analytics",
+      "schedule": "0 1 * * *"
+    },
+    {
+      "path": "/api/cron/health-check",
+      "schedule": "*/5 * * * *"
+    }
+  ],
+  "github": {
+    "silent": true
+  }
+}

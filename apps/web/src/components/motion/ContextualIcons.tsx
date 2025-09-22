@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback, useContext } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
+import { config } from '@/lib/env';
 
 // Context types for different scenarios
 export interface UserContext {
@@ -899,7 +900,7 @@ const ContextualIcons: React.FC<ContextualIconsProps> = ({
       </AnimatePresence>
 
       {/* Development context display */}
-      {process.env.NODE_ENV === 'development' && (
+      {config.isDev && (
         <div className="absolute -top-8 left-0 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded">
           {currentIcon} • {determineContextualVariant().animation} • {contextualEffects.join(',')}
         </div>

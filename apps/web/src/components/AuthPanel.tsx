@@ -3,9 +3,10 @@ import { createClient } from '@supabase/supabase-js';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { config } from '@/lib/env';
 
-const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
-const supabaseAnon = import.meta.env?.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = config.supabase.url;
+const supabaseAnon = config.supabase.anonKey;
 
 export const AuthPanel: React.FC = () => {
   const supabase = useMemo(() => createClient(supabaseUrl, supabaseAnon), []);

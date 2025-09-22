@@ -170,40 +170,40 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
             </Card>
           </FadeIn>
 
-          {/* Sofia’s Guidance - gentle, supportive suggestions */
-          <FadeIn duration={0.8}>
-            <Card className='mb-8 border-emerald-500/20 bg-emerald-900/10'>
-              <CardHeader>
-                <CardTitle className='flex items-center gap-2'>
-                  <span>🕊️</span>
-                  {t('dashboard.sofiaGuidance.title')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className='text-emerald-200 mb-4'>
-                  {t('dashboard.sofiaGuidance.lead')}
-                </p>
-                <div className='flex flex-wrap gap-2'>
-                  <Button aria-label={t('dashboard.sofiaGuidance.actions.inviteTrusted')} variant='outline' onClick={() => setActiveSection('guardians')}>{t('dashboard.sofiaGuidance.actions.inviteTrusted')}</Button>
-                  <Button aria-label={t('dashboard.sofiaGuidance.actions.beginWill')} variant='outline' onClick={() => onNavigate ? onNavigate('will') : (window.location.href = '/will/wizard/start')}>{t('dashboard.sofiaGuidance.actions.beginWill')}</Button>
-                  <Button aria-label={t('dashboard.sofiaGuidance.actions.addDocument')} variant='outline' onClick={() => setActiveSection('documents')}>{t('dashboard.sofiaGuidance.actions.addDocument')}</Button>
-                </div>
-              </CardContent>
-            </Card>
-          </FadeIn>
+          <div>
+            {/* Sofia's Guidance - gentle, supportive suggestions */}
+            <FadeIn duration={0.8}>
+              <Card className='mb-8 border-emerald-500/20 bg-emerald-900/10'>
+                <CardHeader>
+                  <CardTitle className='flex items-center gap-2'>
+                    <span>🕊️</span>
+                    {t('dashboard.sofiaGuidance.title')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className='text-emerald-200 mb-4'>
+                    {t('dashboard.sofiaGuidance.lead')}
+                  </p>
+                  <div className='flex flex-wrap gap-2'>
+                    <Button aria-label={t('dashboard.sofiaGuidance.actions.inviteTrusted')} variant='outline' onClick={() => setActiveSection('guardians')}>{t('dashboard.sofiaGuidance.actions.inviteTrusted')}</Button>
+                    <Button aria-label={t('dashboard.sofiaGuidance.actions.beginWill')} variant='outline' onClick={() => onNavigate ? onNavigate('will') : (window.location.href = '/will/wizard/start')}>{t('dashboard.sofiaGuidance.actions.beginWill')}</Button>
+                    <Button aria-label={t('dashboard.sofiaGuidance.actions.addDocument')} variant='outline' onClick={() => setActiveSection('documents')}>{t('dashboard.sofiaGuidance.actions.addDocument')}</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </FadeIn>
 
-          {/* Dynamic Content Sections */}
-          <AnimatePresence mode="wait">
-            {activeSection === 'family' && (
-              <motion.div
-                key="family"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-              >
-                <FamilyTreeVisualization
-                  onAddMember={() => {
+            <AnimatePresence mode="wait">
+              {activeSection === 'family' && (
+                <motion.div
+                  key="family"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <FamilyTreeVisualization
+                    onAddMember={() => {
                     logger.info('Add family member requested', {
                       action: 'add_family_member',
                       metadata: { section: 'family' }
@@ -376,32 +376,36 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                     </Card>
                   </PersonalityHoverEffect>
 
-            {/* Will Section */}
-            <PersonalityHoverEffect personality={personality}>
-              <Card
-                className='cursor-pointer border-primary/20 hover:border-primary/40 transition-all duration-300'
-                onClick={() => setIsInteracting(true)}
-              >
-                <CardHeader>
-                  <CardTitle className='flex items-center gap-2'>
-                    <span>📋</span>
-                    Legacy Planning
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className='text-muted-foreground mb-4'>
-                    Your will and estate planning documents.
-                  </p>
-                  <div className='flex justify-between items-center'>
-                    <span className='text-sm text-primary'>In Progress</span>
-                    <Button variant='outline' size='sm'>
-                      Continue
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </PersonalityHoverEffect>
-          </div>
+                  {/* Will Section */}
+                  <PersonalityHoverEffect personality={personality}>
+                    <Card
+                      className='cursor-pointer border-primary/20 hover:border-primary/40 transition-all duration-300'
+                      onClick={() => setIsInteracting(true)}
+                    >
+                      <CardHeader>
+                        <CardTitle className='flex items-center gap-2'>
+                          <span>📋</span>
+                          Legacy Planning
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className='text-muted-foreground mb-4'>
+                          Your will and estate planning documents.
+                        </p>
+                        <div className='flex justify-between items-center'>
+                          <span className='text-sm text-primary'>In Progress</span>
+                          <Button variant='outline' size='sm'>
+                            Continue
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </PersonalityHoverEffect>
+                </div>
+              </motion.div>
+            )}
+
+          </AnimatePresence>
 
           {/* Assets Overview */}
           <div className='mt-6'>
@@ -588,9 +592,6 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               </CardContent>
             </Card>
           </FadeIn>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           {/* Sofia AI Contextual Assistance */}
           <FadeIn duration={0.8} delay={0.6}>
@@ -615,6 +616,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               </CardContent>
             </Card>
           </FadeIn>
+          </div>
         </div>
       </div>
     </PersonalityAwareAnimation>

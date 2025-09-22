@@ -39,6 +39,8 @@ import { Label } from '@/stubs/ui'
 
 // Import Sofia AI components
 import { SofiaFirefly } from '@/components/sofia-firefly/SofiaFirefly'
+import { AnalyticsService, type AnalyticsMetric as AnalyticsMetricType, type FamilyMetrics, type DocumentMetrics } from '@/services/analyticsService'
+import { logger } from '@schwalbe/shared/src/lib/logger'
 
 interface AnalyticsMetric {
   id: string
@@ -111,10 +113,62 @@ export function AnalyticsDashboard({
 
   const [selectedTimeframe, setSelectedTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>('30d')
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [sofiaPersonality, setSofiaPersonality] = useState<'nurturing' | 'empathetic' | 'pragmatic' | 'celebratory' | 'comforting' | 'confident'>('nurturing')
 
-  // Mock data - in real app, this would come from APIs
-  const [metrics, setMetrics] = useState<AnalyticsMetric[]>([
+  // Real analytics data from Supabase
+  const [metrics, setMetrics] = useState<AnalyticsMetricType[]>([])
+  const [familyMetrics, setFamilyMetrics] = useState<FamilyMetrics | null>(null)
+  const [documentMetrics, setDocumentMetrics] = useState<DocumentMetrics | null>(null)
+
+  // Load analytics data
+  useEffect(() => {
+    loadAnalyticsData()
+  }, [selectedTimeframe])
+
+  const loadAnalyticsData = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+
+      const [allMetrics, family, documents] = await Promise.all([
+        AnalyticsService.getAllMetrics(),
+        AnalyticsService.getFamilyMetrics(),
+        AnalyticsService.getDocumentMetrics()
+      ])
+
+      setMetrics(allMetrics)
+      setFamilyMetrics(family)
+      setDocumentMetrics(documents)
+
+      logger.info('Loaded analytics data', {
+        metadata: {
+          metricsCount: allMetrics.length,
+          protectionScore: family.protectionScore,
+          documentsCount: documents.totalDocuments
+        }
+      })
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load analytics'
+      setError(errorMessage)
+      logger.error('Failed to load analytics data', { metadata: { error: errorMessage } })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const refreshData = async () => {
+    setIsRefreshing(true)
+    try {
+      await loadAnalyticsData()
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
+
+  // Keep original mock data as fallback for undefined components
+  const [mockMetrics] = useState<AnalyticsMetric[]>([
     {
       id: 'family-protection',
       title: 'Family Protection Score',
@@ -663,6 +717,36 @@ export function AnalyticsDashboard({
     </motion.div>
   )
 
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-gray-600">Načítavam analytické dáta...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card className="max-w-md">
+          <CardContent className="p-6 text-center space-y-4">
+            <div className="text-red-500 text-4xl">⚠️</div>
+            <h3 className="font-semibold">Chyba pri načítaní analytiky</h3>
+            <p className="text-gray-600">{error}</p>
+            <Button onClick={loadAnalyticsData} variant="outline">
+              Skúsiť znovu
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -768,7 +852,11 @@ export function AnalyticsDashboard({
         animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        {metrics.map(renderMetricCard)}
+        {metrics.map(metric => renderMetricCard({
+          ...metric,
+          icon: <div>{metric.icon}</div>, // Convert string to JSX
+          trend: metric.trend
+        }))}
       </motion.div>
 
       {/* Main Content Tabs */}
@@ -818,15 +906,21 @@ export function AnalyticsDashboard({
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">Essential Documents</span>
-                      <span className="font-semibold text-green-600">8/12 Complete</span>
+                      <span className="font-semibold text-green-600">
+                        {documentMetrics?.categoriesCompleted || 0}/{documentMetrics?.totalCategories || 8} Complete
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">Guardian Network</span>
-                      <span className="font-semibold text-blue-600">3/5 Active</span>
+                      <span className="font-semibold text-blue-600">
+                        {familyMetrics?.activeGuardians || 0} Active
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Family Engagement</span>
-                      <span className="font-semibold text-purple-600">87% Active</span>
+                      <span className="text-sm text-gray-600">Family Protection Score</span>
+                      <span className="font-semibold text-purple-600">
+                        {familyMetrics?.protectionScore || 0}%
+                      </span>
                     </div>
                   </div>
                 </CardContent>

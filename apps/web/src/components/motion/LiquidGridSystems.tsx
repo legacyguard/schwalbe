@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
+import { config } from '@/lib/env';
 
 // Grid system types for different adaptive behaviors
 export interface LiquidGridConfig {
@@ -692,7 +693,7 @@ const LiquidGridSystems: React.FC<LiquidGridSystemsProps> = ({
       </AnimatePresence>
 
       {/* Development info */}
-      {process.env.NODE_ENV === 'development' && (
+      {config.isDev && (
         <div className="absolute -bottom-8 left-0 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded">
           {config.name} • {config.flowBehavior} • {items.length} items
         </div>

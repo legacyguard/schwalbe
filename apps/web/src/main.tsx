@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { AuthProvider } from '@/components/auth/AuthProvider';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
@@ -37,11 +38,12 @@ if (rootEl) {
   const root = createRoot(rootEl);
   root.render(
     <React.StrictMode>
-      <CriticalErrorBoundary>
-        <AuthProvider>
-          <BrowserRouter>
-            <OnboardingWrapper>
-              <AppShell>
+      <HelmetProvider>
+        <CriticalErrorBoundary>
+          <AuthProvider>
+            <BrowserRouter>
+              <OnboardingWrapper>
+                <AppShell>
                 <Routes>
             {/* Public routes */}
             <Route path="/auth/signin" element={<SignIn />} />
@@ -174,13 +176,14 @@ if (rootEl) {
                 )
               }
             />
-            <Route path="*" element={<Navigate to="/assets" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </AppShell>
-          </OnboardingWrapper>
-          </BrowserRouter>
-        </AuthProvider>
-      </CriticalErrorBoundary>
+                </AppShell>
+              </OnboardingWrapper>
+            </BrowserRouter>
+          </AuthProvider>
+        </CriticalErrorBoundary>
+      </HelmetProvider>
     </React.StrictMode>
   );
 }

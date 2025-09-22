@@ -3,6 +3,8 @@
  * Supports dynamic loading of translations organized by namespace
  */
 
+import { config } from '@/lib/env';
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
@@ -52,9 +54,9 @@ i18n
     },
 
     // Enhanced debugging and error handling
-    debug: process.env.NODE_ENV === 'development',
+    debug: config.isDev,
     missingKeyHandler: (lng, ns, key) => {
-      if (process.env.NODE_ENV === 'development') {
+      if (config.isDev) {
         console.warn(`Missing translation: ${lng}:${ns}:${key}`);
       }
     },

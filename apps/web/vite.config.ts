@@ -105,9 +105,6 @@ export default defineConfig({
       
     ],
   },
-  define: {
-    'process.env.NODE_ENV': '"production"'
-  },
   server: {
     port: 3000,
     host: true,
@@ -121,7 +118,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false, // Disable source maps in production for security
     chunkSizeWarningLimit: 300, // Warn for chunks larger than 300KB
     rollupOptions: {
       external: (id: string) => id.includes('@tamagui/react-native-media-driver') || id.includes('@tamagui/animations-react-native'),

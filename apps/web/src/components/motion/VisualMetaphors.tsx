@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
+import { config } from '@/lib/env';
 
 // Complex estate planning concepts and their visual metaphors
 export interface VisualMetaphorConcept {
@@ -855,7 +856,7 @@ const VisualMetaphors: React.FC<VisualMetaphorProps> = ({
       </AnimatePresence>
 
       {/* Concept label (development only) */}
-      {process.env.NODE_ENV === 'development' && (
+      {config.isDev && (
         <div className="absolute -bottom-6 left-0 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded">
           {concept.name} • {currentScene.atmosphere} • {animation}
         </div>

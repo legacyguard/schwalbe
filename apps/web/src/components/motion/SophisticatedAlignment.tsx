@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
+import { config } from '@/lib/env';
 
 // Sophisticated alignment configuration interface
 export interface AlignmentConfig {
@@ -1298,7 +1299,7 @@ const SophisticatedAlignment: React.FC<SophisticatedAlignmentProps> = ({
       )}
 
       {/* Development info */}
-      {process.env.NODE_ENV === 'development' && alignment && (
+      {config.isDev && alignment && (
         <div
           className="absolute top-4 right-4 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded"
           style={{ fontSize: '10px' }}

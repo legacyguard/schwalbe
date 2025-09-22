@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Disallow access to sensitive areas
+Disallow: /auth/
+Disallow: /share/
+Disallow: /admin/
+
+# Allow access to public content
+Allow: /support
+Allow: /
+
+# Sitemap
+Sitemap: https://your-domain.com/sitemap.xml

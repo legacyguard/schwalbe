@@ -1,0 +1,400 @@
+# Production Monitoring & Alerting Configuration
+# Schwalbe LegacyGuard Application
+
+monitoring:
+  # Application Performance Monitoring
+  apm:
+    # Vercel Analytics
+    vercel:
+      enabled: true
+      project_id: "${VERCEL_PROJECT_ID}"
+      team_id: "${VERCEL_TEAM_ID}"
+
+      # Metrics to track
+      metrics:
+        - "page_load_time"
+        - "first_contentful_paint"
+        - "largest_contentful_paint"
+        - "cumulative_layout_shift"
+        - "first_input_delay"
+        - "time_to_interactive"
+
+    # Custom Performance Monitoring
+    custom:
+      enabled: true
+      endpoints:
+        - path: "/api/performance"
+          method: "POST"
+          auth_required: true
+
+  # Error Tracking
+  error_tracking:
+    # Sentry Configuration
+    sentry:
+      dsn: "${SENTRY_DSN}"
+      environment: "production"
+      release: "${VERCEL_GIT_COMMIT_SHA}"
+
+      # Sampling rates
+      traces_sample_rate: 0.1  # 10% for performance
+      profiles_sample_rate: 0.1  # 10% for profiling
+      error_sample_rate: 1.0  # 100% for errors
+
+      # Integrations
+      integrations:
+        - name: "Http"
+          enabled: true
+        - name: "Console"
+          enabled: false
+        - name: "GlobalHandlers"
+          enabled: true
+        - name: "Breadcrumbs"
+          enabled: true
+
+      # Filters
+      before_send:
+        - filter_type: "environment"
+          exclude: ["development", "test"]
+        - filter_type: "error_message"
+          exclude: ["Network Error", "ChunkLoadError"]
+
+  # Uptime Monitoring
+  uptime:
+    # UptimeRobot Configuration
+    uptimerobot:
+      api_key: "${UPTIMEROBOT_API_KEY}"
+
+      # Monitors
+      monitors:
+        - name: "Main Website"
+          url: "https://app.schwalbe.sk"
+          type: "http"
+          interval: 300  # 5 minutes
+          timeout: 30
+
+        - name: "API Health"
+          url: "https://app.schwalbe.sk/api/health"
+          type: "http"
+          interval: 300
+          timeout: 10
+
+        - name: "Database Connection"
+          url: "https://app.schwalbe.sk/api/health/database"
+          type: "http"
+          interval: 600  # 10 minutes
+          timeout: 30
+
+        - name: "Storage Health"
+          url: "https://app.schwalbe.sk/api/health/storage"
+          type: "http"
+          interval: 600
+          timeout: 30
+
+    # Custom Health Checks
+    custom:
+      enabled: true
+      checks:
+        - name: "Sofia AI Service"
+          endpoint: "/api/health/sofia"
+          interval: 900  # 15 minutes
+          timeout: 45
+
+        - name: "OCR Service"
+          endpoint: "/api/health/ocr"
+          interval: 900
+          timeout: 60
+
+        - name: "Email Service"
+          endpoint: "/api/health/email"
+          interval: 1800  # 30 minutes
+          timeout: 15
+
+  # Infrastructure Monitoring
+  infrastructure:
+    # Vercel Functions
+    functions:
+      enabled: true
+      metrics:
+        - "execution_time"
+        - "memory_usage"
+        - "cold_starts"
+        - "error_rate"
+        - "invocation_count"
+
+    # Database Monitoring (Supabase)
+    database:
+      enabled: true
+      metrics:
+        - "connection_count"
+        - "query_performance"
+        - "cache_hit_ratio"
+        - "storage_usage"
+        - "backup_status"
+
+    # Storage Monitoring
+    storage:
+      enabled: true
+      metrics:
+        - "storage_usage"
+        - "bandwidth_usage"
+        - "request_count"
+        - "error_rate"
+
+  # Security Monitoring
+  security:
+    # Failed Authentication Attempts
+    auth_monitoring:
+      enabled: true
+      threshold: 10  # alerts after 10 failed attempts
+      window: 300    # in 5 minutes
+
+    # Rate Limiting Alerts
+    rate_limit_monitoring:
+      enabled: true
+      threshold: 100  # alerts after 100 rate limit hits
+      window: 600     # in 10 minutes
+
+    # Suspicious Activity
+    suspicious_activity:
+      enabled: true
+      patterns:
+        - "sql_injection_attempts"
+        - "xss_attempts"
+        - "path_traversal_attempts"
+        - "unusual_file_uploads"
+
+  # Business Metrics
+  business:
+    # User Analytics
+    users:
+      enabled: true
+      metrics:
+        - "new_registrations"
+        - "active_users_daily"
+        - "active_users_monthly"
+        - "user_retention"
+        - "session_duration"
+
+    # Document Processing
+    documents:
+      enabled: true
+      metrics:
+        - "documents_uploaded"
+        - "ocr_processing_time"
+        - "ocr_success_rate"
+        - "storage_growth"
+
+    # Sofia AI Usage
+    sofia:
+      enabled: true
+      metrics:
+        - "conversations_initiated"
+        - "messages_sent"
+        - "response_time"
+        - "user_satisfaction"
+
+# Alerting Configuration
+alerting:
+  # Notification Channels
+  channels:
+    # Email Alerts
+    email:
+      enabled: true
+      recipients:
+        - "admin@schwalbe.sk"
+        - "dev-team@schwalbe.sk"
+      smtp:
+        host: "${SMTP_HOST}"
+        port: 587
+        username: "${SMTP_USERNAME}"
+        password: "${SMTP_PASSWORD}"
+
+    # Slack Integration
+    slack:
+      enabled: true
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channel: "#alerts-production"
+      username: "Schwalbe Monitor"
+
+    # SMS Alerts (for critical issues)
+    sms:
+      enabled: true
+      provider: "twilio"
+      account_sid: "${TWILIO_ACCOUNT_SID}"
+      auth_token: "${TWILIO_AUTH_TOKEN}"
+      from_number: "${TWILIO_FROM_NUMBER}"
+      recipients:
+        - "${ADMIN_PHONE_NUMBER}"
+
+  # Alert Rules
+  rules:
+    # Critical Alerts
+    critical:
+      - name: "Website Down"
+        condition: "uptime < 99%"
+        threshold: 2  # consecutive failures
+        channels: ["email", "slack", "sms"]
+
+      - name: "Database Connection Failed"
+        condition: "database_health == false"
+        threshold: 1
+        channels: ["email", "slack", "sms"]
+
+      - name: "High Error Rate"
+        condition: "error_rate > 5%"
+        window: 300  # 5 minutes
+        channels: ["email", "slack"]
+
+    # Warning Alerts
+    warning:
+      - name: "Slow Response Time"
+        condition: "avg_response_time > 2000ms"
+        window: 600  # 10 minutes
+        channels: ["slack"]
+
+      - name: "High Memory Usage"
+        condition: "memory_usage > 80%"
+        window: 900  # 15 minutes
+        channels: ["slack"]
+
+      - name: "Storage Usage High"
+        condition: "storage_usage > 85%"
+        channels: ["email", "slack"]
+
+    # Security Alerts
+    security:
+      - name: "Multiple Failed Logins"
+        condition: "failed_logins > 10"
+        window: 300
+        channels: ["email", "slack"]
+
+      - name: "Suspicious File Upload"
+        condition: "malicious_file_detected == true"
+        threshold: 1
+        channels: ["email", "slack"]
+
+  # Alert Scheduling
+  scheduling:
+    # Business Hours (Slovak Time)
+    business_hours:
+      start: "09:00"
+      end: "18:00"
+      timezone: "Europe/Bratislava"
+      days: ["monday", "tuesday", "wednesday", "thursday", "friday"]
+
+    # Alert Escalation
+    escalation:
+      enabled: true
+      levels:
+        1:
+          delay: 0      # immediate
+          channels: ["slack"]
+        2:
+          delay: 900    # 15 minutes
+          channels: ["email", "slack"]
+        3:
+          delay: 1800   # 30 minutes
+          channels: ["email", "slack", "sms"]
+
+# Dashboards
+dashboards:
+  # Grafana Dashboards
+  grafana:
+    enabled: false  # Using Vercel Analytics instead
+
+  # Custom Dashboards
+  custom:
+    enabled: true
+    dashboards:
+      - name: "Application Overview"
+        path: "/admin/dashboard/overview"
+        metrics:
+          - "uptime"
+          - "response_time"
+          - "error_rate"
+          - "active_users"
+
+      - name: "Performance Metrics"
+        path: "/admin/dashboard/performance"
+        metrics:
+          - "page_load_times"
+          - "api_response_times"
+          - "database_performance"
+          - "cache_hit_rates"
+
+      - name: "Security Dashboard"
+        path: "/admin/dashboard/security"
+        metrics:
+          - "failed_logins"
+          - "rate_limit_hits"
+          - "security_events"
+          - "ssl_certificate_status"
+
+# Health Check Configuration
+health_checks:
+  # Automated Health Checks
+  automated:
+    enabled: true
+    interval: 300  # 5 minutes
+
+    # Health Check Endpoints
+    endpoints:
+      - name: "Application Health"
+        path: "/api/health"
+        timeout: 5000
+        expected_status: 200
+
+      - name: "Database Health"
+        path: "/api/health/database"
+        timeout: 10000
+        expected_status: 200
+
+      - name: "Storage Health"
+        path: "/api/health/storage"
+        timeout: 10000
+        expected_status: 200
+
+      - name: "AI Services Health"
+        path: "/api/health/ai"
+        timeout: 15000
+        expected_status: 200
+
+  # Manual Health Checks
+  manual:
+    enabled: true
+    checklist:
+      - "Verify all services are running"
+      - "Check SSL certificate validity"
+      - "Verify backup integrity"
+      - "Test critical user flows"
+      - "Review security logs"
+
+# Log Management
+logs:
+  # Log Aggregation
+  aggregation:
+    enabled: true
+    provider: "vercel"
+
+  # Log Retention
+  retention:
+    application_logs: 30    # days
+    access_logs: 90        # days
+    error_logs: 180        # days
+    security_logs: 365     # days
+
+  # Log Analysis
+  analysis:
+    enabled: true
+    patterns:
+      - name: "Error Patterns"
+        regex: "ERROR|FATAL|Exception"
+        alert_threshold: 10
+
+      - name: "Security Events"
+        regex: "authentication|authorization|security"
+        alert_threshold: 5
+
+      - name: "Performance Issues"
+        regex: "timeout|slow|performance"
+        alert_threshold: 20

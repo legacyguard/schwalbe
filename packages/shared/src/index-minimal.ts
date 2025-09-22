@@ -29,6 +29,9 @@ export { logger } from './lib/logger';
 // Authentication store (needed for web auth)
 export { useAuthStore } from './stores/authStore';
 
+// Onboarding service (needed for onboarding functionality)
+export { OnboardingService } from './services/onboarding/onboarding.service';
+
 // Will services (needed for will functionality)
 export { willService } from './services/will.service';
 // Will validation service moved to @schwalbe/logic package

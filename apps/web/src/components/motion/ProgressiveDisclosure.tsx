@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from 'framer-motion';
+import { config } from '@/lib/env';
 
 interface ProgressiveDisclosureProps {
   children: React.ReactNode;
@@ -481,7 +482,7 @@ const ProgressiveDisclosure: React.FC<ProgressiveDisclosureProps> = ({
       </AnimatePresence>
 
       {/* Controls for development */}
-      {process.env.NODE_ENV === 'development' && (
+      {config.isDev && (
         <div className="absolute top-4 right-4 flex gap-2">
           <button
             onClick={revealNext}
@@ -500,7 +501,7 @@ const ProgressiveDisclosure: React.FC<ProgressiveDisclosureProps> = ({
       )}
 
       {/* Debug info */}
-      {process.env.NODE_ENV === 'development' && (
+      {config.isDev && (
         <div className="absolute bottom-4 left-4 text-xs bg-black bg-opacity-50 text-white p-2 rounded">
           <div>Steps: {steps.filter(s => s.revealed).length}/{content.length}</div>
           <div>Trigger: {trigger}</div>
