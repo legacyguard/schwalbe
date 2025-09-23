@@ -22,6 +22,10 @@ export default defineConfig({
           // Third party services
           services: ['@supabase/supabase-js', '@sentry/react'],
         },
+        // Use content-based hashing for better cache invalidation
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       },
     },
     // Increase chunk size warning limit for better performance
