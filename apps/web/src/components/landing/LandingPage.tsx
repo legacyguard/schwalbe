@@ -3,13 +3,19 @@
  * Apple-style liquid glass design with immersive animations
  */
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { ArrowRight, Shield, Heart, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { SofiaFirefly } from '../sofia/SofiaFirefly';
+import { LegacyGuardLogo } from '../LegacyGuardLogo';
+import { SecurityPromiseSection } from './SecurityPromiseSection';
+import { PricingSection } from './PricingSection';
+import { MetaTags } from './MetaTags';
+import { DawnAnimation } from './DawnAnimation';
+import { useNavigate } from 'react-router-dom';
 
 import { sendAnalytics } from '@/lib/analytics';
-import { PasswordWall } from '@/components/auth/PasswordWall';
 
 interface Star {
   id: number;
@@ -20,17 +26,32 @@ interface Star {
   twinkleSpeed: number;
 }
 
-export default function PremiumLandingV3() {
+export default function LandingPage() {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const [stars, setStars] = useState<Star[]>([]);
   const [showSofia, setShowSofia] = useState(false);
   const [sofiaMessage, setSofiaMessage] = useState('');
+  const [isFireflyOnButton, setIsFireflyOnButton] = useState(false);
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+  const [showDawnAnimation, setShowDawnAnimation] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
+
+  // Mouse tracking for firefly
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
   // Parallax transforms
   const backgroundY = useTransform(scrollY, [0, 500], [0, 150]);
   const mountainsY = useTransform(scrollY, [0, 500], [0, 100]);
   const starsY = useTransform(scrollY, [0, 500], [0, 50]);
+
+  // Firefly transforms - must be at component level, not conditional
+  const fireflyX = useTransform(mouseX, [0, 1920], [-20, 20]);
+  const fireflyY = useTransform(mouseY, [0, 1080], [-20, 20]);
 
   // Generate stars
   useEffect(() => {
@@ -57,18 +78,18 @@ export default function PremiumLandingV3() {
   useEffect(() => {
     const sofiaTimer = setTimeout(() => {
       setShowSofia(true);
-      setSofiaMessage('Welcome to your journey of protection and peace.');
+      setSofiaMessage(t('landing:hero.sofiaWelcome'));
     }, 2000);
 
     const messageTimer = setTimeout(() => {
-      setSofiaMessage('Shall we begin building your legacy together?');
+      setSofiaMessage(t('landing:hero.sofiaInvitation'));
     }, 8000);
 
     return () => {
       clearTimeout(sofiaTimer);
       clearTimeout(messageTimer);
     };
-  }, []);
+  }, [t]);
 
   const handleStartJourney = () => {
     sendAnalytics('premium_landing_start_journey');
@@ -80,10 +101,133 @@ export default function PremiumLandingV3() {
     document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  return (
-    <PasswordWall onAuthenticated={() => sendAnalytics('premium_landing_password_authenticated')}>
-      <div ref={containerRef} className="relative min-h-screen overflow-x-hidden bg-slate-950">
+  const handleGetStarted = () => {
+    sendAnalytics('landing_get_started');
+    navigate('/auth/signup');
+  };
 
+  const handleSignIn = () => {
+    sendAnalytics('landing_sign_in');
+    navigate('/auth/signin');
+  };
+
+  const handleCTAHover = () => {
+    setIsFireflyOnButton(true);
+  };
+
+  const handleCTALeave = () => {
+    setIsFireflyOnButton(false);
+  };
+
+  // Mouse tracking for firefly interaction
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        mouseX.set(event.clientX - rect.left);
+        mouseY.set(event.clientY - rect.top);
+      }
+    },
+    [mouseX, mouseY]
+  );
+
+  // Scroll tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = document.documentElement.scrollTop;
+      const clientHeight = document.documentElement.clientHeight;
+
+      if (scrollHeight - scrollTop - clientHeight < 200) {
+        if (!hasScrolledToBottom) {
+          setHasScrolledToBottom(true);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasScrolledToBottom]);
+
+  const handleDawnAnimationComplete = () => {
+    setShowDawnAnimation(false);
+    setIsDarkTheme(false);
+    setShowSofia(true);
+    setSofiaMessage(t('landing:hero.sofiaWelcome'));
+  };
+
+  return (
+    <div ref={containerRef} className={`relative min-h-screen overflow-x-hidden transition-all duration-1000 ${
+      isDarkTheme ? 'bg-slate-950' : 'bg-gradient-to-br from-stone-50 via-amber-50 to-orange-50'
+    }`}>
+      <MetaTags />
+
+      {/* Dawn Animation Overlay */}
+      {showDawnAnimation && (
+        <DawnAnimation onAnimationComplete={handleDawnAnimationComplete} />
+      )}
+      {/* Navigation Header - Semi-transparent overlay */}
+      {!showDawnAnimation && (
+        <header className={`absolute top-0 left-0 right-0 z-50 backdrop-blur-sm border-b transition-all duration-1000 ${
+          isDarkTheme
+            ? 'bg-slate-900/30 border-slate-700/30'
+            : 'bg-white/30 border-stone-200/30'
+        }`}>
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <motion.div
+              className="flex items-center gap-3"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <LegacyGuardLogo />
+              <span className={`text-2xl font-bold font-heading transition-colors duration-1000 ${
+                isDarkTheme ? 'text-white' : 'text-stone-800'
+              }`}>
+                {t('landing:navigation.brand')}
+              </span>
+            </motion.div>
+
+            <div className="flex items-center gap-4">
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <button
+                  onClick={handleSignIn}
+                  className={`border-0 text-lg font-medium px-4 py-2 rounded transition-colors duration-1000 ${
+                    isDarkTheme
+                      ? 'text-slate-200 hover:text-white hover:bg-slate-800/50'
+                      : 'text-stone-600 hover:text-stone-800 hover:bg-stone-100/50'
+                  }`}
+                >
+                  {t('landing:navigation.signIn')}
+                </button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <button
+                  onClick={handleGetStarted}
+                  className={`text-lg font-semibold px-6 py-2 rounded transition-colors duration-1000 ${
+                    isDarkTheme
+                      ? 'bg-slate-700/70 hover:bg-slate-600 text-white border-slate-600'
+                      : 'bg-stone-800 hover:bg-stone-700 text-white border-stone-700'
+                  }`}
+                >
+                  {t('landing:navigation.getStarted')}
+                </button>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+        </header>
+      )}
+
+        {/* Show original content only after dawn animation */}
+        {!showDawnAnimation && (
+          <>
         {/* Animated background layers */}
         <motion.div
           className="fixed inset-0 z-0"
@@ -177,7 +321,11 @@ export default function PremiumLandingV3() {
         {/* Main content */}
         <div className="relative z-30">
           {/* Hero section */}
-          <section className="min-h-screen flex items-center justify-center px-6 py-24">
+          <section
+            ref={heroRef}
+            className="min-h-screen flex items-center justify-center px-6 py-24 cursor-none"
+            onMouseMove={handleMouseMove}
+          >
             <div className="max-w-4xl mx-auto text-center space-y-8">
 
               {/* Animated title */}
@@ -194,7 +342,7 @@ export default function PremiumLandingV3() {
                     transition={{ delay: 0.3, duration: 0.8 }}
                     className="block bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
                   >
-                    Secure your legacy
+                    {t('landing:hero.title')}
                   </motion.span>
                   <motion.span
                     initial={{ opacity: 0 }}
@@ -202,7 +350,7 @@ export default function PremiumLandingV3() {
                     transition={{ delay: 0.6, duration: 0.8 }}
                     className="block text-white"
                   >
-                    in one trusted place
+                    {t('landing:hero.subtitle')}
                   </motion.span>
                 </h1>
               </motion.div>
@@ -214,8 +362,7 @@ export default function PremiumLandingV3() {
                 transition={{ delay: 0.9, duration: 0.8 }}
                 className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed"
               >
-                Begin your journey with Sofia, your personal guide. Transform uncertainty
-                into peace of mind as you build a garden of protection for those you love.
+                {t('landing:hero.description')}
               </motion.p>
 
               {/* CTA Buttons */}
@@ -227,6 +374,8 @@ export default function PremiumLandingV3() {
               >
                 <button
                   onClick={handleStartJourney}
+                  onMouseEnter={handleCTAHover}
+                  onMouseLeave={handleCTALeave}
                   className="group relative px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 overflow-hidden"
                   style={{
                     background: `
@@ -244,7 +393,7 @@ export default function PremiumLandingV3() {
                   }}
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Start Your Journey
+                    {t('landing:hero.ctaStartJourney')}
                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                   </span>
 
@@ -265,7 +414,7 @@ export default function PremiumLandingV3() {
                     `
                   }}
                 >
-                  Learn More
+                  {t('landing:hero.ctaLearnMore')}
                 </button>
               </motion.div>
 
@@ -275,7 +424,13 @@ export default function PremiumLandingV3() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.5, x: 100 }}
                     animate={{ opacity: 1, scale: 1, x: 0 }}
-                    className="absolute top-20 right-10"
+                    className="absolute pointer-events-none"
+                    style={{
+                      x: fireflyX,
+                      y: fireflyY,
+                      left: isFireflyOnButton ? '50%' : '80%',
+                      top: isFireflyOnButton ? '70%' : '20%',
+                    }}
                   >
                     <SofiaFirefly
                       size="lg"
@@ -302,10 +457,10 @@ export default function PremiumLandingV3() {
                 className="text-center mb-16"
               >
                 <h2 className="text-4xl font-bold text-white mb-4">
-                  Your Path to Peace of Mind
+                  {t('landing:features.title')}
                 </h2>
                 <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-                  Three acts of your journey, each designed to transform uncertainty into confidence.
+                  {t('landing:features.subtitle')}
                 </p>
               </motion.div>
 
@@ -314,23 +469,23 @@ export default function PremiumLandingV3() {
                 {[
                   {
                     icon: Heart,
-                    title: 'Act I: The Invitation',
-                    subtitle: 'First 5 minutes',
-                    description: 'Meet Sofia and discover the Box of Certainty. Transform curiosity into trust as you begin your journey.',
+                    title: t('landing:features.act1.title'),
+                    subtitle: t('landing:features.act1.subtitle'),
+                    description: t('landing:features.act1.description'),
                     color: 'from-pink-500 to-rose-400'
                   },
                   {
                     icon: Shield,
-                    title: 'Act II: Building Your Fortress',
-                    subtitle: 'First week',
-                    description: 'Create your Circle of Trust and watch your Garden of Legacy bloom with each protective step.',
+                    title: t('landing:features.act2.title'),
+                    subtitle: t('landing:features.act2.subtitle'),
+                    description: t('landing:features.act2.description'),
                     color: 'from-blue-500 to-cyan-400'
                   },
                   {
                     icon: Sparkles,
-                    title: 'Act III: Your Eternal Legacy',
-                    subtitle: 'First month & beyond',
-                    description: 'Record your voice for the future and complete the ritual of protection. Your legacy is secure.',
+                    title: t('landing:features.act3.title'),
+                    subtitle: t('landing:features.act3.subtitle'),
+                    description: t('landing:features.act3.description'),
                     color: 'from-purple-500 to-violet-400'
                   }
                 ].map((feature, index) => (
@@ -398,6 +553,12 @@ export default function PremiumLandingV3() {
               </div>
             </div>
           </section>
+
+          {/* Security Promise Section */}
+          <SecurityPromiseSection />
+
+          {/* Pricing Section */}
+          <PricingSection />
         </div>
 
         {/* CSS for aurora animation */}
@@ -423,7 +584,8 @@ export default function PremiumLandingV3() {
             }
           `}
         </style>
+        </>
+      )}
       </div>
-    </PasswordWall>
   );
 }

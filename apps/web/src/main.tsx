@@ -10,8 +10,9 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { CriticalErrorBoundary } from '@/components/error';
 import { validateEnvironment, isProduction, checkRuntimeEnvironment } from '@/lib/env';
 import { initSentry, setupReactRouterIntegration } from '@/lib/sentry';
+import '@/i18n';
 import { isLandingEnabled } from '@/config/flags';
-import LandingV2 from '@/components/landing/LandingV2';
+import LandingPage from '@/components/landing/LightLandingPage';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
 import { OnboardingWrapper } from '@/components/onboarding/OnboardingWrapper';
@@ -62,7 +63,7 @@ if (rootEl) {
                     <Routes>
                       <Route path="/auth/signin" element={<SignIn />} />
                       <Route path="/auth/signup" element={<SignUp />} />
-                      {isLandingEnabled() && <Route path="/landing" element={<LandingV2 />} />}
+                      {isLandingEnabled() && <Route path="/landing" element={<LandingPage />} />}
 
                       <Route path="/onboarding" element={<Onboarding onComplete={() => window.location.assign('/dashboard')} />} />
 
@@ -90,7 +91,7 @@ if (rootEl) {
                         path="/"
                         element={
                           isLandingEnabled() ? (
-                            <LandingV2 />
+                            <LandingPage />
                           ) : (
                             <ProtectedRoute>
                               <Navigate to="/dashboard" replace />

@@ -50,7 +50,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './src') },
-      { find: '@/components/ui', replacement: path.resolve(__dirname, './src/components/ui/index') },
+      { find: '@/components/ui', replacement: path.resolve(__dirname, './src/components/ui') },
     ]
   },
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Onboarding from '@/pages/onboarding/Onboarding';
+import { features } from '@/lib/env';
 
 interface OnboardingWrapperProps {
   children: React.ReactNode;
@@ -10,7 +11,8 @@ const STORAGE_KEY = 'legacyguard.onboardingCompleted';
 
 export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
   const [showOnboarding, setShowOnboarding] = React.useState(() => {
-    return sessionStorage.getItem(STORAGE_KEY) !== 'true';
+    // Only show onboarding if the feature is enabled and not completed
+    return features.onboarding && sessionStorage.getItem(STORAGE_KEY) !== 'true';
   });
 
   const handleComplete = () => {

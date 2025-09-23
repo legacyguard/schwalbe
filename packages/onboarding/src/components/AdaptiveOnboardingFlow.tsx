@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { QuestionnaireResponse, Plan } from '../types';
 import { UserStateDetection } from './UserStateDetection';
 import { OnboardingQuestionnaire } from './OnboardingQuestionnaire';
-import { generatePlan } from '../index';
+import { generatePlan } from '../utils/questionnaire';
 import { OnboardingService } from '@schwalbe/shared';
 
 interface UserState {

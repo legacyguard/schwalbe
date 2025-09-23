@@ -4,6 +4,9 @@
     "outDir": "dist",
     "rootDir": "src",
     "jsx": "react-jsx",
+    "module": "ES2022",
+    "target": "ES2022",
+    "moduleResolution": "bundler",
     "esModuleInterop": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]

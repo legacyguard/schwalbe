@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { QuestionnaireResponse, OnboardingProgress, ONBOARDING_FLOW } from '../index';
+import type { QuestionnaireResponse, OnboardingProgress } from '../types';
+import { ONBOARDING_FLOW } from '../utils/questionnaire';
 
 interface OnboardingQuestionnaireProps {
   onComplete: (responses: QuestionnaireResponse) => void;

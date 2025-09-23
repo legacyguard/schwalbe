@@ -1,37 +1,7 @@
 import { QuestionnaireResponse, Plan, Persona, Milestone, OnboardingProgress } from './types';
-import { ONBOARDING_FLOW, generatePersona, generateMilestones } from './utils/questionnaire';
+import { ONBOARDING_FLOW, generatePersona, generateMilestones, generatePlan } from './utils/questionnaire';
 
-export { ONBOARDING_FLOW };
-
-export function generatePlan(responses: QuestionnaireResponse): Plan {
-  const persona = generatePersona(responses);
-  const milestones = generateMilestones(persona);
-
-  // Find the highest priority incomplete milestone as next best action
-  const nextBestAction = milestones
-    .filter(m => !m.completed)
-    .sort((a, b) => {
-      // Sort by priority first, then by estimated time
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
-      const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
-      if (priorityDiff !== 0) return priorityDiff;
-      return a.estimatedMinutes - b.estimatedMinutes;
-    })[0] || milestones[0];
-
-  const completionPercentage = Math.round(
-    (milestones.filter(m => m.completed).length / milestones.length) * 100
-  );
-
-  return {
-    id: `plan_${Date.now()}`,
-    persona,
-    milestones,
-    nextBestAction,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    completionPercentage
-  };
-}
+export { ONBOARDING_FLOW, generatePlan };
 
 export function calculateProgress(responses: QuestionnaireResponse): OnboardingProgress {
   const answeredQuestions = responses.answers.length;

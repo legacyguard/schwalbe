@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import * as OnboardingKit from '@schwalbe/onboarding';
+import { OnboardingQuestionnaire, OnboardingPlan, generatePlan } from '@schwalbe/onboarding';
 import type { Plan, QuestionnaireResponse } from '@schwalbe/onboarding';
-
-const { OnboardingQuestionnaire, OnboardingPlan, generatePlan } = OnboardingKit;
 import { useTranslation } from 'react-i18next';
 
 interface QuestionnaireProps {
