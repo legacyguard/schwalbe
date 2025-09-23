@@ -58,6 +58,8 @@ export default defineConfig({
   define: {
     // Ensure NODE_ENV is available in the app
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    // Fix CommonJS compatibility issues
+    'global': 'globalThis'
   },
 
   // Optimize dependencies
