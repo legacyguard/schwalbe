@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Onboarding from '@/pages/onboarding/Onboarding';
 
 interface OnboardingWrapperProps {

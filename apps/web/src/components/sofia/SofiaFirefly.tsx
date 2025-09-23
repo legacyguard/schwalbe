@@ -59,6 +59,7 @@ export function SofiaFirefly({
       const timer = setTimeout(() => setDialogVisible(false), 5000);
       return () => clearTimeout(timer);
     }
+    return undefined; // Explicit return for when condition is not met
   }, [showDialog, message]);
 
   // Floating animation variants

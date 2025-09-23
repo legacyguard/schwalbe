@@ -1,5 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+
 import { sendAnalytics } from '@/lib/analytics';
+import { reportError } from '@/lib/sentry';
 
 interface Props {
   children: ReactNode;
@@ -30,15 +32,19 @@ export class CriticalErrorBoundary extends Component<Props, State> {
     // Log critical error
     console.error('Critical Error Boundary caught an error:', error, errorInfo);
 
+    // Send to error monitoring (Sentry)
+    reportError(error, {
+      componentStack: errorInfo.componentStack,
+      errorBoundary: 'CriticalErrorBoundary',
+      timestamp: new Date().toISOString(),
+    });
+
     // Send analytics event
     sendAnalytics('critical_error', {
       message: error.message,
       stack: error.stack,
       componentStack: errorInfo.componentStack,
     });
-
-    // TODO: Send to error monitoring service (e.g., Sentry replacement)
-    // This would integrate with the monitoring service
   }
 
   override render() {

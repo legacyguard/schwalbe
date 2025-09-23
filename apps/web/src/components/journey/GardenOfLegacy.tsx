@@ -130,7 +130,7 @@ export function GardenOfLegacy({
         </AnimatePresence>
 
         {/* Connecting roots/branches */}
-        {milestone.completed && renderConnections(milestone, milestones)}
+        {milestone.completed && renderConnections()}
       </motion.div>
     );
   };
@@ -292,7 +292,7 @@ export function GardenOfLegacy({
     }
   };
 
-  const renderConnections = (milestone: Milestone, allMilestones: Milestone[]) => {
+  const renderConnections = () => {
     // Simple connection lines between related milestones
     return null; // Implement if needed
   };

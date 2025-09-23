@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Key, Package, Sparkles, ArrowRight } from 'lucide-react';
 import { SofiaFirefly } from '../sofia/SofiaFirefly';
+
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';

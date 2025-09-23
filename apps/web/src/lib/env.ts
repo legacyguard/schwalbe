@@ -13,6 +13,9 @@ export const env = {
   VITE_SOFIA_AI_BASE_URL: import.meta.env.VITE_SOFIA_AI_BASE_URL ?? '',
   VITE_SOFIA_AI_API_KEY: import.meta.env.VITE_SOFIA_AI_API_KEY ?? '',
 
+  // Sentry
+  VITE_SENTRY_DSN: import.meta.env.VITE_SENTRY_DSN ?? '',
+
   // Google Analytics
   VITE_GA_TRACKING_ID: import.meta.env.VITE_GA_TRACKING_ID ?? '',
 
@@ -50,6 +53,9 @@ export const config = {
     baseUrl: env.VITE_SOFIA_AI_BASE_URL,
     apiKey: env.VITE_SOFIA_AI_API_KEY
   },
+  sentry: {
+    dsn: env.VITE_SENTRY_DSN
+  },
   analytics: {
     gaTrackingId: env.VITE_GA_TRACKING_ID
   },
@@ -57,13 +63,17 @@ export const config = {
 };
 
 // Environment validation
-export function validateEnvironment(): { isValid: boolean; missing: string[] } {
+export function validateEnvironment(): { isValid: boolean; missing: string[]; warnings: string[] } {
   const required = [
     'VITE_SUPABASE_URL',
     'VITE_SUPABASE_ANON_KEY',
+    'VITE_API_URL'
+  ];
+
+  const recommended = [
     'VITE_STRIPE_PUBLISHABLE_KEY',
-    'VITE_API_URL',
     'VITE_SOFIA_AI_BASE_URL',
+    'VITE_SENTRY_DSN',
     'VITE_GA_TRACKING_ID'
   ];
 
@@ -72,8 +82,39 @@ export function validateEnvironment(): { isValid: boolean; missing: string[] } {
     return !value || value.trim() === '';
   });
 
+  const warnings = recommended.filter(key => {
+    const value = env[key as keyof typeof env];
+    return !value || value.trim() === '';
+  });
+
   return {
     isValid: missing.length === 0,
-    missing
+    missing,
+    warnings
   };
+}
+
+// Runtime environment checks
+export function checkRuntimeEnvironment(): void {
+  const validation = validateEnvironment();
+
+  if (!validation.isValid) {
+    console.error('Missing required environment variables:', validation.missing);
+    if (isProduction) {
+      throw new Error(`Production deployment failed: Missing required environment variables: ${validation.missing.join(', ')}`);
+    }
+  }
+
+  if (validation.warnings.length > 0) {
+    console.warn('Missing recommended environment variables:', validation.warnings);
+  }
+
+  // Additional runtime checks
+  if (config.supabase.url && !config.supabase.url.startsWith('https://')) {
+    console.warn('Supabase URL should use HTTPS in production');
+  }
+
+  if (isProduction && !config.sentry.dsn) {
+    console.warn('Sentry DSN not configured - error monitoring disabled');
+  }
 }

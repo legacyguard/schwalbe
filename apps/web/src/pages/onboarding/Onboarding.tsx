@@ -1,12 +1,12 @@
 import React from 'react';
 import type { Plan } from '@schwalbe/onboarding';
 import { OnboardingService } from '@schwalbe/shared';
+import Questionnaire from './Questionnaire';
+import IDScan from './IDScan';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-import Questionnaire from './Questionnaire';
-import IDScan from './IDScan';
 
 interface OnboardingProps {
   onComplete?: () => void;

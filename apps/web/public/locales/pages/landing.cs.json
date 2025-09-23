@@ -37,5 +37,39 @@
       "title": "Plánování dědictví jednoduše",
       "description": "Průvodce krok za krokem pro závěti, trusty a plánování majetku, které skutečně dává smysl."
     }
+  },
+  "demo": {
+    "banner": "🚧 Demo Mode - Configure environment variables for full functionality"
+  },
+  "value": {
+    "title": "Protect Your Family's Future",
+    "description": "From wills and estate planning to emergency contacts and digital assets, LegacyGuard provides comprehensive protection with gentle, step-by-step guidance.",
+    "features": {
+      "documents": {
+        "title": "Document Management",
+        "description": "Securely store and organize all important family documents"
+      },
+      "access": {
+        "title": "Family Access Control",
+        "description": "Manage who can access documents in emergencies"
+      },
+      "platform": {
+        "title": "Cross-Platform",
+        "description": "Access your documents from web and mobile devices"
+      },
+      "guided": {
+        "title": "Guided Workflows",
+        "description": "Step-by-step guidance for complex legal processes"
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to Secure Your Legacy?",
+    "description": "Join thousands of families who trust LegacyGuard to protect their most important documents.",
+    "button": "Start Free Trial",
+    "disclaimer": "No credit card required • 14-day free trial"
+  },
+  "footer": {
+    "copyright": "© 2024 LegacyGuard. Protecting families, preserving legacies."
   }
 }

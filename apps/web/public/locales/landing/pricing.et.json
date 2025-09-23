@@ -3,7 +3,7 @@
     "free": {
       "name": "Forever Free",
       "price": "€0",
-      "badge": "",
+      "badge": "Free Forever",
       "description": "The perfect starting point, powered by our mobile app.",
       "features": [
         {
@@ -24,7 +24,7 @@
         }
       ],
       "cta": "Start with the Free App",
-      "period": ""
+      "period": "forever"
     },
     "premium": {
       "name": "Legacy Premium",
@@ -59,7 +59,7 @@
     "family": {
       "name": "Family Premium",
       "price": "€14.99",
-      "badge": "",
+      "badge": "Best Value",
       "description": "The ultimate solution for protecting your entire family circle.",
       "features": [
         {
@@ -86,5 +86,10 @@
       "cta": "Protect Your Entire Family",
       "period": "month"
     }
+  },
+  "policy": {
+    "cancel_anytime": "Cancel anytime",
+    "trial": "Free trial available",
+    "grace": "Grace period applies"
   }
 }

@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Star, Heart, Shield, Sparkles, Check, Crown, Gift } from 'lucide-react';
 import { SofiaFirefly } from '../sofia/SofiaFirefly';
+
 import { Button } from '@/components/ui/button';
 
 interface Milestone {

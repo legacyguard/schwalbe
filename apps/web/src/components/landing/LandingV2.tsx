@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { sendAnalytics } from '@/lib/analytics';
 import { PasswordWall } from '@/components/auth/PasswordWall';
 

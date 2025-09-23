@@ -5,8 +5,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Shield, Heart, Clock, Sparkles } from 'lucide-react';
+import { ArrowRight, Shield, Heart, Sparkles } from 'lucide-react';
 import { SofiaFirefly } from '../sofia/SofiaFirefly';
+
 import { sendAnalytics } from '@/lib/analytics';
 import { PasswordWall } from '@/components/auth/PasswordWall';
 
@@ -400,26 +401,28 @@ export default function PremiumLandingV3() {
         </div>
 
         {/* CSS for aurora animation */}
-        <style jsx>{`
-          @keyframes aurora {
-            0%, 100% {
-              transform: translateX(-50px) translateY(-10px) scale(1);
-              opacity: 0.3;
+        <style>
+          {`
+            @keyframes aurora {
+              0%, 100% {
+                transform: translateX(-50px) translateY(-10px) scale(1);
+                opacity: 0.3;
+              }
+              25% {
+                transform: translateX(-30px) translateY(-15px) scale(1.1);
+                opacity: 0.5;
+              }
+              50% {
+                transform: translateX(-10px) translateY(-5px) scale(0.9);
+                opacity: 0.3;
+              }
+              75% {
+                transform: translateX(-40px) translateY(-20px) scale(1.05);
+                opacity: 0.4;
+              }
             }
-            25% {
-              transform: translateX(-30px) translateY(-15px) scale(1.1);
-              opacity: 0.5;
-            }
-            50% {
-              transform: translateX(-10px) translateY(-5px) scale(0.9);
-              opacity: 0.3;
-            }
-            75% {
-              transform: translateX(-40px) translateY(-20px) scale(1.05);
-              opacity: 0.4;
-            }
-          }
-        `}</style>
+          `}
+        </style>
       </div>
     </PasswordWall>
   );

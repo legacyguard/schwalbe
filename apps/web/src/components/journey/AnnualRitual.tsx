@@ -4,27 +4,21 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Calendar,
   Heart,
   Star,
   Crown,
   Sparkles,
-  Clock,
   Users,
   Shield,
   Gift,
-  Camera,
-  Mic,
-  FileText,
   Award,
-  Sunset,
-  Mountain,
   TreePine
 } from 'lucide-react';
 import { SofiaFirefly } from '../sofia/SofiaFirefly';
-import { GardenOfLegacy } from '../journey/GardenOfLegacy';
+
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -66,7 +60,6 @@ type RitualPhase = 'welcome' | 'review' | 'reflection' | 'commitment' | 'ceremon
 
 export function AnnualRitual({
   currentYear,
-  previousReflections = [],
   currentStats,
   onComplete,
   onCancel,
@@ -91,9 +84,6 @@ export function AnnualRitual({
     ceremonyDate: new Date()
   });
 
-  const [currentStage, setCurrentStage] = useState(0);
-  const [showStats, setShowStats] = useState(false);
-
   const liquidGlassStyle = {
     background: `
       linear-gradient(135deg,
@@ -117,17 +107,7 @@ export function AnnualRitual({
     return 'seedling';
   };
 
-  const getPhaseIcon = () => {
-    switch (phase) {
-      case 'welcome': return Calendar;
-      case 'review': return Star;
-      case 'reflection': return Heart;
-      case 'commitment': return Crown;
-      case 'ceremony': return Sparkles;
-      case 'celebration': return Gift;
-      default: return Calendar;
-    }
-  };
+
 
   const getSofiaMessage = () => {
     switch (phase) {
@@ -159,7 +139,10 @@ export function AnnualRitual({
     const phases: RitualPhase[] = ['welcome', 'review', 'reflection', 'commitment', 'ceremony', 'celebration'];
     const currentIndex = phases.indexOf(phase);
     if (currentIndex < phases.length - 1) {
-      setPhase(phases[currentIndex + 1]);
+      const nextPhase = phases[currentIndex + 1];
+      if (nextPhase) {
+        setPhase(nextPhase);
+      }
     }
   };
 
@@ -285,7 +268,9 @@ export function AnnualRitual({
                     className="w-20 h-20 rounded-2xl mx-auto flex items-center justify-center mb-3"
                     style={{
                       background: `linear-gradient(135deg, ${stat.color})`,
-                      ...liquidGlassStyle
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      boxShadow: `0 25px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)`
                     }}
                   >
                     <stat.icon size={28} className="text-white" />

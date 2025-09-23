@@ -3,12 +3,18 @@ Allow: /
 
 # Disallow access to sensitive areas
 Disallow: /auth/
-Disallow: /share/
-Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /onboarding/
+Disallow: /documents/
+Disallow: /api/
+Disallow: /assets/
 
 # Allow access to public content
 Allow: /support
 Allow: /
 
 # Sitemap
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://legacyguard.com/sitemap.xml
+
+# Crawl delay for better server performance
+Crawl-delay: 1

@@ -3,6 +3,7 @@
  * Integrates with Google Analytics using react-ga4
  */
 import ReactGA from 'react-ga4';
+
 import { config, isProduction } from '@/lib/env';
 
 // NOTE: This implementation requires adding the `react-ga4` package.

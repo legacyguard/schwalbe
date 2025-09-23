@@ -8,7 +8,8 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { AppShell } from '@/components/layout/AppShell';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { CriticalErrorBoundary } from '@/components/error';
-import { validateEnvironment, isProduction } from '@/lib/env';
+import { validateEnvironment, isProduction, checkRuntimeEnvironment } from '@/lib/env';
+import { initSentry, setupReactRouterIntegration } from '@/lib/sentry';
 import { isLandingEnabled } from '@/config/flags';
 import LandingV2 from '@/components/landing/LandingV2';
 import SignIn from '@/pages/auth/SignIn';
@@ -16,13 +17,34 @@ import SignUp from '@/pages/auth/SignUp';
 import { OnboardingWrapper } from '@/components/onboarding/OnboardingWrapper';
 import Dashboard from '@/pages/Dashboard';
 import Onboarding from '@/pages/onboarding/Onboarding';
+import NotFound from '@/pages/NotFound';
 import './styles.css';
 
 const DocumentRoutes = React.lazy(() => import('@/features/documents/routes/DocumentRoutes'));
 
+// Initialize error monitoring and environment checks
+initSentry();
+setupReactRouterIntegration();
+
 const rootEl = document.getElementById('root');
 
 // Validate environment variables
+try {
+  checkRuntimeEnvironment();
+} catch (error) {
+  console.error('Environment validation failed:', error);
+  if (rootEl && isProduction) {
+    rootEl.innerHTML = `
+      <div style="font-family: sans-serif; padding: 2rem; text-align: center; background: #fee; color: #c00;">
+        <h1>Configuration Error</h1>
+        <p>The application cannot start due to missing configuration.</p>
+        <p>Please contact support if this issue persists.</p>
+      </div>
+    `;
+  }
+  throw error;
+}
+
 const envValidation = validateEnvironment();
 
 if (rootEl) {
@@ -91,7 +113,7 @@ if (rootEl) {
                         }
                       />
 
-                      <Route path="*" element={<Navigate to="/" replace />} />
+                      <Route path="*" element={<NotFound />} />
                     </Routes>
                   </AppShell>
                 </OnboardingWrapper>

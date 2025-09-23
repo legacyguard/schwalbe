@@ -6,25 +6,23 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Shield,
-  Heart,
   FileText,
-  Users,
   Clock,
   Star,
   Sparkles,
   ArrowRight,
   Play,
-  Plus,
   Crown,
   Gift
 } from 'lucide-react';
 import { GardenOfLegacy, GuardianMilestones } from '../journey/GardenOfLegacy';
 import { SofiaFirefly } from '../sofia/SofiaFirefly';
 import { MilestoneCelebration, useMilestoneCelebration } from '../journey/MilestoneCelebration';
+
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { formatRelativeTime } from '@/lib/utils';
 
 interface DashboardData {
   protectionScore: number;
@@ -52,7 +50,7 @@ interface Activity {
   description: string;
   timestamp: Date;
   type: 'milestone' | 'document' | 'guardian' | 'capsule';
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<any>;
 }
 
 interface Milestone {
@@ -81,13 +79,11 @@ export function ProgressiveDashboard({
   });
 
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
-  const [showGarden, setShowGarden] = useState(true);
-  const [sofiaMessage, setSofiaMessage] = useState('');
+  const [sofiaMessage, setSofiaMessage] = useState<string>('');
 
   const {
     activeMilestone,
     isVisible: celebrationVisible,
-    celebrateMilestone,
     handleCelebrationComplete,
     handleContinue
   } = useMilestoneCelebration();
@@ -170,7 +166,10 @@ export function ProgressiveDashboard({
       "Your loved ones will be so grateful for the protection you're building."
     ];
 
-    setSofiaMessage(messages[Math.floor(Math.random() * messages.length)]);
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    if (randomMessage) {
+      setSofiaMessage(randomMessage);
+    }
   }, [dashboardData.protectionScore]);
 
   const liquidGlassStyle = {
@@ -490,8 +489,7 @@ export function ProgressiveDashboard({
                           {activity.description}
                         </p>
                         <p className="text-xs text-slate-500 mt-1">
-                          {activity.timestamp.toRelativeString?.() ||
-                           `${Math.floor((Date.now() - activity.timestamp.getTime()) / (1000 * 60 * 60))}h ago`}
+                          {formatRelativeTime(activity.timestamp)}
                         </p>
                       </div>
                     </div>
@@ -519,19 +517,24 @@ export function ProgressiveDashboard({
         onInteraction={() => {
           // Show next challenge or guidance
           if (dashboardData.currentChallenges.length > 0) {
-            dashboardData.currentChallenges[0].action();
+            const firstChallenge = dashboardData.currentChallenges[0];
+            if (firstChallenge) {
+              firstChallenge.action();
+            }
           }
         }}
         className="fixed z-30"
       />
 
       {/* Milestone celebration */}
-      <MilestoneCelebration
-        milestone={activeMilestone!}
-        isVisible={celebrationVisible}
-        onCelebrationComplete={handleCelebrationComplete}
-        onContinue={handleContinue}
-      />
+      {activeMilestone && (
+        <MilestoneCelebration
+          milestone={activeMilestone}
+          isVisible={celebrationVisible}
+          onCelebrationComplete={handleCelebrationComplete}
+          onContinue={handleContinue}
+        />
+      )}
 
       {/* Challenge detail modal */}
       <AnimatePresence>

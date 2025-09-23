@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+
 import { config, isProduction } from '@/lib/env';
 
 type AuthStub = {

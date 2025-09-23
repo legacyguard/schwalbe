@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Mic,
   MicOff,
@@ -14,21 +14,18 @@ import {
   Save,
   Trash2,
   Heart,
-  Clock,
-  Camera,
   Video,
   FileText,
   Lock,
   Unlock,
-  Calendar,
-  Users
+  Camera
 } from 'lucide-react';
 import { SofiaFirefly } from '../sofia/SofiaFirefly';
+
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface TimeCapsuleData {
   id?: string;

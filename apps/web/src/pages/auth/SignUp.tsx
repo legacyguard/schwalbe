@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '@schwalbe/shared';
 import { logger } from '@schwalbe/shared/lib/logger';
+
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

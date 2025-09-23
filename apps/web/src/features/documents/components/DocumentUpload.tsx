@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { uploadDocumentAndAnalyze } from '../api/documentApi';
 
 import { Button } from '@/components/ui/button';
-import { uploadDocumentAndAnalyze } from '../api/documentApi';
 
 export function DocumentUpload() {
   const [file, setFile] = React.useState<File | null>(null);
