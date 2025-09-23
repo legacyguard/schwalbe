@@ -14,6 +14,7 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV !== 'production',
     rollupOptions: {
       output: {
+        format: 'es',
         manualChunks: {
           // Vendor chunk for better caching
           vendor: ['react', 'react-dom', 'react-router-dom'],
@@ -29,7 +30,7 @@ export default defineConfig({
       },
     },
     // Increase chunk size warning limit for better performance
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1000
   },
 
   // Development server configuration
