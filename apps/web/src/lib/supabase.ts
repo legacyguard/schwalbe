@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { config } from '@/lib/env';
+import { config, isProduction } from '@/lib/env';
 
 type AuthStub = {
   getUser: () => Promise<{ data: { user: null }; error: null }>;
@@ -43,6 +43,8 @@ function createStubClient(): SupabaseStub {
 
 let client: SupabaseClient | SupabaseStub;
 
+// The validation in main.tsx ensures these values are present in production.
+// The stub is now only used for development environments if credentials are missing.
 if (config.supabase.url && config.supabase.anonKey) {
   client = createClient(config.supabase.url, config.supabase.anonKey, {
     auth: {
@@ -52,6 +54,10 @@ if (config.supabase.url && config.supabase.anonKey) {
     }
   });
 } else {
+  if (isProduction) {
+    // This should not happen due to the validation in main.tsx, but as a safeguard:
+    throw new Error('Supabase configuration is missing in production.');
+  }
   client = createStubClient();
 }
 

@@ -159,27 +159,27 @@ export class SofiaRouter {
       // Family Protection FAQ
       {
         id: 'family_protection_intro',
-        keywords: ['rodinná ochrana', 'family protection', 'čo je', 'what is', 'ako funguje'],
-        patterns: [/^(čo|what|ako|how).*(rodin|family).*(ochran|protect)/i],
-        response: 'Rodinná ochrana je digitálny systém, ktorý zabezpečuje vaše dôležité dokumenty a informácie pre budúce generácie. Pomáha vám organizovať závet, poistky, dokumenty a kontakty v prípade núdze.',
+        keywords: ['family protection', 'what is', 'how works', 'protection system'],
+        patterns: [/^(what|how).*(family).*(protect)/i],
+        response: 'Family protection is a digital system that secures your important documents and information for future generations. It helps you organize wills, insurance policies, documents, and emergency contacts.',
         actions: [
-          { type: 'navigate', label: 'Začať s ochranou', action: '/onboarding', icon: '🛡️' },
-          { type: 'help', label: 'Pozrieť video návod', action: 'show_tutorial', icon: '📹' }
+          { type: 'navigate', label: 'Start Protection Setup', action: '/onboarding', icon: '🛡️' },
+          { type: 'help', label: 'Watch Tutorial', action: 'show_tutorial', icon: '📹' }
         ],
         confidence: 0.9,
         category: 'basic_info',
-        variations: ['ako funguje rodinná ochrana', 'na čo je rodinná ochrana']
+        variations: ['how does family protection work', 'what is family protection for']
       },
 
       // Document Management
       {
         id: 'add_document',
-        keywords: ['pridať dokument', 'add document', 'nahrať', 'upload', 'nový dokument'],
-        patterns: [/^(ako|how).*(prida|add|nahra|upload).*(dokument|document)/i],
-        response: 'Dokumenty môžete pridať dvoma spôsobmi: 1) Kliknite na "Pridať dokument" a nahrajte súbor, alebo 2) Použite Gmail import pre automatické nájdenie dokumentov v emailoch.',
+        keywords: ['add document', 'upload', 'new document', 'document management'],
+        patterns: [/^(how).*(add|upload).*(document)/i],
+        response: 'You can add documents in two ways: 1) Click "Add Document" and upload a file, or 2) Use Gmail import to automatically find documents in your emails.',
         actions: [
-          { type: 'navigate', label: 'Pridať dokument', action: '/documents/add', icon: '📄' },
-          { type: 'execute', label: 'Gmail import', action: 'open_gmail_import', icon: '📧' }
+          { type: 'navigate', label: 'Add Document', action: '/documents/add', icon: '📄' },
+          { type: 'execute', label: 'Gmail Import', action: 'open_gmail_import', icon: '📧' }
         ],
         confidence: 0.95,
         category: 'document_management'
@@ -188,12 +188,12 @@ export class SofiaRouter {
       // Guardian Management
       {
         id: 'add_guardian',
-        keywords: ['opatrovník', 'guardian', 'pridať', 'pozvať', 'invite'],
-        patterns: [/^(ako|how).*(prida|add|pozva|invite).*(opatrovnik|guardian)/i],
-        response: 'Opatrovníci sú ľudia, ktorí môžu pristupovať k vašim informáciám v núdzových situáciách. Môžete ich pozvať cez "Správa rodiny" a nastaviť im konkrétne oprávnenia.',
+        keywords: ['guardian', 'add', 'invite', 'family member'],
+        patterns: [/^(how).*(add|invite).*(guardian)/i],
+        response: 'Guardians are people who can access your information in emergency situations. You can invite them through "Family Management" and set specific permissions for them.',
         actions: [
-          { type: 'navigate', label: 'Pozvať opatrovníka', action: '/family/invite', icon: '👥' },
-          { type: 'navigate', label: 'Správa rodiny', action: '/family', icon: '🏠' }
+          { type: 'navigate', label: 'Invite Guardian', action: '/family/invite', icon: '👥' },
+          { type: 'navigate', label: 'Family Management', action: '/family', icon: '🏠' }
         ],
         confidence: 0.9,
         category: 'family_management'
@@ -202,12 +202,12 @@ export class SofiaRouter {
       // Emergency Situations
       {
         id: 'emergency_help',
-        keywords: ['núdza', 'emergency', 'pomoc', 'help', 'číslo', 'kontakt'],
-        patterns: [/^(núdz|emergency|pomoc|help)/i],
-        response: 'V núdzových situáciách môžete aktivovať núdzový protokol alebo kontaktovať miestne núdzové služby. Váš systém je pripravený poskytnúť potrebné informácie oprávneným osobám.',
+        keywords: ['emergency', 'help', 'urgent', 'contact', 'crisis'],
+        patterns: [/^(emergency|help|urgent)/i],
+        response: 'In emergency situations, you can activate the emergency protocol or contact local emergency services. Your system is ready to provide necessary information to authorized persons.',
         actions: [
-          { type: 'execute', label: 'Aktivovať núdzový protokol', action: 'activate_emergency', icon: '🚨' },
-          { type: 'execute', label: 'Zobraziť núdzové kontakty', action: 'show_emergency_contacts', icon: '📞' }
+          { type: 'execute', label: 'Activate Emergency Protocol', action: 'activate_emergency', icon: '🚨' },
+          { type: 'execute', label: 'Show Emergency Contacts', action: 'show_emergency_contacts', icon: '📞' }
         ],
         confidence: 0.95,
         category: 'emergency'
@@ -216,12 +216,12 @@ export class SofiaRouter {
       // Security and Privacy
       {
         id: 'security_privacy',
-        keywords: ['bezpečnosť', 'security', 'súkromie', 'privacy', 'šifrovanie', 'encryption'],
-        patterns: [/^(ako|how).*(bezpeč|secur|súkrom|privac|šifr|encrypt)/i],
-        response: 'Všetky vaše údaje sú šifrované pomocou najmodernejších bezpečnostných štandardov. Používame end-to-end šifrovanie a dodržiavame GDPR a miestne zákony o ochrane osobných údajov.',
+        keywords: ['security', 'privacy', 'encryption', 'data protection'],
+        patterns: [/^(how).*(secur|privac|encrypt)/i],
+        response: 'All your data is encrypted using state-of-the-art security standards. We use end-to-end encryption and comply with GDPR and local data protection laws.',
         actions: [
-          { type: 'navigate', label: 'Bezpečnostné nastavenia', action: '/settings/security', icon: '🔒' },
-          { type: 'help', label: 'Technické detaily', action: 'show_security_details', icon: '🛡️' }
+          { type: 'navigate', label: 'Security Settings', action: '/settings/security', icon: '🔒' },
+          { type: 'help', label: 'Technical Details', action: 'show_security_details', icon: '🛡️' }
         ],
         confidence: 0.85,
         category: 'security'
@@ -230,12 +230,12 @@ export class SofiaRouter {
       // Pricing and Plans
       {
         id: 'pricing_plans',
-        keywords: ['cena', 'price', 'plán', 'plan', 'predplatné', 'subscription', 'koľko'],
-        patterns: [/^(koľko|how\s+much|aká\s+cena|what.*cost|price|pricing)/i],
-        response: 'Ponúkame flexibilné cenové plány prispôsobené vašim potrebám. Základný plán je zadarmo a pokrýva základnú ochranu pre malé rodiny. Premium plány obsahujú pokročilé funkcie.',
+        keywords: ['price', 'plan', 'subscription', 'cost', 'how much'],
+        patterns: [/^(how\s+much|what.*cost|price|pricing)/i],
+        response: 'We offer flexible pricing plans tailored to your needs. The basic plan is free and covers essential protection for small families. Premium plans include advanced features.',
         actions: [
-          { type: 'navigate', label: 'Pozrieť cenníky', action: '/pricing', icon: '💰' },
-          { type: 'execute', label: 'Upgrade na Premium', action: 'show_upgrade_dialog', icon: '⭐' }
+          { type: 'navigate', label: 'View Pricing', action: '/pricing', icon: '💰' },
+          { type: 'execute', label: 'Upgrade to Premium', action: 'show_upgrade_dialog', icon: '⭐' }
         ],
         confidence: 0.9,
         category: 'pricing'
@@ -244,12 +244,12 @@ export class SofiaRouter {
       // Legal and Compliance
       {
         id: 'legal_questions',
-        keywords: ['zákon', 'legal', 'právo', 'law', 'súd', 'court', 'závet', 'will'],
-        patterns: [/^(je\s+to|is.*legal|zákon|legal|práv|law)/i],
-        response: 'Náš systém je v súlade s miestnymi zákonmi a medzinárodnými štandardmi. Dokumenty sú právne platné a môžu byť použité v úradných konaniach. Odporúčame konzultáciu s právnikom pre komplexné prípady.',
+        keywords: ['legal', 'law', 'court', 'will', 'testament', 'compliance'],
+        patterns: [/^(is.*legal|legal|law)/i],
+        response: 'Our system complies with local laws and international standards. Documents are legally valid and can be used in official proceedings. We recommend consulting with a lawyer for complex cases.',
         actions: [
-          { type: 'navigate', label: 'Právne informácie', action: '/legal', icon: '⚖️' },
-          { type: 'execute', label: 'Kontaktovať právnika', action: 'find_lawyer', icon: '👨‍💼' }
+          { type: 'navigate', label: 'Legal Information', action: '/legal', icon: '⚖️' },
+          { type: 'execute', label: 'Find Lawyer', action: 'find_lawyer', icon: '👨‍💼' }
         ],
         confidence: 0.8,
         category: 'legal'
@@ -264,27 +264,27 @@ export class SofiaRouter {
     const message = request.message.toLowerCase();
 
     // Navigation intents
-    if (message.includes('chcem') || message.includes('want to') || message.includes('potrebujem')) {
+    if (message.includes('want to') || message.includes('need to') || message.includes('i want')) {
       const actions: SofiaAction[] = [];
 
-      if (message.includes('pridať') || message.includes('add')) {
+      if (message.includes('add')) {
         actions.push(
-          { type: 'navigate', label: 'Pridať dokument', action: '/documents/add', icon: '📄' },
-          { type: 'navigate', label: 'Pozvať člena rodiny', action: '/family/invite', icon: '👥' }
+          { type: 'navigate', label: 'Add Document', action: '/documents/add', icon: '📄' },
+          { type: 'navigate', label: 'Invite Family Member', action: '/family/invite', icon: '👥' }
         );
       }
 
-      if (message.includes('pozrieť') || message.includes('view') || message.includes('zobraziť')) {
+      if (message.includes('view') || message.includes('see') || message.includes('show')) {
         actions.push(
-          { type: 'navigate', label: 'Moje dokumenty', action: '/documents', icon: '📁' },
-          { type: 'navigate', label: 'Rodinný prehľad', action: '/family', icon: '🏠' },
-          { type: 'navigate', label: 'Štatistiky', action: '/analytics', icon: '📊' }
+          { type: 'navigate', label: 'My Documents', action: '/documents', icon: '📁' },
+          { type: 'navigate', label: 'Family Overview', action: '/family', icon: '🏠' },
+          { type: 'navigate', label: 'Analytics', action: '/analytics', icon: '📊' }
         );
       }
 
       if (actions.length > 0) {
         return {
-          content: 'Vyberiem pre vás najčastejšie akcie. Môžete kliknúť na tlačidlo alebo mi napísať presnejšie, čo potrebujete.',
+          content: 'Here are the most common actions you might want to take. You can click a button or tell me more specifically what you need.',
           type: 'free',
           cost: 0,
           confidence: 0.8,
@@ -386,7 +386,7 @@ export class SofiaRouter {
       const data = await response.json();
 
       return {
-        content: data.response || 'Bohužiaľ, nemôžem na túto otázku odpovedať. Skúste to presnejšie formulovať.',
+        content: data.response || 'Sorry, I cannot answer this question. Please try formulating it more specifically.',
         type: 'low_cost',
         cost: this.calculateCost(data.tokens_used || 150, 'gpt-3.5-turbo'),
         confidence: data.confidence || 0.6,
@@ -432,7 +432,7 @@ export class SofiaRouter {
       const data = await response.json();
 
       return {
-        content: data.response || 'Ospravedlňujem sa, momentálne nemôžem spracovať vašu požiadavku. Skúste to prosím neskôr.',
+        content: data.response || 'I apologize, I cannot process your request at the moment. Please try again later.',
         type: 'premium',
         cost: this.calculateCost(data.tokens_used || maxTokens, model),
         confidence: data.confidence || 0.8,
@@ -448,14 +448,14 @@ export class SofiaRouter {
 
       // Fallback response
       return {
-        content: 'Prepáčte, momentálne máme technické problémy. Môžete skúsiť použiť jednu z predvolených akcií alebo sa ozvať neskôr.',
+        content: 'Sorry, we are experiencing technical issues. You can try using one of the default actions or contact us later.',
         type: 'free',
         cost: 0,
         confidence: 0.3,
         source: 'ai_generation',
         actions: [
-          { type: 'navigate', label: 'Domov', action: '/', icon: '🏠' },
-          { type: 'help', label: 'Pomoc', action: 'show_help', icon: '❓' }
+          { type: 'navigate', label: 'Home', action: '/', icon: '🏠' },
+          { type: 'help', label: 'Help', action: 'show_help', icon: '❓' }
         ],
         metadata: { processing_time: 0 }
       };

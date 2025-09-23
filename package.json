@@ -56,6 +56,7 @@
     "observability:dashboard:prod": "npx tsx scripts/observability-dashboard.ts --environment=production",
     "i18n:validate": "npx tsx scripts/i18n-validate.ts",
     "i18n:coverage": "npx tsx scripts/i18n-validate.ts --coverage-only",
+    "i18n:validate-mobile": "node scripts/validate-mobile-i18n.mjs",
     "test:coverage": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test:coverage",
     "test:e2e:ci": "NODE_OPTIONS=--max-old-space-size=8192 turbo run test:e2e:ci",
     "test:performance": "lighthouse http://localhost:3000 --output=json --output-path=./reports/lighthouse.json"

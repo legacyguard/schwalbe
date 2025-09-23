@@ -39,7 +39,7 @@ export default function HomeScreen() {
   const [currentAchievement, setCurrentAchievement] = useState<Achievement | null>(null);
   const { user } = useAuthStore();
   const { triggerEncouragement, triggerSuccess } = useHapticFeedback();
-  const { t } = useTranslation('screens');
+  const { t } = useTranslation(['screens', 'common']);
 
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guardian';
 
@@ -68,10 +68,10 @@ export default function HomeScreen() {
   const triggerSampleAchievement = () => {
     const achievement: Achievement = {
       id: 'daily_check',
-      title: 'Daily Guardian',
-      description: 'You checked on your family\'s protection today. Your dedication shows real love.',
+      title: t('screens.home.achievements.dailyCheck.title'),
+      description: t('screens.home.achievements.dailyCheck.description'),
       icon: '🛡️',
-      shareText: 'I\'m protecting my family\'s future with LegacyGuard!',
+      shareText: t('screens.home.achievements.dailyCheck.shareText'),
       unlockedAt: new Date(),
     };
 
@@ -80,16 +80,16 @@ export default function HomeScreen() {
   };
 
   const statsData = [
-    { label: 'Seeds of Protection', value: '12', icon: FileText, color: '$legacyAccentGold' },
-    { label: 'Guardian Circle', value: '3', icon: Shield, color: '$legacySuccess' },
-    { label: 'Family Hearts', value: '4', icon: Users, color: '$legacyAccentGoldLight' },
-    { label: 'Growth This Month', value: '+15%', icon: TrendingUp, color: '$legacyWarning' },
+    { label: t('screens.home.stats.seedsOfProtection'), value: '12', icon: FileText, color: '$legacyAccentGold' },
+    { label: t('screens.home.stats.guardianCircle'), value: '3', icon: Shield, color: '$legacySuccess' },
+    { label: t('screens.home.stats.familyHearts'), value: '4', icon: Users, color: '$legacyAccentGoldLight' },
+    { label: t('screens.home.stats.growthThisMonth'), value: '+15%', icon: TrendingUp, color: '$legacyWarning' },
   ];
 
   const recentActivity = [
-    { title: '🌱 Will document planted in your garden', time: '2 hours ago', type: 'document' },
-    { title: '💝 New guardian joined your circle', time: '1 day ago', type: 'family' },
-    { title: '🛡️ Protection shield strengthened', time: '3 days ago', type: 'protection' },
+    { title: t('screens.home.activity.documentPlanted'), time: '2 hours ago', type: 'document' },
+    { title: t('screens.home.activity.guardianJoined'), time: '1 day ago', type: 'family' },
+    { title: t('screens.home.activity.shieldStrengthened'), time: '3 days ago', type: 'protection' },
   ];
 
   return (

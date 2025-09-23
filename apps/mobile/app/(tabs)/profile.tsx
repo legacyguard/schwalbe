@@ -36,12 +36,12 @@ export default function ProfileScreen() {
 
   const handleSignOut = () => {
     Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out?',
+      t('screens.profile.signOut.title'),
+      t('screens.profile.signOut.message'),
       [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Sign Out', 
+        { text: t('screens.profile.signOut.cancel'), style: 'cancel' },
+        {
+          text: t('screens.profile.signOut.confirm'),
           style: 'destructive',
           onPress: async () => {
             await signOut();
@@ -54,26 +54,26 @@ export default function ProfileScreen() {
 
   const menuItems = [
     {
-      title: 'Account Settings',
-      subtitle: 'Manage your personal information',
+      title: t('screens.profile.menu.accountSettings.title'),
+      subtitle: t('screens.profile.menu.accountSettings.subtitle'),
       icon: Settings,
       onPress: () => {},
     },
     {
-      title: 'Notifications',
-      subtitle: 'Configure alerts and updates',
+      title: t('screens.profile.menu.notifications.title'),
+      subtitle: t('screens.profile.menu.notifications.subtitle'),
       icon: Bell,
       onPress: () => {},
     },
     {
-      title: 'Privacy & Security',
-      subtitle: 'Manage security settings',
+      title: t('screens.profile.menu.privacySecurity.title'),
+      subtitle: t('screens.profile.menu.privacySecurity.subtitle'),
       icon: Shield,
       onPress: () => {},
     },
     {
-      title: 'Help & Support',
-      subtitle: 'Get help and contact support',
+      title: t('screens.profile.menu.helpSupport.title'),
+      subtitle: t('screens.profile.menu.helpSupport.subtitle'),
       icon: HelpCircle,
       onPress: () => {},
     },
@@ -81,20 +81,20 @@ export default function ProfileScreen() {
 
   const userInfo = [
     {
-      label: 'Email',
-      value: user?.email || 'No email provided',
+      label: t('screens.profile.userInfo.email'),
+      value: user?.email || t('screens.profile.userInfo.noEmail'),
       icon: Mail,
     },
     {
-      label: 'Phone',
-      value: user?.phone || 'No phone provided',
+      label: t('screens.profile.userInfo.phone'),
+      value: user?.phone || t('screens.profile.userInfo.noPhone'),
       icon: Phone,
     },
     {
-      label: 'Member Since',
-      value: user?.created_at 
+      label: t('screens.profile.userInfo.memberSince'),
+      value: user?.created_at
         ? new Date(user.created_at).toLocaleDateString()
-        : 'Unknown',
+        : t('screens.profile.userInfo.unknown'),
       icon: Calendar,
     },
   ];
@@ -115,7 +115,7 @@ export default function ProfileScreen() {
             </H1>
             <SofiaFirefly
               size="small"
-              message="Sofia's light guides your personal journey ✨"
+              message={t('screens.profile.sofiaMessage')}
               onTouch={async () => {
                 await triggerEncouragement();
               }}
@@ -239,7 +239,7 @@ export default function ProfileScreen() {
                   {t('screens.profile.appInfo.version')}
                 </Text>
               <Text color="$legacyTextSecondary" fontSize="$3" textAlign="center" lineHeight={18}>
-                Protecting your family's legacy with love, security, and peace of mind
+                {t('screens.profile.appDescription')}
               </Text>
             </YStack>
           </Card>
@@ -254,7 +254,7 @@ export default function ProfileScreen() {
             <XStack alignItems="center" space="$2">
               <LogOut size={16} color="white" />
               <Text color="white" fontWeight="600">
-                Sign Out
+                {t('screens.profile.signOut.confirm')}
               </Text>
             </XStack>
           </Button>

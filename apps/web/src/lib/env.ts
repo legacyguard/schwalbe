@@ -60,10 +60,17 @@ export const config = {
 export function validateEnvironment(): { isValid: boolean; missing: string[] } {
   const required = [
     'VITE_SUPABASE_URL',
-    'VITE_SUPABASE_ANON_KEY'
+    'VITE_SUPABASE_ANON_KEY',
+    'VITE_STRIPE_PUBLISHABLE_KEY',
+    'VITE_API_URL',
+    'VITE_SOFIA_AI_BASE_URL',
+    'VITE_GA_TRACKING_ID'
   ];
 
-  const missing = required.filter(key => !env[key as keyof typeof env]);
+  const missing = required.filter(key => {
+    const value = env[key as keyof typeof env];
+    return !value || value.trim() === '';
+  });
 
   return {
     isValid: missing.length === 0,

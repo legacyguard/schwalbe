@@ -19,26 +19,26 @@ export default function ProtectionScreen() {
 
   const protectionFeatures = [
     {
-      title: 'Document Encryption',
-      description: 'All documents are encrypted with AES-256',
+      title: t('screens.protection.features.documentEncryption.title'),
+      description: t('screens.protection.features.documentEncryption.description'),
       status: 'active',
       icon: Lock,
     },
     {
-      title: 'Family Access Control',
-      description: '4 family members with managed permissions',
+      title: t('screens.protection.features.familyAccessControl.title'),
+      description: t('screens.protection.features.familyAccessControl.description'),
       status: 'active',
       icon: Users,
     },
     {
-      title: 'Automatic Backup',
-      description: 'Daily backups to secure cloud storage',
+      title: t('screens.protection.features.automaticBackup.title'),
+      description: t('screens.protection.features.automaticBackup.description'),
       status: 'active',
       icon: Shield,
     },
     {
-      title: 'Mobile Security',
-      description: 'App lock and biometric authentication',
+      title: t('screens.protection.features.mobileSecurity.title'),
+      description: t('screens.protection.features.mobileSecurity.description'),
       status: 'partial',
       icon: Smartphone,
     },
@@ -46,18 +46,18 @@ export default function ProtectionScreen() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return '$green10';
-      case 'partial': return '$orange10';
-      case 'inactive': return '$red10';
+      case t('screens.protection.statusTypes.active'): return '$green10';
+      case t('screens.protection.statusTypes.partial'): return '$orange10';
+      case t('screens.protection.statusTypes.inactive'): return '$red10';
       default: return '$gray10';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'active': return CheckCircle;
-      case 'partial': return AlertTriangle;
-      case 'inactive': return AlertTriangle;
+      case t('screens.protection.statusTypes.active'): return CheckCircle;
+      case t('screens.protection.statusTypes.partial'): return AlertTriangle;
+      case t('screens.protection.statusTypes.inactive'): return AlertTriangle;
       default: return AlertTriangle;
     }
   };
@@ -220,21 +220,21 @@ export default function ProtectionScreen() {
             <Button size="$4" backgroundColor="$legacyAccentGold" borderRadius="$3">
               <XStack ai="center" space="$2">
                 <Users size={16} color="$legacyBackgroundPrimary" />
-                <Text color="$legacyBackgroundPrimary" fontWeight="600">Manage Family Circle</Text>
+                <Text color="$legacyBackgroundPrimary" fontWeight="600">{t('screens.protection.actions.manageFamilyCircle')}</Text>
               </XStack>
             </Button>
 
             <Button size="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={1} borderRadius="$3">
               <XStack ai="center" space="$2">
                 <Shield size={16} color="$legacyAccentGold" />
-                <Text color="$legacyTextPrimary" fontWeight="600">View Protection Report</Text>
+                <Text color="$legacyTextPrimary" fontWeight="600">{t('screens.protection.actions.viewProtectionReport')}</Text>
               </XStack>
             </Button>
 
             <Button size="$4" backgroundColor="$legacyBackgroundSecondary" borderColor="$legacyAccentGold" borderWidth={1} borderRadius="$3">
               <XStack ai="center" space="$2">
                 <Lock size={16} color="$legacyAccentGold" />
-                <Text color="$legacyTextPrimary" fontWeight="600">Update Guardian Key</Text>
+                <Text color="$legacyTextPrimary" fontWeight="600">{t('screens.protection.actions.updateGuardianKey')}</Text>
               </XStack>
             </Button>
           </YStack>

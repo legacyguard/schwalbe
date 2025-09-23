@@ -32,7 +32,7 @@ import {
   type RouterRequest,
   type RouterResponse,
   type SofiaAction,
-} from '@/services/sofia/sofia-router';
+} from '@/packages/shared/src/services/sofia/sofia-router';
 
 interface ChatMessage {
   id: string;
@@ -73,7 +73,7 @@ export function OptimizedSofiaChat({
   useEffect(() => {
     const welcomeMessage: ChatMessage = {
       id: 'welcome',
-      content: 'Ahoj! Som SOFIA, vaša AI asistentka pre rodinnú ochranu. Môžem vám pomôcť s organizáciou dokumentov, správou rodiny a zodpovedaním otázok. Vyberte si akciu alebo sa ma spýtajte na čokoľvek.',
+      content: 'Hello! I\'m SOFIA, your AI assistant for family protection. I can help you organize documents, manage family data, and answer questions. Choose an action or ask me anything.',
       sender: 'sofia',
       timestamp: new Date(),
       type: 'free',
@@ -96,27 +96,27 @@ export function OptimizedSofiaChat({
    */
   function getContextualActions(page?: string): SofiaAction[] {
     const baseActions: SofiaAction[] = [
-      { type: 'navigate', label: 'Pridať dokument', action: '/documents/add', icon: '📄' },
-      { type: 'navigate', label: 'Pozvať opatrovníka', action: '/family/invite', icon: '👥' },
-      { type: 'navigate', label: 'Zobraziť štatistiky', action: '/analytics', icon: '📊' },
-      { type: 'help', label: 'Často kladené otázky', action: 'show_faq', icon: '❓' },
+      { type: 'navigate', label: 'Add Document', action: '/documents/add', icon: '📄' },
+      { type: 'navigate', label: 'Invite Guardian', action: '/family/invite', icon: '👥' },
+      { type: 'navigate', label: 'View Analytics', action: '/analytics', icon: '📊' },
+      { type: 'help', label: 'FAQ', action: 'show_faq', icon: '❓' },
     ];
 
     // Add context-specific actions
     if (page?.includes('/documents')) {
       baseActions.unshift(
-        { type: 'execute', label: 'Gmail import', action: 'open_gmail_import', icon: '📧' },
-        { type: 'execute', label: 'Skenovanie dokumentu', action: 'scan_document', icon: '📱' }
+        { type: 'execute', label: 'Gmail Import', action: 'open_gmail_import', icon: '📧' },
+        { type: 'execute', label: 'Scan Document', action: 'scan_document', icon: '📱' }
       );
     } else if (page?.includes('/family')) {
       baseActions.unshift(
-        { type: 'execute', label: 'Rodinný strom', action: 'view_family_tree', icon: '🌳' },
-        { type: 'navigate', label: 'Núdzové kontakty', action: '/family/emergency', icon: '🚨' }
+        { type: 'execute', label: 'Family Tree', action: 'view_family_tree', icon: '🌳' },
+        { type: 'navigate', label: 'Emergency Contacts', action: '/family/emergency', icon: '🚨' }
       );
     } else if (page?.includes('/analytics')) {
       baseActions.unshift(
-        { type: 'execute', label: 'Exportovať report', action: 'export_report', icon: '📤' },
-        { type: 'navigate', label: 'Ochranné skóre', action: '/analytics/protection', icon: '🛡️' }
+        { type: 'execute', label: 'Export Report', action: 'export_report', icon: '📤' },
+        { type: 'navigate', label: 'Protection Score', action: '/analytics/protection', icon: '🛡️' }
       );
     }
 
@@ -184,7 +184,7 @@ export function OptimizedSofiaChat({
       // Fallback message
       const errorMessage: ChatMessage = {
         id: `error_${Date.now()}`,
-        content: 'Ospravedlňujem sa, nastala chyba. Skúste to prosím znovu alebo použite jednu z predvolených akcií.',
+        content: 'I apologize, an error occurred. Please try again or use one of the default actions.',
         sender: 'sofia',
         timestamp: new Date(),
         type: 'free',
@@ -280,7 +280,7 @@ export function OptimizedSofiaChat({
       // Add confirmation message
       const confirmationMessage: ChatMessage = {
         id: `confirm_${Date.now()}`,
-        content: `✅ Akcia "${action.label}" bola spustená.`,
+        content: `✅ Action "${action.label}" has been executed.`,
         sender: 'sofia',
         timestamp: new Date(),
         type: 'free',
@@ -306,22 +306,22 @@ export function OptimizedSofiaChat({
    */
   const handleHelpAction = useCallback(async (action: SofiaAction) => {
     if (action.action === 'show_faq') {
-      const faqMessage = `Často kladené otázky:
+      const faqMessage = `Frequently Asked Questions:
 
-1. **Ako pridám dokument?**
-   Kliknite na "Pridať dokument" alebo použite Gmail import.
+1. **How do I add a document?**
+   Click "Add Document" or use Gmail import.
 
-2. **Ako pozriem opatrovníka?**
-   Choďte do "Správa rodiny" a kliknite "Pozvať člena".
+2. **How do I invite a guardian?**
+   Go to "Family Management" and click "Invite Member".
 
-3. **Je môj účet bezpečný?**
-   Áno, používame najmodernejšie šifrovanie a GDPR compliance.
+3. **Is my account secure?**
+   Yes, we use state-of-the-art encryption and GDPR compliance.
 
-4. **Koľko to stojí?**
-   Základný plán je zadarmo, premium plány začínajú od €9.99/mesiac.
+4. **How much does it cost?**
+   Basic plan is free, premium plans start from €9.99/month.
 
-5. **Čo v prípade núdze?**
-   Aktivujte núdzový protokol alebo kontaktujte číslom 112.`;
+5. **What to do in an emergency?**
+   Activate emergency protocol or contact 112.`;
 
       const faqResponse: ChatMessage = {
         id: `faq_${Date.now()}`,
@@ -333,8 +333,8 @@ export function OptimizedSofiaChat({
         confidence: 1,
         source: 'faq',
         actions: [
-          { type: 'navigate', label: 'Kompletná pomoc', action: '/help', icon: '📚' },
-          { type: 'navigate', label: 'Kontakt podpora', action: '/contact', icon: '💬' }
+          { type: 'navigate', label: 'Complete Help', action: '/help', icon: '📚' },
+          { type: 'navigate', label: 'Contact Support', action: '/contact', icon: '💬' }
         ]
       };
 
@@ -398,14 +398,14 @@ export function OptimizedSofiaChat({
                     <div className={`flex items-center gap-1 ${getCostColor(message.type)}`}>
                       {getCostIcon(message.type)}
                       <span>
-                        {message.type === 'free' && 'Zadarmo'}
-                        {message.type === 'low_cost' && 'Nízke náklady'}
+                        {message.type === 'free' && 'Free'}
+                        {message.type === 'low_cost' && 'Low Cost'}
                         {message.type === 'premium' && 'Premium'}
                       </span>
                     </div>
                     {message.confidence && (
                       <Badge variant="outline" className="text-xs">
-                        {Math.round(message.confidence * 100)}% spoľahlivosť
+                        {Math.round(message.confidence * 100)}% confidence
                       </Badge>
                     )}
                     {message.cost && message.cost > 0 && (
@@ -456,7 +456,7 @@ export function OptimizedSofiaChat({
             <div className="bg-white border shadow-sm rounded-lg p-4">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>SOFIA premýšľa...</span>
+                <span>SOFIA is thinking...</span>
               </div>
             </div>
           </motion.div>
@@ -491,7 +491,7 @@ export function OptimizedSofiaChat({
           <Textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Spýtajte sa ma na čokoľvek alebo použite tlačidlá vyššie..."
+            placeholder="Ask me anything or use the buttons above..."
             className="flex-1 min-h-[44px] max-h-32 resize-none"
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -517,11 +517,11 @@ export function OptimizedSofiaChat({
         <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
           <span>
             <Zap className="h-3 w-3 inline mr-1" />
-            Väčšina odpovedí je zadarmo vďaka inteligentnej optimalizácii
+            Most responses are free thanks to intelligent optimization
           </span>
           <span className="flex items-center gap-1">
             <TrendingDown className="h-3 w-3" />
-            AI náklady optimalizované
+            AI costs optimized
           </span>
         </div>
       </div>
@@ -550,17 +550,17 @@ function ChatMetricsHeader() {
           <div className="flex items-center gap-4 text-sm">
             <div className="flex items-center gap-1">
               <DollarSign className="h-4 w-4 text-green-600" />
-              <span className="font-medium">Náklady optimalizované</span>
+              <span className="font-medium">Costs optimized</span>
             </div>
             <Separator orientation="vertical" className="h-4" />
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>Zadarmo: {metrics.costDistribution.free}%</span>
+                <span>Free: {metrics.costDistribution.free}%</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                <span>Nízke: {metrics.costDistribution.lowCost}%</span>
+                <span>Low: {metrics.costDistribution.lowCost}%</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-red-500 rounded-full"></div>
@@ -571,7 +571,7 @@ function ChatMetricsHeader() {
 
           <div className="text-xs text-muted-foreground">
             Cache hit: {Math.round(metrics.cacheHitRate * 100)}% |
-            Celkom: ${metrics.totalCost.toFixed(3)}
+            Total: ${metrics.totalCost.toFixed(3)}
           </div>
         </div>
       </CardContent>

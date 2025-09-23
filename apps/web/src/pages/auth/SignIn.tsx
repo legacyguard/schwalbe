@@ -93,6 +93,7 @@ export default function SignIn() {
                 autoComplete="email"
                 aria-required="true"
                 aria-invalid={!!error}
+                data-testid="signin-email-input"
               />
             </div>
             <div>
@@ -106,15 +107,16 @@ export default function SignIn() {
                 autoComplete="current-password"
                 aria-required="true"
                 aria-invalid={!!error}
+                data-testid="signin-password-input"
               />
             </div>
             {error && (
-              <div role="alert" className="text-sm text-red-300">{error}</div>
+              <div role="alert" className="text-sm text-red-300" data-testid="signin-error-message">{error}</div>
             )}
             {info && (
-              <div role="status" className="text-sm text-emerald-300">{info}</div>
+              <div role="status" className="text-sm text-emerald-300" data-testid="signin-info-message">{info}</div>
             )}
-            <Button type="submit" disabled={isLoading} className="w-full">
+            <Button type="submit" disabled={isLoading} className="w-full" data-testid="signin-submit-button">
               {isLoading ? 'Signing in…' : 'Sign in'}
             </Button>
           </form>
@@ -139,11 +141,12 @@ export default function SignIn() {
                 type="email"
                 value={resetEmail}
                 onChange={(e) => setResetEmail(e.target.value)}
+                data-testid="reset-email-input"
               />
-              <Button onClick={sendReset} variant="secondary">Send reset</Button>
+              <Button onClick={sendReset} variant="secondary" data-testid="reset-submit-button">Send reset</Button>
             </div>
             {resetSent && (
-              <div className="mt-2 text-xs text-slate-300">Check your inbox for the reset link.</div>
+              <div className="mt-2 text-xs text-slate-300" data-testid="reset-info-message">Check your inbox for the reset link.</div>
             )}
           </div>
 

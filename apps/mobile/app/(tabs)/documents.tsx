@@ -5,49 +5,49 @@ import { Search, Plus, FileText, Download, Share, Eye, Filter } from '@tamagui/l
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
-const mockDocuments = [
-  {
-    id: '1',
-    name: 'Last Will & Testament',
-    type: 'Legal Document',
-    lastModified: '2 days ago',
-    status: 'Protected',
-    size: '2.4 MB',
-    icon: '📄',
-  },
-  {
-    id: '2',
-    name: 'Life Insurance Policy',
-    type: 'Insurance',
-    lastModified: '1 week ago',
-    status: 'Active',
-    size: '1.8 MB',
-    icon: '🛡️',
-  },
-  {
-    id: '3',
-    name: 'Property Deed',
-    type: 'Real Estate',
-    lastModified: '2 weeks ago',
-    status: 'Verified',
-    size: '3.2 MB',
-    icon: '🏠',
-  },
-  {
-    id: '4',
-    name: 'Family Photos Archive',
-    type: 'Personal',
-    lastModified: '3 days ago',
-    status: 'Backed Up',
-    size: '45.6 MB',
-    icon: '📸',
-  },
-];
-
 export default function DocumentsScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const { t } = useTranslation('screens');
+
+  const mockDocuments = [
+    {
+      id: '1',
+      name: t('screens.documents.samples.will.name'),
+      type: t('screens.documents.samples.will.type'),
+      lastModified: '2 days ago',
+      status: t('screens.documents.samples.will.status'),
+      size: '2.4 MB',
+      icon: '📄',
+    },
+    {
+      id: '2',
+      name: t('screens.documents.samples.insurance.name'),
+      type: t('screens.documents.samples.insurance.type'),
+      lastModified: '1 week ago',
+      status: t('screens.documents.samples.insurance.status'),
+      size: '1.8 MB',
+      icon: '🛡️',
+    },
+    {
+      id: '3',
+      name: t('screens.documents.samples.property.name'),
+      type: t('screens.documents.samples.property.type'),
+      lastModified: '2 weeks ago',
+      status: t('screens.documents.samples.property.status'),
+      size: '3.2 MB',
+      icon: '🏠',
+    },
+    {
+      id: '4',
+      name: t('screens.documents.samples.photos.name'),
+      type: t('screens.documents.samples.photos.type'),
+      lastModified: '3 days ago',
+      status: t('screens.documents.samples.photos.status'),
+      size: '45.6 MB',
+      icon: '📸',
+    },
+  ];
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -61,10 +61,10 @@ export default function DocumentsScreen() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Protected': return '$green10';
-      case 'Active': return '$blue10';
-      case 'Verified': return '$purple10';
-      case 'Backed Up': return '$orange10';
+      case t('screens.documents.samples.will.status'): return '$green10';
+      case t('screens.documents.samples.insurance.status'): return '$blue10';
+      case t('screens.documents.samples.property.status'): return '$purple10';
+      case t('screens.documents.samples.photos.status'): return '$orange10';
       default: return '$gray10';
     }
   };

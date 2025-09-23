@@ -1,47 +1,52 @@
 /**
  * Analytics utility for tracking user events
- * Currently a stub implementation - can be extended with actual analytics service
+ * Integrates with Google Analytics using react-ga4
  */
+import ReactGA from 'react-ga4';
+import { config, isProduction } from '@/lib/env';
 
-export interface AnalyticsEvent {
-  event: string;
-  properties?: Record<string, any>;
-  timestamp?: number;
+// NOTE: This implementation requires adding the `react-ga4` package.
+// Run `npm install react-ga4` in the `apps/web` workspace.
+
+let isInitialized = false;
+
+if (config.analytics.gaTrackingId && config.analytics.gaTrackingId.startsWith('G-')) {
+  ReactGA.initialize(config.analytics.gaTrackingId, {
+    testMode: !isProduction,
+  });
+  isInitialized = true;
+  console.log('Google Analytics initialized.');
+} else {
+  console.warn('Google Analytics Tracking ID is not configured or is invalid. Analytics will be disabled.');
 }
-
 /**
  * Send analytics event
- * @param event - Event name or event object
+ * @param event - Event name
  * @param properties - Additional event properties
  */
-export function sendAnalytics(event: string | AnalyticsEvent, properties?: Record<string, any>): void {
+export function sendAnalytics(event: string, properties?: Record<string, any>): void {
+  if (!isInitialized) return;
+
   try {
-    const eventData: AnalyticsEvent = typeof event === 'string'
-      ? { event, properties, timestamp: Date.now() }
-      : { ...event, timestamp: event.timestamp || Date.now() };
-
-    // For now, just log to console in development
-    // In production, this would send to analytics service
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Analytics event:', eventData);
-    }
-
-    // TODO: Implement actual analytics service integration
-    // e.g., Google Analytics, Mixpanel, etc.
+    ReactGA.event(event, properties);
   } catch (error) {
     // Silently fail analytics to avoid breaking the app
     console.warn('Analytics error:', error);
   }
 }
-
 /**
  * Track page view
  * @param page - Page name or path
  */
 export function trackPageView(page: string): void {
-  sendAnalytics('page_view', { page });
-}
+  if (!isInitialized) return;
 
+  try {
+    ReactGA.send({ hitType: 'pageview', page });
+  } catch (error) {
+    console.warn('Analytics pageview error:', error);
+  }
+}
 /**
  * Track user interaction
  * @param action - Action name
@@ -49,5 +54,11 @@ export function trackPageView(page: string): void {
  * @param label - Label (optional)
  */
 export function trackInteraction(action: string, category?: string, label?: string): void {
-  sendAnalytics('interaction', { action, category, label });
+  if (!isInitialized) return;
+
+  sendAnalytics('interaction', {
+    category: category || 'UserInteraction',
+    action,
+    label,
+  });
 }
