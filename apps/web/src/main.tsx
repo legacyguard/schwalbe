@@ -29,21 +29,7 @@ setupReactRouterIntegration();
 const rootEl = document.getElementById('root');
 
 // Validate environment variables
-try {
-  checkRuntimeEnvironment();
-} catch (error) {
-  console.error('Environment validation failed:', error);
-  if (rootEl && isProduction) {
-    rootEl.innerHTML = `
-      <div style="font-family: sans-serif; padding: 2rem; text-align: center; background: #fee; color: #c00;">
-        <h1>Configuration Error</h1>
-        <p>The application cannot start due to missing configuration.</p>
-        <p>Please contact support if this issue persists.</p>
-      </div>
-    `;
-  }
-  throw error;
-}
+checkRuntimeEnvironment();
 
 const envValidation = validateEnvironment();
 
