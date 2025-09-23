@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "./dist/index-minimal.js",
-  "types": "./dist/index-minimal.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./minimal": {
       "import": "./dist/index-minimal.js",
       "types": "./dist/index-minimal.d.ts"
     },
