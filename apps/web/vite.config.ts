@@ -1,12 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import commonjs from '@rollup/plugin-commonjs';
 import path from 'path';
 
 export default defineConfig({
   plugins: [
-    react(),
-    commonjs()
+    react()
   ],
 
   // Build configuration
@@ -16,15 +14,8 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV !== 'production',
     rollupOptions: {
       output: {
-        format: 'es',
-        manualChunks: {
-          // Vendor chunk for better caching
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          // UI components chunk
-          ui: ['framer-motion', 'lucide-react'],
-          // Third party services
-          services: ['@supabase/supabase-js', '@sentry/react'],
-        },
+        format: 'iife',
+        name: 'SchwalbeApp',
         // Use content-based hashing for better cache invalidation
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
@@ -39,12 +30,7 @@ export default defineConfig({
       }
     },
     // Increase chunk size warning limit for better performance
-    chunkSizeWarningLimit: 1000,
-    // Ensure CommonJS modules are properly handled
-    commonjsOptions: {
-      include: [/node_modules/],
-      extensions: ['.js', '.cjs']
-    }
+    chunkSizeWarningLimit: 1000
   },
 
   // Development server configuration
@@ -76,7 +62,7 @@ export default defineConfig({
     'global': 'globalThis',
     // Fix React 18 compatibility for packages expecting default export
     'React.default': 'React',
-    'React': 'React'
+    'React': 'React',
   },
 
   // Optimize dependencies
