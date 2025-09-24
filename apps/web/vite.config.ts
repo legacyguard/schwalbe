@@ -30,9 +30,21 @@ export default defineConfig({
         entryFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]'
       },
+      external: (id) => {
+        // Externalize CommonJS modules that might cause issues
+        if (id.includes('react-ga4')) {
+          return false; // Don't externalize, let rollup handle it
+        }
+        return false;
+      }
     },
     // Increase chunk size warning limit for better performance
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    // Ensure CommonJS modules are properly handled
+    commonjsOptions: {
+      include: [/node_modules/],
+      extensions: ['.js', '.cjs']
+    }
   },
 
   // Development server configuration
@@ -61,7 +73,9 @@ export default defineConfig({
     // Ensure NODE_ENV is available in the app
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     // Fix CommonJS compatibility issues
-    'global': 'globalThis'
+    'global': 'globalThis',
+    // Fix React 18 compatibility for packages expecting default export
+    'React': 'React'
   },
 
   // Optimize dependencies
@@ -74,6 +88,8 @@ export default defineConfig({
       'lucide-react',
       '@supabase/supabase-js',
     ],
+    // Ensure React is properly resolved
+    exclude: ['react-helmet-async']
   },
 
   // CSS configuration

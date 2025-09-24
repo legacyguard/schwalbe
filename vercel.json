@@ -5,11 +5,16 @@
   "installCommand": "npm install",
   "devCommand": "npm run dev --workspace=@schwalbe/web",
   "framework": null,
+  "functions": {
+    "apps/web/src/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "env": {
-    "VITE_SUPABASE_URL": "https://placeholder.supabase.co",
-    "VITE_SUPABASE_ANON_KEY": "placeholder-anon-key",
-    "VITE_STRIPE_PUBLISHABLE_KEY": "pk_test_placeholder",
-    "VITE_API_URL": "https://api.legacyguard.com",
+    "VITE_SUPABASE_URL": "https://rnmqtqaegqpbpytqawpg.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJubXF0cWFlZ3FwYnB5dHFhd3BnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1Mjk1NjMsImV4cCI6MjA3MzEwNTU2M30.53xGTvndBH9rJf0PI65xMEzKfc0myWpqOJrBxuip-bk",
+    "VITE_STRIPE_PUBLISHABLE_KEY": "pk_test_51RxUMeFjl1oRWeU6A9rKrirRWWBPXBjASe0rmT36UdyZ63MsFbWe1WaWdIkQpaoLc1dkhywr4d1htlmvOnjKIsa300ZlWOPgvf",
+    "VITE_API_URL": "https://legacyguard.vercel.app/api",
     "VITE_SOFIA_AI_BASE_URL": "https://api.openai.com/v1",
     "VITE_SOFIA_AI_API_KEY": "placeholder-key",
     "VITE_SENTRY_DSN": "",
