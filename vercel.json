@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build --workspace=@schwalbe/logic && npm run build --workspace=@schwalbe/shared && npm run build --workspace=@schwalbe/onboarding && npm run build --workspace=@schwalbe/web",
+  "buildCommand": "npm run build --workspace=@schwalbe/logic && npm run build --workspace=@schwalbe/shared && npm run build --workspace=@schwalbe/onboarding && npm run build:safe --workspace=@schwalbe/web",
   "outputDirectory": "apps/web/dist",
   "installCommand": "npm install",
   "devCommand": "npm run dev --workspace=@schwalbe/web",

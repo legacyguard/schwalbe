@@ -75,6 +75,7 @@ export default defineConfig({
     // Fix CommonJS compatibility issues
     'global': 'globalThis',
     // Fix React 18 compatibility for packages expecting default export
+    'React.default': 'React',
     'React': 'React'
   },
 
@@ -89,7 +90,7 @@ export default defineConfig({
       '@supabase/supabase-js',
     ],
     // Ensure React is properly resolved
-    exclude: ['react-helmet-async']
+    exclude: ['react-helmet-async', 'react-router', 'react-router-dom']
   },
 
   // CSS configuration
