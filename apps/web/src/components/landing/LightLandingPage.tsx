@@ -88,11 +88,10 @@ export default function LightLandingPage() {
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="space-y-4"
               >
-                <h1 className="text-6xl sm:text-8xl font-bold text-stone-800 leading-tight">
-                  Your Legacy<br />is a Story
+                <h1 className="text-6xl sm:text-8xl font-bold text-stone-800 leading-tight" dangerouslySetInnerHTML={{ __html: t('landing:hero.title') }}>
                 </h1>
                 <h2 className="text-3xl sm:text-4xl font-semibold text-stone-600">
-                  Let's Make it a Legend
+                  {t('landing:hero.subtitle')}
                 </h2>
               </motion.div>
 

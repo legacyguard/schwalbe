@@ -11,11 +11,19 @@ const resources = {
       learnMore: 'Learn More',
       error: 'Error',
       cancel: 'Cancel',
+      navigation: {
+        dashboard: 'Dashboard',
+        documents: 'Documents',
+        onboarding: 'Onboarding',
+      },
+      footer: {
+        copyright: '2025 LegacyGuard. Securely guide your family forward.',
+      },
     },
     landing: {
       hero: {
-        title: 'Secure your legacy',
-        subtitle: 'in one trusted place',
+        title: 'Your Legacy<br>is a Story',
+        subtitle: 'Let\'s Make it a Legend',
         description: 'Begin your journey with Sofia, your personal guide. Transform uncertainty into peace of mind as you build a garden of protection for those you love.',
         ctaStartJourney: 'Start Your Journey',
         ctaLearnMore: 'Learn More',
@@ -130,11 +138,19 @@ const resources = {
       learnMore: 'Zjistit více',
       error: 'Chyba',
       cancel: 'Zrušit',
+      navigation: {
+        dashboard: 'Nástěnka',
+        documents: 'Dokumenty',
+        onboarding: 'Průvodce',
+      },
+      footer: {
+        copyright: '2025 LegacyGuard. Bezpečně veďte svou rodinu kupředu.',
+      },
     },
     landing: {
       hero: {
-        title: 'Zabezpečte svůj odkaz',
-        subtitle: 'na jednom důvěryhodném místě',
+        title: 'Vaše dědictví<br>je příběh',
+        subtitle: 'Udělejme z něj legendu',
         description: 'Začněte svou cestu se Sofií, vaší osobní průvodkyní. Proměňte nejistotu v klid duše při budování zahrady ochrany pro ty, které milujete.',
         ctaStartJourney: 'Začít vaši cestu',
         ctaLearnMore: 'Zjistit více',
@@ -249,11 +265,19 @@ const resources = {
       learnMore: 'Zistiť viac',
       error: 'Chyba',
       cancel: 'Zrušiť',
+      navigation: {
+        dashboard: 'Nástenka',
+        documents: 'Dokumenty',
+        onboarding: 'Sprievodca',
+      },
+      footer: {
+        copyright: '2025 LegacyGuard. Bezpečne veďte svoju rodinu dopredu.',
+      },
     },
     landing: {
       hero: {
-        title: 'Zabezpečte svoj odkaz',
-        subtitle: 'na jednom dôveryhodnom mieste',
+        title: 'Vaše dedičstvo<br>je príbeh',
+        subtitle: 'Urobme z neho legendu',
         description: 'Začnite svoju cestu so Sofiou, vašou osobnou sprievodkyňou. Premeňte neistotu na pokoj duše pri budovaní záhrady ochrany pre tých, ktorých milujete.',
         ctaStartJourney: 'Začať vašu cestu',
         ctaLearnMore: 'Zistiť viac',
@@ -370,7 +394,7 @@ void i18n
     lng: 'en',
     fallbackLng: 'en',
     defaultNS: 'landing',
-    ns: ['landing'],
+    ns: ['landing', 'common'],
     interpolation: {
       escapeValue: false,
     },

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { LegacyGuardLogo } from '@/components/LegacyGuardLogo';
@@ -6,6 +7,7 @@ import { LanguageSelector } from '@/components/ui/LanguageSelector';
 import { UserIcon } from '@/components/ui/UserIcon';
 
 export function TopBar() {
+  const { t } = useTranslation();
   // TODO: Get authentication status from your auth context/state
   const isAuthenticated = false; // This should come from your auth system
   const userName = undefined; // This should come from your auth system
@@ -19,13 +21,13 @@ export function TopBar() {
         </a>
         <div className="flex items-center gap-3">
           <Button asChild variant="ghost" className="text-white hover:text-amber-200 font-bold">
-            <a href="/dashboard">Dashboard</a>
+            <a href="/dashboard">{t('common:navigation.dashboard')}</a>
           </Button>
           <Button asChild variant="ghost" className="text-white hover:text-amber-200 font-bold">
-            <a href="/documents">Documents</a>
+            <a href="/documents">{t('common:navigation.documents')}</a>
           </Button>
           <Button asChild variant="ghost" className="text-white hover:text-amber-200 font-bold">
-            <a href="/onboarding">Onboarding</a>
+            <a href="/onboarding">{t('common:navigation.onboarding')}</a>
           </Button>
 
           {/* Language Selector - predposledný */}
