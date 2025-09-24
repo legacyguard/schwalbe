@@ -5,11 +5,6 @@
   "installCommand": "npm install",
   "devCommand": "npm run dev --workspace=@schwalbe/web",
   "framework": null,
-  "functions": {
-    "apps/web/src/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "env": {
     "VITE_SUPABASE_URL": "https://rnmqtqaegqpbpytqawpg.supabase.co",
     "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJubXF0cWFlZ3FwYnB5dHFhd3BnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1Mjk1NjMsImV4cCI6MjA3MzEwNTU2M30.53xGTvndBH9rJf0PI65xMEzKfc0myWpqOJrBxuip-bk",
