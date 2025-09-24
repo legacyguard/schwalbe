@@ -14,8 +14,8 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV !== 'production',
     rollupOptions: {
       output: {
-        format: 'iife',
-        name: 'SchwalbeApp',
+        format: 'es',
+        inlineDynamicImports: true,
         // Use content-based hashing for better cache invalidation
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
@@ -63,6 +63,11 @@ export default defineConfig({
     // Fix React 18 compatibility for packages expecting default export
     'React.default': 'React',
     'React': 'React',
+    // Provide CommonJS globals for browser compatibility
+    'process': JSON.stringify({env: {NODE_ENV: "production"}}),
+    'Buffer': 'undefined',
+    '__dirname': 'undefined',
+    '__filename': 'undefined'
   },
 
   // Optimize dependencies
@@ -76,7 +81,7 @@ export default defineConfig({
       '@supabase/supabase-js',
     ],
     // Ensure React is properly resolved
-    exclude: ['react-helmet-async', 'react-router', 'react-router-dom']
+    exclude: ['react-helmet-async', 'react-router', 'react-router-dom', '@supabase/supabase-js', '@sentry/react', 'zustand']
   },
 
   // CSS configuration
