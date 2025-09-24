@@ -6,7 +6,7 @@ import {
   RadioGroup as TamaguiRadioGroup,
   XStack,
   YStack,
-} from 'tamagui';
+} from '@tamagui/core';
 
 /**
  * Styled radio group component with LegacyGuard design system

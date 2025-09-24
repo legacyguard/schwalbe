@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { styled, View } from 'tamagui';
+import { styled, View } from '@tamagui/core';
 import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import { type SofiaMode, TextManager } from '@schwalbe/logic';
 import { eventBus, EVENTS, useEventBus } from '../utils/eventBus';

@@ -8,7 +8,7 @@ import {
   type CheckboxProps as TamaguiCheckboxProps,
   Theme,
   XStack,
-} from 'tamagui';
+} from '@tamagui/core';
 import { Check } from 'lucide-react';
 
 /**

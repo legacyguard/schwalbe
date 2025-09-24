@@ -65,7 +65,8 @@ if (rootEl) {
                       <Route path="/auth/signup" element={<SignUp />} />
                       {isLandingEnabled() && <Route path="/landing" element={<LandingPage />} />}
 
-                      <Route path="/onboarding" element={<Onboarding onComplete={() => window.location.assign('/dashboard')} />} />
+{/* Onboarding disabled */}
+                      {/* <Route path="/onboarding" element={<Onboarding onComplete={() => window.location.assign('/dashboard')} />} /> */}
 
                       <Route
                         path="/dashboard"
@@ -89,15 +90,7 @@ if (rootEl) {
 
                       <Route
                         path="/"
-                        element={
-                          isLandingEnabled() ? (
-                            <LandingPage />
-                          ) : (
-                            <ProtectedRoute>
-                              <Navigate to="/dashboard" replace />
-                            </ProtectedRoute>
-                          )
-                        }
+                        element={<LandingPage />}
                       />
 
                       <Route path="*" element={<NotFound />} />

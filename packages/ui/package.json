@@ -41,6 +41,7 @@
     "framer-motion": "^11.15.0",
     "lucide-react": "^0.486.0",
     "react-error-boundary": "^6.0.0",
+    "recharts": "^3.2.1",
     "tamagui": "1.132.23"
   },
   "peerDependencies": {

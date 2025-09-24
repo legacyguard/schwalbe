@@ -2,7 +2,9 @@
 import React from 'react';
 import { logger } from '@schwalbe/shared/lib/logger';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
-import { Button, H2, Paragraph, XStack, YStack } from 'tamagui';
+import { Button } from '../Button';
+import { H2, Paragraph } from '../Typography';
+import { XStack, YStack } from '../Layout';
 import { AlertCircle, RefreshCw } from '@tamagui/lucide-icons';
 
 interface GlobalErrorBoundaryProps {

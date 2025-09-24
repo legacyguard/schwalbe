@@ -16,11 +16,15 @@
         },
         {
           "title": "Sofia AI Assistant (Basic)",
-          "description": "Get help and answers to your basic questions."
+          "description": "AI to process up to 5 documents. Get help and answers to your basic questions."
         },
         {
           "title": "Basic Family Shield",
           "description": "Invite 1 Guardian to ensure your family has someone to turn to."
+        },
+        {
+          "title": "Storage Limit",
+          "description": "Maximum 250 MB of stored data."
         }
       ],
       "cta": "Start with the Free App",

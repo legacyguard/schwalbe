@@ -7,7 +7,7 @@ import {
   Switch as TamaguiSwitch,
   type SwitchProps as TamaguiSwitchProps,
   XStack,
-} from 'tamagui';
+} from '@tamagui/core';
 
 /**
  * Styled switch component with LegacyGuard styling

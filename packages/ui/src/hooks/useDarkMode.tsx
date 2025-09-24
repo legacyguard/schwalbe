@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useTheme } from 'tamagui';
+import { useTheme } from '@tamagui/core';
 import { useColorScheme } from 'react-native';
 
 /**

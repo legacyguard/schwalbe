@@ -9,7 +9,7 @@ import {
   Select as TamaguiSelect,
   type SelectProps as TamaguiSelectProps,
   YStack,
-} from 'tamagui';
+} from '@tamagui/core';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Select trigger styling

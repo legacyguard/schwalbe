@@ -11,20 +11,20 @@ export function TopBar() {
   const userName = undefined; // This should come from your auth system
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-50 border-b border-slate-800/40 bg-slate-900/40 backdrop-blur">
+    <header className="absolute top-0 left-0 right-0 z-50 border-b border-amber-200/50 backdrop-blur-xl bg-amber-800/90">
       <nav className="container mx-auto flex items-center justify-between px-4 py-4" aria-label="Primary">
-        <a href="/" className="flex items-center gap-2 text-white">
+        <a href="/" className="flex items-center gap-2 text-white font-bold">
           <LegacyGuardLogo />
-          <span className="text-2xl font-semibold">LegacyGuard</span>
+          <span className="text-2xl font-bold text-white">LegacyGuard</span>
         </a>
         <div className="flex items-center gap-3">
-          <Button asChild variant="ghost" className="text-slate-200 hover:text-white">
+          <Button asChild variant="ghost" className="text-white hover:text-amber-200 font-bold">
             <a href="/dashboard">Dashboard</a>
           </Button>
-          <Button asChild variant="ghost" className="text-slate-200 hover:text-white">
+          <Button asChild variant="ghost" className="text-white hover:text-amber-200 font-bold">
             <a href="/documents">Documents</a>
           </Button>
-          <Button asChild variant="ghost" className="text-slate-200 hover:text-white">
+          <Button asChild variant="ghost" className="text-white hover:text-amber-200 font-bold">
             <a href="/onboarding">Onboarding</a>
           </Button>
 

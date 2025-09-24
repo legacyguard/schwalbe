@@ -10,9 +10,9 @@ interface Language {
 }
 
 const languages: Language[] = [
-  { code: 'en', label: 'English', flag: 'EN' },
-  { code: 'sk', label: 'Slovenčina', flag: 'SK' },
   { code: 'cs', label: 'Čeština', flag: 'CZ' },
+  { code: 'sk', label: 'Slovenčina', flag: 'SK' },
+  { code: 'en', label: 'English', flag: 'EN' },
 ];
 
 export function LanguageSelector() {

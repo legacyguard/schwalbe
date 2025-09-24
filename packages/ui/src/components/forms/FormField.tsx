@@ -10,7 +10,7 @@ import {
 } from '../..';
 import { Paragraph } from '../Typography';
 import { AlertCircle, CheckCircle } from 'lucide-react';
-import { View } from 'tamagui';
+import { View } from '@tamagui/core';
 // Note: Translation hook would typically be imported from a shared location
 // For now using a mock implementation until proper i18n setup
 

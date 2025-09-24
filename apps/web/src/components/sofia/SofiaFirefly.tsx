@@ -12,7 +12,7 @@ interface SofiaFireflyProps {
   size?: 'sm' | 'md' | 'lg';
   showDialog?: boolean;
   message?: string;
-  onInteraction?: () => void;
+  onInteraction?: (event?: React.MouseEvent) => void;
   className?: string;
   position?: { x: number; y: number };
   autofly?: boolean;
@@ -120,7 +120,7 @@ export function SofiaFirefly({
         variants={autofly ? floatingVariants : {}}
         animate={isActive ? "animate" : ""}
         className="relative cursor-pointer"
-        onClick={onInteraction}
+        onClick={(event) => onInteraction?.(event)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >

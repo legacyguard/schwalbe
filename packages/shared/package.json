@@ -34,6 +34,10 @@
       "import": "./dist/types/reminders.js",
       "types": "./dist/types/reminders.d.ts"
     },
+    "./services/sofia": {
+      "import": "./dist/services/sofia/index.js",
+      "types": "./dist/services/sofia/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {

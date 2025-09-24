@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { type GetProps, styled, Text, View } from 'tamagui';
+import { type GetProps, styled, Text, View } from '@tamagui/core';
 
 /**
  * Card component for LegacyGuard applications

@@ -46,7 +46,7 @@ export function PricingSection() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-amber-50 via-orange-50 to-stone-100">
+    <section className="py-24 bg-white/10 backdrop-blur-md">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -72,20 +72,12 @@ export function PricingSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.02, y: -8 }}
-              className={`relative rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 shadow-lg ${
+              className={`relative rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 shadow-lg flex flex-col h-full ${
                 plan.featured
-                  ? 'bg-gradient-to-b from-amber-100/80 to-orange-100/80 border-amber-300/50 shadow-2xl shadow-amber-200/30'
+                  ? 'bg-white/70 border-stone-200/50 hover:border-amber-200/50'
                   : 'bg-white/70 border-stone-200/50 hover:border-amber-200/50'
               }`}
             >
-              {plan.featured && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-1">
-                    <Star className="h-4 w-4" />
-                    {t('pricing.premium.featured')}
-                  </div>
-                </div>
-              )}
 
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-stone-800 mb-2">{plan.name}</h3>
@@ -96,7 +88,7 @@ export function PricingSection() {
                 <p className="text-stone-600 text-sm">{plan.description}</p>
               </div>
 
-              <ul className="space-y-4 mb-8">
+              <ul className="space-y-4 mb-8 flex-grow">
                 {plan.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
@@ -106,11 +98,7 @@ export function PricingSection() {
               </ul>
 
               <button
-                className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
-                  plan.featured
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl'
-                    : 'bg-stone-800 text-white hover:bg-stone-700'
-                }`}
+                className="w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-amber-800 text-white hover:bg-amber-700"
               >
                 {plan.ctaText}
               </button>

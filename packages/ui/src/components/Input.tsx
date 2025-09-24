@@ -7,7 +7,7 @@ import {
   TextArea as TamaguiTextArea,
   Text,
   View,
-} from 'tamagui';
+} from '@tamagui/core';
 
 /**
  * Input component for LegacyGuard applications

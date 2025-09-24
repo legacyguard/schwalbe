@@ -34,6 +34,9 @@ export * from './services/subscription.service';
 // Export monitoring/analytics
 export { monitoringService } from './services/monitoring.service';
 
+// Export Analytics types
+export * from './types/analytics';
+
 // Export domain + language config (re-exported from logic to maintain compatibility)
 export * from '@schwalbe/logic/i18n/domains';
 export * from '@schwalbe/logic/i18n/languages';

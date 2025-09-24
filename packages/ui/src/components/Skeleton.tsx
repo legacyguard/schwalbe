@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { type GetProps, styled, View } from 'tamagui';
+import { type GetProps, styled, View } from '@tamagui/core';
 import { XStack, YStack } from './Layout';
 
 // Base Skeleton component with animation

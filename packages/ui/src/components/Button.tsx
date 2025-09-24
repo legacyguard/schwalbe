@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { type GetProps, styled, Button as TamaguiButton } from 'tamagui';
+import { type GetProps, styled } from '@tamagui/core';
+import { Button as TamaguiButton } from '@tamagui/core';
 
 /**
  * Button component for LegacyGuard applications

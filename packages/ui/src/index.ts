@@ -336,13 +336,29 @@ export {
 
 // Re-export Tamagui core components and utilities
 export {
-  AnimatePresence,
-  Image,
   styled,
-  TamaguiProvider,
   Text,
-  Theme,
-  useMedia,
-  useTheme,
   View,
-} from 'tamagui';
+  useTheme,
+} from '@tamagui/core';
+
+export {
+  TamaguiProvider,
+} from '@tamagui/core';
+
+export {
+  useMedia,
+} from '@tamagui/core';
+
+// Animation-related exports need to come from framer-motion or @tamagui/animations
+export {
+  AnimatePresence,
+} from 'framer-motion';
+
+// Image needs to come from @tamagui/image or similar
+// export { Image } from '@tamagui/image';
+
+// Theme from @tamagui/theme-base
+export {
+  Theme,
+} from '@tamagui/core';

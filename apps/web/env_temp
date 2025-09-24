@@ -1,0 +1,25 @@
+# Supabase - Required for database and authentication
+VITE_SUPABASE_URL="https://rnmqtqaegqpbpytqawpg.supabase.co"
+VITE_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJubXF0cWFlZ3FwYnB5dHFhd3BnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1Mjk1NjMsImV4cCI6MjA3MzEwNTU2M30.53xGTvndBH9rJf0PI65xMEzKfc0myWpqOJrBxuip-bk"
+
+# API URL - The backend URL for your application
+VITE_API_URL="http://localhost:3000"
+
+# Google Analytics - Recommended for tracking application usage
+VITE_GA_TRACKING_ID="G-XXXXXXXXXX"
+
+# Sentry - Recommended for error monitoring
+VITE_SENTRY_DSN=""
+
+# Stripe - Recommended for payments
+VITE_STRIPE_PUBLISHABLE_KEY="pk_test_51RxUMeFjl1oRWeU6eSgDIxYvOkzEa4PByI6CoKAtf1hKvoftgCBLsC4DMrJd25e0oD9VvA0kUaVPc9Lz9Vp1fN0I007C1tACsY"
+
+# Sofia AI Assistant - Optional feature
+VITE_SOFIA_AI_BASE_URL=""
+VITE_SOFIA_AI_API_KEY=""
+
+# Feature Flags - Use 1 to enable, 0 to disable
+VITE_ENABLE_HOLLYWOOD_LANDING="0"
+VITE_ENABLE_DASHBOARD_V2="1"
+VITE_ENABLE_ASSISTANT="1"
+VITE_ENABLE_ONBOARDING="1"

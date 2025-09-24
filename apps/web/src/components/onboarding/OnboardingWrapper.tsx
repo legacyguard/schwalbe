@@ -1,4 +1,6 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { useAuthStore } from '@schwalbe/shared';
 
 import Onboarding from '@/pages/onboarding/Onboarding';
 import { features } from '@/lib/env';
@@ -10,15 +12,25 @@ interface OnboardingWrapperProps {
 const STORAGE_KEY = 'legacyguard.onboardingCompleted';
 
 export function OnboardingWrapper({ children }: OnboardingWrapperProps) {
-  const [showOnboarding, setShowOnboarding] = React.useState(() => {
-    // Only show onboarding if the feature is enabled and not completed
-    return features.onboarding && sessionStorage.getItem(STORAGE_KEY) !== 'true';
-  });
+  const location = useLocation();
+  const { user, isLoading } = useAuthStore();
+
+  const [showOnboarding, setShowOnboarding] = React.useState(false);
+
+  // Onboarding is disabled - always return false
+  React.useEffect(() => {
+    setShowOnboarding(false);
+  }, [location.pathname, user]);
 
   const handleComplete = () => {
-    sessionStorage.setItem(STORAGE_KEY, 'true');
+    localStorage.setItem(STORAGE_KEY, 'true');
     setShowOnboarding(false);
   };
+
+  // Don't show onboarding while auth is loading
+  if (isLoading) {
+    return <>{children}</>;
+  }
 
   if (showOnboarding) {
     return <Onboarding onComplete={handleComplete} />;

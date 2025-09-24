@@ -37,7 +37,7 @@ export function SecurityPromiseSection() {
   ];
 
   return (
-    <section className="py-24 bg-stone-100/50 backdrop-blur-sm">
+    <section className="py-24 bg-white/10 backdrop-blur-lg">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -63,9 +63,9 @@ export function SecurityPromiseSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-white/70 backdrop-blur-sm border border-stone-200/50 rounded-xl p-6 text-center group hover:border-amber-400/50 transition-all duration-300 shadow-lg"
+              className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-xl p-6 text-center group hover:border-white/50 hover:bg-white/30 transition-all duration-500 shadow-xl hover:shadow-2xl"
             >
-              <div className="text-amber-600 mb-4 flex justify-center group-hover:text-amber-500 transition-colors">
+              <div className="mb-4 flex justify-center transition-colors" style={{ color: '#6B8E23' }}>
                 {feature.icon}
               </div>
               <h3 className="text-xl font-semibold text-stone-800 mb-3">
@@ -85,7 +85,7 @@ export function SecurityPromiseSection() {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <button className="text-amber-600 hover:text-amber-500 transition-colors underline decoration-dotted underline-offset-4">
+          <button className="transition-colors underline decoration-dotted underline-offset-4" style={{ color: '#6B8E23' }}>
             {t('security.learnMore')}
           </button>
         </motion.div>

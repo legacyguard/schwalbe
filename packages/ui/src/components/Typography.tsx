@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { type GetProps, styled, Text } from 'tamagui';
+import { type GetProps, styled, Text } from '@tamagui/core';
 
 // Heading components
 export const H1 = React.memo(styled(Text, {

@@ -2,7 +2,7 @@
 import React, { type ReactNode } from 'react';
 import { Card, CardContent, Divider, H3, Stack } from '../..';
 import { Paragraph } from '../Typography';
-import { View } from 'tamagui';
+import { View } from '@tamagui/core';
 
 export interface FormSectionProps {
   children: ReactNode;

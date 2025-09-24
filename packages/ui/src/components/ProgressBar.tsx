@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { type GetProps, Paragraph, Stack, styled, View } from 'tamagui';
+import { type GetProps, Paragraph, Stack, styled, View } from '@tamagui/core';
 
 // Styled components for ProgressBar
 const ProgressBarContainer = React.memo(styled(Stack, {

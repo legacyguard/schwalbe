@@ -20,10 +20,10 @@ export const env = {
   VITE_GA_TRACKING_ID: import.meta.env.VITE_GA_TRACKING_ID ?? '',
 
   // Feature Flags
-  VITE_ENABLE_HOLLYWOOD_LANDING: import.meta.env.VITE_ENABLE_HOLLYWOOD_LANDING ?? '0',
+  VITE_ENABLE_HOLLYWOOD_LANDING: import.meta.env.VITE_ENABLE_HOLLYWOOD_LANDING ?? '1',
   VITE_ENABLE_DASHBOARD_V2: import.meta.env.VITE_ENABLE_DASHBOARD_V2 ?? '1',
   VITE_ENABLE_ASSISTANT: import.meta.env.VITE_ENABLE_ASSISTANT ?? '1',
-  VITE_ENABLE_ONBOARDING: import.meta.env.VITE_ENABLE_ONBOARDING ?? '1'
+  VITE_ENABLE_ONBOARDING: import.meta.env.VITE_ENABLE_ONBOARDING ?? '0'
 };
 
 export const isDevelopment = import.meta.env.DEV;

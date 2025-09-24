@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Text, View } from 'tamagui';
+import { Text, View } from '@tamagui/core';
 import { Button } from './Button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './Card';
 

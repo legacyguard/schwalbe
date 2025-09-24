@@ -4,7 +4,7 @@ import {
   TestTube,
   Play,
   Pause,
-  Stop,
+  Square,
   BarChart3,
   Users,
   Target,
@@ -230,6 +230,7 @@ const ABTestingFramework: React.FC<ABTestingFrameworkProps> = ({
       action: 'start_test',
       label: testId,
       privacyLevel: 'anonymous',
+      metadata: { testId },
     });
   };
 
@@ -241,6 +242,7 @@ const ABTestingFramework: React.FC<ABTestingFrameworkProps> = ({
       action: 'stop_test',
       label: testId,
       privacyLevel: 'anonymous',
+      metadata: { testId },
     });
   };
 
@@ -482,7 +484,7 @@ const ABTestingFramework: React.FC<ABTestingFrameworkProps> = ({
                           className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
                           title="Zastaviť test"
                         >
-                          <Stop className="w-4 h-4" />
+                          <Square className="w-4 h-4" />
                         </button>
                       )}
 

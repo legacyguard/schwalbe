@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { type GetProps, ScrollView, styled, View } from 'tamagui';
+import { type GetProps, ScrollView, styled, View } from '@tamagui/core';
 
 /**
  * Container component for LegacyGuard applications

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { styled, View } from 'tamagui';
+import { styled, View } from '@tamagui/core';
 import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import {
   LegacyGarden as LegacyGardenLogic,
